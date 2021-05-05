@@ -1,6 +1,2 @@
-a = raw_input("Saisir A : ")
-b = raw_input("Saisir B : ")
-print("A : %s" % (a))
-print("B : %s" % (b))
-print("TA : %s" % (type(a)))
-print("TB : %s" % (type(b)))
+var_str = "OK"
+print("voici ma variable %s" % (var_str))
