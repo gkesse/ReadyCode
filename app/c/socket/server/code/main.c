@@ -2,8 +2,11 @@
 #include <stdio.h>
 //===============================================
 int main(int argc, char** argv) {
-    if(100 > 10) {
-        printf("Oui on a : 100 > 10\n");
+    if(100 < 10) {
+        printf("Oui on a : 100 < 10\n");
+    }
+    else {
+        printf("Non on a : 100 > 10\n");
     }
     return 0;
 }
