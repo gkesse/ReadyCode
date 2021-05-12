@@ -1,0 +1,8 @@
+Affichage de donnees simples
+	Int             : 10000
+	Double          : 3.140000
+	String          : voici ma chaine
+Affichage de donnees complexes
+	Person[name]    : Gerard KESSE
+	Person[id]      : 1234
+	Person[coef]    : 3.140000

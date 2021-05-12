@@ -5,10 +5,14 @@ GBUILD = build
 GTARGET = $(GPROJECT_EXE)
 
 GINCS = \
+    `pkg-config --cflags gtk+-3.0` \
+    `pkg-config --cflags sqlite3` \
     
 GLIBS = \
     -lws2_32 \
     -liphlpapi \
+    `pkg-config --libs gtk+-3.0` \
+    `pkg-config --libs sqlite3` \
     
 GOBJS = \
     $(patsubst $(GSRC)/%.c, $(GBUILD)/%.o, $(wildcard $(GSRC)/*.c)) \

@@ -1,0 +1,8 @@
+# C/C++
+https://www.cplusplus.com/reference
+https://www.winsocketdotnetworkprogramming.com/winsock2programming/winsock2advancedcode1c.html
+https://www.w3schools.com/cpp/
+https://github.com/PacktPublishing/Hands-On-Network-Programming-with-C
+https://github.com/cpb-/Developpement-systeme-sous-Linux
+https://github.com/Apress/foundations-of-gtk-dev
+https://github.com/Apress/def-guide-to-linux-network-programming

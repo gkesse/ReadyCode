@@ -18,7 +18,7 @@ GCFLAGS = \
     
 #================================================
 # c
-all: clean_exe compile run
+all: clean compile run
 
 compile: $(GOBJS)
 	@if ! [ -d $(GBIN) ] ; then mkdir -p $(GBIN) ; fi
