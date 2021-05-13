@@ -2,14 +2,15 @@
 #include <iostream>
 //===============================================
 int main(int argc, char** argv) {
-    int lNumber = 3;
-    int i = 0;
-    for(;;) {
-        int lData = i*lNumber;
-        printf("%d x %d = %d\n", i, lNumber, lData);
-        i++;
-        if(i >= 10) {break;}
+    double x = -5.0;
+
+    while(x <= 5.0) {
+        //if(x == 0.0) {continue;}
+        double f = 1*x;
+        printf("f[%.1f] = %.2f\n", x, f);
+        x += 1.0;
     }
+
     return 0;
 }
 //===============================================
