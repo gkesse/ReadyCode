@@ -2,13 +2,13 @@
 #include <iostream>
 //===============================================
 int main(int argc, char** argv) {
-    double x = -5.0;
+    int i = 0;
 
-    while(x <= 5.0) {
-        //if(x == 0.0) {continue;}
-        double f = 1*x;
-        printf("f[%.1f] = %.2f\n", x, f);
-        x += 1.0;
+    while(1) {
+        if(i == 10) {break;}
+        int f = 1*i;
+        printf("f[%d] = %d\n", i, f);
+        i += 1;
     }
 
     return 0;

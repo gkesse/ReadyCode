@@ -15,6 +15,6 @@ https://raspinterest.wordpress.com/2017/02/28/configure-wlan0-and-bluetooth-in-y
 https://layers.openembedded.org/layerindex/branch/master/layers/
 https://hub.mender.io/t/how-to-configure-networking-using-systemd-in-yocto-project/1097
 
-# BuildRoot
+# Buildroot
 
 https://www.youtube.com/watch?v=yxj8ynXXgbk
