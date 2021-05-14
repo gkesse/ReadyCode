@@ -1,16 +1,8 @@
 //===============================================
-#include <iostream>
+#include "GProcess.h"
 //===============================================
 int main(int argc, char** argv) {
-    int i = 0;
-
-    while(1) {
-        if(i == 10) {break;}
-        int f = 1*i;
-        printf("f[%d] = %d\n", i, f);
-        i += 1;
-    }
-
+    GProcess::Instance()->run(argc, argv);
     return 0;
 }
 //===============================================
