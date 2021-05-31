@@ -1,8 +1,11 @@
 //===============================================
-#include "GProcess.h"
+#include "GMatrix.h"
 //===============================================
 int main(int argc, char** argv) {
-    GProcess::Instance()->run(argc, argv);
-    return 0;
+    GMatrix A(3, 3, {1, 2, 3, 4, 5, 6, 7, 8, 9});
+    std::cout << A << "\n";
+    GMatrix B = A + A;
+    std::cout << B << "\n";
+    return (0);
 }
 //===============================================

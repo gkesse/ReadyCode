@@ -253,7 +253,8 @@ Makefile: GProject.pro C:/msys64/mingw32/share/qt5/mkspecs/win32-g++/qmake.conf 
 		C:/msys64/mingw32/share/qt5/mkspecs/features/toolchain.prf \
 		C:/msys64/mingw32/share/qt5/mkspecs/features/default_pre.prf \
 		C:/msys64/mingw32/share/qt5/mkspecs/features/win32/default_pre.prf \
-		../code/GMain.pri \
+		C:/Users/Admin/Downloads/Programs/ReadyLib/dev/qtawesome/4.7.0/QtAwesome.pri \
+		C:/Users/Admin/Downloads/Programs/ReadyLib/dev/qcustomplot/2.1.0/GQCustomPlot.pri \
 		C:/msys64/mingw32/share/qt5/mkspecs/features/resolve_config.prf \
 		C:/msys64/mingw32/share/qt5/mkspecs/features/exclusive_builds_post.prf \
 		C:/msys64/mingw32/share/qt5/mkspecs/features/default_post.prf \
@@ -273,7 +274,8 @@ Makefile: GProject.pro C:/msys64/mingw32/share/qt5/mkspecs/win32-g++/qmake.conf 
 		C:/msys64/mingw32/share/qt5/mkspecs/features/yacc.prf \
 		C:/msys64/mingw32/share/qt5/mkspecs/features/lex.prf \
 		GProject.pro \
-		C:/msys64/mingw32/share/qt5/mkspecs/features/build_pass.prf
+		C:/msys64/mingw32/share/qt5/mkspecs/features/build_pass.prf \
+		C:/Users/Admin/Downloads/Programs/ReadyLib/dev/qtawesome/4.7.0/QtAwesome.qrc
 	$(QMAKE) -o Makefile GProject.pro
 C:/msys64/mingw32/share/qt5/mkspecs/features/spec_pre.prf:
 C:/msys64/mingw32/share/qt5/mkspecs/qdevice.pri:
@@ -458,7 +460,8 @@ C:/msys64/mingw32/share/qt5/mkspecs/features/exclusive_builds.prf:
 C:/msys64/mingw32/share/qt5/mkspecs/features/toolchain.prf:
 C:/msys64/mingw32/share/qt5/mkspecs/features/default_pre.prf:
 C:/msys64/mingw32/share/qt5/mkspecs/features/win32/default_pre.prf:
-../code/GMain.pri:
+C:/Users/Admin/Downloads/Programs/ReadyLib/dev/qtawesome/4.7.0/QtAwesome.pri:
+C:/Users/Admin/Downloads/Programs/ReadyLib/dev/qcustomplot/2.1.0/GQCustomPlot.pri:
 C:/msys64/mingw32/share/qt5/mkspecs/features/resolve_config.prf:
 C:/msys64/mingw32/share/qt5/mkspecs/features/exclusive_builds_post.prf:
 C:/msys64/mingw32/share/qt5/mkspecs/features/default_post.prf:
@@ -479,6 +482,7 @@ C:/msys64/mingw32/share/qt5/mkspecs/features/yacc.prf:
 C:/msys64/mingw32/share/qt5/mkspecs/features/lex.prf:
 GProject.pro:
 C:/msys64/mingw32/share/qt5/mkspecs/features/build_pass.prf:
+C:/Users/Admin/Downloads/Programs/ReadyLib/dev/qtawesome/4.7.0/QtAwesome.qrc:
 qmake: FORCE
 	@$(QMAKE) -o Makefile GProject.pro
 

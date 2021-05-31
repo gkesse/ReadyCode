@@ -7,16 +7,16 @@
 //===============================================
 class GAnimal {
 public:
-    GAnimal(const std::string& name, const int& code, const double& coef);
-    ~GAnimal();
+    GAnimal(const std::string& name);
+    virtual ~GAnimal();
 
 public:
-    void print();
+    virtual void setCategory(const std::string& category);
+    virtual void print() = 0;
     
-private:
+protected:
     std::string m_name;
-    int m_code;
-    double m_coef;
+    std::string m_category;
 };
 //===============================================
 #endif

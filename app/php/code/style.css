@@ -1,0 +1,23 @@
+/*===============================================*/
+body {
+    margin: 500px 10px 500px 10px;
+}
+/*===============================================*/
+.spot {
+    position: fixed;
+    left: 10px;
+    top: 40px;
+    border: 1px solid black;
+    min-width: 120px;
+    min-height: 50px;
+    text-align: left;
+    padding: 5px;
+}
+/*===============================================*/
+.msg {
+    border: 1px solid black;
+    margin: auto;
+    margin: 50px 0px;
+    min-height: 200px;
+}
+/*===============================================*/

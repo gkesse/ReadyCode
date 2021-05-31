@@ -12,7 +12,7 @@ GOBJS = \
     $(patsubst $(GSRC)/%.cpp, $(GBUILD)/%.o, $(wildcard $(GSRC)/*.cpp)) \
 
 GCFLAGS = \
-    -std=gnu++11 \
+    -std=gnu++20 \
     
 #================================================
 # cpp
