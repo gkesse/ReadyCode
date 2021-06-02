@@ -33,6 +33,12 @@ GWindow::GWindow(QWidget* parent) : QFrame(parent) {
 
     m_clearFlag = false;
 
+    QPushButton* lRun = new QPushButton;
+    lRun->setText("Run");
+    
+    QHBoxLayout* lButtonLayout = new QHBoxLayout;
+    lButtonLayout->addWidget(lRun);
+    lButtonLayout->setAlignment(Qt::AlignLeft);
     QVBoxLayout* lMainLayout = new QVBoxLayout;
     lMainLayout->addWidget(customPlot);
 
