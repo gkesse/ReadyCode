@@ -1,8 +1,8 @@
 #================================================
-GSRC = $(GPROJECT_SRC)
+GSRC = ../code
 GBIN = bin
 GBUILD = build
-GTARGET = $(GPROJECT_EXE)    
+GTARGET = $(GBIN)/rdcpp   
 #================================================
 # cpp
 all: clean_exe qmake compile run

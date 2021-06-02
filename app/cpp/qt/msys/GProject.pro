@@ -17,9 +17,13 @@ include(C:\Users\Admin\Downloads\Programs\ReadyLib\dev\qcustomplot\2.1.0\GQCusto
 
 INCLUDEPATH +=\
     /mingw32/include \
+    ../code \
 
 SOURCES +=\
-    ../code/main.cpp \
+    ../code/*.cpp \
+
+HEADERS +=\
+    ../code/*.h \
 
 LIBS +=\
     -lgsl -lgslcblas -lm \
