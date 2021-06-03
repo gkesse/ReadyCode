@@ -265,6 +265,9 @@ Makefile: GProject.pro C:/msys64/mingw32/share/qt5/mkspecs/win32-g++/qmake.conf 
 		C:/msys64/mingw32/share/qt5/mkspecs/features/resources_functions.prf \
 		C:/msys64/mingw32/share/qt5/mkspecs/features/resources.prf \
 		C:/msys64/mingw32/share/qt5/mkspecs/features/moc.prf \
+		C:/msys64/mingw32/share/qt5/mkspecs/features/dbuscommon.pri \
+		C:/msys64/mingw32/share/qt5/mkspecs/features/dbusinterfaces.prf \
+		C:/msys64/mingw32/share/qt5/mkspecs/features/dbusadaptors.prf \
 		C:/msys64/mingw32/share/qt5/mkspecs/features/win32/opengl.prf \
 		C:/msys64/mingw32/share/qt5/mkspecs/features/uic.prf \
 		C:/msys64/mingw32/share/qt5/mkspecs/features/qmake_use.prf \
@@ -472,6 +475,9 @@ C:/msys64/mingw32/share/qt5/mkspecs/features/qt.prf:
 C:/msys64/mingw32/share/qt5/mkspecs/features/resources_functions.prf:
 C:/msys64/mingw32/share/qt5/mkspecs/features/resources.prf:
 C:/msys64/mingw32/share/qt5/mkspecs/features/moc.prf:
+C:/msys64/mingw32/share/qt5/mkspecs/features/dbuscommon.pri:
+C:/msys64/mingw32/share/qt5/mkspecs/features/dbusinterfaces.prf:
+C:/msys64/mingw32/share/qt5/mkspecs/features/dbusadaptors.prf:
 C:/msys64/mingw32/share/qt5/mkspecs/features/win32/opengl.prf:
 C:/msys64/mingw32/share/qt5/mkspecs/features/uic.prf:
 C:/msys64/mingw32/share/qt5/mkspecs/features/qmake_use.prf:

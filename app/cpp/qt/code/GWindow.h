@@ -4,7 +4,7 @@
 //================================================
 #include <QApplication>
 #include <QtWidgets>
-#include <qcustomplot.h>
+#include <QtDBus/QtDBus>
 //================================================
 class GWindow : public QFrame {
     Q_OBJECT
@@ -15,25 +15,18 @@ public:
     
 public:
     void onEvent(const QString& event);
-    void detectPoint();
     
 public slots:
-    void slotMousePress(QMouseEvent* event);
-    void slotMouseMove(QMouseEvent* event);
+    void slotClick();
+    void slotMessage(const QString& key, const QString& value);
+
+signals:
+    void emitMessage(const QString& key, const QString& value);
 
 private:
-    QCustomPlot* customPlot;
-    double m_x;
-    double m_y;
-    double m_xmin;
-    double m_xmax;
-    double m_ymin;
-    double m_ymax;
-    int m_iClear;
-    QVector<double> m_xData;
-    QVector<double> m_yData;
-    QCPItemText* m_coords;
-    bool m_clearFlag;
+    QMap<QWidget*, QString> m_widgetMap;
+    QString m_key;
+    QString m_value;
 };
 //================================================
 #endif
