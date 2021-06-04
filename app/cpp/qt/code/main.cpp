@@ -6,7 +6,7 @@ int main(int argc, char** argv) {
 
     GWindow* lWindow = new GWindow;
     lWindow->setWindowTitle("ReadyApp");
-    lWindow->resize(500, 300);
+    lWindow->resize(300, 200);
     lWindow->show();
 
     return app.exec();

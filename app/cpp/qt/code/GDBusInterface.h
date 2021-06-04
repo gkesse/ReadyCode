@@ -6,13 +6,13 @@
 //================================================
 class GDBusInterface : public QDBusAbstractInterface {
     Q_OBJECT
-    
+
 public:
     GDBusInterface(const QString &service, const QString &path, const QDBusConnection &connection = QDBusConnection::sessionBus(), QObject *parent = 0);
     ~GDBusInterface();
 
 signals:
-    void emitMessage(const QString& key, const QString& value);
+    void emitDBusMessage(const QString& key, const QString& value);
 };
 //================================================
 #endif

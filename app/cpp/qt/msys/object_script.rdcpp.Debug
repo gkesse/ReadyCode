@@ -1,6 +1,7 @@
 build/QtAwesome.o
 build/QtAwesomeAnim.o
 build/qcustomplot.o
+build/GDBusAdaptor.o
 build/GDBusInterface.o
 build/GDialog.o
 build/GWindow.o
@@ -9,6 +10,7 @@ build/qrc_QtAwesome.o
 build/moc_QtAwesome.o
 build/moc_QtAwesomeAnim.o
 build/moc_qcustomplot.o
+build/moc_GDBusAdaptor.o
 build/moc_GDBusInterface.o
 build/moc_GDialog.o
 build/moc_GWindow.o

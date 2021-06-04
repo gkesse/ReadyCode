@@ -2,8 +2,8 @@
 #include "GDBusAdaptor.h"
 //================================================
 GDBusAdaptor::GDBusAdaptor(QObject *parent) : 
-GDBusAdaptor(parent) {
-
+QDBusAbstractAdaptor(parent) {
+    setAutoRelaySignals(true);
 }
 //================================================
 GDBusAdaptor::~GDBusAdaptor() {
