@@ -21,10 +21,10 @@ all: clean_exe compile run
 
 compile: $(GOBJS)
 	@if ! [ -d $(GBIN) ] ; then mkdir -p $(GBIN) ; fi
-	gcc $(GCFLAGS) -o $(GTARGET) $(GOBJS) $(GLIBS) 
+	@gcc $(GCFLAGS) -o $(GTARGET) $(GOBJS) $(GLIBS) 
 $(GBUILD)/%.o: $(GSRC)/%.c
 	@if ! [ -d $(GBUILD) ] ; then mkdir -p $(GBUILD) ; fi
-	gcc $(GCFLAGS) -c $< -o $@ $(GINCS)
+	@gcc $(GCFLAGS) -c $< -o $@ $(GINCS)
 run:
 	@$(GTARGET) $(argv)
 clean_exe: 

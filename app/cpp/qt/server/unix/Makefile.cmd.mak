@@ -2,46 +2,29 @@
 GSRC = ../code
 GBIN = bin
 GBUILD = build
-GTARGET = $(GBIN)/rdc
-
-GINCS = \
-    
-GLIBS = \
-    -lpthread -lzmq \
-    
-GOBJS = \
-    $(patsubst $(GSRC)/%.c, $(GBUILD)/%.o, $(wildcard $(GSRC)/*.c)) \
-
-GCFLAGS = \
-    -std=gnu11 \
-    
+GTARGET = $(GBIN)/rdcpp   
 #================================================
-# c
-all: clean_exe compile run
+# cpp
+all: clean_exe qmake compile run
 
+qmake:
+	@qmake
 compile: $(GOBJS)
-	@if ! [ -d $(GBIN) ] ; then mkdir -p $(GBIN) ; fi
-	gcc $(GCFLAGS) -o $(GTARGET) $(GOBJS) $(GLIBS) 
-$(GBUILD)/%.o: $(GSRC)/%.c
-	@if ! [ -d $(GBUILD) ] ; then mkdir -p $(GBUILD) ; fi
-	gcc $(GCFLAGS) -c $< -o $@ $(GINCS)
+	@make 
 run:
 	@$(GTARGET) $(argv)
 clean_exe: 
 	@if ! [ -d $(GBIN) ] ; then mkdir -p $(GBIN) ; fi
-	@rm -f $(GTARGET)
+	@rm -f $(GBIN)/*
 clean: 
 	@if ! [ -d $(GBIN) ] ; then mkdir -p $(GBIN) ; fi
 	@if ! [ -d $(GBUILD) ] ; then mkdir -p $(GBUILD) ; fi
-	@rm -f $(GBUILD)/*.o $(GTARGET)
-#================================================    
-# zeromq
-zeromq_install:
-	@sudo apt install -y libzmq3-dev
+	@rm -f $(GBUILD)/*.o $(GBIN)/*
 #================================================    
 # git
 git_install:
-	@sudo apt install -y git
+	@pacman -S --needed --noconfirm git
+	@pacman -S --needed --noconfirm vim
 git_config:
 	@git config --global user.name "Gerard KESSE"
 	@git config --global user.email "tiakagerard@hotmail.com"
