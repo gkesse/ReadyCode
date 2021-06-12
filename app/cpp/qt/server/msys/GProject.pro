@@ -27,4 +27,5 @@ HEADERS +=\
 
 LIBS +=\
     -lgsl -lgslcblas -lm \
+    -lfreeglut -lglew32 -lopengl32 \
     

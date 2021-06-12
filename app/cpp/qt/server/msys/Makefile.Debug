@@ -19,7 +19,7 @@ CXXFLAGS      = -fno-keep-inline-dllexport -Wno-unused-parameter -Wno-deprecated
 INCPATH       = -I. -IC:/Users/Admin/Downloads/Programs/ReadyLib/dev/qtawesome/4.7.0 -IC:/Users/Admin/Downloads/Programs/ReadyLib/dev/qcustomplot/2.1.0 -I/mingw32/include -I../code -IC:/msys64/mingw32/include/QtPrintSupport -IC:/msys64/mingw32/include/QtWidgets -IC:/msys64/mingw32/include/QtGui -IC:/msys64/mingw32/include/QtSql -IC:/msys64/mingw32/include/QtDBus -IC:/msys64/mingw32/include/QtCore -Ibuild -I/include -IC:/msys64/mingw32/share/qt5/mkspecs/win32-g++ 
 LINKER      =        g++
 LFLAGS        =        -Wl,--dynamicbase,--nxcompat,--no-seh -Wl,-subsystem,console -mthreads
-LIBS        =        -lgsl -lgslcblas -lm C:/msys64/mingw32/lib/libQt5PrintSupport.dll.a C:/msys64/mingw32/lib/libQt5Widgets.dll.a C:/msys64/mingw32/lib/libQt5Gui.dll.a C:/msys64/mingw32/lib/libQt5Sql.dll.a C:/msys64/mingw32/lib/libQt5DBus.dll.a C:/msys64/mingw32/lib/libQt5Core.dll.a  -lglu32 C:/msys64/mingw32/lib/opengl32.dll.a -lgdi32 -luser32 
+LIBS        =        -lgsl -lgslcblas -lm -lfreeglut -lglew32 C:/msys64/mingw32/lib/opengl32.dll.a C:/msys64/mingw32/lib/libQt5PrintSupport.dll.a C:/msys64/mingw32/lib/libQt5Widgets.dll.a C:/msys64/mingw32/lib/libQt5Gui.dll.a C:/msys64/mingw32/lib/libQt5Sql.dll.a C:/msys64/mingw32/lib/libQt5DBus.dll.a C:/msys64/mingw32/lib/libQt5Core.dll.a  -lglu32 C:/msys64/mingw32/lib/opengl32.dll.a -lgdi32 -luser32 
 QMAKE         = C:/msys64/mingw32/bin/qmake.exe
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -243,7 +243,7 @@ build/GDialog.o: ../code/GDialog.cpp ../code/GDialog.h
 build/GWindow.o: ../code/GWindow.cpp ../code/GWindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/GWindow.o ../code/GWindow.cpp
 
-build/main.o: ../code/main.cpp ../code/GDBusObject.h
+build/main.o: ../code/main.cpp ../code/GWindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/main.o ../code/main.cpp
 
 build/qrc_QtAwesome.o: build/qrc_QtAwesome.cpp 
