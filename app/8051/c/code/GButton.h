@@ -1,11 +1,12 @@
 //===============================================
-#ifndef _GTask_
-#define _GTask_
+#ifndef _GButton_
+#define _GButton_
 //===============================================
 #include "GInclude.h"
 //===============================================
-void GTask_Init(uchar port, uchar d);
-void GTask_Update();
+void GButton_Init();
+void GButton_Update();
+uchar GButton_Get_State();
 //===============================================
 #endif
 //===============================================

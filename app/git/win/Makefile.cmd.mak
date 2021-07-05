@@ -53,8 +53,18 @@ gitc_branch_merge:
 	@cd $(GGIT_PROJECT) && git merge modular
 gitc_branch_list:
 	@cd $(GGIT_PROJECT) && git branch
+gitc_branch_list_commit:
+	@cd $(GGIT_PROJECT) && git branch -v
+gitc_branch_list_merge:
+	@cd $(GGIT_PROJECT) && git branch --merged
+gitc_branch_list_no_merge:
+	@cd $(GGIT_PROJECT) && git branch --no-merged
+gitc_branch_list_no_merge_master:
+	@cd $(GGIT_PROJECT) && git branch --no-merged master
 gitc_branch_delete:
 	@cd $(GGIT_PROJECT) && git branch -d modular
+gitc_branch_rename:
+	@cd $(GGIT_PROJECT) && git branch --move modular new_modular
 gitc_branch_undo:
 	@cd $(GGIT_PROJECT) && git switch -
 gitc_branch_log:

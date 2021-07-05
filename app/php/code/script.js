@@ -1,29 +1,40 @@
 //===============================================
-var lMsg_Map = document.querySelectorAll(".msg");
-//===============================================
-var lObs_Options = {
-    root: null,
-    rootMargin: '0px',
-    threshold: 1.0
-};
-//===============================================
-var lObs = new IntersectionObserver(objs => {
-    objs.forEach(obj => {
-        var lSpot_Node = document.getElementsByClassName("spot")[0];
-        if (obj.intersectionRatio > 0) {
-            var lTarget = obj.target;
-            if(lTarget.dataset.state == "on") {return;}
-            // start lazy loading
-            var lEditor = ace.edit(lTarget);
-            lEditor.setTheme("ace/theme/monokai");
-            lEditor.session.setMode("ace/mode/c_cpp");
-            // end lazy loading
-            lTarget.dataset.state = "on";
-        } 
-    });
-}, lObs_Options);
-//===============================================
-lMsg_Map.forEach(obj => {
-    lObs.observe(obj);
-});
+function onEvent(obj, action) {
+    message(action + "...<br>");
+    //===============================================
+    if(action == "on_init") {
+    }
+    //===============================================
+    else if(action == "image_load") {
+        for(var i = 0; i < obj.files.length; i++) {
+            (function() {
+                var lFile = obj.files[i];
+                var chunk_uploader = new MyChunkUploader();
+                
+                chunk_uploader.on_ready = function(response) {
+                };
+
+                chunk_uploader.on_done = function() {
+                    message("<div>on_done...</div>");
+                    message("<div>file_name : {0}</div>", lFile.name);
+                    message("<div>file_size : {0} KB</div>", (lFile.size/(1024)).toFixed(2));
+                };
+                
+                chunk_uploader.on_error = function(object, err_type) {
+                    message("<div>on_error...</div>");
+                };
+
+                chunk_uploader.on_abort = function(object) {
+                    message("<div>on_abort...</div>");
+                };
+
+                chunk_uploader.on_upload_progress = function(progress) {
+                };
+
+                chunk_uploader.upload_chunked('/upload.php',lFile);
+            })();
+        }
+    }
+    //===============================================
+}
 //===============================================

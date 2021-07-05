@@ -1,11 +1,12 @@
 //===============================================
-#ifndef _GPort_
-#define _GPort_
+#ifndef _GUart_
+#define _GUart_
 //===============================================
 #include "GInclude.h"
 //===============================================
-void GPort_Data_Write(uchar port, uchar d);
-void GPort_Bit_Write(uchar port, uchar pin, bit d);
+void GUart_Init(uint baud);
+void GUart_Write_Char(uchar d);
+void GUart_Write_String(const uchar* d);
 //===============================================
 #endif
 //===============================================

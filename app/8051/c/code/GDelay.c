@@ -1,12 +1,15 @@
 //===============================================
 #include "GDelay.h"
 //===============================================
-#define TIME_1_MS (125)
-//===============================================
-void GDelay_ms(uint ms) {
-    uint i, j;
-    for(i = 0; i < ms; i++) {
-        for(j = 0; j < TIME_1_MS; j++);
+void GDelay_60us(uint us) {
+    uint i;
+    for(i = 0; i < us; i++) {
+        _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_();
+        _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_();
+        _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_();
+        _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_();
+        _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_();
+        _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_();
     }
 }
 //===============================================
