@@ -1,9 +1,12 @@
 -- ==============================================
 set serveroutput on;
 -- ==============================================
+declare
+    a integer := 22;
+    b integer := 7;
+-- ==============================================
 begin
-    dbms_output.put_line(utl_lms.format_message('%s : %s : ', 'Nom', 'Gerard KESSE'));
-    dbms_output.put_line(utl_lms.format_message('%s : %d : ', 'Identifiant', 123456));
+    dbms_output.put_line(utl_lms.format_message('%d + %d = %d', a, b, (a + b)));
 end;
 /
 -- ==============================================
