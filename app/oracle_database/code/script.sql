@@ -2,19 +2,14 @@
 set serveroutput on;
 -- ==============================================
 declare
-    a boolean := true;
-    b boolean := false;
+    type t_stringlist is varray(5) of varchar(10);
+    l_digits t_stringlist := t_stringlist('Un', 'Deux', 'Trois', 'Quatre', 'Cinq');
+    l_count integer:= l_digits.count;
 -- ==============================================
 begin
-    dbms_output.put_line('!' || sys.diutil.bool_to_int(a) || ' = ' || sys.diutil.bool_to_int(not(a)));
-    dbms_output.put_line('!' || sys.diutil.bool_to_int(b) || ' = ' || sys.diutil.bool_to_int(not(b)));
-    dbms_output.put_line(sys.diutil.bool_to_int(a) || ' || ' || sys.diutil.bool_to_int(b) || ' = ' || sys.diutil.bool_to_int(a or b));
-    dbms_output.put_line(sys.diutil.bool_to_int(a) || ' || ' || sys.diutil.bool_to_int(b) || ' = ' || sys.diutil.bool_to_int(a or b));
-    dbms_output.put_line(sys.diutil.bool_to_int(b) || ' || ' || sys.diutil.bool_to_int(b) || ' = ' || sys.diutil.bool_to_int(b or b));
-    dbms_output.put_line(sys.diutil.bool_to_int(a) || ' || ' || sys.diutil.bool_to_int(a) || ' = ' || sys.diutil.bool_to_int(a or a));
-    dbms_output.put_line(sys.diutil.bool_to_int(a) || ' && ' || sys.diutil.bool_to_int(b) || ' = ' || sys.diutil.bool_to_int(a and b));
-    dbms_output.put_line(sys.diutil.bool_to_int(b) || ' && ' || sys.diutil.bool_to_int(b) || ' = ' || sys.diutil.bool_to_int(b and b));
-    dbms_output.put_line(sys.diutil.bool_to_int(a) || ' && ' || sys.diutil.bool_to_int(a) || ' = ' || sys.diutil.bool_to_int(a and a));
+    for i in 1..l_count loop
+        dbms_output.put_line(l_digits(i));
+    end loop;
 end;
 /
 -- ==============================================
