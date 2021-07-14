@@ -6,7 +6,10 @@ declare
     b integer := 7;
 -- ==============================================
 begin
-    dbms_output.put_line(utl_lms.format_message('%d + %d = %d', a, b, (a + b)));
+    dbms_output.put_line(a || ' + ' || b || ' = ' || (a + b));
+    dbms_output.put_line(a || ' - ' || b || ' = ' || (a - b));
+    dbms_output.put_line(a || ' * ' || b || ' = ' || (a * b));
+    dbms_output.put_line(a || ' / ' || b || ' = ' || (a / b));
 end;
 /
 -- ==============================================
