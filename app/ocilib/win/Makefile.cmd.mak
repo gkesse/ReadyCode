@@ -5,10 +5,11 @@ GBUILD = build
 GTARGET = bin\rdcpp.exe
 
 GINCS = \
-    -IC:\Users\Admin\Downloads\ocilib-4.1.0-windows\ocilib\include \
+    -IC:\Users\Admin\Downloads\ocilib-4.7.3-windows\include \
     
 GLIBS = \
-    -LC:\Users\Admin\Downloads\ocilib-4.1.0-windows\ocilib\lib64 \
+    -LC:\Users\Admin\Downloads\ocilib-4.7.3-windows\lib64 \
+    -lociliba -locilibw \
     
 GOBJS = \
     $(patsubst $(GSRC)/%.cpp, $(GBUILD)/%.o, $(wildcard $(GSRC)/*.cpp)) \

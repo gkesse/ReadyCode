@@ -2,10 +2,8 @@
 set serveroutput on;
 -- ==============================================
 begin
-    <<e_loop>>
-    for i in 1..10 loop
-        dbms_output.put_line(i);
-    end loop e_loop;
+    dbms_output.put_line(utl_lms.format_message('%s : %s : ', 'Nom', 'Gerard KESSE'));
+    dbms_output.put_line(utl_lms.format_message('%s : %d : ', 'Identifiant', 123456));
 end;
 /
 -- ==============================================
