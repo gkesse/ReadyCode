@@ -22,3 +22,4 @@
 /**/*.pdsbak
 /**/*.workspace
 /**/debug.txt
+/**/*.qmake.*
