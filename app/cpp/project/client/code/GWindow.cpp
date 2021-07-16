@@ -1,7 +1,8 @@
 //===============================================
 #include "GWindow.h"
 //===============================================
-GWindow::GWindow(QWidget* parent) : QWidget(parent) {    
+GWindow::GWindow(QWidget* parent) : QWidget(parent) {
+    // username
     QLabel* lUsernameLabel = new QLabel;
     lUsernameLabel->setText("Nom d'utilisateur :");
     lUsernameLabel->setMinimumWidth(100);
@@ -14,6 +15,7 @@ GWindow::GWindow(QWidget* parent) : QWidget(parent) {
     lUsernameLayout->addWidget(lUsernameEdit);
     lUsernameLayout->setMargin(0);
     
+    // password
     QLabel* lPasswordLabel = new QLabel;
     lPasswordLabel->setText("Mot de passe :");
     lPasswordLabel->setMinimumWidth(100);
@@ -26,24 +28,41 @@ GWindow::GWindow(QWidget* parent) : QWidget(parent) {
     lPasswordLayout->addWidget(lPasswordLabel);
     lPasswordLayout->addWidget(lPasswordEdit);
     lPasswordLayout->setMargin(0);
+
+    // confirm
+    QLabel* lConfirmLabel = new QLabel;
+    lConfirmLabel->setText("Confirmer :");
+    lConfirmLabel->setMinimumWidth(100);
     
-    QPushButton* lConnectButton = new QPushButton;
-    lConnectButton->setText("Connexion");
+    QLineEdit* lConfirmEdit = new QLineEdit;
+    m_confirmEdit = lConfirmEdit;
+    lConfirmEdit->setEchoMode(QLineEdit::Password);
     
-    QHBoxLayout* lConnectLayout = new QHBoxLayout;
-    lConnectLayout->addWidget(lConnectButton);
-    lConnectLayout->setAlignment(Qt::AlignRight);
-    lConnectLayout->setMargin(0);
+    QHBoxLayout* lConfirmLayout = new QHBoxLayout;
+    lConfirmLayout->addWidget(lConfirmLabel);
+    lConfirmLayout->addWidget(lConfirmEdit);
+    lConfirmLayout->setMargin(0);
+    
+    // create
+    QPushButton* lCreateButton = new QPushButton;
+    lCreateButton->setText("Créer");
+    
+    QHBoxLayout* lCreateLayout = new QHBoxLayout;
+    lCreateLayout->addWidget(lCreateButton);
+    lCreateLayout->setAlignment(Qt::AlignRight);
+    lCreateLayout->setMargin(0);
    
+    // main_layout
     QVBoxLayout* lMainLayout = new QVBoxLayout;
     lMainLayout->addLayout(lUsernameLayout);
     lMainLayout->addLayout(lPasswordLayout);
-    lMainLayout->addLayout(lConnectLayout);
+    lMainLayout->addLayout(lConfirmLayout);
+    lMainLayout->addLayout(lCreateLayout);
     lMainLayout->setAlignment(Qt::AlignTop);
     
     setLayout(lMainLayout);
     
-    connect(lConnectButton, SIGNAL(clicked()), this, SLOT(slotConnect()));
+    connect(lCreateButton, SIGNAL(clicked()), this, SLOT(slotConnect()));
 }
 //===============================================
 GWindow::~GWindow() {
@@ -53,7 +72,8 @@ GWindow::~GWindow() {
 void GWindow::slotConnect() {
     QString lUsername = m_usernameEdit->text();
     QString lPassword = m_passwordEdit->text();
-    qDebug() << QString("traiter la connexion : (%1 ; %2)")
-    .arg(lUsername, lPassword);
+    QString lConfirm = m_confirmEdit->text();
+    qDebug() << QString("traiter la connexion : (%1 ; %2 ; %3)")
+    .arg(lUsername, lPassword, lConfirm);
 }
 //===============================================
