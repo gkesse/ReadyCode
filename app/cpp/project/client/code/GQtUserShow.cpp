@@ -5,19 +5,19 @@
 //===============================================
 GQtUserShow::GQtUserShow(QWidget* parent) : 
 GQtUi(parent) {
-	qDebug() << GManager::Instance()->getTableFields("users");
 	// header_label
-    QStringList lHeaderLabels;
-    lHeaderLabels << tr("Filename") << tr("Size");
+    QStringList lHeaderLabels = GManager::Instance()->getTableFields("users");
 
     // table
-	QTableWidget* lTableWidget = new QTableWidget(0, 2);
+	QTableWidget* lTableWidget = new QTableWidget(5, lHeaderLabels.size());
     lTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
-
     lTableWidget->setHorizontalHeaderLabels(lHeaderLabels);
-    lTableWidget->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
-    lTableWidget->verticalHeader()->hide();
-    lTableWidget->setShowGrid(false);
+    lTableWidget->verticalHeader()->show();
+    lTableWidget->setShowGrid(true);
+    lTableWidget->setContextMenuPolicy(Qt::CustomContextMenu);
+    for(int i = 0; i < lHeaderLabels.size(); i++) {
+        lTableWidget->horizontalHeader()->setSectionResizeMode(i, QHeaderView::ResizeToContents);
+    }
     
     QHBoxLayout* lTableViewLayout = new QHBoxLayout;
     lTableViewLayout->addWidget(lTableWidget);
@@ -29,6 +29,11 @@ GQtUi(parent) {
     lMainLayout->setAlignment(Qt::AlignTop);
     
     setLayout(lMainLayout);
+
+    connect(lTableWidget, &QTableWidget::customContextMenuRequested,
+            this, &Window::contextMenu);
+    connect(lTableWidget, &QTableWidget::cellActivated,
+            this, &Window::openFileOfItem);
 }
 //===============================================
 GQtUserShow::~GQtUserShow() {

@@ -58,7 +58,7 @@ QStringList GSQLite::getFieldNames(const QString& table) {
 	int lCount = lRecord.count();
 	QStringList lFields;
 	for(int i = 0; i < lCount; i++) {
-		QString lField = lRecord.fieldName(i);
+		QString lField = lRecord.fieldName(i).toUpper();
 		lFields << lField;
 	}
 	return lFields;
