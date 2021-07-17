@@ -5,33 +5,44 @@
 //===============================================
 GQtUserShow::GQtUserShow(QWidget* parent) : 
 GQtUi(parent) {
-	// header_label
-    QStringList lHeaderLabels = GManager::Instance()->getTableFields("users");
+	QStringList lHeaderLabels = GManager::Instance()->getTableFields("users");
+	QVector<QVector<QString>> lDataMap = GManager::Instance()->getTableData("users");
 
-    // table
-	QTableWidget* lTableWidget = new QTableWidget(5, lHeaderLabels.size());
-    lTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
-    lTableWidget->setHorizontalHeaderLabels(lHeaderLabels);
-    lTableWidget->verticalHeader()->show();
-    lTableWidget->setShowGrid(true);
-    lTableWidget->setContextMenuPolicy(Qt::CustomContextMenu);
-    for(int i = 0; i < lHeaderLabels.size(); i++) {
-        lTableWidget->horizontalHeader()->setSectionResizeMode(i, QHeaderView::ResizeToContents);
-    }
-    
-    QHBoxLayout* lTableViewLayout = new QHBoxLayout;
-    lTableViewLayout->addWidget(lTableWidget);
-    lTableViewLayout->setMargin(0);
-   
-    // main_layout
-    QVBoxLayout* lMainLayout = new QVBoxLayout;
-    lMainLayout->addLayout(lTableViewLayout);
-    lMainLayout->setAlignment(Qt::AlignTop);
-    
-    setLayout(lMainLayout);
+	// table
+	QTableWidget* lTableWidget = new QTableWidget(0, lHeaderLabels.size());
+	lTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+	lTableWidget->setHorizontalHeaderLabels(lHeaderLabels);
+	lTableWidget->verticalHeader()->show();
+	lTableWidget->setShowGrid(true);
+	lTableWidget->setContextMenuPolicy(Qt::CustomContextMenu);
+	for(int lCol = 0; lCol < lHeaderLabels.size(); lCol++) {
+		lTableWidget->horizontalHeader()->setSectionResizeMode(lCol, QHeaderView::ResizeToContents);
+	}
+	for(int lRow = 0; lRow < lDataMap.size(); lRow++) {
+		QVector<QString> lDataRow = lDataMap.at(lRow);
+		lTableWidget->insertRow(lRow);
+		for(int lCol = 0; lCol < lHeaderLabels.size(); lCol++) {
+			QString lText = lDataRow.at(lCol);
+			QTableWidgetItem* lItem = new QTableWidgetItem(lText);
+			lTableWidget->setItem(lRow, lCol, lItem);
+		}
+		lTableWidget->verticalHeader()->setSectionResizeMode(lRow, QHeaderView::ResizeToContents);
+	}
+	lTableWidget->setMinimumSize(400, 200);
 
-    connect(lTableWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotEvent(QPoint)));
-    connect(lTableWidget, SIGNAL(cellActivated(int, int)), this, SLOT(slotEvent(int, int)));
+	QHBoxLayout* lTableViewLayout = new QHBoxLayout;
+	lTableViewLayout->addWidget(lTableWidget);
+	lTableViewLayout->setMargin(0);
+
+	// main_layout
+	QVBoxLayout* lMainLayout = new QVBoxLayout;
+	lMainLayout->addLayout(lTableViewLayout);
+	lMainLayout->setAlignment(Qt::AlignTop);
+
+	setLayout(lMainLayout);
+
+	connect(lTableWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotEvent(QPoint)));
+	connect(lTableWidget, SIGNAL(cellActivated(int, int)), this, SLOT(slotEvent(int, int)));
 }
 //===============================================
 GQtUserShow::~GQtUserShow() {

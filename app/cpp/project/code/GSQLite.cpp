@@ -43,7 +43,7 @@ void GSQLite::writeData(const QString& sql) {
 QString GSQLite::readData(const QString& sql) {
 	QSqlQuery lQuery(sql);
 	if(!lQuery.isActive()) {
-		qDebug() << "[sqlite] erreur ecriture donnees";
+		qDebug() << "[sqlite] erreur lecture valeur";
 	}
 	QString lData = "";
 	if(lQuery.first()) {
@@ -52,7 +52,25 @@ QString GSQLite::readData(const QString& sql) {
 	return lData;
 }
 //===============================================
-QStringList GSQLite::getFieldNames(const QString& table) {
+QVector<QVector<QString>> GSQLite::readMap(const QString& sql) {
+	QSqlQuery lQuery(sql);
+	if(!lQuery.isActive()) {
+		qDebug() << "[sqlite] erreur lecture map";
+	}
+	QVector<QVector<QString>> lDataMap;
+	int lColCount = lQuery.record().count();
+    while (lQuery.next()) {
+		QVector<QString> lDataRow;
+    	for(int lCol = 0; lCol < lColCount; lCol++) {
+    		QString lData = lQuery.value(lCol).toString();
+    		lDataRow << lData;
+    	}
+    	lDataMap << lDataRow;
+    }
+	return lDataMap;
+}
+//===============================================
+QStringList GSQLite::getFields(const QString& table) {
 	QSqlDatabase lDb = QSqlDatabase::database();
 	QSqlRecord lRecord = lDb.record(table);
 	int lCount = lRecord.count();
