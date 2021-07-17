@@ -1,5 +1,6 @@
 //===============================================
 #include "GQtUserCreate.h"
+#include "GManager.h"
 //===============================================
 GQtUserCreate::GQtUserCreate(QWidget* parent) : 
 GQtUi(parent) {
@@ -71,7 +72,26 @@ GQtUserCreate::~GQtUserCreate() {
 }
 //===============================================
 void GQtUserCreate::slotClick() {
-
-
+    QString lUsername = m_usernameEdit->text();
+    QString lPassword = m_passwordEdit->text();
+    QString lConfirm = m_confirmEdit->text();
+    bool lValid = true;
+    lValid &= (lUsername != "");
+    lValid &= (lPassword != "");
+    lValid &= (lConfirm != "");
+    lValid &= (lPassword == lConfirm);
+    if(lValid) {
+        GManager::Instance()->saveUser(lUsername, lPassword);
+        m_usernameEdit->clear();
+        m_passwordEdit->clear();
+        m_confirmEdit->clear();
+        GManager::Instance()->showMessage(this, "Enregistrement",
+        "L'enregistrement a réussi.");
+    }
+    else {
+        GManager::Instance()->showWarning(this, "Enregistrement",
+        "L'enregistrement a échoué !\n"
+        "Veuillez vérifier les paramètres.");
+    }
 }
 //===============================================
