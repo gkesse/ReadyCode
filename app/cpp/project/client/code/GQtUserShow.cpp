@@ -4,14 +4,20 @@
 #include "GManager.h"
 //===============================================
 GQtUserShow::GQtUserShow(QWidget* parent) : 
-GQtUi(parent) {    
-    // table
-    QTableView* lTableView = new QTableView;
-    GQtUserModel* lModel = new GQtUserModel(lTableView);
-    lTableView->setModel(lModel);
+GQtUi(parent) {
+	// table
+	QTableWidget* lTableWidget = new QTableWidget(0, 2);
+    lTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+
+    QStringList lHeaderLabels;
+    lHeaderLabels << tr("Filename") << tr("Size");
+    lTableWidget->setHorizontalHeaderLabels(lHeaderLabels);
+    lTableWidget->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+    lTableWidget->verticalHeader()->hide();
+    lTableWidget->setShowGrid(false);
     
     QHBoxLayout* lTableViewLayout = new QHBoxLayout;
-    lTableViewLayout->addWidget(lTableView);
+    lTableViewLayout->addWidget(lTableWidget);
     lTableViewLayout->setMargin(0);
    
     // main_layout
