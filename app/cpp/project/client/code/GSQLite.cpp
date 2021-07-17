@@ -6,17 +6,6 @@ GSQLite* GSQLite::m_instance = 0;
 //===============================================
 GSQLite::GSQLite() {
     open();
-    // users
-    writeData(QString(""
-    "create table if not exists users (\n"
-    "username text,\n"
-    "password text\n"
-    ")\n"
-    ""));
-    // read
-    qDebug() << readData(QString(""
-    "select name from sqlite_master\n"
-    ""));
 }
 //===============================================
 GSQLite::~GSQLite() {

@@ -1,22 +1,19 @@
 //===============================================
-#ifndef _GSQLite_
-#define _GSQLite_
+#ifndef _GQtUi_
+#define _GQtUi_
 //===============================================
 #include "GInclude.h"
 //===============================================
-class GSQLite {
-private:
-    GSQLite();
+class GQtUi : public QWidget {
+    Q_OBJECT
     
 public:
-    ~GSQLite();
-    static GSQLite* Instance();
-    void open();
-    void writeData(const QString& sql);
-    QString readData(const QString& sql);
+    GQtUi(QWidget* parent = 0);
+    virtual ~GQtUi();
+    static GQtUi* Create(const QString& key);
     
-private:
-    static GSQLite* m_instance;
+public slots:
+    virtual void slotClick();
 };
 //==============================================
 #endif

@@ -1,22 +1,23 @@
 //===============================================
-#ifndef _GSQLite_
-#define _GSQLite_
+#ifndef _GProcess_
+#define _GProcess_
 //===============================================
 #include "GInclude.h"
 //===============================================
-class GSQLite {
+class GProcess {
 private:
-    GSQLite();
+    GProcess();
     
 public:
-    ~GSQLite();
-    static GSQLite* Instance();
-    void open();
-    void writeData(const QString& sql);
-    QString readData(const QString& sql);
+    ~GProcess();
+    static GProcess* Instance();
+    void run(int argc, char** argv);
+    void runDefault(int argc, char** argv);
+    void runQt(int argc, char** argv);
+    void runSQLite(int argc, char** argv);
     
 private:
-    static GSQLite* m_instance;
+    static GProcess* m_instance;
 };
 //==============================================
 #endif

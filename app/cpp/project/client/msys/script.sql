@@ -1,1 +1,1 @@
-select name from sqlite_master;
+select * from users;

@@ -1,8 +1,8 @@
 //===============================================
-#include "GWindow.h"
-#include "GManager.h"
+#include "GQtUserCreate.h"
 //===============================================
-GWindow::GWindow(QWidget* parent) : QWidget(parent) {
+GQtUserCreate::GQtUserCreate(QWidget* parent) : 
+GQtUi(parent) {
     // username
     QLabel* lUsernameLabel = new QLabel;
     lUsernameLabel->setText("Nom d'utilisateur :");
@@ -34,7 +34,7 @@ GWindow::GWindow(QWidget* parent) : QWidget(parent) {
     QLabel* lConfirmLabel = new QLabel;
     lConfirmLabel->setText("Confirmer :");
     lConfirmLabel->setMinimumWidth(100);
-    
+
     QLineEdit* lConfirmEdit = new QLineEdit;
     m_confirmEdit = lConfirmEdit;
     lConfirmEdit->setEchoMode(QLineEdit::Password);
@@ -63,34 +63,15 @@ GWindow::GWindow(QWidget* parent) : QWidget(parent) {
     
     setLayout(lMainLayout);
     
-    connect(lSaveButton, SIGNAL(clicked()), this, SLOT(slotConnect()));
+    connect(lSaveButton, SIGNAL(clicked()), this, SLOT(slotClick()));
 }
 //===============================================
-GWindow::~GWindow() {
+GQtUserCreate::~GQtUserCreate() {
 
 }
 //===============================================
-void GWindow::slotConnect() {
-    QString lUsername = m_usernameEdit->text();
-    QString lPassword = m_passwordEdit->text();
-    QString lConfirm = m_confirmEdit->text();
-    bool lValid = true;
-    lValid &= (lUsername != "");
-    lValid &= (lPassword != "");
-    lValid &= (lConfirm != "");
-    lValid &= (lPassword == lConfirm);
-    if(lValid) {
-        GManager::Instance()->saveUser(lUsername, lPassword);
-        m_usernameEdit->clear();
-        m_passwordEdit->clear();
-        m_confirmEdit->clear();
-        GManager::Instance()->showMessage(this, "Enregistrement",
-        "L'enregistrement a réussi.");
-    }
-    else {
-        GManager::Instance()->showWarning(this, "Enregistrement",
-        "L'enregistrement a échoué !\n"
-        "Veuillez vérifier les paramètres.");
-    }
+void GQtUserCreate::slotClick() {
+
+
 }
 //===============================================
