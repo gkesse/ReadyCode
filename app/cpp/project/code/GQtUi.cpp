@@ -19,5 +19,8 @@ GQtUi* GQtUi::Create(const QString& key) {
     return new GQtUi;
 }
 //===============================================
-void GQtUi::slotClick() {}
+void GQtUi::onEvent(const QString& event) {}
+void GQtUi::slotEvent() {}
+void GQtUi::slotEvent(const QPoint& pos) {}
+void GQtUi::slotEvent(int row, int col) {}
 //===============================================

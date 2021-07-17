@@ -1,19 +1,23 @@
 //===============================================
-#ifndef _GQtUi_
-#define _GQtUi_
+#ifndef _GQtUserCreate_
+#define _GQtUserCreate_
 //===============================================
-#include "GInclude.h"
+#include "GQtUi.h"
 //===============================================
-class GQtUi : public QWidget {
+class GQtUserCreate : public GQtUi {
     Q_OBJECT
     
 public:
-    GQtUi(QWidget* parent = 0);
-    virtual ~GQtUi();
-    static GQtUi* Create(const QString& key);
-    
+    GQtUserCreate(QWidget* parent = 0);
+    ~GQtUserCreate();
+
 public slots:
-    virtual void slotClick();
+    void slotEvent();
+    
+private: 
+    QLineEdit* m_usernameEdit;
+    QLineEdit* m_passwordEdit;
+    QLineEdit* m_confirmEdit;
 };
 //==============================================
 #endif
