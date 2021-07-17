@@ -14,7 +14,8 @@ public:
     void open();
     void writeData(const QString& sql);
     QString readData(const QString& sql);
-    
+    QStringList getFieldNames(const QString& table);
+
 private:
     static GSQLite* m_instance;
 };

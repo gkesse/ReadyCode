@@ -73,6 +73,10 @@ void GManager::updateUser(const QString& username, const QString& password) {
     "").arg(username, lPassword));
 }
 //===============================================
+QStringList GManager::getTableFields(const QString& table) {
+	return GSQLite::Instance()->getFieldNames(table);
+}
+//===============================================
 void GManager::showMessage(QWidget* parent, const QString& title, const QString& text) {
     QMessageBox::information(parent, title, text);
 }

@@ -5,12 +5,15 @@
 //===============================================
 GQtUserShow::GQtUserShow(QWidget* parent) : 
 GQtUi(parent) {
-	// table
+	qDebug() << GManager::Instance()->getTableFields("users");
+	// header_label
+    QStringList lHeaderLabels;
+    lHeaderLabels << tr("Filename") << tr("Size");
+
+    // table
 	QTableWidget* lTableWidget = new QTableWidget(0, 2);
     lTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
 
-    QStringList lHeaderLabels;
-    lHeaderLabels << tr("Filename") << tr("Size");
     lTableWidget->setHorizontalHeaderLabels(lHeaderLabels);
     lTableWidget->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
     lTableWidget->verticalHeader()->hide();

@@ -22,6 +22,7 @@ public:
     void saveUser(const QString& username, const QString& password);
     void insertUser(const QString& username, const QString& password);
     void updateUser(const QString& username, const QString& password);
+    QStringList getTableFields(const QString& table);
     void showMessage(QWidget* parent, const QString& title, const QString& text);
     void showWarning(QWidget* parent, const QString& title, const QString& text);
     void showError(QWidget* parent, const QString& title, const QString& text);
