@@ -14,6 +14,8 @@ public:
     void open();
     bool writeData(const QString& sql);
     QString readData(const QString& sql);
+    QVector<QString> readRow(const QString& sql);
+    QVector<QString> readCol(const QString& sql);
     QVector<QVector<QString>> readMap(const QString& sql);
     QStringList getFields(const QString& table);
 

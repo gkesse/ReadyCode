@@ -5,10 +5,10 @@ $1
 _EOF_
 }
 #================================================
-lCheck=$(sqlite_cmd "
-select count(*) as _count
-from pragma_table_info('users')
-where name = 'password';
-")
-echo $lCheck
+sqlite_cmd "
+create table if not exists login (
+username text,
+is_login char(1)
+);
+"
 #================================================

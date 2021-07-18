@@ -55,6 +55,36 @@ QString GSQLite::readData(const QString& sql) {
 	return lData;
 }
 //===============================================
+QVector<QString> GSQLite::readRow(const QString& sql) {
+	QSqlQuery lQuery(sql);
+	if(!lQuery.isActive()) {
+		qDebug() << "[sqlite] erreur lecture row";
+	}
+	QVector<QString> lDataMap;
+	int lColCount = lQuery.record().count();
+    while (lQuery.next()) {
+    	for(int lCol = 0; lCol < lColCount; lCol++) {
+    		QString lData = lQuery.value(lCol).toString();
+    		lDataMap << lData;
+    	}
+    	break;
+    }
+	return lDataMap;
+}
+//===============================================
+QVector<QString> GSQLite::readCol(const QString& sql) {
+	QSqlQuery lQuery(sql);
+	if(!lQuery.isActive()) {
+		qDebug() << "[sqlite] erreur lecture col";
+	}
+	QVector<QString> lDataMap;
+    while (lQuery.next()) {
+		QString lData = lQuery.value(0).toString();
+		lDataMap << lData;
+    }
+	return lDataMap;
+}
+//===============================================
 QVector<QVector<QString>> GSQLite::readMap(const QString& sql) {
 	QSqlQuery lQuery(sql);
 	if(!lQuery.isActive()) {

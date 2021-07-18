@@ -19,7 +19,9 @@ void GSQLiteDbUpdate::run(int argc, char** argv) {
 	bool lValid = true;
 	for(int i = 0; i < lFiles.size(); i++) {
 		QString lFile = lFiles.at(i);
-		lValid &= GManager::Instance()->runCmd("bash script.sh");
+		QString lCmd = QString("bash %1")
+						.arg(lFile);
+		lValid &= GManager::Instance()->runCmd(lCmd);
 	}
 	if(lValid) {
 		qDebug() << "[sqlite] La mise a jour a reussi.";
