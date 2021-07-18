@@ -33,11 +33,14 @@ void GSQLite::open() {
 	}
 }
 //===============================================
-void GSQLite::writeData(const QString& sql) {
+bool GSQLite::writeData(const QString& sql) {
 	QSqlQuery lQuery(sql);
 	if(!lQuery.isActive()) {
 		qDebug() << "[sqlite] erreur ecriture donnees";
+		qDebug() << sql;
+		return false;
 	}
+	return true;
 }
 //===============================================
 QString GSQLite::readData(const QString& sql) {

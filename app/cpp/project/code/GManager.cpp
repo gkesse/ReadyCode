@@ -10,7 +10,8 @@ GManager::GManager() {
 	mgr->app = new sGApp;
 	mgr->app->app_name = "ReadyApp";
 	mgr->app->sqlite_driver = "QSQLITE";
-	mgr->app->sqlite_db_path = "database.dat";
+	mgr->app->sqlite_db_path = "data/sqlite/db/database.dat";
+	mgr->app->sqlite_sql_path = "data/sqlite/sql";
 }
 //===============================================
 GManager::~GManager() {
@@ -43,6 +44,16 @@ int GManager::countUser(const QString& username) {
 			"select count(*) from users\n"
 			"where username = '%1'\n"
 			"").arg(username)).toInt();
+	return lCount;
+}
+//===============================================
+int GManager::countUser(const QString& username, const QString& password) {
+	QString lPassword = getPassword(username, password);
+	int lCount = GSQLite::Instance()->readData(QString(""
+			"select count(*) from users\n"
+			"where username = '%1'\n"
+			"and password = '%2'\n"
+			"").arg(username, lPassword)).toInt();
 	return lCount;
 }
 //===============================================
@@ -82,6 +93,30 @@ QVector<QVector<QString>> GManager::getTableData(const QString& table) {
 			"select * from %1\n"
 			"").arg(table);
 	return GSQLite::Instance()->readMap(lSql);
+}
+//===============================================
+QStringList GManager::getDirFiles(const QString& path, const QStringList& filters) {
+	QDirIterator lDirIt(path, filters, QDir::Files, QDirIterator::NoIteratorFlags);
+	QStringList lFiles;
+	while (lDirIt.hasNext()) {
+		lFiles << lDirIt.next();
+	}
+	return lFiles;
+}
+//===============================================
+bool GManager::runCmd(const QString& cmd) {
+	int lAnswer = system(cmd.toStdString().c_str());
+	bool lOk = (lAnswer == 0);
+	return lOk;
+}
+//===============================================
+QString GManager::readFile(const QString& path) {
+    QFile lFile(path);
+    QString lData = "";
+    if (lFile.open(QIODevice::ReadOnly)) {
+    	lData = lFile.readAll();
+    }
+    return lData;
 }
 //===============================================
 void GManager::showMessage(QWidget* parent, const QString& title, const QString& text) {

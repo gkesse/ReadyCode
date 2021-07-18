@@ -12,7 +12,7 @@ public:
     virtual ~GQtUi();
     static GQtUi* Create(const QString& key);
     virtual void onEvent(const QString& event);
-    
+
 public slots:
     virtual void slotEvent();
 	virtual void slotEvent(const QPoint& pos);

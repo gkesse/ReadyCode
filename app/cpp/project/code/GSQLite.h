@@ -12,7 +12,7 @@ public:
     ~GSQLite();
     static GSQLite* Instance();
     void open();
-    void writeData(const QString& sql);
+    bool writeData(const QString& sql);
     QString readData(const QString& sql);
     QVector<QVector<QString>> readMap(const QString& sql);
     QStringList getFields(const QString& table);

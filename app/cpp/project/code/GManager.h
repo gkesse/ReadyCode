@@ -19,11 +19,15 @@ public:
     QString getMd5(const QString& data);
     QString getPassword(const QString& username, const QString& password);
     int countUser(const QString& username);
+    int countUser(const QString& username, const QString& password);
     void saveUser(const QString& username, const QString& password);
     void insertUser(const QString& username, const QString& password);
     void updateUser(const QString& username, const QString& password);
     QStringList getTableFields(const QString& table);
     QVector<QVector<QString>> getTableData(const QString& table);
+    QStringList getDirFiles(const QString& path, const QStringList& filters);
+    bool runCmd(const QString& cmd);
+    QString readFile(const QString& path);
     void showMessage(QWidget* parent, const QString& title, const QString& text);
     void showWarning(QWidget* parent, const QString& title, const QString& text);
     void showError(QWidget* parent, const QString& title, const QString& text);
@@ -44,6 +48,7 @@ struct _sGApp {
     // sqlite
     QString sqlite_driver;
     QString sqlite_db_path;
+    QString sqlite_sql_path;
 };
 //==============================================
 #endif

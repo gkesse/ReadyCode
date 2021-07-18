@@ -1,23 +1,24 @@
 //===============================================
-#ifndef _GWindow_
-#define _GWindow_
+#ifndef _GQtUserConnect_
+#define _GQtUserConnect_
 //===============================================
-#include "GInclude.h"
+#include "GQtUi.h"
 //===============================================
-class GWindow : public QWidget {
+class GQtUserConnect : public GQtUi {
     Q_OBJECT
     
 public:
-    GWindow(QWidget* parent = 0);
-    ~GWindow();
-    
+    GQtUserConnect(QWidget* parent = 0);
+    ~GQtUserConnect();
+    void onEvent(const QString& event);
+
 public slots:
-    void slotConnect();
+    void slotEvent();
     
-private: 
+private:
+    QMap<QWidget*, QString> m_widgetMap;
     QLineEdit* m_usernameEdit;
     QLineEdit* m_passwordEdit;
-    QLineEdit* m_confirmEdit;
 };
 //==============================================
 #endif

@@ -1,6 +1,7 @@
 //===============================================
 #include "GProcess.h"
 #include "GQtUi.h"
+#include "GSQLiteUi.h"
 //===============================================
 GProcess* GProcess::m_instance = 0;
 //===============================================
@@ -23,8 +24,8 @@ void GProcess::run(int argc, char** argv) {
     QString lKey = "default";
     if(argc > 1) {lKey = argv[1];}
     if(lKey == "default") {runDefault(argc, argv); return;}
-    if(lKey == "sqlite") {runSQLite(argc, argv); return;}
     if(lKey == "qt") {runQt(argc, argv); return;}
+    if(lKey == "sqlite") {runSQLite(argc, argv); return;}
     runDefault(argc, argv);
 }
 //===============================================
@@ -46,6 +47,6 @@ void GProcess::runQt(int argc, char** argv) {
 void GProcess::runSQLite(int argc, char** argv) {
     QString lKey = "default";
     if(argc > 2) {lKey = argv[2];}
-    qDebug() << QString("[sqlite] %1 | %2").arg(argv[1], lKey);
+    GSQLiteUi::Create(lKey)->run(argc, argv);
 }
 //===============================================
