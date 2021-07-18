@@ -5,8 +5,8 @@
 //===============================================
 GQtUserShow::GQtUserShow(QWidget* parent) : 
 GQtUi(parent) {
-	QStringList lHeaderLabels = GManager::Instance()->getTableFields("users");
-	QVector<QVector<QString>> lDataMap = GManager::Instance()->getTableData("users");
+	QStringList lHeaderLabels = GManager::Instance()->getTableFields("user_data");
+	QVector<QVector<QString>> lDataMap = GManager::Instance()->getTableData("user_data");
 
 	// table
 	QTableWidget* lTableWidget = new QTableWidget(0, lHeaderLabels.size());

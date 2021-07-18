@@ -41,7 +41,7 @@ QString GManager::getPassword(const QString& username, const QString& password) 
 //===============================================
 int GManager::countUser(const QString& username) {
 	int lCount = GSQLite::Instance()->readData(QString(""
-			"select count(*) from users\n"
+			"select count(*) from user_data\n"
 			"where _username = '%1'\n"
 			"").arg(username)).toInt();
 	return lCount;
@@ -50,7 +50,7 @@ int GManager::countUser(const QString& username) {
 int GManager::countUser(const QString& username, const QString& password) {
 	QString lPassword = getPassword(username, password);
 	int lCount = GSQLite::Instance()->readData(QString(""
-			"select count(*) from users\n"
+			"select count(*) from user_data\n"
 			"where _username = '%1'\n"
 			"and _password = '%2'\n"
 			"").arg(username, lPassword)).toInt();
@@ -70,7 +70,7 @@ void GManager::saveUser(const QString& username, const QString& password) {
 void GManager::insertUser(const QString& username, const QString& password) {
 	QString lPassword = getPassword(username, password);
 	GSQLite::Instance()->writeData(QString(""
-			"insert into users (_username, _password)\n"
+			"insert into user_data (_username, _password)\n"
 			"values ('%1', '%2')\n"
 			"").arg(username, lPassword));
 }
@@ -78,7 +78,7 @@ void GManager::insertUser(const QString& username, const QString& password) {
 void GManager::updateUser(const QString& username, const QString& password) {
 	QString lPassword = getPassword(username, password);
 	GSQLite::Instance()->writeData(QString(""
-			"update users\n"
+			"update user_data\n"
 			"set _password = '%2'\n"
 			"where _username = '%1'\n"
 			"").arg(username, lPassword));

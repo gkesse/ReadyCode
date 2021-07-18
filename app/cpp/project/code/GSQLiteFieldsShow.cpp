@@ -13,7 +13,7 @@ GSQLiteFieldsShow::~GSQLiteFieldsShow() {
 }
 //===============================================
 void GSQLiteFieldsShow::run(int argc, char** argv) {
-	QString lTable = "users";
+	QString lTable = "user_data";
 	if(argc > 3) {lTable = argv[3];}
 	lTable = lTable.toUpper();
 	QStringList lDataMap = GManager::Instance()->getTableFields(lTable);

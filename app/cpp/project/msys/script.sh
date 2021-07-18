@@ -5,10 +5,13 @@ $1
 _EOF_
 }
 #================================================
-lCheck=$(sqlite_cmd "
-select count(*) as _count
-from pragma_table_info('users')
-where name = 'password';
-")
-echo $lCheck
+sqlite_cmd "
+select count(*) from sqlite_master
+where type = 'table'
+and  name = 'login';
+"
+
+sqlite_cmd "
+select name from sqlite_master;
+"
 #================================================
