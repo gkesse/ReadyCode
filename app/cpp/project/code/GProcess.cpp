@@ -2,6 +2,7 @@
 #include "GProcess.h"
 #include "GQtUi.h"
 #include "GSQLiteUi.h"
+#include "GProUi.h"
 //===============================================
 GProcess* GProcess::m_instance = 0;
 //===============================================
@@ -26,6 +27,7 @@ void GProcess::run(int argc, char** argv) {
     if(lKey == "default") {runDefault(argc, argv); return;}
     if(lKey == "qt") {runQt(argc, argv); return;}
     if(lKey == "sqlite") {runSQLite(argc, argv); return;}
+    if(lKey == "pro") {runPro(argc, argv); return;}
     runDefault(argc, argv);
 }
 //===============================================
@@ -48,5 +50,14 @@ void GProcess::runSQLite(int argc, char** argv) {
     QString lKey = "default";
     if(argc > 2) {lKey = argv[2];}
     GSQLiteUi::Create(lKey)->run(argc, argv);
+}
+//===============================================
+void GProcess::runPro(int argc, char** argv) {
+    QApplication app(argc, argv);
+    GProUi* lWindow = GProUi::Create("window");
+    lWindow->setWindowTitle("ReadyApp");
+    lWindow->resize(400, 100);
+    lWindow->show();
+    app.exec();
 }
 //===============================================
