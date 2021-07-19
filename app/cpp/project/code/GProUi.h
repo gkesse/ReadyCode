@@ -24,6 +24,7 @@ public:
 
 public slots:
 	virtual void slotEvent();
+	virtual void slotEvent(const QString& text);
 	virtual void slotEvent(const QPoint& pos);
 	virtual void slotEvent(int row, int col);
 

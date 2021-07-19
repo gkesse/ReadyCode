@@ -10,6 +10,9 @@ class GProHome : public GProUi {
 public:
     GProHome(QWidget* parent = 0);
     ~GProHome();
+
+public slots:
+	void slotEvent(const QString& text);
 };
 //==============================================
 #endif

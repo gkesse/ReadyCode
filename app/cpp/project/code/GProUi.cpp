@@ -37,6 +37,7 @@ QString GProUi::getDefaultKey() {return "";}
 void GProUi::addItem(QString key, QString text) {}
 //===============================================
 void GProUi::slotEvent() {}
+void GProUi::slotEvent(const QString& text) {}
 void GProUi::slotEvent(const QPoint& pos) {}
 void GProUi::slotEvent(int row, int col) {}
 //===============================================

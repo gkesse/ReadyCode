@@ -15,9 +15,15 @@ GProUi(parent) {
 	lMainLayout->setSpacing(0);
 
 	setLayout(lMainLayout);
+
+	connect(lList, SIGNAL(emitEvent(QString)), this, SLOT(slotEvent(QString)));
 }
 //===============================================
 GProHome::~GProHome() {
 
+}
+//===============================================
+void GProHome::slotEvent(const QString& text) {
+	qDebug() << text;
 }
 //===============================================
