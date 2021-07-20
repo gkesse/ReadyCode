@@ -10,10 +10,10 @@ class GQtUserConnect : public GQtUi {
 public:
     GQtUserConnect(QWidget* parent = 0);
     ~GQtUserConnect();
-    void onEvent(const QString& event);
 
 public slots:
-    void slotEvent();
+    void onEvent();
+    void onEvent(const QString& text);
     
 private:
     QMap<QWidget*, QString> m_widgetMap;

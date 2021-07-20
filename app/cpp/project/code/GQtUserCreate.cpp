@@ -64,14 +64,14 @@ GQtUi(parent) {
     
     setLayout(lMainLayout);
     
-    connect(lSaveButton, SIGNAL(clicked()), this, SLOT(slotEvent()));
+    connect(lSaveButton, SIGNAL(clicked()), this, SLOT(onEvent()));
 }
 //===============================================
 GQtUserCreate::~GQtUserCreate() {
 
 }
 //===============================================
-void GQtUserCreate::slotEvent() {
+void GQtUserCreate::onEvent() {
     QString lUsername = m_usernameEdit->text();
     QString lPassword = m_passwordEdit->text();
     QString lConfirm = m_confirmEdit->text();

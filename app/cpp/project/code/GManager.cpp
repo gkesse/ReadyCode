@@ -1,5 +1,6 @@
 //===============================================
 #include "GManager.h"
+#include "GSQLite.h"
 //===============================================
 GManager* GManager::m_instance = 0;
 //===============================================
@@ -12,6 +13,8 @@ GManager::GManager() {
 	mgr->app->sqlite_driver = "QSQLITE";
 	mgr->app->sqlite_db_path = "data/sqlite/db/database.dat";
 	mgr->app->sqlite_sql_path = "data/sqlite/sql";
+	mgr->app->sqlite_table_name = "";
+	mgr->app->on_event = false;
 }
 //===============================================
 GManager::~GManager() {
@@ -133,5 +136,37 @@ void GManager::showError(QWidget* parent, const QString& title, const QString& t
 //===============================================
 int GManager::showQuestion(QWidget* parent, const QString& title, const QString& text, QMessageBox::StandardButtons buttons) {
 	return QMessageBox::question(parent, title, text, buttons);
+}
+//===============================================
+void GManager::clearLayout(QLayout* layout) {
+    if(layout) {
+        while(layout->count() > 0) {
+            QLayoutItem* lItem = layout->takeAt(0);
+            QWidget* lWidget = lItem->widget();
+            if(lWidget) delete lWidget;
+            delete lItem;
+        }
+    }
+}
+//===============================================
+void GManager::setPage(const QString& address)  {
+    sGApp* lApp = GManager::Instance()->getData()->app;
+    int lPageId = lApp->page_map->getPageId(address);
+    if(lPageId == -1) {
+        //setPage("home/error");
+        //lApp->address_key->setContent(address);
+        return;
+    }
+    GProUi* lPage = lApp->page_map->getPage(address);
+    //lApp->address_new = address;
+    if(lPage->loadPage() == 0) {
+    	//lApp->address->setText(lApp->address_url);
+        return;
+    }
+    lApp->page_map->setPage(address);
+    //lApp->address->setText(address);
+    //lApp->address_url = address;
+    lApp->address_key->setContent(address);
+    //lApp->title->setText(lApp->page_map->getTitle(address));
 }
 //===============================================

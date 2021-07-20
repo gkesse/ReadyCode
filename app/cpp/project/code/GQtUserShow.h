@@ -10,11 +10,11 @@ class GQtUserShow : public GQtUi {
 public:
     GQtUserShow(QWidget* parent = 0);
     ~GQtUserShow();
-    void onEvent(const QString& event);
 
 public slots:
-	void slotEvent(const QPoint& pos);
-	void slotEvent(int row, int col);
+	void onEvent(const QString& text);
+	void onEvent(const QPoint& pos);
+	void onEvent(int row, int col);
 };
 //==============================================
 #endif

@@ -12,7 +12,7 @@ public:
     ~GQtUserCreate();
 
 public slots:
-    void slotEvent();
+    void onEvent();
     
 private: 
     QLineEdit* m_usernameEdit;

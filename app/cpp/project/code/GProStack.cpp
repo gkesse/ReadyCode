@@ -41,6 +41,12 @@ void GProStack::setPage(QString key) {
     m_workspace->setCurrentIndex(lPageId);
 }
 //===============================================
+QString GProStack::getKey(const QString& key, const QString& defaultKey) {
+    int lPageId = m_pageId.value(key, -1);
+    QString lKey = (lPageId == -1) ? defaultKey : key;
+    return lKey;
+}
+//===============================================
 GProUi* GProStack::getPage(QString key) {
     int lPageId = m_pageId.value(key, -1);
     if(lPageId == -1) {return 0;}

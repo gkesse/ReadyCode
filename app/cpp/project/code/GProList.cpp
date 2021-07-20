@@ -37,10 +37,10 @@ void GProList::addItem(QString key, QString text) {
     lButton->setStyleSheet("text-align:center;");
     m_scrollLayout->addWidget(lButton);
     m_widgetId[lButton] = key;
-    connect(lButton, SIGNAL(clicked()), this, SLOT(slotEvent()));
+    connect(lButton, SIGNAL(clicked()), this, SLOT(onEvent()));
 }
 //===============================================
-void GProList::slotEvent() {
+void GProList::onEvent() {
     QWidget* lWidget = qobject_cast<QWidget*>(sender());
     QString lWidgetId = m_widgetId[lWidget];
     emit emitEvent(lWidgetId);

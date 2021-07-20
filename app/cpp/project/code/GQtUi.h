@@ -11,12 +11,12 @@ public:
     GQtUi(QWidget* parent = 0);
     virtual ~GQtUi();
     static GQtUi* Create(const QString& key);
-    virtual void onEvent(const QString& event);
 
 public slots:
-    virtual void slotEvent();
-	virtual void slotEvent(const QPoint& pos);
-	virtual void slotEvent(int row, int col);
+    virtual void onEvent();
+	virtual void onEvent(const QString& text);
+	virtual void onEvent(const QPoint& pos);
+	virtual void onEvent(int row, int col);
 };
 //==============================================
 #endif

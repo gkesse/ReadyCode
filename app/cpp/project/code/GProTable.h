@@ -1,18 +1,22 @@
 //===============================================
-#ifndef _GProHome_
-#define _GProHome_
+#ifndef _GProTable_
+#define _GProTable_
 //===============================================
 #include "GProUi.h"
 //===============================================
-class GProHome : public GProUi {
+class GProTable : public GProUi {
     Q_OBJECT
     
 public:
-    GProHome(QWidget* parent = 0);
-    ~GProHome();
+    GProTable(QWidget* parent = 0);
+    ~GProTable();
+    void loadData(QStringList headers, QVector<QVector<QString>> datas);
 
 public slots:
-	void onEvent(const QString& text);
+    void onEvent(int row, int col);
+
+private:
+	QTableWidget* m_tableWidget;
 };
 //==============================================
 #endif

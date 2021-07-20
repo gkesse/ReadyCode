@@ -1,23 +1,25 @@
 //===============================================
-#ifndef _GProList_
-#define _GProList_
+#ifndef _GProAddressKey_
+#define _GProAddressKey_
 //===============================================
 #include "GProUi.h"
 //===============================================
-class GProList : public GProUi {
+class GProAddressKey : public GProUi {
     Q_OBJECT
 
 public:
-    GProList(QWidget* parent = 0);
-    ~GProList();
-    void addItem(QString key, QString text);
+    GProAddressKey(QWidget* parent = 0);
+    ~GProAddressKey();
     
+public:
+    void setContent(QString text);
+
 public slots:
     void onEvent();
     
 private:
-    QVBoxLayout* m_scrollLayout;
-    QMap<QWidget*, QString> m_widgetId;
+    QHBoxLayout* m_mainLayout;
+    QMap<QWidget*, QString> m_widgetMap;
 };
 //===============================================
 #endif

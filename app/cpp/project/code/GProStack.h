@@ -14,6 +14,7 @@ public:
 public:
     void addPage(QString key, QString title, QWidget* widget, bool isDefault = 0);
     void setPage(QString key);
+    QString getKey(const QString& key, const QString& defaultKey);
     GProUi* getPage(QString key);
     int getPageId(QString key);
     QWidget* getWidget(QString key);

@@ -41,8 +41,8 @@ GQtUi(parent) {
 
 	setLayout(lMainLayout);
 
-	connect(lTableWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotEvent(QPoint)));
-	connect(lTableWidget, SIGNAL(cellActivated(int, int)), this, SLOT(slotEvent(int, int)));
+	connect(lTableWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(onEvent(QPoint)));
+	connect(lTableWidget, SIGNAL(cellActivated(int, int)), this, SLOT(onEvent(int, int)));
 }
 //===============================================
 GQtUserShow::~GQtUserShow() {
@@ -53,11 +53,11 @@ void GQtUserShow::onEvent(const QString& event) {
 	qDebug() << event;
 }
 //===============================================
-void GQtUserShow::slotEvent(const QPoint& pos) {
+void GQtUserShow::onEvent(const QPoint& pos) {
 	onEvent("menu_contextual");
 }
 //===============================================
-void GQtUserShow::slotEvent(int row, int col) {
+void GQtUserShow::onEvent(int row, int col) {
 	onEvent("cell_activate");
 }
 //===============================================

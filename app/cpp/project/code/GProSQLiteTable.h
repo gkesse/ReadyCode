@@ -1,18 +1,22 @@
 //===============================================
-#ifndef _GProHome_
-#define _GProHome_
+#ifndef _GProSQLiteTable_
+#define _GProSQLiteTable_
 //===============================================
 #include "GProUi.h"
 //===============================================
-class GProHome : public GProUi {
+class GProSQLiteTable : public GProUi {
     Q_OBJECT
     
 public:
-    GProHome(QWidget* parent = 0);
-    ~GProHome();
+    GProSQLiteTable(QWidget* parent = 0);
+    ~GProSQLiteTable();
+    int loadPage();
 
-public slots:
-	void onEvent(const QString& text);
+private:
+	QMap<QWidget*, QString> m_widgetMap;
+    GProUi* m_table;
+    GProUi* m_buttonStack;
+    QPushButton* m_tableTitle;
 };
 //==============================================
 #endif

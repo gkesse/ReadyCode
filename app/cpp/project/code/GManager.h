@@ -3,7 +3,7 @@
 #define _GManager_
 //===============================================
 #include "GInclude.h"
-#include "GSQLite.h"
+#include "GProUi.h"
 //===============================================
 typedef struct _sGManager sGManager;
 typedef struct _sGApp sGApp;
@@ -32,6 +32,8 @@ public:
     void showWarning(QWidget* parent, const QString& title, const QString& text);
     void showError(QWidget* parent, const QString& title, const QString& text);
     int showQuestion(QWidget* parent, const QString& title, const QString& text, QMessageBox::StandardButtons buttons = QMessageBox::Ok | QMessageBox::Cancel);
+    void clearLayout(QLayout* layout);
+    void setPage(const QString& address);
 
 private:
     static GManager* m_instance;
@@ -49,8 +51,17 @@ struct _sGApp {
     QString sqlite_driver;
     QString sqlite_db_path;
     QString sqlite_sql_path;
+    QString sqlite_table_name;
     // widget
     QWidget* widget;
+    // page
+    GProUi* page_map;
+    // address
+    GProUi* address_key;
+    // data
+    QVariant data;
+    // event
+    bool on_event;
 };
 //==============================================
 #endif

@@ -1,5 +1,6 @@
 //===============================================
 #include "GProHome.h"
+#include "GManager.h"
 //===============================================
 GProHome::GProHome(QWidget* parent) :
 GProUi(parent) {
@@ -16,14 +17,14 @@ GProUi(parent) {
 
 	setLayout(lMainLayout);
 
-	connect(lList, SIGNAL(emitEvent(QString)), this, SLOT(slotEvent(QString)));
+	connect(lList, SIGNAL(emitEvent(QString)), this, SLOT(onEvent(QString)));
 }
 //===============================================
 GProHome::~GProHome() {
 
 }
 //===============================================
-void GProHome::slotEvent(const QString& text) {
-	qDebug() << text;
+void GProHome::onEvent(const QString& text) {
+	GManager::Instance()->setPage(text);
 }
 //===============================================

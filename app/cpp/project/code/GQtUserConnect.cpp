@@ -50,21 +50,21 @@ GQtUi(parent) {
 
 	setLayout(lMainLayout);
 
-	connect(lConnectButton, SIGNAL(clicked()), this, SLOT(slotEvent()));
+	connect(lConnectButton, SIGNAL(clicked()), this, SLOT(onEvent()));
 }
 //===============================================
 GQtUserConnect::~GQtUserConnect() {
 
 }
 //===============================================
-void GQtUserConnect::slotEvent() {
+void GQtUserConnect::onEvent() {
 	QWidget* lWidget = qobject_cast<QWidget*>(sender());
 	QString lWidgetId = m_widgetMap[lWidget];
 	onEvent(lWidgetId);
 }
 //===============================================
-void GQtUserConnect::onEvent(const QString& event) {
-	if(event == "connect") {
+void GQtUserConnect::onEvent(const QString& text) {
+	if(text == "connect") {
 		QString lUsername = m_usernameEdit->text();
 		QString lPassword = m_passwordEdit->text();
 		bool lValid = true;

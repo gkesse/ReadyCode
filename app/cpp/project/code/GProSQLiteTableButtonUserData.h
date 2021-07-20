@@ -1,15 +1,15 @@
 //===============================================
-#ifndef _GProHome_
-#define _GProHome_
+#ifndef _GProSQLiteTableButtonUserData_
+#define _GProSQLiteTableButtonUserData_
 //===============================================
 #include "GProUi.h"
 //===============================================
-class GProHome : public GProUi {
+class GProSQLiteTableButtonUserData : public GProUi {
     Q_OBJECT
     
 public:
-    GProHome(QWidget* parent = 0);
-    ~GProHome();
+    GProSQLiteTableButtonUserData(QWidget* parent = 0);
+    ~GProSQLiteTableButtonUserData();
 
 public slots:
 	void onEvent(const QString& text);

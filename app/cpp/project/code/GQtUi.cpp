@@ -21,8 +21,8 @@ GQtUi* GQtUi::Create(const QString& key) {
     return new GQtUi;
 }
 //===============================================
-void GQtUi::onEvent(const QString& event) {}
-void GQtUi::slotEvent() {}
-void GQtUi::slotEvent(const QPoint& pos) {}
-void GQtUi::slotEvent(int row, int col) {}
+void GQtUi::onEvent() {}
+void GQtUi::onEvent(const QString& text) {}
+void GQtUi::onEvent(const QPoint& pos) {}
+void GQtUi::onEvent(int row, int col) {}
 //===============================================
