@@ -22,7 +22,7 @@ public:
 	virtual void addItem(QString key, QString text);
 	virtual void setContent(QString text);
 	virtual void loadData(QStringList headers, QVector<QVector<QString>> datas);
-	virtual Qstring getKey(const QString& key, const QString& defaultKey);
+	virtual QString getKey(const QString& key, const QString& defaultKey);
 
 public slots:
 	virtual void onEvent();
