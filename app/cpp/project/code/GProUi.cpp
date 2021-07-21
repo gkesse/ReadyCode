@@ -42,7 +42,7 @@ GProUi* GProUi::Create(const QString& key) {
 }
 //===============================================
 void GProUi::addPage(const QString& key, const QString& title, QWidget* widget, bool isDefault) {}
-int GProUi::loadPage() {return 1;}
+int GProUi::loadPage(const QString& key) {return 1;}
 void GProUi::setPage(const QString& key) {}
 GProUi* GProUi::getPage(const QString& key) {return 0;}
 int GProUi::getPageId(const QString& key) {return 0;}

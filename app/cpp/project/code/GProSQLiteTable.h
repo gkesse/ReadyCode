@@ -10,13 +10,12 @@ class GProSQLiteTable : public GProUi {
 public:
     GProSQLiteTable(QWidget* parent = 0);
     ~GProSQLiteTable();
-    int loadPage();
+    int loadPage(const QString& key);
 
 private:
 	QMap<QWidget*, QString> m_widgetMap;
     GProUi* m_table;
     GProUi* m_buttonStack;
-    QPushButton* m_tableTitle;
 };
 //==============================================
 #endif

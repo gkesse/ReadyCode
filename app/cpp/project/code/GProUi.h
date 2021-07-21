@@ -12,7 +12,7 @@ public:
 	virtual ~GProUi();
 	static GProUi* Create(const QString& key);
 	virtual void addPage(const QString& key, const QString& title, QWidget* widget, bool isDefault = 0);
-	virtual int loadPage();
+	virtual int loadPage(const QString& key);
 	virtual void setPage(const QString& key);
 	virtual GProUi* getPage(const QString& key);
 	virtual int getPageId(const QString& key);

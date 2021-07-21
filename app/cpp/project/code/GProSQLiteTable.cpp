@@ -6,14 +6,10 @@
 GProSQLiteTable::GProSQLiteTable(QWidget* parent) :
 GProUi(parent) {
 	// table
-	QPushButton* lTableTitle = new QPushButton;
-	m_tableTitle = lTableTitle;
-
 	GProUi* lTable = GProUi::Create("table");
 	m_table = lTable;
 
 	QVBoxLayout* lTableLayout = new  QVBoxLayout;
-	lTableLayout->addWidget(lTableTitle);
 	lTableLayout->addWidget(lTable);
 	lTableLayout->setAlignment(Qt::AlignTop);
 	lTableLayout->setMargin(0);
@@ -24,6 +20,7 @@ GProUi(parent) {
 	m_buttonStack = lButtonStack;
 	lButtonStack->addPage("default", "", GProUi::Create("default"), 1);
 	lButtonStack->addPage("user_data", "", GProUi::Create("sqlitetable/user_data/button"));
+	lButtonStack->setMinimumWidth(100);
 
 	// layout
 	QHBoxLayout* lMainLayout = new  QHBoxLayout;
@@ -39,12 +36,11 @@ GProSQLiteTable::~GProSQLiteTable() {
 
 }
 //===============================================
-int GProSQLiteTable::loadPage() {
+int GProSQLiteTable::loadPage(const QString& key) {
 	sGApp* lApp = GManager::Instance()->getData()->app;
 	QString lTitle = QString("SQLite | Données de la table (%1)")
-					.arg(lApp->sqlite_table_name);
-	lApp->title_bar->setTitle(lTitle);
-	m_tableTitle->setText(lApp->sqlite_table_name);
+							.arg(lApp->sqlite_table_name.toUpper());
+	lApp->page_map->setTitle(key, lTitle);
 	QString lKey = m_buttonStack->getKey(lApp->sqlite_table_name, "default");
 	m_buttonStack->setPage(lKey);
 	QStringList lHeaders = GManager::Instance()->getTableFields(lApp->sqlite_table_name);

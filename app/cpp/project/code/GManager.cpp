@@ -159,7 +159,7 @@ void GManager::setPage(const QString& address)  {
     }
     GProUi* lPage = lApp->page_map->getPage(address);
     //lApp->address_new = address;
-    if(lPage->loadPage() == 0) {
+    if(lPage->loadPage(address) == 0) {
     	//lApp->address->setText(lApp->address_url);
         return;
     }

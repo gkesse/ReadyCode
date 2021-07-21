@@ -37,7 +37,7 @@ void GProStack::addPage(const QString& key, const QString& title, QWidget* widge
 void GProStack::setPage(const QString&  key) {
     int lPageId = m_pageId.value(key, -1);
     if(lPageId == -1) {return;}
-    getPage(key)->loadPage();
+    getPage(key)->loadPage(key);
     m_workspace->setCurrentIndex(lPageId);
 }
 //===============================================
