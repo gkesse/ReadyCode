@@ -1,15 +1,15 @@
 //===============================================
-#ifndef _GProSQLiteTableButtonUserData_
-#define _GProSQLiteTableButtonUserData_
+#ifndef _GProSQLiteTableUserDataAdd_
+#define _GProSQLiteTableUserDataAdd_
 //===============================================
 #include "GProUi.h"
 //===============================================
-class GProSQLiteTableButtonUserData : public GProUi {
+class GProSQLiteTableUserDataAdd : public GProUi {
     Q_OBJECT
     
 public:
-    GProSQLiteTableButtonUserData(QWidget* parent = 0);
-    ~GProSQLiteTableButtonUserData();
+    GProSQLiteTableUserDataAdd(QWidget* parent = 0);
+    ~GProSQLiteTableUserDataAdd();
 
 public slots:
 	void onEvent(const QString& text);

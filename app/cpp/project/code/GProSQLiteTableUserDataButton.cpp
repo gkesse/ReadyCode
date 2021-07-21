@@ -1,9 +1,9 @@
 //===============================================
-#include "GProSQLiteTableButtonUserData.h"
+#include "GProSQLiteTableUserDataButton.h"
 #include "GManager.h"
 #include "GSQLite.h"
 //===============================================
-GProSQLiteTableButtonUserData::GProSQLiteTableButtonUserData(QWidget* parent) :
+GProSQLiteTableUserDataButton::GProSQLiteTableUserDataButton(QWidget* parent) :
 GProUi(parent) {
 	// button
 	GProUi* lButtons = GProUi::Create("list");
@@ -21,11 +21,11 @@ GProUi(parent) {
 	connect(lButtons, SIGNAL(emitEvent(QString)), this, SLOT(onEvent(QString)));
 }
 //===============================================
-GProSQLiteTableButtonUserData::~GProSQLiteTableButtonUserData() {
+GProSQLiteTableUserDataButton::~GProSQLiteTableUserDataButton() {
 
 }
 //===============================================
-void GProSQLiteTableButtonUserData::onEvent(const QString& text) {
+void GProSQLiteTableUserDataButton::onEvent(const QString& text) {
 	qDebug() << text;
 }
 //===============================================

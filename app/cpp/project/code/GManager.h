@@ -58,6 +58,8 @@ struct _sGApp {
     GProUi* page_map;
     // address
     GProUi* address_key;
+    // title
+    GProUi* title_bar;
     // data
     QVariant data;
     // event

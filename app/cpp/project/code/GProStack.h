@@ -12,13 +12,14 @@ public:
     ~GProStack();
 
 public:
-    void addPage(QString key, QString title, QWidget* widget, bool isDefault = 0);
-    void setPage(QString key);
+    void addPage(const QString& key, const QString& title, QWidget* widget, bool isDefault = 0);
+    void setPage(const QString& key);
+    void setTitle(const QString& key, const QString& title);
     QString getKey(const QString& key, const QString& defaultKey);
-    GProUi* getPage(QString key);
-    int getPageId(QString key);
-    QWidget* getWidget(QString key);
-    QString getTitle(QString key);
+    GProUi* getPage(const QString& key);
+    int getPageId(const QString& key);
+    QWidget* getWidget(const QString& key);
+    QString getTitle(const QString& key);
     QString getDefaultKey();
     
 protected:

@@ -20,7 +20,7 @@ GProStack::~GProStack() {
 
 }
 //===============================================
-void GProStack::addPage(QString key, QString title, QWidget* widget, bool isDefault) {
+void GProStack::addPage(const QString& key, const QString& title, QWidget* widget, bool isDefault) {
     int lPageId = m_workspace->count();
     m_pageId[key] = lPageId;
     m_titleMap[key] = title;
@@ -34,11 +34,15 @@ void GProStack::addPage(QString key, QString title, QWidget* widget, bool isDefa
     }
 }
 //===============================================
-void GProStack::setPage(QString key) {
+void GProStack::setPage(const QString&  key) {
     int lPageId = m_pageId.value(key, -1);
     if(lPageId == -1) {return;}
     getPage(key)->loadPage();
     m_workspace->setCurrentIndex(lPageId);
+}
+//===============================================
+void GProStack::setTitle(const QString& key, const QString& title) {
+    m_titleMap[key] = title;
 }
 //===============================================
 QString GProStack::getKey(const QString& key, const QString& defaultKey) {
@@ -47,7 +51,7 @@ QString GProStack::getKey(const QString& key, const QString& defaultKey) {
     return lKey;
 }
 //===============================================
-GProUi* GProStack::getPage(QString key) {
+GProUi* GProStack::getPage(const QString& key) {
     int lPageId = m_pageId.value(key, -1);
     if(lPageId == -1) {return 0;}
     QWidget* lWidget = m_workspace->widget(lPageId);
@@ -55,19 +59,19 @@ GProUi* GProStack::getPage(QString key) {
     return lPage;
 }
 //===============================================
-int GProStack::getPageId(QString key) {
+int GProStack::getPageId(const QString& key) {
     int lPageId = m_pageId.value(key, -1);
     return lPageId;
 }
 //===============================================
-QWidget* GProStack::getWidget(QString key) {
+QWidget* GProStack::getWidget(const QString& key) {
     int lPageId = m_pageId.value(key, -1);
     if(lPageId == -1) {return 0;}
     QWidget* lWidget = m_workspace->widget(lPageId);
     return lWidget;
 }
 //===============================================
-QString GProStack::getTitle(QString key) {
+QString GProStack::getTitle(const QString& key) {
     QString lTitle = m_titleMap.value(key, "");
     return lTitle;
 }

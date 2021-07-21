@@ -30,7 +30,7 @@ GProList::~GProList() {
     
 }
 //===============================================
-void GProList::addItem(QString key, QString text) {
+void GProList::addItem(const QString& key, const QString& text) {
     QPushButton* lButton = new QPushButton;
     lButton->setText(text);
     lButton->setCursor(Qt::PointingHandCursor);

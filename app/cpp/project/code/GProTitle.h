@@ -1,22 +1,24 @@
 //===============================================
-#ifndef _GProTable_
-#define _GProTable_
+#ifndef _GProTitle_
+#define _GProTitle_
 //===============================================
 #include "GProUi.h"
 //===============================================
-class GProTable : public GProUi {
+class GProTitle : public GProUi {
     Q_OBJECT
     
 public:
-    GProTable(QWidget* parent = 0);
-    ~GProTable();
-    void loadData(const QStringList& headers, const QVector<QVector<QString>>& datas);
+    GProTitle(QWidget* parent = 0);
+    ~GProTitle();
+    void setTitle(const QString& text);
 
 public slots:
-    void onEvent(int row, int col);
+	void onEvent();
+	void onEvent(const QString& text);
 
 private:
-	QTableWidget* m_tableWidget;
+	QMap<QWidget*, QString> m_widgetMap;
+	QPushButton* m_title;
 };
 //==============================================
 #endif

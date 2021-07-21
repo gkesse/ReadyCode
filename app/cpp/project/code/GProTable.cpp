@@ -30,7 +30,7 @@ GProTable::~GProTable() {
 
 }
 //===============================================
-void GProTable::loadData(QStringList headers, QVector<QVector<QString>> datas) {
+void GProTable::loadData(const QStringList& headers, const QVector<QVector<QString>>& datas) {
 	m_tableWidget->clear();
 	m_tableWidget->setRowCount(0);
 	m_tableWidget->setColumnCount(headers.size());

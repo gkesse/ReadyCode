@@ -1,22 +1,18 @@
 //===============================================
-#ifndef _GProTable_
-#define _GProTable_
+#ifndef _GProSQLiteTableUserDataButton_
+#define _GProSQLiteTableUserDataButton_
 //===============================================
 #include "GProUi.h"
 //===============================================
-class GProTable : public GProUi {
+class GProSQLiteTableUserDataButton : public GProUi {
     Q_OBJECT
     
 public:
-    GProTable(QWidget* parent = 0);
-    ~GProTable();
-    void loadData(const QStringList& headers, const QVector<QVector<QString>>& datas);
+    GProSQLiteTableUserDataButton(QWidget* parent = 0);
+    ~GProSQLiteTableUserDataButton();
 
 public slots:
-    void onEvent(int row, int col);
-
-private:
-	QTableWidget* m_tableWidget;
+	void onEvent(const QString& text);
 };
 //==============================================
 #endif

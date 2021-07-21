@@ -23,7 +23,7 @@ GProUi(parent) {
 	GProUi* lButtonStack = GProUi::Create("stack");
 	m_buttonStack = lButtonStack;
 	lButtonStack->addPage("default", "", GProUi::Create("default"), 1);
-	lButtonStack->addPage("user_data", "", GProUi::Create("sqlitetable/user_data"));
+	lButtonStack->addPage("user_data", "", GProUi::Create("sqlitetable/user_data/button"));
 
 	// layout
 	QHBoxLayout* lMainLayout = new  QHBoxLayout;
@@ -41,6 +41,9 @@ GProSQLiteTable::~GProSQLiteTable() {
 //===============================================
 int GProSQLiteTable::loadPage() {
 	sGApp* lApp = GManager::Instance()->getData()->app;
+	QString lTitle = QString("SQLite | Données de la table (%1)")
+					.arg(lApp->sqlite_table_name);
+	lApp->title_bar->setTitle(lTitle);
 	m_tableTitle->setText(lApp->sqlite_table_name);
 	QString lKey = m_buttonStack->getKey(lApp->sqlite_table_name, "default");
 	m_buttonStack->setPage(lKey);

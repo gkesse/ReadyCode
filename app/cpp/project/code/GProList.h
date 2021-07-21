@@ -10,7 +10,7 @@ class GProList : public GProUi {
 public:
     GProList(QWidget* parent = 0);
     ~GProList();
-    void addItem(QString key, QString text);
+    void addItem(const QString& key, const QString& text);
     
 public slots:
     void onEvent();

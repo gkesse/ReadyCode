@@ -167,6 +167,6 @@ void GManager::setPage(const QString& address)  {
     //lApp->address->setText(address);
     //lApp->address_url = address;
     lApp->address_key->setContent(address);
-    //lApp->title->setText(lApp->page_map->getTitle(address));
+    lApp->title_bar->setTitle(lApp->page_map->getTitle(address));
 }
 //===============================================

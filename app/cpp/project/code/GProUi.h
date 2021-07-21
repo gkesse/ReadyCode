@@ -11,18 +11,20 @@ public:
 	GProUi(QWidget* parent = 0);
 	virtual ~GProUi();
 	static GProUi* Create(const QString& key);
-	virtual void addPage(QString key, QString title, QWidget* widget, bool isDefault = 0);
+	virtual void addPage(const QString& key, const QString& title, QWidget* widget, bool isDefault = 0);
 	virtual int loadPage();
-	virtual void setPage(QString key);
-	virtual GProUi* getPage(QString key);
-	virtual int getPageId(QString key);
-	virtual QWidget* getWidget(QString key);
-	virtual QString getTitle(QString key);
+	virtual void setPage(const QString& key);
+	virtual GProUi* getPage(const QString& key);
+	virtual int getPageId(const QString& key);
+	virtual QWidget* getWidget(const QString& key);
+	virtual QString getTitle(const QString& key);
 	virtual QString getDefaultKey();
-	virtual void addItem(QString key, QString text);
-	virtual void setContent(QString text);
-	virtual void loadData(QStringList headers, QVector<QVector<QString>> datas);
+	virtual void addItem(const QString& key, const QString& text);
+	virtual void setContent(const QString& text);
+	virtual void loadData(const QStringList& headers, const QVector<QVector<QString>>& datas);
 	virtual QString getKey(const QString& key, const QString& defaultKey);
+	virtual void setTitle(const QString& text);
+	virtual void setTitle(const QString& key, const QString& title);
 
 public slots:
 	virtual void onEvent();
