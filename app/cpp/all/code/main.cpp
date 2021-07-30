@@ -1,10 +1,38 @@
-# include "csv.h"
+//===============================================
+#include <fineftp/server.h>
+#include <iostream>
+#include <thread>
+#include <string>
+//===============================================
+int main(int argc, char** argv) {
+#ifdef WIN32
+	std::string local_root =  "C:\\";
+#else
+	std::string local_root =  "/";
+#endif
 
-int main(){
-	io::CSVReader<3> in("ram.csv");
-	in.read_header(io::ignore_extra_column, "vendor", "size", "speed");
-	std::string vendor; int size; double speed;
-	while(in.read_row(vendor, size, speed)){
-		// do stuff with the data
+	// Create an FTP Server on port 2121. We use 2121 instead of the default port
+	// 21, as your application would need root privileges to open port 21.
+	fineftp::FtpServer server(2121);
+
+	// Add the well known anonymous user and some normal users. The anonymous user
+	// can log in with username "anonyous" or "ftp" and any password. The normal
+	// users have to provide their username and password.
+	server.addUserAnonymous(local_root, fineftp::Permission::All);
+	server.addUser         ("MyUser",   "MyPassword", local_root, fineftp::Permission::ReadOnly);
+	server.addUser         ("Uploader", "123456",     local_root, fineftp::Permission::DirList | fineftp::Permission::DirCreate | fineftp::Permission::FileWrite | fineftp::Permission::FileAppend);
+
+	// Start the FTP server with 4 threads. More threads will increase the
+	// performance with multiple clients, but don't over-do it.
+	server.start(4);
+
+	// Prevent the application from exiting immediatelly
+	for (;;)
+	{
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	}
+
+	return 0;
 }
+
+//===============================================

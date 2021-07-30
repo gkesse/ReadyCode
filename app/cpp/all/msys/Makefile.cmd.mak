@@ -4,15 +4,21 @@ GBIN = bin
 GBUILD = build
 GTARGET = $(GBIN)/rdcpp.exe
 
+GFTP_SRC = C:\Users\Admin\Downloads\RLib\ftp\fineftp-server\fineftp-server\src
+
 GINCS = \
+    -IC:\Users\Admin\Downloads\RLib\csv\fast-cpp-csv-parser \
+    -IC:\Users\Admin\Downloads\RLib\ftp\fineftp-server\fineftp-server\include \
     
 GLIBS = \
-
+    -lpthread \
+    
 GOBJS = \
     $(patsubst $(GSRC)/%.cpp, $(GBUILD)/%.o, $(wildcard $(GSRC)/*.cpp)) \
+    $(patsubst $(GFTP_SRC)/%.cpp, $(GBUILD)/%.o, $(wildcard $(GFTP_SRC)/*.cpp)) \
 
 GCFLAGS = \
-    -std=gnu++20 \
+    -std=gnu++11 \
     
 #================================================
 # cpp
@@ -20,10 +26,13 @@ all: clean_exe compile run
 
 compile: $(GOBJS)
 	@if ! [ -d $(GBIN) ] ; then mkdir -p $(GBIN) ; fi
-	@g++ $(GCFLAGS) -o $(GTARGET) $(GOBJS) $(GLIBS) 
+	g++ $(GCFLAGS) -o $(GTARGET) $(GOBJS) $(GLIBS) 
 $(GBUILD)/%.o: $(GSRC)/%.cpp
 	@if ! [ -d $(GBUILD) ] ; then mkdir -p $(GBUILD) ; fi
-	@g++ $(GCFLAGS) -c $< -o $@ $(GINCS)
+	g++ $(GCFLAGS) -c $< -o $@ $(GINCS)
+$(GBUILD)/%.o: $(GFTP_SRC)/%.cpp
+	@if ! [ -d $(GBUILD) ] ; then mkdir -p $(GBUILD) ; fi
+	g++ $(GCFLAGS) -c $< -o $@ $(GINCS)
 run:
 	@$(GTARGET) $(argv)
 clean_exe: 
