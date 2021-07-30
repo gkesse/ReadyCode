@@ -46,7 +46,7 @@ void GProStack::setTitle(const QString& key, const QString& title) {
 }
 //===============================================
 QString GProStack::getKey(const QString& key, const QString& defaultKey) {
-    int lPageId = m_pageId.value(key, -1);
+    int lPageId = getPageId(key);
     QString lKey = (lPageId == -1) ? defaultKey : key;
     return lKey;
 }

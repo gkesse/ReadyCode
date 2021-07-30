@@ -12,7 +12,7 @@ public:
     ~GProAddressKey();
     
 public:
-    void setContent(const QString& text);
+    void setAddress(const QString& text);
 
 public slots:
     void onEvent();

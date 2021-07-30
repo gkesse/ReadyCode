@@ -18,7 +18,7 @@ GProAddressKey::~GProAddressKey() {
 
 }
 //===============================================
-void GProAddressKey::setContent(const QString& text) {
+void GProAddressKey::setAddress(const QString& text) {
 	QStringList lMap = text.split("/");
 	QString lKey = "";
 

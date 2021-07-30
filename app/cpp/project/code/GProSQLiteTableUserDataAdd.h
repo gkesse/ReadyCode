@@ -12,7 +12,12 @@ public:
     ~GProSQLiteTableUserDataAdd();
 
 public slots:
-	void onEvent(const QString& text);
+	void onEvent();
+
+private:
+    QLineEdit* m_usernameEdit;
+    QLineEdit* m_passwordEdit;
+    QLineEdit* m_confirmEdit;
 };
 //==============================================
 #endif

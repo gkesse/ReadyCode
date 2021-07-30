@@ -26,6 +26,8 @@ GProSQLiteTableUserDataButton::~GProSQLiteTableUserDataButton() {
 }
 //===============================================
 void GProSQLiteTableUserDataButton::onEvent(const QString& text) {
-	qDebug() << text;
+	if(text == "add") {
+		GManager::Instance()->setPage("home/sqlite/table/user_data/add", "home/sqlite/table/add_user");
+	}
 }
 //===============================================

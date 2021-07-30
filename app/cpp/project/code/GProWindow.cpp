@@ -20,8 +20,8 @@ GProUi(parent) {
 	lWorkspace->addPage("home", "Accueil", GProUi::Create("home"), 1);
 	lWorkspace->addPage("home/login", "Connexion", GProUi::Create("login"));
 	lWorkspace->addPage("home/sqlite", "SQLite | Liste des tables", GProUi::Create("sqlite"));
-	lWorkspace->addPage("home/sqlite/table", "SQLite | Affichage des données", GProUi::Create("sqlitetable"));
-	//lWorkspace->addPage("home/sqlite/table/add", "SQLite | Ajouter un utilisateur", GProUi::Create("sqlitetable/user_data/add"));
+	lWorkspace->addPage("home/sqlite/table", "SQLite | Affichage des données", GProUi::Create("sqlite/table"));
+	lWorkspace->addPage("home/sqlite/table/user_data/add", "SQLite | Ajouter un utilisateur", GProUi::Create("sqlite/table/user_data/add"));
 
 	GManager::Instance()->setPage(lWorkspace->getDefaultKey());
 

@@ -19,7 +19,7 @@ GProUi(parent) {
 	GProUi* lButtonStack = GProUi::Create("stack");
 	m_buttonStack = lButtonStack;
 	lButtonStack->addPage("default", "", GProUi::Create("default"), 1);
-	lButtonStack->addPage("user_data", "", GProUi::Create("sqlitetable/user_data/button"));
+	lButtonStack->addPage("user_data", "", GProUi::Create("sqlite/table/user_data/button"));
 	lButtonStack->setMinimumWidth(100);
 
 	// layout

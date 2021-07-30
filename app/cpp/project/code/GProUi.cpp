@@ -35,9 +35,9 @@ GProUi* GProUi::Create(const QString& key) {
     if(key == "home") {return new GProHome;}
     if(key == "login") {return new GProLogin;}
     if(key == "sqlite") {return new GProSQLite;}
-    if(key == "sqlitetable") {return new GProSQLiteTable;}
-    if(key == "sqlitetable/user_data/button") {return new GProSQLiteTableUserDataButton;}
-    if(key == "sqlitetable/user_data/add") {return new GProSQLiteTableUserDataAdd;}
+    if(key == "sqlite/table") {return new GProSQLiteTable;}
+    if(key == "sqlite/table/user_data/button") {return new GProSQLiteTableUserDataButton;}
+    if(key == "sqlite/table/user_data/add") {return new GProSQLiteTableUserDataAdd;}
     return new GProUi;
 }
 //===============================================
@@ -50,7 +50,7 @@ QWidget* GProUi::getWidget(const QString& key) {return 0;}
 QString GProUi::getTitle(const QString& key) {return "";}
 QString GProUi::getDefaultKey() {return "";}
 void GProUi::addItem(const QString& key, const QString& text) {}
-void GProUi::setContent(const QString& text) {}
+void GProUi::setAddress(const QString& text) {}
 void GProUi::loadData(const QStringList& headers, const QVector<QVector<QString>>& datas) {}
 QString GProUi::getKey(const QString& key, const QString& defaultKey) {return "";}
 void GProUi::setTitle(const QString& text) {}

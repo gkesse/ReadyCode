@@ -20,7 +20,7 @@ public:
 	virtual QString getTitle(const QString& key);
 	virtual QString getDefaultKey();
 	virtual void addItem(const QString& key, const QString& text);
-	virtual void setContent(const QString& text);
+	virtual void setAddress(const QString& text);
 	virtual void loadData(const QStringList& headers, const QVector<QVector<QString>>& datas);
 	virtual QString getKey(const QString& key, const QString& defaultKey);
 	virtual void setTitle(const QString& text);

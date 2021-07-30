@@ -3,7 +3,6 @@
 #define _GManager_
 //===============================================
 #include "GInclude.h"
-#include "GProUi.h"
 //===============================================
 typedef struct _sGManager sGManager;
 typedef struct _sGApp sGApp;
@@ -51,20 +50,6 @@ struct _sGApp {
     // sqlite
     QString sqlite_driver;
     QString sqlite_db_path;
-    QString sqlite_sql_path;
-    QString sqlite_table_name;
-    // widget
-    QWidget* widget;
-    // page
-    GProUi* page_map;
-    // address
-    GProUi* address_key;
-    // title
-    GProUi* title_bar;
-    // data
-    QVariant data;
-    // event
-    bool on_event;
 };
 //==============================================
 #endif
