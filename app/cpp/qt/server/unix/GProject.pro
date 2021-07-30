@@ -12,19 +12,17 @@ QMAKE_CXXFLAGS +=\
     -Wno-unused-parameter \
     -Wno-deprecated-declarations
 
-include(C:\Users\Admin\Downloads\Programs\ReadyLib\dev\qtawesome\4.7.0\QtAwesome.pri)
-include(C:\Users\Admin\Downloads\Programs\ReadyLib\dev\qcustomplot\2.1.0\GQCustomPlot.pri)
-
 INCLUDEPATH +=\
-    /mingw32/include \
     ../code \
 
 SOURCES +=\
-    ../code/*.cpp \
+    ../code/main.cpp \
+    ../code/GWindow.cpp \
+    ../code/GWindowGL.cpp \
 
 HEADERS +=\
-    ../code/*.h \
+    ../code/GWindow.h \
+    ../code/GWindowGL.h \
 
 LIBS +=\
-    -lgsl -lgslcblas -lm \
     
