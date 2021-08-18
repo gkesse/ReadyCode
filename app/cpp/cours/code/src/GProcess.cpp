@@ -38,7 +38,7 @@ void GProcess::runQt(int argc, char** argv) {
     QApplication app(argc, argv);
     GElectronicsUi* lWindow = GElectronicsUi::Create(lKey);    
     lWindow->setWindowTitle("ReadyApp");
-    lWindow->resize(400, 100);
+    lWindow->resize();
     lWindow->show();
     app.exec();
 }

@@ -10,6 +10,15 @@ class GCircuitRC : public GElectronicsUi {
 public:
     GCircuitRC(QWidget* parent = 0);
     virtual ~GCircuitRC();
+    void resize();
+
+private:
+    void compute();
+
+private:
+    QCustomPlot* m_plot;
+    QVector<double> m_xData;
+    QVector<double> m_yData;
 };
 //==============================================
 #endif

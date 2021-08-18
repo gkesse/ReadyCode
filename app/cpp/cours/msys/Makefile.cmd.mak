@@ -21,6 +21,10 @@ clean:
 	@if ! [ -d $(GBUILD) ] ; then mkdir -p $(GBUILD) ; fi
 	@rm -f $(GBUILD)/*.o $(GBIN)/*
 #================================================    
+# cmd
+cmd_update:
+	@pacman -Syu
+#================================================    
 # git
 git_install:
 	@pacman -S --needed --noconfirm git

@@ -11,6 +11,7 @@ public:
     GElectronicsUi(QWidget* parent = 0);
     virtual ~GElectronicsUi();
     static GElectronicsUi* Create(const QString& key);
+    virtual void resize();
 
 public slots:
     virtual void onEvent();

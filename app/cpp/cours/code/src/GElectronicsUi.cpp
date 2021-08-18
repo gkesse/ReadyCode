@@ -17,6 +17,8 @@ GElectronicsUi* GElectronicsUi::Create(const QString& key) {
     return new GElectronicsUi;
 }
 //===============================================
+void GElectronicsUi::resize() {QFrame::resize(400, 100);}
+//===============================================
 void GElectronicsUi::onEvent() {}
 void GElectronicsUi::onEvent(const QString& text) {}
 void GElectronicsUi::onEvent(const QPoint& pos) {}
