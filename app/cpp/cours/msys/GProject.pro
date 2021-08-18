@@ -14,6 +14,9 @@ QMAKE_CXXFLAGS +=\
 
 include(C:\Users\Admin\Downloads\Programs\ReadyLib\dev\qcustomplot\2.1.0\GQCustomPlot.pri)
 
+LIBS +=\
+    -lgsl -lgslcblas -lm \
+
 INCLUDEPATH +=\
     /mingw32/include \
     ../code/src \
