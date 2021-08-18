@@ -7,6 +7,7 @@ struct _sGParams {
 	double R;
 	double C;
 	double Ve;
+	double dVc;
 };
 //===============================================
 GCircuitRC::GCircuitRC(QWidget* parent) :
@@ -55,8 +56,8 @@ void GCircuitRC::compute() {
 	double Ts = 0.0;
 	double Yi[1] = {0.0};
 	bool lOneOnly = true;
-	double Ymin = 0.0;
-	double Ymax = 0.0;
+	double Vmin = 0.0;
+	double Vmax = 0.0;
 
 	for(double Ti = Tmin; Ti <= Tmax; Ti += dT) {
 		int lStatus = gsl_odeiv2_driver_apply (lOdeDriver, &Ts, Ti, Yi);
@@ -66,25 +67,46 @@ void GCircuitRC::compute() {
 			break;
 		}
 
+		double Vc = Yi[0];
+		double dVc = lParams->dVc;
+		double I = C*dVc;
+		double Vr = R*I;
+
 		m_Ts.push_back(Ts);
-		m_Vc.push_back(Yi[0]);
+		m_Vc.push_back(Vc);
+		m_Vr.push_back(Vr);
+		m_Ve.push_back(Ve);
 
 		if(lOneOnly == true) {
-			Ymin = Yi[0];
-			Ymax = Yi[0];
+			Vmin = Vc;
+			Vmax = Vc;
 			lOneOnly = false;
 		}
 
-		if(Yi[0] < Ymin) {Ymin = Yi[0];}
-		if(Yi[0] > Ymax) {Ymax = Yi[0];}
+		if(Vc < Vmin) {Vmin = Vc;}
+		if(Vc > Vmax) {Vmax = Vc;}
+		if(Vr < Vmin) {Vmin = Vr;}
+		if(Vr > Vmax) {Vmax = Vr;}
+		if(Ve < Vmin) {Vmin = Ve;}
+		if(Ve > Vmax) {Vmax = Ve;}
 	}
 
 	m_plot->addGraph();
+	m_plot->addGraph();
+	m_plot->addGraph();
+
+	m_plot->graph(0)->setPen(QPen(QColor(0, 0, 180)));
+	m_plot->graph(1)->setPen(QPen(QColor(0, 180, 0)));
+	m_plot->graph(2)->setPen(QPen(QColor(180, 0, 0)));
+
 	m_plot->graph(0)->setData(m_Ts, m_Vc);
+	m_plot->graph(1)->setData(m_Ts, m_Vr);
+	m_plot->graph(2)->setData(m_Ts, m_Ve);
+
 	m_plot->xAxis->setLabel("Temps (s)");
 	m_plot->yAxis->setLabel("Tension (V)");
 	m_plot->xAxis->setRange(Tmin, Tmax);
-	m_plot->yAxis->setRange(Ymin, Ymax);
+	m_plot->yAxis->setRange(Vmin, Vmax);
 }
 //===============================================
 int GCircuitRC::onFunction (double t, const double y[], double f[], void *params) {
@@ -94,6 +116,7 @@ int GCircuitRC::onFunction (double t, const double y[], double f[], void *params
 	double Ve = lParams->Ve;
 	double Tau = R*C;
 	f[0] = -(1/Tau)*y[0] + (1/Tau)*Ve;
+	lParams->dVc = f[0];
 	return GSL_SUCCESS;
 }
 //===============================================

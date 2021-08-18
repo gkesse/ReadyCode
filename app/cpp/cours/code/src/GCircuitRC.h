@@ -19,7 +19,8 @@ private:
     QCustomPlot* m_plot;
     QVector<double> m_Ts;
     QVector<double> m_Vc;
-    void* m_params;
+    QVector<double> m_Vr;
+    QVector<double> m_Ve;
 };
 //==============================================
 #endif
