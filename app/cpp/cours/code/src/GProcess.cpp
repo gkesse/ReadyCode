@@ -1,6 +1,7 @@
 //===============================================
 #include "GProcess.h"
-
+#include "GQtUi.h"
+#include "GGslUi.h"
 #include "GElectronicsUi.h"
 //===============================================
 GProcess* GProcess::m_instance = 0;
@@ -24,7 +25,9 @@ void GProcess::run(int argc, char** argv) {
     QString lKey = "default";
     if(argc > 1) {lKey = argv[1];}
     if(lKey == "default") {runDefault(argc, argv); return;}
-    if(lKey == "electronics") {runQt(argc, argv); return;}
+    if(lKey == "qt") {runQt(argc, argv); return;}
+    if(lKey == "gsl") {runGsl(argc, argv); return;}
+    if(lKey == "electronics") {runElectronics(argc, argv); return;}
     runDefault(argc, argv);
 }
 //===============================================
@@ -36,7 +39,29 @@ void GProcess::runQt(int argc, char** argv) {
     QString lKey = "default";
     if(argc > 2) {lKey = argv[2];}
     QApplication app(argc, argv);
-    GElectronicsUi* lWindow = GElectronicsUi::Create(lKey);    
+    GQtUi* lWindow = GQtUi::Create(lKey);
+    lWindow->setWindowTitle("ReadyApp");
+    lWindow->resize();
+    lWindow->show();
+    app.exec();
+}
+//===============================================
+void GProcess::runGsl(int argc, char** argv) {
+    QString lKey = "default";
+    if(argc > 2) {lKey = argv[2];}
+    QApplication app(argc, argv);
+    GGslUi* lWindow = GGslUi::Create(lKey);
+    lWindow->setWindowTitle("ReadyApp");
+    lWindow->resize();
+    lWindow->show();
+    app.exec();
+}
+//===============================================
+void GProcess::runElectronics(int argc, char** argv) {
+    QString lKey = "default";
+    if(argc > 2) {lKey = argv[2];}
+    QApplication app(argc, argv);
+    GElectronicsUi* lWindow = GElectronicsUi::Create(lKey);
     lWindow->setWindowTitle("ReadyApp");
     lWindow->resize();
     lWindow->show();
