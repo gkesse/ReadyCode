@@ -24,6 +24,8 @@ clean:
 # cmd
 cmd_update:
 	@pacman -Syu
+cmd_shell:
+	@cd $(GPROJECT_PATH) && $(argv)
 #================================================    
 # git
 git_install:
