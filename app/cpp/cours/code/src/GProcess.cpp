@@ -3,6 +3,7 @@
 #include "GQtUi.h"
 #include "GGslUi.h"
 #include "GElectronicsUi.h"
+#include "GOpenCVUi.h"
 //===============================================
 GProcess* GProcess::m_instance = 0;
 //===============================================
@@ -28,6 +29,7 @@ void GProcess::run(int argc, char** argv) {
     if(lKey == "qt") {runQt(argc, argv); return;}
     if(lKey == "gsl") {runGsl(argc, argv); return;}
     if(lKey == "electronics") {runElectronics(argc, argv); return;}
+    if(lKey == "opencv") {runOpenCV(argc, argv); return;}
     runDefault(argc, argv);
 }
 //===============================================
@@ -66,5 +68,11 @@ void GProcess::runElectronics(int argc, char** argv) {
     lWindow->resize();
     lWindow->show();
     app.exec();
+}
+//===============================================
+void GProcess::runOpenCV(int argc, char** argv) {
+    QString lKey = "default";
+    if(argc > 2) {lKey = argv[2];}
+    GOpenCVUi::Create(lKey)->run(argc, argv);
 }
 //===============================================

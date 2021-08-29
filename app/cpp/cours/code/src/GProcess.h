@@ -16,6 +16,7 @@ public:
     void runQt(int argc, char** argv);
     void runGsl(int argc, char** argv);
     void runElectronics(int argc, char** argv);
+    void runOpenCV(int argc, char** argv);
     
 private:
     static GProcess* m_instance;

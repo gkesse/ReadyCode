@@ -27,6 +27,10 @@ cmd_update:
 cmd_shell:
 	@cd $(GPROJECT_PATH) && $(argv)
 #================================================    
+# gdb
+gdb_run:
+	@gdb $(GTARGET) $(argv)
+#================================================    
 # git
 git_install:
 	@pacman -S --needed --noconfirm git

@@ -14,6 +14,8 @@
 #include <gsl/gsl_math.h>
 #include <gsl/gsl_deriv.h>
 #include <gsl/gsl_integration.h>
+// OpenCV
+#include <opencv4/opencv2/opencv.hpp>
 //==============================================
 #endif
 //==============================================
