@@ -31,6 +31,8 @@ struct _sGApp {
 	// opencv
 	std::string opencv_image_file;
 	std::string opencv_video_file;
+	std::string opencv_video_write;
+	int opencv_camera_index;
 };
 //==============================================
 #endif

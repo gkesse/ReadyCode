@@ -1,20 +1,20 @@
 //===============================================
-#include "GVideoLoad.h"
+#include "GVideoCamera.h"
 #include "GManager.h"
 //===============================================
-GVideoLoad::GVideoLoad(QObject* parent) : GOpenCVUi(parent) {
+GVideoCamera::GVideoCamera(QObject* parent) : GOpenCVUi(parent) {
 
 }
 //===============================================
-GVideoLoad::~GVideoLoad() {
+GVideoCamera::~GVideoCamera() {
 
 }
 //===============================================
-void GVideoLoad::run(int argc, char** argv) {
+void GVideoCamera::run(int argc, char** argv) {
     sGApp* lApp = GManager::Instance()->getData()->app;
     cv::namedWindow( "ReadyApp", cv::WINDOW_AUTOSIZE );
     cv::VideoCapture cap;
-    cap.open( lApp->opencv_video_file );
+    cap.open( lApp->opencv_camera_index );
     cv::Mat frame;
     while(1) {
         cap >> frame;
