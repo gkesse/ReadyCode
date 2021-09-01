@@ -1,22 +1,16 @@
 //===============================================
-#ifndef _GAnalogClock_
-#define _GAnalogClock_
+#ifndef _GFileStorage_
+#define _GFileStorage_
 //===============================================
-#include "GQtUi.h"
+#include "GOpenCVUi.h"
 //===============================================
-class GAnalogClock : public GQtUi {
+class GFileWrite : public GOpenCVUi {
     Q_OBJECT
     
 public:
-    GAnalogClock(QWidget* parent = 0);
-    virtual ~GAnalogClock();
-    void resize();
-
-protected:
-    void paintEvent(QPaintEvent* event);
-
-public slots:
-    void onEvent();
+    GFileWrite(QObject* parent = 0);
+    virtual ~GFileWrite();
+    void run(int argc, char** argv);
 };
 //==============================================
 #endif

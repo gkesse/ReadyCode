@@ -28,7 +28,7 @@ void GImagePixel::run(int argc, char** argv) {
     std::cout << "At (x,y) = (" << x << ", " << y <<
     "): (blue, green, red) = (" <<
     (unsigned int)blue << ", " <<
-	(unsigned int)green << ", " <<
+    (unsigned int)green << ", " <<
     (unsigned int)red << ")" << std::endl;
 
     std::cout << "Gray pixel there is: " <<

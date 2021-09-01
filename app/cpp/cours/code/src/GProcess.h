@@ -17,6 +17,8 @@ public:
     void runGsl(int argc, char** argv);
     void runElectronics(int argc, char** argv);
     void runOpenCV(int argc, char** argv);
+    void runBoost(int argc, char** argv);
+    void runCurl(int argc, char** argv);
     
 private:
     static GProcess* m_instance;

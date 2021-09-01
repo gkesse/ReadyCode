@@ -27,6 +27,7 @@ LIBS +=\
     -lopencv_ml -lopencv_ximgproc -lopencv_video -lopencv_dnn -lopencv_xobjdetect \
     -lopencv_objdetect -lopencv_calib3d -lopencv_imgcodecs -lopencv_features2d -lopencv_flann \
     -lopencv_xphoto -lopencv_photo -lopencv_imgproc -lopencv_core \
+    -lcurl -lws2_32 \
 
 INCLUDEPATH +=\
     /mingw32/include \

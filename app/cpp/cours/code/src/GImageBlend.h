@@ -1,22 +1,16 @@
 //===============================================
-#ifndef _GAnalogClock_
-#define _GAnalogClock_
+#ifndef _GImageBlend_
+#define _GImageBlend_
 //===============================================
-#include "GQtUi.h"
+#include "GOpenCVUi.h"
 //===============================================
-class GAnalogClock : public GQtUi {
+class GImageBlend : public GOpenCVUi {
     Q_OBJECT
     
 public:
-    GAnalogClock(QWidget* parent = 0);
-    virtual ~GAnalogClock();
-    void resize();
-
-protected:
-    void paintEvent(QPaintEvent* event);
-
-public slots:
-    void onEvent();
+    GImageBlend(QObject* parent = 0);
+    virtual ~GImageBlend();
+    void run(int argc, char** argv);
 };
 //==============================================
 #endif

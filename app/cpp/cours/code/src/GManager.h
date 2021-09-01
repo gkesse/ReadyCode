@@ -22,17 +22,19 @@ private:
 };
 //==============================================
 struct _sGManager {
-	sGApp* app;
+    sGApp* app;
 };
 //==============================================
 struct _sGApp {
-	// app
-	std::string app_name;
-	// opencv
-	std::string opencv_image_file;
-	std::string opencv_video_file;
-	std::string opencv_video_write;
-	int opencv_camera_index;
+    // app
+    std::string app_name;
+    // opencv
+    std::string opencv_image_file;
+    std::string opencv_image_blend;
+    std::string opencv_video_file;
+    std::string opencv_video_write;
+    std::string opencv_file_data;
+    int opencv_camera_index;
 };
 //==============================================
 #endif

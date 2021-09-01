@@ -25,8 +25,8 @@ public:
     void reformatCalendarPage();
 
 public slots:
-	void onEvent(int year, int month);
-	void onEvent(const QString& text);
+    void onEvent(int year, int month);
+    void onEvent(const QString& text);
 
 private:
     QGroupBox* previewGroupBox;

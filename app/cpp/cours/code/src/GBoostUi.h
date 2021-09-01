@@ -1,22 +1,17 @@
 //===============================================
-#ifndef _GAnalogClock_
-#define _GAnalogClock_
+#ifndef _GBoostUi_
+#define _GBoostUi_
 //===============================================
-#include "GQtUi.h"
+#include "GInclude.h"
 //===============================================
-class GAnalogClock : public GQtUi {
+class GBoostUi : public QObject {
     Q_OBJECT
     
 public:
-    GAnalogClock(QWidget* parent = 0);
-    virtual ~GAnalogClock();
-    void resize();
-
-protected:
-    void paintEvent(QPaintEvent* event);
-
-public slots:
-    void onEvent();
+    GBoostUi(QObject* parent = 0);
+    virtual ~GBoostUi();
+    static GBoostUi* Create(const QString& key);
+    virtual void run(int argc, char** argv);
 };
 //==============================================
 #endif

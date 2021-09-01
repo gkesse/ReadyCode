@@ -12,7 +12,7 @@ GAnalogClock::~GAnalogClock() {
 }
 //===============================================
 void GAnalogClock::resize() {
-	QFrame::resize(400, 350);
+    QFrame::resize(400, 350);
 }
 //===============================================
 void GAnalogClock::paintEvent(QPaintEvent* event) {

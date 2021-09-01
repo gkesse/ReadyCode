@@ -16,8 +16,8 @@ public:
     void abortOperation();
 
 public slots:
-	void onEvent();
-	void onEvent(const QString& key);
+    void onEvent();
+    void onEvent(const QString& key);
 
 private:
     enum { NumDigitButtons = 10 };

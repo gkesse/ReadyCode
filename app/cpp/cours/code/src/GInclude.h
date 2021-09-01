@@ -2,6 +2,8 @@
 #ifndef _GInclude_
 #define _GInclude_
 //===============================================
+// System
+#include <winsock2.h>
 // Qt
 #include <QApplication>
 #include <QtWidgets>
@@ -16,6 +18,10 @@
 #include <gsl/gsl_integration.h>
 // OpenCV
 #include <opencv4/opencv2/opencv.hpp>
+// Curl
+#include <curl/curl.h>
+// Boost
+#include <boost/asio.hpp>
 //==============================================
 #endif
 //==============================================

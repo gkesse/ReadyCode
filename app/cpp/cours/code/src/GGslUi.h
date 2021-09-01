@@ -15,9 +15,9 @@ public:
 
 public slots:
     virtual void onEvent();
-	virtual void onEvent(const QString& text);
-	virtual void onEvent(const QPoint& pos);
-	virtual void onEvent(int row, int col);
+    virtual void onEvent(const QString& text);
+    virtual void onEvent(const QPoint& pos);
+    virtual void onEvent(int row, int col);
 };
 //==============================================
 #endif

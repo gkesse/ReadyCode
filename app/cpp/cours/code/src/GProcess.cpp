@@ -4,6 +4,8 @@
 #include "GGslUi.h"
 #include "GElectronicsUi.h"
 #include "GOpenCVUi.h"
+#include "GBoostUi.h"
+#include "GCurlUi.h"
 //===============================================
 GProcess* GProcess::m_instance = 0;
 //===============================================
@@ -30,6 +32,8 @@ void GProcess::run(int argc, char** argv) {
     if(lKey == "gsl") {runGsl(argc, argv); return;}
     if(lKey == "electronics") {runElectronics(argc, argv); return;}
     if(lKey == "opencv") {runOpenCV(argc, argv); return;}
+    if(lKey == "curl") {runCurl(argc, argv); return;}
+    if(lKey == "boost") {runBoost(argc, argv); return;}
     runDefault(argc, argv);
 }
 //===============================================
@@ -74,5 +78,17 @@ void GProcess::runOpenCV(int argc, char** argv) {
     QString lKey = "default";
     if(argc > 2) {lKey = argv[2];}
     GOpenCVUi::Create(lKey)->run(argc, argv);
+}
+//===============================================
+void GProcess::runCurl(int argc, char** argv) {
+    QString lKey = "default";
+    if(argc > 2) {lKey = argv[2];}
+    GCurlUi::Create(lKey)->run(argc, argv);
+}
+//===============================================
+void GProcess::runBoost(int argc, char** argv) {
+    QString lKey = "default";
+    if(argc > 2) {lKey = argv[2];}
+    GBoostUi::Create(lKey)->run(argc, argv);
 }
 //===============================================

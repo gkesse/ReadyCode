@@ -1,22 +1,16 @@
 //===============================================
-#ifndef _GAnalogClock_
-#define _GAnalogClock_
+#ifndef _GVideoCodec_
+#define _GVideoCodec_
 //===============================================
-#include "GQtUi.h"
+#include "GOpenCVUi.h"
 //===============================================
-class GAnalogClock : public GQtUi {
+class GVideoCodec : public GOpenCVUi {
     Q_OBJECT
     
 public:
-    GAnalogClock(QWidget* parent = 0);
-    virtual ~GAnalogClock();
-    void resize();
-
-protected:
-    void paintEvent(QPaintEvent* event);
-
-public slots:
-    void onEvent();
+    GVideoCodec(QObject* parent = 0);
+    virtual ~GVideoCodec();
+    void run(int argc, char** argv);
 };
 //==============================================
 #endif
