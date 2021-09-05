@@ -16,7 +16,6 @@ GLIBS = \
     
 GOBJS = \
     $(patsubst $(GSRC)/%.cpp, $(GBUILD)/%.o, $(wildcard $(GSRC)/*.cpp)) \
-    $(patsubst $(GFTP_SRC)/%.cpp, $(GBUILD)/%.o, $(wildcard $(GFTP_SRC)/*.cpp)) \
 
 GCFLAGS = \
     -std=gnu++14 \
@@ -34,7 +33,7 @@ $(GBUILD)/%.o: $(GFTP_SRC)/%.cpp
 	@if ! [ -d $(GBUILD) ] ; then mkdir -p $(GBUILD) ; fi
 	g++ $(GCFLAGS) -c $< -o $@ $(GINCS)
 run:
-	@$(GTARGET) $(argv)
+	@sudo $(GTARGET) $(argv)
 clean_exe: 
 	@if ! [ -d $(GBIN) ] ; then mkdir -p $(GBIN) ; fi
 	rm -f $(GTARGET)

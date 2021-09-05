@@ -46,7 +46,7 @@ void GOpenGLUi::run(int argc, char** argv) {
 }
 //===============================================
 void GOpenGLUi::framebuffer_size_callback(GLFWwindow* window, int width, int height) {
-
+    glViewport(0, 0, width, height);
 }
 //===============================================
 void GOpenGLUi::processInput(GLFWwindow *window) {
