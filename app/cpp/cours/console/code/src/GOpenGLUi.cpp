@@ -30,7 +30,7 @@ GOpenGLUi* GOpenGLUi::Create(const std::string& key) {
     return new GOpenGLUi;
 }
 //===============================================
-void GTriangleIndex::run(int argc, char** argv) {
+void GOpenGLUi::run(int argc, char** argv) {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
