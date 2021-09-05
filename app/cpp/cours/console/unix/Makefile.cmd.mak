@@ -27,13 +27,13 @@ all: git_pull clean_exe compile run
 
 compile: $(GOBJS)
 	@if ! [ -d $(GBIN) ] ; then mkdir -p $(GBIN) ; fi
-	@g++ $(GCPPFLAGS) -o $(GTARGET) $(GOBJS) $(GLIBS) 
+	g++ $(GCPPFLAGS) -o $(GTARGET) $(GOBJS) $(GLIBS) 
 $(GBUILD)/%.o: $(GSRC)/%.cpp
 	@if ! [ -d $(GBUILD) ] ; then mkdir -p $(GBUILD) ; fi
-	@g++ $(GCPPFLAGS) -c $< -o $@ $(GINCS)
+	g++ $(GCPPFLAGS) -c $< -o $@ $(GINCS)
 $(GBUILD)/%.o: $(GGLAD_SRC)/%.c
 	@if ! [ -d $(GBUILD) ] ; then mkdir -p $(GBUILD) ; fi
-	@gcc $(GCFLAGS) -c $< -o $@ $(GINCS)
+	gcc $(GCFLAGS) -c $< -o $@ $(GINCS)
 run:
 	@$(GTARGET) $(argv)
 run_g:
