@@ -86,7 +86,8 @@ void GOpenGLUi::run(int argc, char** argv) {
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
     glEnableVertexAttribArray(0);
     //glBindVertexArray(0);
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     while (!glfwWindowShouldClose(window)) {
         processInput(window);
