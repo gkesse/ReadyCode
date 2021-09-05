@@ -10,12 +10,6 @@ public:
     virtual ~GOpenGLUi();
     static GOpenGLUi* Create(const std::string& key);
     virtual void run(int argc, char** argv);
-    static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-    static void processInput(GLFWwindow *window);
-
-private:
-    const unsigned int SCR_WIDTH = 800;
-    const unsigned int SCR_HEIGHT = 600;
 };
 //==============================================
 #endif
