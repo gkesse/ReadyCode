@@ -5,6 +5,7 @@
 #include "GWindowClear.h"
 // triangle
 #include "GTriangleDraw.h"
+#include "GTriangleIndex.h"
 //===============================================
 GOpenGLUi::GOpenGLUi() {
 
@@ -21,6 +22,7 @@ GOpenGLUi* GOpenGLUi::Create(const std::string& key) {
     if(key == "window/clear") {return new GWindowClear;}
     // triangle
     if(key == "triangle/draw") {return new GTriangleDraw;}
+    if(key == "triangle/index") {return new GTriangleIndex;}
     // default
     return new GOpenGLUi;
 }
