@@ -48,12 +48,12 @@ clean:
 #================================================    
 # cmd
 cmd_update:
-	@pacman -Syu
+	@echo pacman -Syu
 #================================================    
 # git
 git_install:
-	@pacman -S --needed --noconfirm git
-	@pacman -S --needed --noconfirm vim
+	@echo pacman -S --needed --noconfirm git
+	@echo pacman -S --needed --noconfirm vim
 git_config:
 	@git config --global user.name "Gerard KESSE"
 	@git config --global user.email "tiakagerard@hotmail.com"
