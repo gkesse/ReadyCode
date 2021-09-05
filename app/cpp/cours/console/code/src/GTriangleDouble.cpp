@@ -70,7 +70,7 @@ void GTriangleDouble::run(int argc, char** argv) {
 		//===============================================
 		glUseProgram(shaderProgram);
 		glBindVertexArray(VAO);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		glDrawArrays(GL_TRIANGLES, 0, 6);
 		//===============================================
 		glfwSwapBuffers(window);
 		glfwPollEvents();
