@@ -50,6 +50,8 @@ void GOpenGLUi::framebuffer_size_callback(GLFWwindow* window, int width, int hei
 }
 //===============================================
 void GOpenGLUi::processInput(GLFWwindow *window) {
-
+	if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+		glfwSetWindowShouldClose(window, true);
+	}
 }
 //===============================================
