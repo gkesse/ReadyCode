@@ -6,6 +6,7 @@
 // triangle
 #include "GTriangleDraw.h"
 #include "GTriangleIndex.h"
+#include "GTriangleDouble.h"
 //===============================================
 GOpenGLUi::GOpenGLUi() {
 
@@ -23,6 +24,7 @@ GOpenGLUi* GOpenGLUi::Create(const std::string& key) {
     // triangle
     if(key == "triangle/draw") {return new GTriangleDraw;}
     if(key == "triangle/index") {return new GTriangleIndex;}
+    if(key == "triangle/double") {return new GTriangleDouble;}
     // default
     return new GOpenGLUi;
 }
