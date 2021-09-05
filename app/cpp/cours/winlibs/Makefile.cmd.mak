@@ -1,37 +1,25 @@
 #================================================
-GSRC = ..\code\src
+GSRC = ..\code
 GBIN = bin
 GBUILD = build
-GTARGET = $(GBIN)\rdcpp.exe
-
-GINCS = \
-    
-GLIBS = \
-
-GOBJS = \
-    $(patsubst $(GSRC)/%.cpp, $(GBUILD)/%.o, $(wildcard $(GSRC)/*.cpp)) \
-
-GCFLAGS = \
-    -std=gnu++11 \
+GTARGET = $(GBIN)\rdcpp   
 #================================================
 # cpp
-all: clean_exe compile run
+all: clean_exe qmake compile run
 
+qmake:
+	@qmake
 compile: $(GOBJS)
-	@if not exist $(GBIN) ( mkdir $(GBIN) )
-	g++ $(GCFLAGS) -o $(GTARGET) $(GOBJS) $(GLIBS) 
-$(GBUILD)/%.o: $(GSRC)/%.cpp
-	@if not exist $(GBUILD) ( mkdir $(GBUILD) )
-	g++ $(GCFLAGS) -c $< -o $@ $(GINCS)
+	@mingw32-make 
 run:
 	@$(GTARGET) $(argv)
 clean_exe: 
 	@if not exist $(GBIN) ( mkdir $(GBIN) )
-	@del /q /s $(GBIN)\.exe
+	@del /q /s $(GBIN)\*
 clean: 
 	@if not exist $(GBIN) ( mkdir $(GBIN) )
 	@if not exist $(GBUILD) ( mkdir $(GBUILD) )
-	@del /q /s $(GBUILD)\*.o $(GBIN)\.exe
+	@del /q /s $(GBUILD)\* $(GBIN)\*
 #================================================
 # git
 git_status:

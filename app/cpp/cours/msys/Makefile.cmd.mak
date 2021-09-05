@@ -19,7 +19,7 @@ clean_exe:
 clean: 
 	@if ! [ -d $(GBIN) ] ; then mkdir -p $(GBIN) ; fi
 	@if ! [ -d $(GBUILD) ] ; then mkdir -p $(GBUILD) ; fi
-	@rm -f $(GBUILD)/*.o $(GBIN)/*
+	@rm -f $(GBUILD)/* $(GBIN)/*
 #================================================    
 # cmd
 cmd_update:
@@ -29,7 +29,11 @@ cmd_shell:
 #================================================    
 # gdb
 gdb_run:
-	@gdb $(GTARGET) $(argv)
+	@gdb --args $(GTARGET) $(argv)
+#================================================    
+# opengl
+opengl_install:
+	@pacman -S --needed --noconfirm mingw-w64-i686-glfw
 #================================================    
 # git
 git_install:

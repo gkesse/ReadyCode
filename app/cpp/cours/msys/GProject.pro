@@ -5,7 +5,7 @@ OBJECTS_DIR = build
 MOC_DIR = build
 UI_DIR = build
 RCC_DIR = build
-CONFIG += console release gnu++11
+CONFIG += console debug gnu++11
 QT += widgets sql printsupport
 
 QMAKE_CXXFLAGS +=\
@@ -27,7 +27,7 @@ LIBS +=\
     -lopencv_ml -lopencv_ximgproc -lopencv_video -lopencv_dnn -lopencv_xobjdetect \
     -lopencv_objdetect -lopencv_calib3d -lopencv_imgcodecs -lopencv_features2d -lopencv_flann \
     -lopencv_xphoto -lopencv_photo -lopencv_imgproc -lopencv_core \
-    -lcurl -lws2_32 \
+    -lcurl -lws2_32 -lfreeglut -lglew32 -lopengl32 -lmingw32 \
 
 INCLUDEPATH +=\
     /mingw32/include \
