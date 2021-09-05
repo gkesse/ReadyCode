@@ -78,14 +78,14 @@ void GOpenGLUi::run(int argc, char** argv) {
     glBufferData(GL_ARRAY_BUFFER, sizeof(firstTriangle), firstTriangle, GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);    // Vertex attributes stay the same
     glEnableVertexAttribArray(0);
-    // glBindVertexArray(0);
+    glBindVertexArray(0);
 
     glBindVertexArray(VAOs[1]);
     glBindBuffer(GL_ARRAY_BUFFER, VBOs[1]);
     glBufferData(GL_ARRAY_BUFFER, sizeof(secondTriangle), secondTriangle, GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
     glEnableVertexAttribArray(0);
-    //glBindVertexArray(0);
+    glBindVertexArray(0);
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
