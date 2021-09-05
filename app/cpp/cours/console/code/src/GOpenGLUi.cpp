@@ -54,18 +54,13 @@ void GOpenGLUi::run(int argc, char** argv) {
         return;
     }
 
-    unsigned int shaderProgram = GManager::Instance()->createProgram(
+    unsigned int shaderProgram = GManager::Instance()->loadShaders(
             vertexShaderSource, fragmentShaderSource);
 
     float vertices[] = {
-            // first triangle
-            -0.9f, -0.5f, 0.0f,  // left
-            -0.0f, -0.5f, 0.0f,  // right
-            -0.45f, 0.5f, 0.0f,  // top
-            // second triangle
-            0.0f, -0.5f, 0.0f,  // left
-            0.9f, -0.5f, 0.0f,  // right
-            0.45f, 0.5f, 0.0f   // top
+            -0.5f, -0.5f, 0.0f, // left
+            0.5f, -0.5f, 0.0f,  // right
+            0.0f,  0.5f, 0.0f   // top
     };
 
     unsigned int VBO, VAO;
@@ -90,7 +85,7 @@ void GOpenGLUi::run(int argc, char** argv) {
         //===============================================
         glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
         //===============================================
         glfwSwapBuffers(window);
         glfwPollEvents();

@@ -26,7 +26,7 @@ sGManager* GManager::getData() {
     return mgr;
 }
 //===============================================
-unsigned int GManager::createProgram(const char* vertexShaderSource, const char* fragmentShaderSource) {
+unsigned int GManager::loadShaders(const char* vertexShaderSource, const char* fragmentShaderSource) {
     // vertex shader
     unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);

@@ -15,7 +15,7 @@ public:
     ~GManager();
     static GManager* Instance();
     sGManager* getData();
-    unsigned int createProgram(const char* vertexShaderSource, const char* fragmentShaderSource);
+    unsigned int loadShaders(const char* vertexShaderSource, const char* fragmentShaderSource);
 
 private:
     static GManager* m_instance;

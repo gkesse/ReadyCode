@@ -34,7 +34,7 @@ void GTriangleDouble::run(int argc, char** argv) {
         return;
     }
 
-    unsigned int shaderProgram = GManager::Instance()->createProgram(
+    unsigned int shaderProgram = GManager::Instance()->loadShaders(
             vertexShaderSource, fragmentShaderSource);
 
     float vertices[] = {
