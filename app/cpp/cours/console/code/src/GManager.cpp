@@ -9,8 +9,8 @@ GManager::GManager() {
 	// app
 	mgr->app = new sGApp;
 	mgr->app->app_name = "ReadyApp";
-	mgr->app->shader_vertex_file = "C:\Users\Admin\Downloads\Programs\ReadyData\shader\vertex_shader.vs";
-	mgr->app->shader_fragment_file = "C:\Users\Admin\Downloads\Programs\ReadyData\shader\fragment_shader.fs";
+	mgr->app->shader_vertex_file = "data/shader/vertex_shader.vs";
+	mgr->app->shader_fragment_file = "data/shader/fragment_shader.vs";
 }
 //===============================================
 GManager::~GManager() {
