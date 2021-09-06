@@ -31,7 +31,7 @@ GOpenGLUi* GOpenGLUi::Create(const std::string& key) {
 }
 //===============================================
 void GOpenGLUi::run(int argc, char** argv) {
-	sGApp* lApp = GManager::Instance()->getData()->app;
+    sGApp* lApp = GManager::Instance()->getData()->app;
 
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -57,11 +57,11 @@ void GOpenGLUi::run(int argc, char** argv) {
     }
 
     unsigned int shaderProgram = GManager::Instance()->loadShaders(
-    		lApp->shader_vertex_file, lApp->shader_fragment_file);
+            lApp->shader_vertex_file, lApp->shader_fragment_file);
 
     float vertices[] = {
             // positions        // colors
-            0.5f, -0.5f, 0.0f,	1.0f, 0.0f, 0.0f,  // bottom right
+            0.5f, -0.5f, 0.0f,    1.0f, 0.0f, 0.0f,  // bottom right
             -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,  // bottom left
             0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f   // top
     };
