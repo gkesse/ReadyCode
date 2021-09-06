@@ -17,9 +17,11 @@ GOBJS =\
     $(patsubst $(GGLAD_SRC)/%.c, $(GBUILD)/%.o, $(wildcard $(GGLAD_SRC)/*.c)) \
 
 GCFLAGS = \
+    -g \
     -std=gnu11 \
     
 GCPPFLAGS = \
+    -g \
     -std=gnu++11 \
 #================================================
 # cpp
