@@ -16,6 +16,7 @@ public:
     static GManager* Instance();
     sGManager* getData();
     unsigned int loadShaders(const char* vertexShaderSource, const char* fragmentShaderSource);
+    unsigned int loadShaders(const std::string& vertexShaderFile, const std::string& fragmentShaderFile);
 
 private:
     static GManager* m_instance;
@@ -29,6 +30,9 @@ struct _sGManager {
 struct _sGApp {
     // app
     std::string app_name;
+    // shader
+    std::string shader_vertex_file;
+    std::string shader_fragment_file;
 };
 //==============================================
 #endif
