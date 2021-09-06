@@ -49,7 +49,7 @@ void GOpenGLUi::run(int argc, char** argv) {
     {
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
-        return -1;
+        return;
     }
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
@@ -59,7 +59,7 @@ void GOpenGLUi::run(int argc, char** argv) {
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
         std::cout << "Failed to initialize GLAD" << std::endl;
-        return -1;
+        return;
     }
 
     // build and compile our shader program
