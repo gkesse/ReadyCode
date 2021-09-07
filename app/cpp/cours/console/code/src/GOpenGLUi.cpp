@@ -1,6 +1,4 @@
 //===============================================
-#define STB_IMAGE_IMPLEMENTATION
-//===============================================
 #include "GOpenGLUi.h"
 #include "GManager.h"
 // window
