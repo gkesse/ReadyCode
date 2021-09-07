@@ -1,6 +1,9 @@
 //===============================================
+#define STB_IMAGE_IMPLEMENTATION
+//===============================================
 #include "GOpenGLUi.h"
 #include "GManager.h"
+#include <stb_image.h>
 // window
 #include "GWindowCreate.h"
 #include "GWindowClear.h"
@@ -41,6 +44,7 @@ void GOpenGLUi::run(int argc, char** argv) {
 #ifdef __APPLE__
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
+
 
 	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "ReadyApp", NULL, NULL);
 	if (window == NULL) {
