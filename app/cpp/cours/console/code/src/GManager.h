@@ -9,30 +9,33 @@ typedef struct _sGApp sGApp;
 //===============================================
 class GManager {
 private:
-    GManager();
-    
+	GManager();
+
 public:
-    ~GManager();
-    static GManager* Instance();
-    sGManager* getData();
-    unsigned int loadShaders(const char* vertexShaderSource, const char* fragmentShaderSource);
-    unsigned int loadShaders(const std::string& vertexShaderFile, const std::string& fragmentShaderFile);
+	~GManager();
+	static GManager* Instance();
+	sGManager* getData();
+	unsigned int loadShaders(const char* vertexShaderSource, const char* fragmentShaderSource);
+	unsigned int loadShaders(const std::string& vertexShaderFile, const std::string& fragmentShaderFile);
+	void setBool(unsigned int programId, const std::string &name, bool value);
+	void setInt(unsigned int programId, const std::string &name, int value);
+	void setFloat(unsigned int programId, const std::string &name, float value);
 
 private:
-    static GManager* m_instance;
-    sGManager* mgr;
+	static GManager* m_instance;
+	sGManager* mgr;
 };
 //==============================================
 struct _sGManager {
-    sGApp* app;
+	sGApp* app;
 };
 //==============================================
 struct _sGApp {
-    // app
-    std::string app_name;
-    // shader
-    std::string shader_vertex_file;
-    std::string shader_fragment_file;
+	// app
+	std::string app_name;
+	// shader
+	std::string shader_vertex_file;
+	std::string shader_fragment_file;
 };
 //==============================================
 #endif

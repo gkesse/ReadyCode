@@ -79,6 +79,7 @@ void GOpenGLUi::run(int argc, char** argv) {
     glEnableVertexAttribArray(1);
 
     glUseProgram(shaderProgram);
+    glBindVertexArray(VAO);
 
     while (!glfwWindowShouldClose(window)) {
         processInput(window);
@@ -86,7 +87,9 @@ void GOpenGLUi::run(int argc, char** argv) {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         //===============================================
-        glBindVertexArray(VAO);
+        float timeValue = glfwGetTime();
+        float xOffset = sin(timeValue) / 2.0f + 0.5f;
+        GManager::Instance()->setFloat(shaderProgram, "xOffset", xOffset);
         glDrawArrays(GL_TRIANGLES, 0, 3);
         //===============================================
         glfwSwapBuffers(window);
