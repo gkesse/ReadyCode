@@ -88,7 +88,7 @@ void GOpenGLUi::run(int argc, char** argv) {
         glClear(GL_COLOR_BUFFER_BIT);
         //===============================================
         float timeValue = glfwGetTime();
-        float xOffset = sin(timeValue) / 2.0f + 0.5f;
+        float xOffset = sin(timeValue) / 2.0f;
         GManager::Instance()->setFloat(shaderProgram, "xOffset", xOffset);
         glDrawArrays(GL_TRIANGLES, 0, 3);
         //===============================================
