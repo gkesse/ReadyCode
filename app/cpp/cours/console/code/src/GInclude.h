@@ -2,6 +2,8 @@
 #ifndef _GInclude_
 #define _GInclude_
 //===============================================
+#define STB_IMAGE_IMPLEMENTATION
+//===============================================
 // system
 #include <iostream>
 #include <cmath>
