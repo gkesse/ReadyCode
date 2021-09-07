@@ -36,6 +36,8 @@ struct _sGApp {
 	// shader
 	std::string shader_vertex_file;
 	std::string shader_fragment_file;
+	// texture
+	std::string texture_file;
 };
 //==============================================
 #endif
