@@ -7,7 +7,9 @@ GTARGET = $(GBIN)/rdcpp
 GGLAD_SRC = /home/rpi4/Programs/RLib/glad/src
 
 GINCS =\
+    -I/home/rpi4/Programs/RLib/include \
     -I/home/rpi4/Programs/RLib/glad/include \
+    
     
 GLIBS =\
     -lglfw -ldl \
