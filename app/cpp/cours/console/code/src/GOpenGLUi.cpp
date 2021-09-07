@@ -120,7 +120,6 @@ void GOpenGLUi::run(int argc, char** argv) {
 		glBindTexture(GL_TEXTURE_2D, texture);
         glUseProgram(shaderProgram);
 		glBindVertexArray(VAO);
-		GManager::Instance()->setInt(shaderProgram, "texture1", 0);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		//===============================================
 		glfwSwapBuffers(window);
