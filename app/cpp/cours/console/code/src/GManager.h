@@ -17,6 +17,7 @@ public:
 	sGManager* getData();
 	unsigned int loadShaders(const char* vertexShaderSource, const char* fragmentShaderSource);
 	unsigned int loadShaders(const std::string& vertexShaderFile, const std::string& fragmentShaderFile);
+	unsigned int loadTexture(const std::string& textureFile);
 	void setBool(unsigned int programId, const std::string &name, bool value);
 	void setInt(unsigned int programId, const std::string &name, int value);
 	void setFloat(unsigned int programId, const std::string &name, float value);
