@@ -9,36 +9,38 @@ typedef struct _sGApp sGApp;
 //===============================================
 class GManager {
 private:
-	GManager();
+    GManager();
 
 public:
-	~GManager();
-	static GManager* Instance();
-	sGManager* getData();
-	unsigned int loadShaders(const char* vertexShaderSource, const char* fragmentShaderSource);
-	unsigned int loadShaders(const std::string& vertexShaderFile, const std::string& fragmentShaderFile);
-	unsigned int loadTexture(const std::string& textureFile);
-	void setBool(unsigned int programId, const std::string &name, bool value);
-	void setInt(unsigned int programId, const std::string &name, int value);
-	void setFloat(unsigned int programId, const std::string &name, float value);
+    ~GManager();
+    static GManager* Instance();
+    sGManager* getData();
+    unsigned int loadShaders(const char* vertexShaderSource, const char* fragmentShaderSource);
+    unsigned int loadShaders(const std::string& vertexShaderFile, const std::string& fragmentShaderFile);
+    unsigned int loadTexture(const std::string& textureFile);
+    void setBool(unsigned int programId, const std::string &name, bool value);
+    void setInt(unsigned int programId, const std::string &name, int value);
+    void setFloat(unsigned int programId, const std::string &name, float value);
+    void useProgram(unsigned int programId);
 
 private:
-	static GManager* m_instance;
-	sGManager* mgr;
+    static GManager* m_instance;
+    sGManager* mgr;
 };
 //==============================================
 struct _sGManager {
-	sGApp* app;
+    sGApp* app;
 };
 //==============================================
 struct _sGApp {
-	// app
-	std::string app_name;
-	// shader
-	std::string shader_vertex_file;
-	std::string shader_fragment_file;
-	// texture
-	std::string texture_file;
+    // app
+    std::string app_name;
+    // shader
+    std::string shader_vertex_file;
+    std::string shader_fragment_file;
+    // texture
+    std::string texture_file;
+    std::string texture_file_02;
 };
 //==============================================
 #endif

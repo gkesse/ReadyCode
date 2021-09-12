@@ -8,7 +8,7 @@ class GTriangleDouble : public GOpenGLUi {
 public:
     GTriangleDouble();
     virtual ~GTriangleDouble();
-    virtual void run(int argc, char** argv);
+    void run(int argc, char** argv);
     static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
     static void processInput(GLFWwindow *window);
 

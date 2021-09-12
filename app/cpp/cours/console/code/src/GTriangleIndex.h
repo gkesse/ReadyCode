@@ -8,7 +8,7 @@ class GTriangleIndex : public GOpenGLUi {
 public:
     GTriangleIndex();
     virtual ~GTriangleIndex();
-    virtual void run(int argc, char** argv);
+    void run(int argc, char** argv);
     static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
     static void processInput(GLFWwindow *window);
 
