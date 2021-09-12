@@ -11,6 +11,8 @@
 #include "GTriangleIndex.h"
 #include "GTriangleDouble.h"
 //===============================================
+#include <stb_image.h>
+//===============================================
 GOpenGLUi::GOpenGLUi() {
 
 }
