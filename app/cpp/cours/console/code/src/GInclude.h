@@ -2,8 +2,6 @@
 #ifndef _GInclude_
 #define _GInclude_
 //===============================================
-#define STB_IMAGE_IMPLEMENTATION
-//===============================================
 // system
 #include <iostream>
 #include <cmath>
@@ -11,7 +9,6 @@
 #include <sstream>
 // opengl
 #include <glad/glad.h>
-#include <stb_image.h>
 #include <GLFW/glfw3.h>
 //==============================================
 #endif
