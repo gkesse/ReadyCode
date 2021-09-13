@@ -42,6 +42,7 @@ void GOpenGLUi::run(int argc, char** argv) {
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
 
+
     GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "ReadyApp", NULL, NULL);
     if (window == NULL) {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -57,14 +58,14 @@ void GOpenGLUi::run(int argc, char** argv) {
     }
 
     unsigned int shaderProgram = GManager::Instance()->loadShaders(
-                lApp->shader_vertex_file, lApp->shader_fragment_file);
+            lApp->shader_vertex_file, lApp->shader_fragment_file);
 
     float vertices[] = {
-            // positions         // colors           // texture coords
-            0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f, // top right
-            0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f, // bottom right
-            -0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f,   0.0f, 0.0f, // bottom left
-            -0.5f,  0.5f, 0.0f,  1.0f, 1.0f, 0.0f,   0.0f, 1.0f  // top left
+            // positions       	// colors           // texture coords
+            0.5f,  0.5f, 0.0f,	1.0f, 0.0f, 0.0f,   1.0f, 1.0f, // top right
+            0.5f, -0.5f, 0.0f, 	0.0f, 1.0f, 0.0f,   1.0f, 0.0f, // bottom right
+            -0.5f, -0.5f, 0.0f,	0.0f, 0.0f, 1.0f,   0.0f, 0.0f, // bottom left
+            -0.5f,  0.5f, 0.0f,	1.0f, 1.0f, 0.0f,   0.0f, 1.0f  // top left
     };
     unsigned int indices[] = {
             0, 1, 3, // first triangle
@@ -80,7 +81,6 @@ void GOpenGLUi::run(int argc, char** argv) {
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
@@ -88,25 +88,16 @@ void GOpenGLUi::run(int argc, char** argv) {
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
     glEnableVertexAttribArray(2);
 
+    unsigned int texture = GManager::Instance()->loadTexture(lApp->texture_file);
 
-    unsigned int texture1 = GManager::Instance()->loadTexture(lApp->texture_file, true);
-    unsigned int texture2 = GManager::Instance()->loadTexture(lApp->texture_file_02);
-
-    GManager::Instance()->useProgram(shaderProgram);
-    GManager::Instance()->setInt(shaderProgram, "texture1", 0);
-    GManager::Instance()->setInt(shaderProgram, "texture2", 1);
-
-    while (!glfwWindowShouldClose(window))     {
+    while (!glfwWindowShouldClose(window)) {
         processInput(window);
         //===============================================
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         //===============================================
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, texture1);
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, texture2);
-        GManager::Instance()->useProgram(shaderProgram);
+        glBindTexture(GL_TEXTURE_2D, texture);
+        glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         //===============================================
