@@ -89,8 +89,8 @@ void GOpenGLUi::run(int argc, char** argv) {
 	glEnableVertexAttribArray(2);
 
 
-    unsigned int texture1 = GManager::Instance()->loadTexture(lApp->texture_file_02, true);
-    unsigned int texture2 = GManager::Instance()->loadTexture(lApp->texture_file);
+    unsigned int texture1 = GManager::Instance()->loadTexture(lApp->texture_file, true);
+    unsigned int texture2 = GManager::Instance()->loadTexture(lApp->texture_file_02);
 
 	GManager::Instance()->useProgram(shaderProgram);
 	GManager::Instance()->setInt(shaderProgram, "texture1", 0);
