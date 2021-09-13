@@ -16,7 +16,7 @@ GManager::GManager() {
     mgr->app->shader_vertex_file = "data/shader/vertex_shader.vs";
     mgr->app->shader_fragment_file = "data/shader/fragment_shader.fs";
     mgr->app->texture_file = "data/texture/container.jpg";
-    mgr->app->texture_file_02 = "data/texture/awesomeface.png";
+    mgr->app->texture_file_02 = "data/texture/awesomeface.jpg";
 }
 //===============================================
 GManager::~GManager() {
