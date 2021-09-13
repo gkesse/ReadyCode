@@ -105,7 +105,7 @@ unsigned int GManager::loadShaders(const std::string& vertexShaderFile, const st
     return loadShaders(vertexShaderSource, fragmentShaderSource);
 }
 //===============================================
-unsigned int GManager::loadTexture(const std::string& textureFile) {
+unsigned int GManager::loadTexture(const std::string& textureFile, bool flip) {
     unsigned int texture;
     glGenTextures(1, &texture);
 
@@ -115,6 +115,7 @@ unsigned int GManager::loadTexture(const std::string& textureFile) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     int width, height, nrChannels;
+    if(flip) {stbi_set_flip_vertically_on_load(true);}
     unsigned char *data = stbi_load(textureFile.c_str(), &width, &height, &nrChannels, 0);
 
     if (data) {
