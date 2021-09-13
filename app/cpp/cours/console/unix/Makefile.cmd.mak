@@ -54,6 +54,8 @@ clean:
 # cmd
 cmd_update:
 	@echo pacman -Syu
+cmd_run:
+	@cd $(GPROJECT_PATH) && $(argv)
 #================================================    
 # git
 git_install:
