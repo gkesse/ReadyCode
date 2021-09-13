@@ -40,7 +40,7 @@ struct _sGApp {
     std::string shader_fragment_file;
     // texture
     std::string texture_file;
-    std::string texture_file_flip;
+    std::string texture_file_02;
 };
 //==============================================
 #endif
