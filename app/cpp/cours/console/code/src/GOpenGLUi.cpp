@@ -57,7 +57,7 @@ void GOpenGLUi::run(int argc, char** argv) {
 	}
 
 	unsigned int shaderProgram = GManager::Instance()->loadShaders(
-	            vertexShaderSource, fragmentShaderSource);
+	            lApp->shader_vertex_file, lApp->shader_fragment_file);
 
 	float vertices[] = {
 			// positions         // colors           // texture coords
@@ -89,7 +89,7 @@ void GOpenGLUi::run(int argc, char** argv) {
 	glEnableVertexAttribArray(2);
 
 
-    unsigned int texture1 = GManager::Instance()->loadTexture(lApp->texture_file);
+    unsigned int texture1 = GManager::Instance()->loadTexture(lApp->texture_file, true);
     unsigned int texture2 = GManager::Instance()->loadTexture(lApp->texture_file_02);
 
 	GManager::Instance()->useProgram(shaderProgram);
