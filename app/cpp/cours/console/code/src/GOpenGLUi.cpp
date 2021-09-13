@@ -1,6 +1,4 @@
 //===============================================
-#define STB_IMAGE_IMPLEMENTATION
-//===============================================
 #include "GOpenGLUi.h"
 #include "GManager.h"
 // window
@@ -10,8 +8,6 @@
 #include "GTriangleDraw.h"
 #include "GTriangleIndex.h"
 #include "GTriangleDouble.h"
-//===============================================
-#include <stb_image.h>
 //===============================================
 GOpenGLUi::GOpenGLUi() {
 
