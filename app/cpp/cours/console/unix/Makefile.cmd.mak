@@ -13,8 +13,9 @@ GLIBS =\
     -lglfw -ldl \
     
 GOBJS =\
-    $(patsubst $(GSRC)/%.cpp, $(GBUILD)/%.o, $(wildcard $(GSRC)/*.cpp)) \
-    $(patsubst $(GGLAD_SRC)/%.c, $(GBUILD)/%.o, $(wildcard $(GGLAD_SRC)/*.c)) \
+    $(GBUILD)/main.o \
+#    $(patsubst $(GSRC)/%.cpp, $(GBUILD)/%.o, $(wildcard $(GSRC)/*.cpp)) \
+#    $(patsubst $(GGLAD_SRC)/%.c, $(GBUILD)/%.o, $(wildcard $(GGLAD_SRC)/*.c)) \
 
 GCFLAGS = \
     -g \
@@ -51,6 +52,8 @@ clean:
 # cmd
 cmd_update:
 	@echo pacman -Syu
+cmd_run:
+	@cd $(GPROJECT_PATH) && $(argv)
 #================================================    
 # git
 git_install:
