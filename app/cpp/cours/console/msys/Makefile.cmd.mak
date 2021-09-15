@@ -10,7 +10,7 @@ GINCS =\
     -IC:\Users\Admin\Downloads\RLib\include \
 
 GLIBS =\
-    -lglfw3.dll \
+    -lglfw3 -lglew32 -lglu32 -lopengl32 -lm \
     
 GOBJS =\
     $(patsubst $(GSRC)/%.cpp, $(GBUILD)/%.o, $(wildcard $(GSRC)/*.cpp)) \
@@ -19,10 +19,12 @@ GOBJS =\
 GCFLAGS = \
     -g \
     -std=gnu11 \
+    -DUSEGLEW \
     
 GCPPFLAGS = \
     -g \
     -std=gnu++11 \
+    -DUSEGLEW \
 #================================================
 # cpp
 all: clean_exe compile run
