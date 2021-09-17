@@ -19,15 +19,13 @@ GOBJS =\
 
 GCPPFLAGS =\
     -g \
-    -std=gnu++11 \
     
 GCFLAGS =\
     -g \
-    -std=gnu11 \
 #================================================
 # cpp
-all: git_push clean_exe compile run
-all_g: git_push clean_exe compile run_g
+all: clean_exe compile run
+all_g: clean_exe compile run_g
 
 compile: $(GOBJS)
 	@if not exist $(GBIN) ( mkdir $(GBIN) )

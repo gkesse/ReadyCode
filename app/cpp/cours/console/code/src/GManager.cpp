@@ -105,17 +105,17 @@ unsigned int GManager::loadShaders(const std::string& vertexShaderFile, const st
     return loadShaders(vertexShaderSource, fragmentShaderSource);
 }
 //===============================================
-unsigned int GManager::loadTexture(const std::string& textureFile, bool flip) {
+unsigned int GManager::loadTexture(const std::string& textureFile) {
     unsigned int texture;
     glGenTextures(1, &texture);
 
     glBindTexture(GL_TEXTURE_2D, texture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
     int width, height, nrChannels;
-    if(flip) {stbi_set_flip_vertically_on_load(true);}
     unsigned char *data = stbi_load(textureFile.c_str(), &width, &height, &nrChannels, 0);
 
     if (data) {
@@ -129,16 +129,133 @@ unsigned int GManager::loadTexture(const std::string& textureFile, bool flip) {
     return texture;
 }
 //===============================================
-void GManager::setBool(unsigned int programId, const std::string &name, bool value) {
-    glUniform1i(glGetUniformLocation(programId, name.c_str()), (int)value);
+unsigned int GManager::loadTexture2(const std::string& textureFile) {
+    unsigned int texture;
+    glGenTextures(1, &texture);
+
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    stbi_set_flip_vertically_on_load(true);
+
+    int width, height, nrChannels;
+    unsigned char *data = stbi_load(textureFile.c_str(), &width, &height, &nrChannels, 0);
+
+    if (data) {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    }
+    else {
+        std::cout << "Failed to load texture" << std::endl;
+    }
+    stbi_image_free(data);
+    return texture;
 }
 //===============================================
-void GManager::setInt(unsigned int programId, const std::string &name, int value) {
-    glUniform1i(glGetUniformLocation(programId, name.c_str()), value);
+unsigned int GManager::loadTexture3(const std::string& textureFile) {
+    unsigned int texture;
+    glGenTextures(1, &texture);
+
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    stbi_set_flip_vertically_on_load(true);
+
+    int width, height, nrChannels;
+    unsigned char *data = stbi_load(textureFile.c_str(), &width, &height, &nrChannels, 0);
+
+    if (data) {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    }
+    else {
+        std::cout << "Failed to load texture" << std::endl;
+    }
+    stbi_image_free(data);
+    return texture;
 }
 //===============================================
-void GManager::setFloat(unsigned int programId, const std::string &name, float value) {
-    glUniform1f(glGetUniformLocation(programId, name.c_str()), value);
+unsigned int GManager::loadTexture4(const std::string& textureFile) {
+    unsigned int texture;
+    glGenTextures(1, &texture);
+
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+    stbi_set_flip_vertically_on_load(true);
+
+    int width, height, nrChannels;
+    unsigned char *data = stbi_load(textureFile.c_str(), &width, &height, &nrChannels, 0);
+
+    if (data) {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    }
+    else {
+        std::cout << "Failed to load texture" << std::endl;
+    }
+
+    stbi_image_free(data);
+    return texture;
+}
+//===============================================
+unsigned int GManager::loadTexture5(const std::string& textureFile) {
+    unsigned int texture;
+    glGenTextures(1, &texture);
+
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+    int width, height, nrChannels;
+    unsigned char *data = stbi_load(textureFile.c_str(), &width, &height, &nrChannels, 0);
+
+    if (data) {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    }
+    else {
+        std::cout << "Failed to load texture" << std::endl;
+    }
+
+    stbi_image_free(data);
+    return texture;
+}
+//===============================================
+void GManager::setUniform(unsigned int programId, const std::string &name, bool value) {
+    unsigned int lLocation = glGetUniformLocation(programId, name.c_str());
+    glUniform1i(lLocation, (int)value);
+}
+//===============================================
+void GManager::setUniform(unsigned int programId, const std::string &name, int value) {
+    unsigned int lLocation = glGetUniformLocation(programId, name.c_str());
+    glUniform1i(lLocation, value);
+}
+//===============================================
+void GManager::setUniform(unsigned int programId, const std::string &name, float value) {
+    unsigned int lLocation = glGetUniformLocation(programId, name.c_str());
+    glUniform1f(lLocation, value);
+}
+//===============================================
+void GManager::setUniform(unsigned int programId, const std::string &name, const glm::mat4& value) {
+    unsigned int lLocation = glGetUniformLocation(programId, name.c_str());
+    glUniformMatrix4fv(lLocation, 1, GL_FALSE, glm::value_ptr(value));
+}
+//===============================================
+void GManager::setUniform(unsigned int programId, const std::string &name, const float* value) {
+    unsigned int lLocation = glGetUniformLocation(programId, name.c_str());
+    glUniformMatrix4fv(lLocation, 1, GL_FALSE, value);
 }
 //===============================================
 void GManager::useProgram(unsigned int programId) {

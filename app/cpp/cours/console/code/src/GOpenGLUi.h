@@ -17,6 +17,8 @@ public:
 private:
     const unsigned int SCR_WIDTH = 400;
     const unsigned int SCR_HEIGHT = 400;
+
+    static void* m_params;
 };
 //==============================================
 #endif

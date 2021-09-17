@@ -1,11 +1,13 @@
 #================================================
-GSRC = ../code
+GSRC = ../code/src
 GBIN = bin
 GBUILD = build
 GTARGET = $(GBIN)/rdcpp   
 #================================================
 # cpp
 all: clean_exe qmake compile run
+all_g: clean_exe qmake compile run_g
+all_p: git_push all
 
 qmake:
 	@qmake
@@ -13,13 +15,15 @@ compile: $(GOBJS)
 	@make 
 run:
 	@$(GTARGET) $(argv)
+run_g:
+	@gdb --args $(GTARGET) $(argv)
 clean_exe: 
 	@if ! [ -d $(GBIN) ] ; then mkdir -p $(GBIN) ; fi
 	@rm -f $(GBIN)/*
 clean: 
 	@if ! [ -d $(GBIN) ] ; then mkdir -p $(GBIN) ; fi
 	@if ! [ -d $(GBUILD) ] ; then mkdir -p $(GBUILD) ; fi
-	@rm -f $(GBUILD)/*.o $(GBIN)/*
+	@rm -f $(GBUILD)/* $(GBIN)/*
 #================================================    
 # git
 git_install:

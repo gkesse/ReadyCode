@@ -5,7 +5,7 @@ OBJECTS_DIR = build
 MOC_DIR = build
 UI_DIR = build
 RCC_DIR = build
-CONFIG += console release gnu++11
+CONFIG += console debug
 QT += widgets sql
 
 QMAKE_CXXFLAGS +=\
@@ -14,11 +14,11 @@ QMAKE_CXXFLAGS +=\
 
 INCLUDEPATH +=\
     /mingw32/include \
-    ../code \
+    ../code/src \
 
 SOURCES +=\
-    ../code/*.cpp \
+    ../code/src/*.cpp \
 
 HEADERS +=\
-    ../code/*.h \
+    ../code/src/*.h \
     

@@ -17,10 +17,16 @@ public:
     sGManager* getData();
     unsigned int loadShaders(const char* vertexShaderSource, const char* fragmentShaderSource);
     unsigned int loadShaders(const std::string& vertexShaderFile, const std::string& fragmentShaderFile);
-    unsigned int loadTexture(const std::string& textureFile, bool flip = false);
-    void setBool(unsigned int programId, const std::string &name, bool value);
-    void setInt(unsigned int programId, const std::string &name, int value);
-    void setFloat(unsigned int programId, const std::string &name, float value);
+    unsigned int loadTexture(const std::string& textureFile);
+    unsigned int loadTexture2(const std::string& textureFile);
+    unsigned int loadTexture3(const std::string& textureFile);
+    unsigned int loadTexture4(const std::string& textureFile);
+    unsigned int loadTexture5(const std::string& textureFile);
+    void setUniform(unsigned int programId, const std::string &name, bool value);
+    void setUniform(unsigned int programId, const std::string &name, int value);
+    void setUniform(unsigned int programId, const std::string &name, float value);
+    void setUniform(unsigned int programId, const std::string &name, const glm::mat4& value);
+    void setUniform(unsigned int programId, const std::string &name, const float* value);
     void useProgram(unsigned int programId);
 
 private:
