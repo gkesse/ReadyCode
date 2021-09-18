@@ -4,6 +4,7 @@
 #include "GUserConnect.h"
 // sqlite
 #include "GSchemaShow.h"
+#include "GTableDelete.h"
 //===============================================
 GDialogUi::GDialogUi(QWidget* parent) :
 QDialog(parent) {
@@ -21,6 +22,7 @@ GDialogUi* GDialogUi::Create(const QString& key, QWidget* parent) {
     if(key == "login/user/connect") {return new GUserConnect(parent);}
     // sqlite
     if(key == "sqlite/schema/show") {return new GSchemaShow(parent);}
+    if(key == "sqlite/table/delete") {return new GTableDelete(parent);}
     // default
     return new GDialogUi(parent);
 }

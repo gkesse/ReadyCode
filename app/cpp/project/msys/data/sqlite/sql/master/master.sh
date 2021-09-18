@@ -7,7 +7,7 @@ _EOF_
 #================================================
 sqlite_cmd "
 create table if not exists file_id_data (
-file_id integer
+_file_id integer
 );
 "
 #================================================

@@ -38,6 +38,7 @@ public:
     // sqlite
     QVector<QString> getTables();
     QString getSchema(const QString& table);
+    void deleteTable(const QString& table);
     QStringList getFields(const QString& table);
     QVector<QVector<QString>> getTableData(const QString& table);
     // file
@@ -48,6 +49,7 @@ public:
     void showWarning(QWidget* parent, const QString& title, const QString& text);
     void showError(QWidget* parent, const QString& title, const QString& text);
     int showQuestion(QWidget* parent, const QString& title, const QString& text, QMessageBox::StandardButtons buttons = QMessageBox::Ok | QMessageBox::Cancel);
+    int confirm(QWidget* parent);
     // divers
     QString getMd5(const QString& data);
     bool runCmd(const QString& cmd);

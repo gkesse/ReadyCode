@@ -68,6 +68,8 @@ void GLoginPage::onEvent() {
 }
 //===============================================
 void GLoginPage::onEvent(const QString& text) {
+	m_textEdit->clear();
+
 	if(text == "connect") {
 		GDialogUi* lUserConnect = GDialogUi::Create("login/user/connect", this);
 		lUserConnect->exec();

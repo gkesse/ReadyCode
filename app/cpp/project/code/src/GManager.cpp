@@ -195,6 +195,12 @@ QString GManager::getSchema(const QString& table) {
 	return lSchema;
 }
 //===============================================
+void GManager::deleteTable(const QString& table) {
+	GSQLite::Instance()->writeData(QString(""
+			"drop table %1\n"
+			"").arg(table));
+}
+//===============================================
 QStringList GManager::getFields(const QString& table) {
 	return GSQLite::Instance()->getFields(table);
 }
@@ -242,6 +248,12 @@ void GManager::showError(QWidget* parent, const QString& title, const QString& t
 //===============================================
 int GManager::showQuestion(QWidget* parent, const QString& title, const QString& text, QMessageBox::StandardButtons buttons) {
 	return QMessageBox::question(parent, title, text, buttons);
+}
+//===============================================
+int GManager::confirm(QWidget* parent) {
+	int lOk = showQuestion(parent, "SQLite | Confirmation",
+			"Êtes-vous sûr de vouloir continuer ?");
+	return lOk;
 }
 //===============================================
 // divers

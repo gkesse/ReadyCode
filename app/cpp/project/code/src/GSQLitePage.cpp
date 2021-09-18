@@ -32,11 +32,16 @@ GProUi(parent) {
 	lUpdateButton->setText("Modifier");
 	m_widgetMap[lUpdateButton] = "update";
 
+	QPushButton* lDeleteButton = new QPushButton;
+	lDeleteButton->setText("Supprimer");
+	m_widgetMap[lDeleteButton] = "delete";
+
 	QVBoxLayout* lButtonLayout = new QVBoxLayout;
 	lButtonLayout->addWidget(lMasterButton);
 	lButtonLayout->addWidget(lTablesButton);
 	lButtonLayout->addWidget(lSchemaButton);
 	lButtonLayout->addWidget(lUpdateButton);
+	lButtonLayout->addWidget(lDeleteButton);
 	lButtonLayout->setAlignment(Qt::AlignTop);
 	lButtonLayout->setMargin(0);
 
@@ -51,6 +56,7 @@ GProUi(parent) {
 	connect(lTablesButton, SIGNAL(clicked()), this, SLOT(onEvent()));
 	connect(lSchemaButton, SIGNAL(clicked()), this, SLOT(onEvent()));
 	connect(lUpdateButton, SIGNAL(clicked()), this, SLOT(onEvent()));
+	connect(lDeleteButton, SIGNAL(clicked()), this, SLOT(onEvent()));
 }
 //===============================================
 GSQLitePage::~GSQLitePage() {
@@ -65,6 +71,7 @@ void GSQLitePage::onEvent() {
 //===============================================
 void GSQLitePage::onEvent(const QString& text) {
 	sGApp* lApp = GManager::Instance()->getData()->app;
+	m_textEdit->clear();
 
 	if(text == "master") {
 		GManager::Instance()->runCmd(QString("bash %1")
@@ -96,6 +103,16 @@ void GSQLitePage::onEvent(const QString& text) {
 
 		}
 	}
+	else if(text == "delete") {
+		GDialogUi* lDeleteUi = GDialogUi::Create("sqlite/table/delete", this);
+		int lOk = lDeleteUi->exec();
+		if(lOk == QDialog::Rejected) {delete lDeleteUi; return;}
+		QString lTable = lDeleteUi->getData().value("table");
+		if(lTable == "") {delete lDeleteUi; return;}
+		lOk = GManager::Instance()->confirm(this);
+		if(lOk != QMessageBox::Ok) {delete lDeleteUi; return;}
+		GManager::Instance()->deleteTable(lTable);
+		delete lDeleteUi;	}
 }
 //===============================================
 void GSQLitePage::setTitle() {
