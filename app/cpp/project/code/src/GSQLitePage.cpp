@@ -1,10 +1,11 @@
 //===============================================
-#include "GDatabaseUpdate.h"
+#include "GSQLitePage.h"
+
 #include "GManager.h"
 #include "GSQLite.h"
 #include "GDialogUi.h"
 //===============================================
-GDatabaseUpdate::GDatabaseUpdate(QWidget* parent) :
+GSQLitePage::GSQLitePage(QWidget* parent) :
 GProUi(parent) {
 	QTextEdit* lTextEdit = new QTextEdit;
 	m_textEdit = lTextEdit;
@@ -54,17 +55,17 @@ GProUi(parent) {
 	connect(lUpdateButton, SIGNAL(clicked()), this, SLOT(onEvent()));
 }
 //===============================================
-GDatabaseUpdate::~GDatabaseUpdate() {
+GSQLitePage::~GSQLitePage() {
 
 }
 //===============================================
-void GDatabaseUpdate::onEvent() {
+void GSQLitePage::onEvent() {
 	QWidget* lWidget = qobject_cast<QWidget*>(sender());
 	QString lWidgetId = m_widgetMap[lWidget];
 	onEvent(lWidgetId);
 }
 //===============================================
-void GDatabaseUpdate::onEvent(const QString& text) {
+void GSQLitePage::onEvent(const QString& text) {
 	sGApp* lApp = GManager::Instance()->getData()->app;
 
 	if(text == "master") {
@@ -115,7 +116,7 @@ void GDatabaseUpdate::onEvent(const QString& text) {
 	}
 }
 //===============================================
-void GDatabaseUpdate::setTitle() {
+void GSQLitePage::setTitle() {
 	setWindowTitle("SQLite | Modifier la base de données");
 }
 //===============================================

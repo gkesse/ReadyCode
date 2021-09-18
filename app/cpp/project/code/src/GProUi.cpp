@@ -3,7 +3,7 @@
 // login
 #include "GUserConnect.h"
 // sqlite
-#include "GDatabaseUpdate.h"
+#include "GSQLitePage.h"
 //===============================================
 GProUi::GProUi(QWidget* parent) :
 QFrame(parent) {
@@ -19,7 +19,7 @@ GProUi* GProUi::Create(const QString& key) {
     // login
     if(key == "login/user/connect") {return new GUserConnect;}
     // sqlite
-    if(key == "sqlite/database/update") {return new GDatabaseUpdate;}
+    if(key == "sqlite/page") {return new GSQLitePage;}
     // default
     return new GProUi;
 }

@@ -1,15 +1,15 @@
 //===============================================
-#ifndef _GDatabaseUpdate_
-#define _GDatabaseUpdate_
+#ifndef _GSQLiteWin_
+#define _GSQLiteWin_
 //===============================================
 #include "GProUi.h"
 //===============================================
-class GDatabaseUpdate : public GProUi {
+class GSQLitePage : public GProUi {
     Q_OBJECT
     
 public:
-    GDatabaseUpdate(QWidget* parent = 0);
-    ~GDatabaseUpdate();
+    GSQLitePage(QWidget* parent = 0);
+    ~GSQLitePage();
     void setTitle();
 
 public slots:
