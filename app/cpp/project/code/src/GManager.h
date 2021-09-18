@@ -15,22 +15,40 @@ public:
     ~GManager();
     static GManager* Instance();
     sGManager* getData();
-    QString getMd5(const QString& data);
-    QString getPassword(const QString& username, const QString& password);
+    // data
+    void setData(QTextEdit* textEdit, const QVector<QString>& data);
+    void setData2(QTextEdit* textEdit, const QVector<QString>& data);
+    // user
     int countUser(const QString& username);
     int countUser(const QString& username, const QString& password);
     void saveUser(const QString& username, const QString& password);
     void insertUser(const QString& username, const QString& password);
     void updateUser(const QString& username, const QString& password);
-    QStringList getTableFields(const QString& table);
+    QString getPassword(const QString& username, const QString& password);
+    // login
+    int countLogin();
+    int countLogin(QString username);
+    void saveLogin(const QString& username, const QString& login);
+    void insertLogin(QString username, QString login);
+    void updateLogin(QString username, QString login);
+    // file_id
+    int countFileId(const QString& fileId);
+    // sqlite
+    QVector<QString> getTables();
+    QString getSchema(const QString& table);
+    QStringList getFields(const QString& table);
     QVector<QVector<QString>> getTableData(const QString& table);
+    // file
     QStringList getDirFiles(const QString& path, const QStringList& filters);
-    bool runCmd(const QString& cmd);
     QString readFile(const QString& path);
+    // message
     void showMessage(QWidget* parent, const QString& title, const QString& text);
     void showWarning(QWidget* parent, const QString& title, const QString& text);
     void showError(QWidget* parent, const QString& title, const QString& text);
     int showQuestion(QWidget* parent, const QString& title, const QString& text, QMessageBox::StandardButtons buttons = QMessageBox::Ok | QMessageBox::Cancel);
+    // divers
+    QString getMd5(const QString& data);
+    bool runCmd(const QString& cmd);
 
 private:
     static GManager* m_instance;

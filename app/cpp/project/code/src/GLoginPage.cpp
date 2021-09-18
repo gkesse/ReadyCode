@@ -1,7 +1,6 @@
 //===============================================
 #include "GLoginPage.h"
 #include "GManager.h"
-#include "GSQLite.h"
 #include "GDialogUi.h"
 //===============================================
 GLoginPage::GLoginPage(QWidget* parent) :
@@ -69,8 +68,6 @@ void GLoginPage::onEvent() {
 }
 //===============================================
 void GLoginPage::onEvent(const QString& text) {
-	sGApp* lApp = GManager::Instance()->getData()->app;
-
 	if(text == "connect") {
 		GDialogUi* lUserConnect = GDialogUi::Create("login/user/connect", this);
 		lUserConnect->exec();

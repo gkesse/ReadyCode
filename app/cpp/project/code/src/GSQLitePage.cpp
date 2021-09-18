@@ -1,7 +1,6 @@
 //===============================================
 #include "GSQLitePage.h"
 #include "GManager.h"
-#include "GSQLite.h"
 #include "GDialogUi.h"
 //===============================================
 GSQLitePage::GSQLitePage(QWidget* parent) :
@@ -72,30 +71,17 @@ void GSQLitePage::onEvent(const QString& text) {
 				.arg(lApp->sqlite_sql_master));
 	}
 	else if(text == "tables") {
-		QVector<QString> lTables = GSQLite::Instance()->readCol(QString(""
-				"select name from sqlite_master\n"
-				"where type = 'table'\n"
-				""));
-		qDebug() << lTables;
+		QVector<QString> lTables = GManager::Instance()->getTables();
+		GManager::Instance()->setData2(m_textEdit, lTables);
 	}
 	else if(text == "schema") {
 		GDialogUi* lSchemaUi = GDialogUi::Create("sqlite/schema/show", this);
 		int lOk = lSchemaUi->exec();
-
 		if(lOk == QDialog::Rejected) {delete lSchemaUi; return;}
-
 		QString lTable = lSchemaUi->getData().value("table");
-
 		if(lTable == "") {delete lSchemaUi; return;}
-
-		QString lSchema = GSQLite::Instance()->readData(QString(""
-				"select sql from sqlite_master\n"
-				"where type = 'table'\n"
-				"and name = '%1'\n"
-				"").arg(lTable));
-
-		m_textEdit->append(lSchema);
-
+		QString lSchema = GManager::Instance()->getSchema(lTable);
+		m_textEdit->setText(lSchema.toUpper());
 		delete lSchemaUi;
 	}
 	else if(text == "update") {
@@ -105,12 +91,9 @@ void GSQLitePage::onEvent(const QString& text) {
 			QString lFile = lFiles.at(i);
 			QString lFilename = QFileInfo(lFile).baseName();
 			QString lFileId = lFilename.split('_').first();
-			int lCount = GSQLite::Instance()->readData(QString(""
-					"select count(*) from file_id_data\n"
-					"where file_id = '%1'"
-					"").arg(lFileId)).toInt();
+			int lCount = GManager::Instance()->countFileId(lFileId);
+			m_textEdit->setText(QString("%1").arg(lCount));
 
-			qDebug() << lFileId;
 		}
 	}
 }

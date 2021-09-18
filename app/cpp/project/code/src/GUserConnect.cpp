@@ -75,9 +75,10 @@ void GUserConnect::onEvent(const QString& text) {
         lValid &= (lUsername != "");
         lValid &= (lPassword != "");
         if(lValid) {
-            lValid &= GManager::Instance()->countUser(lUsername, lPassword);
+            lValid &= (GManager::Instance()->countUser(lUsername, lPassword) != 0);
         }
         if(lValid) {
+        	GManager::Instance()->saveLogin(lUsername, "1");
             GManager::Instance()->showMessage(this, "Connexion",
                     "La connexion a réussi.");
             accept();

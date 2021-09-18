@@ -1,18 +1,13 @@
 //===============================================
 #include "GSchemaShow.h"
 #include "GManager.h"
-#include "GSQLite.h"
 //===============================================
 GSchemaShow::GSchemaShow(QWidget* parent) :
 GDialogUi(parent) {
 	QLabel* lLabel = new QLabel;
 	lLabel->setText("Table :");
 
-	QVector<QString> lTables = GSQLite::Instance()->readCol(QString(""
-			"select name from sqlite_master\n"
-			"where type = 'table'\n"
-			"order by name\n"
-			""));
+	QVector<QString> lTables = GManager::Instance()->getTables();
 
 	QComboBox* lTable = new QComboBox;
 	m_table = lTable;
@@ -52,8 +47,6 @@ void GSchemaShow::onEvent() {
 }
 //===============================================
 void GSchemaShow::onEvent(const QString& text) {
-	sGApp* lApp = GManager::Instance()->getData()->app;
-
 	if(text == "run") {
 		m_dataMap["table"] = m_table->currentText();
 		accept();
