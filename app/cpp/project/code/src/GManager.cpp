@@ -251,8 +251,8 @@ int GManager::showQuestion(QWidget* parent, const QString& title, const QString&
 }
 //===============================================
 int GManager::confirm(QWidget* parent) {
-	int lOk = showQuestion(parent, "SQLite | Confirmation",
-			"Êtes-vous sûr de vouloir continuer ?");
+	int lOk = showQuestion(parent, "ReadyApp | Confirmation",
+			"Êtes-vous sûr de bien vouloir continuer ?");
 	return lOk;
 }
 //===============================================
