@@ -18,6 +18,8 @@ public:
     // data
     void setData(QTextEdit* textEdit, const QVector<QString>& data);
     void setData2(QTextEdit* textEdit, const QVector<QString>& data);
+    void setData(QComboBox* comboBox, const QVector<QString>& data);
+    void setData2(QComboBox* comboBox, const QVector<QString>& data);
     // user
     int countUser(const QString& username);
     int countUser(const QString& username, const QString& password);

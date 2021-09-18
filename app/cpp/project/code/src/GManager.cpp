@@ -45,11 +45,27 @@ void GManager::setData(QTextEdit* textEdit, const QVector<QString>& data) {
 
 }
 //===============================================
+void GManager::setData(QComboBox* comboBox, const QVector<QString>& data) {
+	for(int i = 0; i < data.size(); i++) {
+		QString lData = data.at(i);
+		comboBox->addItem(lData);
+	}
+
+}
+//===============================================
 void GManager::setData2(QTextEdit* textEdit, const QVector<QString>& data) {
 	textEdit->clear();
 	for(int i = 0; i < data.size(); i++) {
 		QString lData = data.at(i);
 		textEdit->append(lData.toUpper());
+	}
+
+}
+//===============================================
+void GManager::setData2(QComboBox* comboBox, const QVector<QString>& data) {
+	for(int i = 0; i < data.size(); i++) {
+		QString lData = data.at(i);
+		comboBox->addItem(lData.toUpper());
 	}
 
 }
@@ -154,7 +170,7 @@ void GManager::updateLogin(QString username, QString login) {
 int GManager::countFileId(const QString& fileId) {
 	int lCount = GSQLite::Instance()->readData(QString(""
 			"select count(*) from file_id_data\n"
-			"where _file_id = '%1'"
+			"where _file_id = %1"
 			"").arg(fileId)).toInt();
 	return lCount;
 }

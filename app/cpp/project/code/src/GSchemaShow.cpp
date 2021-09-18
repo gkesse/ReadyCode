@@ -11,7 +11,7 @@ GDialogUi(parent) {
 
 	QComboBox* lTable = new QComboBox;
 	m_table = lTable;
-	lTable->addItems(lTables.toList());
+	GManager::Instance()->setData2(lTable, lTables);
 
 	QPushButton* lRun = new QPushButton;
 	lRun->setText("Schema");
@@ -48,7 +48,7 @@ void GSchemaShow::onEvent() {
 //===============================================
 void GSchemaShow::onEvent(const QString& text) {
 	if(text == "run") {
-		m_dataMap["table"] = m_table->currentText();
+		m_dataMap["table"] = m_table->currentText().toLower();
 		accept();
 	}
 }
