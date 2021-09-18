@@ -1,7 +1,7 @@
 //===============================================
 #include "GProUi.h"
 // login
-#include "GUserConnect.h"
+#include "GLoginPage.h"
 // sqlite
 #include "GSQLitePage.h"
 //===============================================
@@ -14,14 +14,14 @@ GProUi::~GProUi() {
 
 }
 //===============================================
-GProUi* GProUi::Create(const QString& key) {
-    if(key == "default") {return new GProUi;}
+GProUi* GProUi::Create(const QString& key, QWidget* parent) {
+    if(key == "default") {return new GProUi(parent);}
     // login
-    if(key == "login/user/connect") {return new GUserConnect;}
+    if(key == "login/page") {return new GLoginPage(parent);}
     // sqlite
-    if(key == "sqlite/page") {return new GSQLitePage;}
+    if(key == "sqlite/page") {return new GSQLitePage(parent);}
     // default
-    return new GProUi;
+    return new GProUi(parent);
 }
 //===============================================
 void GProUi::setTitle() {

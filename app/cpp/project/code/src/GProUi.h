@@ -10,7 +10,7 @@ class GProUi : public QFrame {
 public:
 	GProUi(QWidget* parent = 0);
 	virtual ~GProUi();
-	static GProUi* Create(const QString& key);
+	static GProUi* Create(const QString& key, QWidget* parent = 0);
 	virtual void setTitle();
 	virtual void setSize();
 	virtual void setCenter(QWidget* parent);

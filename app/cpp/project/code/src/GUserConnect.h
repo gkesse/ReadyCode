@@ -2,9 +2,9 @@
 #ifndef _GUserConnect_
 #define _GUserConnect_
 //===============================================
-#include "GProUi.h"
+#include "GDialogUi.h"
 //===============================================
-class GUserConnect : public GProUi {
+class GUserConnect : public GDialogUi {
     Q_OBJECT
     
 public:

@@ -3,7 +3,7 @@
 #include "GManager.h"
 //===============================================
 GUserConnect::GUserConnect(QWidget* parent) :
-GProUi(parent) {
+GDialogUi(parent) {
     // username
     QLabel* lUsernameLabel = new QLabel;
     lUsernameLabel->setText("Nom d'utilisateur :");
@@ -50,6 +50,10 @@ GProUi(parent) {
 
     setLayout(lMainLayout);
 
+	setWindowTitle("Login | Démarrer la connexion");
+	resize(350, 10);
+	setMaximumHeight(0);
+
     connect(lConnectButton, SIGNAL(clicked()), this, SLOT(onEvent()));
 }
 //===============================================
@@ -76,7 +80,7 @@ void GUserConnect::onEvent(const QString& text) {
         if(lValid) {
             GManager::Instance()->showMessage(this, "Connexion",
                     "La connexion a réussi.");
-            close();
+            accept();
         }
         else {
             GManager::Instance()->showWarning(this, "Connexion",
@@ -84,9 +88,5 @@ void GUserConnect::onEvent(const QString& text) {
                     "Veuillez vérifier les paramètres.");
         }
     }
-}
-//===============================================
-void GUserConnect::setTitle() {
-    setWindowTitle("ReadyApp | Démarrer la connexion");
 }
 //===============================================

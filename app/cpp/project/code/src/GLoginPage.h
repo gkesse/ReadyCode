@@ -1,15 +1,15 @@
 //===============================================
-#ifndef _GSQLitePage_
-#define _GSQLitePage_
+#ifndef _GLoginPage_
+#define _GLoginPage_
 //===============================================
 #include "GProUi.h"
 //===============================================
-class GSQLitePage : public GProUi {
+class GLoginPage : public GProUi {
     Q_OBJECT
     
 public:
-    GSQLitePage(QWidget* parent = 0);
-    ~GSQLitePage();
+    GLoginPage(QWidget* parent = 0);
+    ~GLoginPage();
     void setTitle();
 
 public slots:

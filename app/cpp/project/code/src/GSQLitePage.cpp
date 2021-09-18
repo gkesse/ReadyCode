@@ -1,6 +1,5 @@
 //===============================================
 #include "GSQLitePage.h"
-
 #include "GManager.h"
 #include "GSQLite.h"
 #include "GDialogUi.h"
