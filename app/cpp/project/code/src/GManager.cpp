@@ -13,6 +13,8 @@ GManager::GManager() {
     mgr->app->sqlite_driver = "QSQLITE";
     mgr->app->sqlite_db_path = "data/sqlite/db/database.dat";
     mgr->app->sqlite_sql_path = "data/sqlite/sql";
+    mgr->app->sqlite_sql_master = "data/sqlite/sql/master/master.sh";
+    mgr->app->sqlite_sql_tmp = "data/sqlite/sql/tmp/tmp.txt";
     mgr->app->sqlite_table_name = "";
     mgr->app->on_event = false;
 }

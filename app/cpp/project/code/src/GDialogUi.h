@@ -1,19 +1,16 @@
 //===============================================
-#ifndef _GProUi_
-#define _GProUi_
+#ifndef _GDialogUi_
+#define _GDialogUi_
 //===============================================
 #include "GInclude.h"
 //===============================================
-class GProUi : public QFrame {
+class GDialogUi : public QDialog {
 	Q_OBJECT
 
 public:
-	GProUi(QWidget* parent = 0);
-	virtual ~GProUi();
-	static GProUi* Create(const QString& key);
-	virtual void setTitle();
-	virtual void setSize();
-	virtual void setCenter(QWidget* parent);
+	GDialogUi(QWidget* parent = 0);
+	virtual ~GDialogUi();
+	static GDialogUi* Create(const QString& key, QWidget* parent = 0);
 	virtual QMap<QString, QString> getData();
 
 public slots:

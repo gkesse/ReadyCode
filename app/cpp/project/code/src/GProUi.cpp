@@ -32,6 +32,14 @@ void GProUi::setSize() {
     resize(400, 100);
 }
 //===============================================
+void GProUi::setCenter(QWidget* parent) {
+	move(QPoint(parent->x(), parent->y()) + parent->rect().center() - rect().center());
+}
+//===============================================
+QMap<QString, QString> GProUi::getData() {
+	return m_dataMap;
+}
+//===============================================
 void GProUi::onEvent() {}
 void GProUi::onEvent(const QString& text) {}
 //===============================================

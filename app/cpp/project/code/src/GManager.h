@@ -48,6 +48,8 @@ struct _sGApp {
     QString sqlite_driver;
     QString sqlite_db_path;
     QString sqlite_sql_path;
+    QString sqlite_sql_master;
+    QString sqlite_sql_tmp;
     QString sqlite_table_name;
     // event
     bool on_event;

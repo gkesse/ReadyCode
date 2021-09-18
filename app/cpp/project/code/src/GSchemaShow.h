@@ -1,16 +1,15 @@
 //===============================================
-#ifndef _GDatabaseUpdate_
-#define _GDatabaseUpdate_
+#ifndef _GSchemaShow_
+#define _GSchemaShow_
 //===============================================
-#include "GProUi.h"
+#include "GDialogUi.h"
 //===============================================
-class GDatabaseUpdate : public GProUi {
+class GSchemaShow : public GDialogUi {
     Q_OBJECT
     
 public:
-    GDatabaseUpdate(QWidget* parent = 0);
-    ~GDatabaseUpdate();
-    void setTitle();
+    GSchemaShow(QWidget* parent = 0);
+    ~GSchemaShow();
 
 public slots:
     void onEvent();
@@ -18,7 +17,7 @@ public slots:
     
 private:
     QMap<QWidget*, QString> m_widgetMap;
-    QTextEdit* m_textEdit;
+    QComboBox* m_table;
 };
 //==============================================
 #endif

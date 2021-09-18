@@ -6,8 +6,8 @@ GTARGET = $(GBIN)/rdcpp
 #================================================
 # cpp
 all: clean_exe qmake compile run
-all_g: clean_exe qmake compile run_g
-all_p: git_push all
+all_g: run_g
+all_p: git_push
 
 qmake:
 	@qmake
