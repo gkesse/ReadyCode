@@ -49,6 +49,8 @@ void GTableDelete::onEvent() {
 void GTableDelete::onEvent(const QString& text) {
 	if(text == "delete") {
 		m_dataMap["table"] = m_table->currentText().toLower();
+		int lOk = GManager::Instance()->confirm(this);
+		if(lOk != QMessageBox::Ok) {return;}
 		accept();
 	}
 }

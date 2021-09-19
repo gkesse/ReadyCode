@@ -35,6 +35,7 @@ public:
     void updateLogin(QString username, QString login);
     // file_id
     int countFileId(const QString& fileId);
+    void insertFileId(const QString& fileId);
     // sqlite
     QVector<QString> getTables();
     QString getSchema(const QString& table);

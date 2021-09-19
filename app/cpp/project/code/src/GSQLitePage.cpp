@@ -71,11 +71,10 @@ void GSQLitePage::onEvent() {
 //===============================================
 void GSQLitePage::onEvent(const QString& text) {
 	sGApp* lApp = GManager::Instance()->getData()->app;
-	m_textEdit->clear();
 
 	if(text == "master") {
-		GManager::Instance()->runCmd(QString("bash %1")
-				.arg(lApp->sqlite_sql_master));
+		GManager::Instance()->runCmd(QString("bash %1").arg(lApp->sqlite_sql_master));
+		m_textEdit->setText("L'opération a été réalisée avec succès...");
 	}
 	else if(text == "tables") {
 		QVector<QString> lTables = GManager::Instance()->getTables();
@@ -94,13 +93,17 @@ void GSQLitePage::onEvent(const QString& text) {
 	else if(text == "update") {
 		QStringList lFilters = QStringList() << "*.sh";
 		QStringList lFiles = GManager::Instance()->getDirFiles(lApp->sqlite_sql_path, lFilters);
+		m_textEdit->clear();
 		for(int i = 0; i < lFiles.size(); i++) {
 			QString lFile = lFiles.at(i);
 			QString lFilename = QFileInfo(lFile).baseName();
 			QString lFileId = lFilename.split('_').first();
 			int lCount = GManager::Instance()->countFileId(lFileId);
-			m_textEdit->setText(QString("%1").arg(lCount));
-
+			if(lCount == 0) {
+				GManager::Instance()->runCmd(QString("bash %1").arg(lFile));
+				GManager::Instance()->insertFileId(lFileId);
+				m_textEdit->append(QString("%1 : %2").arg(lFileId).arg(lFile));
+			}
 		}
 	}
 	else if(text == "delete") {
@@ -109,13 +112,13 @@ void GSQLitePage::onEvent(const QString& text) {
 		if(lOk == QDialog::Rejected) {delete lDeleteUi; return;}
 		QString lTable = lDeleteUi->getData().value("table");
 		if(lTable == "") {delete lDeleteUi; return;}
-		lOk = GManager::Instance()->confirm(this);
-		if(lOk != QMessageBox::Ok) {delete lDeleteUi; return;}
 		GManager::Instance()->deleteTable(lTable);
-		delete lDeleteUi;	}
+		delete lDeleteUi;
+		m_textEdit->setText("L'opération a été réalisée avec succès...");
+	}
 }
 //===============================================
 void GSQLitePage::setTitle() {
-	setWindowTitle("SQLite | Modifier la base de données");
+	setWindowTitle("ReadyApp | Login");
 }
 //===============================================

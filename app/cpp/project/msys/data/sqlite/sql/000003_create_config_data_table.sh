@@ -6,9 +6,9 @@ _EOF_
 }
 #================================================
 sqlite_cmd "
-create table if not exists user_data (
-username text,
-password text
+create table config_data (
+_key text,
+_value text
 );
 "
 #================================================

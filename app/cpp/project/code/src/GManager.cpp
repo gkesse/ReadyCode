@@ -175,6 +175,13 @@ int GManager::countFileId(const QString& fileId) {
 	return lCount;
 }
 //===============================================
+void GManager::insertFileId(const QString& fileId) {
+	GSQLite::Instance()->writeData(QString(""
+			"insert into file_id_data (_file_id)\n"
+			"values (%1)\n"
+			"").arg(fileId));
+}
+//===============================================
 // sqlite
 //===============================================
 QVector<QString> GManager::getTables() {
