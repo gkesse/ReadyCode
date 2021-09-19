@@ -119,6 +119,6 @@ void GSQLitePage::onEvent(const QString& text) {
 }
 //===============================================
 void GSQLitePage::setTitle() {
-	setWindowTitle("ReadyApp | Login");
+	setWindowTitle("ReadyApp | SQLite");
 }
 //===============================================
