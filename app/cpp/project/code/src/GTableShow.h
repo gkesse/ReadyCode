@@ -1,23 +1,23 @@
 //===============================================
-#ifndef _GProSQLite_
-#define _GProSQLite_
+#ifndef _GTableShow_
+#define _GTableShow_
 //===============================================
-#include "GProUi.h"
+#include "GDialogUi.h"
 //===============================================
-class GProSQLite : public GProUi {
+class GTableShow : public GDialogUi {
     Q_OBJECT
     
 public:
-    GProSQLite(QWidget* parent = 0);
-    ~GProSQLite();
+    GTableShow(QWidget* parent = 0);
+    ~GTableShow();
 
 public slots:
-	void onEvent();
-	void onEvent(const QString& text);
-	void onEvent(QTableWidget* tableWidget, int row, int col);
-
+    void onEvent();
+    void onEvent(const QString& text);
+    
 private:
-	QMap<QWidget*, QString> m_widgetMap;
+    QMap<QWidget*, QString> m_widgetMap;
+    QComboBox* m_table;
 };
 //==============================================
 #endif

@@ -17,12 +17,14 @@ public:
     sGManager* getData();
     // data
     void setData(QTextEdit* textEdit, const QVector<QString>& data);
+    void setData(QTextEdit* textEdit, const QVector<QVector<QString>>& data);
+  	void setData(QComboBox* comboBox, const QVector<QString>& data);
     void setData2(QTextEdit* textEdit, const QVector<QString>& data);
-    void setData(QComboBox* comboBox, const QVector<QString>& data);
     void setData2(QComboBox* comboBox, const QVector<QString>& data);
     // user
     int countUser(const QString& username);
     int countUser(const QString& username, const QString& password);
+    QString getUserId(const QString& username);
     void saveUser(const QString& username, const QString& password);
     void insertUser(const QString& username, const QString& password);
     void updateUser(const QString& username, const QString& password);
@@ -33,15 +35,17 @@ public:
     void saveLogin(const QString& username, const QString& login);
     void insertLogin(QString username, QString login);
     void updateLogin(QString username, QString login);
+    void updateLogin();
+    void logOut();
     // file_id
     int countFileId(const QString& fileId);
     void insertFileId(const QString& fileId);
     // sqlite
     QVector<QString> getTables();
+    QVector<QVector<QString>> getData(const QString& table);
     QString getSchema(const QString& table);
     void deleteTable(const QString& table);
     QStringList getFields(const QString& table);
-    QVector<QVector<QString>> getTableData(const QString& table);
     // file
     QStringList getDirFiles(const QString& path, const QStringList& filters);
     QString readFile(const QString& path);
@@ -54,6 +58,8 @@ public:
     // divers
     QString getMd5(const QString& data);
     bool runCmd(const QString& cmd);
+    bool runCmd(const QString& cmd, QString& output);
+    bool runCmd2(const QString& cmd);
 
 private:
     static GManager* m_instance;
@@ -74,8 +80,9 @@ struct _sGApp {
     QString sqlite_sql_master;
     QString sqlite_sql_tmp;
     QString sqlite_table_name;
-    // event
-    bool on_event;
+    // login
+    QPushButton* login_connect;
+    QPushButton* login_disconnect;
 };
 //==============================================
 #endif

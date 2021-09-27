@@ -1,6 +1,8 @@
 //===============================================
 #include "GProcess.h"
 #include "GProUi.h"
+#include "GQtUi.h"
+#include "GCppUi.h"
 //===============================================
 GProcess* GProcess::m_instance = 0;
 //===============================================
@@ -24,6 +26,8 @@ void GProcess::run(int argc, char** argv) {
     if(argc > 1) {lKey = argv[1];}
     if(lKey == "default") {runDefault(argc, argv); return;}
     if(lKey == "pro") {runPro(argc, argv); return;}
+    if(lKey == "qt") {runQt(argc, argv); return;}
+    if(lKey == "cpp") {runCpp(argc, argv); return;}
     runDefault(argc, argv);
 }
 //===============================================
@@ -40,5 +44,19 @@ void GProcess::runPro(int argc, char** argv) {
     lWindow->setSize();
     lWindow->show();
     app.exec();
+}
+//===============================================
+void GProcess::runQt(int argc, char** argv) {
+    QString lKey = "default";
+    if(argc > 2) {lKey = argv[2];}
+    GQtUi* lQt = GQtUi::Create(lKey);
+    lQt->run(argc, argv);
+}
+//===============================================
+void GProcess::runCpp(int argc, char** argv) {
+    QString lKey = "default";
+    if(argc > 2) {lKey = argv[2];}
+    GCppUi* lCpp = GCppUi::Create(lKey);
+    lCpp->run(argc, argv);
 }
 //===============================================

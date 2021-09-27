@@ -4,19 +4,21 @@
 //===============================================
 #include "GInclude.h"
 //===============================================
-class GQtUi : public QWidget {
-    Q_OBJECT
-    
+class GQtUi : public QObject {
+	Q_OBJECT
+
 public:
-    GQtUi(QWidget* parent = 0);
-    virtual ~GQtUi();
-    static GQtUi* Create(const QString& key);
+	GQtUi(QObject* parent = 0);
+	virtual ~GQtUi();
+	static GQtUi* Create(const QString& key, QObject* parent = 0);
+    virtual void run(int argc, char** argv);
 
 public slots:
-    virtual void onEvent();
-	virtual void onEvent(const QString& text);
-	virtual void onEvent(const QPoint& pos);
-	virtual void onEvent(int row, int col);
+	void onStart();
+	void onReady();
+	void onReadyError();
+	void onError(QProcess::ProcessError error);
+	void onEvent(const QString& text);
 };
 //==============================================
 #endif

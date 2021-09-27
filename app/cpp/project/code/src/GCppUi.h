@@ -1,16 +1,16 @@
 //===============================================
-#ifndef _GSQLiteUi_
-#define _GSQLiteUi_
+#ifndef _GCppUi_
+#define _GCppUi_
 //===============================================
 #include "GInclude.h"
 //===============================================
-class GSQLiteUi : public QObject {
-    Q_OBJECT
-    
+class GCppUi : public QObject {
+	Q_OBJECT
+
 public:
-    GSQLiteUi(QObject* parent = 0);
-    virtual ~GSQLiteUi();
-    static GSQLiteUi* Create(const QString& key);
+	GCppUi(QObject* parent = 0);
+	virtual ~GCppUi();
+	static GCppUi* Create(const QString& key, QObject* parent = 0);
     virtual void run(int argc, char** argv);
 };
 //==============================================

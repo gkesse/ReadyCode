@@ -1,8 +1,8 @@
 //===============================================
-#include "GUserConnect.h"
+#include "GUserCreate.h"
 #include "GManager.h"
 //===============================================
-GUserConnect::GUserConnect(QWidget* parent) :
+GUserCreate::GUserCreate(QWidget* parent) :
 GDialogUi(parent) {
     QLabel* lUsernameLabel = new QLabel;
     lUsernameLabel->setText("Nom d'utilisateur :");
@@ -29,12 +29,25 @@ GDialogUi(parent) {
     lPasswordLayout->addWidget(lPasswordEdit);
     lPasswordLayout->setMargin(0);
 
-    QPushButton* lConnectButton = new QPushButton;
-    lConnectButton->setText("Connexion");
-    m_widgetMap[lConnectButton] = "connect";
+    QLabel* lConfirmLabel = new QLabel;
+    lConfirmLabel->setText("Confirmation :");
+    lConfirmLabel->setMinimumWidth(100);
+
+    QLineEdit* lConfirmEdit = new QLineEdit;
+    m_confirmEdit = lConfirmEdit;
+    lConfirmEdit->setEchoMode(QLineEdit::Password);
+
+    QHBoxLayout* lConfirmLayout = new QHBoxLayout;
+    lConfirmLayout->addWidget(lConfirmLabel);
+    lConfirmLayout->addWidget(lConfirmEdit);
+    lConfirmLayout->setMargin(0);
+
+    QPushButton* lCreateButton = new QPushButton;
+    lCreateButton->setText("Créer");
+    m_widgetMap[lCreateButton] = "create";
 
     QHBoxLayout* lConnectLayout = new QHBoxLayout;
-    lConnectLayout->addWidget(lConnectButton);
+    lConnectLayout->addWidget(lCreateButton);
     lConnectLayout->setAlignment(Qt::AlignRight);
     lConnectLayout->setMargin(0);
 
@@ -42,40 +55,44 @@ GDialogUi(parent) {
     QVBoxLayout* lMainLayout = new QVBoxLayout;
     lMainLayout->addLayout(lUsernameLayout);
     lMainLayout->addLayout(lPasswordLayout);
+    lMainLayout->addLayout(lConfirmLayout);
     lMainLayout->addLayout(lConnectLayout);
     lMainLayout->setAlignment(Qt::AlignTop);
 
     setLayout(lMainLayout);
 
-    setWindowTitle("Login | Démarrer la connexion");
+    setWindowTitle("Login | Créer un utilisateur");
     resize(350, 10);
     setMaximumHeight(0);
 
-    connect(lConnectButton, SIGNAL(clicked()), this, SLOT(onEvent()));
+    connect(lCreateButton, SIGNAL(clicked()), this, SLOT(onEvent()));
 }
 //===============================================
-GUserConnect::~GUserConnect() {
+GUserCreate::~GUserCreate() {
 
 }
 //===============================================
-void GUserConnect::onEvent() {
+void GUserCreate::onEvent() {
     QWidget* lWidget = qobject_cast<QWidget*>(sender());
     QString lWidgetId = m_widgetMap[lWidget];
     onEvent(lWidgetId);
 }
 //===============================================
-void GUserConnect::onEvent(const QString& text) {
-    if(text == "connect") {
+void GUserCreate::onEvent(const QString& text) {
+    if(text == "create") {
         QString lUsername = m_usernameEdit->text();
         QString lPassword = m_passwordEdit->text();
+        QString lConfirm = m_confirmEdit->text();
         bool lValid = true;
         lValid &= (lUsername != "");
         lValid &= (lPassword != "");
+        lValid &= (lConfirm != "");
+        lValid &= (lPassword == lConfirm);
         if(lValid) {
-            lValid &= (GManager::Instance()->countUser(lUsername, lPassword) != 0);
+            lValid &= (GManager::Instance()->countUser(lUsername) == 0);
         }
         if(lValid) {
-            GManager::Instance()->saveLogin(lUsername, "1");
+            GManager::Instance()->insertUser(lUsername, lPassword);
             GManager::Instance()->showMessage(this, "Connexion",
                     "La connexion a réussi.");
             accept();

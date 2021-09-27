@@ -1,8 +1,8 @@
 //===============================================
-#include "GSchemaShow.h"
+#include "GTableShow.h"
 #include "GManager.h"
 //===============================================
-GSchemaShow::GSchemaShow(QWidget* parent) :
+GTableShow::GTableShow(QWidget* parent) :
 GDialogUi(parent) {
     QLabel* lLabel = new QLabel;
     lLabel->setText("Table :");
@@ -14,7 +14,7 @@ GDialogUi(parent) {
     GManager::Instance()->setData2(lTable, lTables);
 
     QPushButton* lRun = new QPushButton;
-    lRun->setText("Schema");
+    lRun->setText("Afficher");
     m_widgetMap[lRun] = "run";
 
     QHBoxLayout* lRowLayout = new QHBoxLayout;
@@ -29,24 +29,24 @@ GDialogUi(parent) {
 
     setLayout(lMainLayout);
 
-    setWindowTitle("SQLite | Afficher le schema");
+    setWindowTitle("SQLite | Afficher les donnees");
     resize(350, 10);
     setMaximumHeight(0);
 
     connect(lRun, SIGNAL(clicked()), this, SLOT(onEvent()));
 }
 //===============================================
-GSchemaShow::~GSchemaShow() {
+GTableShow::~GTableShow() {
 
 }
 //===============================================
-void GSchemaShow::onEvent() {
+void GTableShow::onEvent() {
     QWidget* lWidget = qobject_cast<QWidget*>(sender());
     QString lWidgetId = m_widgetMap[lWidget];
     onEvent(lWidgetId);
 }
 //===============================================
-void GSchemaShow::onEvent(const QString& text) {
+void GTableShow::onEvent(const QString& text) {
     if(text == "run") {
         m_dataMap["table"] = m_table->currentText().toLower();
         accept();

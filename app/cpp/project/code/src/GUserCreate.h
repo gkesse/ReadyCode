@@ -1,20 +1,23 @@
 //===============================================
-#ifndef _GProSQLiteTableUserDataAdd_
-#define _GProSQLiteTableUserDataAdd_
+#ifndef _GUserCreate_
+#define _GUserCreate_
 //===============================================
-#include "GProUi.h"
+#include "GDialogUi.h"
 //===============================================
-class GProSQLiteTableUserDataAdd : public GProUi {
+class GUserCreate : public GDialogUi {
     Q_OBJECT
     
 public:
-    GProSQLiteTableUserDataAdd(QWidget* parent = 0);
-    ~GProSQLiteTableUserDataAdd();
+    GUserCreate(QWidget* parent = 0);
+    ~GUserCreate();
+    void setTitle();
 
 public slots:
-	void onEvent();
-
+    void onEvent();
+    void onEvent(const QString& text);
+    
 private:
+    QMap<QWidget*, QString> m_widgetMap;
     QLineEdit* m_usernameEdit;
     QLineEdit* m_passwordEdit;
     QLineEdit* m_confirmEdit;
