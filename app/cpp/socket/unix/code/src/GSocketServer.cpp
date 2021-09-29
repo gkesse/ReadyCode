@@ -27,7 +27,7 @@ void GSocketServer::run(int argc, char** argv) {
 		struct sockaddr_in lAddress2 = {0};
 		int lAdresseSize2 = sizeof(lAddress2);
 		int lSocket2 = accept(lSocket,(struct sockaddr *)&lAddress2, (socklen_t*)&lAdresseSize2);
-		write(lSocket2, APRESSMESSAGE, strlen(APRESSMESSAGE));
+		write(lSocket2, lMessage, strlen(lMessage));
 		close(lSocket2);
 	}
 	//===============================================
