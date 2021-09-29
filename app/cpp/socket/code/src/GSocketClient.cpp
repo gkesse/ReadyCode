@@ -35,7 +35,7 @@ void GSocketClient::run(int argc, char** argv) {
 	addrServer.sin_family = AF_INET;
 	InetPton(AF_INET, "127.0.0.1", &addrServer.sin_addr.s_addr);
 	//InetPton(AF_INET, "192.168.0.20", &addrServer.sin_addr.s_addr);
-	addrServer.sin_port = htons(6666);
+	addrServer.sin_port = htons(8585);
 	memset(&(addrServer.sin_zero), '\0', 8);
 
 
