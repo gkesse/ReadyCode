@@ -15,7 +15,7 @@ GCFLAGS =\
     -g \
 #================================================
 # cpp
-all: clean_exe compile run
+all: git_pull clean_exe compile run
 all_g: run_g
 
 compile: $(GOBJS)
