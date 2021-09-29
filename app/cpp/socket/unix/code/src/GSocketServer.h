@@ -11,7 +11,7 @@ public:
 	void run(int argc, char** argv);
 
 private:
-	const char APRESSMESSAGE[] = ""
+	const char* APRESSMESSAGE = ""
 			"APRESS - For Professionals, By Professionals!\n";
 };
 //==============================================
