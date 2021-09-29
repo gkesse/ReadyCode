@@ -16,7 +16,7 @@ void GSocketClient::run(int argc, char** argv) {
 	struct sockaddr_in lAddress;
 	bzero(&lAddress, sizeof(lAddress));
 	lAddress.sin_family = AF_INET;
-	inet_addr("127.0.0.1", &lAddress.sin_addr.s_addr);
+	lAddress.sin_addr.s_addr = inet_addr("127.0.0.1");
 	lAddress.sin_port = htons(8585);
 	connect(lSocket, (struct sockaddr*)&lAddress, sizeof(lAddress));
 	//===============================================
