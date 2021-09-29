@@ -12,7 +12,6 @@ GSocketClient::~GSocketClient() {
 //===============================================
 void GSocketClient::run(int argc, char** argv) {
 	int lPort = 8585;
-	int returnStatus = 0;
 	char lBuffer[256] = "";
 
 	int lSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
