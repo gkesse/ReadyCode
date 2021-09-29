@@ -83,6 +83,8 @@ struct _sGApp {
     // login
     QPushButton* login_connect;
     QPushButton* login_disconnect;
+    // xml
+    std::string xml_file_path;
 };
 //==============================================
 #endif

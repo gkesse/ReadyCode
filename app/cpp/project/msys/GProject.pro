@@ -14,6 +14,7 @@ QMAKE_CXXFLAGS +=\
 
 INCLUDEPATH +=\
     /mingw32/include \
+    /mingw32/include/libxml2 \
     ../code/src \
 
 SOURCES +=\
@@ -21,4 +22,8 @@ SOURCES +=\
 
 HEADERS +=\
     ../code/src/*.h \
+    
+LIBS +=\
+    -lxml2 \
+    -lws2_32 \
     

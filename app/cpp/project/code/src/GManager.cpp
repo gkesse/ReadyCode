@@ -16,6 +16,7 @@ GManager::GManager() {
     mgr->app->sqlite_sql_master = "data/sqlite/sql/master/master.sh";
     mgr->app->sqlite_sql_tmp = "data/sqlite/sql/tmp/tmp.txt";
     mgr->app->sqlite_table_name = "";
+    mgr->app->xml_file_path = "data/xml/test.xml";
 }
 //===============================================
 GManager::~GManager() {

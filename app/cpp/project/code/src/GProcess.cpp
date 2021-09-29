@@ -3,6 +3,7 @@
 #include "GProUi.h"
 #include "GQtUi.h"
 #include "GCppUi.h"
+#include "GSocketUi.h"
 //===============================================
 GProcess* GProcess::m_instance = 0;
 //===============================================
@@ -28,6 +29,7 @@ void GProcess::run(int argc, char** argv) {
     if(lKey == "pro") {runPro(argc, argv); return;}
     if(lKey == "qt") {runQt(argc, argv); return;}
     if(lKey == "cpp") {runCpp(argc, argv); return;}
+    if(lKey == "socket") {runSocket(argc, argv); return;}
     runDefault(argc, argv);
 }
 //===============================================
@@ -57,6 +59,13 @@ void GProcess::runCpp(int argc, char** argv) {
     QString lKey = "default";
     if(argc > 2) {lKey = argv[2];}
     GCppUi* lCpp = GCppUi::Create(lKey);
+    lCpp->run(argc, argv);
+}
+//===============================================
+void GProcess::runSocket(int argc, char** argv) {
+    QString lKey = "default";
+    if(argc > 2) {lKey = argv[2];}
+    GSocketUi* lCpp = GSocketUi::Create(lKey);
     lCpp->run(argc, argv);
 }
 //===============================================

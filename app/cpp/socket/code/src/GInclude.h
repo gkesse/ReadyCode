@@ -3,16 +3,10 @@
 #define _GInclude_
 //===============================================
 // system
+#include <iostream>
 #include <winsock2.h>
-#include <windows.h>
-// qt
-#include <QApplication>
-#include <QtWidgets>
-#include <QtSql>
-// libxml2
-#include <libxml/parser.h>
-#include <libxml/tree.h>
-
+#include <ws2tcpip.h>
+#include <fstream>
 //==============================================
 #endif
 //==============================================
