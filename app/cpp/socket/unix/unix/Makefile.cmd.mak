@@ -7,7 +7,6 @@ GTARGET = $(GBIN)/rdcpp.exe
 GINCS =\
     
 GLIBS =\
-    -lws2_32 \
     
 GOBJS =\
     $(patsubst $(GSRC)/%.cpp, $(GBUILD)/%.o, $(wildcard $(GSRC)/*.cpp)) \
