@@ -9,10 +9,6 @@ public:
 	GSocketServer();
 	virtual ~GSocketServer();
 	void run(int argc, char** argv);
-
-private:
-	const char* APRESSMESSAGE = ""
-			"APRESS - For Professionals, By Professionals!\n";
 };
 //==============================================
 #endif

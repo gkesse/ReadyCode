@@ -21,6 +21,7 @@ void GSocketServer::run(int argc, char** argv) {
 	lAddress.sin_port = htons(8585);
 	bind(lSocket, (struct sockaddr*)&lAddress, sizeof(lAddress));
 	listen(lSocket, 5);
+	const char* lMessage = "Bonjour tout le monde";
 	//===============================================
 	while (1) {
 		struct sockaddr_in lAddress2 = {0};
