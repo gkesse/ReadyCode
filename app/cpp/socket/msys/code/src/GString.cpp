@@ -2,7 +2,7 @@
 #include "GString.h"
 //===============================================
 GString::GString() {
-	m_data = "";
+    m_data = "";
 }
 //===============================================
 GString::~GString() {
@@ -18,15 +18,15 @@ void GString::setData(const std::string& data) {
 }
 //===============================================
 void GString::setData(const char* data, int size) {
-	clear();
+    clear();
     for(int i = 0; i < size; i++) {
-    	m_data += data[i];
+        m_data += data[i];
     }
 }
 //===============================================
 void GString::addData(const char* data, int size) {
     for(int i = 0; i < size; i++) {
-    	m_data += data[i];
+        m_data += data[i];
     }
 }
 //===============================================
