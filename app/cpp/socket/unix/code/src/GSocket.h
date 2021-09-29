@@ -12,8 +12,8 @@ public:
     void setAddress(const std::string& data);
     void setPort(int data);
     void setListen(int listen);
-    virtual void startTCP();
-    virtual void callTCP(const char* dataIn, GString& dataOut);
+    void startTCP();
+    void callTCP(const char* dataIn, GString& dataOut);
     
 protected:
     const int BUFFER_SIZE = 8;
