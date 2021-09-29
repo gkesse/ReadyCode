@@ -78,7 +78,7 @@ void GSocketServer::run(int argc, char** argv) {
 
 		/* wait here */
 
-		simpleChildSocket = accept(simpleSocket,(struct sockaddr *)&clientName, &clientNameLength);
+		simpleChildSocket = accept(simpleSocket,(struct sockaddr *)&clientName, (socklen_t*)&clientNameLength);
 
 		if (simpleChildSocket == -1) {
 
