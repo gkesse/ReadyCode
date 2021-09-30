@@ -13,25 +13,24 @@ GSocketServer::~GSocketServer() {
 }
 //===============================================
 void GSocketServer::run(int argc, char** argv) {
-	int lSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	int lSocket = socket(AF_INET, SOCK_DGRAM, 0);
 	struct sockaddr_in lAddress;
-	bzero(&lAddress, sizeof(lSocket));
+	bzero(&lAddress, sizeof(lAddress));
 	lAddress.sin_family = AF_INET;
 	lAddress.sin_addr.s_addr = htonl(INADDR_ANY);
 	lAddress.sin_port = htons(8585);
 	bind(lSocket, (struct sockaddr*)&lAddress, sizeof(lAddress));
-	listen(lSocket, 5);
-	const char* lMessage = "Bonjour tout le monde";
 	//===============================================
+	struct sockaddr_in lAddress2;
+	int lAdresseSize2 = sizeof(lAddress2);
+	char lBuffer[256];
 	while (1) {
-		struct sockaddr_in lAddress2 = {0};
-		int lAdresseSize2 = sizeof(lAddress2);
-		int lSocket2 = accept(lSocket,(struct sockaddr *)&lAddress2, (socklen_t*)&lAdresseSize2);
-		write(lSocket2, lMessage, strlen(lMessage));
-		close(lSocket2);
+		recvfrom(lSocket, lBuffer, 256, 0, (struct sockaddr*)&lAddress2, &lAdresseSize2);
+		printf("Received: %s\n", lBuffer);
+		strcpy(lBuffer, "OK");
+		sendto(lSocket, lBuffer, strlen(lBuffer), 0,(struct sockaddr*)&lAddress2, sizeof(lAddress2));
 	}
 	//===============================================
 	close(lSocket);
-	return;
 }
 //===============================================
