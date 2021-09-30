@@ -14,6 +14,7 @@ public:
     void addData(const char* data, int size);
     void clear();
     std::string getData() const ;
+    int getSize() const ;
     const char* c_str() const;
     void toChar(char* buffer) const;
     void print() const;

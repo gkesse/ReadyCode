@@ -38,6 +38,10 @@ std::string GString::getData() const {
     return m_data;
 }
 //===============================================
+int GString::getSize() const {
+    return m_data.size();
+}
+//===============================================
 const char* GString::c_str() const {
     return m_data.c_str();
 }

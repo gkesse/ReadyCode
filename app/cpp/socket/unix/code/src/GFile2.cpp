@@ -1,0 +1,28 @@
+//===============================================
+#include "GFile2.h"
+//===============================================
+GFile2::GFile2() {
+	m_filename = "";
+	m_fileId = 0;
+}
+//===============================================
+GFile2::~GFile2() {
+
+}
+//===============================================
+void GFile2::setFilename(const std::string& filename) {
+    m_filename = filename;
+}
+//===============================================
+void GFile2::open() {
+	m_fileId = open(m_filename.c_str(), O_WRONLY | O_CREAT | O_APPEND);
+}
+//===============================================
+void GFile2::write(const char* data, int size) {
+	write(m_fileId, data, size);
+}
+//===============================================
+void GFile2::write(const GString& data) {
+	write(data.c_str(), data.getSize());
+}
+//===============================================
