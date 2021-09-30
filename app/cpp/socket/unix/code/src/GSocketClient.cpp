@@ -24,7 +24,7 @@ void GSocketClient::run(int argc, char** argv) {
 	lAddress.sin_addr.s_addr = inet_addr("127.0.0.1");
 	lAddress.sin_port = htons(8585);
 	connect(lSocket, (struct sockaddr*)&lAddress, sizeof(lAddress));
-	write(lSocket, lFilename, strlen(lFilename));
+	write(lSocket, lFilename, strlen(lFilename) + 1);
 	shutdown(lSocket, SHUT_WR);
 	GString lData;
 
