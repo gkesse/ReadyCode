@@ -51,7 +51,8 @@ void GSocketClient::run(int argc, char** argv) {
 	}
 
 	/* send the name of the file we want to the server */
-	returnStatus = write(sockd, argv[2], strlen(argv[2])+1);
+	const char* lFilename = "data/test.txt";
+	returnStatus = write(sockd, lFilename, strlen(lFilename));
 
 	if (returnStatus == -1)
 	{
@@ -64,7 +65,7 @@ void GSocketClient::run(int argc, char** argv) {
 
 	/* open up a handle to our destination file to receive the contents */
 	/* from the server   */
-	fd = open(argv[3], O_WRONLY | O_CREAT | O_APPEND);
+	fd = open("data/test_write.txt", O_WRONLY | O_CREAT | O_APPEND);
 
 	if (fd == -1)
 	{
