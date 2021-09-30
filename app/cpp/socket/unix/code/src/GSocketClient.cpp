@@ -38,7 +38,7 @@ void GSocketClient::run(int argc, char** argv) {
 
 	/* set up the server information */
 	xferServer.sin_family = AF_INET;
-	xferServer.sin_addr.s_addr = inet_addr(argv[1]);
+	xferServer.sin_addr.s_addr = inet_addr("127.0.0.1");
 	xferServer.sin_port = htons(SERVERPORT);
 
 	/* connect to the server */
