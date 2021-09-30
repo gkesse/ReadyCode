@@ -18,7 +18,7 @@ void GSocketClient::run(int argc, char** argv) {
 	int counter;
 	int fd;
 	struct sockaddr_in xferServer;
-	char buf[MAXBUF];
+	char buf[MAXBUF + 1];
 	int returnStatus;
 
 	if (argc < 3)
@@ -51,7 +51,7 @@ void GSocketClient::run(int argc, char** argv) {
 	}
 
 	/* send the name of the file we want to the server */
-	const char* lFilename = "data/test_1.txt";
+	const char* lFilename = "data/server/test.xml";
 	returnStatus = write(sockd, lFilename, strlen(lFilename));
 
 	if (returnStatus == -1)
@@ -65,7 +65,7 @@ void GSocketClient::run(int argc, char** argv) {
 
 	/* open up a handle to our destination file to receive the contents */
 	/* from the server   */
-	fd = open("data/test_2.txt", O_WRONLY | O_CREAT | O_APPEND);
+	fd = open("data/client/test.xml", O_WRONLY | O_CREAT | O_APPEND);
 
 	if (fd == -1)
 	{
