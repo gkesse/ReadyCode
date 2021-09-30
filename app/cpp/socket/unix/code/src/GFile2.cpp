@@ -18,11 +18,11 @@ void GFile2::openFile() {
 	m_fileId = open(m_filename.c_str(), O_WRONLY | O_CREAT | O_APPEND);
 }
 //===============================================
-void GFile2::write(const char* data, int size) {
+void GFile2::writeData(const char* data, int size) {
 	write(m_fileId, data, size);
 }
 //===============================================
 void GFile2::writeData(const GString& data) {
-	write(data.c_str(), data.getSize());
+	writeData(data.c_str(), data.getSize());
 }
 //===============================================
