@@ -14,7 +14,7 @@ void GFile2::setFilename(const std::string& filename) {
     m_filename = filename;
 }
 //===============================================
-void GFile2::open() {
+void GFile2::openFile() {
 	m_fileId = open(m_filename.c_str(), O_WRONLY | O_CREAT | O_APPEND);
 }
 //===============================================

@@ -10,7 +10,7 @@ public:
     GFile2();
     ~GFile2();
     void setFilename(const std::string& filename);
-    void open();
+    void openFile();
     void write(const char* data, int size);
     void write(const GString& data);
     
