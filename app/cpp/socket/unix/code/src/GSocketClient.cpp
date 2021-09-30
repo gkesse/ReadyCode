@@ -28,7 +28,8 @@ void GSocketClient::run(int argc, char** argv) {
 	char lBuffer[256];
 	strcpy(lBuffer, "Bonjour tout le monde");
 	sendto(lSocket, lBuffer, strlen(lBuffer), 0, (struct sockaddr*)&lAddress2, sizeof(lAddress2));
-	recvfrom(lSocket, lBuffer, 256, 0, (struct sockaddr*)&lAddress2, &lAdresseSize2);
+	int lBytes = recvfrom(lSocket, lBuffer, 256, 0, (struct sockaddr*)&lAddress2, &lAdresseSize2);
+	lBuffer[lBytes] = 0;
 	printf("Received: %s\n", lBuffer);
 	//===============================================
 	close(lSocket);
