@@ -22,7 +22,7 @@ void GSocketServer::run(int argc, char** argv) {
 	bind(lSocket, (struct sockaddr*)&lAddress, sizeof(lAddress));
 	//===============================================
 	struct sockaddr_in lAddress2;
-	int lAdresseSize2 = sizeof(lAddress2);
+	socklen_t lAdresseSize2 = sizeof(lAddress2);
 	char lBuffer[256];
 	while (1) {
 		recvfrom(lSocket, lBuffer, 256, 0, (struct sockaddr*)&lAddress2, &lAdresseSize2);
