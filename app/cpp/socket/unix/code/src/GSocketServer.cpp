@@ -76,19 +76,9 @@ void GSocketServer::run(int argc, char** argv) {
 		/* get the filename from the client over the socket */
 		i = 0;
 
-		if ((readCounter = read(socket2, filename + i, MAXBUF)) > 0)
-		{
-			i += readCounter;
-		}
+		readCounter = read(socket2, filename + i, MAXBUF);
 
-		if (readCounter == -1)
-		{
-			fprintf(stderr, "Could not read filename from socket!\n");
-			close(socket2);
-			continue;
-		}
-
-		filename[i+1] = '\0';
+		filename[readCounter] = 0;
 
 		printf("Reading file %s\n", filename);
 
