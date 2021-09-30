@@ -17,7 +17,7 @@ GSocketServer::~GSocketServer() {
 //===============================================
 void GSocketServer::run(int argc, char** argv) {
 	int socket1,socket2;
-	int addrlen;
+	socklen_t addrlen;
 	struct sockaddr_in xferServer, xferClient;
 	int returnStatus;
 
