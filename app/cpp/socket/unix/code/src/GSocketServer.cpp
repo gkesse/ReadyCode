@@ -25,7 +25,7 @@ void GSocketServer::run(int argc, char** argv) {
 	bind(lSocket, (struct sockaddr*)&lAddress, sizeof(lAddress));
 	listen(lSocket, 5);
 	struct sockaddr_in lAddress2;
-	struct sockaddr_in lAdresseSize2 = sizeof(lAddress2);
+	socklen_t lAdresseSize2 = sizeof(lAddress2);
 
 	while(1) {
 		int lSocket2 = accept(lSocket, (struct sockaddr*)&lAddress2, &lAdresseSize2);
