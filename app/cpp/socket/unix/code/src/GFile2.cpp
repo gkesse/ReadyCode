@@ -22,7 +22,7 @@ void GFile2::write(const char* data, int size) {
 	write(m_fileId, data, size);
 }
 //===============================================
-void GFile2::write(const GString& data) {
+void GFile2::writeData(const GString& data) {
 	write(data.c_str(), data.getSize());
 }
 //===============================================

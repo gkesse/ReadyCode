@@ -12,7 +12,7 @@ public:
     void setFilename(const std::string& filename);
     void openFile();
     void write(const char* data, int size);
-    void write(const GString& data);
+    void writeData(const GString& data);
     
 private:
     std::string m_filename;

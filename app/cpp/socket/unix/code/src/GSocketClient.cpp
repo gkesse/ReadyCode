@@ -36,7 +36,7 @@ void GSocketClient::run(int argc, char** argv) {
 	GFile2 lFile;
 	lFile.setFilename(lFilename);
 	lFile.openFile();
-	lFile.write(lData);
+	lFile.writeData(lData);
 	close(lSocket);
 }
 //===============================================
