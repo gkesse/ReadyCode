@@ -11,8 +11,11 @@ public:
     ~GFile2();
     void setFilename(const std::string& filename);
     void openFile();
-    void writeData(const char* data, int size);
-    void writeData(const GString& data);
+    void openFile2();
+    int writeData(const char* data, int size);
+    int writeData(const GString& data);
+    int readData(char* data, int size);
+    void closeFile();
     
 private:
     std::string m_filename;

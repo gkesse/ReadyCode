@@ -34,11 +34,11 @@ void GString::clear() {
     m_data = "";
 }
 //===============================================
-std::string GString::getData() const {
+std::string GString::str() const {
     return m_data;
 }
 //===============================================
-int GString::getSize() const {
+int GString::size() const {
     return m_data.size();
 }
 //===============================================

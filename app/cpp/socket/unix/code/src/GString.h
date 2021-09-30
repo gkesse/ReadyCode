@@ -13,8 +13,8 @@ public:
     void setData(const char* data, int size);
     void addData(const char* data, int size);
     void clear();
-    std::string getData() const ;
-    int getSize() const ;
+    std::string str() const ;
+    int size() const ;
     const char* c_str() const;
     void toChar(char* buffer) const;
     void print() const;

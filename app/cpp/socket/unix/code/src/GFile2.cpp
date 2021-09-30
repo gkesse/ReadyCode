@@ -18,11 +18,23 @@ void GFile2::openFile() {
 	m_fileId = open(m_filename.c_str(), O_WRONLY | O_CREAT | O_APPEND);
 }
 //===============================================
-void GFile2::writeData(const char* data, int size) {
-	write(m_fileId, data, size);
+void GFile2::openFile2() {
+	m_fileId = open(m_filename.c_str(), O_RDONLY);
 }
 //===============================================
-void GFile2::writeData(const GString& data) {
-	writeData(data.c_str(), data.getSize());
+int GFile2::writeData(const char* data, int size) {
+	return write(m_fileId, data, size);
+}
+//===============================================
+int GFile2::writeData(const GString& data) {
+	return writeData(data.c_str(), data.size());
+}
+//===============================================
+int GFile2::readData(char* data, int size) {
+	return read(m_fileId, data, size);
+}
+//===============================================
+void GFile2::closeFile() {
+	close(m_fileId);
 }
 //===============================================

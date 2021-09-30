@@ -1,11 +1,8 @@
 //===============================================
 #include "GSocketServer.h"
-#include "GFile.h"
+#include "GFile2.h"
 #include "GString.h"
 #include "GSocket.h"
-//===============================================
-#define SERVERPORT	8888
-#define MAXBUF		1024
 //===============================================
 GSocketServer::GSocketServer() {
 
@@ -16,112 +13,40 @@ GSocketServer::~GSocketServer() {
 }
 //===============================================
 void GSocketServer::run(int argc, char** argv) {
-	int socket1,socket2;
-	socklen_t addrlen;
-	struct sockaddr_in xferServer, xferClient;
-	int returnStatus;
+	const int BUFFER_SIZE = 1024;
+	char lBuffer[BUFFER_SIZE + 1];
 
-	/* create a socket */
-	socket1 = socket(AF_INET, SOCK_STREAM, 0);
+	int lSocket = socket(AF_INET, SOCK_STREAM, 0);
+	struct sockaddr_in lAddress;
+	bzero(&lAddress, sizeof(lAddress));
+	lAddress.sin_family = AF_INET;
+	lAddress.sin_addr.s_addr = INADDR_ANY;
+	lAddress.sin_port = htons(8585);
+	bind(lSocket, (struct sockaddr*)&lAddress, sizeof(lAddress));
+	listen(lSocket, 5);
+	struct sockaddr_in lAddress2;
+	struct sockaddr_in lAdresseSize2 = sizeof(lAddress2);
 
-	if (socket1 == -1)
-	{
-		fprintf(stderr, "Could not create socket!\n");
-		exit(1);
-	}
+	while(1) {
+		int lSocket2 = accept(lSocket, (struct sockaddr*)&lAddress2, &lAdresseSize2);
+		int lReadBytes = read(lSocket2, lBuffer, BUFFER_SIZE);
+		GString lFilename;
+		lFilename.setData(lBuffer, lReadBytes);
+		printf("Reading file %s\n", lFilename.c_str());
+		GFile2 lFile;
+		lFile.setFilename(lFilename.c_str());
+		lFile.openFile2();
 
-	/* bind to a socket, use INADDR_ANY for all local addresses */
-	xferServer.sin_family = AF_INET;
-	xferServer.sin_addr.s_addr = INADDR_ANY;
-	xferServer.sin_port = htons(SERVERPORT);
-
-	returnStatus = bind(socket1, (struct sockaddr*)&xferServer, sizeof(xferServer));
-
-	if (returnStatus == -1)
-	{
-		fprintf(stderr, "Could not bind to socket!\n");
-		exit(1);
-	}
-
-	returnStatus = listen(socket1, 5);
-
-	if (returnStatus == -1)
-	{
-		fprintf(stderr, "Could not listen on socket!\n");
-		exit(1);
-	}
-
-	for(;;)
-	{
-
-		int fd;
-		int i, readCounter, writeCounter;
-		char* bufptr;
-		char buf[MAXBUF];
-		char filename[MAXBUF];
-
-		/* wait for an incoming connection */
-		addrlen = sizeof(xferClient);
-
-		/* use accept() to handle incoming connection requests        */
-		/* and free up the original socket for other requests         */
-		socket2 = accept(socket1, (struct sockaddr*)&xferClient, &addrlen);
-
-		if (socket2 == -1)
-		{
-			fprintf(stderr, "Could not accept connection!\n");
-			exit(1);
+		while(1) {
+			int lReadBytes = lFile.readData(lBuffer, BUFFER_SIZE);
+			if(lReadBytes <= 0) {break;}
+			write(lSocket2, lBuffer, lReadBytes);
 		}
 
-		/* get the filename from the client over the socket */
-		i = 0;
-
-		readCounter = read(socket2, filename + i, MAXBUF);
-
-		filename[readCounter] = 0;
-
-		printf("Reading file %s\n", filename);
-
-		/* open the file for reading */
-		fd = open(filename, O_RDONLY);
-
-		if (fd == -1)
-		{
-			fprintf(stderr, "Could not open file for reading!\n");
-			close(socket2);
-			continue;
-		}
-
-		/* reset the read counter */
-		readCounter = 0;
-
-		/* read the file, and send it to the client in chunks of size MAXBUF */
-		while((readCounter = read(fd, buf, MAXBUF)) > 0)
-		{
-			writeCounter = 0;
-			bufptr = buf;
-
-			while (writeCounter < readCounter)
-			{
-
-				readCounter -= writeCounter;
-				bufptr += writeCounter;
-				writeCounter = write(socket2, bufptr, readCounter);
-
-				if (writeCounter == -1)
-				{
-					fprintf(stderr, "Could not write file to client!\n");
-					close(socket2);
-					continue;
-				}
-			}
-		}
-
-		close(socket2);
-		close(fd);
-
+		close(lSocket2);
+		lFile.closeFile();
 	}
 
-	close (socket1);
+	close (lSocket);
 }
 //===============================================
