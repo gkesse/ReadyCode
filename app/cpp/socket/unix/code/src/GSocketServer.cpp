@@ -39,6 +39,7 @@ void GSocketServer::run(int argc, char** argv) {
         GString lData;
         lFile.readAll(lData);
         lFile.closeFile();
+        printf("Reading string %s\n", lData.c_str());
         lBytes = 0;
 
         while(1) {
