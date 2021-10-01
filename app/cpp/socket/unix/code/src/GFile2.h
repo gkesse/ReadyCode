@@ -15,6 +15,8 @@ public:
     int writeData(const char* data, int size);
     int writeData(const GString& data);
     int readData(char* data, int size);
+    int readAll(std::string& data);
+    int readAll(GString& data);
     void closeFile();
     
 private:
