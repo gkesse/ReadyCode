@@ -43,6 +43,7 @@ void GSocketServer::run(int argc, char** argv) {
 
         while(1) {
         	lBytes = lData.toChar(lBuffer, lBytes, 10);
+        	lBuffer[lBytes] = 0;
             if(lBytes <= 0) {break;}
             write(lSocket2, lBuffer, lBytes);
         }
