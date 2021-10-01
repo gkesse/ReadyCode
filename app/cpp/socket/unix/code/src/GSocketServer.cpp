@@ -37,9 +37,9 @@ void GSocketServer::run(int argc, char** argv) {
         lFile.setFilename(lFilename.c_str());
         lFile.openFile2();
         GString lData;
-        int lBytes = lFile.readAll(lData);
+        lFile.readAll(lData);
         lFile.closeFile();
-        lBytes = 0;
+        int lBytes = 0;
 
         while(1) {
         	lBytes = lData.toChar(lBuffer, lBytes, BUFFER_SIZE);
