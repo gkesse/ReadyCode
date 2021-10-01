@@ -13,7 +13,7 @@ GSocketServer::~GSocketServer() {
 }
 //===============================================
 void GSocketServer::run(int argc, char** argv) {
-    const int BUFFER_SIZE = 5;
+    const int BUFFER_SIZE = 1024;
     char lBuffer[BUFFER_SIZE + 1];
 
     int lSocket = socket(AF_INET, SOCK_STREAM, 0);
@@ -42,7 +42,7 @@ void GSocketServer::run(int argc, char** argv) {
         lBytes = 0;
 
         while(1) {
-        	lBytes = lData.toChar(lBuffer, lBytes, BUFFER_SIZE);
+        	lBytes = lData.toChar(lBuffer, lBytes, 10);
             if(lBytes <= 0) {break;}
             write(lSocket2, lBuffer, lBytes);
         }
