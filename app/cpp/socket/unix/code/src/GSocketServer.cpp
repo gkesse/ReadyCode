@@ -29,9 +29,9 @@ void GSocketServer::run(int argc, char** argv) {
 
     while(1) {
         int lSocket2 = accept(lSocket, (struct sockaddr*)&lAddress2, &lAdresseSize2);
-        int lReadBytes = read(lSocket2, lBuffer, BUFFER_SIZE);
+        int lBytes = read(lSocket2, lBuffer, BUFFER_SIZE);
         GString lFilename;
-        lFilename.setData(lBuffer, lReadBytes);
+        lFilename.setData(lBuffer, lBytes);
         printf("Reading file %s\n", lFilename.c_str());
         GFile2 lFile;
         lFile.setFilename(lFilename.c_str());
@@ -39,7 +39,7 @@ void GSocketServer::run(int argc, char** argv) {
         GString lData;
         lFile.readAll(lData);
         lFile.closeFile();
-        int lBytes = 0;
+        lBytes = 0;
 
         while(1) {
         	lBytes = lData.toChar(lBuffer, lBytes, BUFFER_SIZE);
