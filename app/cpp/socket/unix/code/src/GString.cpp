@@ -66,7 +66,7 @@ int GString::toChar(char* buffer, int index, int _size) const {
     int lSize = size();
     while(1) {
     	if(j >= _size) {break;}
-    	if(i >= lSize) {buffer[j]; return -1;}
+    	if(i >= lSize) {buffer[j] = 0; return -1;}
     	if(m_data[i] == 0) {break;}
         buffer[j] = m_data[i];
         i++;
