@@ -46,11 +46,11 @@ const char* GString::c_str() const {
     return m_data.c_str();
 }
 //===============================================
-int GString::toChar(char* buffer, int size) const {
+int GString::toChar(char* buffer, int _size) const {
     int i = 0;
     int lSize = size();
     while(1) {
-    	if(i >= size) {break;}
+    	if(i >= _size) {break;}
     	if(i >= lSize) {break;}
     	if(m_data[i] == 0) {break;}
         buffer[i] = m_data[i];
