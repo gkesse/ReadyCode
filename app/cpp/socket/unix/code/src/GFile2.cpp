@@ -34,22 +34,16 @@ int GFile2::readData(char* data, int size) {
     return read(m_fileId, data, size);
 }
 //===============================================
-int GFile2::readAll(std::string& data) {
+int GFile2::readAll(GString& data) {
 	const int BUFFER_SIZE = 1024;
 	char lBuffer[BUFFER_SIZE + 1];
 	int lSize = 0;
     while(1) {
         int lBytes = readData(lBuffer, BUFFER_SIZE);
         if(lBytes <= 0) {break;}
+        data.addData(lBuffer, lBytes);
         lSize += lBytes;
     }
-    return lSize;
-}
-//===============================================
-int GFile2::readAll(GString& data) {
-	std::string lData;
-	int lSize = readAll(lData);
-	data.setData(lData);
     return lSize;
 }
 //===============================================
