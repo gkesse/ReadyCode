@@ -35,7 +35,6 @@ int GFile2::readData(char* data, int size) {
 }
 //===============================================
 int GFile2::readAll(GString& data) {
-	data.clear();
 	const int BUFFER_SIZE = 1024;
 	char lBuffer[BUFFER_SIZE + 1];
 	int lSize = 0;
