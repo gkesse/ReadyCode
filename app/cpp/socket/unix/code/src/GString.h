@@ -16,7 +16,8 @@ public:
     std::string str() const ;
     int size() const ;
     const char* c_str() const;
-    void toChar(char* buffer) const;
+    int toChar(char* buffer, int size) const;
+    int toChar(char* buffer, int index, int size) const;
     void print() const;
 
 public:

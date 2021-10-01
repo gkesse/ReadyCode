@@ -39,10 +39,11 @@ void GSocketServer::run(int argc, char** argv) {
         GString lData;
         int lBytes = lFile.readAll(lData);
         printf("Reading size %d\n", lBytes);
+        int lIndex = 0;
 
         while(1) {
-            int lBytes = lFile.readData(lBuffer, BUFFER_SIZE);
-            if(lBytes <= 0) {break;}
+        	lIndex = lData.toChar(lBuffer, lIndex, BUFFER_SIZE);
+            if(lIndex <= 0) {break;}
             write(lSocket2, lBuffer, lBytes);
         }
 
