@@ -61,19 +61,17 @@ int GString::toChar(char* buffer, int _size) const {
 }
 //===============================================
 int GString::toChar(char* buffer, int index, int _size) const {
-    int i = index;
-    int j = 0;
+    int i = 0;
     int lSize = size();
     while(1) {
-    	if(j >= _size) {break;}
-    	if(i >= lSize) {buffer[j] = 0; return -1;}
-    	if(m_data[i] == 0) {break;}
-        buffer[j] = m_data[i];
+    	if(i >= _size) {break;}
+    	if(i + index >= lSize) {buffer[i] = 0; return -1;}
+    	if(m_data[i + index] == 0) {break;}
+        buffer[i] = m_data[i + index];
         i++;
-        j++;
     }
-    buffer[j] = 0;
-    return i;
+    buffer[i] = 0;
+    return i + index;
 }
 //===============================================
 void GString::print() const {
