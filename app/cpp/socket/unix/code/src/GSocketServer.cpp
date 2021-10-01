@@ -38,7 +38,6 @@ void GSocketServer::run(int argc, char** argv) {
         lFile.openFile2();
         GString lData;
         lFile.readAll(lData);
-        lFile.closeFile();
         int lBytes = 0;
 
         while(1) {
@@ -48,6 +47,7 @@ void GSocketServer::run(int argc, char** argv) {
         }
 
         close(lSocket2);
+        lFile.closeFile();
     }
 
     close (lSocket);

@@ -38,7 +38,6 @@ int GFile2::readAll(GString& data) {
 	const int BUFFER_SIZE = 1024;
 	char lBuffer[BUFFER_SIZE + 1];
 	int lSize = 0;
-	data.clear();
     while(1) {
         int lBytes = readData(lBuffer, BUFFER_SIZE);
         if(lBytes <= 0) {break;}
