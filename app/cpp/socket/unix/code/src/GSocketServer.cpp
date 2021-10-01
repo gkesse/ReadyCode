@@ -38,18 +38,16 @@ void GSocketServer::run(int argc, char** argv) {
         lFile.openFile2();
         GString lData;
         int lBytes = lFile.readAll(lData);
-        printf("Reading size %d\n", lBytes);
+        lFile.closeFile();
         lBytes = 0;
 
         while(1) {
         	lBytes = lData.toChar(lBuffer, lBytes, BUFFER_SIZE);
-            printf("Reading block-size %d\n", lBytes);
             if(lBytes <= 0) {break;}
             write(lSocket2, lBuffer, lBytes);
         }
 
         close(lSocket2);
-        lFile.closeFile();
     }
 
     close (lSocket);
