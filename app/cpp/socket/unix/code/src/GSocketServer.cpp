@@ -13,7 +13,7 @@ GSocketServer::~GSocketServer() {
 }
 //===============================================
 void GSocketServer::run(int argc, char** argv) {
-    const int BUFFER_SIZE = 1024;
+    const int BUFFER_SIZE = 5;
     char lBuffer[BUFFER_SIZE + 1];
 
     int lSocket = socket(AF_INET, SOCK_STREAM, 0);
