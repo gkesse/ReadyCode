@@ -22,6 +22,10 @@ void GFile2::openFile2() {
     m_fileId = open(m_filename.c_str(), O_RDONLY);
 }
 //===============================================
+void GFile2::openFile3() {
+    m_fileId = open(m_filename.c_str(), O_WRONLY | O_CREAT);
+}
+//===============================================
 int GFile2::writeData(const char* data, int size) {
     return write(m_fileId, data, size);
 }

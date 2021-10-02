@@ -12,6 +12,7 @@ public:
     void setFilename(const std::string& filename);
     void openFile();
     void openFile2();
+    void openFile3();
     int writeData(const char* data, int size);
     int writeData(const GString& data);
     int readData(char* data, int size);

@@ -36,7 +36,7 @@ void GSocketClient::run(int argc, char** argv) {
 
     GFile2 lFile;
     lFile.setFilename("data/client/test.xml");
-    lFile.openFile();
+    lFile.openFile3();
     lFile.writeData(lData);
     lFile.closeFile();
     close(lSocket);
