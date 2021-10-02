@@ -73,7 +73,7 @@ int GString::toChar(char* buffer, int index, int _size) const {
         j++;
     }
     buffer[j] = 0;
-    return i;
+    return j;
 }
 //===============================================
 void GString::print() const {
