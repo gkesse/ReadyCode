@@ -39,13 +39,13 @@ void GSocketServer::run(int argc, char** argv) {
         GString lData;
         lFile.readAll(lData);
         lFile.closeFile();
-        lBytes = 0;
+        int lIndex = 0;
 
         while(1) {
-        	lBytes = lData.toChar(lBuffer, lBytes, 10);
-        	lBuffer[lBytes] = 0;
+        	lBytes = lData.toChar(lBuffer, lIndex, BUFFER_SIZE);
             if(lBytes <= 0) {break;}
             write(lSocket2, lBuffer, lBytes);
+            lIndex += lBytes;
         }
 
         close(lSocket2);
