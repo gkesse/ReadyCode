@@ -45,7 +45,6 @@ void GSocketServer::run(int argc, char** argv) {
         	lBytes = lData.toChar(lBuffer, lIndex, BUFFER_SIZE);
             if(lBytes <= 0) {break;}
             lIndex += lBytes;
-            printf("%d : %d\n", lBytes, lIndex);
             write(lSocket2, lBuffer, lBytes);
         }
 
