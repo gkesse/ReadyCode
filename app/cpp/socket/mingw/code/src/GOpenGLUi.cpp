@@ -1,6 +1,7 @@
 //===============================================
 #include "GOpenGLUi.h"
 #include "GOpenGL.h"
+#include "data_ecg.h"
 //===============================================
 GOpenGLUi::GOpenGLUi() {
 
@@ -19,15 +20,15 @@ void GOpenGLUi::run(int argc, char** argv) {
     GOpenGL lOpenGL;
     lOpenGL.init();
 
-    float lSigma = 0.01f;
+    int lCount = 0;
 
     while (!lOpenGL.isClose()) {
         lOpenGL.viewport();
         lOpenGL.grid(5.f, 1.f, 0.1f);
         lOpenGL.axis(5.f, 1.f , 5.f, {1.f, 1.f, 1.f, 0.5f});
-        lSigma += 0.01f;
-        if(lSigma > 1.0f) {lSigma = 0.01;}
-        lOpenGL.gaussian2D(1000, 1000, lSigma, 2.f);
+        if(lCount > 5000) {lCount = 0;}
+        lCount += 5;
+        lOpenGL.ecg(data_ecg, lCount, 1024, 2.f);
         lOpenGL.pollEvents();
     }
 

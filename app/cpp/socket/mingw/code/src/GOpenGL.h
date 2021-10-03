@@ -31,12 +31,15 @@ public:
     void gaussian2D(int _xSize, int _ySize, float _sigma, float _psize);
     void heatMap(GFunction& _func, float _psize);
     void heatMap(float _v, float _vmin, float _vmax, float& _r, float& _g, float& _b);
+    void ecg(const float* _data, int _offset, int _size, float _linesize);
+    void ecg(const float* _data, int _offset, int _size, int _yoffset, float _scale, float _linesize);
 
 private:
     GLFWwindow* m_window;
     int m_width;
     int m_height;
     std::string m_title;
+    float m_ratio;
 };
 //==============================================
 #endif

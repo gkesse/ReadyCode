@@ -1,6 +1,4 @@
 //===============================================
-#define NK_IMPLEMENTATION
-//===============================================
 #include "GOpenGL.h"
 #include "GFunction.h"
 //===============================================
@@ -9,6 +7,7 @@ GOpenGL::GOpenGL() {
     m_width = 400;
     m_height = 400;
     m_title = "ReadyApp";
+    m_ratio = 0.f;
 }
 //===============================================
 GOpenGL::~GOpenGL() {
@@ -57,7 +56,7 @@ void GOpenGL::pollEvents() {
 void GOpenGL::viewport() {
     float lRatio;
     glfwGetFramebufferSize(m_window, &m_width, &m_height);
-    lRatio = (float)m_width / (float)m_height;
+    m_ratio = (float)m_width / (float)m_height;
     glViewport(0, 0, m_width, m_height);
     glClear(GL_COLOR_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
@@ -198,5 +197,28 @@ void GOpenGL::heatMap(float _v, float _vmin, float _vmax, float& _r, float& _g, 
     if(_b < 0) {_b = 0.f;}
     if(_r < 0) {_r = 0.f;}
     _g = 1.0f - _b - _r;
+}
+//===============================================
+void GOpenGL::ecg(const float* _data, int _offset, int _size, float _linesize) {
+	ecg(_data, _offset, _size, -0.5f, 0.1f, _linesize);
+	ecg(_data, _offset + _size, _size, 0.0f, 0.5f, _linesize);
+	ecg(_data, _offset + _size*2, _size, 0.5f, -0.25f, _linesize);
+}
+//===============================================
+void GOpenGL::ecg(const float* _data, int _offset, int _size, int _yoffset, float _scale, float _linesize) {
+    const float lSpace = 2.0f / _size * m_ratio;
+    float lPos = -_size * lSpace / 2.0f;
+    glLineWidth(_linesize);
+
+    glBegin(GL_LINE_STRIP);
+    glColor4f(0.1f, 1.0f, 0.1f, 0.8f);
+
+    for(int i = _offset; i < _size + _offset; i++){
+        const float data = _scale * _data[i] + _yoffset;
+        glVertex3f(lPos, data, 0.0f);
+        lPos += lSpace;
+    }
+
+    glEnd();
 }
 //===============================================
