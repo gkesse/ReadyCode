@@ -100,12 +100,12 @@ void GOpenGL::line(const sGVertex& _v1, const sGVertex& _v2, int _width) {
     line(lLine, _width);
 }
 //===============================================
-void GOpenGL::line(sGData* _data, int _size) {
-    for(int i = 0; i < _size - 1; i++) {
-        GLfloat x1 = _data[i].x;
-        GLfloat y1 = _data[i].y;
-        GLfloat x2 = _data[i + 1].x;
-        GLfloat y2 = _data[i + 1].y;
+void GOpenGL::line(GFunction& _func) {
+    for(int i = 0; i < _func.size() - 1; i++) {
+        GLfloat x1 = _func.data()[i].x;
+        GLfloat y1 = _func.data()[i].y;
+        GLfloat x2 = _func.data()[i + 1].x;
+        GLfloat y2 = _func.data()[i + 1].y;
 
         sGVertex v1 = {x1, y1, 0.0f, 0.0f, 1.0f, 1.0f, 0.5f};
         sGVertex v2 = {x2, y2, 0.0f, 0.0f, 1.0f, 0.0f, 0.5f};
@@ -163,9 +163,8 @@ void GOpenGL::triangle(const sGVertex& _v1, const sGVertex& _v2, const sGVertex&
 //===============================================
 void GOpenGL::sinus(float _max, float _phase, float _size, float _range) {
     GFunction lFunction;
-    sGData* lData = lFunction.sinus(_max, _phase, _size, _range);
-    line(lData, _size);
-    delete lData;
+    lFunction.sinus(_max, _phase, _size, _range);
+    line(lFunction);
 }
 //===============================================
 void GOpenGL::gaussian2D(int _xSize, int _ySize, float _sigma, float _psize) {
@@ -177,24 +176,27 @@ void GOpenGL::gaussian2D(int _xSize, int _ySize, float _sigma, float _psize) {
 void GOpenGL::heatMap(GFunction& _func, float _psize) {
     float zMin, zMax;
     _func.zMinMax(zMin, zMax);
-    const float zHalf = (zMax + zMin) / 2;
 
     glPointSize(_psize);
     glBegin(GL_POINTS);
 
     for(int i = 0; i < _func.size(); i++){
         const sGData d = _func.data()[i];
-        float zValue = d.z;
-        float b = 1.0f - zValue/zHalf;
-        float r = zValue/zHalf - 1.0f;
-        if(b < 0) {b = 0;}
-        if(r < 0) {r = 0;}
-        float g = 1.0f - b - r;
-
+        float r, g, b;
+        heatMap(d.z, zMin, zMax, r, g, b);
         glColor4f(r, g, b, 0.5f);
         glVertex3f(d.x, d.y, 0.0f);
     }
 
     glEnd();
+}
+//===============================================
+void GOpenGL::heatMap(float _v, float _vmin, float _vmax, float& _r, float& _g, float& _b) {
+    float _half = (_vmin + _vmax) / 2;
+    _b = 1.0f - _v/_half;
+    _r = _v/_half - 1.0f;
+    if(_b < 0) {_b = 0.f;}
+    if(_r < 0) {_r = 0.f;}
+    _g = 1.0f - _b - _r;
 }
 //===============================================

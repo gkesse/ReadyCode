@@ -24,8 +24,8 @@ GCFLAGS =\
     -g \
 #================================================
 # cpp
-all: clean_exe compile run
-all_g: clean_exe compile run_g
+all: git_push clean_exe compile run
+all_g: run_g
 
 compile: $(GOBJS)
 	@if not exist $(GBIN) ( mkdir $(GBIN) )

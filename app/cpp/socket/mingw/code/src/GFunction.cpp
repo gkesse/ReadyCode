@@ -2,35 +2,35 @@
 #include "GFunction.h"
 //===============================================
 GFunction::GFunction() {
-	m_data = 0;
-	m_size = 0;
+    m_data = 0;
+    m_size = 0;
 }
 //===============================================
 GFunction::~GFunction() {
-	if(m_data != 0) {delete m_data;}
+    if(m_data != 0) {delete m_data;}
 }
 //===============================================
 sGData* GFunction::data() {
-	return m_data;
+    return m_data;
 }
 //===============================================
 int GFunction::size() {
-	return m_size;
+    return m_size;
 }
 //===============================================
 sGData* GFunction::sinus(float _max, float _phase, int _size, float _range) {
-	m_size = _size;
-	m_data = (sGData*)malloc(m_size*sizeof(sGData));
+    m_size = _size;
+    m_data = new sGData[m_size];
     for(int i = 0; i < _size; i++) {
-    	m_data[i].x = ((float)i/_size) * _range - _range/2.0f;
-    	m_data[i].y = _max * cosf(m_data[i].x * 3.14f + _phase);
+        m_data[i].x = ((float)i/_size) * _range - _range/2.0f;
+        m_data[i].y = _max * cosf(m_data[i].x * 3.14f + _phase);
     }
     return m_data;
 }
 //===============================================
 sGData* GFunction::gaussian2D(int _xSize, int _ySize, float _sigma) {
     m_size = _xSize*_ySize;
-    m_data = (sGData*)malloc(m_size*sizeof(sGData));
+    m_data = new sGData[m_size];
     int lCount = 0;
     for(int x = -_xSize/2; x < _xSize/2; x += 1) {
         for(int y = -_ySize/2; y < _ySize/2; y += 1) {
@@ -47,8 +47,8 @@ sGData* GFunction::gaussian2D(int _xSize, int _ySize, float _sigma) {
 }
 //===============================================
 void GFunction::zMinMax(float& _zmin, float& _zmax) {
-	_zmin = m_data[0].z;
-	_zmax = m_data[0].z;
+    _zmin = m_data[0].z;
+    _zmax = m_data[0].z;
 
     for(int i = 0; i < m_size; i++){
         sGData lData = m_data[i];

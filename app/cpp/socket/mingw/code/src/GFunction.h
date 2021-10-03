@@ -12,7 +12,7 @@ public:
     int size();
     sGData* sinus(float _max, float _phase, int _size, float _range);
     sGData* gaussian2D(int _xSize, int _ySize, float _sigma);
-    void zMinMax(float& _zmin, float& _zmax)
+    void zMinMax(float& _zmin, float& _zmax);
 
 private:
     sGData* m_data;
