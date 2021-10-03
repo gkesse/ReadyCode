@@ -168,3 +168,33 @@ void GOpenGL::sinus(float _max, float _phase, float _size, float _range) {
     delete lData;
 }
 //===============================================
+void GOpenGL::gaussian2D(int _xSize, int _ySize, float _sigma, float _psize) {
+    GFunction lFunction;
+    lFunction.gaussian2D(_xSize, _ySize, _sigma);
+    heatMap(lFunction, _psize);
+}
+//===============================================
+void GOpenGL::heatMap(GFunction& _func, float _psize) {
+    float zMin, zMax;
+    _func.zMinMax(zMin, zMax);
+    const float zHalf = (zMax + zMin) / 2;
+
+    glPointSize(_psize);
+    glBegin(GL_POINTS);
+
+    for(int i = 0; i < _func.size(); i++){
+        const sGData d = _func.data()[i];
+        float zValue = d.z;
+        float b = 1.0f - zValue/zHalf;
+        float r = zValue/zHalf - 1.0f;
+        if(b < 0) {b = 0;}
+        if(r < 0) {r = 0;}
+        float g = 1.0f - b - r;
+
+        glColor4f(r, g, b, 0.5f);
+        glVertex3f(d.x, d.y, 0.0f);
+    }
+
+    glEnd();
+}
+//===============================================

@@ -3,6 +3,7 @@
 #define _GOpenGL_
 //===============================================
 #include "GInclude.h"
+#include "GFunction.h"
 //===============================================
 class GOpenGL {
 public:
@@ -27,6 +28,8 @@ public:
     void triangle(const sGVertex* _obj);
     void triangle(const sGVertex& _v1, const sGVertex& _v2, const sGVertex& _v3);
     void sinus(float _max, float _phase, float _size, float _range);
+    void gaussian2D(int _xSize, int _ySize, float _sigma, float _psize);
+    void heatMap(GFunction& _func, float _psize);
 
 private:
     GLFWwindow* m_window;
