@@ -10,9 +10,13 @@ public:
     ~GFile();
     void filename(const std::string& _filename);
     int size() const;
+    void open();
+    void close();
+    int read(const char* format, ...);
     
 private:
     std::string m_filename;
+    FILE* m_pFile;
 };
 //==============================================
 #endif
