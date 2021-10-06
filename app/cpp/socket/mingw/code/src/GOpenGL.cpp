@@ -264,7 +264,31 @@ void GOpenGL::gaussian2D(int _xSize, int _ySize, float _sigma, float _psize) {
     heatMap(lFunction, _psize);
 }
 //===============================================
+void GOpenGL::gaussian2D2(int _xSize, int _ySize, float _sigma, float _psize) {
+    GFunction lFunction;
+    lFunction.gaussian2D(_xSize, _ySize, _sigma);
+    heatMap2(lFunction, _psize);
+}
+//===============================================
 void GOpenGL::heatMap(GFunction& _func, float _psize) {
+    float zMin, zMax;
+    _func.zMinMax(zMin, zMax);
+
+    glPointSize(_psize);
+    glBegin(GL_POINTS);
+
+    for(int i = 0; i < _func.size(); i++){
+        const sGData d = _func.data()[i];
+        float r, g, b;
+        heatMap(d.z, zMin, zMax, r, g, b);
+        glColor4f(r, g, b, 0.5f);
+        glVertex3f(d.x, d.y, 0.f);
+    }
+
+    glEnd();
+}
+//===============================================
+void GOpenGL::heatMap2(GFunction& _func, float _psize) {
     float zMin, zMax;
     _func.zMinMax(zMin, zMax);
 

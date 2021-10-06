@@ -39,7 +39,9 @@ public:
     void triangle(const sGVertex& _v1, const sGVertex& _v2, const sGVertex& _v3);
     void sinus(float _max, float _phase, float _size, float _range, float _linesize, float _psize);
     void gaussian2D(int _xSize, int _ySize, float _sigma, float _psize);
+    void gaussian2D2(int _xSize, int _ySize, float _sigma, float _psize);
     void heatMap(GFunction& _func, float _psize);
+    void heatMap2(GFunction& _func, float _psize);
     void heatMap(float _v, float _vmin, float _vmax, float& _r, float& _g, float& _b);
     void ecg(const float* _data, int _offset, int _size, float _linesize);
     void ecg(const float* _data, int _offset, int _size, float _yoffset, float _scale, float _linesize);

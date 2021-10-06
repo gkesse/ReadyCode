@@ -8,8 +8,8 @@ class GFile {
 public:
     GFile();
     ~GFile();
-    void setFilename(const std::string& filename);
-    int getSize() const;
+    void filename(const std::string& _filename);
+    int size() const;
     
 private:
     std::string m_filename;

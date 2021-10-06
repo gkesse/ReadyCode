@@ -9,11 +9,11 @@ GFile::~GFile() {
 
 }
 //===============================================
-void GFile::setFilename(const std::string& filename) {
-    m_filename = filename;
+void GFile::filename(const std::string& _filename) {
+    m_filename = _filename;
 }
 //===============================================
-int GFile::getSize() const {
+int GFile::size() const {
     std::fstream lFile;
     lFile.open(m_filename, std::ios::in | std::ios::binary);
 
