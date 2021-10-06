@@ -86,8 +86,29 @@ void GOpenGL::onMouse(GLFWmousebuttonfun _func) {
     glfwSetMouseButtonCallback(m_window, _func);
 }
 //===============================================
+void GOpenGL::onMouse(int _button, int _action, bool& lock) {
+    if (_button != GLFW_MOUSE_BUTTON_LEFT) {return;}
+    if (_action == GLFW_PRESS) {
+        glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        lock = true;
+    }
+    else {
+        lock = false;
+        glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    }
+}
+//===============================================
 void GOpenGL::onCursor(GLFWcursorposfun _func) {
     glfwSetCursorPosCallback(m_window, _func);
+}
+//===============================================
+void GOpenGL::onCursor(double _x, double _y, bool& _lock, float& _alpha, float& _beta, int _cursorX, int& _cursorY) {
+    if (_lock) {
+        _alpha += (float) (_x - _cursorX) / 10.0f;
+        _beta += (float) (_y - _cursorY) / 10.0f;
+    }
+    _cursorX = (int) _x;
+    _cursorY = (int) _y;
 }
 //===============================================
 void GOpenGL::onScroll(GLFWscrollfun _func) {

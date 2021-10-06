@@ -17,7 +17,9 @@ public:
     void onKey(int action, int key, bool& _freeze, float& _alpha, float& _beta, float& _zoom);
     void onResize(GLFWframebuffersizefun _func);
     void onMouse(GLFWmousebuttonfun _func);
+    void onMouse(int _button, int _action, bool& lock);
     void onCursor(GLFWcursorposfun _func);
+    void onCursor(double _x, double _y, bool& _lock, float& _alpha, float& _beta, int _cursorX, int& _cursorY);
     void onScroll(GLFWscrollfun _func);
     void onScroll(double _x, double _y, float& _zoom);
     bool isClose();

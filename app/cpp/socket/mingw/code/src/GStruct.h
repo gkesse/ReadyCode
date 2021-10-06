@@ -29,6 +29,8 @@ struct _sGParams {
 	float beta;
 	float zoom;
 	bool lock;
+	int cursorX;
+	int cursorY;
 };
 //==============================================
 #endif

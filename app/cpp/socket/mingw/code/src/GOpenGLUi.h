@@ -14,6 +14,8 @@ public:
     static void onResize(GLFWwindow* _window, int _width, int _height);
     static void onKey(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods);
     static void onScroll(GLFWwindow* _window, double _x, double _y);
+    static void onMouse(GLFWwindow* _window, int _button, int _action, int _mods);
+    static void onCursor(GLFWwindow* _window, double _x, double _y);
 
 private:
 	static GOpenGL lOpenGL;

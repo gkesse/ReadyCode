@@ -24,6 +24,8 @@ void GOpenGLUi::run(int argc, char** argv) {
     lOpenGL.onResize(onResize);
     lOpenGL.onKey(onKey);
     lOpenGL.onScroll(onScroll);
+    lOpenGL.onMouse(onMouse);
+    lOpenGL.onCursor(onCursor);
 
     lParams.sigma = 0.1f;
     lParams.sign = 1.0f;
@@ -33,6 +35,8 @@ void GOpenGLUi::run(int argc, char** argv) {
     lParams.zoom = 2.0f;
     lParams.lock = false;
     lParams.freeze = false;
+    lParams.cursorX = 0;
+    lParams.cursorY = 0;
 
     while (!lOpenGL.isClose()) {
         lOpenGL.position(lParams.alpha, lParams.beta, lParams.zoom);
@@ -60,5 +64,13 @@ void GOpenGLUi::onKey(GLFWwindow* _window, int _key, int _scancode, int _action,
 //===============================================
 void GOpenGLUi::onScroll(GLFWwindow* _window, double _x, double _y) {
 	lOpenGL.onScroll(_x, _y, lParams.zoom);
+}
+//===============================================
+void GOpenGLUi::onMouse(GLFWwindow* _window, int _button, int _action, int _mods) {
+    lOpenGL.onMouse(_button, _action, lParams.lock);
+}
+//===============================================
+void GOpenGLUi::onCursor(GLFWwindow* _window, double _x, double _y) {
+    lOpenGL.onCursor(_x, _y, lParams.lock, lParams.alpha, lParams.beta, lParams.cursorX, lParams.cursorY);
 }
 //===============================================
