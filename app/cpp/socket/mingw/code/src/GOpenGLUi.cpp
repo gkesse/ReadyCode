@@ -23,6 +23,7 @@ void GOpenGLUi::run(int argc, char** argv) {
     lOpenGL.init();
     lOpenGL.onResize(onResize);
     lOpenGL.onKey(onKey);
+    lOpenGL.onScroll(onScroll);
 
     lParams.sigma = 0.1f;
     lParams.sign = 1.0f;
@@ -49,11 +50,15 @@ void GOpenGLUi::run(int argc, char** argv) {
     lOpenGL.close();
 }
 //===============================================
-void GOpenGLUi::onResize(GLFWwindow* window, int width, int height) {
-    lOpenGL.camera(45.f, 0.1f, 128.f, width, height);
+void GOpenGLUi::onResize(GLFWwindow* _window, int _width, int _height) {
+    lOpenGL.camera(45.f, 0.1f, 128.f, _width, _height);
 }
 //===============================================
-void GOpenGLUi::onKey(GLFWwindow* window, int key, int scancode, int action, int mods) {
-    lOpenGL.onKey(action, key, lParams.freeze, lParams.alpha, lParams.beta, lParams.zoom);
+void GOpenGLUi::onKey(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods) {
+    lOpenGL.onKey(_action, _key, lParams.freeze, lParams.alpha, lParams.beta, lParams.zoom);
+}
+//===============================================
+void GOpenGLUi::onScroll(GLFWwindow* _window, double _x, double _y) {
+	lOpenGL.onScroll(_x, _y, lParams.zoom);
 }
 //===============================================

@@ -94,6 +94,13 @@ void GOpenGL::onScroll(GLFWscrollfun _func) {
     glfwSetScrollCallback(m_window, _func);
 }
 //===============================================
+void GOpenGL::onScroll(double _x, double _y, float& _zoom) {
+	_zoom += (float) _y / 4.0f;
+    if (_zoom < 0.0f) {
+    	_zoom = 0.0f;
+    }
+}
+//===============================================
 bool GOpenGL::isClose() {
     return glfwWindowShouldClose(m_window);
 }

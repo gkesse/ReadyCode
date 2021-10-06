@@ -19,6 +19,7 @@ public:
     void onMouse(GLFWmousebuttonfun _func);
     void onCursor(GLFWcursorposfun _func);
     void onScroll(GLFWscrollfun _func);
+    void onScroll(double _x, double _y, float& _zoom);
     bool isClose();
     void close();
     void pollEvents();

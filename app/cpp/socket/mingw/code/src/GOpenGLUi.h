@@ -12,7 +12,8 @@ public:
     static GOpenGLUi* Create(const std::string& key);
     virtual void run(int argc, char** argv);
     static void onResize(GLFWwindow* _window, int _width, int _height);
-    static void onKey(GLFWwindow* window, int key, int scancode, int action, int mods);
+    static void onKey(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods);
+    static void onScroll(GLFWwindow* _window, double _x, double _y);
 
 private:
 	static GOpenGL lOpenGL;
