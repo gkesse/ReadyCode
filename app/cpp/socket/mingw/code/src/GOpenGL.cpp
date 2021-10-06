@@ -37,6 +37,61 @@ void GOpenGL::init() {
     glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_ALPHA_TEST) ;
+}
+//===============================================
+void GOpenGL::onKey(GLFWkeyfun _func) {
+    glfwSetKeyCallback(m_window, _func);
+}
+//===============================================
+void GOpenGL::onKey(int action, int key, bool& _freeze, float& _alpha, float& _beta, float& _zoom) {
+    if (action != GLFW_PRESS) {return;}
+    switch (key) {
+        case GLFW_KEY_ESCAPE:
+            glfwSetWindowShouldClose(m_window, GL_TRUE);
+            break;
+        case GLFW_KEY_SPACE:
+            _freeze = !_freeze;
+            break;
+        case GLFW_KEY_LEFT:
+            _alpha += 5.0f;
+            break;
+        case GLFW_KEY_RIGHT:
+            _alpha -= 5.0f;
+            break;
+        case GLFW_KEY_UP:
+            _beta -= 5.0f;
+            break;
+        case GLFW_KEY_DOWN:
+            _beta += 5.0f;
+            break;
+        case GLFW_KEY_PAGE_UP:
+            _zoom -= 0.25f;
+            if (_zoom < 0.0f) {_zoom = 0.0f;}
+            break;
+        case GLFW_KEY_PAGE_DOWN:
+            _zoom += 0.25f;
+            break;
+        default:
+            break;
+    }
+}
+//===============================================
+void GOpenGL::onResize(GLFWframebuffersizefun _func) {
+    glfwSetFramebufferSizeCallback(m_window, _func);
+    _func(m_window, m_width, m_height);
+}
+//===============================================
+void GOpenGL::onMouse(GLFWmousebuttonfun _func) {
+    glfwSetMouseButtonCallback(m_window, _func);
+}
+//===============================================
+void GOpenGL::onCursor(GLFWcursorposfun _func) {
+    glfwSetCursorPosCallback(m_window, _func);
+}
+//===============================================
+void GOpenGL::onScroll(GLFWscrollfun _func) {
+    glfwSetScrollCallback(m_window, _func);
 }
 //===============================================
 bool GOpenGL::isClose() {
@@ -54,14 +109,13 @@ void GOpenGL::pollEvents() {
 }
 //===============================================
 void GOpenGL::viewport() {
-    float lRatio;
     glfwGetFramebufferSize(m_window, &m_width, &m_height);
     m_ratio = (float)m_width / (float)m_height;
     glViewport(0, 0, m_width, m_height);
     glClear(GL_COLOR_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(-lRatio, lRatio, -1.0f, 1.0f, 1.0f, -1.0f);
+    glOrtho(-m_ratio, m_ratio, -1.0f, 1.0f, 1.0f, -1.0f);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -83,6 +137,15 @@ void GOpenGL::point() {
     }
 }
 //===============================================
+void GOpenGL::point(GFunction& _func, float _psize) {
+    for(int i = 0; i < _func.size(); i++) {
+        GLfloat x = _func.data()[i].x;
+        GLfloat y = _func.data()[i].y;
+        sGVertex v = {x, y, 0.0f, 1.0, 1.0, 1.0, 0.7f};
+        point(v, _psize);
+    }
+}
+//===============================================
 void GOpenGL::line(const sGVertex* _obj, int _width) {
     glLineWidth(_width);
     glBegin(GL_LINES);
@@ -99,7 +162,7 @@ void GOpenGL::line(const sGVertex& _v1, const sGVertex& _v2, int _width) {
     line(lLine, _width);
 }
 //===============================================
-void GOpenGL::line(GFunction& _func) {
+void GOpenGL::line(GFunction& _func, float _linesize) {
     for(int i = 0; i < _func.size() - 1; i++) {
         GLfloat x1 = _func.data()[i].x;
         GLfloat y1 = _func.data()[i].y;
@@ -108,7 +171,7 @@ void GOpenGL::line(GFunction& _func) {
 
         sGVertex v1 = {x1, y1, 0.0f, 0.0f, 1.0f, 1.0f, 0.5f};
         sGVertex v2 = {x2, y2, 0.0f, 0.0f, 1.0f, 0.0f, 0.5f};
-        line(v1, v2, 4.0f);
+        line(v1, v2, _linesize);
     }
 }
 //===============================================
@@ -160,10 +223,11 @@ void GOpenGL::triangle(const sGVertex& _v1, const sGVertex& _v2, const sGVertex&
     triangle(lTriangle);
 }
 //===============================================
-void GOpenGL::sinus(float _max, float _phase, float _size, float _range) {
+void GOpenGL::sinus(float _max, float _phase, float _size, float _range, float _linesize, float _psize) {
     GFunction lFunction;
     lFunction.sinus(_max, _phase, _size, _range);
-    line(lFunction);
+    point(lFunction, _psize);
+    line(lFunction, _linesize);
 }
 //===============================================
 void GOpenGL::gaussian2D(int _xSize, int _ySize, float _sigma, float _psize) {
@@ -184,7 +248,7 @@ void GOpenGL::heatMap(GFunction& _func, float _psize) {
         float r, g, b;
         heatMap(d.z, zMin, zMax, r, g, b);
         glColor4f(r, g, b, 0.5f);
-        glVertex3f(d.x, d.y, 0.0f);
+        glVertex3f(d.x, d.y, d.z);
     }
 
     glEnd();
@@ -200,12 +264,12 @@ void GOpenGL::heatMap(float _v, float _vmin, float _vmax, float& _r, float& _g, 
 }
 //===============================================
 void GOpenGL::ecg(const float* _data, int _offset, int _size, float _linesize) {
-	ecg(_data, _offset, _size, -0.5f, 0.1f, _linesize);
-	ecg(_data, _offset + _size, _size, 0.0f, 0.5f, _linesize);
-	ecg(_data, _offset + _size*2, _size, 0.5f, -0.25f, _linesize);
+    ecg(_data, _offset, _size, -0.5f, 0.1f, _linesize);
+    ecg(_data, _offset + _size, _size, 0.0f, 0.5f, _linesize);
+    ecg(_data, _offset + _size*2, _size, 0.5f, -0.25f, _linesize);
 }
 //===============================================
-void GOpenGL::ecg(const float* _data, int _offset, int _size, int _yoffset, float _scale, float _linesize) {
+void GOpenGL::ecg(const float* _data, int _offset, int _size, float _yoffset, float _scale, float _linesize) {
     const float lSpace = 2.0f / _size * m_ratio;
     float lPos = -_size * lSpace / 2.0f;
     glLineWidth(_linesize);
@@ -220,5 +284,27 @@ void GOpenGL::ecg(const float* _data, int _offset, int _size, int _yoffset, floa
     }
 
     glEnd();
+}
+//===============================================
+void GOpenGL::position(float _alpha, float _beta, float _zoom) {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();    glTranslatef(0.0, 0.0, -_zoom);
+    glRotatef(_beta, 1.0, 0.0, 0.0);
+    glRotatef(_alpha, 0.0, 0.0, 1.0);
+}
+//===============================================
+void GOpenGL::camera(float _fovY, float _front, float _back, int width, int height) {
+    const double DEG2RAD = 3.14159265 / 180;
+    m_ratio = 1.0f; m_width = width; m_height = height;
+    if(m_height > 0) {m_ratio = (float) m_width / (float) m_height;}
+    glViewport(0, 0, m_width, m_height);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    float lTangent = tan(_fovY / 2 * DEG2RAD);
+    float lHeightF = _front * lTangent;
+    float lWidthF = lHeightF * m_ratio;
+    glFrustum(-lWidthF, lWidthF, -lHeightF, lHeightF, _front, _back);
 }
 //===============================================
