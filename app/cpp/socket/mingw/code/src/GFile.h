@@ -13,6 +13,8 @@ public:
     void open();
     void close();
     int read(const char* format, ...);
+    int read(float& _data);
+    std::string read();
     
 private:
     std::string m_filename;

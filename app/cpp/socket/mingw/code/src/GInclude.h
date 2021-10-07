@@ -10,6 +10,7 @@
 #include <fstream>
 #include <future>
 // opengl
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 // app
 #include "GStruct.h"

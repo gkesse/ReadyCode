@@ -11,7 +11,7 @@ GINCS =\
     
 GLIBS =\
     -LC:\Users\Admin\Downloads\RLib\lib \
-    -lglfw3dll -lws2_32 -lopengl32
+    -lglfw3dll -lws2_32 -lglew32 -lopengl32
     
 GOBJS =\
     $(patsubst $(GSRC)/%.cpp, $(GBUILD)/%.o, $(wildcard $(GSRC)/*.cpp)) \
