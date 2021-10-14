@@ -31,8 +31,11 @@ struct _sGApp {
     // mcml
     std::string mcml_file;
     // shader
-    std::string vertex_shader_file;
-    std::string fragment_shader_file;
+    std::string shader_vertex_file;
+    std::string shader_fragment_file;
+    // texture
+    std::string texture_file;
+    std::string texture_file2;
 };
 //==============================================
 #endif
