@@ -15,6 +15,7 @@ public:
     void runDefault(int argc, char** argv);
     void runSocket(int argc, char** argv);
     void runOpenGL(int argc, char** argv);
+    void runOpenCV(int argc, char** argv);
     
 private:
     static GProcess* m_instance;

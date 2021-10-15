@@ -14,6 +14,7 @@ GManager::GManager() {
     mgr->app->shader_fragment_file = "data/shader/simple.frag";
     mgr->app->texture_file = "data/texture/container.jpg";
     mgr->app->texture_file2 = "data/texture/awesomeface.png";
+    mgr->app->texture_file2 = "C:\\Users\\Admin\\Downloads\\RData\\data\\img\\fruits.jpg";
 }
 //===============================================
 GManager::~GManager() {
