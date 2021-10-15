@@ -350,7 +350,7 @@ void GOpenGL::onKey(sGCamera& _cam, GLfloat& _deltaTime) {
     	glfwSetWindowShouldClose(m_window, true);
     }
 
-    _cam.speed = 2.5 * _deltaTime;
+    _cam.speed = _cam.speedFactor * _deltaTime;
 
     if (glfwGetKey(m_window, GLFW_KEY_UP) == GLFW_PRESS) {
     	_cam.eye += _cam.speed * _cam.front;
@@ -364,8 +364,6 @@ void GOpenGL::onKey(sGCamera& _cam, GLfloat& _deltaTime) {
     if (glfwGetKey(m_window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
     	_cam.eye += glm::normalize(glm::cross(_cam.front, _cam.up)) * _cam.speed;
     }
-
-	std::cout << lParams.deltaTime << "...\n";
 }
 //===============================================
 void GOpenGL::onKey(int action, int key, bool& _freeze, float& _alpha, float& _beta, float& _zoom) {
@@ -508,11 +506,11 @@ void GOpenGL::onDisplay(sGParams4& _params) {
 	glClearColor(0.1f, 0.1f, 0.4f, 0.0f);
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 	glPushMatrix();
-	coordinate(_params);
+	coordinate(_params.cam, _params.rho, _params.theta, _params.phi);
 	gluLookAt(
-			_params.cam.eye.x, _params.cam.eye.y, _params.cam.eye.z,
-			_params.cam.center.x, _params.cam.center.y, _params.cam.center.z,
-			_params.cam.up.x, _params.cam.up.y, _params.cam.up.z
+			_params.cam.eye[0], _params.cam.eye[1], _params.cam.eye[2],
+			_params.cam.center[0], _params.cam.center[1], _params.cam.center[2],
+			_params.cam.up[0], _params.cam.up[1], _params.cam.up[2]
 	);
 	glColor3f(0.0f, 1.0f, 0.0f);
 	glTranslatef(0.0f, 5.0f, 0.0f);
@@ -525,10 +523,10 @@ void GOpenGL::onDisplay(sGParams4& _params) {
 	glutSwapBuffers();
 }
 //===============================================
-void GOpenGL::coordinate(sGParams4& _params) {
-	_params.cam.eye.x = _params.rho*sin(90.0 - _params.theta)*sin(_params.phi);
-	_params.cam.eye.y = _params.rho*cos(90.0 - _params.theta);
-	_params.cam.eye.z = _params.rho*sin(90.0 - _params.theta)*cos(_params.phi);
+void GOpenGL::coordinate(sGCamera& _cam, GLfloat _rho, GLfloat _theta, GLfloat _phi) {
+	_cam.eye[0] = _rho*sin(90.0 - _theta)*sin(_phi);
+	_cam.eye[1] = _rho*cos(90.0 - _theta);
+	_cam.eye[2] = _rho*sin(90.0 - _theta)*cos(_phi);
 }
 //===============================================
 void GOpenGL::normal(GLfloat* _vertex, GLfloat* _normal, int& _ncircle, int& _nvertex, float _pointsize) {

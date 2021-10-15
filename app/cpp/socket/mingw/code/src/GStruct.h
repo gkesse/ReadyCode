@@ -41,6 +41,7 @@ struct _sGCamera {
     glm::vec3 up;
     glm::vec3 front;
     GLfloat speed;
+    GLfloat speedFactor;
 };
 //==============================================
 struct _sGMvp {
