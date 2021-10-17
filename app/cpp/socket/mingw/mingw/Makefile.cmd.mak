@@ -12,7 +12,7 @@ GINCS =\
 GLIBS =\
     -LC:\Users\Admin\Downloads\RLib\lib \
     -lglfw3dll -lws2_32 -lglew32 -lfreeglut -lglu32 -lopengl32 \
-    -lopencv_core452 -lopencv_highgui452 \
+    -lopencv_core452.dll -lopencv_highgui452.dll -lopencv_imgcodecs452.dll -lopencv_imgproc452.dll \
     
 GOBJS =\
     $(patsubst $(GSRC)/%.cpp, $(GBUILD)/%.o, $(wildcard $(GSRC)/*.cpp)) \

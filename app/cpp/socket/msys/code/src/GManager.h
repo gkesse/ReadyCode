@@ -38,6 +38,12 @@ struct _sGApp {
     std::string texture_file2;
     // image
     std::string image_file;
+    // video
+    std::string video_file;
+    // cascade
+    std::string cascade_file;
+    // train
+    std::string train_file;
 };
 //==============================================
 #endif

@@ -8,6 +8,10 @@
 #include <ws2tcpip.h>
 #include <fstream>
 #include <future>
+// opencv
+#include <opencv2/opencv.hpp>
+// app
+#include "GStruct.h"
 //==============================================
 #endif
 //==============================================

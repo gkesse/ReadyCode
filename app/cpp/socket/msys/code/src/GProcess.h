@@ -13,10 +13,8 @@ public:
     static GProcess* Instance();
     void run(int argc, char** argv);
     void runDefault(int argc, char** argv);
-    void runPro(int argc, char** argv);
-    void runQt(int argc, char** argv);
-    void runCpp(int argc, char** argv);
     void runSocket(int argc, char** argv);
+    void runOpenCV(int argc, char** argv);
     
 private:
     static GProcess* m_instance;

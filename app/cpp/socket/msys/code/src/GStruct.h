@@ -1,15 +1,14 @@
 //===============================================
-#ifndef _GSocketUi_
-#define _GSocketUi_
+#ifndef _GStruct_
+#define _GStruct_
 //===============================================
-#include "GInclude.h"
+typedef struct _sGParams sGParams;
 //===============================================
-class GSocketUi {
-public:
-    GSocketUi();
-    virtual ~GSocketUi();
-    static GSocketUi* Create(const std::string& key);
-    virtual void run(int argc, char** argv);
+struct _sGParams {
+	int frames;
+	int frame;
+	int run;
+	int dontset;
 };
 //==============================================
 #endif

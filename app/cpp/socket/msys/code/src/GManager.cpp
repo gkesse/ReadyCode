@@ -14,7 +14,13 @@ GManager::GManager() {
     mgr->app->shader_fragment_file = "data/shader/simple.frag";
     mgr->app->texture_file = "data/texture/container.jpg";
     mgr->app->texture_file2 = "data/texture/awesomeface.png";
-    mgr->app->texture_file2 = "C:\\Users\\Admin\\Downloads\\RData\\data\\img\\fruits.jpg";
+    mgr->app->image_file = "C:\\Users\\Admin\\Downloads\\RData\\data\\img\\fruits.jpg";
+    mgr->app->image_file = "C:\\Users\\Admin\\Downloads\\RData\\data\\img\\equipe_de_france.jpg";
+    mgr->app->video_file = "C:\\Users\\Admin\\Downloads\\RData\\data\\video\\football_americain.avi";
+    mgr->app->cascade_file = "C:\\Users\\Admin\\Downloads\\RData\\data\\cascade\\haarcascade_eye.xml";
+    mgr->app->cascade_file = "C:\\Users\\Admin\\Downloads\\RData\\data\\cascade\\haarcascade_frontalface_default.xml";
+    mgr->app->cascade_file = "C:\\Users\\Admin\\Downloads\\RData\\data\\cascade\\haarcascade_frontalface_alt.xml";
+    mgr->app->train_file = "C:\\Users\\Admin\\Downloads\\RData\\data\\train\\agaricus-lepiota.data";
 }
 //===============================================
 GManager::~GManager() {
