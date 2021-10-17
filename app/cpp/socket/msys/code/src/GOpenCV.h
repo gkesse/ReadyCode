@@ -60,7 +60,8 @@ public:
 	void folds(int _folds);
 	void rule(bool _rule);
 	void truncate(bool _truncate);
-	void error(bool _test);
+	void performanceData();
+	void performanceTest();
 	void names();
 	void falgs();
 	void responses();
@@ -96,8 +97,10 @@ protected:
 	char m_missch;
 	double m_ratio;
 	cv::Mat m_priors;
-	cv::Mat m_results;
-	float m_performance;
+	cv::Mat m_resultData;
+	cv::Mat m_resultTest;
+	float m_performanceData;
+	float m_performanceTest;
 	std::vector<cv::String> m_names;
 	cv::Mat m_falgs;
 	int m_good;

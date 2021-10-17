@@ -18,7 +18,8 @@ GOpenCV::GOpenCV() {
 	m_delimiter = ',';
 	m_missch = '?';
 	m_ratio = 0.9;
-	m_performance = 0.f;
+	m_performanceData = 0.f;
+	m_performanceTest = 0.f;
 	m_good = 0;
 	m_bad = 0;
 	m_total = 0;
@@ -275,8 +276,12 @@ void GOpenCV::truncate(bool _truncate) {
 	m_treeData->setTruncatePrunedTree(_truncate);
 }
 //===============================================
-void GOpenCV::error(bool _test) {
-	m_performance = m_treeData->calcError(m_trainData, _test, m_results);
+void GOpenCV::performanceData() {
+	m_performanceData = m_treeData->calcError(m_trainData, false, m_resultData);
+}
+//===============================================
+void GOpenCV::performanceTest() {
+	m_performanceTest = m_treeData->calcError(m_trainData, true, m_resultTest);
 }
 //===============================================
 void GOpenCV::names() {
@@ -291,7 +296,7 @@ void GOpenCV::responses() {
 	cv::Mat lResponses = m_trainData->getResponses();
 	m_good = 0, m_bad = 0, m_total = 0;
 	for (int i = 0; i < m_trainData->getNTrainSamples(); ++i) {
-		float lReceived = m_results.at<float>(i, 0);
+		float lReceived = m_resultData.at<float>(i, 0);
 		float lExpected = lResponses.at<float>(i, 0);
 		cv::String lReceivedName = m_names[(int)lReceived];
 		cv::String lExpectedName = m_names[(int)lExpected];
@@ -327,9 +332,13 @@ int GOpenCV::samples() const {
 }
 //===============================================
 void GOpenCV::print() const {
-	std::cout << "Samples      : " << m_trainData->getNSamples() << "\n";
-	std::cout << "TrainSamples : " << m_trainData->getNTrainSamples() << "\n";
-	std::cout << "TestSamples  : " << m_trainData->getNTestSamples() << "\n";
+	std::cout << "Samples......................: " << m_trainData->getNSamples() << "\n";
+	std::cout << "Train samples................: " << m_trainData->getNTrainSamples() << "\n";
+	std::cout << "Test samples.................: " << m_trainData->getNTestSamples() << "\n";
+    std::cout << "Correct answers..............: " << (float)m_good / (float)m_total << " (%)" << "\n";
+    std::cout << "Incorrect answers............: " << (float)m_bad / (float)m_total << " (%)" << "\n";
+    std::cout << "Performance on training data.: " << m_performanceData << " (%)" << "\n";
+    std::cout << "Performance on test data.....: " << m_performanceTest << " (%)" << "\n";
 }
 //===============================================
 void GOpenCV::split() {
