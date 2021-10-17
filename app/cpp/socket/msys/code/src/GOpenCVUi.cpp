@@ -28,13 +28,19 @@ void GOpenCVUi::run(int argc, char** argv) {
     lOpenCV.train();
     lOpenCV.split();
     lOpenCV.tree();
-    lOpenCV.priors(1, 2, lPriors);
     lOpenCV.maxDepth(8);
     lOpenCV.minSample(10);
     lOpenCV.accuracy(0.01f);
     lOpenCV.surrogates(false);
-    lOpenCV.surrogates(false);
-    lOpenCV.surrogates(false);
+    lOpenCV.maxCategories(15);
+    lOpenCV.folds(0);
+    lOpenCV.rule(true);
+    lOpenCV.truncate(true);
+    lOpenCV.priors(1, 2, lPriors);
+    lOpenCV.trainTree();
+    lOpenCV.performanceData();
+    lOpenCV.responses();
+    lOpenCV.performanceTest();
     lOpenCV.print();
 }
 //===============================================

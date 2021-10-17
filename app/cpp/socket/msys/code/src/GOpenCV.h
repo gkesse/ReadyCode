@@ -51,6 +51,7 @@ public:
 	void objects(GOpenCV& _out, cv::Scalar* _colors, int _n, double _scale);
 	int count() const;
 	void train();
+	void trainTree();
 	void tree();
 	void maxDepth(int _maxDepth);
 	void minSample(int _minSample);
@@ -66,6 +67,7 @@ public:
 	void falgs();
 	void responses();
 	void priors(int _rows, int _cols, float* _priors);
+	void priors(const cv::Mat& _priors);
 	int samples() const;
 	void print() const;
 	void split();
@@ -96,7 +98,6 @@ protected:
 	char m_delimiter;
 	char m_missch;
 	double m_ratio;
-	cv::Mat m_priors;
 	cv::Mat m_resultData;
 	cv::Mat m_resultTest;
 	float m_performanceData;

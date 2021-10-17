@@ -238,10 +238,12 @@ void GOpenCV::train() {
 	);
 }
 //===============================================
+void GOpenCV::trainTree() {
+	m_treeData->train(m_trainData);
+}
+//===============================================
 void GOpenCV::tree() {
 	m_treeData = cv::ml::RTrees::create();
-	m_treeData->setPriors(cv::Mat());
-	m_treeData->train(m_trainData);
 }
 //===============================================
 void GOpenCV::maxDepth(int _maxDepth) {
@@ -311,20 +313,13 @@ void GOpenCV::responses() {
 	}
 }
 //===============================================
-void GOpenCV::names() {
-	m_trainData->getNames(m_names);
-}
-//===============================================
-void GOpenCV::names() {
-	m_trainData->getNames(m_names);
-}
-//===============================================
-void GOpenCV::names() {
-	m_trainData->getNames(m_names);
-}
-//===============================================
 void GOpenCV::priors(int _rows, int _cols, float* _priors) {
-	m_priors = cv::Mat(_rows, _cols, CV_32F, _priors);
+	cv::Mat lPriors = cv::Mat(_rows, _cols, CV_32F, _priors);
+	m_treeData->setPriors(lPriors);
+}
+//===============================================
+void GOpenCV::priors(const cv::Mat& _priors) {
+	m_treeData->setPriors(_priors);
 }
 //===============================================
 int GOpenCV::samples() const {
