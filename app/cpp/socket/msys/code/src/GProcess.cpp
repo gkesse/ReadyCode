@@ -2,6 +2,7 @@
 #include "GProcess.h"
 #include "GSocketUi.h"
 #include "GOpenCVUi.h"
+#include "GXmlUi.h"
 //===============================================
 GProcess* GProcess::m_instance = 0;
 //===============================================
@@ -26,6 +27,7 @@ void GProcess::run(int argc, char** argv) {
     if(lKey == "default") {runDefault(argc, argv); return;}
     if(lKey == "socket") {runSocket(argc, argv); return;}
     if(lKey == "opencv") {runOpenCV(argc, argv); return;}
+    if(lKey == "xml") {runXml(argc, argv); return;}
     runDefault(argc, argv);
 }
 //===============================================
@@ -44,6 +46,13 @@ void GProcess::runOpenCV(int argc, char** argv) {
     std::string lKey = "default";
     if(argc > 2) {lKey = argv[2];}
     GOpenCVUi* lProcess = GOpenCVUi::Create(lKey);
+    lProcess->run(argc, argv);
+}
+//===============================================
+void GProcess::runXml(int argc, char** argv) {
+    std::string lKey = "default";
+    if(argc > 2) {lKey = argv[2];}
+    GXmlUi* lProcess = GXmlUi::Create(lKey);
     lProcess->run(argc, argv);
 }
 //===============================================

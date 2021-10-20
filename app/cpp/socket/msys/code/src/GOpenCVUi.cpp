@@ -22,26 +22,26 @@ GOpenCVUi* GOpenCVUi::Create(const std::string& key) {
 void GOpenCVUi::run(int argc, char** argv) {
     sGApp* lApp = GManager::Instance()->data()->app;
 
-    float lPriors[] = {1.0, 10.0};
+    lOpenCV.filename(lApp->video_file);
+    lOpenCV.open();
+    lOpenCV.read();
+    lOpenCV.window();
 
-    lOpenCV.filename(lApp->train_file);
-    lOpenCV.train();
-    lOpenCV.split();
-    lOpenCV.tree();
-    lOpenCV.maxDepth(8);
-    lOpenCV.minSample(10);
-    lOpenCV.accuracy(0.01f);
-    lOpenCV.surrogates(false);
-    lOpenCV.maxCategories(15);
-    lOpenCV.folds(0);
-    lOpenCV.rule(true);
-    lOpenCV.truncate(true);
-    lOpenCV.priors(1, 2, lPriors);
-    lOpenCV.trainTree();
-    lOpenCV.performanceData();
-    lOpenCV.responses();
-    lOpenCV.performanceTest();
-    lOpenCV.print();
+    GOpenCV lWriter;
+    lWriter.filename(lApp->video_file2);
+    lWriter.fps(lOpenCV);
+    lWriter.size2(lOpenCV);
+    lWriter.open2();
+
+    while(1) {
+        lOpenCV.read();
+        if(lOpenCV.empty()) break;
+        lOpenCV.gray(lOpenCV);
+        lOpenCV.bgr(lOpenCV);
+        lWriter.write(lOpenCV);
+        lOpenCV.show();
+        if(!lOpenCV.wait(33)) break;
+    }
 }
 //===============================================
 void GOpenCVUi::onTrackbar(int _pos, void* _params) {

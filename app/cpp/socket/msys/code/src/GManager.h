@@ -40,10 +40,13 @@ struct _sGApp {
     std::string image_file;
     // video
     std::string video_file;
+    std::string video_file2;
     // cascade
     std::string cascade_file;
     // train
     std::string train_file;
+    // xml
+    std::string xml_file;
 };
 //==============================================
 #endif

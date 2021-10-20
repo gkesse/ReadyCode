@@ -10,6 +10,9 @@
 #include <future>
 // opencv
 #include <opencv2/opencv.hpp>
+// libxml2
+#include <libxml/tree.h>
+#include <libxml/xpath.h>
 // app
 #include "GStruct.h"
 //==============================================

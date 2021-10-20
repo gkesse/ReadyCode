@@ -14,6 +14,15 @@ public:
 	cv::Mat& img();
 	void window();
 	void open();
+	void open2();
+	void write(GOpenCV& _out);
+	void fourcc(char _c1, char _c2, char _c3, char _c4);
+	void size(int _width, int _height);
+	void size(GOpenCV& _out);
+	void size2(GOpenCV& _out);
+	double fps();
+	void fps(double _fps);
+	void fps(GOpenCV& _out);
 	void load();
 	int width() const;
 	int width2() const;
@@ -41,6 +50,20 @@ public:
 	void pyramid(GOpenCV& _out);
 	void cascade();
 	void gray(GOpenCV& _out);
+	void logPolar(GOpenCV& _out);
+	void center();
+	void center(float _xFactor, float _yFactor);
+	void pixel(int _x, int _y);
+	void pixel(int _x, int _y, uchar _red, uchar _green, uchar _blue);
+	void pixel(int _x, int _y, uchar _pixel);
+	void pixel2(int _x, int _y);
+	void print2() const;
+	void print3() const;
+	void canny(GOpenCV& _out);
+	void minThreshold(double _minThreshold);
+	void maxThreshold(double _maxThreshold);
+	void apertureSize(int _apertureSize);
+	void gradient(bool _gradient);
 	void bgr(GOpenCV& _out);
 	void resize(GOpenCV& _out, int _width, int _height);
 	void resize(GOpenCV& _out, double _factor);
@@ -70,7 +93,7 @@ public:
 	void priors(const cv::Mat& _priors);
 	int samples() const;
 	void print() const;
-	void split();
+	void split(double _ratio);
 	void headerLine(int _headerLine);
 	void startIndex(int _startIndex);
 	void endIndex(int _endIndex);
@@ -82,6 +105,12 @@ protected:
 	std::string m_title;
 	cv::VideoCapture m_cap;
 	cv::Mat m_img;
+	cv::Vec3b m_pixel;
+	uchar m_pixel2;
+	uchar m_red;
+	uchar m_green;
+	uchar m_blue;
+	uchar m_alpha;
 	cv::TrackbarCallback m_onTrackbar;
 	cv::Ptr<cv::CascadeClassifier> m_cascade;
 	std::vector<cv::Rect> m_objects;
@@ -97,7 +126,6 @@ protected:
 	std::string m_specType;
 	char m_delimiter;
 	char m_missch;
-	double m_ratio;
 	cv::Mat m_resultData;
 	cv::Mat m_resultTest;
 	float m_performanceData;
@@ -107,6 +135,16 @@ protected:
 	int m_good;
 	int m_bad;
 	int m_total;
+	double m_minThreshold;
+	double m_maxThreshold;
+	int m_apertureSize;
+	bool m_gradient;
+	cv::VideoWriter m_writer;
+	int m_fourcc;
+	double m_fps;
+	cv::Size m_size;
+	cv::Point2f m_center;
+	double m_magnitude;
 };
 //==============================================
 #endif

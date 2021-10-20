@@ -7,6 +7,7 @@ GTARGET = $(GBIN)/rdcpp.exe
 GINCS =\
     -I/mingw32/include \
     -I/mingw32/include/opencv4 \
+    -I/mingw32/include/libxml2 \
 
 GLIBS =\
     -L/mingw32/lib \
@@ -21,7 +22,7 @@ GLIBS =\
     -lopencv_ml -lopencv_ximgproc -lopencv_video -lopencv_dnn -lopencv_xobjdetect \
     -lopencv_objdetect -lopencv_calib3d -lopencv_imgcodecs -lopencv_features2d -lopencv_flann \
     -lopencv_xphoto -lopencv_photo -lopencv_imgproc -lopencv_core \
-    -lws2_32 \
+    -lws2_32 -lxml2 \
     
 GOBJS =\
     $(patsubst $(GSRC)/%.cpp, $(GBUILD)/%.o, $(wildcard $(GSRC)/*.cpp)) \
