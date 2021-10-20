@@ -21,12 +21,19 @@ void GXmlUi::run(int argc, char** argv) {
 
     GXml lXml;
     lXml.filename(lApp->xml_file);
+    lXml.blank();
     lXml.parse();
     lXml.root();
 
-    GXml lProduct_1;
-    lProduct_1.xpath(lXml, "/catalog/product[position()=1]");
-    lProduct_1.print(lXml);
+    GXml lProduct;
+    lProduct.xpath(lXml, "/catalog/product[position()=1]");
+
+    GXml lNew;
+    lNew.create("REF123456", "Capteur ReadyDev", "10.00");
+
+    lProduct.append(lNew);
+
+    lXml.print();
 
     lXml.free();
 }

@@ -8,18 +8,44 @@
 class GSocket {
 public:
     GSocket();
-    virtual ~GSocket();
-    void setAddress(const std::string& data);
-    void setPort(int data);
-    void setListen(int listen);
-    virtual void startTCP();
-    virtual void callTCP(const char* dataIn, GString& dataOut);
+    ~GSocket();
+    void ip(const std::string& _ip);
+    void port(int _port);
+    void backlog(int _backlog);
+    void init();
+    void sockets();
+    void sockets2();
+    void address();
+    void listens();
+    void binds();
+    void connects();
+    void start();
+    void accepts(GSocket& _socket);
+    void recvs();
+    void recvs(GSocket& _socket);
+    void sends(const char* _data);
+    void sends(GSocket& _socket, const char* _data);
+    void ip();
+    void print() const;
+    void print2() const;
+    void close();
+    void clean();
     
 protected:
-    const int BUFFER_SIZE = 8;
-    std::string m_address;
+    static const int BUFFER_SIZE = 1024;
+    static const int IP_SIZE = 32;
+    char m_buffer[BUFFER_SIZE + 1];
+    char m_ip2[IP_SIZE + 1];
+    GString m_data;
+    SOCKET m_socket;
+    SOCKADDR_IN m_address;
+    int m_size;
+    int m_bytes;
+    std::string m_ip;
     int m_port;
-    int m_listen;
+    int m_backlog;
+    int m_major;
+    int m_minor;
 };
 //==============================================
 #endif

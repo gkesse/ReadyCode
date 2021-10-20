@@ -10,6 +10,7 @@ public:
     ~GXml();
     void free();
     void filename(const std::string& filename);
+    void blank();
     void parse();
     void root();
     void node(const std::string& _node);
@@ -17,6 +18,9 @@ public:
     void data(const std::string& _data);
     void child(GXml& _child);
     void child(const std::string& _key, const std::string& _value);
+    void nextSibling(GXml& _child);
+    void prevSibling(GXml& _child);
+    void append(GXml& _child);
     void xpath(GXml& _xml, const std::string& _xpath);
     void print() const;
     void print(GXml& _xml) const;

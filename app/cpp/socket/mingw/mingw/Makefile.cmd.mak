@@ -26,6 +26,7 @@ GCFLAGS =\
 #================================================
 # cpp
 all: clean_exe compile run
+all_r: run
 all_g: run_g
 
 compile: $(GOBJS)
