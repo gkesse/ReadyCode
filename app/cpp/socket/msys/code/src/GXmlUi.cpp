@@ -23,7 +23,11 @@ void GXmlUi::run(int argc, char** argv) {
     lXml.filename(lApp->xml_file);
     lXml.parse();
     lXml.root();
-    lXml.print();
+
+    GXml lProduct_1;
+    lProduct_1.xpath(lXml, "/catalog/product[position()=1]");
+    lProduct_1.print(lXml);
+
     lXml.free();
 }
 //===============================================
