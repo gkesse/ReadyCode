@@ -29,6 +29,10 @@ void GSocket::backlog(int _backlog) {
     m_backlog = _backlog;
 }
 //===============================================
+void GSocket::data(const GString& _data) {
+    m_data = _data;
+}
+//===============================================
 void GSocket::init() {
     WSADATA lWsaData;
     WSAStartup(MAKEWORD(m_major, m_minor), &lWsaData);
@@ -81,6 +85,15 @@ void GSocket::recvs(GSocket& _socket) {
     m_buffer[m_bytes] = 0;
 }
 //===============================================
+void GSocket::recvs(GString& _data) {
+    _data.clear();
+    while(1) {
+        recvs();
+        if(m_bytes <= 0) break;
+        _data.add(m_buffer);
+    }
+}
+//===============================================
 void GSocket::sends(const char* _data) {
     m_bytes = send(m_socket, _data, strlen(_data), 0);
 }
@@ -88,6 +101,16 @@ void GSocket::sends(const char* _data) {
 void GSocket::sends(GSocket& _socket, const char* _data) {
     _socket.m_size = sizeof(_socket.m_address);
     sendto(m_socket, _data, strlen(_data), 0, (SOCKADDR*)&_socket.m_address, _socket.m_size);
+}
+//===============================================
+void GSocket::sends(const GString& _data) {
+    int lIndex = 0;
+    while(1) {
+        m_bytes = _data.toChar(m_buffer, lIndex, BUFFER_SIZE);
+        if(m_bytes <= 0) break;
+        lIndex += m_bytes;
+        sends(m_buffer);
+    }
 }
 //===============================================
 void GSocket::ip() {

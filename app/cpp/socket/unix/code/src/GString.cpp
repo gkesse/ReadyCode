@@ -9,33 +9,48 @@ GString::~GString() {
 
 }
 //===============================================
-void GString::setData(int data) {
-    m_data = std::to_string(data);
+void GString::data(int _data) {
+    m_data = std::to_string(_data);
 }
 //===============================================
-void GString::setData(const std::string& data) {
-    m_data = data;
+void GString::data(const std::string& _data) {
+    m_data = _data;
 }
 //===============================================
-void GString::setData(const char* data, int size) {
+void GString::data(const char* _data) {
     clear();
-    for(int i = 0; i < size; i++) {
-        m_data += data[i];
+    int lSize = strlen(_data);
+    for(int i = 0; i < lSize; i++) {
+        m_data += _data[i];
     }
 }
 //===============================================
-void GString::addData(const char* data, int size) {
-    for(int i = 0; i < size; i++) {
-        m_data += data[i];
+void GString::data(const char* _data, int _size) {
+    clear();
+    for(int i = 0; i < _size; i++) {
+        m_data += _data[i];
+    }
+}
+//===============================================
+std::string GString::data() const {
+    return m_data;
+}
+//===============================================
+void GString::add(const char* _data) {
+    int lSize = strlen(_data);
+    for(int i = 0; i < lSize; i++) {
+        m_data += _data[i];
+    }
+}
+//===============================================
+void GString::add(const char* _data, int _size) {
+    for(int i = 0; i < _size; i++) {
+        m_data += _data[i];
     }
 }
 //===============================================
 void GString::clear() {
-    m_data = "";
-}
-//===============================================
-std::string GString::str() const {
-    return m_data;
+    m_data.clear();
 }
 //===============================================
 int GString::size() const {
@@ -46,31 +61,26 @@ const char* GString::c_str() const {
     return m_data.c_str();
 }
 //===============================================
-int GString::toChar(char* buffer, int _size) const {
+void GString::toChar(char* _buffer, int _size) const {
     int i = 0;
-    int lSize = size();
     while(1) {
-    	if(i >= _size) {break;}
-    	if(i >= lSize) {break;}
-    	if(m_data[i] == 0) {break;}
-        buffer[i] = m_data[i];
+        if(i >= _size) break;
+        if(m_data[i] == 0) break;
+        _buffer[i] = m_data[i];
         i++;
     }
-    buffer[i] = 0;
-    return i;
+    _buffer[i] = 0;
 }
 //===============================================
-int GString::toChar(char* buffer, int index, int _size) const {
+int GString::toChar(char* _buffer, int _index, int _size) const {
     int i = 0;
-    int lSize = size();
     while(1) {
-    	if(i >= _size) {break;}
-    	if(i + index >= lSize) {break;}
-    	if(m_data[i + index] == 0) {break;}
-        buffer[i] = m_data[i + index];
+        if(i >= _size) break;
+        if(m_data[i + _index] == 0) break;
+        _buffer[i] = m_data[i + _index];
         i++;
     }
-    buffer[i] = 0;
+    _buffer[i] = 0;
     return i;
 }
 //===============================================

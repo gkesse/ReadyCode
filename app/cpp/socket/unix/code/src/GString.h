@@ -8,16 +8,18 @@ class GString {
 public:
     GString();
     ~GString();
-    void setData(int data);
-    void setData(const std::string& data);
-    void setData(const char* data, int size);
-    void addData(const char* data, int size);
+    void data(int _data);
+    void data(const std::string& _data);
+    void data(const char* _data);
+    void data(const char* _data, int _size);
+    std::string data() const ;
+    void add(const char* _data);
+    void add(const char* _data, int _size);
     void clear();
-    std::string str() const ;
-    int size() const ;
+    int size() const;
     const char* c_str() const;
-    int toChar(char* buffer, int size) const;
-    int toChar(char* buffer, int index, int size) const;
+    void toChar(char* _buffer, int _size) const;
+    int toChar(char* _buffer, int _index, int _size) const;
     void print() const;
 
 public:

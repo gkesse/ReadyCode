@@ -20,7 +20,7 @@ void GXml::filename(const std::string& filename) {
 }
 //===============================================
 void GXml::blank() {
-	xmlKeepBlanksDefault(0);
+    xmlKeepBlanksDefault(0);
 }
 //===============================================
 void GXml::parse() {
@@ -60,7 +60,7 @@ void GXml::prevSibling(GXml& _child) {
 }
 //===============================================
 void GXml::append(GXml& _child) {
-	xmlAddSibling(m_node, _child.m_node);
+    xmlAddSibling(m_node, _child.m_node);
 }
 //===============================================
 void GXml::xpath(GXml& _xml, const std::string& _xpath) {

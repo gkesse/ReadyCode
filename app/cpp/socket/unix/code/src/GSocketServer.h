@@ -8,7 +8,8 @@ class GSocketServer : public GSocketUi {
 public:
 	GSocketServer();
 	virtual ~GSocketServer();
-	void run(int argc, char** argv);
+    void run(int argc, char** argv);
+    static void on_client_connect(SOCKET client);
 };
 //==============================================
 #endif

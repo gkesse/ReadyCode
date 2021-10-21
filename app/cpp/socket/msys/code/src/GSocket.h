@@ -12,6 +12,7 @@ public:
     void ip(const std::string& _ip);
     void port(int _port);
     void backlog(int _backlog);
+    void data(const GString& _data);
     void init();
     void sockets();
     void sockets2();
@@ -23,8 +24,10 @@ public:
     void accepts(GSocket& _socket);
     void recvs();
     void recvs(GSocket& _socket);
+    void recvs(GString& _data);
     void sends(const char* _data);
     void sends(GSocket& _socket, const char* _data);
+    void sends(const GString& _data);
     void ip();
     void print() const;
     void print2() const;

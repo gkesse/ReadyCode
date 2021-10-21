@@ -6,7 +6,7 @@ GFile::GFile() {
 }
 //===============================================
 GFile::~GFile() {
-    if(m_pFile) {fclose(m_pFile);}
+    if(m_pFile) {fclose(m_pFile); m_pFile = 0;}
 }
 //===============================================
 void GFile::filename(const std::string& _filename) {
