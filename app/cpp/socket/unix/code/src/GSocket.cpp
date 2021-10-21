@@ -66,13 +66,13 @@ void GSocket::accepts(GSocket& _socket) {
 }
 //===============================================
 void GSocket::recvs() {
-    m_bytes = read(m_socket, m_buffer, sizeof(m_buffer));
+    m_bytes = read(m_socket, m_buffer, BUFFER_DATA_SIZE);
     m_buffer[m_bytes] = 0;
 }
 //===============================================
 void GSocket::recvs(GSocket& _socket) {
     _socket.m_size = sizeof(_socket.m_address);
-    m_bytes = recvfrom(m_socket, m_buffer, sizeof(m_buffer), 0, (struct sockaddr*)&_socket.m_address, (socklen_t*)&_socket.m_size);
+    m_bytes = recvfrom(m_socket, m_buffer, BUFFER_DATA_SIZE, 0, (struct sockaddr*)&_socket.m_address, (socklen_t*)&_socket.m_size);
     m_buffer[m_bytes] = 0;
 }
 //===============================================
@@ -97,7 +97,7 @@ void GSocket::sends(GSocket& _socket, const char* _data) {
 void GSocket::sends(const GString& _data) {
     int lIndex = 0;
     while(1) {
-        m_bytes = _data.toChar(m_buffer, lIndex, BUFFER_SIZE);
+        m_bytes = _data.toChar(m_buffer, lIndex, BUFFER_DATA_SIZE);
         if(m_bytes <= 0) break;
         lIndex += m_bytes;
         sends(m_buffer);
@@ -105,7 +105,7 @@ void GSocket::sends(const GString& _data) {
 }
 //===============================================
 void GSocket::ip() {
-    //inet_ntop(AF_INET, &m_address.sin_addr, m_ip2, IP_SIZE);
+    inet_ntop(AF_INET, &m_address.sin_addr, m_ip2, BUFFER_IP_SIZE);
 }
 //===============================================
 void GSocket::print() const {

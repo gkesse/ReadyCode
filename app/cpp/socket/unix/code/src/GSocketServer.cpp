@@ -22,6 +22,8 @@ void GSocketServer::run(int argc, char** argv) {
     lServer.recvs(lClient);
     lServer.sends(lClient, "ok");
     lServer.print();
+    lClient.ip();
+    lClient.print2();
     lClient.closes();
     lServer.closes();
 }

@@ -32,10 +32,10 @@ public:
     void closes();
     
 protected:
-    static const int BUFFER_SIZE = 1024;
-    static const int IP_SIZE = 32;
-    char m_buffer[BUFFER_SIZE + 1];
-    char m_ip2[IP_SIZE + 1];
+    static const int BUFFER_DATA_SIZE = 1024;
+    static const int BUFFER_IP_SIZE = 32;
+    char m_buffer[BUFFER_DATA_SIZE + 1];
+    char m_ip2[BUFFER_IP_SIZE + 1];
     int m_socket;
     struct sockaddr_in m_address;
     int m_size;
