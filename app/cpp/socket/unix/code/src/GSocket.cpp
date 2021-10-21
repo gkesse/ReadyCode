@@ -29,10 +29,6 @@ void GSocket::backlog(int _backlog) {
     m_backlog = _backlog;
 }
 //===============================================
-void GSocket::data(const GString& _data) {
-    m_data = _data;
-}
-//===============================================
 void GSocket::sockets() {
     m_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 }

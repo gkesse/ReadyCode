@@ -36,7 +36,6 @@ protected:
     static const int IP_SIZE = 32;
     char m_buffer[BUFFER_SIZE + 1];
     char m_ip2[IP_SIZE + 1];
-    GString m_data;
     int m_socket;
     struct sockaddr_in m_address;
     int m_size;
