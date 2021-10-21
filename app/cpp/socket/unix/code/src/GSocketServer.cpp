@@ -17,11 +17,11 @@ void GSocketServer::run(int argc, char** argv) {
     GSocket lClient;
     lServer.address();
     lServer.sockets2();
-    lServer.start();
     lServer.binds();
-    lClient.recvs(lClient);
-    lClient.sends(lClient, "ok");
-    lClient.print();
+    lServer.start();
+    lServer.recvs(lClient);
+    lServer.sends(lClient, "ok");
+    lServer.print();
     lClient.closes();
     lServer.closes();
 }
