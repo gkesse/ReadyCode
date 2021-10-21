@@ -28,25 +28,8 @@ struct _sGManager {
 struct _sGApp {
     // app
     std::string app_name;
-    // mcml
-    std::string mcml_file;
-    // shader
-    std::string shader_vertex_file;
-    std::string shader_fragment_file;
-    // texture
-    std::string texture_file;
-    std::string texture_file2;
-    // image
-    std::string image_file;
-    // video
-    std::string video_file;
-    std::string video_file2;
-    // cascade
-    std::string cascade_file;
-    // train
-    std::string train_file;
-    // xml
-    std::string xml_file;
+    // text
+    std::string text_file;
 };
 //==============================================
 #endif

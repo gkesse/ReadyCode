@@ -15,15 +15,15 @@ GSocketServer::~GSocketServer() {
 void GSocketServer::run(int argc, char** argv) {
     GSocket lServer;
     GSocket lClient;
+    GString lData;
     lServer.address();
-    lServer.sockets2();
+    lServer.sockets();
     lServer.binds();
+    lServer.listens();
     lServer.start();
-    lServer.recvs(lClient);
-    lServer.sends(lClient, "ok");
-    lServer.print();
-    lClient.ip();
-    lClient.print2();
+    lServer.accepts(lClient);
+    lClient.recvs(lData);
+    lData.print();
     lClient.closes();
     lServer.closes();
 }
