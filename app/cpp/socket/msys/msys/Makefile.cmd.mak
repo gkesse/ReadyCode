@@ -32,7 +32,9 @@ GCFLAGS =\
 #================================================
 # cpp
 all: clean_exe compile run
+all_r: run
 all_g: run_g
+all_p: git_push
 
 compile: $(GOBJS)
 	@if ! [ -d $(GBIN) ] ; then mkdir -p $(GBIN) ; fi

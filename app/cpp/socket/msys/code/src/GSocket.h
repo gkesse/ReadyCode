@@ -14,20 +14,28 @@ public:
     void backlog(int _backlog);
     void init();
     void sockets();
+    void sockets2();
     void address();
     void listens();
     void binds();
     void connects();
+    void start();
     void accepts(GSocket& _socket);
     void recvs();
+    void recvs(GSocket& _socket);
     void sends(const char* _data);
+    void sends(GSocket& _socket, const char* _data);
+    void ip();
     void print() const;
+    void print2() const;
     void close();
     void clean();
     
 protected:
-    const int BUFFER_SIZE = 1024;
+    static const int BUFFER_SIZE = 1024;
+    static const int IP_SIZE = 32;
     char m_buffer[BUFFER_SIZE + 1];
+    char m_ip2[IP_SIZE + 1];
     GString m_data;
     SOCKET m_socket;
     SOCKADDR_IN m_address;

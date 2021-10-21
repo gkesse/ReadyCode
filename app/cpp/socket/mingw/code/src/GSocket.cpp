@@ -76,8 +76,8 @@ void GSocket::recvs() {
 }
 //===============================================
 void GSocket::recvs(GSocket& _socket) {
-	_socket.m_size = sizeof(_socket.m_address);
-	m_bytes = recvfrom(m_socket, m_buffer, BUFFER_SIZE, 0, (SOCKADDR*)&_socket.m_address, &_socket.m_size);
+    _socket.m_size = sizeof(_socket.m_address);
+    m_bytes = recvfrom(m_socket, m_buffer, BUFFER_SIZE, 0, (SOCKADDR*)&_socket.m_address, &_socket.m_size);
     m_buffer[m_bytes] = 0;
 }
 //===============================================
@@ -86,7 +86,7 @@ void GSocket::sends(const char* _data) {
 }
 //===============================================
 void GSocket::sends(GSocket& _socket, const char* _data) {
-	_socket.m_size = sizeof(_socket.m_address);
+    _socket.m_size = sizeof(_socket.m_address);
     sendto(m_socket, _data, strlen(_data), 0, (SOCKADDR*)&_socket.m_address, _socket.m_size);
 }
 //===============================================

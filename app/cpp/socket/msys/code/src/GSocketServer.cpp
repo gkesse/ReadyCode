@@ -13,18 +13,17 @@ GSocketServer::~GSocketServer() {
 }
 //===============================================
 void GSocketServer::run(int argc, char** argv) {
-    GSocket lSocket;
+    GSocket lServer;
     GSocket lClient;
-	lSocket.init();
-	lSocket.address();
-	lSocket.sockets();
-	lSocket.binds();
-	lSocket.listens();
-	lSocket.accepts(lClient);
-	lSocket.recvs();
-	lClient.print();
-	lClient.close();
-	lSocket.close();
-	lSocket.close();
+    lServer.init();
+    lServer.address();
+    lServer.sockets2();
+    lServer.binds();
+    lServer.start();
+    lServer.recvs(lClient);
+    lServer.sends(lClient, "ok");
+    lServer.print();
+    lServer.close();
+    lServer.clean();
 }
 //===============================================
