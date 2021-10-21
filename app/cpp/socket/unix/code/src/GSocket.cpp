@@ -72,7 +72,7 @@ void GSocket::recvs() {
 //===============================================
 void GSocket::recvs(GSocket& _socket) {
     _socket.m_size = sizeof(_socket.m_address);
-    m_bytes = recvfrom(m_socket, m_buffer, sizeof(m_buffer), 0, (struct sockaddr*)&_socket.m_address, &_socket.m_size);
+    m_bytes = recvfrom(m_socket, m_buffer, sizeof(m_buffer), 0, (struct sockaddr*)&_socket.m_address, (socklen_t*)&_socket.m_size);
     m_buffer[m_bytes] = 0;
 }
 //===============================================
