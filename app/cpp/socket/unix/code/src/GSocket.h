@@ -29,7 +29,7 @@ public:
     void ip();
     void print() const;
     void print2() const;
-    void close();
+    void closes();
     
 protected:
     static const int BUFFER_SIZE = 1024;

@@ -120,7 +120,7 @@ void GSocket::print2() const {
     printf("IP..........: %s\n", m_ip2);
 }
 //===============================================
-void GSocket::close() {
+void GSocket::closes() {
 	close(m_socket);
 }
 //===============================================
