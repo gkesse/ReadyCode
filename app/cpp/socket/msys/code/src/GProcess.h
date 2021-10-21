@@ -16,6 +16,7 @@ public:
     void runSocket(int argc, char** argv);
     void runOpenCV(int argc, char** argv);
     void runXml(int argc, char** argv);
+    void runAsio(int argc, char** argv);
     
 private:
     static GProcess* m_instance;

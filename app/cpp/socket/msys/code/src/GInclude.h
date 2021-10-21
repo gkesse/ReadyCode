@@ -13,6 +13,8 @@
 // libxml2
 #include <libxml/tree.h>
 #include <libxml/xpath.h>
+// boost
+#include <boost/asio.hpp>
 // app
 #include "GStruct.h"
 //==============================================
