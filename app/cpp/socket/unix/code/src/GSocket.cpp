@@ -62,7 +62,7 @@ void GSocket::start() {
 //===============================================
 void GSocket::accepts(GSocket& _socket) {
     _socket.m_size = sizeof(_socket.m_address);
-    _socket.m_socket = accept(m_socket, (struct sockaddr*)&_socket.m_address, &_socket.m_size);
+    _socket.m_socket = accept(m_socket, (struct sockaddr*)&_socket.m_address, (socklen_t*)&_socket.m_size);
 }
 //===============================================
 void GSocket::recvs() {
