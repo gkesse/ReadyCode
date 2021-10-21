@@ -14,16 +14,15 @@ GSocketClient::~GSocketClient() {
 //===============================================
 void GSocketClient::run(int argc, char** argv) {
     GSocket lClient;
-    GSocket lServer;
     lClient.ip("127.0.0.1");
     lClient.address();
     lClient.sockets2();
     lClient.binds();
-    lClient.sends(lServer, "Bonjour tout le monde");
-    lClient.recvs(lServer);
+    lClient.sends(lClient, "Bonjour tout le monde");
+    lClient.recvs(lClient);
     lClient.print();
-    lServer.ip();
-    lServer.print2();
+    lClient.ip();
+    lClient.print2();
     lClient.closes();
 }
 //===============================================
