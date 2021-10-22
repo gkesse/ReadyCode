@@ -10,7 +10,7 @@ public:
 	GAsioServer();
 	virtual ~GAsioServer();
     void run(int argc, char** argv);
-    static void onThread(boost::shared_ptr<boost::asio::ip::tcp::socket> _socket);
+    static void onThread(GAsio::socket_ptr _socket);
 };
 //==============================================
 #endif

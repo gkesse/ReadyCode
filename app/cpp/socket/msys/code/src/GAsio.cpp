@@ -2,7 +2,7 @@
 #include "GAsio.h"
 //===============================================
 GAsio::GAsio() {
-	m_port = 8585;
+    m_port = 8585;
     m_backlog = 30;
     m_ip = "0.0.0.0";
     m_bytes = -1;
@@ -48,7 +48,7 @@ void GAsio::socket() {
     m_socket = boost::make_shared<boost::asio::ip::tcp::socket>(m_ios);
 }
 //===============================================
-void GAsio::socket(GAsio::socket_ptr _socket) {
+void GAsio::socket(socket_ptr _socket) {
     m_socket = _socket;
 }
 //===============================================
@@ -64,6 +64,18 @@ void GAsio::connect() {
     m_socket->connect(*m_endpoint);
 }
 //===============================================
+void GAsio::onAsync(onAsyncCB _func) {
+    m_socket->async_connect(*m_endpoint, _func);
+}
+//===============================================
+void GAsio::error(const error_ptr& _errorcode) {
+    m_errorcode = _errorcode;
+}
+//===============================================
+void GAsio::run() {
+    m_ios.run();
+}
+//===============================================
 void GAsio::send(const std::string& _data) {
     m_socket->send(boost::asio::buffer(_data));
 }
@@ -73,8 +85,8 @@ void GAsio::recv() {
     m_buffer[m_bytes] = 0;
 }
 //===============================================
-void GAsio::thread(GAsio::onThreadCB _func, GAsio::socket_ptr _socket) {
-	boost::thread(boost::bind(_func, _socket));
+void GAsio::thread(onThreadCB _func, GAsio::socket_ptr _socket) {
+    boost::thread(boost::bind(_func, _socket));
 }
 //===============================================
 void GAsio::start() const {
@@ -83,5 +95,14 @@ void GAsio::start() const {
 //===============================================
 void GAsio::print() const {
     printf("%s\n", m_buffer.data());
+}
+//===============================================
+void GAsio::print2() const {
+	if(m_errorcode) {
+	    printf("L'operation a echoue...\n");
+	}
+	else {
+	    printf("L'operation a reussi...\n");
+	}
 }
 //===============================================

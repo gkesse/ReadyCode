@@ -18,9 +18,16 @@ void GAsioClient::run(int argc, char** argv) {
     lClient.address();
     lClient.endpoint();
     lClient.socket();
-    lClient.connect();
+    lClient.onAsync(onAsync);
+    lClient.run();
     lClient.send("Bonjour tout le monde");
     lClient.recv();
     lClient.print();
+}
+//===============================================
+void GAsioClient::onAsync(const GAsio::error_ptr& _errorcode) {
+	GAsio lError;
+	lError.error(_errorcode);
+	lError.print2();
 }
 //===============================================

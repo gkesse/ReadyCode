@@ -25,11 +25,11 @@ void GAsioServer::run(int argc, char** argv) {
     }
 }
 //===============================================
-void GAsioServer::onThread(boost::shared_ptr<boost::asio::ip::tcp::socket> _socket) {
-	GAsio lServer;
-	lServer.socket(_socket);
-	lServer.recv();
-	lServer.send("ok");
-	lServer.print();
+void GAsioServer::onThread(GAsio::socket_ptr _socket) {
+    GAsio lServer;
+    lServer.socket(_socket);
+    lServer.recv();
+    lServer.send("ok");
+    lServer.print();
 }
 //===============================================

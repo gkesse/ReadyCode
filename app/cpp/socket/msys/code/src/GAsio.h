@@ -8,7 +8,9 @@
 class GAsio {
 public:
 	typedef boost::shared_ptr<boost::asio::ip::tcp::socket> socket_ptr;
+	typedef boost::system::error_code error_ptr;
 	typedef void (*onThreadCB)(socket_ptr _socket);
+	typedef void (*onAsyncCB)(const error_ptr& _errorcode);
 
 public:
     GAsio();
@@ -22,15 +24,19 @@ public:
     void bind();
     void listen();
     void socket();
-    void socket(GAsio::socket_ptr _socket);
-    GAsio::socket_ptr socket2();
+    void socket(socket_ptr _socket);
+    socket_ptr socket2();
     void accept();
     void connect();
+    void onAsync(onAsyncCB _func);
+    void error(const error_ptr& _errorcode);
+    void run();
     void send(const std::string& _data);
     void recv();
-    void thread(GAsio::onThreadCB _func, GAsio::socket_ptr _socket);
+    void thread(onThreadCB _func, socket_ptr _socket);
     void start() const;
     void print() const;
+    void print2() const;
     
 protected:
     static const int BUFFER_DATA_SIZE = 1024;
