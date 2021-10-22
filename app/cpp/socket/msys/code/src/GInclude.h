@@ -2,6 +2,8 @@
 #ifndef _GInclude_
 #define _GInclude_
 //===============================================
+#define BOOST_BIND_NO_PLACEHOLDERS
+//===============================================
 // system
 #include <iostream>
 #include <winsock2.h>
@@ -15,6 +17,11 @@
 #include <libxml/xpath.h>
 // boost
 #include <boost/asio.hpp>
+#include <boost/array.hpp>
+#include <boost/shared_ptr.hpp>
+#include <boost/make_shared.hpp>
+#include <boost/thread.hpp>
+#include <boost/bind.hpp>
 // app
 #include "GStruct.h"
 //==============================================
