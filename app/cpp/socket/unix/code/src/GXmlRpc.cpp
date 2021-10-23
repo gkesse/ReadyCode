@@ -9,3 +9,7 @@ GXmlRpc::~GXmlRpc() {
 
 }
 //===============================================
+void GXmlRpc::method(void* _method) {
+	m_method = xmlrpc_c::methodPtr((xmlrpc_c::method* const)_method);
+}
+//===============================================
