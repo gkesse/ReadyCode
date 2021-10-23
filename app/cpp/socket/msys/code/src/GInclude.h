@@ -3,6 +3,7 @@
 #define _GInclude_
 //===============================================
 #define BOOST_BIND_NO_PLACEHOLDERS
+#define WIN32_LEAN_AND_MEAN
 //===============================================
 // system
 #include <iostream>
@@ -22,6 +23,10 @@
 #include <boost/make_shared.hpp>
 #include <boost/thread.hpp>
 #include <boost/bind.hpp>
+// xmlrpc
+//#include <xmlrpc-c/base.hpp>
+//#include <xmlrpc-c/registry.hpp>
+//#include <xmlrpc-c/server_abyss.hpp>
 // app
 #include "GStruct.h"
 //==============================================
