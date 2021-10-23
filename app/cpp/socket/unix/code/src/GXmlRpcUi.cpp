@@ -1,7 +1,5 @@
 //===============================================
 #include "GXmlRpcUi.h"
-#include "GXmlRpcServer.h"
-#include "GXmlRpcClient.h"
 //===============================================
 GXmlRpcUi::GXmlRpcUi() {
 
