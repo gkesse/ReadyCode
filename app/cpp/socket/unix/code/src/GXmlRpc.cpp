@@ -59,7 +59,7 @@ void GXmlRpc::run() {
 }
 //===============================================
 void GXmlRpc::call() {
-    m_client.call(m_url, m_name, "ii", &m_result, 5.0, 7.0);
+    m_client.call(m_url, m_name, "ii", &m_result, 5, 7);
 }
 //===============================================
 void GXmlRpc::start() {
