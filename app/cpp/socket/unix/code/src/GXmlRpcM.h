@@ -8,7 +8,7 @@ class GXmlRpcM : public xmlrpc_c::method {
 public:
 	typedef xmlrpc_c::paramList const& pList;
 	typedef xmlrpc_c::value* const pValue;
-	typedef void (*onExecuteCB)(const pList _params, const pValue* _value);
+	typedef void (*onExecuteCB)(pList _params, pValue _value);
 
 public:
     GXmlRpcM();

@@ -21,7 +21,7 @@ void GXmlRpcM::onExecute(onExecuteCB _onExecute) {
 	m_onExecute = _onExecute;
 }
 //===============================================
-void GXmlRpcM::execute(const pList _params, const pValue* _value) {
+void GXmlRpcM::execute(pList _params, pValue _value) {
 	if(m_onExecute) {
 		m_onExecute(_params, _value);
 	}

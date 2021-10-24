@@ -20,6 +20,7 @@ void GXmlRpcUi::run(int argc, char** argv) {
 	GXmlRpcM* lAdd = new GXmlRpcM;
 	lAdd->signature("i:ii");
 	lAdd->help("Ajouter deux entiers");
+	lAdd->onExecute(onAdd);
 
     GXmlRpc lServer;
     lServer.name("add");
@@ -27,5 +28,9 @@ void GXmlRpcUi::run(int argc, char** argv) {
     lServer.registry();
     lServer.server();
     lServer.run();
+}
+//===============================================
+void GXmlRpcUi::onAdd(GXmlRpcM::pList _params, GXmlRpcM::pValue _value) {
+	printf("GXmlRpcUi::onAdd...\n");
 }
 //===============================================
