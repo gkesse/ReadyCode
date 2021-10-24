@@ -19,7 +19,7 @@ public:
     void run();
     void call();
     void start();
-    void toString() const;
+    void toString();
     void print() const;
     void onAdd(GXmlRpcM::pList _params, GXmlRpcM::pValue _value);
 
