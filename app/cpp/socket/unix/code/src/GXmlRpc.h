@@ -19,7 +19,7 @@ public:
 protected:
     xmlrpc_c::method* m_method;
     xmlrpc_c::registry m_registry;
-    xmlrpc_c::serverAbyss m_server;
+    std::shared_ptr<xmlrpc_c::serverAbyss> m_server;
     std::string m_name;
     int m_port;
 };

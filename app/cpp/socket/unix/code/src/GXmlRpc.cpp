@@ -27,14 +27,16 @@ void GXmlRpc::registry() {
 }
 //===============================================
 void GXmlRpc::server() {
-	m_server = xmlrpc_c::serverAbyss(
-			xmlrpc_c::serverAbyss::constrOpt()
-			.registryP(&m_registry)
-			.portNumber(m_port)
+	m_server.reset(
+			new xmlrpc_c::serverAbyss(
+					xmlrpc_c::serverAbyss::constrOpt()
+					.registryP(&m_registry)
+					.portNumber(m_port)
+			)
 	);
 }
 //===============================================
 void GXmlRpc::run() {
-	m_server.run();
+	m_server->run();
 }
 //===============================================
