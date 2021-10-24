@@ -16,6 +16,7 @@ public:
     
 protected:
     xmlrpc_c::method* m_method;
+    xmlrpc_c::registry m_registry;
     std::string m_name;
     int m_port;
 };
