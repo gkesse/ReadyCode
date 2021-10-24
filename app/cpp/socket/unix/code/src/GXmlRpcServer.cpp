@@ -26,6 +26,7 @@ void GXmlRpcServer::run(int argc, char** argv) {
 }
 //===============================================
 void GXmlRpcServer::onAdd(GXmlRpcM::pList _params, GXmlRpcM::pValue _value) {
-	printf("GXmlRpcServer::onAdd...\n");
+	GXmlRpc lServer;
+	lServer.onAdd(_params, _value);
 }
 //===============================================

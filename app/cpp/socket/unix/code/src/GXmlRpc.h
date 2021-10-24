@@ -3,6 +3,7 @@
 #define _GXmlRpc_
 //===============================================
 #include "GInclude.h"
+#include "GXmlRpcM.h"
 //===============================================
 class GXmlRpc {
 public:
@@ -18,7 +19,10 @@ public:
     void run();
     void call();
     void start();
-    
+    void toString() const;
+    void print() const;
+    void onAdd(GXmlRpcM::pList _params, GXmlRpcM::pValue _value);
+
 protected:
     xmlrpc_c::method* m_method;
     xmlrpc_c::registry m_registry;
@@ -29,6 +33,7 @@ protected:
     std::string m_url;
     std::string m_scheme;
     std::string m_host;
+    std::string m_data;
     int m_port;
 };
 //==============================================

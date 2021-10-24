@@ -66,3 +66,19 @@ void GXmlRpc::start() {
 	printf("Demarrage du serveur...\n");
 }
 //===============================================
+void GXmlRpc::toString() const {
+    m_data = xmlrpc_c::value_string(m_result);
+}
+//===============================================
+void GXmlRpc::print() const {
+    std::cout << m_data << "\n";
+}
+//===============================================
+void GXmlRpc::onAdd(GXmlRpcM::pList _params, GXmlRpcM::pValue _value) {
+    double lA(_params.getDouble(0));
+    double lB(_params.getDouble(1));
+    _params.verifyEnd(2);
+    double lC = lA + lB;
+    *_value = xmlrpc_c::value_double(lC);
+}
+//===============================================

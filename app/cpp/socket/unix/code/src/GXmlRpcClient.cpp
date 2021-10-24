@@ -15,5 +15,6 @@ void GXmlRpcClient::run(int argc, char** argv) {
 	lClient.url();
 	lClient.name("add");
 	lClient.call();
+
 }
 //===============================================
