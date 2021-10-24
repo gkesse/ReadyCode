@@ -17,7 +17,7 @@ GXmlRpcUi* GXmlRpcUi::Create(const std::string& key) {
 }
 //===============================================
 void GXmlRpcUi::run(int argc, char** argv) {
-	GXmlRpcM* lAdd;
+	GXmlRpcM* lAdd = new GXmlRpc;
     GXmlRpc lServer;
     lServer.name("add");
     lServer.method(lAdd);
