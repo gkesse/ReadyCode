@@ -8,7 +8,7 @@ GINCS =\
     
 GLIBS =\
     -lxmlrpc_abyss -lxmlrpc_server_abyss -lxmlrpc_client++ -lxmlrpc_server_cgi++ \
-    -lxmlrpc_client -lxmlrpc_server_cgi -lxmlrpc_cpp -lxmlrpc_server++ \
+    -lxmlrpc_client -lxmlrpc_server_cgi -lxmlrpc_cpp \
     -lxmlrpc_packetsocket -lxmlrpc_server -lxmlrpc++ -lxmlrpc_server_pstream++ \
     -lxmlrpc -lxmlrpc_util -lxmlrpc_server_abyss++ \
     
