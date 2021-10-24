@@ -6,8 +6,8 @@
 //===============================================
 class GXmlRpcM : public xmlrpc_c::method {
 public:
-	typedef xmlrpc_c::paramList pList;
-	typedef xmlrpc_c::value pValue;
+	typedef xmlrpc_c::paramList const& pList;
+	typedef xmlrpc_c::value* const pValue;
 	typedef void (*onExecuteCB)(const pList _params, const pValue* _value);
 
 public:
@@ -18,7 +18,7 @@ public:
     void onExecute(onExecuteCB _onExecute);
 
 protected:
-    void execute(const pList _params, const pValue* _value);
+    void execute(pList _params, pValue _value);
 
 protected:
     onExecuteCB m_onExecute;
