@@ -12,7 +12,7 @@ public:
     void method(xmlrpc_c::method* _method);
     
 protected:
-    std::shared_ptr<xmlrpc_c::registry> m_registry;
+    xmlrpc_c::registry m_registry;
     std::shared_ptr<xmlrpc_c::method> m_method;
 };
 //==============================================
