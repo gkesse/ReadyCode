@@ -4,7 +4,7 @@
 //===============================================
 #include "GInclude.h"
 //===============================================
-class GXmlRpcM : public public xmlrpc_c::method {
+class GXmlRpcM : public xmlrpc_c::method {
 public:
 	typedef xmlrpc_c::paramList pList;
 	typedef xmlrpc_c::value pValue;
