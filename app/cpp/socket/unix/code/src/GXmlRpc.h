@@ -11,11 +11,11 @@ public:
     ~GXmlRpc();
     void port(int _port);
     void name(const std::string& _name);
-    void method(xmlrpc_c::methodPtr _method);
+    void method(xmlrpc_c::method* _method);
     void server();
     
 protected:
-    xmlrpc_c::methodPtr m_method;
+    xmlrpc_c::method* m_method;
     std::string m_name;
     int m_port;
 };

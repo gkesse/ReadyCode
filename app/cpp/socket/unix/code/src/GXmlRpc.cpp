@@ -3,6 +3,7 @@
 //===============================================
 GXmlRpc::GXmlRpc() {
 	m_port = 8585;
+	m_method = 0;
 }
 //===============================================
 GXmlRpc::~GXmlRpc() {
@@ -17,7 +18,7 @@ void GXmlRpc::name(const std::string& _name) {
 	m_name = _name;
 }
 //===============================================
-void GXmlRpc::method(xmlrpc_c::methodPtr _method) {
+void GXmlRpc::method(xmlrpc_c::method* _method) {
 	m_method = _method;
 }
 //===============================================
