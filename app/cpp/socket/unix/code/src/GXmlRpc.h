@@ -7,29 +7,30 @@
 //===============================================
 class GXmlRpc {
 public:
+	typedef xmlrpc_c::method pMethod;
+
+public:
     GXmlRpc();
     ~GXmlRpc();
     void port(int _port);
-    void name(const std::string& _name);
+    void host(const std::string& _host);
+    void scheme(const std::string& _scheme);
     void url();
     void url(const std::string& _url);
-    void method(xmlrpc_c::method* _method);
-    void registry();
+    void addMethod(const std::string& _name, pMethod* _method);
     void server();
     void run();
-    void call();
     void start();
     void toInt();
     void print() const;
     void onAdd(GXmlRpcM::pList _params, GXmlRpcM::pValue _value);
+    void call(const std::string& _name, const std::string& _fromat, int _A, int _B);
 
 protected:
-    xmlrpc_c::method* m_method;
     xmlrpc_c::registry m_registry;
     std::shared_ptr<xmlrpc_c::serverAbyss> m_server;
     xmlrpc_c::clientSimple m_client;
     xmlrpc_c::value m_result;
-    std::string m_name;
     std::string m_url;
     std::string m_scheme;
     std::string m_host;

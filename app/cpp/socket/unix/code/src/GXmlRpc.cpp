@@ -2,11 +2,10 @@
 #include "GXmlRpc.h"
 //===============================================
 GXmlRpc::GXmlRpc() {
-	m_port = 8585;
-	m_method = 0;
-	m_scheme = "http";
-	m_host = "localhost";
-	url();
+    m_port = 8585;
+    m_scheme = "http";
+    m_host = "localhost";
+    url();
 }
 //===============================================
 GXmlRpc::~GXmlRpc() {
@@ -14,56 +13,55 @@ GXmlRpc::~GXmlRpc() {
 }
 //===============================================
 void GXmlRpc::port(int _port) {
-	m_port = _port;
+    m_port = _port;
+    url();
 }
 //===============================================
-void GXmlRpc::name(const std::string& _name) {
-	m_name = _name;
+void GXmlRpc::host(const std::string& _host) {
+	m_host = _host;
+    url();
+}
+//===============================================
+void GXmlRpc::scheme(const std::string& _scheme) {
+	m_scheme = _scheme;
+    url();
 }
 //===============================================
 void GXmlRpc::url() {
-	m_url = "";
-	m_url += m_scheme;
-	m_url += "://";
-	m_url += m_host;
-	m_url += ":";
-	m_url += std::to_string(m_port);
-	m_url += "/";
-	m_url += "RPC2";
+    m_url = "";
+    m_url += m_scheme;
+    m_url += "://";
+    m_url += m_host;
+    m_url += ":";
+    m_url += std::to_string(m_port);
+    m_url += "/";
+    m_url += "RPC2";
 }
 //===============================================
 void GXmlRpc::url(const std::string& _url) {
-	m_url = _url;
+    m_url = _url;
 }
 //===============================================
-void GXmlRpc::method(xmlrpc_c::method* _method) {
-	m_method = _method;
-}
-//===============================================
-void GXmlRpc::registry() {
-	m_registry.addMethod(m_name, m_method);
+void GXmlRpc::addMethod(const std::string& _name, pMethod* _method) {
+    m_registry.addMethod(_name, _method);
 }
 //===============================================
 void GXmlRpc::server() {
-	m_server.reset(
-			new xmlrpc_c::serverAbyss(
-					xmlrpc_c::serverAbyss::constrOpt()
-					.registryP(&m_registry)
-					.portNumber(m_port)
-			)
-	);
+    m_server.reset(
+            new xmlrpc_c::serverAbyss(
+                    xmlrpc_c::serverAbyss::constrOpt()
+                    .registryP(&m_registry)
+                    .portNumber(m_port)
+            )
+    );
 }
 //===============================================
 void GXmlRpc::run() {
-	m_server->run();
-}
-//===============================================
-void GXmlRpc::call() {
-    m_client.call(m_url, m_name, "ii", &m_result, 5, 7);
+    m_server->run();
 }
 //===============================================
 void GXmlRpc::start() {
-	printf("Demarrage du serveur...\n");
+    printf("Demarrage du serveur...\n");
 }
 //===============================================
 void GXmlRpc::toInt() {
@@ -80,5 +78,10 @@ void GXmlRpc::onAdd(GXmlRpcM::pList _params, GXmlRpcM::pValue _value) {
     _params.verifyEnd(2);
     int lC = lA + lB;
     *_value = xmlrpc_c::value_int(lC);
+}
+//===============================================
+void GXmlRpc::call(const std::string& _name, const std::string& _format, int _A, int _B) {
+    m_client.call(m_url, _name, _format, &m_result, _A, _B);
+    m_data = std::to_string(xmlrpc_c::value_int(m_result));
 }
 //===============================================

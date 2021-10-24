@@ -117,6 +117,6 @@ void GSocket::print2() const {
 }
 //===============================================
 void GSocket::closes() {
-	close(m_socket);
+    close(m_socket);
 }
 //===============================================
