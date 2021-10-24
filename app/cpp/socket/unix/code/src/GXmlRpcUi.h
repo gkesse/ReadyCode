@@ -11,7 +11,7 @@ public:
 	virtual ~GXmlRpcUi();
 	static GXmlRpcUi* Create(const std::string& key);
     virtual void run(int argc, char** argv);
-    void onAdd(GXmlRpcM::pList _params, GXmlRpcM::pValue _value);
+    static void onAdd(GXmlRpcM::pList _params, GXmlRpcM::pValue _value);
 };
 //==============================================
 #endif
