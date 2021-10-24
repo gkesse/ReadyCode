@@ -14,7 +14,6 @@ void GXmlRpcClient::run(int argc, char** argv) {
     GXmlRpc lClient;
     lClient.url();
     lClient.call("add", "ii", 7, 5);
-    lClient.toInt();
     lClient.print();
 }
 //===============================================
