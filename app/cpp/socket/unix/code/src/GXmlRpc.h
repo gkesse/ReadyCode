@@ -9,11 +9,15 @@ class GXmlRpc {
 public:
     GXmlRpc();
     ~GXmlRpc();
-    void method(xmlrpc_c::method* _method);
+    void port(int _port);
+    void name(const std::string& _name);
+    void method(xmlrpc_c::methodPtr _method);
+    void server();
     
 protected:
-    std::shared_ptr<xmlrpc_c::registry> m_registry;
-    std::shared_ptr<xmlrpc_c::method> m_method;
+    xmlrpc_c::methodPtr m_method;
+    std::string m_name;
+    int m_port;
 };
 //==============================================
 #endif
