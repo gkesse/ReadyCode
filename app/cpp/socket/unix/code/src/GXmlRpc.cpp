@@ -66,8 +66,8 @@ void GXmlRpc::start() {
 	printf("Demarrage du serveur...\n");
 }
 //===============================================
-void GXmlRpc::toString() {
-    m_data = xmlrpc_c::value_string(m_result);
+void GXmlRpc::toInt() {
+    m_data = std::to_string(xmlrpc_c::value_int(m_result));
 }
 //===============================================
 void GXmlRpc::print() const {
