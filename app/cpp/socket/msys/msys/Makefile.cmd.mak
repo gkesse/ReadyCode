@@ -22,7 +22,7 @@ GLIBS =\
     -lopencv_ml -lopencv_ximgproc -lopencv_video -lopencv_dnn -lopencv_xobjdetect \
     -lopencv_objdetect -lopencv_calib3d -lopencv_imgcodecs -lopencv_features2d -lopencv_flann \
     -lopencv_xphoto -lopencv_photo -lopencv_imgproc -lopencv_core \
-    -lws2_32 -lxml2 -lboost_system-mt -lboost_thread-mt \
+    -lws2_32 -lxml2 -lboost_system-mt -lboost_thread-mt -lcurl \
     
 GOBJS =\
     $(patsubst $(GSRC)/%.cpp, $(GBUILD)/%.o, $(wildcard $(GSRC)/*.cpp)) \

@@ -47,6 +47,8 @@ struct _sGApp {
     std::string train_file;
     // xml
     std::string xml_file;
+    // curl
+    std::string curl_url;
 };
 //==============================================
 #endif

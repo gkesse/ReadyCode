@@ -21,7 +21,6 @@ public:
     void server();
     void run();
     void start();
-    void toInt();
     void print() const;
     void onAdd(GXmlRpcM::pList _params, GXmlRpcM::pValue _value);
     void call(const std::string& _name, const std::string& _fromat, int _A, int _B);

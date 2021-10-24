@@ -4,6 +4,7 @@
 #include "GOpenCVUi.h"
 #include "GXmlUi.h"
 #include "GAsioUi.h"
+#include "GCurlUi.h"
 //===============================================
 GProcess* GProcess::m_instance = 0;
 //===============================================
@@ -30,6 +31,7 @@ void GProcess::run(int argc, char** argv) {
     if(lKey == "opencv") {runOpenCV(argc, argv); return;}
     if(lKey == "xml") {runXml(argc, argv); return;}
     if(lKey == "asio") {runAsio(argc, argv); return;}
+    if(lKey == "curl") {runCurl(argc, argv); return;}
     runDefault(argc, argv);
 }
 //===============================================
@@ -62,6 +64,13 @@ void GProcess::runAsio(int argc, char** argv) {
     std::string lKey = "default";
     if(argc > 2) {lKey = argv[2];}
     GAsioUi* lProcess = GAsioUi::Create(lKey);
+    lProcess->run(argc, argv);
+}
+//===============================================
+void GProcess::runCurl(int argc, char** argv) {
+    std::string lKey = "default";
+    if(argc > 2) {lKey = argv[2];}
+    GCurlUi* lProcess = GCurlUi::Create(lKey);
     lProcess->run(argc, argv);
 }
 //===============================================

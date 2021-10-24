@@ -23,10 +23,8 @@
 #include <boost/make_shared.hpp>
 #include <boost/thread.hpp>
 #include <boost/bind.hpp>
-// xmlrpc
-//#include <xmlrpc-c/base.hpp>
-//#include <xmlrpc-c/registry.hpp>
-//#include <xmlrpc-c/server_abyss.hpp>
+// curl
+#include <curl/curl.h>
 // app
 #include "GStruct.h"
 //==============================================
