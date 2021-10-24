@@ -1,5 +1,7 @@
 //===============================================
 #include "GXmlRpcUi.h"
+#include "GXmlRpc.h"
+#include "GXmlRpcM.h"
 //===============================================
 GXmlRpcUi::GXmlRpcUi() {
 
@@ -15,6 +17,12 @@ GXmlRpcUi* GXmlRpcUi::Create(const std::string& key) {
 }
 //===============================================
 void GXmlRpcUi::run(int argc, char** argv) {
-    printf("[xmlrpc] process par defaut\n");
+	GXmlRpcM* lAdd;
+    GXmlRpc lServer;
+    lServer.name("add");
+    lServer.method(lAdd);
+    lServer.registry();
+    lServer.server();
+    lServer.run();
 }
 //===============================================
