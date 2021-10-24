@@ -12,11 +12,14 @@ public:
     void port(int _port);
     void name(const std::string& _name);
     void method(xmlrpc_c::method* _method);
+    void registry();
     void server();
+    void run();
     
 protected:
     xmlrpc_c::method* m_method;
     xmlrpc_c::registry m_registry;
+    xmlrpc_c::serverAbyss m_server;
     std::string m_name;
     int m_port;
 };

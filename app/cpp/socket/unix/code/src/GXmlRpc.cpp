@@ -22,14 +22,19 @@ void GXmlRpc::method(xmlrpc_c::method* _method) {
 	m_method = _method;
 }
 //===============================================
+void GXmlRpc::registry() {
+	m_registry.addMethod(m_name, m_method);
+}
+//===============================================
 void GXmlRpc::server() {
-	xmlrpc_c::registry lRegistry;
-	lRegistry.addMethod(m_name, m_method);
-	xmlrpc_c::serverAbyss lServer(
+	m_server = xmlrpc_c::serverAbyss(
 			xmlrpc_c::serverAbyss::constrOpt()
-			.registryP(&lRegistry)
+			.registryP(&m_registry)
 			.portNumber(m_port)
 	);
-	lServer.run();
+}
+//===============================================
+void GXmlRpc::run() {
+	m_server.run();
 }
 //===============================================
