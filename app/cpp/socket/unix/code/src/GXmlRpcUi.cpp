@@ -18,6 +18,9 @@ GXmlRpcUi* GXmlRpcUi::Create(const std::string& key) {
 //===============================================
 void GXmlRpcUi::run(int argc, char** argv) {
 	GXmlRpcM* lAdd = new GXmlRpc;
+	lAdd->signature("i:ii");
+	lAdd->help("Ajouter deux entiers");
+
     GXmlRpc lServer;
     lServer.name("add");
     lServer.method(lAdd);
