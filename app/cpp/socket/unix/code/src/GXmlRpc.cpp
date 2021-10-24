@@ -75,10 +75,10 @@ void GXmlRpc::print() const {
 }
 //===============================================
 void GXmlRpc::onAdd(GXmlRpcM::pList _params, GXmlRpcM::pValue _value) {
-    double lA(_params.getDouble(0));
-    double lB(_params.getDouble(1));
+    int lA(_params.getInt(0));
+    int lB(_params.getInt(1));
     _params.verifyEnd(2);
-    double lC = lA + lB;
-    *_value = xmlrpc_c::value_double(lC);
+    int lC = lA + lB;
+    *_value = xmlrpc_c::value_int(lC);
 }
 //===============================================
