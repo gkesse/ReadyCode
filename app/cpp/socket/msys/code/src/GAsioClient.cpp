@@ -26,8 +26,8 @@ void GAsioClient::run(int argc, char** argv) {
 }
 //===============================================
 void GAsioClient::onAsync(const GAsio::error_ptr& _errorcode) {
-	GAsio lError;
-	lError.error(_errorcode);
-	lError.print2();
+    GAsio lError;
+    lError.error(_errorcode);
+    lError.print2();
 }
 //===============================================

@@ -23,7 +23,8 @@ GManager::GManager() {
     mgr->app->cascade_file = "C:\\Users\\Admin\\Downloads\\RData\\data\\cascade\\haarcascade_frontalface_alt.xml";
     mgr->app->train_file = "C:\\Users\\Admin\\Downloads\\RData\\data\\train\\agaricus-lepiota.data";
     mgr->app->xml_file = "C:\\Users\\Admin\\Downloads\\RData\\data\\xml\\catalog.xml";
-    mgr->app->curl_url = "https://raw.githubusercontent.com/gkesse/ReadyCode/main/app/cpp/socket/unix/code/src/GFile.cpp";
+    mgr->app->curl_url = "http://www.google.com";
+    mgr->app->curl_url = "https://raw.githubusercontent.com/gkesse/ReadyCode/main/app/cpp/socket/unix/code/src/main.cpp";
 }
 //===============================================
 GManager::~GManager() {

@@ -98,11 +98,11 @@ void GAsio::print() const {
 }
 //===============================================
 void GAsio::print2() const {
-	if(m_errorcode) {
-	    printf("L'operation a echoue...\n");
-	}
-	else {
-	    printf("L'operation a reussi...\n");
-	}
+    if(m_errorcode) {
+        printf("L'operation a echoue...\n");
+    }
+    else {
+        printf("L'operation a reussi...\n");
+    }
 }
 //===============================================
