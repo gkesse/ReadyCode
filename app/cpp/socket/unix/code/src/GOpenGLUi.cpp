@@ -22,76 +22,59 @@ GOpenGLUi* GOpenGLUi::Create(const std::string& key) {
 }
 //===============================================
 void GOpenGLUi::run(int argc, char** argv) {
-	sGApp* lApp = GManager::Instance()->data()->app;
-
-	lParams.bgcolor = {0.1f, 0.2f, 0.3f, 1.0f};
-	lParams.mvp.projection = glm::mat4(1.0f);
-
-    GLfloat lVertices[] = {
-        -1.0f, -1.0f, 0.0f, 1.0f, -1.0f, 0.0f, 1.0f, 1.0f, 0.0f,
-        -1.0f, -1.0f, 0.0f, 1.0f, 1.0f, 0.0f, -1.0f, 1.0f, 0.0f
-    };
-    GLfloat lTextCoord[] = {
-        0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-        0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f
-    };
+    sGApp* lApp = GManager::Instance()->data()->app;
 
     lOpenGL.init2();
-    lOpenGL.depthOn();
     lOpenGL.onResize(onResize);
-    lOpenGL.shader(lApp->shader_vertex_file, lApp->shader_fragment_file);
-    lOpenGL.use();
+    lOpenGL.onKey(onKey);
+
+    lParams.color = {0.2f, 0.3f, 0.3f, 1.f};
+
+    lParams.shader_vertex_code = ""
+            "#version 330 core\n"
+            "layout (location = 0) in vec3 aPos;\n"
+            "void main()\n"
+            "{\n"
+            "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+            "}\n";
+
+    lParams.shader_fragment_code = ""
+            "#version 330 core\n"
+            "out vec4 FragColor;\n"
+            "void main()\n"
+            "{\n"
+            "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+            "}\n";
+
+    lOpenGL.shader(lParams.shader_vertex_code, lParams.shader_fragment_code);
+
+    GLfloat lVertices[] = {
+        -0.5f, -0.5f, 0.0f, // left
+         0.5f, -0.5f, 0.0f, // right
+         0.0f,  0.5f, 0.0f  // top
+    };
 
     lOpenGL.vao(1, &lParams.vao);
-    lOpenGL.vbo(2, lParams.vbo);
+    lOpenGL.vbo(1, &lParams.vbo);
 
     lOpenGL.vao(lParams.vao);
-    lOpenGL.vbo(lParams.vbo[0], lVertices, sizeof(lVertices));
-    lOpenGL.vbo(0, 3, 0, 0);
-    lOpenGL.vbo(lParams.vbo[1], lTextCoord, sizeof(lTextCoord));
-    lOpenGL.vbo(2, 2, 0, 0);
+    lOpenGL.vbo(lParams.vbo, lVertices, sizeof(lVertices));
+    lOpenGL.vbo(0, 3, 3, 0);
 
-    lOpenGL.uniform("Color", glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
-    lOpenGL.uniform2("NoiseTex", 0);
-
-    lParams.slice = glm::rotate(lParams.slice, glm::radians(10.0f), glm::vec3(1.0, 0.0, 0.0));
-    lParams.slice = glm::rotate(lParams.slice, glm::radians(-20.0f), glm::vec3(0.0,0.0,1.0));
-    lParams.slice = glm::scale(lParams.slice, glm::vec3(40.0, 40.0, 1.0));
-    lParams.slice = glm::translate(lParams.slice, glm::vec3(-0.35, -0.5, 2.0));
-
-    lOpenGL.uniform("Slice", lParams.slice);
-
-    lParams.noise.baseFreq = 4.0f;
-    lParams.noise.persistence = 0.5f;
-    lParams.noise.width = 128;
-    lParams.noise.height = 128;
-    lParams.noise.periodic = false;
-
-    lOpenGL.vao(0);
-
-    GFunction lNoise;
-    lNoise.noise(lParams.noise);
-    lOpenGL.texture(lNoise.noise(), lParams.noise.width, lParams.noise.height);
-    lNoise.deleteNoise();
-
-    lOpenGL.texture(GL_TEXTURE0);
-
-    while (!lOpenGL.isClose()) {
-        lOpenGL.bgcolor2(lParams.bgcolor);
-        lParams.mvp.view = glm::mat4(1.0f);
-        lParams.mvp.model = glm::mat4(1.0f);
-        lParams.mvp.projection = glm::mat4(1.0f);
-        lOpenGL.uniform("MVP", lParams.mvp.projection * lParams.mvp.view * lParams.mvp.model);
+    while(!lOpenGL.isClose()) {
+        lOpenGL.bgcolor(lParams.color);
+        lOpenGL.use();
         lOpenGL.vao(lParams.vao);
-        lOpenGL.triangle(0, 6);
-        glFinish();
+        lOpenGL.triangle(0, 3);
         lOpenGL.pollEvents();
     }
 
+    lOpenGL.deleteVao(1, &lParams.vao);
+    lOpenGL.deleteVbo(1, &lParams.vbo);
+    lOpenGL.deleteProgram();
     lOpenGL.close();
 }
-//===============================================
-void GOpenGLUi::onResize(GLFWwindow* _window, int _width, int _height) {
+//===============================================void GOpenGLUi::onResize(GLFWwindow* _window, int _width, int _height) {
     lOpenGL.viewport(_width, _height);
 }
 //===============================================
