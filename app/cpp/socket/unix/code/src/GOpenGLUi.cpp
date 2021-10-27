@@ -28,12 +28,20 @@ void GOpenGLUi::run(int argc, char** argv) {
 	lParams.mvp.projection = glm::mat4(1.0f);
 
     GLfloat lVertices[] = {
-        -1.0f, -1.0f, 0.0f, 1.0f, -1.0f, 0.0f, 1.0f, 1.0f, 0.0f,
-        -1.0f, -1.0f, 0.0f, 1.0f, 1.0f, 0.0f, -1.0f, 1.0f, 0.0f
+        -1.0f, -1.0f, 0.0f,
+		1.0f, -1.0f, 0.0f,
+		1.0f, 1.0f, 0.0f,
+        -1.0f, -1.0f, 0.0f,
+		1.0f, 1.0f, 0.0f,
+		-1.0f, 1.0f, 0.0f
     };
     GLfloat lTextCoord[] = {
-        0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-        0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f
+        0.0f, 0.0f,
+		1.0f, 0.0f,
+		1.0f, 1.0f,
+        0.0f, 0.0f,
+		1.0f, 1.0f,
+		0.0f, 1.0f
     };
 
     lOpenGL.init3();
@@ -46,12 +54,10 @@ void GOpenGLUi::run(int argc, char** argv) {
     lOpenGL.vbo(2, lParams.vbo);
 
     lOpenGL.vao(lParams.vao[0]);
-    lOpenGL.vbo(lParams.vbo[0]);
     lOpenGL.vbo(lParams.vbo[0], lVertices, sizeof(lVertices));
-    lOpenGL.vbo(0, 3, 0, 0);
-    lOpenGL.vbo(lParams.vbo[1]);
+    lOpenGL.vbo(0, 3, 3, 0);
     lOpenGL.vbo(lParams.vbo[1], lTextCoord, sizeof(lTextCoord));
-    lOpenGL.vbo(2, 2, 0, 0);
+    lOpenGL.vbo(2, 2, 2, 0);
 
     lOpenGL.uniform("Color", glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
     lOpenGL.uniform2("NoiseTex", 0);
