@@ -37,7 +37,6 @@ void GOpenGLUi::run(int argc, char** argv) {
     };
 
     lOpenGL.init2();
-
     lOpenGL.depthOn();
     lOpenGL.onResize(onResize);
     lOpenGL.shader(lApp->shader_vertex_file, lApp->shader_fragment_file);
@@ -85,6 +84,7 @@ void GOpenGLUi::run(int argc, char** argv) {
         lOpenGL.uniform("MVP", lParams.mvp.projection * lParams.mvp.view * lParams.mvp.model);
         lOpenGL.vao(lParams.vao);
         lOpenGL.triangle(0, 6);
+        glFinish();
         lOpenGL.pollEvents();
     }
 
