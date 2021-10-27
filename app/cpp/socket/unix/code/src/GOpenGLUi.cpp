@@ -42,12 +42,14 @@ void GOpenGLUi::run(int argc, char** argv) {
     lOpenGL.shader(lApp->shader_vertex_file, lApp->shader_fragment_file);
     lOpenGL.use();
 
-    lOpenGL.vao(1, &lParams.vao);
+    lOpenGL.vao(1, lParams.vao);
     lOpenGL.vbo(2, lParams.vbo);
 
-    lOpenGL.vao(lParams.vao);
+    lOpenGL.vao(lParams.vao[0]);
+    lOpenGL.vbo(lParams.vbo[0]);
     lOpenGL.vbo(lParams.vbo[0], lVertices, sizeof(lVertices));
     lOpenGL.vbo(0, 3, 0, 0);
+    lOpenGL.vbo(lParams.vbo[1]);
     lOpenGL.vbo(lParams.vbo[1], lTextCoord, sizeof(lTextCoord));
     lOpenGL.vbo(2, 2, 0, 0);
 
@@ -81,7 +83,7 @@ void GOpenGLUi::run(int argc, char** argv) {
         lParams.mvp.view = glm::mat4(1.0f);
         lParams.mvp.model = glm::mat4(1.0f);
         lOpenGL.uniform("MVP", lParams.mvp.projection * lParams.mvp.view * lParams.mvp.model);
-        lOpenGL.vao(lParams.vao);
+        lOpenGL.vao(lParams.vao[0]);
         lOpenGL.triangle(0, 6);
         glFinish();
         lOpenGL.pollEvents();

@@ -172,7 +172,7 @@ struct _sGParams9 {
 struct _sGParams10 {
 	sGColor bgcolor;
 	sGMvp mvp;
-	GLuint vao;
+	GLuint vao[1];
 	GLuint vbo[2];
 	glm::mat4 slice;
 	sGNoise noise;
