@@ -125,7 +125,7 @@ void GOpenGL::info() {
 	GLint nExtensions;
 	glGetIntegerv(GL_NUM_EXTENSIONS, &nExtensions);
 	for( int i = 0; i < nExtensions; i++ ) {
-		printf("Ext[%3d]......: %s\n", i, glGetStringi(GL_EXTENSIONS, i));
+		printf("Ext[%3d]........: %s\n", i, glGetStringi(GL_EXTENSIONS, i));
 	}
 }
 //===============================================
