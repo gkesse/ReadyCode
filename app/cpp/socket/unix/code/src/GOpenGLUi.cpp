@@ -44,7 +44,7 @@ void GOpenGLUi::run(int argc, char** argv) {
 		0.0f, 1.0f
     };
 
-    lOpenGL.init3();
+    lOpenGL.init();
     lOpenGL.depthOn();
     lOpenGL.glad();
     lOpenGL.onResize(onResize);
