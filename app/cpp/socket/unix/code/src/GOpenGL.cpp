@@ -81,9 +81,13 @@ void GOpenGL::init2() {
 //===============================================
 void GOpenGL::init3() {
 	glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
+	glfwWindowHint(GLFW_SAMPLES, 4);
 	m_window = glfwCreateWindow(m_width, m_height, m_title.c_str(), NULL, NULL);
 	glfwMakeContextCurrent(m_window);
 	glfwSwapInterval(1);
@@ -99,22 +103,22 @@ void GOpenGL::init3() {
 }
 //===============================================
 void GOpenGL::info() {
-    const GLubyte *renderer = glGetString(GL_RENDERER);
-    const GLubyte *vendor = glGetString(GL_VENDOR);
-    const GLubyte *version = glGetString(GL_VERSION);
-    const GLubyte *glslVersion = glGetString(GL_SHADING_LANGUAGE_VERSION);
+	const GLubyte *renderer = glGetString(GL_RENDERER);
+	const GLubyte *vendor = glGetString(GL_VENDOR);
+	const GLubyte *version = glGetString(GL_VERSION);
+	const GLubyte *glslVersion = glGetString(GL_SHADING_LANGUAGE_VERSION);
 
-    GLint major, minor, samples, sampleBuffers;
-    glGetIntegerv(GL_MAJOR_VERSION, &major);
-    glGetIntegerv(GL_MINOR_VERSION, &minor);
+	GLint major, minor, samples, sampleBuffers;
+	glGetIntegerv(GL_MAJOR_VERSION, &major);
+	glGetIntegerv(GL_MINOR_VERSION, &minor);
 	glGetIntegerv(GL_SAMPLES, &samples);
 	glGetIntegerv(GL_SAMPLE_BUFFERS, &sampleBuffers);
 
-    printf("GL Vendor.......: %s\n", vendor);
-    printf("GL Renderer.....: %s\n", renderer);
-    printf("GL Version......: %s\n", version);
-    printf("GL Version......: %d.%d\n", major, minor);
-    printf("GLSL Version....: %s\n", glslVersion);
+	printf("GL Vendor.......: %s\n", vendor);
+	printf("GL Renderer.....: %s\n", renderer);
+	printf("GL Version......: %s\n", version);
+	printf("GL Version......: %d.%d\n", major, minor);
+	printf("GLSL Version....: %s\n", glslVersion);
 	printf("MSAA samples....: %d\n", samples);
 	printf("MSAA buffers....: %d\n", sampleBuffers);
 
