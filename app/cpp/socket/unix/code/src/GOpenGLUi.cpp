@@ -80,7 +80,6 @@ void GOpenGLUi::run(int argc, char** argv) {
         lOpenGL.bgcolor2(lParams.bgcolor);
         lParams.mvp.view = glm::mat4(1.0f);
         lParams.mvp.model = glm::mat4(1.0f);
-        lParams.mvp.projection = glm::mat4(1.0f);
         lOpenGL.uniform("MVP", lParams.mvp.projection * lParams.mvp.view * lParams.mvp.model);
         lOpenGL.vao(lParams.vao);
         lOpenGL.triangle(0, 6);
