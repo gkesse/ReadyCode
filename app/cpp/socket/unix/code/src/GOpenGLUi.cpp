@@ -72,7 +72,7 @@ void GOpenGLUi::run(int argc, char** argv) {
 
     GFunction lNoise;
     lNoise.noise(lParams.noise);
-    //lOpenGL.texture(lNoise.noise(), lParams.noise.width, lParams.noise.height);
+    lOpenGL.texture(lNoise.noise(), lParams.noise.width, lParams.noise.height);
     lNoise.deleteNoise();
 
     lOpenGL.texture(GL_TEXTURE0);
