@@ -46,7 +46,7 @@ void GOpenGLUi::run(int argc, char** argv) {
 
     lOpenGL.init3();
     lOpenGL.depthOn();
-    lOpenGL.info();
+    //lOpenGL.info();
     lOpenGL.onResize(onResize);
     lOpenGL.shader(lApp->shader_vertex_file, lApp->shader_fragment_file);
     lOpenGL.use();
