@@ -23,7 +23,6 @@
 #include <xmlrpc-c/client_simple.hpp>
 // opengl
 #include <GL/glew.h>
-#include <GL/freeglut.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
