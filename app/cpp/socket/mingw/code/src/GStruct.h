@@ -8,6 +8,7 @@ typedef struct _sGData2 sGData2;
 typedef struct _sGColor sGColor;
 typedef struct _sGCamera sGCamera;
 typedef struct _sGMvp sGMvp;
+typedef struct _sGNoise sGNoise;
 typedef struct _sGParams sGParams;
 typedef struct _sGParams2 sGParams2;
 typedef struct _sGParams3 sGParams3;
@@ -17,6 +18,7 @@ typedef struct _sGParams6 sGParams6;
 typedef struct _sGParams7 sGParams7;
 typedef struct _sGParams8 sGParams8;
 typedef struct _sGParams9 sGParams9;
+typedef struct _sGParams10 sGParams10;
 //==============================================
 struct _sGVertex {
     float x, y, z;
@@ -48,6 +50,14 @@ struct _sGMvp {
     glm::mat4 model;
     glm::mat4 view;
     glm::mat4 projection;
+};
+//==============================================
+struct _sGNoise {
+    float baseFreq;
+    float persistence;
+    int width;
+    int height;
+	bool periodic;
 };
 //===============================================
 struct _sGParams {
@@ -157,6 +167,15 @@ struct _sGParams9 {
 	sGMvp mvp;
 	GLfloat deltaTime;
 	GLfloat lastTime;
+};
+//===============================================
+struct _sGParams10 {
+	sGColor bgcolor;
+	sGMvp mvp;
+	GLuint vao;
+	GLuint vbo[2];
+	glm::mat4 slice;
+	sGNoise noise;
 };
 //==============================================
 #endif

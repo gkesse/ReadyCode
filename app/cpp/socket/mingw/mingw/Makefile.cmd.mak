@@ -4,13 +4,13 @@ GBIN = bin
 GBUILD = build
 GTARGET = bin\rdcpp.exe
 
-GGLAD_SRC = C:\Users\Admin\Downloads\RLib\glad\src
+GGLAD_SRC = C:\Users\Admin\Downloads\Programs\ReadyLib\dev\glad\src
 
 GINCS =\
-    -IC:\Users\Admin\Downloads\RLib\include \
+    -IC:\Users\Admin\Downloads\Programs\ReadyLib\dev\include \
     
 GLIBS =\
-    -LC:\Users\Admin\Downloads\RLib\lib \
+    -LC:\Users\Admin\Downloads\Programs\ReadyLib\dev\lib \
     -lglfw3dll -lws2_32 -lglew32 -lfreeglut -lglu32 -lopengl32 \
     -lopencv_core452.dll -lopencv_highgui452.dll -lopencv_imgcodecs452.dll -lopencv_imgproc452.dll \
     

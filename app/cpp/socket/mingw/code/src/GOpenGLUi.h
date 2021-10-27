@@ -20,7 +20,7 @@ public:
 
 private:
 	static GOpenGL lOpenGL;
-	static sGParams9 lParams;
+	static sGParams10 lParams;
 };
 //==============================================
 #endif

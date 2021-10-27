@@ -79,6 +79,7 @@ public:
 	void shader2(const std::string& _vertex, const std::string& _fragment);
 	void texture(GLenum _texture);
 	void texture(const std::string& _image);
+	void texture(GLubyte* _data, int _width, int _height);
 	void texture2(const std::string& _image);
 	void texture3(const std::string& _image);
 	void texture4(const std::string& _image);
@@ -101,8 +102,12 @@ public:
 	void deleteProgram();
 	void deleteTexture();
 	void uniform(const char* _name, GLfloat _v0);
+	void uniform(const char* _name, GLfloat _v0, GLfloat _v1, GLfloat _v2);
 	void uniform(const char* _name, GLfloat _v0, GLfloat _v1, GLfloat _v2, GLfloat _v3);
 	void uniform(const char* _name, const GLfloat* _v0);
+	void uniform(const char* _name, const glm::vec3 &_vec);
+	void uniform(const char* _name, const glm::vec4 &_vec);
+	void uniform(const char* _name, const glm::mat4 &_mat);
 	void uniform2(const char* _name, GLuint _v0);
 
 private:

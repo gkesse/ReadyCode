@@ -36,13 +36,13 @@ void GProcess::runDefault(int argc, char** argv) {
 void GProcess::runSocket(int argc, char** argv) {
     std::string lKey = "default";
     if(argc > 2) {lKey = argv[2];}
-    GSocketUi* lSocket = GSocketUi::Create(lKey);
-    lSocket->run(argc, argv);
+    GSocketUi* lProcess = GSocketUi::Create(lKey);
+    lProcess->run(argc, argv);
 }
 //===============================================
 void GProcess::runOpenGL(int argc, char** argv) {
     std::string lKey = "default";
     if(argc > 2) {lKey = argv[2];}
-    GOpenGLUi* lOpenGL = GOpenGLUi::Create(lKey);
-    lOpenGL->run(argc, argv);
+    GOpenGLUi* lProcess = GOpenGLUi::Create(lKey);
+    lProcess->run(argc, argv);
 }

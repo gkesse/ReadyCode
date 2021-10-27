@@ -21,6 +21,10 @@ public:
     void mcml(const char* _filename, int _xsize, int _ysize, int _zsize, const sGColor& _color);
     void zMinMax(float& _zmin, float& _zmax);
     void zMinMax2(float& _zmin, float& _zmax);
+    void noise(float _baseFreq, float _persistence, int _width, int _height, bool _periodic);
+    void noise(const sGNoise& _noise);
+    GLubyte* noise();
+    void deleteNoise();
 
 private:
     sGData* m_data;
@@ -30,6 +34,7 @@ private:
     int m_xsize;
     int m_ysize;
     int m_zsize;
+    GLubyte* m_noise;
 };
 //==============================================
 #endif
