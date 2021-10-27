@@ -24,7 +24,7 @@ GOpenGLUi* GOpenGLUi::Create(const std::string& key) {
 void GOpenGLUi::run(int argc, char** argv) {
 	sGApp* lApp = GManager::Instance()->data()->app;
 
-	lParams.bgcolor = {0.7f, 0.5f, 0.3f, 1.0f};
+	lParams.bgcolor = {0.1f, 0.2f, 0.3f, 1.0f};
 	lParams.mvp.projection = glm::mat4(1.0f);
 
     GLfloat lVertices[] = {
