@@ -79,6 +79,10 @@ void GOpenGLUi::run(int argc, char** argv) {
 
     while (!lOpenGL.isClose()) {
         lOpenGL.bgcolor2(lParams.bgcolor);
+        lParams.mvp.view = glm::mat4(1.0f);
+        lParams.mvp.model = glm::mat4(1.0f);
+        lParams.mvp.projection = glm::mat4(1.0f);
+        lOpenGL.uniform("MVP", lParams.mvp.projection * lParams.mvp.view * lParams.mvp.model);
         lOpenGL.pollEvents();
     }
 
