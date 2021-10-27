@@ -5,6 +5,7 @@ GBUILD = build
 GTARGET = $(GBIN)/rdcpp.exe
 
 GINCS =\
+    -I/home/rpi4/Programs/ReadyLib/include \
     
 GLIBS =\
     -lxmlrpc_abyss -lxmlrpc_server_abyss -lxmlrpc_client -lxmlrpc_server_cgi  -lxmlrpc -lxmlrpc_cpp -lxmlrpc_packetsocket -lxmlrpc_server -lxmlrpc_util \
