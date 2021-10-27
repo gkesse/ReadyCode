@@ -18,6 +18,7 @@ public:
 	void init(int argc, char** argv);
 	void init2();
 	void init3();
+	void glad();
 	void bgcolor(const sGColor& _color);
 	void bgcolor2(const sGColor& _color);
 	void onKey(GLFWkeyfun _func);
