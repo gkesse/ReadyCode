@@ -30,6 +30,9 @@ struct _sGApp {
     std::string app_name;
     // text
     std::string text_file;
+    // shader
+    std::string shader_vertex_file;
+    std::string shader_fragment_file;
 };
 //==============================================
 #endif
