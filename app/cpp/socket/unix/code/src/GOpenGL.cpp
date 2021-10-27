@@ -98,10 +98,6 @@ void GOpenGL::init3() {
 	glewInit();
 }
 //===============================================
-void GOpenGL::glad() {
-	gladLoadGL();
-}
-//===============================================
 void GOpenGL::bgcolor(const sGColor& _color) {
 	glClearColor(_color.r, _color.g, _color.b, _color.a);
 	glClear(GL_COLOR_BUFFER_BIT);
