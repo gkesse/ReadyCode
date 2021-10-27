@@ -98,6 +98,33 @@ void GOpenGL::init3() {
 	glewInit();
 }
 //===============================================
+void GOpenGL::info() {
+    const GLubyte *renderer = glGetString(GL_RENDERER);
+    const GLubyte *vendor = glGetString(GL_VENDOR);
+    const GLubyte *version = glGetString(GL_VERSION);
+    const GLubyte *glslVersion = glGetString(GL_SHADING_LANGUAGE_VERSION);
+
+    GLint major, minor, samples, sampleBuffers;
+    glGetIntegerv(GL_MAJOR_VERSION, &major);
+    glGetIntegerv(GL_MINOR_VERSION, &minor);
+	glGetIntegerv(GL_SAMPLES, &samples);
+	glGetIntegerv(GL_SAMPLE_BUFFERS, &sampleBuffers);
+
+    printf("GL Vendor.......: %s\n", vendor);
+    printf("GL Renderer.....: %s\n", renderer);
+    printf("GL Version......: %s\n", version);
+    printf("GL Version......: %d.%d\n", major, minor);
+    printf("GLSL Version....: %s\n", glslVersion);
+	printf("MSAA samples....: %d\n", samples);
+	printf("MSAA buffers....: %d\n", sampleBuffers);
+
+	GLint nExtensions;
+	glGetIntegerv(GL_NUM_EXTENSIONS, &nExtensions);
+	for( int i = 0; i < nExtensions; i++ ) {
+		printf("Ext[%2d]....: %s\n", i, glGetStringi(GL_EXTENSIONS, i));
+	}
+}
+//===============================================
 void GOpenGL::bgcolor(const sGColor& _color) {
 	glClearColor(_color.r, _color.g, _color.b, _color.a);
 	glClear(GL_COLOR_BUFFER_BIT);
