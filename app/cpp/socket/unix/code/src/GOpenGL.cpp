@@ -65,9 +65,25 @@ void GOpenGL::init(int argc, char** argv) {
 //===============================================
 void GOpenGL::init2() {
 	glfwInit();
-    glfwWindowHint( GLFW_CONTEXT_VERSION_MAJOR, 3 );
-    glfwWindowHint( GLFW_CONTEXT_VERSION_MINOR, 3 );
-    glfwWindowHint( GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE );
+	m_window = glfwCreateWindow(m_width, m_height, m_title.c_str(), NULL, NULL);
+	glfwMakeContextCurrent(m_window);
+	glfwSwapInterval(1);
+	glEnable(GL_LINE_SMOOTH);
+	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+	glEnable(GL_POINT_SMOOTH);
+	glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_ALPHA_TEST) ;
+	glewExperimental = true;
+	glewInit();
+}
+//===============================================
+void GOpenGL::init3() {
+	glfwInit();
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	m_window = glfwCreateWindow(m_width, m_height, m_title.c_str(), NULL, NULL);
 	glfwMakeContextCurrent(m_window);
 	glfwSwapInterval(1);
