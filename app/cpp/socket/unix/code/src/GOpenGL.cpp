@@ -176,8 +176,8 @@ void GOpenGL::shader3(const std::string& _shaderFile, GLenum _shaderType) {
 	GLint lStatus;
 
     lFile.filename(_shaderFile);
-    std::string lShaderCode = lFile.read();
-	m_programID = glCreateShaderProgramv(_shaderType, 1, (const GLchar*)lShaderCode.c_str());
+    const GLchar* lShaderCode = lFile.read().c_str();
+	m_programID = glCreateShaderProgramv(_shaderType, 1, lShaderCode);
 	glGetProgramiv(m_programID, GL_LINK_STATUS, &lStatus);
 }
 //===============================================
