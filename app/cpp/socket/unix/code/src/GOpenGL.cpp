@@ -636,7 +636,9 @@ void GOpenGL::indices(sGParams4& _params) {
 }
 //===============================================
 void GOpenGL::loop() {
+#if 0
 	glutMainLoop();
+#endif
 }
 //===============================================
 bool GOpenGL::isClose() {
