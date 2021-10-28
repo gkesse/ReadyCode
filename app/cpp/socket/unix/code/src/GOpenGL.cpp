@@ -561,10 +561,13 @@ void GOpenGL::onScroll(double _x, double _y, float& _zoom) {
 }
 //===============================================
 void GOpenGL::onDisplay(void (*_func)(void)) {
+#if 0
 	glutDisplayFunc(_func);
+#endif
 }
 //===============================================
 void GOpenGL::onDisplay(sGParams4& _params) {
+#if 0
 	glClearColor(0.1f, 0.1f, 0.4f, 0.0f);
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 	glPushMatrix();
@@ -583,6 +586,7 @@ void GOpenGL::onDisplay(sGParams4& _params) {
 	if(_params.normal > 0) {normal(_params.vertex, _params.normals, _params.ncircle, _params.nvertex, _params.pointsize);}
 	glPopMatrix();
 	glutSwapBuffers();
+#endif
 }
 //===============================================
 void GOpenGL::coordinate(sGCamera& _cam, GLfloat _rho, GLfloat _theta, GLfloat _phi) {
