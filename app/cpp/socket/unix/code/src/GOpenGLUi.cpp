@@ -32,9 +32,30 @@ void GOpenGLUi::run(int argc, char** argv) {
 
     lParams.bgcolor = {0.1f, 0.2f, 0.3f, 1.0f};
 
+    GLfloat lVertices[] = {
+            -0.8f, -0.8f, 0.0f,
+            0.8f, -0.8f, 0.0f,
+            0.0f,  0.8f, 0.0f
+    };
+    GLfloat lColors[] = {
+            1.0f, 0.0f, 0.0f,
+            0.0f, 1.0f, 0.0f,
+            0.0f, 0.0f, 1.0f
+    };
+
+    lOpenGL.vao(1, lParams.vao);
+    lOpenGL.vbo(2, lParams.vbo);
+
+    lOpenGL.vao(lParams.vao[0]);
+    lOpenGL.vbo(lParams.vbo[0], lVertices, sizeof(lVertices));
+    lOpenGL.vbo(0, 3, 0, 0);
+    lOpenGL.vbo(lParams.vbo[1], lColors, sizeof(lColors));
+    lOpenGL.vbo(2, 3, 0, 0);
+
     while (!lOpenGL.isClose()) {
         lOpenGL.bgcolor2(lParams.bgcolor);
-
+        lOpenGL.vao(lParams.vao[0]);
+        lOpenGL.triangle(0, 6);
         lOpenGL.pollEvents();
     }
 
