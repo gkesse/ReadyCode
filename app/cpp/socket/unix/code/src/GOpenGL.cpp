@@ -177,7 +177,7 @@ void GOpenGL::shader3(const std::string& _shaderFile, GLenum _shaderType) {
 
     lFile.filename(_shaderFile);
     std::string lShaderCode = lFile.read();
-	m_programID = glCreateShaderProgramv(_shaderType, 1, lShaderCode);
+	m_programID = glCreateShaderProgramv(_shaderType, 1, lShaderCode.c_str());
 	glGetProgramiv(m_programID, GL_LINK_STATUS, &lStatus);
 }
 //===============================================
@@ -1071,6 +1071,6 @@ void GOpenGL::uniform2(const char* _name, GLuint _v0) {
 //===============================================
 void GOpenGL::uniform2(const char* _name, GLfloat _v0, GLfloat _v1, GLfloat _v2) {
     GLint lLocation = glGetUniformLocation(m_programID, _name);
-    glProgramUniform3f(lLocation, _v0, _v1, _v2);
+    glProgramUniform3f(m_programID, lLocation, _v0, _v1, _v2);
 }
 //===============================================
