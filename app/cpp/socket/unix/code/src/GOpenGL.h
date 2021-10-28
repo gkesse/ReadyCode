@@ -119,6 +119,9 @@ private:
 	float m_ratio;
 	GLuint m_program;
 	GLuint m_texture;
+	int m_major;
+	int m_minor;
+	int m_samples;
 };
 //==============================================
 #endif

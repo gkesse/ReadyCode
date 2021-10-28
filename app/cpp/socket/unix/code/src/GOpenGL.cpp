@@ -15,6 +15,9 @@ GOpenGL::GOpenGL() {
 	m_ratio = 0.f;
 	m_program = -1;
 	m_texture = -1;
+	m_major = 4;
+	m_minor = 5;
+	m_samples = 4;
 }
 //===============================================
 GOpenGL::~GOpenGL() {
@@ -83,12 +86,12 @@ void GOpenGL::init2() {
 //===============================================
 void GOpenGL::init3() {
 	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, m_major);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, m_minor);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
-	glfwWindowHint(GLFW_SAMPLES, 4);
+	glfwWindowHint(GLFW_SAMPLES, m_samples);
 	m_window = glfwCreateWindow(m_width, m_height, m_title.c_str(), NULL, NULL);
 	glfwMakeContextCurrent(m_window);
 	glfwSwapInterval(1);
