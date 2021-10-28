@@ -24,7 +24,7 @@ GOpenGLUi* GOpenGLUi::Create(const std::string& key) {
 void GOpenGLUi::run(int argc, char** argv) {
 	sGApp* lApp = GManager::Instance()->data()->app;
 
-    lOpenGL.init3();
+    lOpenGL.init(4, 5, 4);
     lOpenGL.depthOn();
     lOpenGL.onResize(onResize);
     lOpenGL.shader2(lApp->shader_vertex_file, lApp->shader_fragment_file);

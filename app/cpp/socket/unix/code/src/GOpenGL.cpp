@@ -15,9 +15,6 @@ GOpenGL::GOpenGL() {
 	m_ratio = 0.f;
 	m_program = -1;
 	m_texture = -1;
-	m_major = 4;
-	m_minor = 5;
-	m_samples = 4;
 }
 //===============================================
 GOpenGL::~GOpenGL() {
@@ -60,16 +57,20 @@ void GOpenGL::init() {
 }
 //===============================================
 void GOpenGL::init(int argc, char** argv) {
-#if 0
 	glutInit(&argc, argv);
 	glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(m_width, m_height);
 	glutCreateWindow(m_title.c_str());
-#endif
 }
 //===============================================
-void GOpenGL::init2() {
+void GOpenGL::init(int _major, int _minor, int _samples) {
 	glfwInit();
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, _major);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, _minor);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
+	glfwWindowHint(GLFW_SAMPLES, _samples);
 	m_window = glfwCreateWindow(m_width, m_height, m_title.c_str(), NULL, NULL);
 	glfwMakeContextCurrent(m_window);
 	glfwSwapInterval(1);
@@ -84,14 +85,8 @@ void GOpenGL::init2() {
 	glewInit();
 }
 //===============================================
-void GOpenGL::init3() {
+void GOpenGL::init2() {
 	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, m_major);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, m_minor);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
-	glfwWindowHint(GLFW_SAMPLES, m_samples);
 	m_window = glfwCreateWindow(m_width, m_height, m_title.c_str(), NULL, NULL);
 	glfwMakeContextCurrent(m_window);
 	glfwSwapInterval(1);
@@ -564,13 +559,10 @@ void GOpenGL::onScroll(double _x, double _y, float& _zoom) {
 }
 //===============================================
 void GOpenGL::onDisplay(void (*_func)(void)) {
-#if 0
 	glutDisplayFunc(_func);
-#endif
 }
 //===============================================
 void GOpenGL::onDisplay(sGParams4& _params) {
-#if 0
 	glClearColor(0.1f, 0.1f, 0.4f, 0.0f);
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 	glPushMatrix();
@@ -589,7 +581,6 @@ void GOpenGL::onDisplay(sGParams4& _params) {
 	if(_params.normal > 0) {normal(_params.vertex, _params.normals, _params.ncircle, _params.nvertex, _params.pointsize);}
 	glPopMatrix();
 	glutSwapBuffers();
-#endif
 }
 //===============================================
 void GOpenGL::coordinate(sGCamera& _cam, GLfloat _rho, GLfloat _theta, GLfloat _phi) {
@@ -639,9 +630,7 @@ void GOpenGL::indices(sGParams4& _params) {
 }
 //===============================================
 void GOpenGL::loop() {
-#if 0
 	glutMainLoop();
-#endif
 }
 //===============================================
 bool GOpenGL::isClose() {

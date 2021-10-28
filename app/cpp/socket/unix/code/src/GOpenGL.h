@@ -16,8 +16,8 @@ public:
 	void title(const std::string& _title);
 	void init();
 	void init(int argc, char** argv);
+	void init(int _major, int _minor, int _samples);
 	void init2();
-	void init3();
 	void info();
 	void bgcolor(const sGColor& _color);
 	void bgcolor2(const sGColor& _color);
@@ -119,9 +119,6 @@ private:
 	float m_ratio;
 	GLuint m_program;
 	GLuint m_texture;
-	int m_major;
-	int m_minor;
-	int m_samples;
 };
 //==============================================
 #endif
