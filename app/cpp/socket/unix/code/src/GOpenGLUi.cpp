@@ -47,15 +47,17 @@ void GOpenGLUi::run(int argc, char** argv) {
 	lOpenGL.vbo(2, lParams.vbo);
 
 	lOpenGL.vao(lParams.vao[0]);
-	lOpenGL.vbo(lParams.vbo[0], lVertices, sizeof(lVertices));
+	lOpenGL.vbo(lParams.vbo[0], lVertices, 9 * sizeof(float));
 	lOpenGL.vbo(0, 3, 0, 0);
-	lOpenGL.vbo(lParams.vbo[1], lColors, sizeof(lColors));
+	lOpenGL.vbo(lParams.vbo[1], lColors, 9 * sizeof(float));
 	lOpenGL.vbo(1, 3, 0, 0);
+	lOpenGL.vao(0);
 
 	while (!lOpenGL.isClose()) {
 		lOpenGL.bgcolor2(lParams.bgcolor);
 		lOpenGL.vao(lParams.vao[0]);
 		lOpenGL.triangle(0, 3);
+		lOpenGL.vao(0);
 		lOpenGL.pollEvents();
 	}
 
