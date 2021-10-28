@@ -28,9 +28,6 @@ void GOpenGLUi::run(int argc, char** argv) {
 	lOpenGL.depthOn();
 	lOpenGL.shader2(lApp->shader_vertex_file, lApp->shader_fragment_file);
 	lOpenGL.use();
-	lOpenGL.info();
-
-	lParams.bgcolor = {0.1f, 0.2f, 0.3f, 1.0f};
 
 	float lVertices[] = {
 			-0.8f, -0.8f, 0.0f,
@@ -47,17 +44,15 @@ void GOpenGLUi::run(int argc, char** argv) {
 	lOpenGL.vbo(2, lParams.vbo);
 
 	lOpenGL.vao(lParams.vao[0]);
-	lOpenGL.vbo(lParams.vbo[0], lVertices, 9 * sizeof(float));
+	lOpenGL.vbo(lParams.vbo[0], lVertices, sizeof(lVertices));
 	lOpenGL.vbo(0, 3, 0, 0);
-	lOpenGL.vbo(lParams.vbo[1], lColors, 9 * sizeof(float));
+	lOpenGL.vbo(lParams.vbo[1], lColors, sizeof(lColors));
 	lOpenGL.vbo(1, 3, 0, 0);
-	lOpenGL.vao(0);
 
 	while (!lOpenGL.isClose()) {
 		lOpenGL.bgcolor2(lParams.bgcolor);
 		lOpenGL.vao(lParams.vao[0]);
-		lOpenGL.triangle(0, 3);
-		lOpenGL.vao(0);
+		lOpenGL.triangle(0, 6);
 		lOpenGL.pollEvents();
 	}
 
