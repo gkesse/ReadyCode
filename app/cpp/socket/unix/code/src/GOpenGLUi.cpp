@@ -24,10 +24,12 @@ GOpenGLUi* GOpenGLUi::Create(const std::string& key) {
 void GOpenGLUi::run(int argc, char** argv) {
 	sGApp* lApp = GManager::Instance()->data()->app;
 
-	lOpenGL.init3();
+	lOpenGL.init2();
 	lOpenGL.depthOn();
 	lOpenGL.shader(lApp->shader_vertex_file, lApp->shader_fragment_file);
 	lOpenGL.use();
+
+	lParams.bgcolor = {0.1f, 0.2f, 0.3f, 1.0f};
 
 	float lVertices[] = {
 			-0.8f, -0.8f, 0.0f,
@@ -45,9 +47,9 @@ void GOpenGLUi::run(int argc, char** argv) {
 
 	lOpenGL.vao(lParams.vao[0]);
 	lOpenGL.vbo(lParams.vbo[0], lVertices, sizeof(lVertices));
-	lOpenGL.vbo(0, 3, 0, 0);
+	lOpenGL.vbo(0, 3, 3, 0);
 	lOpenGL.vbo(lParams.vbo[1], lColors, sizeof(lColors));
-	lOpenGL.vbo(1, 3, 0, 0);
+	lOpenGL.vbo(1, 3, 3, 0);
 
 	while (!lOpenGL.isClose()) {
 		lOpenGL.bgcolor2(lParams.bgcolor);
