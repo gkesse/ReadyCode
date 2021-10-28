@@ -18,12 +18,12 @@ void GXmlRpc::port(int _port) {
 }
 //===============================================
 void GXmlRpc::host(const std::string& _host) {
-	m_host = _host;
+    m_host = _host;
     url();
 }
 //===============================================
 void GXmlRpc::scheme(const std::string& _scheme) {
-	m_scheme = _scheme;
+    m_scheme = _scheme;
     url();
 }
 //===============================================

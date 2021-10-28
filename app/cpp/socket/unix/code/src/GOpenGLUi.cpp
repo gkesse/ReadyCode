@@ -22,13 +22,18 @@ GOpenGLUi* GOpenGLUi::Create(const std::string& key) {
 }
 //===============================================
 void GOpenGLUi::run(int argc, char** argv) {
-	sGApp* lApp = GManager::Instance()->data()->app;
+    sGApp* lApp = GManager::Instance()->data()->app;
 
     lOpenGL.init(4, 5, 4);
     lOpenGL.depthOn();
     lOpenGL.onResize(onResize);
-    lOpenGL.shader2(lApp->shader_vertex_file, lApp->shader_fragment_file);
-    lOpenGL.use();
+
+    GOpenGL lFragment1, lFragment2, lPipeline1, lPipeline2;
+    lOpenGL.shader3(lApp->shader_vertex_file, GL_VERTEX_SHADER);
+    lFragment1.shader3(lApp->shader_fragment_file, GL_FRAGMENT_SHADER);
+    lFragment2.shader3(lApp->shader_fragment_file_2, GL_FRAGMENT_SHADER);
+    lPipeline1.pipeline(lOpenGL, lFragment1);
+    lPipeline2.pipeline(lOpenGL, lFragment2);
 
     lParams.bgcolor = {0.1f, 0.2f, 0.3f, 1.0f};
 
@@ -54,7 +59,14 @@ void GOpenGLUi::run(int argc, char** argv) {
 
     while (!lOpenGL.isClose()) {
         lOpenGL.bgcolor2(lParams.bgcolor);
+        lOpenGL.use(0);
+        lOpenGL.uniform2("uColorMask", 0.0f, 1.0f, 0.0f);
         lOpenGL.vao(lParams.vao[0]);
+        lOpenGL.viewport(0.f, 0.f, 0.5f, 1.f);
+        lPipeline1.pipeline();
+        lOpenGL.triangle(0, 3);
+        lOpenGL.viewport(0.5f, 0.f, 0.5f, 1.f);
+        lPipeline2.pipeline();
         lOpenGL.triangle(0, 3);
         lOpenGL.pollEvents();
     }

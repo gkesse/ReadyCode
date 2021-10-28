@@ -46,6 +46,8 @@ public:
 	void pollEvents();
 	void viewport();
 	void viewport(int _width, int _height);
+	void viewport(GLfloat _x, GLfloat _y, GLfloat _width, GLfloat _height);
+	void viewport(int _x, int _y, int _width, int _height);
 	void point(const sGVertex& _obj, int _width);
 	void point();
 	void point(GFunction& _func, float _psize);
@@ -76,8 +78,12 @@ public:
 	void origin(float _linesize, float _transparency);
 	void depthOn();
 	void depthOff();
-	void shader(const std::string& _vertex, const std::string& _fragment);
-	void shader2(const std::string& _vertex, const std::string& _fragment);
+	void shader(const std::string& _vertexCode, const std::string& _fragmentCode);
+	void shader2(const std::string& _vertexFile, const std::string& _fragmentFile);
+	void shader3(const std::string& _shaderFile, GLenum _shaderType);
+	void shader4(const std::string& _shaderFile, GLenum _shaderType);
+	void pipeline(const GOpenGL& _vertex, const GOpenGL& _fragment);
+	void pipeline();
 	void texture(GLenum _texture);
 	void texture(const std::string& _image);
 	void texture(GLubyte* _data, int _width, int _height);
@@ -87,6 +93,7 @@ public:
 	void texture5(const std::string& _image);
 	void compile(GLuint _shaderId, const std::string& _code);
 	void use();
+	void use(GLuint _programID);
 	void fragment(GLuint _location, const char* _name);
 	void vao(GLuint _vao);
 	void vao(GLsizei _n, GLuint* _vao);
@@ -110,6 +117,7 @@ public:
 	void uniform(const char* _name, const glm::vec4 &_vec);
 	void uniform(const char* _name, const glm::mat4 &_mat);
 	void uniform2(const char* _name, GLuint _v0);
+	void uniform2(const char* _name, GLfloat _v0, GLfloat _v1, GLfloat _v2);
 
 private:
 	GLFWwindow* m_window;
@@ -117,8 +125,10 @@ private:
 	int m_height;
 	std::string m_title;
 	float m_ratio;
-	GLuint m_program;
-	GLuint m_texture;
+	GLuint m_programID;
+	GLuint m_textureID;
+	GLuint m_pipelineID;
+
 };
 //==============================================
 #endif
