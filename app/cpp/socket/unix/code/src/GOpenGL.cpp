@@ -81,8 +81,8 @@ void GOpenGL::init2() {
 //===============================================
 void GOpenGL::init3() {
 	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	m_window = glfwCreateWindow(m_width, m_height, m_title.c_str(), NULL, NULL);
 	glfwMakeContextCurrent(m_window);
