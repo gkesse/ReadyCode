@@ -28,6 +28,7 @@ void GOpenGLUi::run(int argc, char** argv) {
 	lOpenGL.depthOn();
 	lOpenGL.shader(lApp->shader_vertex_file, lApp->shader_fragment_file);
 	lOpenGL.use();
+	lOpenGL.info();
 
 	lParams.bgcolor = {0.1f, 0.2f, 0.3f, 1.0f};
 
