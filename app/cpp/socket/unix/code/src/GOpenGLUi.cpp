@@ -26,7 +26,7 @@ void GOpenGLUi::run(int argc, char** argv) {
 
 	lOpenGL.init3();
 	lOpenGL.depthOn();
-	lOpenGL.shader(lApp->shader_vertex_file, lApp->shader_fragment_file);
+	lOpenGL.shader2(lApp->shader_vertex_file, lApp->shader_fragment_file);
 	lOpenGL.use();
 	lOpenGL.info();
 
