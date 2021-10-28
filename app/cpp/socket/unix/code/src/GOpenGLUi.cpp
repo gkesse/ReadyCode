@@ -31,7 +31,6 @@ void GOpenGLUi::run(int argc, char** argv) {
     lOpenGL.use();
 
     lParams.bgcolor = {0.1f, 0.2f, 0.3f, 1.0f};
-	lParams.mvp.projection = glm::mat4(1.0f);
 
     GLfloat lVertices[] = {
         -1.0f, -1.0f, 0.0f,
@@ -55,9 +54,9 @@ void GOpenGLUi::run(int argc, char** argv) {
 
     lOpenGL.vao(lParams.vao[0]);
     lOpenGL.vbo(lParams.vbo[0], lVertices, sizeof(lVertices));
-    lOpenGL.vbo(0, 3, 3, 0);
+    lOpenGL.vbo(0, 3, 0, 0);
     lOpenGL.vbo(lParams.vbo[1], lTextCoord, sizeof(lTextCoord));
-    lOpenGL.vbo(2, 2, 2, 0);
+    lOpenGL.vbo(2, 2, 0, 0);
 
     lOpenGL.uniform("Color", glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
     lOpenGL.uniform2("NoiseTex", 0);
@@ -86,6 +85,7 @@ void GOpenGLUi::run(int argc, char** argv) {
         lOpenGL.bgcolor2(lParams.bgcolor);
         lParams.mvp.view = glm::mat4(1.0f);
         lParams.mvp.model = glm::mat4(1.0f);
+    	lParams.mvp.projection = glm::mat4(1.0f);
         lOpenGL.uniform("MVP", lParams.mvp.projection * lParams.mvp.view * lParams.mvp.model);
         lOpenGL.vao(lParams.vao[0]);
         lOpenGL.triangle(0, 6);
