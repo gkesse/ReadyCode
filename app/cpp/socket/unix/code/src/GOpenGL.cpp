@@ -57,10 +57,12 @@ void GOpenGL::init() {
 }
 //===============================================
 void GOpenGL::init(int argc, char** argv) {
+#if 0
 	glutInit(&argc, argv);
 	glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(m_width, m_height);
 	glutCreateWindow(m_title.c_str());
+#endif
 }
 //===============================================
 void GOpenGL::init2() {
