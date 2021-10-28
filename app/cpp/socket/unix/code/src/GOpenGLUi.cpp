@@ -48,9 +48,9 @@ void GOpenGLUi::run(int argc, char** argv) {
 
 	lOpenGL.vao(lParams.vao[0]);
 	lOpenGL.vbo(lParams.vbo[0], lVertices, sizeof(lVertices));
-	lOpenGL.vbo(0, 3, 3, 0);
+	lOpenGL.vbo(0, 3, 0, 0);
 	lOpenGL.vbo(lParams.vbo[1], lColors, sizeof(lColors));
-	lOpenGL.vbo(1, 3, 3, 0);
+	lOpenGL.vbo(1, 3, 0, 0);
 
 	while (!lOpenGL.isClose()) {
 		lOpenGL.bgcolor2(lParams.bgcolor);
