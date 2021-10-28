@@ -29,9 +29,9 @@ void GOpenGLUi::run(int argc, char** argv) {
     lOpenGL.onResize(onResize);
 
     GOpenGL lFragment1, lFragment2, lPipeline1, lPipeline2;
-    lOpenGL.shader3(lApp->shader_vertex_file, GL_VERTEX_SHADER);
-    lFragment1.shader3(lApp->shader_fragment_file, GL_FRAGMENT_SHADER);
-    lFragment2.shader3(lApp->shader_fragment_file_2, GL_FRAGMENT_SHADER);
+    lOpenGL.shader4(lApp->shader_vertex_file, GL_VERTEX_SHADER);
+    lFragment1.shader4(lApp->shader_fragment_file, GL_FRAGMENT_SHADER);
+    lFragment2.shader4(lApp->shader_fragment_file_2, GL_FRAGMENT_SHADER);
     lPipeline1.pipeline(lOpenGL, lFragment1);
     lPipeline2.pipeline(lOpenGL, lFragment2);
 
