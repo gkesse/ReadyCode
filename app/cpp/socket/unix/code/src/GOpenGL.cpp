@@ -218,7 +218,7 @@ void GOpenGL::attributs() {
 		GLint lSize = lResults[0] + 1;
 		char* lName = new char[lSize];
 		glGetProgramResourceName(m_programID, GL_PROGRAM_INPUT, i, lSize, NULL, lName);
-		printf(".....%-5d %s (%s)\n", lResults[2], lName, type(lResults[1]));
+		printf(".....[%-5d] : %s (%s)\n", lResults[2], lName, type(lResults[1]));
 		delete[] lName;
 	}
 }
