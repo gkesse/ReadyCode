@@ -207,28 +207,28 @@ void GOpenGL::pipeline() {
 }
 //===============================================
 void GOpenGL::attributs() {
-	GLint lCount;
-	glGetProgramInterfaceiv(m_programID, GL_PROGRAM_INPUT, GL_ACTIVE_RESOURCES, &lCount);
-	GLenum lProperties[] = {GL_NAME_LENGTH, GL_TYPE, GL_LOCATION};
+    GLint lCount;
+    glGetProgramInterfaceiv(m_programID, GL_PROGRAM_INPUT, GL_ACTIVE_RESOURCES, &lCount);
+    GLenum lProperties[] = {GL_NAME_LENGTH, GL_TYPE, GL_LOCATION};
 
-	printf("Active attributes.....:\n");
-	for(int i = 0; i < lCount; i++) {
-		GLint lResults[3];
-		glGetProgramResourceiv(m_programID, GL_PROGRAM_INPUT, i, 3, lProperties, 3, NULL, lResults);
-		GLint lSize = lResults[0] + 1;
-		char* lName = new char[lSize];
-		glGetProgramResourceName(m_programID, GL_PROGRAM_INPUT, i, lSize, NULL, lName);
-		printf(".....[%-5d] : %s (%s)\n", lResults[2], lName, type(lResults[1]));
-		delete[] lName;
-	}
+    printf("Active attributes.....:\n");
+    for(int i = 0; i < lCount; i++) {
+        GLint lResults[3];
+        glGetProgramResourceiv(m_programID, GL_PROGRAM_INPUT, i, 3, lProperties, 3, NULL, lResults);
+        GLint lSize = lResults[0] + 1;
+        char* lName = new char[lSize];
+        glGetProgramResourceName(m_programID, GL_PROGRAM_INPUT, i, lSize, NULL, lName);
+        printf(".....[%-5d] : %s (%s)\n", lResults[2], lName, type(lResults[1]));
+        delete[] lName;
+    }
 }
 //===============================================
 void GOpenGL::attribut(GLuint _location, GLint _size, GLuint _offset) {
-	glVertexAttribFormat(_location, _size, GL_FLOAT, GL_FALSE, _offset);
+    glVertexAttribFormat(_location, _size, GL_FLOAT, GL_FALSE, _offset);
 }
 //===============================================
 void GOpenGL::attribut(GLuint _location, GLuint _index) {
-	  glVertexAttribBinding(_location, _index);
+      glVertexAttribBinding(_location, _index);
 }
 //===============================================
 const char* GOpenGL::type(GLenum _type) {
