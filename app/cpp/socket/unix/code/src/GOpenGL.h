@@ -86,7 +86,6 @@ public:
 	void pipeline();
 	void attributs();
 	void attribut(GLuint _location, GLint _size, GLuint _offset);
-	void attribut(GLuint _location, GLuint _index);
 	const char* type(GLenum _type);
 	void texture(GLenum _texture);
 	void texture(const std::string& _image);
@@ -104,10 +103,11 @@ public:
 	void vbo(GLuint _vbo);
 	void vbo(GLsizei _n, GLuint* _vbo);
 	void vbo(GLuint _vbo, const void* _data, GLsizeiptr _size);
-	void vbo2(GLuint _ebo, const void* _data, GLsizeiptr _size);
 	void vbo(GLuint _vbo, const char* _name);
 	void vbo(GLuint _vbo, GLuint& _attrib, const char* _name);
 	void vbo(GLuint _location, GLint _size, GLsizei _stride, GLuint _pointer);
+	void vbo2(GLuint _location, GLuint _vbo, GLintptr _offset, GLsizei _stride);
+	void vbo2(GLuint _ebo, const void* _data, GLsizeiptr _size);
 	void deleteVao(GLsizei _n, GLuint* _vao);
 	void deleteVbo(GLsizei _n, GLuint* _vbo);
 	void disableAttrib(GLuint _attrib);

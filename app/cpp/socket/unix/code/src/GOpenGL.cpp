@@ -225,10 +225,7 @@ void GOpenGL::attributs() {
 //===============================================
 void GOpenGL::attribut(GLuint _location, GLint _size, GLuint _offset) {
     glVertexAttribFormat(_location, _size, GL_FLOAT, GL_FALSE, _offset);
-}
-//===============================================
-void GOpenGL::attribut(GLuint _location, GLuint _index) {
-      glVertexAttribBinding(_location, _index);
+    glVertexAttribBinding(_location, _location);
 }
 //===============================================
 const char* GOpenGL::type(GLenum _type) {
@@ -411,11 +408,6 @@ void GOpenGL::vbo(GLuint _vbo, const void* _data, GLsizeiptr _size) {
     glBufferData(GL_ARRAY_BUFFER, _size, _data, GL_STATIC_DRAW);
 }
 //===============================================
-void GOpenGL::vbo2(GLuint _ebo, const void* _data, GLsizeiptr _size) {
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ebo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, _size, _data, GL_STATIC_DRAW);
-}
-//===============================================
 void GOpenGL::vbo(GLuint _vbo, const char* _name) {
     GLint lLocation = glGetAttribLocation(m_programID, _name);
     glEnableVertexAttribArray(lLocation);
@@ -433,6 +425,16 @@ void GOpenGL::vbo(GLuint _vbo, GLuint& _attrib, const char* _name) {
 void GOpenGL::vbo(GLuint _location, GLint _size, GLsizei _stride, GLuint _pointer) {
     glVertexAttribPointer(_location, _size, GL_FLOAT, GL_FALSE, _stride * sizeof(GLfloat), (void*)(_pointer * sizeof(GLfloat)));
     glEnableVertexAttribArray(_location);
+}
+//===============================================
+void GOpenGL::vbo2(GLuint _location, GLuint _vbo, GLintptr _offset, GLsizei _stride) {
+	glBindVertexBuffer(_location, _vbo, _offset, _stride * sizeof(GLfloat));
+    glEnableVertexAttribArray(_location);
+}
+//===============================================
+void GOpenGL::vbo2(GLuint _ebo, const void* _data, GLsizeiptr _size) {
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ebo);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, _size, _data, GL_STATIC_DRAW);
 }
 //===============================================
 void GOpenGL::deleteVao(GLsizei _n, GLuint* _vao) {
