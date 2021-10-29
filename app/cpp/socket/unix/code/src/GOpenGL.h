@@ -84,6 +84,10 @@ public:
 	void shader4(const std::string& _shaderFile, GLenum _shaderType);
 	void pipeline(const GOpenGL& _vertex, const GOpenGL& _fragment);
 	void pipeline();
+	void attributs();
+	void attribut(GLuint _location, GLint _size, GLuint _offset);
+	void attribut(GLuint _location, GLuint _index);
+	const char* type(GLenum _type);
 	void texture(GLenum _texture);
 	void texture(const std::string& _image);
 	void texture(GLubyte* _data, int _width, int _height);

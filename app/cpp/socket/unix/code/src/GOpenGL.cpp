@@ -173,37 +173,80 @@ void GOpenGL::shader2(const std::string& _vertexFile, const std::string& _fragme
 //===============================================
 void GOpenGL::shader3(const std::string& _shaderFile, GLenum _shaderType) {
     GFile lFile;
-	GLint lStatus;
+    GLint lStatus;
 
     lFile.filename(_shaderFile);
     const char* lShaderCode[] = {lFile.read().c_str()};
-	m_programID = glCreateShaderProgramv(_shaderType, 1, lShaderCode);
-	glGetProgramiv(m_programID, GL_LINK_STATUS, &lStatus);
+    m_programID = glCreateShaderProgramv(_shaderType, 1, lShaderCode);
+    glGetProgramiv(m_programID, GL_LINK_STATUS, &lStatus);
 }
 //===============================================
 void GOpenGL::shader4(const std::string& _shaderFile, GLenum _shaderType) {
     GFile lFile;
-	GLint lStatus;
+    GLint lStatus;
 
     lFile.filename(_shaderFile);
     std::string lShaderCode = lFile.read();
     GLuint lShaderId = glCreateShader(_shaderType);
     compile(lShaderId, lShaderCode);
     m_programID = glCreateProgram();
-	glProgramParameteri(m_programID, GL_PROGRAM_SEPARABLE, GL_TRUE);
-	glAttachShader(m_programID, lShaderId);
+    glProgramParameteri(m_programID, GL_PROGRAM_SEPARABLE, GL_TRUE);
+    glAttachShader(m_programID, lShaderId);
     glLinkProgram(m_programID);
-	glGetProgramiv(m_programID, GL_LINK_STATUS, &lStatus);
+    glGetProgramiv(m_programID, GL_LINK_STATUS, &lStatus);
 }
 //===============================================
 void GOpenGL::pipeline(const GOpenGL& _vertex, const GOpenGL& _fragment) {
-	glCreateProgramPipelines(1, &m_pipelineID);
-	glUseProgramStages(m_pipelineID, GL_VERTEX_SHADER_BIT, _vertex.m_programID);
-	glUseProgramStages(m_pipelineID, GL_FRAGMENT_SHADER_BIT, _fragment.m_programID);
+    glCreateProgramPipelines(1, &m_pipelineID);
+    glUseProgramStages(m_pipelineID, GL_VERTEX_SHADER_BIT, _vertex.m_programID);
+    glUseProgramStages(m_pipelineID, GL_FRAGMENT_SHADER_BIT, _fragment.m_programID);
 }
 //===============================================
 void GOpenGL::pipeline() {
-	glBindProgramPipeline(m_pipelineID);
+    glBindProgramPipeline(m_pipelineID);
+}
+//===============================================
+void GOpenGL::attributs() {
+	GLint lCount;
+	GLuint lProgram;
+	glGetProgramInterfaceiv(lProgram, GL_PROGRAM_INPUT, GL_ACTIVE_RESOURCES, &lCount);
+	GLenum lProperties[] = {GL_NAME_LENGTH, GL_TYPE, GL_LOCATION};
+
+	printf("Active attributes.....:\n");
+	for(int i = 0; i < lCount; i++) {
+		GLint lResults[3];
+		glGetProgramResourceiv(lProgram, GL_PROGRAM_INPUT, i, 3, lProperties, 3, NULL, lResults);
+		GLint lSize = lResults[0] + 1;
+		char* lName = new char[lSize];
+		glGetProgramResourceName(lProgram, GL_PROGRAM_INPUT, i, lSize, NULL, lName);
+		printf(".....%-5d %s (%s)\n", lResults[2], lName, type(lResults[1]));
+		delete[] lName;
+	}
+}
+//===============================================
+void GOpenGL::attribut(GLuint _location, GLint _size, GLuint _offset) {
+	glVertexAttribFormat(_location, _size, GL_FLOAT, GL_FALSE, _offset);
+}
+//===============================================
+void GOpenGL::attribut(GLuint _location, GLuint _index) {
+	  glVertexAttribBinding(_location, _index);
+}
+//===============================================
+const char* GOpenGL::type(GLenum _type) {
+    switch (_type) {
+        case GL_FLOAT: return "float";
+        case GL_FLOAT_VEC2: return "vec2";
+        case GL_FLOAT_VEC3: return "vec3";
+        case GL_FLOAT_VEC4: return "vec4";
+        case GL_DOUBLE: return "double";
+        case GL_INT: return "int";
+        case GL_UNSIGNED_INT: return "unsigned int";
+        case GL_BOOL: return "bool";
+        case GL_FLOAT_MAT2: return "mat2";
+        case GL_FLOAT_MAT3: return "mat3";
+        case GL_FLOAT_MAT4: return "mat4";
+        default: return "?";
+    }
 }
 //===============================================
 void GOpenGL::texture(GLenum _texture) {
@@ -709,7 +752,7 @@ void GOpenGL::viewport(GLfloat _x, GLfloat _y, GLfloat _width, GLfloat _height) 
     int lY = (int)(_y * m_height);
     int lWidth = (int)(_width * m_width);
     int lHeight = (int)(_height * m_height);
-	glViewport(lX, lY, lWidth, lHeight);
+    glViewport(lX, lY, lWidth, lHeight);
 }
 //===============================================
 void GOpenGL::point(const sGVertex& _obj, int _width) {

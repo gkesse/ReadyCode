@@ -28,24 +28,21 @@ void GOpenGLUi::run(int argc, char** argv) {
     lOpenGL.depthOn();
     lOpenGL.onResize(onResize);
 
-    GOpenGL lFragment1, lFragment2, lPipeline1, lPipeline2;
-    lOpenGL.shader4(lApp->shader_vertex_file, GL_VERTEX_SHADER);
-    lFragment1.shader4(lApp->shader_fragment_file, GL_FRAGMENT_SHADER);
-    lFragment2.shader4(lApp->shader_fragment_file_2, GL_FRAGMENT_SHADER);
-    lPipeline1.pipeline(lOpenGL, lFragment1);
-    lPipeline2.pipeline(lOpenGL, lFragment2);
+    lOpenGL.shader2(lApp->shader_vertex_file, lApp->shader_fragment_file);
+    lOpenGL.use();
+    lOpenGL.attributs();
 
     lParams.bgcolor = {0.1f, 0.2f, 0.3f, 1.0f};
 
     GLfloat lVertices[] = {
-            -0.8f, -0.8f, 0.0f,
-            0.8f, -0.8f, 0.0f,
-            0.0f,  0.8f, 0.0f
+        -0.8f, -0.8f, 0.0f,
+         0.8f, -0.8f, 0.0f,
+         0.0f,  0.8f, 0.0f
     };
     GLfloat lColors[] = {
-            1.0f, 0.0f, 0.0f,
-            0.0f, 1.0f, 0.0f,
-            0.0f, 0.0f, 1.0f
+        1.0f, 0.0f, 0.0f,
+        0.0f, 1.0f, 0.0f,
+        0.0f, 0.0f, 1.0f
     };
 
     lOpenGL.vao(1, lParams.vao);
@@ -59,15 +56,7 @@ void GOpenGLUi::run(int argc, char** argv) {
 
     while (!lOpenGL.isClose()) {
         lOpenGL.bgcolor2(lParams.bgcolor);
-        lOpenGL.use(0);
-        lOpenGL.uniform2("uColorMask", 0.0f, 1.0f, 0.0f);
-        lOpenGL.vao(lParams.vao[0]);
-        lOpenGL.viewport(0.f, 0.f, 0.5f, 1.f);
-        lPipeline1.pipeline();
-        lOpenGL.triangle(0, 3);
-        lOpenGL.viewport(0.5f, 0.f, 0.5f, 1.f);
-        lPipeline2.pipeline();
-        lOpenGL.triangle(0, 3);
+
         lOpenGL.pollEvents();
     }
 
