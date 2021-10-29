@@ -30,8 +30,6 @@ void GOpenGLUi::run(int argc, char** argv) {
 
     lOpenGL.shader2(lApp->shader_vertex_file, lApp->shader_fragment_file);
     lOpenGL.use();
-    lOpenGL.attributs();
-
     lParams.bgcolor = {0.1f, 0.2f, 0.3f, 1.0f};
 
     GLfloat lVertices[] = {
@@ -53,6 +51,8 @@ void GOpenGLUi::run(int argc, char** argv) {
     lOpenGL.vbo(0, 3, 3, 0);
     lOpenGL.vbo(lParams.vbo[1], lColors, sizeof(lColors));
     lOpenGL.vbo(1, 3, 3, 0);
+
+    lOpenGL.attributs();
 
     while (!lOpenGL.isClose()) {
         lOpenGL.bgcolor2(lParams.bgcolor);
