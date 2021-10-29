@@ -1134,7 +1134,7 @@ void GOpenGL::angle(bool _animate, float& _angle) {
     }
 }
 //===============================================
-void GOpenGL::rotation(glm::mat4& _rotation, double _angle) {
+void GOpenGL::rotation(glm::mat4& _rotation, float _angle) {
 	_rotation = glm::rotate(glm::mat4(1.0f), _angle, glm::vec3(0.0f, 0.0f, 1.0f));
 }
 //===============================================

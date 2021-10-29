@@ -124,7 +124,7 @@ public:
 	void uniform2(const char* _name, GLuint _v0);
 	void uniform2(const char* _name, GLfloat _v0, GLfloat _v1, GLfloat _v2);
 	void angle(bool _animate, float& _angle);
-	void rotation(glm::mat4& _rotation, double _angle);
+	void rotation(glm::mat4& _rotation, float _angle);
 
 private:
 	GLFWwindow* m_window;
