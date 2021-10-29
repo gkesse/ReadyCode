@@ -208,8 +208,7 @@ void GOpenGL::pipeline() {
 //===============================================
 void GOpenGL::attributs() {
 	GLint lCount;
-	GLuint lProgram;
-	glGetProgramInterfaceiv(lProgram, GL_PROGRAM_INPUT, GL_ACTIVE_RESOURCES, &lCount);
+	glGetProgramInterfaceiv(m_programID, GL_PROGRAM_INPUT, GL_ACTIVE_RESOURCES, &lCount);
 	GLenum lProperties[] = {GL_NAME_LENGTH, GL_TYPE, GL_LOCATION};
 
 	printf("Active attributes.....:\n");
