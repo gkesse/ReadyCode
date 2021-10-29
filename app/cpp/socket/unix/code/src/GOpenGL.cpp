@@ -469,6 +469,15 @@ void GOpenGL::onKey() {
     }
 }
 //===============================================
+void GOpenGL::onKey(bool& _animate) {
+    if(glfwGetKey(m_window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+        glfwSetWindowShouldClose(m_window, true);
+    }
+    if(glfwGetKey(m_window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+        _animate = !_animate;
+    }
+}
+//===============================================
 void GOpenGL::onKey(GLfloat& _mixValue) {
     if(glfwGetKey(m_window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
         glfwSetWindowShouldClose(m_window, true);
@@ -1116,5 +1125,16 @@ void GOpenGL::uniform2(const char* _name, GLuint _v0) {
 void GOpenGL::uniform2(const char* _name, GLfloat _v0, GLfloat _v1, GLfloat _v2) {
     GLint lLocation = glGetUniformLocation(m_programID, _name);
     glProgramUniform3f(m_programID, lLocation, _v0, _v1, _v2);
+}
+//===============================================
+void GOpenGL::angle(bool _animate, float& _angle) {
+	if(_animate) {
+		_angle += 1.0f;
+    	if(_angle >= 360.0f) _angle -= 360.0f;
+    }
+}
+//===============================================
+void GOpenGL::rotation(glm::mat4& _rotation, double _angle) {
+	_rotation = glm::rotate(glm::mat4(1.0f), _angle, glm::vec3(0.0f, 0.0f, 1.0f));
 }
 //===============================================

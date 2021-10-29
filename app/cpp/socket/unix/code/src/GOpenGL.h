@@ -23,6 +23,7 @@ public:
 	void bgcolor2(const sGColor& _color);
 	void onKey(GLFWkeyfun _func);
 	void onKey();
+	void onKey(bool& _animate);
 	void onKey(GLfloat& _mixValue);
 	void onKey(sGCamera& _cam, GLfloat& _deltaTime);
 	void onKey(int action, int key, bool& _freeze, float& _alpha, float& _beta, float& _zoom);
@@ -122,6 +123,8 @@ public:
 	void uniform(const char* _name, const glm::mat4 &_mat);
 	void uniform2(const char* _name, GLuint _v0);
 	void uniform2(const char* _name, GLfloat _v0, GLfloat _v1, GLfloat _v2);
+	void angle(bool _animate, float& _angle);
+	void rotation(glm::mat4& _rotation, double _angle);
 
 private:
 	GLFWwindow* m_window;

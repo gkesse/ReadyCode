@@ -178,6 +178,9 @@ struct _sGParams10 {
 	sGNoise noise;
 	const char* shader_vertex_code;
 	const char* shader_fragment_code;
+	GLfloat angle;
+	glm::mat4 rotation;
+	bool animate;
 };
 //==============================================
 #endif

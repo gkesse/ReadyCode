@@ -22,25 +22,29 @@ GOpenGLUi* GOpenGLUi::Create(const std::string& key) {
 }
 //===============================================
 void GOpenGLUi::run(int argc, char** argv) {
-    sGApp* lApp = GManager::Instance()->data()->app;
+	sGApp* lApp = GManager::Instance()->data()->app;
 
     lOpenGL.init(4, 5, 4);
     lOpenGL.depthOn();
     lOpenGL.onResize(onResize);
+    lOpenGL.onKey(onKey);
 
     lOpenGL.shader2(lApp->shader_vertex_file, lApp->shader_fragment_file);
     lOpenGL.use();
+
     lParams.bgcolor = {0.1f, 0.2f, 0.3f, 1.0f};
+    lParams.animate = true;
+    lParams.angle = 0.f;
 
     GLfloat lVertices[] = {
-        -0.8f, -0.8f, 0.0f,
-         0.8f, -0.8f, 0.0f,
-         0.0f,  0.8f, 0.0f
+            -0.8f, -0.8f, 0.0f,
+            0.8f, -0.8f, 0.0f,
+            0.0f,  0.8f, 0.0f
     };
     GLfloat lColors[] = {
-        1.0f, 0.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-        0.0f, 0.0f, 1.0f
+            1.0f, 0.0f, 0.0f,
+            0.0f, 1.0f, 0.0f,
+            0.0f, 0.0f, 1.0f
     };
 
     lOpenGL.vao(1, lParams.vao);
@@ -48,15 +52,15 @@ void GOpenGLUi::run(int argc, char** argv) {
 
     lOpenGL.vao(lParams.vao[0]);
     lOpenGL.vbo(lParams.vbo[0], lVertices, sizeof(lVertices));
-    lOpenGL.vbo2(0, lParams.vbo[0], 0, 3);
-    lOpenGL.attribut(0, 3, 0);
+    lOpenGL.vbo(0, 3, 3, 0);
     lOpenGL.vbo(lParams.vbo[1], lColors, sizeof(lColors));
-    lOpenGL.vbo2(1, lParams.vbo[1], 0, 3);
-    lOpenGL.attribut(1, 3, 0);
-    lOpenGL.attributs();
+    lOpenGL.vbo(1, 3, 3, 0);
 
     while (!lOpenGL.isClose()) {
         lOpenGL.bgcolor2(lParams.bgcolor);
+    	lOpenGL.angle(lParams.animate, lParams.angle);
+    	lOpenGL.rotation(lParams.rotation, lParams.angle);
+    	lOpenGL.uniform("RotationMatrix", &lParams.rotation[0][0]);
         lOpenGL.vao(lParams.vao[0]);
         lOpenGL.triangle(0, 3);
         lOpenGL.pollEvents();
@@ -70,7 +74,7 @@ void GOpenGLUi::onResize(GLFWwindow* _window, int _width, int _height) {
 }
 //===============================================
 void GOpenGLUi::onKey(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods) {
-
+	lOpenGL.onKey(lParams.animate);
 }
 //===============================================
 void GOpenGLUi::onScroll(GLFWwindow* _window, double _x, double _y) {
