@@ -1129,7 +1129,7 @@ void GOpenGL::uniform2(const char* _name, GLfloat _v0, GLfloat _v1, GLfloat _v2)
 //===============================================
 void GOpenGL::angle(bool _animate, float& _angle) {
 	if(_animate) {
-		_angle += 1.0f;
+		_angle += 0.1f;
     	if(_angle >= 360.0f) _angle -= 360.0f;
     }
 }
