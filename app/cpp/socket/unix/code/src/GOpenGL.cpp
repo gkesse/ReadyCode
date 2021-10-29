@@ -214,10 +214,10 @@ void GOpenGL::attributs() {
 	printf("Active attributes.....:\n");
 	for(int i = 0; i < lCount; i++) {
 		GLint lResults[3];
-		glGetProgramResourceiv(lProgram, GL_PROGRAM_INPUT, i, 3, lProperties, 3, NULL, lResults);
+		glGetProgramResourceiv(m_programID, GL_PROGRAM_INPUT, i, 3, lProperties, 3, NULL, lResults);
 		GLint lSize = lResults[0] + 1;
 		char* lName = new char[lSize];
-		glGetProgramResourceName(lProgram, GL_PROGRAM_INPUT, i, lSize, NULL, lName);
+		glGetProgramResourceName(m_programID, GL_PROGRAM_INPUT, i, lSize, NULL, lName);
 		printf(".....%-5d %s (%s)\n", lResults[2], lName, type(lResults[1]));
 		delete[] lName;
 	}
