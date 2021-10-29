@@ -61,7 +61,8 @@ void GOpenGLUi::run(int argc, char** argv) {
 
     while (!lOpenGL.isClose()) {
         lOpenGL.bgcolor2(lParams.bgcolor);
-
+        lOpenGL.vao(lParams.vao[0]);
+        lOpenGL.triangle(0, 3);
         lOpenGL.pollEvents();
     }
 
