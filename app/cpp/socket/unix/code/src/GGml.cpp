@@ -26,7 +26,7 @@ glm::vec4 GGml::dot(float _x, float _y, float _z, float _w) {
 }
 //===============================================
 void GGml::dot(const GGml& _matA, const GGml& _matB) {
-    m_mat4 = _matA * _matB;
+    m_mat4 = _matA.mat4() * _matB.mat4();
 }
 //===============================================
 glm::mat4 GGml::mat4() const {
