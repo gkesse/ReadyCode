@@ -2,12 +2,15 @@
 #ifndef _GStruct_
 #define _GStruct_
 //===============================================
+class GGml;
+//===============================================
 typedef struct _sGVertex sGVertex;
 typedef struct _sGData sGData;
 typedef struct _sGData2 sGData2;
 typedef struct _sGColor sGColor;
 typedef struct _sGCamera sGCamera;
 typedef struct _sGMvp sGMvp;
+typedef struct _sGMvp2 sGMvp2;
 typedef struct _sGNoise sGNoise;
 typedef struct _sGParams sGParams;
 typedef struct _sGParams2 sGParams2;
@@ -50,6 +53,14 @@ struct _sGMvp {
     glm::mat4 model;
     glm::mat4 view;
     glm::mat4 projection;
+};
+//==============================================
+struct _sGMvp2 {
+    GGml model;
+    GGml view;
+    GGml projection;
+    GGml mv;
+    GGml mvp;
 };
 //==============================================
 struct _sGNoise {
@@ -172,6 +183,7 @@ struct _sGParams9 {
 struct _sGParams10 {
 	sGColor bgcolor;
 	sGMvp mvp;
+	sGMvp2 mvp2;
 	GLuint vao[1];
 	GLuint vbo[3];
 	glm::mat4 slice;

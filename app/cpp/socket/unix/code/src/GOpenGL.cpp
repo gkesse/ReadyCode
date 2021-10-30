@@ -17,6 +17,7 @@ GOpenGL::GOpenGL() {
     m_textureID = 0;
     m_pipelineID = 0;
     m_blockBuffer = 0;
+    m_blockSize = 0;
     m_indices = 0;
     m_offset = 0;
 }
@@ -1107,17 +1108,22 @@ void GOpenGL::uniform(const char* _name, const GLfloat* _v0) {
     glUniformMatrix4fv(lLocation, 1, GL_FALSE, _v0);
 }
 //===============================================
-void GOpenGL::uniform(const char* _name, const glm::vec3 &_vec) {
+void GOpenGL::uniform(const char* _name, const glm::vec3& _vec) {
     uniform(_name, _vec.x, _vec.y, _vec.z);
 }
 //===============================================
-void GOpenGL::uniform(const char* _name, const glm::vec4 &_vec) {
+void GOpenGL::uniform(const char* _name, const glm::vec4& _vec) {
     uniform(_name, _vec.x, _vec.y, _vec.z, _vec.w);
 }
 //===============================================
-void GOpenGL::uniform(const char* _name, const glm::mat4 &_mat) {
+void GOpenGL::uniform(const char* _name, const glm::mat4& _mat) {
     GLint lLocation = glGetUniformLocation(m_programID, _name);
     glUniformMatrix4fv(lLocation, 1, GL_FALSE, &_mat[0][0]);
+}
+//===============================================
+void GOpenGL::uniform(const char* _name, const GGml& _mat) {
+    GLint lLocation = glGetUniformLocation(m_programID, _name);
+    glUniformMatrix4fv(lLocation, 1, GL_FALSE, &_mat.mat4()[0][0]);
 }
 //===============================================
 void GOpenGL::uniform2(const char* _name, GLuint _v0) {

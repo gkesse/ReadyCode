@@ -4,6 +4,7 @@
 //===============================================
 #include "GInclude.h"
 #include "GFunction.h"
+#include "GGml.h"
 //===============================================
 class GOpenGL {
 public:
@@ -121,6 +122,7 @@ public:
 	void uniform(const char* _name, const glm::vec3 &_vec);
 	void uniform(const char* _name, const glm::vec4 &_vec);
 	void uniform(const char* _name, const glm::mat4 &_mat);
+	void uniform(const char* _name, const GGml& _mat);
 	void uniform2(const char* _name, GLuint _v0);
 	void uniform2(const char* _name, GLfloat _v0, GLfloat _v1, GLfloat _v2);
 	void uniforms();

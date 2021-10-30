@@ -3,6 +3,7 @@
 #include "GManager.h"
 #include "GOpenGL.h"
 #include "GFunction.h"
+#include "GGml.h"
 #include "data_ecg.h"
 //===============================================
 GOpenGL GOpenGLUi::lOpenGL;
@@ -33,62 +34,24 @@ void GOpenGLUi::run(int argc, char** argv) {
     lOpenGL.use();
 
     lParams.bgcolor = {0.1f, 0.2f, 0.3f, 1.0f};
-    lParams.animate = true;
-    lParams.angle = 0.f;
 
-    float lVertices[] = {
-            -0.8f, -0.8f, 0.0f,
-            0.8f, -0.8f, 0.0f,
-            0.8f,  0.8f, 0.0f,
-            -0.8f, -0.8f, 0.0f,
-            0.8f, 0.8f, 0.0f,
-            -0.8f, 0.8f, 0.0f
-    };
-    GLfloat lTextures[] = {
-            0.0f, 0.0f,
-            1.0f, 0.0f,
-            1.0f, 1.0f,
-            0.0f, 0.0f,
-            1.0f, 1.0f,
-            0.0f, 1.0f
-    };
+    lParams.mvp2.model.identity();
+    lParams.mvp2.model.rotate(-35.0f, 1.0f, 0.0f, 0.0f);
+    lParams.mvp2.model.rotate(35.0f, 0.0f, 1.0f, 0.0f);
+    lParams.mvp2.view.lookAt(0.0f, 0.0f, 2.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+    lParams.mvp2.projection.identity();
 
-    lOpenGL.vao(1, lParams.vao);
-    lOpenGL.vbo(3, lParams.vbo);
-
-    lOpenGL.vao(lParams.vao[0]);
-    lOpenGL.vbo(lParams.vbo[0], lVertices, sizeof(lVertices));
-    lOpenGL.vbo(0, 3, 3, 0);
-    lOpenGL.vbo(lParams.vbo[1], lTextures, sizeof(lTextures));
-    lOpenGL.vbo(1, 2, 2, 0);
-
-    const char* lBlobSettings[] = {
-            "BlobSettings.InnerColor",
-            "BlobSettings.OuterColor",
-            "BlobSettings.RadiusInner",
-            "BlobSettings.RadiusOuter"
-    };
-
-    GLfloat lOuterColor[] = {0.0f, 0.0f, 0.0f, 0.0f};
-    GLfloat lInnerColor[] = {1.0f, 1.0f, 0.75f, 1.0f};
-    GLfloat lRadiusInner[] = {0.25f};
-    GLfloat lRadiusOuter[] = {0.45f};
-
-    lOpenGL.uniformBloc("BlobSettings");
-    lOpenGL.uniformBloc(4, lBlobSettings);
-    lOpenGL.uniformBloc(0, 4, lInnerColor);
-    lOpenGL.uniformBloc(1, 4, lOuterColor);
-    lOpenGL.uniformBloc(2, 1, lRadiusInner);
-    lOpenGL.uniformBloc(3, 1, lRadiusOuter);
-    lOpenGL.uniformBloc(lParams.vbo[2]);
-    lOpenGL.uniformBloc();
-
-    lOpenGL.uniformBlocs();
+    lOpenGL.uniform("Kd", 0.9f, 0.5f, 0.3f);
+    lOpenGL.uniform("Ld", 1.0f, 1.0f, 1.0f);
+    lOpenGL.uniform("LightPosition", lParams.mvp2.view.dot(5.0f, 5.0f, 2.0f, 1.0f));
 
     while (!lOpenGL.isClose()) {
         lOpenGL.bgcolor2(lParams.bgcolor);
-        lOpenGL.vao(lParams.vao[0]);
-        lOpenGL.triangle(0, 6);
+        lParams.mvp2.mv.dot(lParams.mvp2.view, lParams.mvp2.model);
+        lOpenGL.uniform("ModelViewMatrix", lParams.mvp2.mv);
+        lOpenGL.uniform("NormalMatrix", lParams.mvp2.mv.mat3());
+        lParams.mvp2.mvp.dot(lParams.mvp2.projection, lParams.mvp2.mv);
+        lOpenGL.uniform("MVP", lParams.mvp2.mvp.mat4());
         lOpenGL.pollEvents();
     }
 
