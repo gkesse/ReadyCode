@@ -8,6 +8,9 @@
 //===============================================
 class GOpenGL {
 public:
+	typedef void APIENTRY (*onDebugCB)(GLenum _source, GLenum _type, GLuint _id, GLenum _severity, GLsizei _length, const GLchar* _msg, const void* _param);
+
+public:
 	GOpenGL();
 	~GOpenGL();
 	int width();
@@ -134,6 +137,9 @@ public:
 	void uniformBlocs();
 	void angle(bool _animate, float& _angle);
 	void rotation(glm::mat4& _rotation, float _angle);
+	void debug();
+	void debug(onDebugCB _onDebug);
+	static void APIENTRY onDebug(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* msg, const void* param);
 
 private:
 	GLFWwindow* m_window;

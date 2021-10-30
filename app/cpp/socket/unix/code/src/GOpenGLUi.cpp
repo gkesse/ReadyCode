@@ -36,41 +36,43 @@ void GOpenGLUi::run(int argc, char** argv) {
 
     lParams.bgcolor = {0.1f, 0.2f, 0.3f, 1.0f};
 
-    /*lParams.mvp2.model.identity();
+    lParams.mvp2.model.identity();
     lParams.mvp2.model.rotate(-35.0f, 1.0f, 0.0f, 0.0f);
     lParams.mvp2.model.rotate(35.0f, 0.0f, 1.0f, 0.0f);
     lParams.mvp2.view.lookAt(0.0f, 0.0f, 2.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-    lParams.mvp2.projection.identity();*/
+    lParams.mvp2.projection.identity();
 
-    lParams.mvp.model = glm::mat4(1.0f);
+    /*lParams.mvp.model = glm::mat4(1.0f);
     lParams.mvp.model = glm::rotate(lParams.mvp.model, glm::radians(-35.0f), glm::vec3(1.0f,0.0f,0.0f));
     lParams.mvp.model = glm::rotate(lParams.mvp.model, glm::radians(35.0f), glm::vec3(0.0f,1.0f,0.0f));
     lParams.mvp.view = glm::lookAt(glm::vec3(0.0f,0.0f,2.0f), glm::vec3(0.0f,0.0f,0.0f), glm::vec3(0.0f,1.0f,0.0f));
-    lParams.mvp.projection = glm::mat4(1.0f);
-
-    /*lOpenGL.uniform("Kd", 0.9f, 0.5f, 0.3f);
-    lOpenGL.uniform("Ld", 1.0f, 1.0f, 1.0f);
-    lOpenGL.uniform("LightPosition", lParams.mvp2.view.dot(5.0f, 5.0f, 2.0f, 1.0f));*/
+    lParams.mvp.projection = glm::mat4(1.0f);*/
 
     lOpenGL.uniform("Kd", 0.9f, 0.5f, 0.3f);
     lOpenGL.uniform("Ld", 1.0f, 1.0f, 1.0f);
-    lOpenGL.uniform("LightPosition", lParams.mvp.view * glm::vec4(5.0f,5.0f,2.0f,1.0f));
+    lOpenGL.uniform("LightPosition", lParams.mvp2.view.dot(5.0f, 5.0f, 2.0f, 1.0f));
+
+    /*lOpenGL.uniform("Kd", 0.9f, 0.5f, 0.3f);
+    lOpenGL.uniform("Ld", 1.0f, 1.0f, 1.0f);
+    lOpenGL.uniform("LightPosition", lParams.mvp.view * glm::vec4(5.0f,5.0f,2.0f,1.0f));*/
 
     GObject lTorus;
     lTorus.torus(0.7f, 0.3f, 30, 30);
     lTorus.init();
 
+    lOpenGL.debug();
+
     while (!lOpenGL.isClose()) {
         lOpenGL.bgcolor2(lParams.bgcolor);
-        /*lParams.mvp2.mv.dot(lParams.mvp2.view, lParams.mvp2.model);
+        lParams.mvp2.mv.dot(lParams.mvp2.view, lParams.mvp2.model);
         lOpenGL.uniform("ModelViewMatrix", lParams.mvp2.mv.mat4());
         lOpenGL.uniform("NormalMatrix", lParams.mvp2.mv.mat3());
         lParams.mvp2.mvp.dot(lParams.mvp2.projection, lParams.mvp2.mv);
-        lOpenGL.uniform("MVP", lParams.mvp2.mvp.mat4());*/
-        glm::mat4 mv = lParams.mvp.view * lParams.mvp.model;
+        lOpenGL.uniform("MVP", lParams.mvp2.mvp.mat4());
+        /*glm::mat4 mv = lParams.mvp.view * lParams.mvp.model;
         lOpenGL.uniform("ModelViewMatrix", mv);
         lOpenGL.uniform("NormalMatrix", glm::mat3( glm::vec3(mv[0]), glm::vec3(mv[1]), glm::vec3(mv[2]) ));
-        lOpenGL.uniform("MVP", lParams.mvp.projection * mv);
+        lOpenGL.uniform("MVP", lParams.mvp.projection * mv);*/
         lTorus.render();
         lOpenGL.pollEvents();
     }
