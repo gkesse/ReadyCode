@@ -3,6 +3,7 @@
 #include "GManager.h"
 #include "GOpenGL.h"
 #include "GFunction.h"
+#include "GObject.h"
 //===============================================
 #include "data_ecg.h"
 //===============================================
@@ -45,6 +46,10 @@ void GOpenGLUi::run(int argc, char** argv) {
     lOpenGL.uniform("Ld", 1.0f, 1.0f, 1.0f);
     lOpenGL.uniform("LightPosition", lParams.mvp2.view.dot(5.0f, 5.0f, 2.0f, 1.0f));
 
+    GObject lTorus;
+    lTorus.torus(0.7f, 0.3f, 30, 30);
+    lTorus.init();
+
     while (!lOpenGL.isClose()) {
         lOpenGL.bgcolor2(lParams.bgcolor);
         lParams.mvp2.mv.dot(lParams.mvp2.view, lParams.mvp2.model);
@@ -52,6 +57,7 @@ void GOpenGLUi::run(int argc, char** argv) {
         lOpenGL.uniform("NormalMatrix", lParams.mvp2.mv.mat3());
         lParams.mvp2.mvp.dot(lParams.mvp2.projection, lParams.mvp2.mv);
         lOpenGL.uniform("MVP", lParams.mvp2.mvp.mat4());
+        lTorus.render();
         lOpenGL.pollEvents();
     }
 
