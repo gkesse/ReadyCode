@@ -4,6 +4,7 @@
 //===============================================
 #include "GInclude.h"
 #include "GOpenGL.h"
+#include "GStruct.h"
 //===============================================
 class GOpenGLUi {
 public:

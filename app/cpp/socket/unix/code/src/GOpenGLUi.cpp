@@ -3,7 +3,7 @@
 #include "GManager.h"
 #include "GOpenGL.h"
 #include "GFunction.h"
-#include "GGml.h"
+//===============================================
 #include "data_ecg.h"
 //===============================================
 GOpenGL GOpenGLUi::lOpenGL;
