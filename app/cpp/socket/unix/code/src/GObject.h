@@ -22,6 +22,7 @@ private:
     std::vector<GLuint> m_buffers;
     GLuint m_vao;
     GLuint m_nVerts;
+    GLuint m_indexBuf;
 };
 //==============================================
 #endif
