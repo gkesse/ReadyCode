@@ -89,7 +89,7 @@ void GOpenGLUi::run(int argc, char** argv) {
 		lOpenGL.rotation(lParams.rotation, lParams.angle);
 		lOpenGL.uniform("RotationMatrix", &lParams.rotation[0][0]);
 		lOpenGL.vao(lParams.vao[0]);
-		lOpenGL.triangle(0, 3);
+		lOpenGL.triangle(0, 6);
 		lOpenGL.pollEvents();
 	}
 
