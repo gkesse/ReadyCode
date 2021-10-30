@@ -2,7 +2,7 @@
 #ifndef _GStruct_
 #define _GStruct_
 //===============================================
-class GGml;
+#include "GGml.h"
 //===============================================
 typedef struct _sGVertex sGVertex;
 typedef struct _sGData sGData;
