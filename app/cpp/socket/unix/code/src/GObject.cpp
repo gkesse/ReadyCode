@@ -92,14 +92,14 @@ void GObject::init(){
 	m_buffers.push_back(posBuf);
 	glBindBuffer(GL_ARRAY_BUFFER, posBuf);
 	glBufferData(GL_ARRAY_BUFFER, m_points.size() * sizeof(GLfloat), m_points.data(), GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3, 0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)(0));
 	glEnableVertexAttribArray(0);
 
 	glGenBuffers(1, &normBuf);
 	m_buffers.push_back(normBuf);
 	glBindBuffer(GL_ARRAY_BUFFER, normBuf);
 	glBufferData(GL_ARRAY_BUFFER, m_normals.size() * sizeof(GLfloat), m_normals.data(), GL_STATIC_DRAW);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3, 0);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)(0));
 	glEnableVertexAttribArray(1);
 
 	if(!m_texCoords.empty()) {
@@ -107,7 +107,7 @@ void GObject::init(){
 		m_buffers.push_back(tcBuf);
 		glBindBuffer(GL_ARRAY_BUFFER, tcBuf);
 		glBufferData(GL_ARRAY_BUFFER, m_texCoords.size() * sizeof(GLfloat), m_texCoords.data(), GL_STATIC_DRAW);
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2, 0);
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, (void*)(0));
 		glEnableVertexAttribArray(2);
 	}
 
@@ -116,7 +116,7 @@ void GObject::init(){
 		m_buffers.push_back(tangentBuf);
 		glBindBuffer(GL_ARRAY_BUFFER, tangentBuf);
 		glBufferData(GL_ARRAY_BUFFER, m_tangents.size() * sizeof(GLfloat), m_tangents.data(), GL_STATIC_DRAW);
-		glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, 4, 0);
+		glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, 0, (void*)(0));
 		glEnableVertexAttribArray(3);
 	}
 
