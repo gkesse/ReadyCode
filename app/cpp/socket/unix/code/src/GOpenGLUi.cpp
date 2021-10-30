@@ -58,9 +58,9 @@ void GOpenGLUi::run(int argc, char** argv) {
 
 	lOpenGL.vao(lParams.vao[0]);
 	lOpenGL.vbo(lParams.vbo[0], lVertices, sizeof(lVertices));
-	lOpenGL.vbo(0, 3, 0, 0);
+	lOpenGL.vbo(0, 3, 3, 0);
 	lOpenGL.vbo(lParams.vbo[1], lTextures, sizeof(lTextures));
-	lOpenGL.vbo(1, 2, 0, 0);
+	lOpenGL.vbo(1, 2, 2, 0);
 
 	const char* lBlobSettings[] = {
 			"BlobSettings.InnerColor",
@@ -69,7 +69,7 @@ void GOpenGLUi::run(int argc, char** argv) {
 			"BlobSettings.RadiusOuter"
 	};
 
-	GLfloat lInnerColor[] = {0.0f, 0.0f, 0.0f, 0.0f};
+	GLfloat lInnerColor[] = {1.0f, 0.0f, 0.0f, 0.0f};
 	GLfloat lOuterColor[] = {1.0f, 1.0f, 0.75f, 1.0f};
 	GLfloat lRadiusInner[] = {0.25f};
 	GLfloat lRadiusOuter[] = {0.45f};
