@@ -50,6 +50,7 @@ void GOpenGLUi::run(int argc, char** argv) {
     lTorus.torus(0.7f, 0.3f, 30, 30);
     lTorus.init();
 
+    lOpenGL.attributs();
     lOpenGL.uniforms();
 
     while (!lOpenGL.isClose()) {
