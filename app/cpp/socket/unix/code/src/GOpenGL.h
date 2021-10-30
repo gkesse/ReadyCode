@@ -23,6 +23,7 @@ public:
 	void init(int _major, int _minor, int _samples);
 	void init2();
 	void info();
+	void extensions();
 	void bgcolor(const sGColor& _color);
 	void bgcolor2(const sGColor& _color);
 	void onKey(GLFWkeyfun _func);

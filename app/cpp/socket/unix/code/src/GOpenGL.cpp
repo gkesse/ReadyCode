@@ -125,7 +125,9 @@ void GOpenGL::info() {
 	printf("GLSL Version....: %s\n", glslVersion);
 	printf("MSAA samples....: %d\n", samples);
 	printf("MSAA buffers....: %d\n", sampleBuffers);
-
+}
+//===============================================
+void GOpenGL::extensions() {
 	GLint nExtensions;
 	glGetIntegerv(GL_NUM_EXTENSIONS, &nExtensions);
 	for( int i = 0; i < nExtensions; i++ ) {
