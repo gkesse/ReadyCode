@@ -14,10 +14,10 @@ void GObject::torus(GLfloat _outerRadius, GLfloat _innerRadius, GLuint _nsides, 
 	GLuint faces = _nsides * _nrings;
 	int nVerts  = _nsides * (_nrings + 1);
 
-	m_points.reserve(3 * nVerts);
-	m_normals.reserve(3 * nVerts);
-	m_texCoords.reserve(2 * nVerts);
-	m_indices.reserve(6 * faces);
+	m_points.resize(3 * nVerts);
+	m_normals.resize(3 * nVerts);
+	m_texCoords.resize(2 * nVerts);
+	m_indices.resize(6 * faces);
 
 	float ringFactor = glm::two_pi<float>() / _nrings;
 	float sideFactor = glm::two_pi<float>() / _nsides;
