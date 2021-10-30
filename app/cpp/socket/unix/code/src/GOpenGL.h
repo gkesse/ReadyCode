@@ -123,6 +123,13 @@ public:
 	void uniform(const char* _name, const glm::mat4 &_mat);
 	void uniform2(const char* _name, GLuint _v0);
 	void uniform2(const char* _name, GLfloat _v0, GLfloat _v1, GLfloat _v2);
+	void uniforms();
+	void uniformBloc(const char* _name);
+	void uniformBloc(int _size, const char** _names);
+	void uniformBloc(int _offset, int _size, GLfloat* _data);
+	void uniformBloc(GLuint _vbo);
+	void uniformBloc();
+	void uniformBlocs();
 	void angle(bool _animate, float& _angle);
 	void rotation(glm::mat4& _rotation, float _angle);
 
@@ -135,7 +142,10 @@ private:
 	GLuint m_programID;
 	GLuint m_textureID;
 	GLuint m_pipelineID;
-
+	GLubyte* m_blockBuffer;
+	GLint m_blockSize;
+	GLuint* m_indices;
+	GLint* m_offset;
 };
 //==============================================
 #endif

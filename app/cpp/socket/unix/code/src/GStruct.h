@@ -173,7 +173,7 @@ struct _sGParams10 {
 	sGColor bgcolor;
 	sGMvp mvp;
 	GLuint vao[1];
-	GLuint vbo[2];
+	GLuint vbo[3];
 	glm::mat4 slice;
 	sGNoise noise;
 	const char* shader_vertex_code;
