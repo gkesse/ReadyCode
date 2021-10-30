@@ -3,6 +3,7 @@
 #define _GFunction_
 //===============================================
 #include "GInclude.h"
+#include "GStruct.h"
 //===============================================
 class GFunction {
 public:
