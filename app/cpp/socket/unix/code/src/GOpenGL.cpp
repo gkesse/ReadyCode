@@ -1121,7 +1121,7 @@ void GOpenGL::uniform(const char* _name, const glm::mat4& _mat) {
     glUniformMatrix4fv(lLocation, 1, GL_FALSE, &_mat[0][0]);
 }
 //===============================================
-void GOpenGL::uniform(const char* _name, glm::mat3& _mat) {
+void GOpenGL::uniform(const char* _name, const glm::mat3& _mat) {
     GLint lLocation = glGetUniformLocation(m_programID, _name);
     glUniformMatrix3fv(lLocation, 1, GL_FALSE, &_mat[0][0]);
 }
