@@ -56,7 +56,7 @@ void GOpenGLUi::run(int argc, char** argv) {
     while (!lOpenGL.isClose()) {
         lOpenGL.bgcolor2(lParams.bgcolor);
         lParams.mvp2.mv.dot(lParams.mvp2.view, lParams.mvp2.model);
-        lOpenGL.uniform("ModelViewMatrix", lParams.mvp2.mv);
+        lOpenGL.uniform("ModelViewMatrix", lParams.mvp2.mv.mat4());
         lOpenGL.uniform("NormalMatrix", lParams.mvp2.mv.mat3());
         lParams.mvp2.mvp.dot(lParams.mvp2.projection, lParams.mvp2.mv);
         lOpenGL.uniform("MVP", lParams.mvp2.mvp.mat4());
