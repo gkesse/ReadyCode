@@ -4,7 +4,7 @@
 //===============================================
 #include "GInclude.h"
 #include "GFunction.h"
-#include "GGml.h"
+#include "GStruct.h"
 //===============================================
 class GOpenGL {
 public:
