@@ -71,8 +71,8 @@ void GOpenGLUi::run(int argc, char** argv) {
 
 	GLfloat lOuterColor[] = {0.0f, 0.0f, 0.0f, 0.0f};
 	GLfloat lInnerColor[] = {1.0f, 1.0f, 0.75f, 1.0f};
-	GLfloat lInnerRadius = {0.25f};
-	GLfloat lOuterRadius = {0.45f};
+	GLfloat lRadiusInner[] = {0.25f};
+	GLfloat lRadiusOuter[] = {0.45f};
 
 	lOpenGL.uniformBloc("BlobSettings");
 	lOpenGL.uniformBloc(4, lBlobSettings);
