@@ -15,6 +15,7 @@ public:
     void dot(const GGml& _matA, const GGml& _matB);
     glm::mat4 mat4() const;
     glm::mat3 mat3() const;
+    void perspective(float _angle, float _zNear, float _zFar, int _width, int _height);
 
 private:
     glm::mat4 m_mat4;

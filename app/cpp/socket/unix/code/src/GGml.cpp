@@ -37,3 +37,8 @@ glm::mat3 GGml::mat3() const {
 	return glm::mat3(glm::vec3(m_mat4[0]), glm::vec3(m_mat4[1]), glm::vec3(m_mat4[2]));
 }
 //===============================================
+void GGml::perspective(float _angle, float _zNear, float _zFar, int _width, int _height) {
+	float lRatio = (float)_width/_height;
+	m_mat4 = glm::perspective(glm::radians(_angle), lRatio, _zNear, _zFar);
+}
+//===============================================
