@@ -50,6 +50,8 @@ void GOpenGLUi::run(int argc, char** argv) {
     lTorus.torus(0.7f, 0.3f, 30, 30);
     lTorus.init();
 
+    lOpenGL.uniforms();
+
     while (!lOpenGL.isClose()) {
         lOpenGL.bgcolor2(lParams.bgcolor);
         lParams.mvp2.mv.dot(lParams.mvp2.view, lParams.mvp2.model);
