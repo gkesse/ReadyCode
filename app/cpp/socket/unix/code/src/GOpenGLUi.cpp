@@ -83,6 +83,8 @@ void GOpenGLUi::run(int argc, char** argv) {
 	lOpenGL.uniformBloc(lParams.vbo[2]);
 	lOpenGL.uniformBloc();
 
+	lOpenGL.uniformBlocs();
+
 	while (!lOpenGL.isClose()) {
 		lOpenGL.bgcolor2(lParams.bgcolor);
 		lOpenGL.angle(lParams.animate, lParams.angle);
