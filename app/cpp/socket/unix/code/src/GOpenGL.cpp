@@ -118,6 +118,7 @@ void GOpenGL::info() {
 	glGetIntegerv(GL_SAMPLES, &samples);
 	glGetIntegerv(GL_SAMPLE_BUFFERS, &sampleBuffers);
 
+	printf("-------------------------------------------------\n");
 	printf("GL Vendor.......: %s\n", vendor);
 	printf("GL Renderer.....: %s\n", renderer);
 	printf("GL Version......: %s\n", version);
@@ -125,6 +126,7 @@ void GOpenGL::info() {
 	printf("GLSL Version....: %s\n", glslVersion);
 	printf("MSAA samples....: %d\n", samples);
 	printf("MSAA buffers....: %d\n", sampleBuffers);
+	printf("-------------------------------------------------\n");
 }
 //===============================================
 void GOpenGL::extensions() {
