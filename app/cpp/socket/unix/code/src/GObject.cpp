@@ -4,7 +4,6 @@
 GObject::GObject() {
 	m_vao = 0;
 	m_nVerts = 0;
-	m_indexBuf = 0;
 }
 //===============================================
 GObject::~GObject() {
@@ -79,10 +78,10 @@ void GObject::init(){
 
 	m_nVerts = (GLuint)m_indices.size();
 
-	GLuint indexBuf0 = 0, posBuf = 0, normBuf = 0, tcBuf = 0, tangentBuf = 0;
-	glGenBuffers(1, &m_indexBuf);
-	m_buffers.push_back(m_indexBuf);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexBuf);
+	GLuint indexBuf = 0, posBuf = 0, normBuf = 0, tcBuf = 0, tangentBuf = 0;
+	glGenBuffers(1, &indexBuf);
+	m_buffers.push_back(indexBuf);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuf);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_indices.size() * sizeof(GLuint), m_indices.data(), GL_STATIC_DRAW);
 
 	glGenBuffers(1, &posBuf);
@@ -102,7 +101,7 @@ void GObject::init(){
 		glBufferData(GL_ARRAY_BUFFER, m_texCoords.size() * sizeof(GLfloat), m_texCoords.data(), GL_STATIC_DRAW);
 	}
 
-	if(m_tangents.empty()) {
+	if(!m_tangents.empty()) {
 		glGenBuffers(1, &tangentBuf);
 		m_buffers.push_back(tangentBuf);
 		glBindBuffer(GL_ARRAY_BUFFER, tangentBuf);
@@ -111,7 +110,7 @@ void GObject::init(){
 
 	glGenVertexArrays(1, &m_vao);
 	glBindVertexArray(m_vao);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexBuf);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuf);
 
 	glBindBuffer(GL_ARRAY_BUFFER, posBuf);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
