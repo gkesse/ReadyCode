@@ -113,22 +113,22 @@ void GObject::init(){
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuf);
 
 	glBindBuffer(GL_ARRAY_BUFFER, posBuf);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3, 0);
 	glEnableVertexAttribArray(0);
 
 	glBindBuffer(GL_ARRAY_BUFFER, normBuf);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3, 0);
 	glEnableVertexAttribArray(1);
 
 	if(!m_texCoords.empty()) {
 		glBindBuffer(GL_ARRAY_BUFFER, tcBuf);
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, 0);
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2, 0);
 		glEnableVertexAttribArray(2);
 	}
 
 	if(!m_tangents.empty()) {
 		glBindBuffer(GL_ARRAY_BUFFER, tangentBuf);
-		glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, 0, 0);
+		glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, 4, 0);
 		glEnableVertexAttribArray(3);
 	}
 
