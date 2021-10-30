@@ -138,7 +138,7 @@ public:
 	void angle(bool _animate, float& _angle);
 	void rotation(glm::mat4& _rotation, float _angle);
 	void debug();
-	void debug(onDebugCB _onDebug);
+	void debug2();
 	static void APIENTRY onDebug(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* msg, const void* param);
 
 private:

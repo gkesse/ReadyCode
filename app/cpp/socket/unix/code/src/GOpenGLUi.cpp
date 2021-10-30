@@ -60,6 +60,7 @@ void GOpenGLUi::run(int argc, char** argv) {
     lTorus.torus(0.7f, 0.3f, 30, 30);
     lTorus.init();
 
+    lOpenGL.info();
     lOpenGL.debug();
 
     while (!lOpenGL.isClose()) {
@@ -77,6 +78,7 @@ void GOpenGLUi::run(int argc, char** argv) {
         lOpenGL.pollEvents();
     }
 
+    lOpenGL.debug2();
     lOpenGL.close();
 }
 //===============================================
