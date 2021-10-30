@@ -58,9 +58,9 @@ void GOpenGLUi::run(int argc, char** argv) {
 
 	lOpenGL.vao(lParams.vao[0]);
 	lOpenGL.vbo(lParams.vbo[0], lVertices, sizeof(lVertices));
-	lOpenGL.vbo(0, 3, 6, 0);
+	lOpenGL.vbo(0, 3, 0, 0);
 	lOpenGL.vbo(lParams.vbo[1], lTextures, sizeof(lTextures));
-	lOpenGL.vbo(1, 2, 6, 0);
+	lOpenGL.vbo(1, 2, 0, 0);
 
 	const char* lBlobSettings[] = {
 			"BlobSettings.InnerColor",
