@@ -62,17 +62,24 @@ void GOpenGLUi::run(int argc, char** argv) {
 	lOpenGL.vbo(lParams.vbo[1], lTextures, sizeof(lTextures));
 	lOpenGL.vbo(1, 2, 6, 0);
 
+	const char* lBlobSettings[] = {
+			"BlobSettings.InnerColor",
+			"BlobSettings.OuterColor",
+			"BlobSettings.RadiusInner",
+			"BlobSettings.RadiusOuter"
+	};
+
+	GLfloat lInnerColor[] = {0.0f, 0.0f, 0.0f, 0.0f};
+	GLfloat lOuterColor[] = {1.0f, 1.0f, 0.75f, 1.0f};
+	GLfloat lRadiusInner[] = {0.25f};
+	GLfloat lRadiusOuter[] = {0.45f};
+
 	lOpenGL.uniformBloc("BlobSettings");
-	lOpenGL.uniformBloc(4, (const char**){
-		"BlobSettings.InnerColor",
-		"BlobSettings.OuterColor",
-		"BlobSettings.RadiusInner",
-		"BlobSettings.RadiusOuter"
-	});
-	lOpenGL.uniformBloc(0, 4, (GLfloat*){0.0f, 0.0f, 0.0f, 0.0f});
-	lOpenGL.uniformBloc(1, 4, (GLfloat*){1.0f, 1.0f, 0.75f, 1.0f});
-	lOpenGL.uniformBloc(2, 1, (GLfloat*){0.25f});
-	lOpenGL.uniformBloc(3, 1, (GLfloat*){0.45f});
+	lOpenGL.uniformBloc(4, lBlobSettings);
+	lOpenGL.uniformBloc(0, 4, lInnerColor);
+	lOpenGL.uniformBloc(1, 4, lOuterColor);
+	lOpenGL.uniformBloc(2, 1, lRadiusInner);
+	lOpenGL.uniformBloc(3, 1, lRadiusOuter);
 	lOpenGL.uniformBloc(lParams.vbo[2]);
 	lOpenGL.uniformBloc();
 
