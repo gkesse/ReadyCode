@@ -21,7 +21,7 @@ public:
 	void extensions();
 	void debug();
 	void debug2();
-	static void APIENTRY GOpenGL::onDebug(GLenum source, GLenum _type, GLuint _id, GLenum _severity, GLsizei _length, const GLchar* _msg, const void* _param);
+	static void APIENTRY onDebug(GLenum source, GLenum _type, GLuint _id, GLenum _severity, GLsizei _length, const GLchar* _msg, const void* _param);
 
 private:
 	GLFWwindow* m_window;
