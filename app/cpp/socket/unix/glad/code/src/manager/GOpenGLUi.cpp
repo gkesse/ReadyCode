@@ -53,6 +53,7 @@ void GOpenGLUi::run(int argc, char** argv) {
 
     while(!lOpenGL.isClose()) {
         lOpenGL.bgcolor2(lParams.bgcolor);
+        lOpenGL.angle(lParams.animate, lParams.angle);
 
         lParams.mvp2.model.identity();
         lParams.mvp2.model.rotate(lParams.angle, 0.0f, 1.0f, 0.0f);

@@ -37,6 +37,7 @@ public:
 	void onKey2(int action, int key, int _xsize, int _ysize, int _zsize, float& _pointsize, int& _xslice, int& _yslice, int& _zslice, float& _zoom);
 	void viewport(int _width, int _height);
 	void viewport(GLfloat _x, GLfloat _y, GLfloat _width, GLfloat _height);
+	void angle(bool _animate, float& _angle);
 	void info();
 	void extensions();
 	void debug();

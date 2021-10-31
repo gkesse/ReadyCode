@@ -330,6 +330,13 @@ void GOpenGL::viewport(GLfloat _x, GLfloat _y, GLfloat _width, GLfloat _height) 
     glViewport(lX, lY, lWidth, lHeight);
 }
 //===============================================
+void GOpenGL::angle(bool _animate, float& _angle) {
+    if(_animate) {
+        _angle += 1.0f;
+        if(_angle >= 360.0f) _angle -= 360.0f;
+    }
+}
+//===============================================
 void GOpenGL::info() {
     const GLubyte *renderer = glGetString(GL_RENDERER);
     const GLubyte *vendor = glGetString(GL_VENDOR);
