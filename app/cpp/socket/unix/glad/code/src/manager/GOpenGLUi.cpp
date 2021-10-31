@@ -60,6 +60,7 @@ void GOpenGLUi::run(int argc, char** argv) {
     }
 
     lOpenGL.debug2();
+    lTorus.deletes();
     lOpenGL.close();
 }
 //===============================================
