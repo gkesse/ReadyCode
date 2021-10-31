@@ -616,27 +616,6 @@ void GOpenGL::onDisplay(void (*_func)(void)) {
 	glutDisplayFunc(_func);
 }
 //===============================================
-void GOpenGL::onDisplay(sGParams4& _params) {
-	glClearColor(0.1f, 0.1f, 0.4f, 0.0f);
-	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-	glPushMatrix();
-	coordinate(_params.cam, _params.rho, _params.theta, _params.phi);
-	gluLookAt(
-			_params.cam.eye[0], _params.cam.eye[1], _params.cam.eye[2],
-			_params.cam.center[0], _params.cam.center[1], _params.cam.center[2],
-			_params.cam.up[0], _params.cam.up[1], _params.cam.up[2]
-	);
-	glColor3f(0.0f, 1.0f, 0.0f);
-	glTranslatef(0.0f, 5.0f, 0.0f);
-	glRotatef(90, 1.0f, 0.0f, 0.0f );
-	if(_params.solid > 0) {glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);}
-	else {glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);}
-	glDrawElements(GL_QUADS, _params.indice, GL_UNSIGNED_INT, _params.indices);
-	if(_params.normal > 0) {normal(_params.vertex, _params.normals, _params.ncircle, _params.nvertex, _params.pointsize);}
-	glPopMatrix();
-	glutSwapBuffers();
-}
-//===============================================
 void GOpenGL::coordinate(sGCamera& _cam, GLfloat _rho, GLfloat _theta, GLfloat _phi) {
 	_cam.eye[0] = _rho*sin(90.0 - _theta)*sin(_phi);
 	_cam.eye[1] = _rho*cos(90.0 - _theta);
