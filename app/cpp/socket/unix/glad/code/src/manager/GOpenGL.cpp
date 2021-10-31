@@ -367,21 +367,6 @@ void GOpenGL::depthOff() {
 	glDisable(GL_DEPTH_TEST);
 }
 //===============================================
-void GOpenGL::triangle(const sGVertex* _obj) {
-	glBegin(GL_TRIANGLES);
-	for(int i = 0; i < 3; i++) {
-		sGVertex lObj = _obj[i];
-		glColor4f(lObj.r, lObj.g, lObj.b, lObj.a);
-		glVertex3f(lObj.x, lObj.y, lObj.z);
-	}
-	glEnd();
-}
-//===============================================
-void GOpenGL::triangle(const sGVertex& _v1, const sGVertex& _v2, const sGVertex& _v3) {
-	sGVertex lTriangle[] = {_v1, _v2, _v3};
-	triangle(lTriangle);
-}
-//===============================================
 void GOpenGL::triangle(GLint _index, GLsizei _count) {
 	glDrawArrays(GL_TRIANGLES, _index, _count);
 }

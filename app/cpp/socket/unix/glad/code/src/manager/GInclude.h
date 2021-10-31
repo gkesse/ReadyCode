@@ -22,7 +22,6 @@
 #include <xmlrpc-c/base.hpp>
 #include <xmlrpc-c/client_simple.hpp>
 // opengl
-#include <glad/gl.h>
 #include <glad/glad.h>
 #include <GL/freeglut.h>
 #include <GLFW/glfw3.h>

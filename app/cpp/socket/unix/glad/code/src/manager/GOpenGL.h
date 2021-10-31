@@ -49,8 +49,6 @@ public:
 	void deleteTexture();
 	void depthOn();
 	void depthOff();
-	void triangle(const sGVertex* _obj);
-	void triangle(const sGVertex& _v1, const sGVertex& _v2, const sGVertex& _v3);
 	void triangle(GLint _index, GLsizei _count);
 	void triangle2(const void* _indices, GLsizei _count);
 	void onResize(GLFWframebuffersizefun _func);
