@@ -168,7 +168,6 @@ void GOpenGL::depthOff() {
 //===============================================
 void GOpenGL::onResize(GLFWframebuffersizefun _func) {
 	glfwSetFramebufferSizeCallback(m_window, _func);
-	glfwGetFramebufferSize(m_window, &m_width, &m_height);
 	_func(m_window, m_width, m_height);
 }
 //===============================================

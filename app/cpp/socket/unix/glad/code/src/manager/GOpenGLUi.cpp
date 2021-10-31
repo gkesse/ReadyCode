@@ -36,7 +36,6 @@ void GOpenGLUi::run(int argc, char** argv) {
     lParams.mvp2.model.rotate(-35.0f, 1.0f, 0.0f, 0.0f);
     lParams.mvp2.model.rotate(35.0f, 0.0f, 1.0f, 0.0f);
     lParams.mvp2.view.lookAt(0.0f, 0.0f, 2.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-    lParams.mvp2.projection.identity();
 
     lOpenGL.uniform("Kd", 0.9f, 0.5f, 0.3f);
     lOpenGL.uniform("Ld", 1.0f, 1.0f, 1.0f);
