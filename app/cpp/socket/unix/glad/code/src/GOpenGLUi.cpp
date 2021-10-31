@@ -1,6 +1,7 @@
 //===============================================
 #include "GOpenGLUi.h"
 #include "GManager.h"
+#include "GObject.h"
 //===============================================
 GOpenGL GOpenGLUi::lOpenGL;
 sGOpenCV GOpenGLUi::lParams;
@@ -31,12 +32,31 @@ void GOpenGLUi::run(int argc, char** argv) {
 
     lParams.bgcolor = {0.1f, 0.2f, 0.3f, 1.f};
 
+    lParams.mvp2.model.identity();
+    lParams.mvp2.model.rotate(-35.0f, 1.0f, 0.0f, 0.0f);
+    lParams.mvp2.model.rotate(35.0f, 0.0f, 1.0f, 0.0f);
+    lParams.mvp2.view.lookAt(0.0f, 0.0f, 2.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+    lParams.mvp2.projection.identity();
+
+    lOpenGL.uniform("Kd", 0.9f, 0.5f, 0.3f);
+    lOpenGL.uniform("Ld", 1.0f, 1.0f, 1.0f);
+    lOpenGL.uniform("LightPosition", lParams.mvp2.view.dot(5.0f, 5.0f, 2.0f, 1.0f));
+
+    GObject lTorus;
+    lTorus.torus(0.7f, 0.3f, 30, 30);
+    lTorus.init();
+
     lOpenGL.info();
     lOpenGL.debug();
 
     while(!lOpenGL.isClose()) {
     	lOpenGL.bgcolor2(lParams.bgcolor);
-
+        lParams.mvp2.mv.dot(lParams.mvp2.view, lParams.mvp2.model);
+        lOpenGL.uniform("ModelViewMatrix", lParams.mvp2.mv.mat4());
+        lOpenGL.uniform("NormalMatrix", lParams.mvp2.mv.mat3());
+        lParams.mvp2.mvp.dot(lParams.mvp2.projection, lParams.mvp2.mv);
+        lOpenGL.uniform("MVP", lParams.mvp2.mvp.mat4());
+         lTorus.render();
     	lOpenGL.pollEvents();
     }
 

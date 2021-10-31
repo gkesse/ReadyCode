@@ -8,6 +8,10 @@ GOpenGL::GOpenGL() {
 	m_width = 400;
 	m_height = 400;
 	m_programID = 0;
+	m_blockBuffer = 0;
+	m_blockSize = 0;
+	m_indices = 0;
+	m_offset = 0;
 }
 //===============================================
 GOpenGL::~GOpenGL() {
@@ -431,5 +435,153 @@ void APIENTRY GOpenGL::onDebug(GLenum source, GLenum _type, GLuint _id, GLenum _
 	}
 
 	std::cerr << sourceStr << ":" << typeStr << "[" << sevStr << "]" << "(" << _id << "): " << _msg << std::endl;
+}
+//===============================================
+void GOpenGL::uniform(const char* _name, GLfloat _v0) {
+	GLint lLocation = glGetUniformLocation(m_programID, _name);
+	glUniform1f(lLocation, _v0);
+}
+//===============================================
+void GOpenGL::uniform(const char* _name, GLfloat _v0, GLfloat _v1, GLfloat _v2) {
+	GLint lLocation = glGetUniformLocation(m_programID, _name);
+	glUniform3f(lLocation, _v0, _v1, _v2);
+}
+//===============================================
+void GOpenGL::uniform(const char* _name, GLfloat _v0, GLfloat _v1, GLfloat _v2, GLfloat _v3) {
+	GLint lLocation = glGetUniformLocation(m_programID, _name);
+	glUniform4f(lLocation, _v0, _v1, _v2, _v3);
+}
+//===============================================
+void GOpenGL::uniform(const char* _name, const GLfloat* _v0) {
+	GLint lLocation = glGetUniformLocation(m_programID, _name);
+	glUniformMatrix4fv(lLocation, 1, GL_FALSE, _v0);
+}
+//===============================================
+void GOpenGL::uniform(const char* _name, const glm::vec3& _vec) {
+	uniform(_name, _vec.x, _vec.y, _vec.z);
+}
+//===============================================
+void GOpenGL::uniform(const char* _name, const glm::vec4& _vec) {
+	uniform(_name, _vec.x, _vec.y, _vec.z, _vec.w);
+}
+//===============================================
+void GOpenGL::uniform(const char* _name, const glm::mat4& _mat) {
+	GLint lLocation = glGetUniformLocation(m_programID, _name);
+	glUniformMatrix4fv(lLocation, 1, GL_FALSE, &_mat[0][0]);
+}
+//===============================================
+void GOpenGL::uniform(const char* _name, const glm::mat3& _mat) {
+	GLint lLocation = glGetUniformLocation(m_programID, _name);
+	glUniformMatrix3fv(lLocation, 1, GL_FALSE, &_mat[0][0]);
+}
+//===============================================
+void GOpenGL::uniform2(const char* _name, GLuint _v0) {
+	GLint lLocation = glGetUniformLocation(m_programID, _name);
+	glUniform1i(lLocation, _v0);
+}
+//===============================================
+void GOpenGL::uniform2(const char* _name, GLfloat _v0, GLfloat _v1, GLfloat _v2) {
+	GLint lLocation = glGetUniformLocation(m_programID, _name);
+	glProgramUniform3f(m_programID, lLocation, _v0, _v1, _v2);
+}
+//===============================================
+void GOpenGL::uniformBloc(const char* _name) {
+	GLuint lLocation = glGetUniformBlockIndex(m_programID, _name);
+	glGetActiveUniformBlockiv(m_programID, lLocation, GL_UNIFORM_BLOCK_DATA_SIZE, &m_blockSize);
+	m_blockBuffer = new GLubyte[m_blockSize];
+}
+//===============================================
+void GOpenGL::uniformBloc(int _size, const char** _names) {
+	m_indices = new GLuint[_size];
+	m_offset = new GLint[_size];
+	glGetUniformIndices(m_programID, _size, _names, m_indices);
+	glGetActiveUniformsiv(m_programID, _size, m_indices, GL_UNIFORM_OFFSET, m_offset);
+}
+//===============================================
+void GOpenGL::uniformBloc(int _offset, int _size, GLfloat* _data) {
+	memcpy(m_blockBuffer + m_offset[_offset], _data, _size * sizeof(GLfloat));
+}
+//===============================================
+void GOpenGL::uniformBloc(GLuint _vbo) {
+	glBindBuffer(GL_UNIFORM_BUFFER, _vbo);
+	glBufferData( GL_UNIFORM_BUFFER, m_blockSize, m_blockBuffer, GL_DYNAMIC_DRAW);
+	glBindBufferBase( GL_UNIFORM_BUFFER, 1, _vbo);
+}
+//===============================================
+void GOpenGL::uniformBloc() {
+	delete[] m_blockBuffer;
+	delete[] m_indices;
+	delete[] m_offset;
+}
+//===============================================
+void GOpenGL::uniforms() {
+	GLint numUniforms = 0;
+	glGetProgramInterfaceiv(m_programID, GL_UNIFORM, GL_ACTIVE_RESOURCES, &numUniforms);
+	GLenum properties[] = {GL_NAME_LENGTH, GL_TYPE, GL_LOCATION, GL_BLOCK_INDEX};
+
+	printf("Active uniforms.....:\n");
+	for( int i = 0; i < numUniforms; ++i ) {
+		GLint results[4];
+		glGetProgramResourceiv(m_programID, GL_UNIFORM, i, 4, properties, 4, NULL, results);
+		if( results[3] != -1 ) continue;
+		GLint nameBufSize = results[0] + 1;
+		char * name = new char[nameBufSize];
+		glGetProgramResourceName(m_programID, GL_UNIFORM, i, nameBufSize, NULL, name);
+		printf(".....[%-5d] : %s (%s)\n", results[2], name, type(results[1]));
+		delete [] name;
+	}
+}
+//===============================================
+void GOpenGL::uniformBlocs() {
+	GLint numBlocks = 0;
+	glGetProgramInterfaceiv(m_programID, GL_UNIFORM_BLOCK, GL_ACTIVE_RESOURCES, &numBlocks);
+	GLenum blockProps[] = {GL_NUM_ACTIVE_VARIABLES, GL_NAME_LENGTH};
+	GLenum blockIndex[] = {GL_ACTIVE_VARIABLES};
+	GLenum props[] = {GL_NAME_LENGTH, GL_TYPE, GL_BLOCK_INDEX};
+
+	for(int block = 0; block < numBlocks; ++block) {
+		GLint blockInfo[2];
+		glGetProgramResourceiv(m_programID, GL_UNIFORM_BLOCK, block, 2, blockProps, 2, NULL, blockInfo);
+		GLint numUnis = blockInfo[0];
+
+		char * blockName = new char[blockInfo[1]+1];
+		glGetProgramResourceName(m_programID, GL_UNIFORM_BLOCK, block, blockInfo[1]+1, NULL, blockName);
+		printf("Uniform block.....: \"%s\":\n", blockName);
+		delete [] blockName;
+
+		GLint* unifIndexes = new GLint[numUnis];
+		glGetProgramResourceiv(m_programID, GL_UNIFORM_BLOCK, block, 1, blockIndex, numUnis, NULL, unifIndexes);
+
+		for( int unif = 0; unif < numUnis; ++unif ) {
+			GLint uniIndex = unifIndexes[unif];
+			GLint results[3];
+			glGetProgramResourceiv(m_programID, GL_UNIFORM, uniIndex, 3, props, 3, NULL, results);
+
+			GLint nameBufSize = results[0] + 1;
+			char * name = new char[nameBufSize];
+			glGetProgramResourceName(m_programID, GL_UNIFORM, uniIndex, nameBufSize, NULL, name);
+			printf(".....: %s (%s)\n", name, type(results[1]));
+			delete[] name;
+		}
+
+		delete[] unifIndexes;
+	}
+}
+//===============================================
+const char* GOpenGL::type(GLenum _type) {
+	switch (_type) {
+	case GL_FLOAT: return "float";
+	case GL_FLOAT_VEC2: return "vec2";
+	case GL_FLOAT_VEC3: return "vec3";
+	case GL_FLOAT_VEC4: return "vec4";
+	case GL_DOUBLE: return "double";
+	case GL_INT: return "int";
+	case GL_UNSIGNED_INT: return "unsigned int";
+	case GL_BOOL: return "bool";
+	case GL_FLOAT_MAT2: return "mat2";
+	case GL_FLOAT_MAT3: return "mat3";
+	case GL_FLOAT_MAT4: return "mat4";
+	default: return "?";
+	}
 }
 //===============================================

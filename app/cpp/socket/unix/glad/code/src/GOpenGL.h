@@ -39,6 +39,24 @@ public:
 	void debug();
 	void debug2();
 	static void APIENTRY onDebug(GLenum source, GLenum _type, GLuint _id, GLenum _severity, GLsizei _length, const GLchar* _msg, const void* _param);
+	void uniform(const char* _name, GLfloat _v0);
+	void uniform(const char* _name, GLfloat _v0, GLfloat _v1, GLfloat _v2);
+	void uniform(const char* _name, GLfloat _v0, GLfloat _v1, GLfloat _v2, GLfloat _v3);
+	void uniform(const char* _name, const GLfloat* _v0);
+	void uniform(const char* _name, const glm::vec3 &_vec);
+	void uniform(const char* _name, const glm::vec4 &_vec);
+	void uniform(const char* _name, const glm::mat4 &_mat);
+	void uniform(const char* _name, const glm::mat3 &_mat);
+	void uniform2(const char* _name, GLuint _v0);
+	void uniform2(const char* _name, GLfloat _v0, GLfloat _v1, GLfloat _v2);
+	void uniforms();
+	void uniformBloc(const char* _name);
+	void uniformBloc(int _size, const char** _names);
+	void uniformBloc(int _offset, int _size, GLfloat* _data);
+	void uniformBloc(GLuint _vbo);
+	void uniformBloc();
+	void uniformBlocs();
+	const char* type(GLenum _type);
 
 private:
 	GLFWwindow* m_window;
@@ -46,6 +64,10 @@ private:
 	int m_width;
 	int m_height;
 	GLuint m_programID;
+	GLubyte* m_blockBuffer;
+	GLint m_blockSize;
+	GLuint* m_indices;
+	GLint* m_offset;
 };
 //==============================================
 #endif
