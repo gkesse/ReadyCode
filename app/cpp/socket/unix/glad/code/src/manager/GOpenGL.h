@@ -35,6 +35,8 @@ public:
 	void onKey(sGCamera& _cam, GLfloat& _deltaTime);
 	void onKey(int action, int key, bool& _freeze, float& _alpha, float& _beta, float& _zoom);
 	void onKey2(int action, int key, int _xsize, int _ysize, int _zsize, float& _pointsize, int& _xslice, int& _yslice, int& _zslice, float& _zoom);
+	void viewport(int _width, int _height);
+	void viewport(GLfloat _x, GLfloat _y, GLfloat _width, GLfloat _height);
 	void info();
 	void extensions();
 	void debug();

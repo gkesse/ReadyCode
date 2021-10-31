@@ -318,6 +318,18 @@ void GOpenGL::onKey2(int action, int key, int _xsize, int _ysize, int _zsize, fl
 	}
 }
 //===============================================
+void GOpenGL::viewport(int _width, int _height) {
+	glViewport(0, 0, _width, _height);
+}
+//===============================================
+void GOpenGL::viewport(GLfloat _x, GLfloat _y, GLfloat _width, GLfloat _height) {
+	int lX = (int)(_x * m_width);
+	int lY = (int)(_y * m_height);
+	int lWidth = (int)(_width * m_width);
+	int lHeight = (int)(_height * m_height);
+	glViewport(lX, lY, lWidth, lHeight);
+}
+//===============================================
 void GOpenGL::info() {
 	const GLubyte *renderer = glGetString(GL_RENDERER);
 	const GLubyte *vendor = glGetString(GL_VENDOR);
