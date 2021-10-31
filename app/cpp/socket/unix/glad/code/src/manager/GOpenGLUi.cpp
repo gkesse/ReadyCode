@@ -38,6 +38,8 @@ void GOpenGLUi::run(int argc, char** argv) {
     lParams.noise.height = 128;
     lParams.noise.periodic = false;
 
+    lParams.mvp2.projection.identity();
+
     GLfloat lVertices[] = {
         -1.0f, -1.0f, 0.0f,
 		1.0f, -1.0f, 0.0f,
