@@ -21,7 +21,7 @@ public:
 
 private:
 	static GOpenGL lOpenGL;
-	static sGParams10 lParams;
+	static sGOpenCV lParams;
 };
 //==============================================
 #endif
