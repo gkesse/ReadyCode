@@ -26,7 +26,7 @@ void GOpenGLUi::run(int argc, char** argv) {
     lParams.bgcolor = {0.1f, 0.2f, 0.3f, 1.f};
 
     lOpenGL.info();
-    lOpenGL.extensions();
+    lOpenGL.debug();
 
     while(!lOpenGL.isClose()) {
     	lOpenGL.bgcolor2(lParams.bgcolor);
