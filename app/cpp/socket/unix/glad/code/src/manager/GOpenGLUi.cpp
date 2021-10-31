@@ -31,6 +31,8 @@ void GOpenGLUi::run(int argc, char** argv) {
     lOpenGL.use();
 
     lParams.bgcolor = {0.2f, 0.3f, 0.3f, 1.f};
+    lParams.angle = 0.f;
+    lParams.animate = true;
 
     lParams.mvp2.view.lookAt(0.0f, 0.0f, 2.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
     lParams.light.world.data(5.0f, 5.0f, 2.0f, 1.0f);
