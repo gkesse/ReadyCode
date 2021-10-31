@@ -33,7 +33,7 @@ glm::vec4 GGml::dot(const GGml& _vec4) {
     return m_mat4 * _vec4.m_vec4;
 }
 //===============================================
-glm::vec4 GGml::dot2(const GGml& _mat4) {
+glm::mat4 GGml::dot2(const GGml& _mat4) {
     return m_mat4 * _mat4.m_mat4;
 }
 //===============================================

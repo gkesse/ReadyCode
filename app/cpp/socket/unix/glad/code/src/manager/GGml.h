@@ -14,7 +14,7 @@ public:
     void lookAt(float _eyeX, float _eyeY, float _eyeZ, float _centerX, float _centerY, float _centerZ, float _upX, float _upY, float _upZ);
     glm::vec4 dot(float _x, float _y, float _z, float _w);
     glm::vec4 dot(const GGml& _vec4);
-    glm::vec4 dot2(const GGml& _mat4);
+    glm::mat4 dot2(const GGml& _mat4);
     void dot(const GGml& _matA, const GGml& _matB);
     glm::mat4 mat4() const;
     glm::mat3 mat3() const;
