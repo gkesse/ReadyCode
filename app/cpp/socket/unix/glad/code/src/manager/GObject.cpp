@@ -7,7 +7,7 @@ GObject::GObject() {
 }
 //===============================================
 GObject::~GObject() {
-	deletes();
+
 }
 //===============================================
 void GObject::torus(GLfloat _outerRadius, GLfloat _innerRadius, GLuint _nsides, GLuint _nrings) {
