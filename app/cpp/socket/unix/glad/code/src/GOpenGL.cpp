@@ -630,16 +630,6 @@ void GOpenGL::normal(GLfloat* _vertex, GLfloat* _normal, int& _ncircle, int& _nv
 
 }
 //===============================================
-void GOpenGL::vector(GLfloat* _vertex, GLfloat* _normal, float _pointsize) {
-	glPointSize(_pointsize);
-	glBegin(GL_LINES);
-	glColor3f(1.0f, 0.0f, 0.0f);
-	glVertex3f(_vertex[0], _vertex[1], _vertex[2]);
-	glColor3f(0.0f, 1.0f, 1.0f);
-	glVertex3f(_vertex[0] + _normal[0], _vertex[1] + _normal[1], _vertex[2] + _normal[2]);
-	glEnd();
-}
-//===============================================
 void GOpenGL::indices(sGParams4& _params) {
 	for(int j = 0, k = 0; j < _params.ncircle - 1; j++) {
 		int offset = j*_params.nvertex;
@@ -656,10 +646,6 @@ void GOpenGL::indices(sGParams4& _params) {
 		_params.indices[k++] = _params.nvertex + offset;
 		_params.indices[k++] = _params.nvertex*2 - 1 + offset;
 	}
-}
-//===============================================
-void GOpenGL::loop() {
-	glutMainLoop();
 }
 //===============================================
 bool GOpenGL::isClose() {

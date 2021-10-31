@@ -39,9 +39,7 @@ public:
 	void onScroll(double _x, double _y, float& _zoom);
 	void coordinate(sGCamera& _cam, GLfloat _rho, GLfloat _theta, GLfloat _phi);
 	void normal(GLfloat* _vertex, GLfloat* _normal, int& _ncircle, int& _nvertex, float _pointsize);
-	void vector(GLfloat* _vertex, GLfloat* _normal, float _pointsize);
 	void indices(sGParams4& _params);
-	void loop();
 	bool isClose();
 	void close();
 	void pollEvents();
