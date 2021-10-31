@@ -28,3 +28,12 @@ void GOpenGL::init(int _major, int _minor, int _samples) {
 	//gladLoadGL();
 }
 //===============================================
+void GOpenGL::heatMap(float _v, float _vmin, float _vmax, float& _r, float& _g, float& _b) {
+	float _half = (_vmin + _vmax) / 2;
+	_b = 1.0f - _v/_half;
+	_r = _v/_half - 1.0f;
+	if(_b < 0) {_b = 0.f;}
+	if(_r < 0) {_r = 0.f;}
+	_g = 1.0f - _b - _r;
+}
+//===============================================
