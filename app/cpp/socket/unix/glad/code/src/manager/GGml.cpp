@@ -9,6 +9,10 @@ GGml::~GGml() {
 
 }
 //===============================================
+void GGml::data(float _x, float _y, float _z, float _w) {
+    m_vec4 = glm::vec4(_x, _y, _z, _w);
+}
+//===============================================
 void GGml::identity() {
     m_mat4 = glm::mat4(1.f);
 }
@@ -23,6 +27,14 @@ void GGml::lookAt(float _eyeX, float _eyeY, float _eyeZ, float _centerX, float _
 //===============================================
 glm::vec4 GGml::dot(float _x, float _y, float _z, float _w) {
     return m_mat4 * glm::vec4(_x, _y, _z, _w);
+}
+//===============================================
+glm::vec4 GGml::dot(const GGml& _vec4) {
+    return m_mat4 * _vec4.m_vec4;
+}
+//===============================================
+glm::vec4 GGml::dot2(const GGml& _mat4) {
+    return m_mat4 * _mat4.m_mat4;
 }
 //===============================================
 void GGml::dot(const GGml& _matA, const GGml& _matB) {

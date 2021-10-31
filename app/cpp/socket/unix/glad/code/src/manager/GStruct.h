@@ -12,7 +12,8 @@ typedef struct _sGCamera sGCamera;
 typedef struct _sGMvp sGMvp;
 typedef struct _sGMvp2 sGMvp2;
 typedef struct _sGNoise sGNoise;
-typedef struct _sGOpenCV sGOpenCV;
+typedef struct _sGLight sGLight;
+typedef struct _sGOpenGL sGOpenGL;
 //==============================================
 struct _sGVertex {
     float x, y, z;
@@ -61,8 +62,12 @@ struct _sGNoise {
     int height;
 	bool periodic;
 };
+//==============================================
+struct _sGLight {
+    GGml world;
+};
 //===============================================
-struct _sGOpenCV {
+struct _sGOpenGL {
 	sGColor bgcolor;
 	sGMvp _mvp;
 	sGMvp2 mvp2;
@@ -75,6 +80,7 @@ struct _sGOpenCV {
 	GLfloat angle;
 	glm::mat4 rotation;
 	bool animate;
+	sGLight light;
 };
 //==============================================
 #endif
