@@ -17,7 +17,6 @@ public:
     static void onScroll(GLFWwindow* _window, double _x, double _y);
     static void onMouse(GLFWwindow* _window, int _button, int _action, int _mods);
     static void onCursor(GLFWwindow* _window, double _x, double _y);
-    static void onDisplay();
 
 private:
 	static GOpenGL lOpenGL;

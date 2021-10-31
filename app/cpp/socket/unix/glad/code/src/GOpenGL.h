@@ -9,8 +9,9 @@ public:
 	GOpenGL();
 	~GOpenGL();
 	void init(int _major, int _minor, int _samples);
+	void heatMap(float _v, float _vmin, float _vmax, float& _r, float& _g, float& _b);
 
-protected:
+private:
 	GLFWwindow* m_window;
 	std::string m_title;
 	int m_width;
