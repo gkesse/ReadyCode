@@ -4,6 +4,8 @@ GBIN = bin
 GBUILD = build
 GTARGET = $(GBIN)/rdcpp.exe
 
+GGLAD_SRC = /home/rpi4/Programs/ReadyLib/src/glad
+
 GINCS =\
     -I/home/rpi4/Programs/ReadyLib/include \
     
@@ -14,6 +16,7 @@ GLIBS =\
     
 GOBJS =\
     $(patsubst $(GSRC)/%.cpp, $(GBUILD)/%.o, $(wildcard $(GSRC)/*.cpp)) \
+    $(patsubst $(GGLAD_SRC)/%.c, $(GBUILD)/%.o, $(wildcard $(GGLAD_SRC)/*.c)) \
 
 GCFLAGS =\
     -g \
@@ -29,6 +32,9 @@ compile: $(GOBJS)
 $(GBUILD)/%.o: $(GSRC)/%.cpp
 	@if ! [ -d $(GBUILD) ] ; then mkdir -p $(GBUILD) ; fi
 	g++ $(GCFLAGS) -c $< -o $@ $(GINCS)
+$(GBUILD)/%.o: $(GGLAD_SRC)/%.c
+	@if ! [ -d $(GBUILD) ] ; then mkdir -p $(GBUILD) ; fi
+	gcc $(GCFLAGS) -c $< -o $@ $(GINCS)
 run:
 	$(GTARGET) $(argv)
 run_g:
