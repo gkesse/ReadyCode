@@ -7,7 +7,7 @@ GObject::GObject() {
 }
 //===============================================
 GObject::~GObject() {
-
+	clear();
 }
 //===============================================
 void GObject::torus(GLfloat _outerRadius, GLfloat _innerRadius, GLuint _nsides, GLuint _nrings) {
@@ -32,25 +32,25 @@ void GObject::torus(GLfloat _outerRadius, GLfloat _innerRadius, GLuint _nsides, 
 			float cv = cos(v);
 			float sv = sin(v);
 			float r = (_outerRadius + _innerRadius * cv);
-			m_points[idx] = r * cu;
+			m_points[idx + 0] = r * cu;
 			m_points[idx + 1] = r * su;
 			m_points[idx + 2] = _innerRadius * sv;
-			m_normals[idx] = cv * cu * r;
+			m_normals[idx + 0] = cv * cu * r;
 			m_normals[idx + 1] = cv * su * r;
 			m_normals[idx + 2] = sv * r;
-			m_texCoords[tidx] = u / glm::two_pi<float>();
+			m_texCoords[tidx + 0] = u / glm::two_pi<float>();
 			m_texCoords[tidx + 1] = v / glm::two_pi<float>();
 			tidx += 2;
 
 			float len = sqrt(
-					m_normals[idx] * m_normals[idx] +
-					m_normals[idx+1] * m_normals[idx+1] +
-					m_normals[idx+2] * m_normals[idx+2]
+					m_normals[idx + 0] * m_normals[idx] +
+					m_normals[idx + 1] * m_normals[idx+1] +
+					m_normals[idx + 2] * m_normals[idx+2]
 			);
 
-			m_normals[idx] /= len;
-			m_normals[idx+1] /= len;
-			m_normals[idx+2] /= len;
+			m_normals[idx + 0] /= len;
+			m_normals[idx + 1] /= len;
+			m_normals[idx + 2] /= len;
 			idx += 3;
 		}
 	}
@@ -61,12 +61,12 @@ void GObject::torus(GLfloat _outerRadius, GLfloat _innerRadius, GLuint _nsides, 
 		GLuint nextRingStart = (ring + 1) * _nsides;
 		for( GLuint side = 0; side < _nsides; side++ ) {
 			int nextSide = (side+1) % _nsides;
-			m_indices[idx] = (ringStart + side);
-			m_indices[idx+1] = (nextRingStart + side);
-			m_indices[idx+2] = (nextRingStart + nextSide);
-			m_indices[idx+3] = ringStart + side;
-			m_indices[idx+4] = nextRingStart + nextSide;
-			m_indices[idx+5] = (ringStart + nextSide);
+			m_indices[idx + 0] = (ringStart + side);
+			m_indices[idx + 1] = (nextRingStart + side);
+			m_indices[idx + 2] = (nextRingStart + nextSide);
+			m_indices[idx + 3] = ringStart + side;
+			m_indices[idx + 4] = nextRingStart + nextSide;
+			m_indices[idx + 5] = (ringStart + nextSide);
 			idx += 6;
 		}
 	}
@@ -123,9 +123,17 @@ void GObject::init(){
 	glBindVertexArray(0);
 }
 //===============================================
+void GObject::clear() {
+	m_indices.clear();
+	m_points.clear();
+	m_normals.clear();
+	m_texCoords.clear();
+	m_tangents.clear();
+}
+//===============================================
 void GObject::deletes() {
 	if(m_buffers.size() > 0) {
-		glDeleteBuffers((GLsizei)m_buffers.size(), m_buffers.data());
+		glDeleteBuffers(m_buffers.size(), m_buffers.data());
 		m_buffers.clear();
 	}
 	if(m_vao != 0) {

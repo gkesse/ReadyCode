@@ -10,6 +10,7 @@ public:
     ~GObject();
     void torus(GLfloat _outerRadius, GLfloat _innerRadius, GLuint _nsides, GLuint _nrings);
     void init();
+    void clear();
     void deletes();
     void render() const;
 
