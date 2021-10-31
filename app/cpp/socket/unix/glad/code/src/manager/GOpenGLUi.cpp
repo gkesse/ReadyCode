@@ -31,16 +31,12 @@ void GOpenGLUi::run(int argc, char** argv) {
     lOpenGL.use();
 
     lParams.bgcolor = {0.2f, 0.3f, 0.3f, 1.f};
-    lParams.angle = 0.f;
-    lParams.animate = true;
 
     lParams.noise.baseFreq = 4.0f;
     lParams.noise.persistence = 0.5f;
     lParams.noise.width = 128;
     lParams.noise.height = 128;
     lParams.noise.periodic = false;
-
-    lParams.mvp2.projection.identity();
 
     GLfloat lVertices[] = {
         -1.0f, -1.0f, 0.0f,
