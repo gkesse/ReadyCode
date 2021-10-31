@@ -47,27 +47,6 @@ void GOpenGL::title(const std::string& _title) {
 	m_title = _title;
 }
 //===============================================
-void GOpenGL::init() {
-	glfwInit();
-	m_window = glfwCreateWindow(m_width, m_height, m_title.c_str(), NULL, NULL);
-	glfwMakeContextCurrent(m_window);
-	glfwSwapInterval(1);
-	glEnable(GL_LINE_SMOOTH);
-	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-	glEnable(GL_POINT_SMOOTH);
-	glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glEnable(GL_ALPHA_TEST);
-}
-//===============================================
-void GOpenGL::init(int argc, char** argv) {
-	glutInit(&argc, argv);
-	glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-	glutInitWindowSize(m_width, m_height);
-	glutCreateWindow(m_title.c_str());
-}
-//===============================================
 void GOpenGL::init(int _major, int _minor, int _samples) {
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, _major);
@@ -86,24 +65,6 @@ void GOpenGL::init(int _major, int _minor, int _samples) {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_ALPHA_TEST) ;
-	glewExperimental = true;
-	glewInit();
-}
-//===============================================
-void GOpenGL::init2() {
-	glfwInit();
-	m_window = glfwCreateWindow(m_width, m_height, m_title.c_str(), NULL, NULL);
-	glfwMakeContextCurrent(m_window);
-	glfwSwapInterval(1);
-	glEnable(GL_LINE_SMOOTH);
-	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-	glEnable(GL_POINT_SMOOTH);
-	glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glEnable(GL_ALPHA_TEST) ;
-	glewExperimental = true;
-	glewInit();
 }
 //===============================================
 void GOpenGL::info() {

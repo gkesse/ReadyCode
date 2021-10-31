@@ -18,10 +18,7 @@ public:
 	int height();
 	void height(int _height);
 	void title(const std::string& _title);
-	void init();
-	void init(int argc, char** argv);
 	void init(int _major, int _minor, int _samples);
-	void init2();
 	void info();
 	void extensions();
 	void bgcolor(const sGColor& _color);
