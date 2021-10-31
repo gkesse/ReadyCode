@@ -12,6 +12,8 @@ public:
 	~GOpenGL();
 	void init(int _major, int _minor, int _samples);
 	sGColor heatMap(float _v, float _vmin, float _vmax, const sGColor& _color);
+	void info();
+	void extensions();
 
 private:
 	GLFWwindow* m_window;
