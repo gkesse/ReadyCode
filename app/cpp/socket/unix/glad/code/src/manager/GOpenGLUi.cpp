@@ -60,8 +60,8 @@ void GOpenGLUi::run(int argc, char** argv) {
     	lOpenGL.pollEvents();
     }
 
-    lOpenGL.debug2();
     lOpenGL.close();
+    lOpenGL.debug2();
 }
 //===============================================
 void GOpenGLUi::onResize(GLFWwindow* _window, int _width, int _height) {
