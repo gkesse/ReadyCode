@@ -27,6 +27,30 @@ void GOpenGL::init(int _major, int _minor, int _samples) {
 	gladLoadGL();
 }
 //===============================================
+bool GOpenGL::isClose() {
+	return glfwWindowShouldClose(m_window);
+}
+//===============================================
+void GOpenGL::close() {
+	glfwDestroyWindow(m_window);
+	glfwTerminate();
+}
+//===============================================
+void GOpenGL::pollEvents() {
+	glfwSwapBuffers(m_window);
+	glfwPollEvents();
+}
+//===============================================
+void GOpenGL::bgcolor(const sGColor& _color) {
+	glClearColor(_color.r, _color.g, _color.b, _color.a);
+	glClear(GL_COLOR_BUFFER_BIT);
+}
+//===============================================
+void GOpenGL::bgcolor2(const sGColor& _color) {
+	glClearColor(_color.r, _color.g, _color.b, _color.a);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+//===============================================
 sGColor GOpenGL::heatMap(float _v, float _vmin, float _vmax, const sGColor& _color) {
 	sGColor lColor = _color;
 	float dv = _vmax - _vmin;
@@ -78,5 +102,97 @@ void GOpenGL::extensions() {
 	for( int i = 0; i < nExtensions; i++ ) {
 		printf("Ext[%3d]........: %s\n", i, glGetStringi(GL_EXTENSIONS, i));
 	}
+}
+//===============================================
+void GOpenGL::debug() {
+	glDebugMessageCallback(onDebug, 0);
+	glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, GL_TRUE);
+	glDebugMessageInsert(GL_DEBUG_SOURCE_APPLICATION, GL_DEBUG_TYPE_MARKER, 0, GL_DEBUG_SEVERITY_NOTIFICATION, -1, "Start debugging");
+}
+//===============================================
+void GOpenGL::debug2() {
+	glDebugMessageInsert(GL_DEBUG_SOURCE_APPLICATION, GL_DEBUG_TYPE_MARKER, 1, GL_DEBUG_SEVERITY_NOTIFICATION, -1, "End debug");
+}
+//===============================================
+void APIENTRY GOpenGL::onDebug(GLenum source, GLenum _type, GLuint _id, GLenum _severity, GLsizei _length, const GLchar* _msg, const void* _param) {
+	std::string sourceStr;
+
+	switch(source) {
+	case GL_DEBUG_SOURCE_WINDOW_SYSTEM:
+		sourceStr = "WindowSys";
+		break;
+	case GL_DEBUG_SOURCE_APPLICATION:
+		sourceStr = "App";
+		break;
+	case GL_DEBUG_SOURCE_API:
+		sourceStr = "OpenGL";
+		break;
+	case GL_DEBUG_SOURCE_SHADER_COMPILER:
+		sourceStr = "ShaderCompiler";
+		break;
+	case GL_DEBUG_SOURCE_THIRD_PARTY:
+		sourceStr = "3rdParty";
+		break;
+	case GL_DEBUG_SOURCE_OTHER:
+		sourceStr = "Other";
+		break;
+	default:
+		sourceStr = "Unknown";
+	}
+
+	std::string typeStr;
+
+	switch(_type) {
+	case GL_DEBUG_TYPE_ERROR:
+		typeStr = "Error";
+		break;
+	case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR:
+		typeStr = "Deprecated";
+		break;
+	case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR:
+		typeStr = "Undefined";
+		break;
+	case GL_DEBUG_TYPE_PORTABILITY:
+		typeStr = "Portability";
+		break;
+	case GL_DEBUG_TYPE_PERFORMANCE:
+		typeStr = "Performance";
+		break;
+	case GL_DEBUG_TYPE_MARKER:
+		typeStr = "Marker";
+		break;
+	case GL_DEBUG_TYPE_PUSH_GROUP:
+		typeStr = "PushGrp";
+		break;
+	case GL_DEBUG_TYPE_POP_GROUP:
+		typeStr = "PopGrp";
+		break;
+	case GL_DEBUG_TYPE_OTHER:
+		typeStr = "Other";
+		break;
+	default:
+		typeStr = "Unknown";
+	}
+
+	std::string sevStr;
+
+	switch(_severity) {
+	case GL_DEBUG_SEVERITY_HIGH:
+		sevStr = "HIGH";
+		break;
+	case GL_DEBUG_SEVERITY_MEDIUM:
+		sevStr = "MED";
+		break;
+	case GL_DEBUG_SEVERITY_LOW:
+		sevStr = "LOW";
+		break;
+	case GL_DEBUG_SEVERITY_NOTIFICATION:
+		sevStr = "NOTIFY";
+		break;
+	default:
+		sevStr = "UNK";
+	}
+
+	std::cerr << sourceStr << ":" << typeStr << "[" << sevStr << "]" << "(" << _id << "): " << _msg << std::endl;
 }
 //===============================================
