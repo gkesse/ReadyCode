@@ -60,13 +60,13 @@ void GOpenGLUi::run(int argc, char** argv) {
     	lOpenGL.pollEvents();
     }
 
-    lOpenGL.close();
     lOpenGL.debug2();
+    lOpenGL.close();
 }
 //===============================================
 void GOpenGLUi::onResize(GLFWwindow* _window, int _width, int _height) {
     lOpenGL.viewport(_width,_height);
-    lParams.mvp2.projection.perspective(70.0f, _width, _height, 0.3f, 100.0f);
+    lParams.mvp2.projection.perspective(70.0f, 0.3f, 100.0f, _width, _height);
 }
 //===============================================
 void GOpenGLUi::onKey(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods) {
