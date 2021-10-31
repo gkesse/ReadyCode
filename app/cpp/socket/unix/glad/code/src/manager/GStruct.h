@@ -78,6 +78,10 @@ struct _sGOpenGL {
 	const char* shader_vertex_code;
 	const char* shader_fragment_code;
 	GLfloat angle;
+	GLfloat times;
+	GLfloat ratio;
+	int width;
+	int height;
 	glm::mat4 rotation;
 	bool animate;
 	sGLight light;

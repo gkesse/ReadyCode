@@ -72,6 +72,56 @@ void GObject::torus(GLfloat _outerRadius, GLfloat _innerRadius, GLuint _nsides, 
     }
 }
 //===============================================
+void GObject::plane(float _xsize, float _zsize, int _xdivs, int _zdivs, float _smax, float _tmax) {
+    m_points.resize(3 * (_xdivs + 1) * (_zdivs + 1));
+	m_normals.resize(3 * (_xdivs + 1) * (_zdivs + 1));
+    m_texCoords.resize(2 * (_xdivs + 1) * (_zdivs + 1));
+    m_indices.resize(6 * _xdivs * _zdivs);
+
+    float x2 = _xsize / 2.0f;
+    float z2 = _zsize / 2.0f;
+    float iFactor = (float)_zsize / _zdivs;
+    float jFactor = (float)_xsize / _xdivs;
+    float texi = _smax / _zdivs;
+    float texj = _tmax / _xdivs;
+    float x, z;
+    int vidx = 0, tidx = 0;
+    for( int i = 0; i <= _zdivs; i++ ) {
+        z = iFactor * i - z2;
+        for( int j = 0; j <= _xdivs; j++ ) {
+            x = jFactor * j - x2;
+            m_points[vidx + 0] = x;
+            m_points[vidx + 1] = 0.0f;
+            m_points[vidx + 2] = z;
+			m_normals[vidx + 0] = 0.0f;
+			m_normals[vidx + 1] = 1.0f;
+			m_normals[vidx + 2] = 0.0f;
+
+            m_texCoords[tidx + 0] = j * texi;
+            m_texCoords[tidx + 1] = i * texj;
+
+            vidx += 3;
+            tidx += 2;
+        }
+    }
+
+    GLuint rowStart, nextRowStart;
+    int idx = 0;
+    for( int i = 0; i < _zdivs; i++ ) {
+        rowStart = (GLuint)( i * (_xdivs+1) );
+        nextRowStart = (GLuint)( (i+1) * (_xdivs+1));
+        for( int j = 0; j < _xdivs; j++ ) {
+            m_indices[idx + 0] = rowStart + j;
+            m_indices[idx + 1] = nextRowStart + j;
+            m_indices[idx + 2] = nextRowStart + j + 1;
+            m_indices[idx + 3] = rowStart + j;
+            m_indices[idx + 4] = nextRowStart + j + 1;
+            m_indices[idx + 5] = rowStart + j + 1;
+            idx += 6;
+        }
+    }
+}
+//===============================================
 void GObject::init(){
     if(!m_buffers.empty()) deletes();
     if(m_indices.empty() || m_points.empty() || m_normals.empty()) return;

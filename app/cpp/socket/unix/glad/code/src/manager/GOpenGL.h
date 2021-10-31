@@ -30,8 +30,8 @@ public:
 	void texture5(const std::string& _image);
 	void compile(GLuint _shaderId, const std::string& _code);
 	GLuint program();
-	void use();
-	void use(GLuint _programID);
+	void program(GLuint _programID);
+	void useProgram();
 	void vao(GLuint _vao);
 	void vao(GLsizei _n, GLuint* _vao);
 	void vbo(GLuint _vbo);
@@ -85,6 +85,10 @@ public:
 	void uniformBloc();
 	void uniformBlocs();
 	const char* type(GLenum _type);
+	void halfPi(float& _angle);
+	void times(float& _times);
+	void ratio(float& _ratio);
+	void size(int& _width, int& _height);
 
 private:
 	GLFWwindow* m_window;

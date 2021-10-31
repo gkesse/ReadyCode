@@ -275,12 +275,12 @@ GLuint GOpenGL::program() {
 	return m_programID;
 }
 //===============================================
-void GOpenGL::use() {
-	glUseProgram(m_programID);
+void GOpenGL::program(GLuint _programID) {
+	glUseProgram(_programID);
 }
 //===============================================
-void GOpenGL::use(GLuint _programID) {
-	glUseProgram(_programID);
+void GOpenGL::useProgram() {
+	glUseProgram(m_programID);
 }
 //===============================================
 void GOpenGL::vao(GLuint _vao) {
@@ -815,5 +815,23 @@ const char* GOpenGL::type(GLenum _type) {
 	case GL_FLOAT_MAT4: return "mat4";
 	default: return "?";
 	}
+}
+//===============================================
+void GOpenGL::halfPi(float& _angle) {
+	_angle = glm::half_pi<float>();
+}
+//===============================================
+void GOpenGL::times(float& _times) {
+	_times = glfwGetTime();
+}
+//===============================================
+void GOpenGL::ratio(float& _ratio) {
+	int lWidth, lHeight;
+    glfwGetFramebufferSize(m_window, &lWidth, &lHeight);
+    _ratio = (float)lWidth / lHeight;
+}
+//===============================================
+void GOpenGL::size(int& _width, int& _height) {
+    glfwGetFramebufferSize(m_window, &_width, &_height);
 }
 //===============================================

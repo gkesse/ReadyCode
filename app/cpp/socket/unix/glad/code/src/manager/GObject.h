@@ -9,6 +9,7 @@ public:
     GObject();
     ~GObject();
     void torus(GLfloat _outerRadius, GLfloat _innerRadius, GLuint _nsides, GLuint _nrings);
+    void plane(float _xsize, float _zsize, int _xdivs, int _zdivs, float _smax, float _tmax);
     void init();
     void clear();
     void deletes();
