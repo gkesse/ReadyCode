@@ -24,8 +24,7 @@ void GOpenGL::init(int _major, int _minor, int _samples) {
 	glfwMakeContextCurrent(m_window);
 	int fbw, fbh;
 	glfwGetFramebufferSize(m_window, &fbw, &fbh);
-	printf("%d - %d", fbw, fbh);
-	//gladLoadGL();
+	gladLoadGL();
 }
 //===============================================
 sGColor GOpenGL::heatMap(float _v, float _vmin, float _vmax, const sGColor& _color) {
