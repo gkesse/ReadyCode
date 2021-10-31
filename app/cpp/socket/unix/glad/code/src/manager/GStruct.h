@@ -64,7 +64,7 @@ struct _sGNoise {
 //===============================================
 struct _sGOpenCV {
 	sGColor bgcolor;
-	sGMvp mvp;
+	sGMvp _mvp;
 	sGMvp2 mvp2;
 	GLuint vao[1];
 	GLuint vbo[3];
