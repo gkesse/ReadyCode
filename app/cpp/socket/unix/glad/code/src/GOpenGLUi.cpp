@@ -56,7 +56,7 @@ void GOpenGLUi::run(int argc, char** argv) {
         lOpenGL.uniform("NormalMatrix", lParams.mvp2.mv.mat3());
         lParams.mvp2.mvp.dot(lParams.mvp2.projection, lParams.mvp2.mv);
         lOpenGL.uniform("MVP", lParams.mvp2.mvp.mat4());
-         lTorus.render();
+        lTorus.render();
     	lOpenGL.pollEvents();
     }
 

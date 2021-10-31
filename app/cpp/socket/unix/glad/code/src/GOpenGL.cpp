@@ -146,6 +146,10 @@ void GOpenGL::compile(GLuint _shaderId, const std::string& _code) {
 	glGetShaderiv(_shaderId, GL_INFO_LOG_LENGTH, &lLength);
 }
 //===============================================
+GLuint GOpenGL::program() {
+	return m_programID;
+}
+//===============================================
 void GOpenGL::use() {
 	glUseProgram(m_programID);
 }

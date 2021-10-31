@@ -22,6 +22,7 @@ public:
 	void shader3(const std::string& _shaderFile, GLenum _shaderType);
 	void shader4(const std::string& _shaderFile, GLenum _shaderType);
 	void compile(GLuint _shaderId, const std::string& _code);
+	GLuint program();
 	void use();
 	void use(GLuint _programID);
 	void depthOn();
