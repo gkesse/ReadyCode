@@ -73,7 +73,7 @@ struct _sGOpenGL {
 	sGMvp2 mvp2;
 	GLuint vao[1];
 	GLuint vbo[3];
-	glm::mat4 slice;
+	GGml slice;
 	sGNoise noise;
 	const char* shader_vertex_code;
 	const char* shader_fragment_code;

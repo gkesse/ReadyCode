@@ -21,6 +21,14 @@ void GGml::rotate(float _angle, float _x, float _y, float _z) {
     m_mat4 = glm::rotate(m_mat4, glm::radians(_angle), glm::vec3(_x, _y, _z));
 }
 //===============================================
+void GGml::scale(float _x, float _y, float _z) {
+	m_mat4 = glm::scale(m_mat4, glm::vec3(_x, _y, _z));
+}
+//===============================================
+void GGml::translate(float _x, float _y, float _z) {
+	m_mat4 = glm::translate(m_mat4, glm::vec3(_x, _y, _z));
+}
+//===============================================
 void GGml::lookAt(float _eyeX, float _eyeY, float _eyeZ, float _centerX, float _centerY, float _centerZ, float _upX, float _upY, float _upZ) {
     m_mat4 = glm::lookAt(glm::vec3(_eyeX, _eyeY, _eyeZ), glm::vec3(_centerX, _centerY, _centerZ), glm::vec3(_upX, _upY, _upZ));
 }
