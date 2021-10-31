@@ -29,7 +29,7 @@ public:
 	void onResize(GLFWframebuffersizefun _func);
 	void onKey(GLFWkeyfun _func);
 	void onKey();
-	void GOpenGL::onKey(bool& _animate);
+	void onKey(bool& _animate);
 	void onKey(GLfloat& _mixValue);
 	void onKey(sGCamera& _cam, GLfloat& _deltaTime);
 	void onKey(int action, int key, bool& _freeze, float& _alpha, float& _beta, float& _zoom);
