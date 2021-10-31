@@ -12,7 +12,7 @@ GINCS =\
 GLIBS =\
     -lxmlrpc_abyss -lxmlrpc_server_abyss -lxmlrpc_client -lxmlrpc_server_cgi  -lxmlrpc -lxmlrpc_cpp -lxmlrpc_packetsocket -lxmlrpc_server -lxmlrpc_util \
     -lxmlrpc_client++ -lxmlrpc_server_cgi++ -lxmlrpc_server++ -lxmlrpc++ -lxmlrpc_server_pstream++ -lxmlrpc_server_abyss++ \
-    -lGLEW -lGL -lglfw -lGLU -lglut \
+    -lGLEW -lGL -lglfw -lGLU -lglut -ldl \
     
 GOBJS =\
     $(patsubst $(GSRC)/%.cpp, $(GBUILD)/%.o, $(wildcard $(GSRC)/*.cpp)) \
