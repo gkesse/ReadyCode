@@ -612,10 +612,6 @@ void GOpenGL::onScroll(double _x, double _y, float& _zoom) {
 	}
 }
 //===============================================
-void GOpenGL::onDisplay(void (*_func)(void)) {
-	glutDisplayFunc(_func);
-}
-//===============================================
 void GOpenGL::coordinate(sGCamera& _cam, GLfloat _rho, GLfloat _theta, GLfloat _phi) {
 	_cam.eye[0] = _rho*sin(90.0 - _theta)*sin(_phi);
 	_cam.eye[1] = _rho*cos(90.0 - _theta);

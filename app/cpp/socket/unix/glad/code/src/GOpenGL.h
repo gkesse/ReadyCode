@@ -37,8 +37,6 @@ public:
 	void onCursor(double _x, double _y, bool& _lock, float& _alpha, float& _beta, int _cursorX, int& _cursorY);
 	void onScroll(GLFWscrollfun _func);
 	void onScroll(double _x, double _y, float& _zoom);
-	void onDisplay(void (*_func)(void));
-	void onDisplay(sGParams4& _params);
 	void coordinate(sGCamera& _cam, GLfloat _rho, GLfloat _theta, GLfloat _phi);
 	void normal(GLfloat* _vertex, GLfloat* _normal, int& _ncircle, int& _nvertex, float _pointsize);
 	void vector(GLfloat* _vertex, GLfloat* _normal, float _pointsize);
