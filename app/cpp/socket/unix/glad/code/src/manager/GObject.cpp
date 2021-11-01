@@ -133,6 +133,9 @@ void GObject::particles(int _nParticles) {
 
 	GLuint lVelocityBuf = 0, lTimesBuf = 0;
 
+    glGenVertexArrays(1, &m_vao);
+    glBindVertexArray(m_vao);
+
     glGenBuffers(1, &lVelocityBuf);
     m_buffers.push_back(lVelocityBuf);
     glBindBuffer(GL_ARRAY_BUFFER, lVelocityBuf);
