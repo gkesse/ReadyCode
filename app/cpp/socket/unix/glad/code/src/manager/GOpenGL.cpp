@@ -34,13 +34,6 @@ void GOpenGL::init(int _major, int _minor, int _samples) {
     m_window = glfwCreateWindow(m_width, m_height, m_title.c_str(), NULL, NULL);
     glfwMakeContextCurrent(m_window);
     gladLoadGL();
-	glEnable(GL_LINE_SMOOTH);
-	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-	glEnable(GL_POINT_SMOOTH);
-	glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glEnable(GL_ALPHA_TEST) ;
 }
 //===============================================
 bool GOpenGL::isClose() {
@@ -383,6 +376,11 @@ void GOpenGL::depthOn() {
 //===============================================
 void GOpenGL::depthOff() {
     glDisable(GL_DEPTH_TEST);
+}
+//===============================================
+void GOpenGL::blendOn() {
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 //===============================================
 void GOpenGL::triangle(GLint _index, GLsizei _count) {

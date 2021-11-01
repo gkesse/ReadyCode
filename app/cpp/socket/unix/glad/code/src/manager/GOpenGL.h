@@ -50,6 +50,7 @@ public:
 	void deleteTexture();
 	void depthOn();
 	void depthOff();
+	void blendOn();
 	void triangle(GLint _index, GLsizei _count);
 	void triangle2(const void* _indices, GLsizei _count);
 	void onResize(GLFWframebuffersizefun _func);
