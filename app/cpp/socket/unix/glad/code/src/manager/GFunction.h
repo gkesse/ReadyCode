@@ -28,7 +28,7 @@ public:
     void deletes();
     void velocity(int _nParticles, float _vmin = 1.25f, float _vmax = 1.5f, float _fovZ = 1.f/6);
     GLfloat* velocity();
-    void GFunction::times(int _nParticles, float _rate = 0.00075f);
+    void times(int _nParticles, float _rate = 0.00075f);
 	GLfloat* times();
     float randFloat();
 
