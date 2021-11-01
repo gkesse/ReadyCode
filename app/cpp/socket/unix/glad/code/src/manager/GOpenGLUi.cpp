@@ -36,11 +36,11 @@ void GOpenGLUi::run(int argc, char** argv) {
     lOpenGL.pointsize(10.0f);
     lOpenGL.halfPi(lParams.angle);
 
-	GObject lParticles;
-	lParticles.particles();
+    GObject lParticles;
+    lParticles.particles();
 
     GOpenGL lParticlesTex;
-    lParticlesTex.texture6(lApp->texture_file);
+    lParticlesTex.texture3(lApp->texture_file);
     lParticlesTex.texture(GL_TEXTURE0);
 
     lOpenGL.uniform2("ParticleTex", 0);

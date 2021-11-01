@@ -220,14 +220,14 @@ void GFunction::deletes() {
         delete[] m_noise;
         m_noise = 0;
     }
-	if(m_velocity) {
-		delete[] m_velocity;
-		m_velocity = 0;
-	}
-	if(m_times) {
-		delete[] m_times;
-		m_times = 0;
-	}
+    if(m_velocity) {
+        delete[] m_velocity;
+        m_velocity = 0;
+    }
+    if(m_times) {
+        delete[] m_times;
+        m_times = 0;
+    }
 }
 //===============================================
 void GFunction::velocity(int _nParticles, float _vmin, float _vmax, float _fovZ) {
@@ -235,8 +235,8 @@ void GFunction::velocity(int _nParticles, float _vmin, float _vmax, float _fovZ)
     float velocity, theta, phi;
     m_velocity = new GLfloat[_nParticles * 3];
     for(GLuint i = 0; i < _nParticles; i++ ) {
-		theta = glm::mix(0.0f, glm::pi<float>() * _fovZ, randFloat());
-		phi = glm::mix(0.0f, glm::two_pi<float>(), randFloat());
+        theta = glm::mix(0.0f, glm::pi<float>() * _fovZ, randFloat());
+        phi = glm::mix(0.0f, glm::two_pi<float>(), randFloat());
 
         v.x = sinf(theta) * cosf(phi);
         v.y = cosf(theta);
@@ -259,13 +259,13 @@ void GFunction::times(int _nParticles, float _rate) {
     m_times = new GLfloat[_nParticles];
     float lTime = 0.0f;
     for( GLuint i = 0; i < _nParticles; i++ ) {
-    	m_times[i] = lTime;
-    	lTime += _rate;
+        m_times[i] = lTime;
+        lTime += _rate;
     }
 }
 //===============================================
 GLfloat* GFunction::times() {
-	return m_times;
+    return m_times;
 }
 //===============================================
 float GFunction::randFloat() {

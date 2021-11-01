@@ -260,16 +260,16 @@ void GOpenGL::texture5(const std::string& _image) {
 }
 //===============================================
 void GOpenGL::texture6(const std::string& _image) {
-	int lWidth, lHeight, lChannels;
-	stbi_set_flip_vertically_on_load(true);
-	unsigned char* lData = stbi_load(_image.c_str(), &lWidth, &lHeight, &lChannels, 4);
-	glGenTextures(1, &m_textureID);
-	glBindTexture(GL_TEXTURE_2D, m_textureID);
-	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGBA8, lWidth, lWidth);
-	glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, lWidth, lWidth, GL_RGBA, GL_UNSIGNED_BYTE, lData);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	stbi_image_free(lData);
+    int lWidth, lHeight, lChannels;
+    stbi_set_flip_vertically_on_load(true);
+    unsigned char* lData = stbi_load(_image.c_str(), &lWidth, &lHeight, &lChannels, 4);
+    glGenTextures(1, &m_textureID);
+    glBindTexture(GL_TEXTURE_2D, m_textureID);
+    glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGBA8, lWidth, lWidth);
+    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, lWidth, lWidth, GL_RGBA, GL_UNSIGNED_BYTE, lData);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    stbi_image_free(lData);
 }
 //===============================================
 void GOpenGL::compile(GLuint _shaderId, const std::string& _code) {

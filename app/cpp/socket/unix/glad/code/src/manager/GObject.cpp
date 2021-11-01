@@ -125,13 +125,13 @@ void GObject::plane(float _xsize, float _zsize, int _xdivs, int _zdivs, float _s
 }
 //===============================================
 void GObject::particles(int _nParticles) {
-	GFunction lFunction;
-	lFunction.velocity(_nParticles);
-	lFunction.times(_nParticles);
+    GFunction lFunction;
+    lFunction.velocity(_nParticles);
+    lFunction.times(_nParticles);
 
-	m_nPoints = _nParticles;
+    m_nPoints = _nParticles;
 
-	GLuint lVelocityBuf = 0, lTimesBuf = 0;
+    GLuint lVelocityBuf = 0, lTimesBuf = 0;
 
     glGenVertexArrays(1, &m_vao);
     glBindVertexArray(m_vao);
@@ -228,10 +228,10 @@ void GObject::render() const {
     if(m_vao == 0) return;
     glBindVertexArray(m_vao);
     if(m_nIndices) {
-    	glDrawElements(GL_TRIANGLES, m_nIndices, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, m_nIndices, GL_UNSIGNED_INT, 0);
     }
     if(m_nPoints) {
-    	glDrawArrays(GL_POINTS, 0, m_nPoints);
+        glDrawArrays(GL_POINTS, 0, m_nPoints);
     }
     glBindVertexArray(0);
 }
