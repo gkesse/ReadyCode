@@ -69,8 +69,8 @@ void GOpenGLUi::run(int argc, char** argv) {
 //===============================================
 void GOpenGLUi::onResize(GLFWwindow* _window, int _width, int _height) {
     lOpenGL.viewport(_width, _height);
-    //lParams.mvp2.projection.perspective(70.0f, 0.3f, 100.0f, _width, _height);
-    lParams.mvp2.projection.identity();
+    lParams.mvp2.projection.perspective(70.0f, 0.3f, 100.0f, _width, _height);
+    //lParams.mvp2.projection.identity();
 }
 //===============================================
 void GOpenGLUi::onKey(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods) {
