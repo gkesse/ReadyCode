@@ -30,7 +30,7 @@ void GOpenGLUi::run(int argc, char** argv) {
     lOpenGL.shader2(lApp->shader_vertex_file, lApp->shader_fragment_file);
     lOpenGL.useProgram();
 
-    lParams.bgcolor = {0.1f, 0.1f, 0.1f, 1.f};
+    lParams.bgcolor = {0.2f, 0.3f, 0.3f, 1.f};
 
     lOpenGL.pointsize(10.0f);
     lOpenGL.halfPi(lParams.angle);
@@ -38,9 +38,7 @@ void GOpenGLUi::run(int argc, char** argv) {
 	GObject lParticles;
 	lParticles.particles();
 
-    GOpenGL lParticlesTex;
-    lParticlesTex.texture6(lApp->texture_file);
-    lParticlesTex.texture(GL_TEXTURE0);
+	lOpenGL.texture6(lApp->texture_file);
 
     lOpenGL.uniform2("ParticleTex", 0);
     lOpenGL.uniform("ParticleLifetime", 3.5f);
@@ -48,6 +46,7 @@ void GOpenGLUi::run(int argc, char** argv) {
 
     while(!lOpenGL.isClose()) {
         lOpenGL.bgcolor2(lParams.bgcolor);
+    	lOpenGL.texture(GL_TEXTURE0);
 
         lOpenGL.times(lParams.times);
         lOpenGL.uniform("Time", lParams.times);
