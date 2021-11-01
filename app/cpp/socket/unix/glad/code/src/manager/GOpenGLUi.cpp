@@ -39,7 +39,7 @@ void GOpenGLUi::run(int argc, char** argv) {
 	lParticles.particles();
 
     GOpenGL lParticlesTex;
-    lParticlesTex.texture3(lApp->texture_file);
+    lParticlesTex.texture6(lApp->texture_file);
     lParticlesTex.texture(GL_TEXTURE0);
 
     lOpenGL.uniform2("ParticleTex", 0);
