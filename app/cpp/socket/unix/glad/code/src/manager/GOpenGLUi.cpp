@@ -30,7 +30,7 @@ void GOpenGLUi::run(int argc, char** argv) {
     lOpenGL.shader2(lApp->shader_vertex_file, lApp->shader_fragment_file);
     lOpenGL.useProgram();
 
-    lParams.bgcolor = {0.2f, 0.3f, 0.3f, 1.f};
+    lParams.bgcolor = {0.1f, 0.1f, 0.1f, 1.f};
 
     lOpenGL.pointsize(10.0f);
     lOpenGL.halfPi(lParams.angle);
