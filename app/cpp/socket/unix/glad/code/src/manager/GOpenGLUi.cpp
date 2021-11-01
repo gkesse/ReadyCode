@@ -47,14 +47,13 @@ void GOpenGLUi::run(int argc, char** argv) {
     lOpenGL.uniform("ParticleLifetime", 3.5f);
     lOpenGL.uniform("Gravity", glm::vec3(0.0f, -0.2f, 0.0f));
 
-    std::cout << glfwGetTime() << ".......\n";
-
     while(!lOpenGL.isClose()) {
         lOpenGL.bgcolor2(lParams.bgcolor);
 
         lOpenGL.times(lParams.times);
         lOpenGL.uniform("Time", lParams.times);
-        lParams.mvp2.view.lookAt(3.0f * cos(lParams.angle), 1.5f, 3.0f * sin(lParams.angle), 0.0f, 1.5f, 0.0f, 0.0f, 1.0f, 0.0f);
+        //lParams.mvp2.view.lookAt(3.0f * cos(lParams.angle), 1.5f, 3.0f * sin(lParams.angle), 0.0f, 1.5f, 0.0f, 0.0f, 1.0f, 0.0f);
+        lParams.mvp2.view.identity;
         lParams.mvp2.model.identity();
         lParams.mvp2.mv.dot(lParams.mvp2.view, lParams.mvp2.model);
         lOpenGL.uniform("MVP", lParams.mvp2.projection.dot2(lParams.mvp2.mv));
@@ -70,7 +69,8 @@ void GOpenGLUi::run(int argc, char** argv) {
 //===============================================
 void GOpenGLUi::onResize(GLFWwindow* _window, int _width, int _height) {
     lOpenGL.viewport(_width, _height);
-    lParams.mvp2.projection.perspective(70.0f, 0.3f, 100.0f, _width, _height);
+    //lParams.mvp2.projection.perspective(70.0f, 0.3f, 100.0f, _width, _height);
+    lParams.mvp2.projection.identity();
 }
 //===============================================
 void GOpenGLUi::onKey(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods) {
