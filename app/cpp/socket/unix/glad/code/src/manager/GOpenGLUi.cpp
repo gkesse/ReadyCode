@@ -23,7 +23,6 @@ void GOpenGLUi::run(int argc, char** argv) {
     sGApp* lApp = GManager::Instance()->data()->app;
 
     lOpenGL.init(4, 5, 4);
-    lOpenGL.depthOn();
     lOpenGL.blendOn();
 
     lOpenGL.onResize(onResize);
