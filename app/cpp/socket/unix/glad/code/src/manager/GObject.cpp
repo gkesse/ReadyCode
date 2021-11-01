@@ -1,9 +1,11 @@
 //===============================================
 #include "GObject.h"
+#include "GFunction.h"
 //===============================================
 GObject::GObject() {
     m_vao = 0;
-    m_nVerts = 0;
+    m_nIndices = 0;
+    m_nPoints = 0;
 }
 //===============================================
 GObject::~GObject() {
@@ -74,7 +76,7 @@ void GObject::torus(GLfloat _outerRadius, GLfloat _innerRadius, GLuint _nsides, 
 //===============================================
 void GObject::plane(float _xsize, float _zsize, int _xdivs, int _zdivs, float _smax, float _tmax) {
     m_points.resize(3 * (_xdivs + 1) * (_zdivs + 1));
-	m_normals.resize(3 * (_xdivs + 1) * (_zdivs + 1));
+    m_normals.resize(3 * (_xdivs + 1) * (_zdivs + 1));
     m_texCoords.resize(2 * (_xdivs + 1) * (_zdivs + 1));
     m_indices.resize(6 * _xdivs * _zdivs);
 
@@ -93,9 +95,9 @@ void GObject::plane(float _xsize, float _zsize, int _xdivs, int _zdivs, float _s
             m_points[vidx + 0] = x;
             m_points[vidx + 1] = 0.0f;
             m_points[vidx + 2] = z;
-			m_normals[vidx + 0] = 0.0f;
-			m_normals[vidx + 1] = 1.0f;
-			m_normals[vidx + 2] = 0.0f;
+            m_normals[vidx + 0] = 0.0f;
+            m_normals[vidx + 1] = 1.0f;
+            m_normals[vidx + 2] = 0.0f;
 
             m_texCoords[tidx + 0] = j * texi;
             m_texCoords[tidx + 1] = i * texj;
@@ -122,11 +124,38 @@ void GObject::plane(float _xsize, float _zsize, int _xdivs, int _zdivs, float _s
     }
 }
 //===============================================
+void GObject::particles(int _nParticles) {
+	GFunction lFunction;
+	lFunction.velocity(_nParticles);
+	lFunction.times(_nParticles);
+
+	m_nPoints = _nParticles;
+
+	GLuint lVelocityBuf = 0, lTimesBuf = 0;
+
+    glGenBuffers(1, &lVelocityBuf);
+    m_buffers.push_back(lVelocityBuf);
+    glBindBuffer(GL_ARRAY_BUFFER, lVelocityBuf);
+    glBufferData(GL_ARRAY_BUFFER, _nParticles * 3 * sizeof(GLfloat), lFunction.velocity(), GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)(0));
+    glEnableVertexAttribArray(0);
+
+    glGenBuffers(1, &lTimesBuf);
+    m_buffers.push_back(lTimesBuf);
+    glBindBuffer(GL_ARRAY_BUFFER, lTimesBuf);
+    glBufferData(GL_ARRAY_BUFFER, _nParticles * sizeof(GLfloat), lFunction.times(), GL_STATIC_DRAW);
+    glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE, 0, (void*)(0));
+    glEnableVertexAttribArray(1);
+
+    lFunction.deletes();
+    glBindVertexArray(0);
+}
+//===============================================
 void GObject::init(){
     if(!m_buffers.empty()) deletes();
     if(m_indices.empty() || m_points.empty() || m_normals.empty()) return;
 
-    m_nVerts = (GLuint)m_indices.size();
+    m_nIndices = (GLuint)m_indices.size();
 
     GLuint indexBuf = 0, posBuf = 0, normBuf = 0, tcBuf = 0, tangentBuf = 0;
 
@@ -195,7 +224,12 @@ void GObject::deletes() {
 void GObject::render() const {
     if(m_vao == 0) return;
     glBindVertexArray(m_vao);
-    glDrawElements(GL_TRIANGLES, m_nVerts, GL_UNSIGNED_INT, 0);
+    if(m_nIndices) {
+    	glDrawElements(GL_TRIANGLES, m_nIndices, GL_UNSIGNED_INT, 0);
+    }
+    if(m_nPoints) {
+    	glDrawArrays(GL_POINTS, 0, m_nPoints);
+    }
     glBindVertexArray(0);
 }
 //===============================================

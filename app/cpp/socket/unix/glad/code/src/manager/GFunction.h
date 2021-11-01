@@ -9,7 +9,7 @@ class GFunction {
 public:
     GFunction();
     ~GFunction();
-    sGData* data();
+    sGData* _data();
     sGVertex*** vertex3D();
     void allocate(int _xsize, int _ysize, int _zsize);
     void remove();
@@ -25,7 +25,12 @@ public:
     void noise(float _baseFreq, float _persistence, int _width, int _height, bool _periodic);
     void noise(const sGNoise& _noise);
     GLubyte* noise();
-    void deleteNoise();
+    void deletes();
+    void velocity(int _nParticles, float _vmin = 1.25f, float _vmax = 1.5f, float _fovZ = 1.f/6);
+    GLfloat* velocity();
+    void GFunction::times(int _nParticles, float _rate = 0.00075f);
+	GLfloat* times();
+    float randFloat();
 
 private:
     sGData* m_data;
@@ -36,6 +41,8 @@ private:
     int m_ysize;
     int m_zsize;
     GLubyte* m_noise;
+    GLfloat* m_velocity;
+    GLfloat* m_times;
 };
 //==============================================
 #endif

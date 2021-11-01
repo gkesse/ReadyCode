@@ -32,49 +32,42 @@ void GOpenGLUi::run(int argc, char** argv) {
 
     lParams.bgcolor = {0.2f, 0.3f, 0.3f, 1.f};
 
-    lOpenGL.uniform("Light.Intensity", glm::vec3(1.0f,1.0f,1.0f));
+    lOpenGL.pointsize(10.0f);
     lOpenGL.halfPi(lParams.angle);
 
-    GObject lPlane;
-    lPlane.plane(13.0f, 10.0f, 200, 2, 1.f, 1.f);
-    lPlane.init();
-    lPlane.clear();
+	GObject lParticles;
+	lParticles.particles();
+
+    GOpenGL lParticlesTex;
+    lParticlesTex.texture6(lApp->texture_file);
+    lParticlesTex.texture(GL_TEXTURE0);
+
+    lOpenGL.uniform2("ParticleTex", 0);
+    lOpenGL.uniform("ParticleLifetime", 3.5f);
+    lOpenGL.uniform("Gravity", glm::vec3(0.0f, -0.2f, 0.0f));
 
     while(!lOpenGL.isClose()) {
         lOpenGL.bgcolor2(lParams.bgcolor);
 
         lOpenGL.times(lParams.times);
-        lOpenGL.size(lParams.width, lParams.height);
         lOpenGL.uniform("Time", lParams.times);
-        lParams.mvp2.view.lookAt(10.0f * cos(lParams.angle), 4.0f, 10.0f * sin(lParams.angle), 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-        lParams.mvp2.projection.perspective(60.0f, 0.3f, 100.0f, lParams.width, lParams.height);
-
-        lOpenGL.uniform("Material.Kd", 0.9f, 0.5f, 0.3f);
-        lOpenGL.uniform("Material.Ks", 0.8f, 0.8f, 0.8f);
-        lOpenGL.uniform("Material.Ka", 0.2f, 0.2f, 0.2f);
-        lOpenGL.uniform("Material.Shininess", 100.0f);
-
+        lParams.mvp2.view.lookAt(3.0f * cos(lParams.angle), 1.5f, 3.0f * sin(lParams.angle), 0.0f, 1.5f, 0.0f, 0.0f, 1.0f, 0.0f);
         lParams.mvp2.model.identity();
-        lParams.mvp2.model.rotate(-10.0f, 0.0f, 0.0f, 1.0f);
-        lParams.mvp2.model.rotate(50.0f, 1.0f, 0.0f, 0.0f);
-
         lParams.mvp2.mv.dot(lParams.mvp2.view, lParams.mvp2.model);
-        lOpenGL.uniform("ModelViewMatrix", lParams.mvp2.mv.mat4());
-        lOpenGL.uniform("NormalMatrix", lParams.mvp2.mv.mat3());
         lOpenGL.uniform("MVP", lParams.mvp2.projection.dot2(lParams.mvp2.mv));
 
-        lPlane.render();
+        lParticles.render();
 
         lOpenGL.pollEvents();
     }
 
-    lPlane.deletes();
+    lParticles.deletes();
     lOpenGL.close();
 }
 //===============================================
 void GOpenGLUi::onResize(GLFWwindow* _window, int _width, int _height) {
     lOpenGL.viewport(_width,_height);
-    lParams.mvp2.projection.perspective(70.0f, 0.3f, 100.0f, _width, _height);
+    lParams.mvp2.projection.perspective(60.0f, 0.3f, 100.0f, _width, _height);
 }
 //===============================================
 void GOpenGLUi::onKey(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods) {

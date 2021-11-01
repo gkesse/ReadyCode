@@ -12,15 +12,17 @@ GFunction::GFunction() {
     m_ysize = 0;
     m_zsize = 0;
     m_noise = 0;
+    m_velocity = 0;
+    m_times = 0;
 }
 //===============================================
 GFunction::~GFunction() {
     if(m_data) {delete[] m_data;}
     if(m_vertex3D) {remove();}
-    deleteNoise();
+    deletes();
 }
 //===============================================
-sGData* GFunction::data() {
+sGData* GFunction::_data() {
     return m_data;
 }
 //===============================================
@@ -213,10 +215,60 @@ GLubyte* GFunction::noise() {
     return m_noise;
 }
 //===============================================
-void GFunction::deleteNoise() {
+void GFunction::deletes() {
     if(m_noise) {
         delete[] m_noise;
         m_noise = 0;
     }
+	if(m_velocity) {
+		delete[] m_velocity;
+		m_velocity = 0;
+	}
+	if(m_times) {
+		delete[] m_times;
+		m_times = 0;
+	}
+}
+//===============================================
+void GFunction::velocity(int _nParticles, float _vmin, float _vmax, float _fovZ) {
+    glm::vec3 v(0.0f);
+    float velocity, theta, phi;
+    m_velocity = new GLfloat[_nParticles * 3];
+    for(GLuint i = 0; i < _nParticles; i++ ) {
+		theta = glm::mix(0.0f, glm::pi<float>() * _fovZ, randFloat());
+		phi = glm::mix(0.0f, glm::two_pi<float>(), randFloat());
+
+        v.x = sinf(theta) * cosf(phi);
+        v.y = cosf(theta);
+        v.z = sinf(theta) * sinf(phi);
+
+        velocity = glm::mix(_vmin, _vmax, randFloat());
+        v = glm::normalize(v) * velocity;
+
+        m_velocity[3*i + 0] = v.x;
+        m_velocity[3*i + 1] = v.y;
+        m_velocity[3*i + 2] = v.z;
+    }
+}
+//===============================================
+GLfloat* GFunction::velocity() {
+    return m_velocity;
+}
+//===============================================
+void GFunction::times(int _nParticles, float _rate) {
+    m_times = new GLfloat[_nParticles];
+    float lTime = 0.0f;
+    for( GLuint i = 0; i < _nParticles; i++ ) {
+    	m_times[i] = lTime;
+    	lTime += _rate;
+    }
+}
+//===============================================
+GLfloat* GFunction::times() {
+	return m_times;
+}
+//===============================================
+float GFunction::randFloat() {
+    return ((float)rand() / RAND_MAX);
 }
 //===============================================

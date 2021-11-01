@@ -28,6 +28,7 @@ public:
 	void texture3(const std::string& _image);
 	void texture4(const std::string& _image);
 	void texture5(const std::string& _image);
+	void texture6(const std::string& _image);
 	void compile(GLuint _shaderId, const std::string& _code);
 	GLuint program();
 	void program(GLuint _programID);
@@ -89,6 +90,7 @@ public:
 	void times(float& _times);
 	void ratio(float& _ratio);
 	void size(int& _width, int& _height);
+	void pointsize(float _pointsize);
 
 private:
 	GLFWwindow* m_window;
