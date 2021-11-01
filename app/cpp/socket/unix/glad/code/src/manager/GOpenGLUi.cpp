@@ -52,7 +52,7 @@ void GOpenGLUi::run(int argc, char** argv) {
 
         lOpenGL.times(lParams.times);
         lOpenGL.uniform("Time", lParams.times);
-        lParams.mvp2.view.lookAt(0.f, 0.f, 0.f, 0.0f, 0.0f, 0.3f, 0.0f, 1.0f, 0.0f);
+        lParams.mvp2.view.lookAt(0.0f, 0.0f, 0.3f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
         lParams.mvp2.model.identity();
         lParams.mvp2.mv.dot(lParams.mvp2.view, lParams.mvp2.model);
         lOpenGL.uniform("MVP", lParams.mvp2.projection.dot2(lParams.mvp2.mv));
