@@ -40,12 +40,14 @@ void GOpenGLUi::run(int argc, char** argv) {
     lParticles.particles();
 
     GOpenGL lParticlesTex;
-    lParticlesTex.texture3(lApp->texture_file);
+    lParticlesTex.texture6(lApp->texture_file);
     lParticlesTex.texture(GL_TEXTURE0);
 
     lOpenGL.uniform2("ParticleTex", 0);
     lOpenGL.uniform("ParticleLifetime", 3.5f);
     lOpenGL.uniform("Gravity", glm::vec3(0.0f, -0.2f, 0.0f));
+
+    std::cout << glfwGetTime() << ".......\n";
 
     while(!lOpenGL.isClose()) {
         lOpenGL.bgcolor2(lParams.bgcolor);
