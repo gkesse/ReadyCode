@@ -47,7 +47,7 @@ void GOpenGLUi::run(int argc, char** argv) {
     lOpenGL.uniform("Gravity", glm::vec3(0.0f, -0.2f, 0.0f));
 
     while(!lOpenGL.isClose()) {
-        lOpenGL.bgcolor(lParams.bgcolor);
+        lOpenGL.bgcolor2(lParams.bgcolor);
 
         lOpenGL.times(lParams.times);
         lOpenGL.uniform("Time", lParams.times);

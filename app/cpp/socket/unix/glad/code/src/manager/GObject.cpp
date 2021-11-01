@@ -140,14 +140,14 @@ void GObject::particles(int _nParticles) {
     m_buffers.push_back(lVelocityBuf);
     glBindBuffer(GL_ARRAY_BUFFER, lVelocityBuf);
     glBufferData(GL_ARRAY_BUFFER, _nParticles * 3 * sizeof(GLfloat), lFunction.velocity(), GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3, (void*)(0));
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)(0));
     glEnableVertexAttribArray(0);
 
     glGenBuffers(1, &lTimesBuf);
     m_buffers.push_back(lTimesBuf);
     glBindBuffer(GL_ARRAY_BUFFER, lTimesBuf);
     glBufferData(GL_ARRAY_BUFFER, _nParticles * sizeof(GLfloat), lFunction.times(), GL_STATIC_DRAW);
-    glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE, 1, (void*)(0));
+    glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE, 0, (void*)(0));
     glEnableVertexAttribArray(1);
 
     lFunction.deletes();
