@@ -2,42 +2,54 @@
 #ifndef _GStruct_
 #define _GStruct_
 //===============================================
-typedef struct _sGVertex sGVertex;
-typedef struct _sGData sGData;
-typedef struct _sGData2 sGData2;
-typedef struct _sGColor sGColor;
-typedef struct _sGCamera sGCamera;
-typedef struct _sGMvp sGMvp;
-typedef struct _sGNoise sGNoise;
-typedef struct _sGParams sGParams;
-typedef struct _sGParams2 sGParams2;
-typedef struct _sGParams3 sGParams3;
-typedef struct _sGParams4 sGParams4;
-typedef struct _sGParams5 sGParams5;
-typedef struct _sGParams6 sGParams6;
-typedef struct _sGParams7 sGParams7;
-typedef struct _sGParams8 sGParams8;
-typedef struct _sGParams9 sGParams9;
-typedef struct _sGParams10 sGParams10;
+#include "GInclude.h"
+//===============================================
+struct sGPoint;
+struct sGColor;
+struct sGVertex;
+struct sGCamera;
+struct sGMvp;
+struct sGNoise;
+struct sGSinus;
+struct sGGaussian2D;
+struct sGWindow;
+struct sGRange;
+struct sGGrid;
+struct sGOpenGL;
+struct sGSocket;
 //==============================================
-struct _sGVertex {
+class GSocket;
+//==============================================
+struct sGPoint {
     float x, y, z;
+    sGPoint();
+    sGPoint(float _x, float _y);
+    sGPoint(float _x, float _y, float _z);
+    sGPoint(const sGPoint& _p);
+    sGPoint& operator*=(const sGPoint& _p);
+    friend sGPoint operator*(const sGPoint& _p1, const sGPoint& _p2);
+    sGPoint& operator/=(const sGPoint& _p);
+    friend sGPoint operator/(const sGPoint& _p1, const sGPoint& _p2);
+};
+//==============================================
+struct sGColor {
     float r, g, b, a;
+    sGColor();
+    sGColor(float _r, float _g, float _b);
+    sGColor(float _r, float _g, float _b, float _a);
+    sGColor(const sGColor& _c);
 };
 //==============================================
-struct _sGData {
-    float x, y, z;
+struct sGVertex {
+    sGPoint d;
+    sGColor c;
+    sGVertex();
+    sGVertex(const sGPoint& _d, const sGColor& _c);
+    sGVertex(const sGVertex& _v);
+    sGVertex& operator=(const sGVertex& _v);
 };
 //==============================================
-struct _sGData2 {
-    double x, y, z;
-};
-//==============================================
-struct _sGColor {
-    float r, g, b, a;
-};
-//==============================================
-struct _sGCamera {
+struct sGCamera {
     glm::vec3 eye;
     glm::vec3 center;
     glm::vec3 up;
@@ -46,136 +58,103 @@ struct _sGCamera {
     GLfloat speedFactor;
 };
 //==============================================
-struct _sGMvp {
+struct sGMvp {
     glm::mat4 model;
     glm::mat4 view;
     glm::mat4 projection;
 };
 //==============================================
-struct _sGNoise {
+struct sGNoise {
     float baseFreq;
     float persistence;
     int width;
     int height;
-	bool periodic;
+    bool periodic;
+};
+//==============================================
+struct sGSinus {
+    float max;
+    float phase;
+    int size;
+    float range;
+    float linewidth;
+    float pointsize;
+    sGColor pointcolor;
+    sGColor linecolor;
 };
 //===============================================
-struct _sGParams {
-	bool freeze;
-	float sigma;
-	float sign;
-	float step;
-	float alpha;
-	float beta;
-	float zoom;
-	bool lock;
-	int cursorX;
-	int cursorY;
+struct sGGaussian2D {
+    int xsize;
+    int ysize;
+    float sigma;
+    int size;
+    float zmin;
+    float zmax;
+    float pointsize;
+    float alpha;
 };
 //===============================================
-struct _sGParams2 {
-	const char* filename;
-	int xsize;
-	int ysize;
-	int zsize;
-	int xslice;
-	int yslice;
-	int zslice;
-	float pointsize;
-	float linesize;
-	float transparency;
-	sGColor color;
-	float alpha;
-	float beta;
-	float zoom;
-	bool lock;
-	int cursorX;
-	int cursorY;
+struct sGWindow {
+    int width;
+    int height;
+    std::string title;
+    float ratio;
+    sGColor bgcolor;
 };
 //===============================================
-struct _sGParams3 {
-	GLuint vao;
-	GLuint vbo_vertex;
-	GLuint vbo_color;
-	GLuint attrib_vertex;
-	GLuint attrib_color;
-	const float* vertex;
-	const float* color;
-	int vertex_size;
-	int color_size;
+struct sGRange {
+    float m_min;
+    float m_max;
+    sGRange();
+    sGRange(float _min, float _max);
+    sGRange(const sGRange& _r);
+    sGRange& operator+=(float _r);
+    friend sGRange operator+(const sGRange& _r1, float _r2);
+    sGRange& operator-=(float _r);
+    friend sGRange operator-(const sGRange& _r1, float _r2);
 };
 //===============================================
-struct _sGParams4 {
-	sGCamera cam;
-	int solid;
-	int indice;
-	GLuint* indices;
-	int normal;
-	int ncircle;
-	int nvertex;
-	float pointsize;
-	GLfloat* vertex;
-	GLfloat* normals;
-	float rho;
-	float theta;
-	float phi;
+struct sGGrid {
+    float width;
+    float height;
+    float gridWidth;
+    float axisWidth;
+    float pointsize;
+    sGPoint origin;
+    sGPoint gridDiv;
+    sGPoint axisDiv;
+    sGColor gridColor;
+    sGColor axisColor;
+    sGColor pointColor;
+    sGRange xrange;
+    sGRange yrange;
+    sGRange zrange;
+    sGGrid();
 };
 //===============================================
-struct _sGParams5 {
-	sGColor color;
-	std::string shader_vertex_code;
-	std::string shader_fragment_code;
-	GLuint vao;
-	GLuint vbo;
+struct sGOpenGL {
+    sGWindow win;
+    sGGrid grid;
+    sGColor bgcolor;
+    sGMvp mvp;
+    GLuint vao;
+    GLuint vbo[2];
+    glm::mat4 slice;
+    sGNoise noise;
 };
 //===============================================
-struct _sGParams6 {
-	sGColor color;
-	std::string vertex_code;
-	std::string fragment_code;
-	GLuint vao;
-	GLuint vbo;
-	GLuint ebo;
-};
-//===============================================
-struct _sGParams7 {
-	sGColor color;
-	std::string vertex_code;
-	std::string fragment_code;
-	GLuint vao[2];
-	GLuint vbo[2];
-};
-//===============================================
-struct _sGParams8 {
-	sGColor color;
-	std::string vertex_code;
-	std::string fragment_code;
-	std::string fragment_code2;
-	GLuint vao[2];
-	GLuint vbo[2];
-};
-//===============================================
-struct _sGParams9 {
-	sGColor color;
-	GLuint vao;
-	GLuint vbo;
-	GLuint ebo;
-	GLfloat mixValue;
-	sGCamera cam;
-	GLfloat radius;
-	GLfloat angle;
-	sGMvp mvp;
-	GLfloat deltaTime;
-	GLfloat lastTime;
-};
-//===============================================
-struct _sGParams10 {
-	sGColor bgcolor;
-	sGMvp mvp;
-	GLuint vao;
-	GLuint vbo[2];
-	glm::mat4 slice;
-	sGNoise noise;
+struct sGSocket {
+    GSocket* socket;
+    std::string address_ip;
+    std::string hostname;
+    std::string client_ip;
+    std::string data;
+    int port;
+    int backlog;
+    int major;
+    int minor;
+    void* on_start;
+    sGSocket();
 };
 //==============================================
 #endif

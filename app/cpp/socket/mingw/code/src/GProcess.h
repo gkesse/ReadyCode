@@ -11,10 +11,11 @@ private:
 public:
     ~GProcess();
     static GProcess* Instance();
-    void run(int argc, char** argv);
-    void runDefault(int argc, char** argv);
-    void runSocket(int argc, char** argv);
-    void runOpenGL(int argc, char** argv);
+    void run(int _argc, char** _argv);
+    void runDefault(int _argc, char** _argv);
+    void runCpp(int _argc, char** _argv);
+    void runSocket(int _argc, char** _argv);
+    void runOpenGL(int _argc, char** _argv);
     
 private:
     static GProcess* m_instance;

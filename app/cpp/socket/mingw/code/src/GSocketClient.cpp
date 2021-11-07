@@ -10,16 +10,15 @@ GSocketClient::~GSocketClient() {
 
 }
 //===============================================
-void GSocketClient::run(int argc, char** argv) {
-    GSocket lClient;
-    lClient.init();
-    lClient.ip("127.0.0.1");
-    lClient.address();
-    lClient.sockets2();
-    lClient.sends(lClient, "Bonjour tout le monde");
-    lClient.recvs(lClient);
-    lClient.print();
-    lClient.close();
-    lClient.clean();
+void GSocketClient::run(int _argc, char** _argv) {
+    GSocket lServer;
+    sGSocket lParams;
+    std::string lData;
+    lParams.address_ip = "127.0.0.1";
+
+    lServer.call(lParams, "Bonjour tout le monde", lData);
+
+    printf("Hostname.....: %s\n", lParams.hostname.c_str());
+    printf("Data.........: %s\n", lData.c_str());
 }
 //===============================================

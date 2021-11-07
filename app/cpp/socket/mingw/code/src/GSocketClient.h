@@ -6,9 +6,9 @@
 //===============================================
 class GSocketClient : public GSocketUi {
 public:
-	GSocketClient();
-	virtual ~GSocketClient();
-    void run(int argc, char** argv);
+    GSocketClient();
+    virtual ~GSocketClient();
+    void run(int _argc, char** _argv);
 };
 //==============================================
 #endif

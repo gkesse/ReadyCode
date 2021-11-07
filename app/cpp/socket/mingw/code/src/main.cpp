@@ -1,8 +1,8 @@
 //===============================================
 #include "GProcess.h"
 //===============================================
-int main(int argc, char** argv) {
-    GProcess::Instance()->run(argc, argv);
+int main(int _argc, char** _argv) {
+    GProcess::Instance()->run(_argc, _argv);
     return 0;
 }
 //===============================================

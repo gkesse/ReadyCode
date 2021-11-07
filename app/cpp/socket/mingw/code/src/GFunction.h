@@ -8,16 +8,18 @@ class GFunction {
 public:
     GFunction();
     ~GFunction();
-    sGData* data();
+    void deletes();
     sGVertex*** vertex3D();
-    void allocate(int _xsize, int _ysize, int _zsize);
     void remove();
     int size();
     int xsize();
     int ysize();
     int zsize();
-    sGData* sinus(float _max, float _phase, int _size, float _range);
-    sGData* gaussian2D(int _xSize, int _ySize, float _sigma);
+    void sinus(float _max, float _phase, int _size, float _range);
+    sGPoint* sinus() const;
+    void gaussian2D(int _xSize, int _ySize, float _sigma);
+    sGPoint* gaussian2D() const;
+    void mcml(int _xsize, int _ysize, int _zsize);
     void mcml(const char* _filename, int _xsize, int _ysize, int _zsize, const sGColor& _color);
     void zMinMax(float& _zmin, float& _zmax);
     void zMinMax2(float& _zmin, float& _zmax);
@@ -27,9 +29,10 @@ public:
     void deleteNoise();
 
 private:
-    sGData* m_data;
-    sGVertex*** m_vertex3D;
-    float*** m_float3D;
+    sGPoint* m_sinus;
+    sGPoint* m_gaussian2D;
+    sGVertex*** m_mcmlPoint;
+    GLfloat*** m_mcmlData;
     int m_size;
     int m_xsize;
     int m_ysize;

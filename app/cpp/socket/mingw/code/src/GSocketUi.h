@@ -9,7 +9,7 @@ public:
     GSocketUi();
     virtual ~GSocketUi();
     static GSocketUi* Create(const std::string& key);
-    virtual void run(int argc, char** argv);
+    virtual void run(int _argc, char** _argv);
 };
 //==============================================
 #endif

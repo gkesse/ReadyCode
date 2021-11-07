@@ -7,19 +7,20 @@
 class GString {
 public:
     GString();
+    GString(const std::string& _data);
+    GString(int _data);
+    GString(const char* _data, int _size);
+    GString(const GString& _data);
     ~GString();
-    void setData(int data);
-    void setData(const std::string& data);
-    void setData(const char* data, int size);
-    void addData(const char* data, int size);
+    void add(const char* _data, int _size);
     void clear();
-    std::string getData() const ;
+    std::string datas() const ;
     const char* c_str() const;
-    void toChar(char* buffer) const;
-    void print() const;
-
-public:
-    friend std::ostream& operator<<(std::ostream& os, const GString& obj);
+    void toChar(char* _buffer, int _size) const;
+    int toChar(char* _buffer, int _index, int _size) const;
+    GString& operator+=(const GString& _d);
+    friend GString operator+(const GString& _d1, const GString& _d2);
+    friend std::ostream& operator<<(std::ostream& _os, const GString& _d);
 
 private:
     std::string m_data;

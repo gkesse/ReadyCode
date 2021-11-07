@@ -1,5 +1,6 @@
 //===============================================
 #include "GProcess.h"
+#include "GCppUi.h"
 #include "GSocketUi.h"
 #include "GOpenGLUi.h"
 //===============================================
@@ -20,29 +21,37 @@ GProcess* GProcess::Instance() {
     return m_instance;
 }
 //===============================================
-void GProcess::run(int argc, char** argv) {
+void GProcess::run(int _argc, char** _argv) {
     std::string lKey = "default";
-    if(argc > 1) {lKey = argv[1];}
-    if(lKey == "default") {runDefault(argc, argv); return;}
-    if(lKey == "socket") {runSocket(argc, argv); return;}
-    if(lKey == "opengl") {runOpenGL(argc, argv); return;}
-    runDefault(argc, argv);
+    if(_argc > 1) {lKey = _argv[1];}
+    if(lKey == "default") {runDefault(_argc, _argv); return;}
+    if(lKey == "cpp") {runCpp(_argc, _argv); return;}
+    if(lKey == "socket") {runSocket(_argc, _argv); return;}
+    if(lKey == "opengl") {runOpenGL(_argc, _argv); return;}
+    runDefault(_argc, _argv);
 }
 //===============================================
-void GProcess::runDefault(int argc, char** argv) {
+void GProcess::runDefault(int _argc, char** _argv) {
     printf("[process] process par defaut\n");
 }
 //===============================================
-void GProcess::runSocket(int argc, char** argv) {
+void GProcess::runCpp(int _argc, char** _argv) {
     std::string lKey = "default";
-    if(argc > 2) {lKey = argv[2];}
-    GSocketUi* lProcess = GSocketUi::Create(lKey);
-    lProcess->run(argc, argv);
+    if(_argc > 2) {lKey = _argv[2];}
+    GCppUi* lProcess = GCppUi::Create(lKey);
+    lProcess->run(_argc, _argv);
 }
 //===============================================
-void GProcess::runOpenGL(int argc, char** argv) {
+void GProcess::runSocket(int _argc, char** _argv) {
     std::string lKey = "default";
-    if(argc > 2) {lKey = argv[2];}
+    if(_argc > 2) {lKey = _argv[2];}
+    GSocketUi* lProcess = GSocketUi::Create(lKey);
+    lProcess->run(_argc, _argv);
+}
+//===============================================
+void GProcess::runOpenGL(int _argc, char** _argv) {
+    std::string lKey = "default";
+    if(_argc > 2) {lKey = _argv[2];}
     GOpenGLUi* lProcess = GOpenGLUi::Create(lKey);
-    lProcess->run(argc, argv);
+    lProcess->run(_argc, _argv);
 }

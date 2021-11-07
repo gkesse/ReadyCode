@@ -3,49 +3,40 @@
 #define _GSocket_
 //===============================================
 #include "GInclude.h"
-#include "GString.h"
 //===============================================
 class GSocket {
 public:
     GSocket();
     ~GSocket();
-    void ip(const std::string& _ip);
-    void port(int _port);
-    void backlog(int _backlog);
-    void init();
+    void init(int _major, int _minor);
     void sockets();
     void sockets2();
-    void address();
-    void listens();
+    void address(const std::string& _ip, int _port);
+    void listens(int _backlog);
     void binds();
     void connects();
-    void start();
     void accepts(GSocket& _socket);
-    void recvs();
-    void recvs(GSocket& _socket);
-    void sends(const char* _data);
-    void sends(GSocket& _socket, const char* _data);
-    void ip();
-    void print() const;
-    void print2() const;
+    int recvs(std::string& _data);
+    int reads(std::string& _data);
+    int recvs(GSocket& _socket, std::string& _data);
+    void sends(const std::string& _data);
+    void writes(const std::string& _data);
+    void sends(GSocket& _socket, const std::string& _data);
+    void ip(std::string& _ip);
+    void hostname(std::string& _hostname);
+    void shutdownWR();
+    void shutdownRD();
     void close();
     void clean();
+    void start(sGSocket& _socket);
+    void call(sGSocket& _socket, const std::string& _write, std::string& _read);
     
 protected:
     static const int BUFFER_SIZE = 1024;
-    static const int IP_SIZE = 32;
-    char m_buffer[BUFFER_SIZE + 1];
-    char m_ip2[IP_SIZE + 1];
-    GString m_data;
+    static const int IP_SIZE = 256;
+    static const int HOSTNAME_SIZE = 256;
     SOCKET m_socket;
     SOCKADDR_IN m_address;
-    int m_size;
-    int m_bytes;
-    std::string m_ip;
-    int m_port;
-    int m_backlog;
-    int m_major;
-    int m_minor;
 };
 //==============================================
 #endif

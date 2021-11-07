@@ -18,7 +18,7 @@ GSocketUi* GSocketUi::Create(const std::string& key) {
     return new GSocketUi;
 }
 //===============================================
-void GSocketUi::run(int argc, char** argv) {
+void GSocketUi::run(int _argc, char** _argv) {
     printf("[opengl] process par defaut\n");
 }
 //===============================================
