@@ -8,9 +8,8 @@ class GQXml {
 public:
     GQXml();
     ~GQXml();
-    void fileRead(const QString& _filename);
-    void fileWrite(const QString& _filename);
-    void content();
+    void load(const QString& _filename);
+    void save(const QString& _filename, int _indent);
     void root(GQXml& _root);
     void tagName(QString& _tagName);
     bool attribute(const QString& _attribute);
@@ -18,17 +17,15 @@ public:
     void firstChild(GQXml& _xml, const QString& _tagName = "");
     void nextSibling(GQXml& _xml, const QString& _tagName = "");
     void text(QString& _text);
-    void text(GQXml& _xml, QString& _text);
+    void appendChild(const GQXml& _chlid);
+    void replaceChild(const GQXml& _old, const GQXml& _new);
     bool isNull();
-    void save(int _indent);
     void element(GQXml& _xml, const QString& _element);
-    void close();
 
 protected:
     QDomDocument m_document;
     QDomElement m_element;
     QDomText m_text;
-    QFile m_file;
 };
 //==============================================
 #endif

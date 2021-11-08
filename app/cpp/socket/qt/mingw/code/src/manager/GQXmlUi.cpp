@@ -21,21 +21,18 @@ void GQXmlUi::run(int _argc, char** _argv) {
 	sGApp* lApp = GManager::Instance()->data()->app;
 
 	sGQXml lParams;
-	GQXml lDom, lRoot, lChild;
+	GQXml lDom, lChild;
 	QString lData;
 
-	lDom.fileRead(lApp->xml_file_01);
-	lDom.content();
-	lDom.root(lRoot);
-	lRoot.tagName(lData);
+	lDom.load(lApp->xml_file_01);
+	lDom.root(lDom);
+	lDom.tagName(lData);
 	qDebug() << "Data.....: " << lData;
-	lRoot.firstChild(lChild);
+	lDom.firstChild(lChild);
 	while(!lChild.isNull()) {
 		lChild.tagName(lData);
 		qDebug() << "Child....: " << lData;
 		lChild.nextSibling(lChild);
 	}
-
-	lDom.close();
 }
 //===============================================

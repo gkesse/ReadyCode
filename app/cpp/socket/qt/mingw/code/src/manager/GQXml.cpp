@@ -1,5 +1,6 @@
 //===============================================
-#include <GQXml.h>
+#include "GQFile.h"
+#include "GQXml.h"
 //===============================================
 GQXml::GQXml() {
 
@@ -9,30 +10,25 @@ GQXml::~GQXml() {
 
 }
 //===============================================
-void GQXml::fileRead(const QString& _filename) {
-	m_file.setFileName(_filename);
-	m_file.open(QFile::ReadOnly | QFile::Text);
+void GQXml::load(const QString& _filename) {
+    QString lErrorStr;
+    int lErrorLine;
+    int lErrorColumn;
+    GQFile lFile;
+    lFile.openRead(_filename);
+	m_document.setContent(&lFile.file(), true, &lErrorStr, &lErrorLine, &lErrorColumn);
+	lFile.close();
 }
 //===============================================
-void GQXml::fileWrite(const QString& _filename) {
-	m_file.setFileName(_filename);
-	m_file.open(QFile::WriteOnly | QFile::Text);
-}
-//===============================================
-void GQXml::save(int _indent) {
-    QTextStream lOut(&m_file);
+void GQXml::save(const QString& _filename, int _indent) {
+	GQFile lFile;
+    lFile.openWrite(_filename);
+    QTextStream lOut(&lFile.file());
     m_document.save(lOut, _indent);
 }
 //===============================================
 void GQXml::element(GQXml& _xml, const QString& _element) {
 	_xml.m_element = m_document.createElement(_element);
-}
-//===============================================
-void GQXml::content() {
-    QString lErrorStr;
-    int lErrorLine;
-    int lErrorColumn;
-	m_document.setContent(&m_file, true, &lErrorStr, &lErrorLine, &lErrorColumn);
 }
 //===============================================
 void GQXml::root(GQXml& _root) {
@@ -63,15 +59,15 @@ void GQXml::text(QString& _text) {
 	_text = m_element.text();
 }
 //===============================================
-void GQXml::text(GQXml& _xml, QString& _text) {
-    _xml.m_text = m_document.createTextNode(_text);
+void GQXml::appendChild(const GQXml& _chlid) {
+    m_element.appendChild(_chlid.m_element);
+}
+//===============================================
+void GQXml::replaceChild(const GQXml& _old, const GQXml& _new) {
+    m_element.replaceChild(_new.m_element, _old.m_element);
 }
 //===============================================
 bool GQXml::isNull() {
 	return m_element.isNull();
-}
-//===============================================
-void GQXml::close() {
-    m_file.close();
 }
 //===============================================
