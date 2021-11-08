@@ -115,15 +115,20 @@ DWORD WINAPI GOpenGLUi::onClient(LPVOID _params) {
     GSocket lServer;
     sGSocket lParams;
     lParams.address_ip = "127.0.0.1";
-    //lServer.call(lParams, "Bonjour tout le monde");
+    std::string lData;
+    lServer.call(lParams, "Bonjour tout le monde", lData);
+    printf("Data.........: %s\n", lData.c_str());
     return 0;
 }
 //===============================================
 DWORD WINAPI GOpenGLUi::onStart(LPVOID _params) {
-    GSocket* lClient = (GSocket*)_params;
+    sGSocket* lSocket = (sGSocket*)_params;
+    GSocket* lClient = lSocket->socket;
     std::string lData;
-    lClient->recvs(lData);
-    std::cout << lData << "...\n";
+    lClient->reads(lData);
+    lClient->writes("OK");
+    printf("Client IP....: %s\n", lSocket->client_ip.c_str());
+    printf("Data.........: %s\n", lData.c_str());
     lClient->close();
     delete lClient;
     return 0;

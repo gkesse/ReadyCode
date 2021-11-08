@@ -1,0 +1,24 @@
+//===============================================
+#ifndef _GProcess_
+#define _GProcess_
+//===============================================
+#include "GInclude.h"
+//===============================================
+class GProcess {
+private:
+    GProcess();
+    
+public:
+    ~GProcess();
+    static GProcess* Instance();
+    void run(int _argc, char** _argv);
+    void runDefault(int _argc, char** _argv);
+    void runQt(int _argc, char** _argv);
+    void runQXml(int _argc, char** _argv);
+    
+private:
+    static GProcess* m_instance;
+};
+//==============================================
+#endif
+//==============================================
