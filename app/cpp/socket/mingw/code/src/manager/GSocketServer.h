@@ -1,18 +1,15 @@
 //===============================================
-#ifndef _GOpenGLGridParams_
-#define _GOpenGLGridParams_
+#ifndef _GSocketServer_
+#define _GSocketServer_
 //===============================================
-#include "GWidget.h"
+#include "GSocketUi.h"
 //===============================================
-class GOpenGLGridParams : public GWidget {
-    Q_OBJECT
-
+class GSocketServer : public GSocketUi {
 public:
-    GOpenGLGridParams(QWidget* _parent = 0);
-    ~GOpenGLGridParams();
-
-public slots:
-    void onEvent();
+    GSocketServer();
+    virtual ~GSocketServer();
+    void run(int _argc, char** _argv);
+    static DWORD WINAPI onStart(LPVOID _params);
 };
 //==============================================
 #endif

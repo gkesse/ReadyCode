@@ -5,18 +5,25 @@
 #include "GInclude.h"
 //===============================================
 struct sGQt;
-struct sGQXml;
+struct sGXml;
+struct sGSocket;
 //===============================================
 struct sGQt {
-	QString app_name;
-	int width;
-	int height;
+    QString app_name;
+    int width;
+    int height;
     sGQt();
 };
 //===============================================
-struct sGQXml {
-	int indent;
-	sGQXml();
+struct sGXml {
+    int indent;
+    sGXml();
+};
+//===============================================
+struct sGSocket {
+    QHostAddress address;
+    int port;
+    sGSocket();
 };
 //==============================================
 #endif

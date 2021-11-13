@@ -1,23 +1,17 @@
 //===============================================
-#ifndef _GWidget_
-#define _GWidget_
+#ifndef _GSocketUi_
+#define _GSocketUi_
 //===============================================
 #include "GInclude.h"
-#include "GStruct.h"
 //===============================================
-class GWidget : public QFrame {
+class GSocketUi : public QObject {
     Q_OBJECT
 
 public:
-    GWidget(QWidget* _parent = 0);
-    ~GWidget();
-    static GWidget* Create(const QString& _key);
-
-public slots:
-    virtual void onEvent();
-
-protected:
-    QMap<QWidget*, QString> m_widgetMap;
+    GSocketUi(QObject* _parent = 0);
+    virtual ~GSocketUi();
+    static GSocketUi* Create(const QString& key, QObject* _parent = 0);
+    virtual void run(int _argc, char** _argv);
 };
 //==============================================
 #endif

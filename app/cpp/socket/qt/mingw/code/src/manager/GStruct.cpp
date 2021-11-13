@@ -2,12 +2,17 @@
 #include "GStruct.h"
 //===============================================
 sGQt::sGQt() {
-	app_name = "ReadyApp";
-	width = 400;
-	height = 400;
+    app_name = "ReadyApp";
+    width = 400;
+    height = 400;
 }
 //===============================================
-sGQXml::sGQXml() {
-	indent = 4;
+sGXml::sGXml() {
+    indent = 4;
+}
+//===============================================
+sGSocket::sGSocket() {
+    address = QHostAddress::Any;
+    port = 8585;
 }
 //===============================================

@@ -1,23 +1,26 @@
 //===============================================
-#ifndef _GWidget_
-#define _GWidget_
+#ifndef _GObject_
+#define _GObject_
 //===============================================
 #include "GInclude.h"
 #include "GStruct.h"
 //===============================================
-class GWidget : public QFrame {
+class GObject : public QObject {
     Q_OBJECT
 
 public:
-    GWidget(QWidget* _parent = 0);
-    ~GWidget();
-    static GWidget* Create(const QString& _key);
+    GObject(QObject* _parent = 0);
+    ~GObject();
+    static GObject* Create(const QString& _key, QObject* _parent = 0);
 
 public slots:
     virtual void onEvent();
 
+signals:
+    void onEmit(const QString& _text);
+
 protected:
-    QMap<QWidget*, QString> m_widgetMap;
+    QMap<QObject*, QString> m_objMap;
 };
 //==============================================
 #endif

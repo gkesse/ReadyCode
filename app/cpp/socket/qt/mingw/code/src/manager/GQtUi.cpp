@@ -17,9 +17,9 @@ GQtUi* GQtUi::Create(const QString& _key) {
 }
 //===============================================
 void GQtUi::run(int _argc, char** _argv) {
-	QApplication lApp(_argc, _argv);
-	GWidget* lWindow = GWidget::Create("opengl/grid/params");
-	lWindow->show();
-	lApp.exec();
+    QApplication lApp(_argc, _argv);
+    GWidget* lWindow = GWidget::Create("opengl/grid/params");
+    lWindow->show();
+    lApp.exec();
 }
 //===============================================

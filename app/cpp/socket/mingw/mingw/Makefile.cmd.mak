@@ -7,7 +7,9 @@ GTARGET = bin\rdcpp.exe
 GGLAD_SRC = C:\Users\Admin\Downloads\Programs\ReadyLib\dev\glad\src
 
 GINCS =\
+    -I$(GSRC)\manager \
     -IC:\Users\Admin\Downloads\Programs\ReadyLib\dev\include \
+    -IC:\Users\Admin\Downloads\Programs\ReadyData\data\include \
     
 GLIBS =\
     -LC:\Users\Admin\Downloads\Programs\ReadyLib\dev\lib \
@@ -16,6 +18,7 @@ GLIBS =\
     
 GOBJS =\
     $(patsubst $(GSRC)/%.cpp, $(GBUILD)/%.o, $(wildcard $(GSRC)/*.cpp)) \
+    $(patsubst $(GSRC)/manager/%.cpp, $(GBUILD)/%.o, $(wildcard $(GSRC)/manager/*.cpp)) \
     $(patsubst $(GGLAD_SRC)/%.c, $(GBUILD)/%.o, $(wildcard $(GGLAD_SRC)/*.c)) \
 
 GCPPFLAGS =\
@@ -33,6 +36,9 @@ compile: $(GOBJS)
 	@if not exist $(GBIN) ( mkdir $(GBIN) )
 	g++ $(GCPPFLAGS) -o $(GTARGET) $(GOBJS) $(GLIBS) 
 $(GBUILD)/%.o: $(GSRC)/%.cpp
+	@if not exist $(GBUILD) ( mkdir $(GBUILD) )
+	g++ $(GCPPFLAGS) -c $< -o $@ $(GINCS)
+$(GBUILD)/%.o: $(GSRC)/manager/%.cpp
 	@if not exist $(GBUILD) ( mkdir $(GBUILD) )
 	g++ $(GCPPFLAGS) -c $< -o $@ $(GINCS)
 $(GBUILD)/%.o: $(GGLAD_SRC)/%.c

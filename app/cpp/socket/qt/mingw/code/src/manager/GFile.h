@@ -1,18 +1,20 @@
 //===============================================
-#ifndef _GOpenGLGridParams_
-#define _GOpenGLGridParams_
+#ifndef _GFile_
+#define _GFile_
 //===============================================
-#include "GWidget.h"
+#include "GInclude.h"
 //===============================================
-class GOpenGLGridParams : public GWidget {
-    Q_OBJECT
-
+class GFile {
 public:
-    GOpenGLGridParams(QWidget* _parent = 0);
-    ~GOpenGLGridParams();
+    GFile();
+    ~GFile();
+    void openRead(const QString& _filename);
+    void openWrite(const QString& _filename);
+    QFile& file();
+    void close();
 
-public slots:
-    void onEvent();
+private:
+    QFile m_file;
 };
 //==============================================
 #endif
