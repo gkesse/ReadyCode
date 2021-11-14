@@ -8,7 +8,7 @@ GManager::GManager() {
     mgr = new sGManager;
     // app
     mgr->app = new sGApp;
-    mgr->app->xml_file_01 = "C:/Users/Admin/Downloads/Programs/ReadyData/data/xml/catalog.xml";
+    mgr->app->xml_file = "C:/Users/Admin/Downloads/Programs/ReadyData/data/xml/catalog_02.xml";
 }
 //===============================================
 GManager::~GManager() {

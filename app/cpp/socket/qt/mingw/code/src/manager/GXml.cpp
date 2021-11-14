@@ -19,16 +19,16 @@ void GXml::blank() {
     xmlKeepBlanksDefault(0);
 }
 //===============================================
-void GXml::parse(const std::string& _filename) {
+void GXml::load(const std::string& _filename) {
     m_doc = xmlParseFile(_filename.c_str());
+}
+//===============================================
+void GXml::parse(const std::string& _data) {
+    m_doc = xmlParseDoc((xmlChar*)_data.c_str());
 }
 //===============================================
 void GXml::doc(const std::string& _version) {
     m_doc = xmlNewDoc(BAD_CAST(_version.c_str()));
-}
-//===============================================
-void GXml::encoding(const std::string& _encoding) {
-    xmlSaveFormatFileEnc("-", m_doc, _encoding.c_str(), 1);
 }
 //===============================================
 void GXml::root() {
@@ -65,11 +65,11 @@ void GXml::child(const std::string& _key, const std::string& _value) {
 }
 //===============================================
 void GXml::child(GXml& _child, const std::string& _key) {
-	_child.m_node = xmlNewChild(m_node, NULL, BAD_CAST(_key.c_str()), NULL);
+    _child.m_node = xmlNewChild(m_node, NULL, BAD_CAST(_key.c_str()), NULL);
 }
 //===============================================
 void GXml::child(GXml& _child, const std::string& _key, const std::string& _value) {
-	_child.m_node = xmlNewChild(m_node, NULL, BAD_CAST(_key.c_str()), BAD_CAST(_value.c_str()));
+    _child.m_node = xmlNewChild(m_node, NULL, BAD_CAST(_key.c_str()), BAD_CAST(_value.c_str()));
 }
 //===============================================
 void GXml::content(const std::string& _value) {
@@ -99,20 +99,37 @@ void GXml::xpath(GXml& _xml, const std::string& _xpath) {
     xmlXPathFreeContext(lContext);
 }
 //===============================================
-void GXml::toString(GXml& _xml, std::string& _data) {
+void GXml::save(const std::string& _filename, const std::string& _encoding, int _format) {
+    xmlSaveFormatFileEnc(_filename.c_str(), m_doc, _encoding.c_str(), _format);
+}
+//===============================================
+void GXml::toString(GXml& _xml, std::string& _data, int _format) {
     xmlBufferPtr lBuffer = xmlBufferCreate();
-    xmlNodeDump(lBuffer, _xml.m_doc, m_node, 0, 1);
+    xmlNodeDump(lBuffer, _xml.m_doc, m_node, 0, _format);
     _data = (char*)lBuffer->content;
     xmlBufferFree(lBuffer);
 }
 //===============================================
-void GXml::print() const {
-    xmlDocFormatDump(stdout, m_doc, 1);
+int GXml::toString(std::string& _data, const std::string& _encoding, int _format) {
+    xmlChar* lBuffer = NULL;
+    int lSize;
+    xmlDocDumpFormatMemoryEnc(m_doc, &lBuffer, &lSize, _encoding.c_str(), _format);
+    _data = (char*)lBuffer;
+    xmlFree(lBuffer);
+    return lSize;
 }
 //===============================================
-void GXml::print(GXml& _xml) const {
+void GXml::print(int _format) const {
+    xmlDocFormatDump(stdout, m_doc, _format);
+}
+//===============================================
+void GXml::print(const std::string& _encoding, int _format) const {
+    xmlSaveFormatFileEnc("-", m_doc, _encoding.c_str(), _format);
+}
+//===============================================
+void GXml::print(GXml& _xml, int _format) const {
     xmlBufferPtr lBuffer = xmlBufferCreate();
-    xmlNodeDump(lBuffer, _xml.m_doc, m_node, 0, 1);
+    xmlNodeDump(lBuffer, _xml.m_doc, m_node, 0, _format);
     printf("%s\n", (char*)lBuffer->content);
     xmlBufferFree(lBuffer);
 }

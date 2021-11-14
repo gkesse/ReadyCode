@@ -27,7 +27,7 @@ struct _sGManager {
 //==============================================
 struct _sGApp {
     // xml
-    std::string xml_file_01;
+    std::string xml_file;
 };
 //==============================================
 #endif
