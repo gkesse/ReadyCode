@@ -15,12 +15,16 @@ void GXml::free() {
     else if(m_node) {xmlFreeNode(m_node); m_node = 0;}
 }
 //===============================================
+void GXml::filename(const std::string& filename) {
+    m_filename = filename;
+}
+//===============================================
 void GXml::blank() {
     xmlKeepBlanksDefault(0);
 }
 //===============================================
-void GXml::parse(const std::string& _filename) {
-    m_doc = xmlParseFile(_filename.c_str());
+void GXml::parse() {
+    m_doc = xmlParseFile(m_filename.c_str());
 }
 //===============================================
 void GXml::root() {
@@ -76,8 +80,20 @@ void GXml::print() const {
 //===============================================
 void GXml::print(GXml& _xml) const {
     xmlBufferPtr lBuffer = xmlBufferCreate();
-    xmlNodeDump(lBuffer, _xml.m_doc, m_node, 0, 1);
+    int lSize = xmlNodeDump(lBuffer, _xml.m_doc, m_node, 0, 1);
     printf("%s\n", (char*)lBuffer->content);
     xmlBufferFree(lBuffer);
+}
+//===============================================
+void GXml::create(const std::string& _reference, const std::string& _name, const std::string& _price) {
+    node("product");
+    attribute("reference", _reference);
+
+    GXml lName;
+    lName.node("name");
+    lName.data(_name);
+
+    child(lName);
+    child("price", _price);
 }
 //===============================================

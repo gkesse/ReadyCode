@@ -1,16 +1,16 @@
 //===============================================
-#ifndef _GSocketClient_
-#define _GSocketClient_
+#ifndef _GAsioClient_
+#define _GAsioClient_
 //===============================================
-#include "GSocketUi.h"
+#include "GAsioUi.h"
+#include "GAsio.h"
 //===============================================
-class GSocketClient : public GSocketUi {
-	Q_OBJECT
-
+class GAsioClient : public GAsioUi {
 public:
-    GSocketClient(QObject* _parent = 0);
-    ~GSocketClient();
-    void run(int _argc, char** _argv);
+	GAsioClient();
+	virtual ~GAsioClient();
+    void run(int argc, char** argv);
+    static void onAsync(const GAsio::error_ptr& _errorcode);
 };
 //==============================================
 #endif

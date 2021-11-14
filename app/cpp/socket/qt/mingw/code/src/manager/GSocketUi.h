@@ -2,9 +2,9 @@
 #ifndef _GSocketUi_
 #define _GSocketUi_
 //===============================================
-#include "GInclude.h"
+#include "GObject.h"
 //===============================================
-class GSocketUi : public QObject {
+class GSocketUi : public GObject {
     Q_OBJECT
 
 public:

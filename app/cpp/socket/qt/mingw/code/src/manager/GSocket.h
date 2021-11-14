@@ -2,33 +2,41 @@
 #ifndef _GSocket_
 #define _GSocket_
 //===============================================
-#include "GObject.h"
+#include "GInclude.h"
+#include "GStruct.h"
 //===============================================
-class GSocket : public GObject {
-    Q_OBJECT
-
+class GSocket {
 public:
-    GSocket(QObject* _parent = 0);
+    GSocket();
     ~GSocket();
-    void server();
-    void socket();
-    void listen(const QHostAddress& _address, int _port);
-    void address();
-    void accept();
-    void connects(const QHostAddress& _address, int _port);
-    void disconnect();
-    void write(const QString& _data);
-    void read(QString& _data);
-
-public slots:
-    void onNewConnection();
-    void onConnected();
-    void onDisconnected();
-    void onReadyRead();
-
-private:
-    QTcpServer* m_tcpServer;
-    QTcpSocket* m_tcpSocket;
+    void init(int _major, int _minor);
+    void sockets();
+    void sockets2();
+    void address(const std::string& _ip, int _port);
+    void listens(int _backlog);
+    void binds();
+    void connects();
+    void accepts(GSocket& _socket);
+    int recvs(std::string& _data);
+    int reads(std::string& _data);
+    int recvs(GSocket& _socket, std::string& _data);
+    void sends(const std::string& _data);
+    void writes(const std::string& _data);
+    void sends(GSocket& _socket, const std::string& _data);
+    void ip(std::string& _ip);
+    void hostname(std::string& _hostname);
+    void shutdownWR();
+    void shutdownRD();
+    void close();
+    void clean();
+    void start(sGSocket& _socket);
+    void call(sGSocket& _socket, const std::string& _write, std::string& _read);
+    
+protected:
+    static const int BUFFER_SIZE = 1024;
+    static const int HOSTNAME_SIZE = 256;
+    SOCKET m_socket;
+    SOCKADDR_IN m_address;
 };
 //==============================================
 #endif

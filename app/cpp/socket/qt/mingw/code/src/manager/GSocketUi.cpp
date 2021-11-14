@@ -4,7 +4,7 @@
 #include "GSocketClient.h"
 //===============================================
 GSocketUi::GSocketUi(QObject* _parent) :
-QObject(_parent) {
+GObject(_parent) {
 
 }
 //===============================================

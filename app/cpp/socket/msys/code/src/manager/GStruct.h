@@ -1,16 +1,14 @@
 //===============================================
-#ifndef _GSocketClient_
-#define _GSocketClient_
+#ifndef _GStruct_
+#define _GStruct_
 //===============================================
-#include "GSocketUi.h"
+typedef struct _sGParams sGParams;
 //===============================================
-class GSocketClient : public GSocketUi {
-	Q_OBJECT
-
-public:
-    GSocketClient(QObject* _parent = 0);
-    ~GSocketClient();
-    void run(int _argc, char** _argv);
+struct _sGParams {
+	int frames;
+	int frame;
+	int run;
+	int dontset;
 };
 //==============================================
 #endif

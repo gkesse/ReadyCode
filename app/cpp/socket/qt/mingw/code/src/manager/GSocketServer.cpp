@@ -1,7 +1,9 @@
 //===============================================
 #include "GSocketServer.h"
+#include "GFile.h"
+#include "GString.h"
 #include "GSocket.h"
-#include "GStruct.h"
+#include "GThread.h"
 //===============================================
 GSocketServer::GSocketServer(QObject* _parent) :
 GSocketUi(_parent) {
@@ -12,32 +14,28 @@ GSocketServer::~GSocketServer() {
 
 }
 //===============================================
-void GSocketServer::run(int _argc, char** _argv) {
-    QApplication lApp(_argc, _argv);
+void GSocketServer::run(int argc, char** argv) {
     GSocket lServer;
     sGSocket lParams;
-    printf("Demarrage du serveur...\n");
-    lServer.server();
-    lServer.listen(lParams.address, lParams.port);
-    connect(&lServer, SIGNAL(onEmit(QString)), this, SLOT(onEvent(QString)));
-    lApp.exec();
+    GThread lThread;
+    lParams.on_start = (void*)onStart;
+    lServer.start(lParams);
 }
 //===============================================
-void GSocketServer::onEvent(const QString& _text) {
-    if(_text == "new_connection") {
-        GSocket* lServer = qobject_cast<GSocket*>(sender());
-        lServer->accept();
-    }
-    else if(_text == "ready_read") {
-        GSocket* lServer = qobject_cast<GSocket*>(sender());
-        QString lData;
-        lServer->read(lData);
-        qDebug() << lData;
-        lServer->write("OK");
-    }
-    else if(_text == "disconnect") {
-        GSocket* lServer = qobject_cast<GSocket*>(sender());
-        lServer->disconnect();
-    }
+DWORD WINAPI GSocketServer::onStart(LPVOID _params) {
+    sGSocket* lSocket = (sGSocket*)_params;
+    GSocket* lClient = lSocket->socket;
+    std::string lData;
+
+    lClient->recvs(lData);
+    lClient->shutdownRD();
+    lClient->sends("OK");
+
+    printf("Client IP....: %s\n", lSocket->client_ip.c_str());
+    printf("Data.........: %s\n", lData.c_str());
+
+    lClient->close();
+    delete lClient;
+    return 0;
 }
 //===============================================

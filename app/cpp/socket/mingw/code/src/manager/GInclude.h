@@ -21,8 +21,6 @@
 #include <glm/gtc/noise.hpp>
 // opencv
 #include <opencv2/opencv.hpp>
-// app
-#include "GStruct.h"
 //==============================================
 #endif
 //==============================================

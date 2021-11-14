@@ -1,16 +1,15 @@
 //===============================================
-#ifndef _GSocketClient_
-#define _GSocketClient_
+#ifndef _GSocketUi_
+#define _GSocketUi_
 //===============================================
-#include "GSocketUi.h"
+#include "GInclude.h"
 //===============================================
-class GSocketClient : public GSocketUi {
-	Q_OBJECT
-
+class GSocketUi {
 public:
-    GSocketClient(QObject* _parent = 0);
-    ~GSocketClient();
-    void run(int _argc, char** _argv);
+	GSocketUi();
+	virtual ~GSocketUi();
+	static GSocketUi* Create(const std::string& key);
+    virtual void run(int argc, char** argv);
 };
 //==============================================
 #endif

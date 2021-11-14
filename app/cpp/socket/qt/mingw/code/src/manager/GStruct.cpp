@@ -12,7 +12,12 @@ sGXml::sGXml() {
 }
 //===============================================
 sGSocket::sGSocket() {
-    address = QHostAddress::Any;
+    address_ip = "0.0.0.0";
     port = 8585;
+    backlog = 10;
+    major = 2;
+    minor = 2;
+    on_start = 0;
+    socket = 0;
 }
 //===============================================

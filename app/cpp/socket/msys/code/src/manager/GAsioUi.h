@@ -1,16 +1,15 @@
 //===============================================
-#ifndef _GSocketClient_
-#define _GSocketClient_
+#ifndef _GAsioUi_
+#define _GAsioUi_
 //===============================================
-#include "GSocketUi.h"
+#include "GInclude.h"
 //===============================================
-class GSocketClient : public GSocketUi {
-	Q_OBJECT
-
+class GAsioUi {
 public:
-    GSocketClient(QObject* _parent = 0);
-    ~GSocketClient();
-    void run(int _argc, char** _argv);
+	GAsioUi();
+	virtual ~GAsioUi();
+	static GAsioUi* Create(const std::string& key);
+    virtual void run(int argc, char** argv);
 };
 //==============================================
 #endif

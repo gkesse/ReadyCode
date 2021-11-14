@@ -26,9 +26,9 @@ DWORD WINAPI GSocketServer::onStart(LPVOID _params) {
     GSocket* lClient = lSocket->socket;
     std::string lData;
 
-    lClient->reads(lData);
+    lClient->recvs(lData);
     lClient->shutdownRD();
-    lClient->writes("OK");
+    lClient->sends("OK");
 
     printf("Client IP....: %s\n", lSocket->client_ip.c_str());
     printf("Data.........: %s\n", lData.c_str());

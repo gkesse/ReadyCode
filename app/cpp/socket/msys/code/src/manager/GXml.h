@@ -9,8 +9,9 @@ public:
     GXml();
     ~GXml();
     void free();
+    void filename(const std::string& filename);
     void blank();
-    void parse(const std::string& _filename);
+    void parse();
     void root();
     void node(const std::string& _node);
     void attribute(const std::string& _key, const std::string& _value);
@@ -26,6 +27,7 @@ public:
     void create(const std::string& _reference, const std::string& _name, const std::string& _price);
     
 protected:
+    std::string m_filename;
     xmlNodePtr m_node;
     xmlDocPtr m_doc;
 };
