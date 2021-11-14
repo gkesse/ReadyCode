@@ -7,7 +7,7 @@
 class GXml;
 //===============================================
 class GXmlUi : public GObject {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
     GXmlUi(QObject* _parent = 0);
