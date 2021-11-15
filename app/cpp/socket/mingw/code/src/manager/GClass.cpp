@@ -14,7 +14,7 @@ void GClass::addObserver(GClass* _obs) {
 }
 //===============================================
 void GClass::notify() {
-    for(int i = 0; i < m_obs.size(); i++) {
+    for(size_t i = 0; i < m_obs.size(); i++) {
         GClass* lObs = m_obs.at(i);
         lObs->update();
     }

@@ -55,8 +55,6 @@ void GOpenGLUi::run(int _argc, char** _argv) {
 
     GThread lServer;
     lServer.create(onServer, 0);
-    GThread lClient;
-    lClient.create(onClient, 0);
 
     while (!lOpenGL.isClose()) {
         lOpenGL.bgcolor(lParams.win.bgcolor);
@@ -111,24 +109,13 @@ DWORD WINAPI GOpenGLUi::onServer(LPVOID _params) {
     return 0;
 }
 //===============================================
-DWORD WINAPI GOpenGLUi::onClient(LPVOID _params) {
-    GSocket lServer;
-    sGSocket lParams;
-    lParams.address_ip = "127.0.0.1";
-    std::string lData;
-    lServer.call(lParams, "Bonjour tout le monde", lData);
-    printf("Data.........: %s\n", lData.c_str());
-    return 0;
-}
-//===============================================
 DWORD WINAPI GOpenGLUi::onStart(LPVOID _params) {
     sGSocket* lSocket = (sGSocket*)_params;
     GSocket* lClient = lSocket->socket;
     std::string lData;
     lClient->reads(lData);
     lClient->writes("OK");
-    printf("Client IP....: %s\n", lSocket->client_ip.c_str());
-    printf("Data.........: %s\n", lData.c_str());
+    printf("%s\n", lData.c_str());
     lClient->close();
     delete lClient;
     return 0;

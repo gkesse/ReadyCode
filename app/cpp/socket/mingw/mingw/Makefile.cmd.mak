@@ -4,16 +4,20 @@ GBIN = bin
 GBUILD = build
 GTARGET = bin\rdcpp.exe
 
+GRLIB = C:\Users\Admin\Downloads\Programs\ReadyLib\dev
+GRDATA = C:\Users\Admin\Downloads\Programs\ReadyData\data
 GGLAD_SRC = C:\Users\Admin\Downloads\Programs\ReadyLib\dev\glad\src
 
 GINCS =\
     -I$(GSRC)\manager \
-    -IC:\Users\Admin\Downloads\Programs\ReadyLib\dev\include \
-    -IC:\Users\Admin\Downloads\Programs\ReadyData\data\include \
+    -I$(GRLIB)\include \
+    -I$(GRLIB)\include\libxml2 \
+    -I$(GRDATA)\include \
     
 GLIBS =\
-    -LC:\Users\Admin\Downloads\Programs\ReadyLib\dev\lib \
-    -lglfw3dll -lws2_32 -lglew32 -lfreeglut -lglu32 -lopengl32 \
+    -L$(GRLIB)\lib \
+    -lws2_32 -lpugixml \
+    -lglfw3dll -lglew32 -lfreeglut.dll -lglu32 -lopengl32 \
     -lopencv_core452.dll -lopencv_highgui452.dll -lopencv_imgcodecs452.dll -lopencv_imgproc452.dll \
     
 GOBJS =\

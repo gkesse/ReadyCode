@@ -26,7 +26,7 @@ void GSocket::sockets2() {
 //===============================================
 void GSocket::address(const std::string& _ip, int _port) {
     m_address.sin_family = AF_INET;
-    InetPton(AF_INET, _ip.c_str(), &m_address.sin_addr.s_addr);
+    m_address.sin_addr.s_addr = inet_addr(_ip.c_str());
     m_address.sin_port = htons(_port);
     memset(&m_address.sin_zero, 0, sizeof(m_address.sin_zero));
 }
@@ -104,9 +104,8 @@ void GSocket::sends(GSocket& _socket, const std::string& _data) {
 }
 //===============================================
 void GSocket::ip(std::string& _ip) {
-    char lBuffer[IP_SIZE + 1];
-    inet_ntop(AF_INET, &m_address.sin_addr, lBuffer, IP_SIZE);
-    _ip = lBuffer;
+    char* ip = inet_ntoa(m_address.sin_addr);
+    _ip = ip;
 }
 //===============================================
 void GSocket::hostname(std::string& _hostname) {
@@ -143,7 +142,10 @@ void GSocket::start(sGSocket& _socket) {
     lServer.listens(_socket.backlog);
 
     printf("Demarrage du serveur...\n");
-    printf("Hostname.....: %s\n", _socket.hostname.c_str());
+
+    if(_socket.hostname_on) {
+        printf("Hostname.....: %s\n", _socket.hostname.c_str());
+    }
 
     while(1) {
         GSocket* lClient = new GSocket;
@@ -157,16 +159,16 @@ void GSocket::start(sGSocket& _socket) {
     lServer.clean();
 }
 //===============================================
-void GSocket::call(sGSocket& _socket, const std::string& _write, std::string& _read) {
+void GSocket::call(sGSocket& _socket, const std::string& _dataIn, std::string& _dataOut) {
     GSocket lClient;
     lClient.init(_socket.major, _socket.minor);
     lClient.hostname(_socket.hostname);
     lClient.address(_socket.address_ip, _socket.port);
     lClient.sockets();
     lClient.connects();
-    lClient.writes(_write);
+    lClient.writes(_dataIn);
     lClient.shutdownWR();
-    lClient.reads(_read);
+    lClient.reads(_dataOut);
     lClient.close();
     lClient.clean();
 }

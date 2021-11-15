@@ -30,7 +30,7 @@ public:
     void close();
     void clean();
     void start(sGSocket& _socket);
-    void call(sGSocket& _socket, const std::string& _write, std::string& _read);
+    void call(sGSocket& _socket, const std::string& _dataIn, std::string& _dataOut);
     
 protected:
     static const int BUFFER_SIZE = 1024;

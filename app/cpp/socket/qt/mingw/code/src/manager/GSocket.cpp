@@ -156,16 +156,16 @@ void GSocket::start(sGSocket& _socket) {
     lServer.clean();
 }
 //===============================================
-void GSocket::call(sGSocket& _socket, const std::string& _write, std::string& _read) {
+void GSocket::call(sGSocket& _socket, const std::string& _dataIn, std::string& _dataOut) {
     GSocket lClient;
     lClient.init(_socket.major, _socket.minor);
     lClient.hostname(_socket.hostname);
     lClient.address(_socket.address_ip, _socket.port);
     lClient.sockets();
     lClient.connects();
-    lClient.writes(_write);
+    lClient.writes(_dataIn);
     lClient.shutdownWR();
-    lClient.reads(_read);
+    lClient.reads(_dataOut);
     lClient.close();
     lClient.clean();
 }

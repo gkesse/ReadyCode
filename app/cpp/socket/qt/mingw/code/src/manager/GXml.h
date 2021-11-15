@@ -10,8 +10,8 @@ public:
     ~GXml();
     void free();
     void blank();
-    void load(const std::string& _filename);
-    void parse(const std::string& _data);
+    void loadFile(const std::string& _filename);
+    void parseData(const std::string& _data);
     void doc(const std::string& _version = "1.0");
     void root();
     void root(const std::string& _name);
@@ -22,7 +22,7 @@ public:
     void child(GXml& _child);
     void child(const std::string& _key, const std::string& _value);
     void child(GXml& _child, const std::string& _key);
-    void child(GXml& _child, const std::string& _key, const std::string& _value);
+    void childs(const std::string& _key, const std::string& _value);
     void content(const std::string& _value);
     void nextSibling(GXml& _child);
     void prevSibling(GXml& _child);

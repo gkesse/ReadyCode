@@ -1,9 +1,6 @@
 @echo off
 ::===============================================
-set MESA_GL_VERSION_OVERRIDE=4.6COMPAT
-set MESA_GLSL_VERSION_OVERRIDE=460
-::===============================================
-set "PATH=C:\Users\Admin\Downloads\Compressed\winlibs-i686-posix-dwarf-gcc-11.2.0-llvm-12.0.1-mingw-w64-9.0.0-r1\mingw32\bin;%PATH%";
+set "PATH=C:\Users\Admin\Downloads\Compressed\winlibs-i686-posix-dwarf-gcc-11.2.0-llvm-12.0.1-mingw-w64-9.0.0-r1\mingw32\bin;%PATH%"
 set "PATH=C:\Users\Admin\Downloads\Programs\ReadyLib\dev\bin;%PATH%"
 ::===============================================
 set "GPROJECT_ROOT=C:\Users\Admin\Downloads\Programs"

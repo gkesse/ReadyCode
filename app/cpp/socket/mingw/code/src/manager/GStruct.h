@@ -149,6 +149,7 @@ struct sGSocket {
     std::string hostname;
     std::string client_ip;
     std::string data;
+    bool hostname_on;
     int port;
     int backlog;
     int major;

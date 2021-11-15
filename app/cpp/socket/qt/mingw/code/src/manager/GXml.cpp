@@ -19,11 +19,11 @@ void GXml::blank() {
     xmlKeepBlanksDefault(0);
 }
 //===============================================
-void GXml::load(const std::string& _filename) {
+void GXml::loadFile(const std::string& _filename) {
     m_doc = xmlParseFile(_filename.c_str());
 }
 //===============================================
-void GXml::parse(const std::string& _data) {
+void GXml::parseData(const std::string& _data) {
     m_doc = xmlParseDoc((xmlChar*)_data.c_str());
 }
 //===============================================
@@ -68,8 +68,8 @@ void GXml::child(GXml& _child, const std::string& _key) {
     _child.m_node = xmlNewChild(m_node, NULL, BAD_CAST(_key.c_str()), NULL);
 }
 //===============================================
-void GXml::child(GXml& _child, const std::string& _key, const std::string& _value) {
-    _child.m_node = xmlNewChild(m_node, NULL, BAD_CAST(_key.c_str()), BAD_CAST(_value.c_str()));
+void GXml::childs(const std::string& _key, const std::string& _value) {
+    xmlNewChild(m_node, NULL, BAD_CAST(_key.c_str()), BAD_CAST(_value.c_str()));
 }
 //===============================================
 void GXml::content(const std::string& _value) {

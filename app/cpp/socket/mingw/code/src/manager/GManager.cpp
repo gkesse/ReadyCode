@@ -15,6 +15,7 @@ GManager::GManager() {
     mgr->app->texture_file = "data/texture/container.jpg";
     mgr->app->texture_file2 = "data/texture/awesomeface.png";
     mgr->app->texture_file2 = "C:/Users/Admin/Downloads/RData/data/img/fruits.jpg";
+    mgr->app->xml_file = "C:/Users/Admin/Downloads/Programs/ReadyData/data/xml/catalog_03.xml";
 }
 //===============================================
 GManager::~GManager() {

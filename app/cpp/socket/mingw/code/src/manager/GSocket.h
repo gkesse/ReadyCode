@@ -3,6 +3,7 @@
 #define _GSocket_
 //===============================================
 #include "GInclude.h"
+#include "GStruct.h"
 //===============================================
 class GSocket {
 public:
@@ -29,11 +30,10 @@ public:
     void close();
     void clean();
     void start(sGSocket& _socket);
-    void call(sGSocket& _socket, const std::string& _write, std::string& _read);
+    void call(sGSocket& _socket, const std::string& _dataIn, std::string& _dataOut);
     
 protected:
     static const int BUFFER_SIZE = 1024;
-    static const int IP_SIZE = 256;
     static const int HOSTNAME_SIZE = 256;
     SOCKET m_socket;
     SOCKADDR_IN m_address;

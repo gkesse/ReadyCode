@@ -18,7 +18,6 @@ public:
     static void onCursor(GLFWwindow* _window, double _x, double _y);
     static void onDisplay();
     static DWORD WINAPI onServer(LPVOID _params);
-    static DWORD WINAPI onClient(LPVOID _params);
     static DWORD WINAPI onStart(LPVOID _params);
 
 private:

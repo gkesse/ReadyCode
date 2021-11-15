@@ -21,6 +21,8 @@
 #include <glm/gtc/noise.hpp>
 // opencv
 #include <opencv2/opencv.hpp>
+// pugixml
+#include <pugixml.hpp>
 //==============================================
 #endif
 //==============================================

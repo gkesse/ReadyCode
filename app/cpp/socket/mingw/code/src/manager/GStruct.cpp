@@ -148,5 +148,6 @@ sGSocket::sGSocket() {
     minor = 2;
     on_start = 0;
     socket = 0;
+    hostname_on = false;
 }
 //===============================================

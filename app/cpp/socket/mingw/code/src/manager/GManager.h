@@ -38,6 +38,8 @@ struct _sGApp {
     std::string texture_file2;
     // image
     std::string image_file;
+    // xml
+    std::string xml_file;
 };
 //==============================================
 #endif
