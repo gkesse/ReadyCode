@@ -15,6 +15,7 @@ public:
     GXml& addEncoding(const std::string& _encoding = "UTF-8");
     GXml& addStandalone(const std::string& _standalone = "yes");
     GXml& addDocNode(GXml& _doc);
+    GXml& docToString(std::string& _data);
     GXml& createRoot(const std::string& _name);
     GXml& getRoot();
     GXml& appendChild(GXml& _child, const std::string& _name);

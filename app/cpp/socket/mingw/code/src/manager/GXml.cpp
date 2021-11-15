@@ -44,6 +44,13 @@ GXml& GXml::addDocNode(GXml& _doc) {
     return *this;
 }
 //===============================================
+GXml& GXml::docToString(std::string& _data) {
+	std::stringstream lStream;
+    m_doc.save(lStream, "   ", pugi::format_indent, pugi::encoding_utf8);
+	_data = lStream;
+    return *this;
+}
+//===============================================
 GXml& GXml::createRoot(const std::string& _name) {
     m_node = m_doc.append_child(_name.c_str());
     return *this;
