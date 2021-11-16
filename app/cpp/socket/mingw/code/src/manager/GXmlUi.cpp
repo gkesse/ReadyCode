@@ -19,16 +19,20 @@ GXmlUi* GXmlUi::Create(const std::string& _key) {
 //===============================================
 void GXmlUi::run(int argc, char** argv) {
     sGApp* lApp = GManager::Instance()->data()->app;
-    GXml lXml, lProduct;
+    GXml lXml, lDoc, lProduct, lNew;
     std::string lData;
     lXml.createDoc();
     lXml.addVersion("1.0");
     lXml.addEncoding("UTF-8");
     lXml.createRoot("catalog");
     append(lXml, "REF123", "ZigBee ReadyDev", "2.50");
+    lXml.docToString(lData);
+    lDoc.parseData(lData);
     lXml.firstChild(lProduct);
     lProduct.nodeToString(lData);
-    printf("%s\n", lData.c_str());
+    lNew.parseData(lData);
+    lXml.appendDoc(lNew);
+    lXml.printDoc();
 }
 //===============================================
 void GXmlUi::append(GXml& _xml, const std::string& _reference, const std::string& _name, const std::string& _price) {

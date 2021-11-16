@@ -39,7 +39,7 @@ GXml& GXml::addStandalone(const std::string& _standalone) {
     return *this;
 }
 //===============================================
-GXml& GXml::addDocNode(GXml& _doc) {
+GXml& GXml::appendDoc(GXml& _doc) {
     m_node.append_copy(_doc.m_doc.document_element());
     return *this;
 }
@@ -145,6 +145,11 @@ GXml& GXml::saveFile(const std::string& _filename) {
 //===============================================
 GXml& GXml::printDoc() {
     m_doc.save(std::cout, "   ", pugi::format_indent, pugi::encoding_utf8);
+    return *this;
+}
+//===============================================
+GXml& GXml::printNode() {
+    m_node.print(std::cout, "   ", pugi::format_indent, pugi::encoding_utf8);
     return *this;
 }
 //===============================================

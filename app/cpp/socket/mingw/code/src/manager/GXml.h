@@ -14,7 +14,7 @@ public:
     GXml& addVersion(const std::string& _version = "1.0");
     GXml& addEncoding(const std::string& _encoding = "UTF-8");
     GXml& addStandalone(const std::string& _standalone = "yes");
-    GXml& addDocNode(GXml& _doc);
+    GXml& appendDoc(GXml& _doc);
     GXml& docToString(std::string& _data);
     GXml& createRoot(const std::string& _name);
     GXml& getRoot();
@@ -35,6 +35,7 @@ public:
     GXml& prevAttribute(GXml& _child);
     GXml& saveFile(const std::string& _filename);
     GXml& printDoc();
+    GXml& printNode();
 
 protected:
     pugi::xml_document m_doc;
