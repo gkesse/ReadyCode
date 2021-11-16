@@ -23,6 +23,7 @@ public:
     GXml& setNodeValue(const std::string& _value);
     GXml& getNodeValue(std::string& _value);
     GXml& nodeIsNull(bool& _isNull);
+    GXml& nodeToString(std::string& _data);
     GXml& firstChild(GXml& _child);
     GXml& lastChild(GXml& _child);
     GXml& nextSibling(GXml& _child);

@@ -20,34 +20,34 @@ GXml& GXml::parseData(const std::string& _xml) {
 }
 //===============================================
 GXml& GXml::createDoc() {
-	m_node = m_doc.append_child(pugi::node_declaration);
+    m_node = m_doc.append_child(pugi::node_declaration);
     return *this;
 }
 //===============================================
 GXml& GXml::addVersion(const std::string& _version) {
-	m_node.append_attribute("version").set_value(_version.c_str());
+    m_node.append_attribute("version").set_value(_version.c_str());
     return *this;
 }
 //===============================================
 GXml& GXml::addEncoding(const std::string& _encoding) {
-	m_node.append_attribute("encoding").set_value(_encoding.c_str());
+    m_node.append_attribute("encoding").set_value(_encoding.c_str());
     return *this;
 }
 //===============================================
 GXml& GXml::addStandalone(const std::string& _standalone) {
-	m_node.append_attribute("standalone").set_value(_standalone.c_str());
+    m_node.append_attribute("standalone").set_value(_standalone.c_str());
     return *this;
 }
 //===============================================
 GXml& GXml::addDocNode(GXml& _doc) {
-	m_node.append_copy(_doc.m_doc.document_element());
+    m_node.append_copy(_doc.m_doc.document_element());
     return *this;
 }
 //===============================================
 GXml& GXml::docToString(std::string& _data) {
-	std::stringstream lStream;
+    std::stringstream lStream;
     m_doc.save(lStream, "   ", pugi::format_indent, pugi::encoding_utf8);
-	_data = lStream;
+    _data = lStream.str();
     return *this;
 }
 //===============================================
@@ -83,6 +83,13 @@ GXml& GXml::getNodeValue(std::string& _value) {
 //===============================================
 GXml& GXml::nodeIsNull(bool& _isNull) {
     _isNull = (m_node == 0);
+    return *this;
+}
+//===============================================
+GXml& GXml::nodeToString(std::string& _data) {
+    std::stringstream lStream;
+    m_node.print(lStream, "   ", pugi::format_indent, pugi::encoding_utf8);
+    _data = lStream.str();
     return *this;
 }
 //===============================================
