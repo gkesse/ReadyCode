@@ -5,6 +5,8 @@
 #include "GFunction.h"
 #include "GThread.h"
 #include "GSocket.h"
+#include "GXml.h"
+//===============================================
 #include "data_ecg.h"
 //===============================================
 GOpenGL GOpenGLUi::lOpenGL;
@@ -112,10 +114,12 @@ DWORD WINAPI GOpenGLUi::onServer(LPVOID _params) {
 DWORD WINAPI GOpenGLUi::onStart(LPVOID _params) {
     sGSocket* lSocket = (sGSocket*)_params;
     GSocket* lClient = lSocket->socket;
+    GXml lXml;
     std::string lData;
     lClient->reads(lData);
     lClient->writes("OK");
-    printf("%s\n", lData.c_str());
+    lXml.parseData(lData).getRoot();
+    lXml.printDoc();
     lClient->close();
     delete lClient;
     return 0;
