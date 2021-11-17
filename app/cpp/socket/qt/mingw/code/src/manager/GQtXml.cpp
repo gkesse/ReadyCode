@@ -1,5 +1,5 @@
 //===============================================
-#include <GQtXml.h>
+#include "GQtXml.h"
 #include "GManager.h"
 //===============================================
 GQtXml::GQtXml(QWidget* _parent) :

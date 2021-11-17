@@ -4,12 +4,12 @@
 //===============================================
 #include "GWidget.h"
 //===============================================
-class GQtOpenCV : public GWidget {
+class GQtOpenGL : public GWidget {
     Q_OBJECT
 
 public:
-    GQtOpenCV(QWidget* _parent = 0);
-    ~GQtOpenCV();
+    GQtOpenGL(QWidget* _parent = 0);
+    ~GQtOpenGL();
 };
 //==============================================
 #endif
