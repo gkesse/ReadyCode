@@ -14,14 +14,14 @@ public:
     void backlog(int _backlog);
     void data(const GString& _data);
     void init();
-    void sockets();
-    void sockets2();
+    void createSocketTcp();
+    void cretaeSocketUdp();
     void address();
     void listens();
-    void binds();
-    void connects();
+    void bindSocket();
+    void connectToServer();
     void start();
-    void accepts(GSocket& _socket);
+    void acceptConnection(GSocket& _socket);
     void recvs();
     void recvs(GSocket& _socket);
     void recvs(GString& _data);
@@ -31,8 +31,8 @@ public:
     void ip();
     void print() const;
     void print2() const;
-    void close();
-    void clean();
+    void closeSocket();
+    void cleanSocket();
     
 protected:
     static const int BUFFER_SIZE = 1024;

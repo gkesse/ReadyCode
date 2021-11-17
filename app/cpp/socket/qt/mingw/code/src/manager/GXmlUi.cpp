@@ -1,7 +1,7 @@
 //===============================================
 #include "GXmlUi.h"
 #include "GXml.h"
-#include "GManager.h"
+#include "GResource.h"
 //===============================================
 GXmlUi::GXmlUi(QObject* _parent) :
 GObject(_parent) {
@@ -18,7 +18,7 @@ GXmlUi* GXmlUi::Create(const QString& _key) {
 }
 //===============================================
 void GXmlUi::run(int argc, char** argv) {
-    sGApp* lApp = GManager::Instance()->data()->app;
+    sGApp* lApp = GResource::Instance()->data()->app;
 
     GXml lXml, lProduct;
     std::string lData;

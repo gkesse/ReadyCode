@@ -2,7 +2,7 @@
 #include "GXmlUi.h"
 #include "GXml.h"
 #include "GDefine.h"
-#include "GManager.h"
+#include "GResource.h"
 //===============================================
 GXmlUi::GXmlUi() {
 
@@ -18,7 +18,7 @@ GXmlUi* GXmlUi::Create(const std::string& _key) {
 }
 //===============================================
 void GXmlUi::run(int argc, char** argv) {
-    sGApp* lApp = GManager::Instance()->data()->app;
+    sGApp* lApp = GResource::Instance()->data()->app;
     GXml lXml, lDoc, lProduct, lNew;
     std::string lData;
     lXml.createDoc();

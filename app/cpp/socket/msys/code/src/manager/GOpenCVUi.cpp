@@ -20,7 +20,7 @@ GOpenCVUi* GOpenCVUi::Create(const std::string& key) {
 }
 //===============================================
 void GOpenCVUi::run(int argc, char** argv) {
-    sGApp* lApp = GManager::Instance()->data()->app;
+    sGApp* lApp = GResource::Instance()->data()->app;
 
     lOpenCV.filename(lApp->video_file);
     lOpenCV.open();

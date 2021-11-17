@@ -1,6 +1,7 @@
 //===============================================
+#include <GQtOpenCV.h>
+#include <GQtXml.h>
 #include "GWidget.h"
-#include "GOpenGLGridParams.h"
 //===============================================
 GWidget::GWidget(QWidget* _parent) :
 QFrame(_parent) {
@@ -12,8 +13,9 @@ GWidget::~GWidget() {
 }
 //===============================================
 GWidget* GWidget::Create(const QString& _key) {
-    if(_key == "widget") return new GWidget;
-    if(_key == "opengl/grid/params") return new GOpenGLGridParams;
+    if(_key == "default") return new GWidget;
+    if(_key == "opengl/interface") return new GQtOpenCV;
+    if(_key == "xml/interface") return new GQtXml;
     return new GWidget;
 }
 //===============================================

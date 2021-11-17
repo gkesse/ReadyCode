@@ -18,15 +18,15 @@ void GSocketServer::run(int argc, char** argv) {
     GString lData;
     lServer.init();
     lServer.address();
-    lServer.sockets();
-    lServer.binds();
+    lServer.createSocketTcp();
+    lServer.bindSocket();
     lServer.listens();
     lServer.start();
-    lServer.accepts(lClient);
+    lServer.acceptConnection(lClient);
     lClient.recvs(lData);
     lData.print();
-    lClient.close();
-    lServer.close();
-    lServer.clean();
+    lClient.closeSocket();
+    lServer.closeSocket();
+    lServer.cleanSocket();
 }
 //===============================================

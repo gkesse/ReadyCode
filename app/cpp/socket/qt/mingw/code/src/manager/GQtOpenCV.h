@@ -1,16 +1,15 @@
 //===============================================
-#ifndef _GSocketServer_
-#define _GSocketServer_
+#ifndef _GQtOpenCV_
+#define _GQtOpenCV_
 //===============================================
-#include "GSocketUi.h"
+#include "GWidget.h"
 //===============================================
-class GSocketServer : public GSocketUi {
+class GQtOpenCV : public GWidget {
     Q_OBJECT
 
 public:
-    GSocketServer(QObject* _parent = 0);
-    ~GSocketServer();
-    void run(int _argc, char** _argv);
+    GQtOpenCV(QWidget* _parent = 0);
+    ~GQtOpenCV();
 };
 //==============================================
 #endif

@@ -1,20 +1,21 @@
 //===============================================
-#ifndef _GOpenGLGridParams_
-#define _GOpenGLGridParams_
+#ifndef _GInterfaceXml_
+#define _GInterfaceXml_
 //===============================================
 #include "GWidget.h"
 //===============================================
-class GOpenGLGridParams : public GWidget {
+class GQtXml : public GWidget {
     Q_OBJECT
 
 public:
-    GOpenGLGridParams(QWidget* _parent = 0);
-    ~GOpenGLGridParams();
-    void dataIn(std::string& _dataIn);
-    void call(const std::string& _dataIn, std::string& _dataOut);
+    GQtXml(QWidget* _parent = 0);
+    ~GQtXml();
 
 public slots:
     void onEvent();
+
+private:
+    QTextEdit* m_textEdit;
 };
 //==============================================
 #endif

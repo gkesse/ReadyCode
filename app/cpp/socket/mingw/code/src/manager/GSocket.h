@@ -9,28 +9,26 @@ class GSocket {
 public:
     GSocket();
     ~GSocket();
-    void init(int _major, int _minor);
-    void sockets();
-    void sockets2();
-    void address(const std::string& _ip, int _port);
-    void listens(int _backlog);
-    void binds();
-    void connects();
-    void accepts(GSocket& _socket);
-    int recvs(std::string& _data);
-    int reads(std::string& _data);
-    int recvs(GSocket& _socket, std::string& _data);
-    void sends(const std::string& _data);
-    void writes(const std::string& _data);
-    void sends(GSocket& _socket, const std::string& _data);
-    void ip(std::string& _ip);
-    void hostname(std::string& _hostname);
+    void initSocket(int _major, int _minor);
+    void createSocketTcp();
+    void cretaeSocketUdp();
+    void createAddress(const std::string& _ip, int _port);
+    void listenSocket(int _backlog);
+    void bindSocket();
+    void connectToServer();
+    void acceptConnection(GSocket& _socket);
+    int recvData(std::string& _data);
+    int readData(std::string& _data);
+    int recvData(GSocket& _socket, std::string& _data);
+    void sendData(const std::string& _data);
+    void writeData(const std::string& _data);
+    void sendData(GSocket& _socket, const std::string& _data);
+    void getAddressIp(std::string& _ip);
+    void getHostname(std::string& _hostname);
     void shutdownWR();
     void shutdownRD();
-    void close();
-    void clean();
-    void start(sGSocket& _socket);
-    void call(sGSocket& _socket, const std::string& _dataIn, std::string& _dataOut);
+    void closeSocket();
+    void cleanSocket();
     
 protected:
     static const int BUFFER_SIZE = 1024;

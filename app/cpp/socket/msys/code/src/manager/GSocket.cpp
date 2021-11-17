@@ -38,11 +38,11 @@ void GSocket::init() {
     WSAStartup(MAKEWORD(m_major, m_minor), &lWsaData);
 }
 //===============================================
-void GSocket::sockets() {
+void GSocket::createSocketTcp() {
     m_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 }
 //===============================================
-void GSocket::sockets2() {
+void GSocket::cretaeSocketUdp() {
     m_socket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 }
 //===============================================
@@ -57,11 +57,11 @@ void GSocket::listens() {
     listen(m_socket, m_backlog);
 }
 //===============================================
-void GSocket::binds() {
+void GSocket::bindSocket() {
     bind(m_socket, (SOCKADDR*)&m_address, sizeof(m_address));
 }
 //===============================================
-void GSocket::connects() {
+void GSocket::connectToServer() {
     connect(m_socket, (SOCKADDR*)(&m_address), sizeof(m_address));
 }
 //===============================================
@@ -69,7 +69,7 @@ void GSocket::start() {
     printf("demarrage du serveur...\n");
 }
 //===============================================
-void GSocket::accepts(GSocket& _socket) {
+void GSocket::acceptConnection(GSocket& _socket) {
     _socket.m_size = sizeof(_socket.m_address);
     _socket.m_socket = accept(m_socket, (SOCKADDR*)&_socket.m_address, &_socket.m_size);
 }
@@ -125,11 +125,11 @@ void GSocket::print2() const {
     printf("IP..........: %s\n", m_ip2);
 }
 //===============================================
-void GSocket::close() {
+void GSocket::closeSocket() {
     closesocket(m_socket);
 }
 //===============================================
-void GSocket::clean() {
+void GSocket::cleanSocket() {
     WSACleanup();
 }
 //===============================================

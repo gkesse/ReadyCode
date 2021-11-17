@@ -1,15 +1,14 @@
 //===============================================
-#include "GOpenGLGridParams.h"
-#include "GSocket.h"
-#include "GXml.h"
-#include "GDefine.h"
-#include "GStruct.h"
+#include <GQtXml.h>
+#include "GManager.h"
 //===============================================
-GOpenGLGridParams::GOpenGLGridParams(QWidget* _parent) :
+GQtXml::GQtXml(QWidget* _parent) :
 GWidget(_parent) {
     sGQt lParams;
+    lParams.app_name = "ReadyApp | Interface XML";
 
     QTextEdit* lTextEdit = new QTextEdit;
+    m_textEdit = lTextEdit;
     lTextEdit->setStyleSheet(QString(""
             "QTextEdit {"
             "border:none;"
@@ -40,40 +39,20 @@ GWidget(_parent) {
     connect(lSendButton, SIGNAL(clicked()), this, SLOT(onEvent()));
 }
 //===============================================
-GOpenGLGridParams::~GOpenGLGridParams() {
+GQtXml::~GQtXml() {
 
 }
 //===============================================
-void GOpenGLGridParams::dataIn(std::string& _dataIn) {
-    GXml lXml, lData;
-    lXml.removeBlank();
-    lXml.createDoc();
-    lXml.createRoot(RDV_DATA_ROOT);
-    lXml.appendChild(RDV_DATA_MODULE, RDV_MOD_OPENCV);
-    lXml.appendChild(RDV_DATA_METHOD, RDV_MET_DRAW_POINT);
-    lXml.appendChild(lData, RDV_DATA_REF);
-    lData.appendChild(RDV_POINT_X, "1.0");
-    lData.appendChild(RDV_POINT_Y, "1.0");
-    lData.appendChild(RDV_POINT_Z, "0.0");
-    lXml.docToString(_dataIn);
-    lXml.freeDoc();
-}
-//===============================================
-void GOpenGLGridParams::call(const std::string& _dataIn, std::string& _dataOut) {
-    GSocket lClient;
-    sGSocket lParams;
-    lParams.address_ip = "127.0.0.1";
-    lClient.call(lParams, _dataIn, _dataOut);
-}
-//===============================================
-void GOpenGLGridParams::onEvent() {
+void GQtXml::onEvent() {
     QWidget* lWidget = qobject_cast<QWidget*>(sender());
     QString lWidgetId = m_widgetMap[lWidget];
 
     if(lWidgetId == "send") {
+    	GManager lMgr;
+    	if(lMgr.isEmpty(m_textEdit)) return;
     	std::string lDataIn, lDataOut;
-    	dataIn(lDataIn);
-    	call(lDataIn, lDataOut);
+    	lMgr.getData(m_textEdit, lDataIn);
+    	lMgr.callServer(lDataIn, lDataOut);
     }
 }
 //===============================================

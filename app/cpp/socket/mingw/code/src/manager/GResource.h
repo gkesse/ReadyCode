@@ -1,11 +1,11 @@
 //===============================================
-#ifndef _GManager_
-#define _GManager_
+#ifndef _GResource_
+#define _GResource_
 //===============================================
 #include "GInclude.h"
 //===============================================
-typedef struct _sGManager sGResource;
-typedef struct _sGApp sGApp;
+struct sGResource;
+struct sGApp;
 //===============================================
 class GResource {
 private:
@@ -21,11 +21,11 @@ private:
     sGResource* m_res;
 };
 //==============================================
-struct _sGManager {
+struct sGResource {
     sGApp* app;
 };
 //==============================================
-struct _sGApp {
+struct sGApp {
     // app
     std::string app_name;
     // mcml
@@ -35,20 +35,11 @@ struct _sGApp {
     std::string shader_fragment_file;
     // texture
     std::string texture_file;
-    std::string texture_file2;
+    std::string texture_file_2;
     // image
     std::string image_file;
-    // video
-    std::string video_file;
-    std::string video_file2;
-    // cascade
-    std::string cascade_file;
-    // train
-    std::string train_file;
     // xml
     std::string xml_file;
-    // curl
-    std::string curl_url;
 };
 //==============================================
 #endif

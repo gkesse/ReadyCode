@@ -11,7 +11,7 @@ public:
 public:
     GThread();
     ~GThread();
-    void create(onThreadCB _onThread, void* _params);
+    void createThread(onThreadCB _onThread, void* _params);
     
 private:
     HANDLE m_handleID;

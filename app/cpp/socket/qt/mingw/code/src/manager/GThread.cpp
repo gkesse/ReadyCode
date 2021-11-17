@@ -10,7 +10,7 @@ GThread::~GThread() {
 
 }
 //===============================================
-void GThread::create(onThreadCB _onThread, void* _params) {
+void GThread::createThread(onThreadCB _onThread, void* _params) {
     m_handleID = CreateThread(0, 0, _onThread, _params, 0, &m_threadID);
 }
 //===============================================

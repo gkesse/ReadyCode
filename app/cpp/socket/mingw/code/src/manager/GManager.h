@@ -3,43 +3,20 @@
 #define _GManager_
 //===============================================
 #include "GInclude.h"
-//===============================================
-typedef struct _sGManager sGManager;
-typedef struct _sGApp sGApp;
+#include "GStruct.h"
 //===============================================
 class GManager {
-private:
-    GManager();
-    
 public:
-    ~GManager();
-    static GManager* Instance();
-    sGManager* data();
-
-private:
-    static GManager* m_instance;
-    sGManager* mgr;
-};
-//==============================================
-struct _sGManager {
-    sGApp* app;
-};
-//==============================================
-struct _sGApp {
-    // app
-    std::string app_name;
-    // mcml
-    std::string mcml_file;
-    // shader
-    std::string shader_vertex_file;
-    std::string shader_fragment_file;
-    // texture
-    std::string texture_file;
-    std::string texture_file2;
-    // image
-    std::string image_file;
-    // xml
-    std::string xml_file;
+	GManager();
+	~GManager();
+	void getModule(const std::string& _dataIn, std::string& _module);
+	void getMethod(const std::string& _dataIn, std::string& _method);
+	void getData(const std::string& _dataIn, int _index, std::string& _data);
+	void getPoint(sGPoint& _point, const std::string& _x, const std::string& _y, const std::string& _z);
+	void callServer(const std::string& _dataIn, std::string& _dataOut);
+	void startServer(sGSocket& _socket);
+	void startServer(void* _onStartServer);
+	void onStartServer(void* _params, std::queue<std::string>& _data);
 };
 //==============================================
 #endif

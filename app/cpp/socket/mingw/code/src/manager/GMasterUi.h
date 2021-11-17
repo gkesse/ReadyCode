@@ -1,21 +1,15 @@
 //===============================================
-#ifndef _GThread_
-#define _GThread_
+#ifndef _GMasterUi_
+#define _GMasterUi_
 //===============================================
 #include "GInclude.h"
 //===============================================
-class GThread {
+class GMasterUi {
 public:
-    typedef DWORD WINAPI (*onThreadCB)(LPVOID _params);
-
-public:
-    GThread();
-    ~GThread();
-    void createThread(onThreadCB _onThread, void* _params);
-    
-private:
-    HANDLE m_handleID;
-    DWORD m_threadID;
+    GMasterUi();
+    virtual ~GMasterUi();
+    static GMasterUi* Create(const std::string& key);
+    virtual void run(int _argc, char** _argv);
 };
 //==============================================
 #endif

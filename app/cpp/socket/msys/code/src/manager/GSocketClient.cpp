@@ -13,7 +13,7 @@ GSocketClient::~GSocketClient() {
 }
 //===============================================
 void GSocketClient::run(int argc, char** argv) {
-    sGApp* lApp = GManager::Instance()->data()->app;
+    sGApp* lApp = GResource::Instance()->data()->app;
 
     GFile lFile;
     lFile.filename(lApp->cascade_file);
@@ -25,10 +25,10 @@ void GSocketClient::run(int argc, char** argv) {
     lClient.init();
     lClient.ip("127.0.0.1");
     lClient.address();
-    lClient.sockets();
-    lClient.connects();
+    lClient.createSocketTcp();
+    lClient.connectToServer();
     lClient.sends(lData);
-    lClient.close();
-    lClient.clean();
+    lClient.closeSocket();
+    lClient.cleanSocket();
 }
 //===============================================
