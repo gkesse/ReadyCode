@@ -8,9 +8,9 @@ class GXml {
 public:
     GXml();
     ~GXml();
-    void free();
+    void freeDoc();
     void filename(const std::string& filename);
-    void blank();
+    void removeBlank();
     void parse();
     void root();
     void node(const std::string& _node);

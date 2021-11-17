@@ -11,6 +11,7 @@
 #include <fstream>
 #include <future>
 #include <chrono>
+#include <queue>
 // opengl
 #include <GL/glew.h>
 #include <GL/freeglut.h>

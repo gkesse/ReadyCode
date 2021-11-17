@@ -45,17 +45,18 @@ GOpenGLGridParams::~GOpenGLGridParams() {
 }
 //===============================================
 void GOpenGLGridParams::dataIn(std::string& _dataIn) {
-    GXml lXml, lPoint;
-    lXml.blank();
-    lXml.doc();
-    lXml.root(RDV_DATA_ROOT);
-    lXml.child(lPoint, RDV_POINT_DATA);
-    lPoint.childs(RDV_POINT_X, "1.0");
-    lPoint.childs(RDV_POINT_Y, "1.0");
-    lPoint.childs(RDV_POINT_Z, "0.0");
-    lXml.toString(_dataIn, "UTF-8");
-    lXml.print();
-    lXml.free();
+    GXml lXml, lData;
+    lXml.removeBlank();
+    lXml.createDoc();
+    lXml.createRoot(RDV_DATA_ROOT);
+    lXml.appendChild(RDV_DATA_MODULE, RDV_MOD_OPENCV);
+    lXml.appendChild(RDV_DATA_METHOD, RDV_MET_DRAW_POINT);
+    lXml.appendChild(lData, RDV_DATA_REF);
+    lData.appendChild(RDV_POINT_X, "1.0");
+    lData.appendChild(RDV_POINT_Y, "1.0");
+    lData.appendChild(RDV_POINT_Z, "0.0");
+    lXml.docToString(_dataIn);
+    lXml.freeDoc();
 }
 //===============================================
 void GOpenGLGridParams::call(const std::string& _dataIn, std::string& _dataOut) {

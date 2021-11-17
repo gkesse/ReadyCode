@@ -19,6 +19,8 @@ public:
     static void onDisplay();
     static DWORD WINAPI onServer(LPVOID _params);
     static DWORD WINAPI onStart(LPVOID _params);
+    void onMessage(std::queue<std::string>& _dataIn);
+    void onDrawPoint(const std::string& _dataIn);
 
 private:
     static GOpenGL lOpenGL;

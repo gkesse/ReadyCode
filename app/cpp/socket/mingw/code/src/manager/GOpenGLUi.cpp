@@ -1,11 +1,12 @@
 //===============================================
 #include "GOpenGLUi.h"
 #include "GManager.h"
+#include "GDefine.h"
 #include "GOpenGL.h"
 #include "GFunction.h"
 #include "GThread.h"
 #include "GSocket.h"
-#include "GXml.h"
+#include "GFacade.h"
 //===============================================
 #include "data_ecg.h"
 //===============================================
@@ -59,6 +60,7 @@ void GOpenGLUi::run(int _argc, char** _argv) {
     lServer.create(onServer, 0);
 
     while (!lOpenGL.isClose()) {
+    	onMessage(lParams.data_in);
         lOpenGL.bgcolor(lParams.win.bgcolor);
         lOpenGL.depthBuffer();
         lOpenGL.size(lParams.win);
@@ -71,7 +73,7 @@ void GOpenGLUi::run(int _argc, char** _argv) {
         lOpenGL.origin(lParams.grid);
         lOpenGL.gridXY(lParams.grid);
         lOpenGL.axisXY(lParams.grid);
-        lOpenGL.point(lParams.grid, {1.f, 2.f});
+        lOpenGL.point(lParams.grid, lParams.point);
 
         lOpenGL.pollEvents();
     }
@@ -105,23 +107,47 @@ void GOpenGLUi::onDisplay() {
 //===============================================
 DWORD WINAPI GOpenGLUi::onServer(LPVOID _params) {
     GSocket lServer;
-    sGSocket lParams;
-    lParams.on_start = (void*)onStart;
-    lServer.start(lParams);
+    sGSocket lSocket;
+    lSocket.on_start = (void*)onStart;
+    lServer.start(lSocket);
     return 0;
 }
 //===============================================
 DWORD WINAPI GOpenGLUi::onStart(LPVOID _params) {
     sGSocket* lSocket = (sGSocket*)_params;
     GSocket* lClient = lSocket->socket;
-    GXml lXml;
     std::string lData;
     lClient->reads(lData);
     lClient->writes("OK");
-    lXml.parseData(lData).getRoot();
-    lXml.printDoc();
+    lParams.data_in.push(lData);
     lClient->close();
     delete lClient;
     return 0;
+}
+//===============================================
+void GOpenGLUi::onMessage(std::queue<std::string>& _dataIn) {
+	if(_dataIn.empty()) return;
+	std::string lDataIn = _dataIn.front();
+	GFacade lFacade;
+    std::string lModule, lMethod;
+	lFacade.getModule(lDataIn, lModule);
+	lFacade.getMethod(lDataIn, lMethod);
+
+	if(lModule == RDV_MOD_OPENCV) {
+		if(lMethod == RDV_MET_DRAW_POINT) {
+			onDrawPoint(lDataIn);
+		}
+	}
+
+	_dataIn.pop();
+}
+//===============================================
+void GOpenGLUi::onDrawPoint(const std::string& _dataIn) {
+	std::string lX, lY, lZ;
+	GFacade lFacade;
+	lFacade.getData(_dataIn, 0, lX);
+	lFacade.getData(_dataIn, 1, lY);
+	lFacade.getData(_dataIn, 2, lZ);
+	lFacade.getPoint(lParams.point, lX, lY, lZ);
 }
 //===============================================

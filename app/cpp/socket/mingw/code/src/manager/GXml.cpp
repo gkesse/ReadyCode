@@ -77,7 +77,7 @@ GXml& GXml::setNodeValue(const std::string& _value) {
 }
 //===============================================
 GXml& GXml::getNodeValue(std::string& _value) {
-    _value = m_node.value();
+    _value = m_node.child_value();
     return *this;
 }
 //===============================================

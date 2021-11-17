@@ -140,6 +140,10 @@ sGGrid::sGGrid() {
     pointsize = 0.f;
 }
 //===============================================
+sGOpenGL::sGOpenGL() {
+	point = {5.f, 5.f, 0.f};
+}
+//===============================================
 sGSocket::sGSocket() {
     address_ip = "0.0.0.0";
     port = 8585;

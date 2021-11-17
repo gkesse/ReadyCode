@@ -135,12 +135,11 @@ struct sGGrid {
 struct sGOpenGL {
     sGWindow win;
     sGGrid grid;
-    sGColor bgcolor;
     sGMvp mvp;
-    GLuint vao;
-    GLuint vbo[2];
-    glm::mat4 slice;
     sGNoise noise;
+    sGPoint point;
+    std::queue<std::string> data_in;
+    sGOpenGL();
 };
 //===============================================
 struct sGSocket {
@@ -148,7 +147,7 @@ struct sGSocket {
     std::string address_ip;
     std::string hostname;
     std::string client_ip;
-    std::string data;
+    std::queue<std::string> data_in;
     bool hostname_on;
     int port;
     int backlog;

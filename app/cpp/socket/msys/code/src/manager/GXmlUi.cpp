@@ -21,7 +21,7 @@ void GXmlUi::run(int argc, char** argv) {
 
     GXml lXml;
     lXml.filename(lApp->xml_file);
-    lXml.blank();
+    lXml.removeBlank();
     lXml.parse();
     lXml.root();
 
@@ -35,6 +35,6 @@ void GXmlUi::run(int argc, char** argv) {
 
     lXml.print();
 
-    lXml.free();
+    lXml.freeDoc();
 }
 //===============================================

@@ -10,7 +10,7 @@ GXml::~GXml() {
 
 }
 //===============================================
-void GXml::free() {
+void GXml::freeDoc() {
     if(m_doc) {xmlFreeDoc(m_doc); m_doc = 0;}
     else if(m_node) {xmlFreeNode(m_node); m_node = 0;}
 }
@@ -19,7 +19,7 @@ void GXml::filename(const std::string& filename) {
     m_filename = filename;
 }
 //===============================================
-void GXml::blank() {
+void GXml::removeBlank() {
     xmlKeepBlanksDefault(0);
 }
 //===============================================
