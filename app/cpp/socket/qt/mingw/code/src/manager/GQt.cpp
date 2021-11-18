@@ -2,8 +2,8 @@
 #include "GQt.h"
 //===============================================
 GQt::GQt(QObject* _parent) : QObject(_parent) {
+	m_eGType = eUnknown;
 	m_QWidget = 0;
-	m_QBoxLayout = 0;
 	m_QPushButton = 0;
 	m_QTextEdit = 0;
 	m_QSpinBox = 0;
@@ -16,22 +16,29 @@ GQt::~GQt() {
 
 }
 //===============================================
+GQt& GQt::createQWidget() {
+	m_eGType = eQWidget;
+	m_QWidget = new QWidget;
+	return *this;
+}
+//===============================================
 GQt& GQt::createQPushButton(const QString& _name) {
+	m_eGType = eQPushButton;
 	m_QPushButton = new QPushButton;
 	m_QPushButton->setText(_name);
-	m_QWidget = m_QPushButton;
     return *this;
 }
 //===============================================
 GQt& GQt::createQPushButton(const QString& _name, const QString& _key, QMap<QWidget*, QString>& _QWidgetMap) {
+	m_eGType = eQPushButton;
 	m_QPushButton = new QPushButton;
 	m_QPushButton->setText(_name);
     _QWidgetMap[m_QPushButton] = _key;
-	m_QWidget = m_QPushButton;
     return *this;
 }
 //===============================================
 GQt& GQt::createQTextEdit() {
+	m_eGType = eQTextEdit;
     m_QTextEdit = new QTextEdit;
     m_QTextEdit->setStyleSheet(QString(""
             "QTextEdit {"
@@ -42,67 +49,93 @@ GQt& GQt::createQTextEdit() {
             "font-size:14px;"
             "}"));
     m_QTextEdit->setLineWrapMode(QTextEdit::NoWrap);
-	m_QWidget = m_QTextEdit;
     return *this;
 }
 //===============================================
 GQt& GQt::createQSpinBox() {
+	m_eGType = eQSpinBox;
 	m_QSpinBox = new QSpinBox;
-	m_QWidget = m_QSpinBox;
 	return *this;
 }
 //===============================================
 GQt& GQt::createQSlider() {
+	m_eGType = eQSlider;
 	m_QSlider = new QSlider;
-	m_QWidget = m_QSlider;
 	return *this;
 }
 //===============================================
 GQt& GQt::createQVBoxLayout() {
+	m_eGType = eQVBoxLayout;
 	m_QVBoxLayout = new QVBoxLayout;
-	m_QBoxLayout = m_QVBoxLayout;
 	return *this;
 }
 //===============================================
 GQt& GQt::createQHBoxLayout() {
+	m_eGType = eQHBoxLayout;
 	m_QHBoxLayout = new QHBoxLayout;
-	m_QBoxLayout = m_QHBoxLayout;
 	return *this;
 }
 //===============================================
-GQt& GQt::addWidget(const GQt& _widget) {
-	m_QBoxLayout->addWidget(_widget.m_QWidget);
+GQt& GQt::addWidget(GQt& _widget) {
+	if(m_eGType == eQHBoxLayout) m_QHBoxLayout->addWidget(_widget.getQWidget());
+	if(m_eGType == eQVBoxLayout) m_QVBoxLayout->addWidget(_widget.getQWidget());
 	return *this;
 }
 //===============================================
-GQt& GQt::addLayout(const GQt& _layout) {
-	m_QBoxLayout->addLayout(_layout.m_QBoxLayout);
+GQt& GQt::addLayout(GQt& _layout) {
+	getQBoxLayout()->addLayout(_layout.getQBoxLayout());
 	return *this;
 }
 //===============================================
-GQt& GQt::setWidget(QWidget* _widget) {
+GQt& GQt::setQWidget(QWidget* _widget) {
+	m_eGType = eQWidget;
 	m_QWidget = _widget;
 	return *this;
 }
 //===============================================
-GQt& GQt::setWindowTitle(const QString _title) {
-	m_QWidget->setWindowIconText(_title);
+GQt& GQt::setWindowTitle(const QString& _title) {
+	getQWidget()->setWindowIconText(_title);
 	return *this;
 }
 //===============================================
 GQt& GQt::setLayout(QWidget* _widget) {
-	_widget->setLayout(m_QBoxLayout);
+	_widget->setLayout(getQBoxLayout());
 	return *this;
 }
 //===============================================
 GQt& GQt::setAlignment(Qt::Alignment _alignment) {
-	m_QBoxLayout->setAlignment(_alignment);
+	getQBoxLayout()->setAlignment(_alignment);
+	return *this;
+}
+//===============================================
+GQt& GQt::setRangeQSlider(int _min, int _max) {
+	m_QSlider->setRange(_min, _max);
+	return *this;
+}
+//===============================================
+GQt& GQt::setRangeQSpinBox(int _min, int _max) {
+	m_QSpinBox->setRange(_min, _max);
 	return *this;
 }
 //===============================================
 GQt& GQt::connectObject(const char* _signal, const QObject* _member, const char* _slot) {
-	connect(m_QWidget, _signal, _member, _slot);
+	connect(getQWidget(), _signal, _member, _slot);
 	return *this;
+}
+//===============================================
+QWidget* GQt::getQWidget() {
+	if(m_eGType == eQWidget) return m_QWidget;
+	if(m_eGType == eQPushButton) return m_QPushButton;
+	if(m_eGType == eQTextEdit) return m_QTextEdit;
+	if(m_eGType == eQSpinBox) return m_QSpinBox;
+	if(m_eGType == eQSlider) return m_QSlider;
+	return 0;
+}
+//===============================================
+QBoxLayout* GQt::getQBoxLayout() {
+	if(m_eGType == eQVBoxLayout) return m_QVBoxLayout;
+	if(m_eGType == eQHBoxLayout) return m_QHBoxLayout;
+	return 0;
 }
 //===============================================
 GQt& GQt::getDataQTextEdit(std::string& _data) {
