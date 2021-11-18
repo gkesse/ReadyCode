@@ -1,8 +1,8 @@
 //===============================================
-#ifndef _GQtOpenCV_
-#define _GQtOpenCV_
+#ifndef _GQtWindow_
+#define _GQtWindow_
 //===============================================
-#include <GQtWidget.h>
+#include "GQtWidget.h"
 //===============================================
 class GQtWindow : public GQtWidget {
     Q_OBJECT
