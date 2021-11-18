@@ -38,10 +38,10 @@ GQt& GQt::createQTextEdit() {
             "border:none;"
             "background-color:black;"
             "color:white;"
+            "font-family:courier new;"
             "font-size:14px;"
             "}"));
-    m_QTextEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    m_QTextEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    m_QTextEdit->setLineWrapMode(QTextEdit::NoWrap);
 	m_QWidget = m_QTextEdit;
     return *this;
 }
