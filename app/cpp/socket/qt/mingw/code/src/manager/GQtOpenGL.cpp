@@ -1,5 +1,5 @@
 //===============================================
-#include <GQtOpenGL.h>
+#include "GQtOpenGL.h"
 #include "GSocket.h"
 #include "GXml.h"
 #include "GDefine.h"
