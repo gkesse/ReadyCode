@@ -1,12 +1,12 @@
 //===============================================
-#include "GQtOpenGL.h"
+#include "GQtWindow.h"
 #include "GSocket.h"
 #include "GXml.h"
 #include "GDefine.h"
 #include "GQt.h"
 #include "GStruct.h"
 //===============================================
-GQtOpenGL::GQtOpenGL(QWidget* _parent) :
+GQtWindow::GQtWindow(QWidget* _parent) :
 GQtWidget(_parent) {
     sGQt lParams;
     GQt lTextEdit, lSendButton, lButtonLayout, lCenterLayout, lMainLayout;
@@ -27,7 +27,7 @@ GQtWidget(_parent) {
     lSendButton.connectObject(SIGNAL(clicked()), this, SLOT(onEvent()));
 }
 //===============================================
-GQtOpenGL::~GQtOpenGL() {
+GQtWindow::~GQtWindow() {
 
 }
 //===============================================

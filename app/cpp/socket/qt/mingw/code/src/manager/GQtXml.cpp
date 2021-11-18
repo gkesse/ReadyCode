@@ -1,42 +1,27 @@
 //===============================================
 #include "GQtXml.h"
+#include "GQt.h"
 #include "GManager.h"
 //===============================================
 GQtXml::GQtXml(QWidget* _parent) :
-GWidget(_parent) {
+GQtWidget(_parent) {
     sGQt lParams;
-    lParams.app_name = "ReadyApp | Interface XML";
+    GQt lSendButton, lButtonLayout, lCenterLayout, lMainLayout;
 
-    QTextEdit* lTextEdit = new QTextEdit;
-    m_textEdit = lTextEdit;
-    lTextEdit->setStyleSheet(QString(""
-            "QTextEdit {"
-            "border:none;"
-            "background-color:black;"
-            "color:white;"
-            "font-size:14px;"
-            "}"));
-
-    QPushButton* lSendButton = new QPushButton;
-    lSendButton->setText("Envoyer");
-    m_widgetMap[lSendButton] = "send";
-
-    QVBoxLayout* lButtonLayout = new QVBoxLayout;
-    lButtonLayout->addWidget(lSendButton);
-    lButtonLayout->setAlignment(Qt::AlignTop);
-
-    QHBoxLayout* lCenterLayout = new QHBoxLayout;
-    lCenterLayout->addWidget(lTextEdit, 1);
-    lCenterLayout->addLayout(lButtonLayout);
-
-    QVBoxLayout* lMainLayout = new QVBoxLayout;
-    lMainLayout->addLayout(lCenterLayout);
-
-    setLayout(lMainLayout);
+    m_textEdit.createQTextEdit();
+    lSendButton.createQPushButton("Envoyer", "send", m_QWidgetMap);
+    lButtonLayout.createQVBoxLayout();
+    lButtonLayout.addWidget(lSendButton);
+    lButtonLayout.setAlignment(Qt::AlignTop);
+    lCenterLayout.createQHBoxLayout();
+    lCenterLayout.addWidget(m_textEdit);
+    lCenterLayout.addLayout(lButtonLayout);
+    lMainLayout.createQVBoxLayout();
+    lMainLayout.addLayout(lCenterLayout);
+    lMainLayout.setLayout(this);
     setWindowTitle(lParams.app_name);
     resize(lParams.width, lParams.height);
-
-    connect(lSendButton, SIGNAL(clicked()), this, SLOT(onEvent()));
+    lSendButton.connectObject(SIGNAL(clicked()), this, SLOT(onEvent()));
 }
 //===============================================
 GQtXml::~GQtXml() {
@@ -45,13 +30,12 @@ GQtXml::~GQtXml() {
 //===============================================
 void GQtXml::onEvent() {
     QWidget* lWidget = qobject_cast<QWidget*>(sender());
-    QString lWidgetId = m_widgetMap[lWidget];
+    QString lWidgetId = m_QWidgetMap[lWidget];
 
     if(lWidgetId == "send") {
-    	GManager lMgr;
-    	if(lMgr.isEmpty(m_textEdit)) return;
-    	std::string lDataIn, lDataOut;
-    	lMgr.getData(m_textEdit, lDataIn);
+    	if(m_textEdit.isEmptyQTextEdit()) return;
+    	GManager lMgr; std::string lDataIn, lDataOut;
+    	m_textEdit.getDataQTextEdit(lDataIn);
     	lMgr.callServer(lDataIn, lDataOut);
     }
 }

@@ -1,23 +1,18 @@
 //===============================================
-#ifndef _GInterfaceXml_
-#define _GInterfaceXml_
+#ifndef _GQtOpenCV_
+#define _GQtOpenCV_
 //===============================================
-#include "GQtWidget.h"
-#include "GQt.h"
+#include <GQtWidget.h>
 //===============================================
-class GQtXml : public GQtWidget {
+class GQtWindow : public GQtWidget {
     Q_OBJECT
 
 public:
-    GQtXml(QWidget* _parent = 0);
-    ~GQtXml();
-
-public slots:
-    void onEvent();
+    GQtWindow(QWidget* _parent = 0);
+    ~GQtWindow();
 
 private:
     QMap<QWidget*, QString> m_QWidgetMap;
-    GQt m_textEdit;
 };
 //==============================================
 #endif

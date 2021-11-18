@@ -1,7 +1,7 @@
 //===============================================
 #include "GQtUi.h"
-#include "GWidget.h"
-#include "GManager.h"
+#include "GQtWidget.h"
+#include "GQt.h"
 //===============================================
 GQtUi::GQtUi() {
 
@@ -17,10 +17,10 @@ GQtUi* GQtUi::Create(const QString& _key) {
 }
 //===============================================
 void GQtUi::run(int _argc, char** _argv) {
-	GManager lMgr; QString lKey;
+	GQt lQt; QString lKey;
     QApplication lApp(_argc, _argv);
-	lMgr.getKey(_argc, _argv, 2, lKey);
-    GWidget* lWindow = GWidget::Create(lKey);
+    lQt.getKey(_argc, _argv, 2, lKey);
+    GQtWidget* lWindow = GQtWidget::Create(lKey);
     lWindow->show();
     lApp.exec();
 }

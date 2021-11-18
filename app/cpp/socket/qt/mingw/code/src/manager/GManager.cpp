@@ -80,18 +80,3 @@ void GManager::startServer(void* _onStart) {
     startServer(lSocket);
 }
 //===============================================
-bool GManager::isEmpty(QTextEdit* _textEdit) {
-	return _textEdit->toPlainText().isEmpty();
-}
-//===============================================
-void GManager::getData(QTextEdit* _textEdit, std::string& _data) {
-	_data = _textEdit->toPlainText().toStdString();
-}
-//===============================================
-void GManager::getKey(int _argc, char** _argv, int _index, QString& _key) {
-    _key = "default";
-    if(_argc > _index) {
-    	_key = _argv[_index];
-    }
-}
-//===============================================

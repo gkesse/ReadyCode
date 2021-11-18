@@ -2,14 +2,17 @@
 #ifndef _GQtOpenCV_
 #define _GQtOpenCV_
 //===============================================
-#include "GWidget.h"
+#include "GQtWidget.h"
 //===============================================
-class GQtOpenGL : public GWidget {
+class GQtOpenGL : public GQtWidget {
     Q_OBJECT
 
 public:
     GQtOpenGL(QWidget* _parent = 0);
     ~GQtOpenGL();
+
+private:
+    QMap<QWidget*, QString> m_QWidgetMap;
 };
 //==============================================
 #endif

@@ -1,23 +1,20 @@
 //===============================================
-#ifndef _GWidget_
-#define _GWidget_
+#ifndef _GQtWidget_
+#define _GQtWidget_
 //===============================================
 #include "GInclude.h"
 #include "GStruct.h"
 //===============================================
-class GWidget : public QFrame {
+class GQtWidget : public QFrame {
     Q_OBJECT
 
 public:
-    GWidget(QWidget* _parent = 0);
-    ~GWidget();
-    static GWidget* Create(const QString& _key);
+    GQtWidget(QWidget* _parent = 0);
+    ~GQtWidget();
+    static GQtWidget* Create(const QString& _key);
 
 public slots:
     virtual void onEvent();
-
-protected:
-    QMap<QWidget*, QString> m_widgetMap;
 };
 //==============================================
 #endif
