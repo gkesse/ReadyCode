@@ -1,21 +1,19 @@
 //===============================================
-#ifndef _GQtWindow_
-#define _GQtWindow_
+#ifndef _GQtFindDialog_
+#define _GQtFindDialog_
 //===============================================
-#include "GQtWidget.h"
+#include "GQtDialog.h"
 //===============================================
-class GQtWindow : public GQtWidget {
+class GQtFindDialog : public GQtDialog {
     Q_OBJECT
 
 public:
-    GQtWindow(QWidget* _parent = 0);
-    ~GQtWindow();
+    GQtFindDialog(QWidget* _parent = 0);
+    ~GQtFindDialog();
 
 public slots:
-	void onOpenButton();
-
-private:
-    QMap<QWidget*, QString> m_QWidgetMap;
+	void onFindButton();
+	void onFindEdit(const QString& _text);
 };
 //==============================================
 #endif

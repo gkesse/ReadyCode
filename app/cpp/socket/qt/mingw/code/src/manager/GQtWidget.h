@@ -13,8 +13,8 @@ public:
     ~GQtWidget();
     static GQtWidget* Create(const QString& _key);
 
-public slots:
-    virtual void onEvent();
+protected:
+    QMap<QWidget*, QString> m_QWidgetMap;
 };
 //==============================================
 #endif

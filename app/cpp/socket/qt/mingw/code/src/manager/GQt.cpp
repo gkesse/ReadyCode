@@ -5,6 +5,9 @@ GQt::GQt(QObject* _parent) : QObject(_parent) {
 	m_eGType = eUnknown;
 	m_QWidget = 0;
 	m_QPushButton = 0;
+	m_QCheckBox = 0;
+	m_QLabel = 0;
+	m_QLineEdit = 0;
 	m_QTextEdit = 0;
 	m_QSpinBox = 0;
 	m_QSlider = 0;
@@ -30,11 +33,40 @@ GQt& GQt::createQPushButton(const QString& _name) {
 }
 //===============================================
 GQt& GQt::createQPushButton(const QString& _name, const QString& _key, QMap<QWidget*, QString>& _QWidgetMap) {
-	m_eGType = eQPushButton;
-	m_QPushButton = new QPushButton;
-	m_QPushButton->setText(_name);
+	createQPushButton(_name);
     _QWidgetMap[m_QPushButton] = _key;
     return *this;
+}
+//===============================================
+GQt& GQt::createQCheckBox(const QString& _name) {
+	m_eGType = eQCheckBox;
+	m_QCheckBox = new QCheckBox(_name);
+    return *this;
+}
+//===============================================
+GQt& GQt::createQCheckBox(const QString& _name, const QString& _key, QMap<QWidget*, QString>& _QWidgetMap) {
+	createQCheckBox(_name);
+    _QWidgetMap[m_QCheckBox] = _key;
+    return *this;
+}
+//===============================================
+GQt& GQt::createQLabel(const QString& _text) {
+	m_eGType = eQLabel;
+	m_QLabel = new QLabel(_text);
+    return *this;
+}
+//===============================================
+GQt& GQt::createQLineEdit() {
+	m_eGType = eQLineEdit;
+    m_QLineEdit = new QLineEdit;
+	return *this;
+}
+//===============================================
+GQt& GQt::createQLineEdit(const QString& _key, QMap<QWidget*, QString>& _QWidgetMap) {
+	m_eGType = eQLineEdit;
+    m_QLineEdit = new QLineEdit;
+    _QWidgetMap[m_QLineEdit] = _key;
+	return *this;
 }
 //===============================================
 GQt& GQt::createQTextEdit() {
@@ -77,13 +109,22 @@ GQt& GQt::createQHBoxLayout() {
 }
 //===============================================
 GQt& GQt::addWidget(GQt& _widget) {
-	if(m_eGType == eQHBoxLayout) m_QHBoxLayout->addWidget(_widget.getQWidget());
-	if(m_eGType == eQVBoxLayout) m_QVBoxLayout->addWidget(_widget.getQWidget());
+	getQBoxLayout()->addWidget(_widget.getQWidget());
 	return *this;
 }
 //===============================================
 GQt& GQt::addLayout(GQt& _layout) {
 	getQBoxLayout()->addLayout(_layout.getQBoxLayout());
+	return *this;
+}
+//===============================================
+GQt& GQt::addStretch(int _stretch) {
+	getQBoxLayout()->addStretch(_stretch);
+	return *this;
+}
+//===============================================
+GQt& GQt::setBuddy(GQt& _widget) {
+	if(m_eGType == eQLabel) m_QLabel->setBuddy(_widget.getQWidget());
 	return *this;
 }
 //===============================================
@@ -108,13 +149,24 @@ GQt& GQt::setAlignment(Qt::Alignment _alignment) {
 	return *this;
 }
 //===============================================
-GQt& GQt::setRangeQSlider(int _min, int _max) {
-	m_QSlider->setRange(_min, _max);
+GQt& GQt::setRange(int _min, int _max) {
+	if(m_eGType == eQSpinBox) m_QSpinBox->setRange(_min, _max);
+	if(m_eGType == eQSlider) m_QSlider->setRange(_min, _max);
 	return *this;
 }
 //===============================================
-GQt& GQt::setRangeQSpinBox(int _min, int _max) {
-	m_QSpinBox->setRange(_min, _max);
+GQt& GQt::setText(const QString& _text) {
+	if(m_eGType == eQLabel) m_QLabel->setText(_text);
+	return *this;
+}
+//===============================================
+GQt& GQt::setDefault(bool _ok) {
+	if(m_eGType == eQPushButton) m_QPushButton->setDefault(_ok);
+	return *this;
+}
+//===============================================
+GQt& GQt::setEnabled(bool _ok) {
+	getQWidget()->setEnabled(_ok);
 	return *this;
 }
 //===============================================
@@ -123,9 +175,17 @@ GQt& GQt::connectObject(const char* _signal, const QObject* _member, const char*
 	return *this;
 }
 //===============================================
+GQt& GQt::connectObject(const char* _signal, GQt& _member, const char* _slot) {
+	connect(getQWidget(), _signal, _member.getQWidget(), _slot);
+	return *this;
+}
+//===============================================
 QWidget* GQt::getQWidget() {
 	if(m_eGType == eQWidget) return m_QWidget;
 	if(m_eGType == eQPushButton) return m_QPushButton;
+	if(m_eGType == eQCheckBox) return m_QCheckBox;
+	if(m_eGType == eQLabel) return m_QLabel;
+	if(m_eGType == eQLineEdit) return m_QLineEdit;
 	if(m_eGType == eQTextEdit) return m_QTextEdit;
 	if(m_eGType == eQSpinBox) return m_QSpinBox;
 	if(m_eGType == eQSlider) return m_QSlider;
@@ -138,8 +198,9 @@ QBoxLayout* GQt::getQBoxLayout() {
 	return 0;
 }
 //===============================================
-GQt& GQt::getDataQTextEdit(std::string& _data) {
-	_data = m_QTextEdit->toPlainText().toStdString();
+GQt& GQt::getText(QString& _data) {
+	if(m_eGType == eQLineEdit) _data = m_QLineEdit->text();
+	if(m_eGType == eQTextEdit) _data = m_QTextEdit->toPlainText();
 	return *this;
 }
 //===============================================
@@ -151,7 +212,9 @@ GQt& GQt::getKey(int _argc, char** _argv, int _index, QString& _key) {
     return *this;
 }
 //===============================================
-bool GQt::isEmptyQTextEdit() {
-	return m_QTextEdit->toPlainText().isEmpty();
+bool GQt::isEmpty() {
+	if(m_eGType == eQLineEdit) return m_QLineEdit->text().isEmpty();
+	if(m_eGType == eQTextEdit) return m_QTextEdit->toPlainText().isEmpty();
+	return false;
 }
 //===============================================

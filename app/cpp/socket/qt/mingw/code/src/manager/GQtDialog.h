@@ -1,20 +1,22 @@
 //===============================================
-#ifndef _GQtWindow_
-#define _GQtWindow_
+#ifndef _GQtDialog_
+#define _GQtDialog_
 //===============================================
-#include "GQtWidget.h"
+#include "GInclude.h"
+#include "GStruct.h"
 //===============================================
-class GQtWindow : public GQtWidget {
+class GQtDialog : public QDialog {
     Q_OBJECT
 
 public:
-    GQtWindow(QWidget* _parent = 0);
-    ~GQtWindow();
+    GQtDialog(QWidget* _parent = 0);
+    ~GQtDialog();
+    static GQtDialog* Create(const QString& _key);
 
-public slots:
-	void onOpenButton();
+signals:
+	void onEmit(const QString& _text);
 
-private:
+protected:
     QMap<QWidget*, QString> m_QWidgetMap;
 };
 //==============================================

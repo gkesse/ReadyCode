@@ -1,24 +1,30 @@
 //===============================================
 #include "GQtWindow.h"
-#include "GSocket.h"
-#include "GXml.h"
-#include "GDefine.h"
 #include "GQt.h"
-#include "GStruct.h"
+#include "GQtDialog.h"
 //===============================================
 GQtWindow::GQtWindow(QWidget* _parent) :
 GQtWidget(_parent) {
     sGQt lParams;
-    GQt lSpinBox, lSlider, lMainLayout;
-    lSpinBox.createQSpinBox();
-    lSpinBox.setRangeQSpinBox(0, 130);
-    lSlider.createQSlider();
-    lSlider.setRangeQSlider(0,  130);
-    lMainLayout.createQHBoxLayout();
+    GQt lButton, lMainLayout;
 
+    lButton.createQPushButton("Ouvrir");
+    lMainLayout.createQVBoxLayout();
+    lMainLayout.addWidget(lButton);
+    lMainLayout.setAlignment(Qt::AlignTop | Qt::AlignRight);
+    lMainLayout.setLayout(this);
+    setWindowTitle(lParams.app_name);
+    resize(lParams.width, lParams.height);
+    lButton.connectObject(SIGNAL(clicked()), this, SLOT(onOpenButton()));
 }
 //===============================================
 GQtWindow::~GQtWindow() {
 
+}
+//===============================================
+void GQtWindow::onOpenButton() {
+	GQtDialog* lFindDialog = GQtDialog::Create("qt/find/dialog");
+	lFindDialog->exec();
+	delete lFindDialog;
 }
 //===============================================
