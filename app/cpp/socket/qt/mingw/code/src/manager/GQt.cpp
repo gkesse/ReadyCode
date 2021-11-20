@@ -221,6 +221,14 @@ GQt& GQt::getKey(int _argc, char** _argv, int _index, QString& _key) {
     return *this;
 }
 //===============================================
+Qt::CaseSensitivity GQt::getCaseSensitivity() {
+	Qt::CaseSensitivity lCaseSensitivity;
+	if(m_eGType == eQCheckBox) {
+		lCaseSensitivity = isChecked() ? Qt::CaseSensitive : Qt::CaseInsensitive;
+	}
+    return lCaseSensitivity;
+}
+//===============================================
 bool GQt::isEmpty() {
     if(m_eGType == eQLineEdit) return m_QLineEdit->text().isEmpty();
     if(m_eGType == eQTextEdit) return m_QTextEdit->toPlainText().isEmpty();

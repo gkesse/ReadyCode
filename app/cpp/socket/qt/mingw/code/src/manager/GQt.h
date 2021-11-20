@@ -58,6 +58,7 @@ public:
     QString getText();
     QString getKey(int _argc, char** _argv, int _index);
     GQt& getKey(int _argc, char** _argv, int _index, QString& _key);
+    Qt::CaseSensitivity getCaseSensitivity();
     bool isEmpty();
     bool isChecked();
 
