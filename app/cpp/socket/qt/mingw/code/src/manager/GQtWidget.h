@@ -11,7 +11,7 @@ class GQtWidget : public QFrame {
 public:
     GQtWidget(QWidget* _parent = 0);
     ~GQtWidget();
-    static GQtWidget* Create(const QString& _key);
+    static GQtWidget* Create(const QString& _key, QWidget* _parent = 0);
 
 protected:
     QMap<QWidget*, QString> m_QWidgetMap;

@@ -23,8 +23,8 @@ GQtWindow::~GQtWindow() {
 }
 //===============================================
 void GQtWindow::onOpenButton() {
-    GQtDialog* lFindDialog = GQtDialog::Create("qt/find/dialog");
-    lFindDialog->exec();
-    delete lFindDialog;
+    GQtDialog* lDialog = GQtDialog::Create("qt/cell/location");
+    lDialog->exec();
+    delete lDialog;
 }
 //===============================================

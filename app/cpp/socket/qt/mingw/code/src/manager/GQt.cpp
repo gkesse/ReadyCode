@@ -19,59 +19,59 @@ GQt::~GQt() {
 
 }
 //===============================================
-GQt& GQt::createQWidget() {
+GQt& GQt::createQWidget(QWidget* _parent) {
     m_eGType = eQWidget;
     m_QWidget = new QWidget;
     return *this;
 }
 //===============================================
-GQt& GQt::createQPushButton(const QString& _name) {
+GQt& GQt::createQPushButton(const QString& _name, QWidget* _parent) {
     m_eGType = eQPushButton;
-    m_QPushButton = new QPushButton;
+    m_QPushButton = new QPushButton(_parent);
     m_QPushButton->setText(_name);
     return *this;
 }
 //===============================================
-GQt& GQt::createQPushButton(const QString& _name, const QString& _key, QMap<QWidget*, QString>& _QWidgetMap) {
-    createQPushButton(_name);
+GQt& GQt::createQPushButton(const QString& _name, const QString& _key, QMap<QWidget*, QString>& _QWidgetMap, QWidget* _parent) {
+    createQPushButton(_name, _parent);
     _QWidgetMap[m_QPushButton] = _key;
     return *this;
 }
 //===============================================
-GQt& GQt::createQCheckBox(const QString& _name) {
+GQt& GQt::createQCheckBox(const QString& _name, QWidget* _parent) {
     m_eGType = eQCheckBox;
-    m_QCheckBox = new QCheckBox(_name);
+    m_QCheckBox = new QCheckBox(_name, _parent);
     return *this;
 }
 //===============================================
-GQt& GQt::createQCheckBox(const QString& _name, const QString& _key, QMap<QWidget*, QString>& _QWidgetMap) {
-    createQCheckBox(_name);
+GQt& GQt::createQCheckBox(const QString& _name, const QString& _key, QMap<QWidget*, QString>& _QWidgetMap, QWidget* _parent) {
+    createQCheckBox(_name, _parent);
     _QWidgetMap[m_QCheckBox] = _key;
     return *this;
 }
 //===============================================
-GQt& GQt::createQLabel(const QString& _text) {
+GQt& GQt::createQLabel(const QString& _text, QWidget* _parent) {
     m_eGType = eQLabel;
-    m_QLabel = new QLabel(_text);
+    m_QLabel = new QLabel(_text, _parent);
     return *this;
 }
 //===============================================
-GQt& GQt::createQLineEdit() {
+GQt& GQt::createQLineEdit(QWidget* _parent) {
     m_eGType = eQLineEdit;
-    m_QLineEdit = new QLineEdit;
+    m_QLineEdit = new QLineEdit(_parent);
     return *this;
 }
 //===============================================
-GQt& GQt::createQLineEdit(const QString& _key, QMap<QWidget*, QString>& _QWidgetMap) {
+GQt& GQt::createQLineEdit(const QString& _key, QMap<QWidget*, QString>& _QWidgetMap, QWidget* _parent) {
     m_eGType = eQLineEdit;
-    m_QLineEdit = new QLineEdit;
+    m_QLineEdit = new QLineEdit(_parent);
     _QWidgetMap[m_QLineEdit] = _key;
     return *this;
 }
 //===============================================
-GQt& GQt::createQTextEdit() {
+GQt& GQt::createQTextEdit(QWidget* _parent) {
     m_eGType = eQTextEdit;
-    m_QTextEdit = new QTextEdit;
+    m_QTextEdit = new QTextEdit(_parent);
     m_QTextEdit->setStyleSheet(QString(""
             "QTextEdit {"
             "border:none;"
@@ -84,27 +84,27 @@ GQt& GQt::createQTextEdit() {
     return *this;
 }
 //===============================================
-GQt& GQt::createQSpinBox() {
+GQt& GQt::createQSpinBox(QWidget* _parent) {
     m_eGType = eQSpinBox;
-    m_QSpinBox = new QSpinBox;
+    m_QSpinBox = new QSpinBox(_parent);
     return *this;
 }
 //===============================================
-GQt& GQt::createQSlider() {
+GQt& GQt::createQSlider(QWidget* _parent) {
     m_eGType = eQSlider;
-    m_QSlider = new QSlider;
+    m_QSlider = new QSlider(_parent);
     return *this;
 }
 //===============================================
-GQt& GQt::createQVBoxLayout() {
+GQt& GQt::createQVBoxLayout(QWidget* _parent) {
     m_eGType = eQVBoxLayout;
-    m_QVBoxLayout = new QVBoxLayout;
+    m_QVBoxLayout = new QVBoxLayout(_parent);
     return *this;
 }
 //===============================================
-GQt& GQt::createQHBoxLayout() {
+GQt& GQt::createQHBoxLayout(QWidget* _parent) {
     m_eGType = eQHBoxLayout;
-    m_QHBoxLayout = new QHBoxLayout;
+    m_QHBoxLayout = new QHBoxLayout(_parent);
     return *this;
 }
 //===============================================
@@ -167,6 +167,14 @@ GQt& GQt::setDefault(bool _ok) {
 //===============================================
 GQt& GQt::setEnabled(bool _ok) {
     getQWidget()->setEnabled(_ok);
+    return *this;
+}
+//===============================================
+GQt& GQt::setValidator(const QString& _pattern, QWidget* _widget) {
+	if(m_eGType == eQLineEdit) {
+		QRegExp lQRegExp(_pattern);
+	    m_QLineEdit->setValidator(new QRegExpValidator(lQRegExp, _widget));
+	}
     return *this;
 }
 //===============================================
@@ -237,6 +245,11 @@ bool GQt::isEmpty() {
 //===============================================
 bool GQt::isChecked() {
     if(m_eGType == eQCheckBox) return m_QCheckBox->isChecked();
+    return false;
+}
+//===============================================
+bool GQt::hasAcceptableInput() {
+    if(m_eGType == eQLineEdit) return m_QLineEdit->hasAcceptableInput();
     return false;
 }
 //===============================================

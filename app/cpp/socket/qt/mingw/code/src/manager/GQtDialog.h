@@ -11,7 +11,7 @@ class GQtDialog : public QDialog {
 public:
     GQtDialog(QWidget* _parent = 0);
     ~GQtDialog();
-    static GQtDialog* Create(const QString& _key);
+    static GQtDialog* Create(const QString& _key, QWidget* _parent = 0);
 
 signals:
     void onEmit(const QString& _text);

@@ -26,19 +26,20 @@ public:
 public:
     GQt(QObject* _parent = 0);
     ~GQt();
-    GQt& createQWidget();
-    GQt& createQPushButton(const QString& _name);
-    GQt& createQPushButton(const QString& _name, const QString& _key, QMap<QWidget*, QString>& _QWidgetMap);
-    GQt& createQCheckBox(const QString& _name);
-    GQt& createQCheckBox(const QString& _name, const QString& _key, QMap<QWidget*, QString>& _QWidgetMap);
-    GQt& createQLabel(const QString& _text);
-    GQt& createQLineEdit();
-    GQt& createQLineEdit(const QString& _key, QMap<QWidget*, QString>& _QWidgetMap);
-    GQt& createQTextEdit();
-    GQt& createQSpinBox();
-    GQt& createQSlider();
-    GQt& createQVBoxLayout();
-    GQt& createQHBoxLayout();
+    GQt& createQWidget(QWidget* _parent = 0);
+    GQt& createQPushButton(const QString& _name, QWidget* _parent = 0);
+    GQt& createQPushButton(const QString& _name, const QString& _key, QMap<QWidget*, QString>& _QWidgetMap, QWidget* _parent = 0);
+    GQt& createQCheckBox(const QString& _name, QWidget* _parent = 0);
+    GQt& createQCheckBox(const QString& _name, const QString& _key, QMap<QWidget*, QString>& _QWidgetMap, QWidget* _parent = 0);
+    GQt& createQLabel(const QString& _text, QWidget* _parent = 0);
+    GQt& createQLineEdit(QWidget* _parent = 0);
+    GQt& createQLineEdit(const QString& _key, QMap<QWidget*, QString>& _QWidgetMap, QWidget* _parent = 0);
+    GQt& createQTextEdit(QWidget* _parent = 0);
+    GQt& createQSpinBox(QWidget* _parent = 0);
+    GQt& createQSlider(QWidget* _parent = 0);
+    GQt& createQVBoxLayout(QWidget* _parent = 0);
+    GQt& createQHBoxLayout(QWidget* _parent = 0);
+    GQt& createQRegExp(const QString& _pattern);
     GQt& addWidget(GQt& _widget);
     GQt& addLayout(GQt& _layout);
     GQt& addStretch(int _stretch = 0);
@@ -51,6 +52,7 @@ public:
     GQt& setText(const QString& _text);
     GQt& setDefault(bool _ok);
     GQt& setEnabled(bool _ok);
+    GQt& setValidator(const QString& _pattern, QWidget* _widget);
     GQt& connectObject(const char* _signal, const QObject* _member, const char* _slot);
     GQt& connectObject(const char* _signal, GQt& _member, const char* _slot);
     QWidget* getQWidget();
@@ -61,6 +63,7 @@ public:
     Qt::CaseSensitivity getCaseSensitivity();
     bool isEmpty();
     bool isChecked();
+    bool hasAcceptableInput();
 
 private:
     eGType m_eGType;
