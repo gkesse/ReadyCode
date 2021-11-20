@@ -17,9 +17,9 @@ GQtUi* GQtUi::Create(const QString& _key) {
 }
 //===============================================
 void GQtUi::run(int _argc, char** _argv) {
-	GQt lQt; QString lKey;
+    GQt lQt;
     QApplication lApp(_argc, _argv);
-    lQt.getKey(_argc, _argv, 2, lKey);
+    QString lKey = lQt.getKey(_argc, _argv, 2);
     GQtWidget* lWindow = GQtWidget::Create(lKey);
     lWindow->show();
     lApp.exec();

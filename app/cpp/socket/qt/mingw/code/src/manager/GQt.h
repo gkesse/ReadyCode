@@ -5,23 +5,23 @@
 #include "GInclude.h"
 //===============================================
 class GQt : public QObject {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	enum eGType {
-		eUnknown,
-		eQWidget,
-		eQPushButton,
-		eQCheckBox,
-		eQLabel,
-		eQLineEdit,
-		eQTextEdit,
-		eQSpinBox,
-		eQSlider,
-		eQVBoxLayout,
-		eQHBoxLayout,
-		eLast
-	};
+    enum eGType {
+        eUnknown,
+        eQWidget,
+        eQPushButton,
+        eQCheckBox,
+        eQLabel,
+        eQLineEdit,
+        eQTextEdit,
+        eQSpinBox,
+        eQSlider,
+        eQVBoxLayout,
+        eQHBoxLayout,
+        eLast
+    };
 
 public:
     GQt(QObject* _parent = 0);
@@ -55,9 +55,11 @@ public:
     GQt& connectObject(const char* _signal, GQt& _member, const char* _slot);
     QWidget* getQWidget();
     QBoxLayout* getQBoxLayout();
-    GQt& getText(QString& _data);
+    QString getText();
+    QString getKey(int _argc, char** _argv, int _index);
     GQt& getKey(int _argc, char** _argv, int _index, QString& _key);
     bool isEmpty();
+    bool isChecked();
 
 private:
     eGType m_eGType;

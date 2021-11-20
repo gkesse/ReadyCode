@@ -33,10 +33,10 @@ void GQtXml::onEvent() {
     QString lWidgetId = m_QWidgetMap[lWidget];
 
     if(lWidgetId == "send") {
-    	if(m_textEdit.isEmpty()) return;
-    	GManager lMgr; QString lDataIn; std::string lDataOut;
-    	m_textEdit.getText(lDataIn);
-    	lMgr.callServer(lDataIn.toStdString(), lDataOut);
+        if(m_textEdit.isEmpty()) return;
+        GManager lMgr; std::string lDataOut;
+        QString lDataIn = m_textEdit.getText();
+        lMgr.callServer(lDataIn.toStdString(), lDataOut);
     }
 }
 //===============================================

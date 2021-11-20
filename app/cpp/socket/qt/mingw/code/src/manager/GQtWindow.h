@@ -12,7 +12,7 @@ public:
     ~GQtWindow();
 
 public slots:
-	void onOpenButton();
+    void onOpenButton();
 
 private:
     QMap<QWidget*, QString> m_QWidgetMap;

@@ -14,7 +14,7 @@ public:
     static GQtDialog* Create(const QString& _key);
 
 signals:
-	void onEmit(const QString& _text);
+    void onEmit(const QString& _text);
 
 protected:
     QMap<QWidget*, QString> m_QWidgetMap;

@@ -7,11 +7,11 @@
 #define GLOG GLog::Instance()
 //===============================================
 enum eGLog {
-	eGMSG,
-	eGWAR,
-	eGERR,
-	eGFAT,
-	eGCRI
+    eGMSG,
+    eGWAR,
+    eGERR,
+    eGFAT,
+    eGCRI
 };
 //===============================================
 #define GLEVEL(_x) #_x
