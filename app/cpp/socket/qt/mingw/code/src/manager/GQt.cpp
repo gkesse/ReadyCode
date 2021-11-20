@@ -13,6 +13,7 @@ GQt::GQt(QObject* _parent) : QObject(_parent) {
     m_QSlider = 0;
     m_QVBoxLayout = 0;
     m_QHBoxLayout = 0;
+    m_QDialogButtonBox = 0;
 }
 //===============================================
 GQt::~GQt() {
@@ -108,6 +109,12 @@ GQt& GQt::createQHBoxLayout(QWidget* _parent) {
     return *this;
 }
 //===============================================
+GQt& GQt::createQDialogButtonBox(QWidget* _parent) {
+    m_eGType = eQDialogButtonBox;
+    m_QDialogButtonBox = new QDialogButtonBox(_parent);
+    return *this;
+}
+//===============================================
 GQt& GQt::addWidget(GQt& _widget) {
     getQBoxLayout()->addWidget(_widget.getQWidget());
     return *this;
@@ -120,6 +127,11 @@ GQt& GQt::addLayout(GQt& _layout) {
 //===============================================
 GQt& GQt::addStretch(int _stretch) {
     getQBoxLayout()->addStretch(_stretch);
+    return *this;
+}
+//===============================================
+GQt& GQt::addButton(QDialogButtonBox::StandardButton _button) {
+    if(m_eGType == eQDialogButtonBox) m_QDialogButtonBox->addButton(_button);
     return *this;
 }
 //===============================================
@@ -170,6 +182,22 @@ GQt& GQt::setEnabled(bool _ok) {
     return *this;
 }
 //===============================================
+GQt& GQt::setEnabled(QDialogButtonBox::StandardButton _button, GQt& _widget) {
+	if(m_eGType == eQDialogButtonBox) {
+		if(_widget.m_eGType == eQLineEdit) {
+			m_QDialogButtonBox->button(_button)->setEnabled(_widget.hasAcceptableInput());
+		}
+	}
+    return *this;
+}
+//===============================================
+GQt& GQt::setEnabled(QDialogButtonBox::StandardButton _button, bool _ok) {
+	if(m_eGType == eQDialogButtonBox) {
+		m_QDialogButtonBox->button(_button)->setEnabled(_ok);
+	}
+    return *this;
+}
+//===============================================
 GQt& GQt::setValidator(const QString& _pattern, QWidget* _widget) {
 	if(m_eGType == eQLineEdit) {
 		QRegExp lQRegExp(_pattern);
@@ -197,6 +225,7 @@ QWidget* GQt::getQWidget() {
     if(m_eGType == eQTextEdit) return m_QTextEdit;
     if(m_eGType == eQSpinBox) return m_QSpinBox;
     if(m_eGType == eQSlider) return m_QSlider;
+    if(m_eGType == eQDialogButtonBox) return m_QDialogButtonBox;
     return 0;
 }
 //===============================================

@@ -21,8 +21,8 @@ signals:
     void emitFindNext(const QString& _text, Qt::CaseSensitivity _cs);
 
 private:
-    GQt m_okButton;
     GQt m_cellEdit;
+    GQt m_buttonBox;
 };
 //==============================================
 #endif

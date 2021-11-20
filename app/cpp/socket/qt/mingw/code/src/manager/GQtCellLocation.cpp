@@ -7,8 +7,8 @@ GQtCellLocation::GQtCellLocation(QWidget* _parent) :
 GQtDialog(_parent) {
     sGQt lParams;
     lParams.app_name = "ReadyApp | Localisation de la cellule ";
-    GQt lTopLayout, lBottomLayout, lMainLayout;
-    GQt lCellLabel, lCancelButton;
+    GQt lTopLayout, lMainLayout;
+    GQt lCellLabel;
 
     lCellLabel.createQLabel("Cellule :");
     m_cellEdit.createQLineEdit();
@@ -18,24 +18,23 @@ GQtDialog(_parent) {
     lTopLayout.addWidget(lCellLabel);
     lTopLayout.addWidget(m_cellEdit);
 
-    m_okButton.createQPushButton("OK");
-    lCancelButton.createQPushButton("Annuler");
-    lBottomLayout.createQHBoxLayout();
-    lBottomLayout.addWidget(lCellLabel);
-    lBottomLayout.addWidget(m_cellEdit);
+    m_buttonBox.createQDialogButtonBox();
+    m_buttonBox.addButton(QDialogButtonBox::Ok);
+    m_buttonBox.addButton(QDialogButtonBox::Cancel);
+    m_buttonBox.setEnabled(QDialogButtonBox::Ok, false);
 
     lMainLayout.createQVBoxLayout();
     lMainLayout.addLayout(lTopLayout);
-    lMainLayout.addLayout(lBottomLayout);
+    lMainLayout.addWidget(m_buttonBox);
     lMainLayout.setLayout(this);
 
     setWindowTitle(lParams.app_name);
     resize(lParams.width, lParams.height);
     setFixedHeight(sizeHint().height());
 
-    m_okButton.connectObject(SIGNAL(clicked()), this, SLOT(onOkButton()));
+    m_buttonBox.connectObject(SIGNAL(accepted()), this, SLOT(accept()));
+    m_buttonBox.connectObject(SIGNAL(rejected()), this, SLOT(reject()));
     m_cellEdit.connectObject(SIGNAL(textChanged(QString)), this, SLOT(onCellEdit(QString)));
-    lCancelButton.connectObject(SIGNAL(clicked()), this, SLOT(close()));
 }
 //===============================================
 GQtCellLocation::~GQtCellLocation() {
@@ -49,6 +48,6 @@ void GQtCellLocation::onOkButton() {
 //===============================================
 void GQtCellLocation::onCellEdit(const QString& _text) {
     GLOG->log(GMSG);
-    m_okButton.setEnabled(m_cellEdit.hasAcceptableInput());
+    m_buttonBox.setEnabled(QDialogButtonBox::Ok, m_cellEdit);
 }
 //===============================================

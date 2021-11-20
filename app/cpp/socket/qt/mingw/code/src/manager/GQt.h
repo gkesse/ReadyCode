@@ -20,6 +20,7 @@ public:
         eQSlider,
         eQVBoxLayout,
         eQHBoxLayout,
+		eQDialogButtonBox,
         eLast
     };
 
@@ -39,10 +40,11 @@ public:
     GQt& createQSlider(QWidget* _parent = 0);
     GQt& createQVBoxLayout(QWidget* _parent = 0);
     GQt& createQHBoxLayout(QWidget* _parent = 0);
-    GQt& createQRegExp(const QString& _pattern);
+    GQt& createQDialogButtonBox(QWidget* _parent = 0);
     GQt& addWidget(GQt& _widget);
     GQt& addLayout(GQt& _layout);
     GQt& addStretch(int _stretch = 0);
+    GQt& addButton(QDialogButtonBox::StandardButton _button);
     GQt& setBuddy(GQt& _widget);
     GQt& setQWidget(QWidget* _widget);
     GQt& setWindowTitle(const QString& _title);
@@ -52,6 +54,8 @@ public:
     GQt& setText(const QString& _text);
     GQt& setDefault(bool _ok);
     GQt& setEnabled(bool _ok);
+    GQt& setEnabled(QDialogButtonBox::StandardButton _button, GQt& _widget);
+    GQt& setEnabled(QDialogButtonBox::StandardButton _button, bool _ok);
     GQt& setValidator(const QString& _pattern, QWidget* _widget);
     GQt& connectObject(const char* _signal, const QObject* _member, const char* _slot);
     GQt& connectObject(const char* _signal, GQt& _member, const char* _slot);
@@ -77,6 +81,7 @@ private:
     QSlider* m_QSlider;
     QVBoxLayout* m_QVBoxLayout;
     QHBoxLayout* m_QHBoxLayout;
+    QDialogButtonBox* m_QDialogButtonBox;
 };
 //==============================================
 #endif
