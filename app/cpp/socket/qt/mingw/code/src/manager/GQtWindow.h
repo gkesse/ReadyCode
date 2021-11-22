@@ -13,9 +13,6 @@ public:
 
 public slots:
     void onOpenButton();
-
-private:
-    QMap<QWidget*, QString> m_QWidgetMap;
 };
 //==============================================
 #endif

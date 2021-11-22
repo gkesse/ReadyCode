@@ -27,7 +27,7 @@ GOpenGLUi* GOpenGLUi::Create(const std::string& key) {
 }
 //===============================================
 void GOpenGLUi::run(int _argc, char** _argv) {
-    sGApp* lApp = GResource::Instance()->data()->app;
+    sGApp* lApp = GResource::Instance()->getData()->app;
 
     lParams.win.width = 400;
     lParams.win.height = 400;

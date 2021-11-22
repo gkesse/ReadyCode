@@ -3,8 +3,7 @@
 #include "GXml.h"
 #include "GResource.h"
 //===============================================
-GXmlUi::GXmlUi(QObject* _parent) :
-GObject(_parent) {
+GXmlUi::GXmlUi() {
 
 }
 //===============================================
@@ -13,12 +12,12 @@ GXmlUi::~GXmlUi() {
 }
 //===============================================
 GXmlUi* GXmlUi::Create(const QString& _key) {
-    if(_key == "default") {return new GXmlUi;}
+    if(_key == "default") return new GXmlUi;
     return new GXmlUi;
 }
 //===============================================
 void GXmlUi::run(int argc, char** argv) {
-    sGApp* lApp = GResource::Instance()->data()->app;
+    sGApp* lApp = GResource::Instance()->getData()->app;
 
     GXml lXml, lProduct;
     std::string lData;

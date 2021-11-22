@@ -13,11 +13,10 @@ public:
     ~GQtXml();
 
 public slots:
-    void onEvent();
+    void onSendButton();
 
 private:
-    QMap<QWidget*, QString> m_QWidgetMap;
-    GQt m_textEdit;
+    QTextEdit* m_textEdit;
 };
 //==============================================
 #endif

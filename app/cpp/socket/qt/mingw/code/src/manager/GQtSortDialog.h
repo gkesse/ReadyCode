@@ -1,14 +1,19 @@
 //===============================================
-#ifndef _GSocketClient_
-#define _GSocketClient_
+#ifndef _GQtSortDialog_
+#define _GQtSortDialog_
 //===============================================
-#include "GSocketUi.h"
+#include "GQtDialog.h"
+#include "GQt.h"
 //===============================================
-class GSocketClient : public GSocketUi {
+class GQtSortDialog : public GQtDialog {
+    Q_OBJECT
+
 public:
-    GSocketClient();
-    ~GSocketClient();
-    void run(int _argc, char** _argv);
+    GQtSortDialog(QWidget* _parent = 0);
+    ~GQtSortDialog();
+
+public slots:
+    void onMoreButton();
 };
 //==============================================
 #endif

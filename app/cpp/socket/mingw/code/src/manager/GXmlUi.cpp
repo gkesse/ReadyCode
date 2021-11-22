@@ -18,7 +18,7 @@ GXmlUi* GXmlUi::Create(const std::string& _key) {
 }
 //===============================================
 void GXmlUi::run(int argc, char** argv) {
-    sGApp* lApp = GResource::Instance()->data()->app;
+    sGApp* lApp = GResource::Instance()->getData()->app;
     GXml lXml, lDoc, lProduct, lNew;
     std::string lData;
     lXml.createDoc();

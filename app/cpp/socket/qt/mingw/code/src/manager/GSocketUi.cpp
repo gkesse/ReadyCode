@@ -3,8 +3,7 @@
 #include "GSocketServer.h"
 #include "GSocketClient.h"
 //===============================================
-GSocketUi::GSocketUi(QObject* _parent) :
-GObject(_parent) {
+GSocketUi::GSocketUi() {
 
 }
 //===============================================
@@ -12,11 +11,11 @@ GSocketUi::~GSocketUi() {
 
 }
 //===============================================
-GSocketUi* GSocketUi::Create(const QString& _key, QObject* _parent) {
-    if(_key == "default") {return new GSocketUi(_parent);}
-    if(_key == "server") {return new GSocketServer(_parent);}
-    if(_key == "client") {return new GSocketClient(_parent);}
-    return new GSocketUi(_parent);
+GSocketUi* GSocketUi::Create(const QString& _key) {
+    if(_key == "default") {return new GSocketUi;}
+    if(_key == "server") {return new GSocketServer;}
+    if(_key == "client") {return new GSocketClient;}
+    return new GSocketUi;
 }
 //===============================================
 void GSocketUi::run(int _argc, char** _argv) {

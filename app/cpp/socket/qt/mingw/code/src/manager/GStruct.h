@@ -7,6 +7,7 @@
 struct sGQt;
 struct sGXml;
 struct sGSocket;
+struct sGSQLite;
 //===============================================
 class GSocket;
 //===============================================
@@ -34,6 +35,17 @@ struct sGSocket {
     int minor;
     void* on_start;
     sGSocket();
+};
+//===============================================
+struct sGSQLite {
+    std::string version;
+    std::vector<std::string>* names;
+    std::string data_val;
+    std::vector<std::string> data_list;
+    std::vector<std::vector<std::string>> data_map;
+    int row_count;
+    bool names_on;
+    sGSQLite();
 };
 //==============================================
 #endif

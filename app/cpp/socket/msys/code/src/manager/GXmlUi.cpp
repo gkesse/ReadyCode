@@ -17,7 +17,7 @@ GXmlUi* GXmlUi::Create(const std::string& key) {
 }
 //===============================================
 void GXmlUi::run(int argc, char** argv) {
-    sGApp* lApp = GResource::Instance()->data()->app;
+    sGApp* lApp = GResource::Instance()->getData()->app;
 
     GXml lXml;
     lXml.filename(lApp->xml_file);

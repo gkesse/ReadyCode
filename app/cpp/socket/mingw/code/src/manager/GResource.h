@@ -14,7 +14,7 @@ private:
 public:
     ~GResource();
     static GResource* Instance();
-    sGResource* data();
+    sGResource* getData();
 
 private:
     static GResource* m_instance;

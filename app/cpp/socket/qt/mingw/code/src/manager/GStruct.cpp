@@ -22,3 +22,9 @@ sGSocket::sGSocket() {
     hostname_on = false;
 }
 //===============================================
+sGSQLite::sGSQLite() {
+    row_count = 0;
+    names = 0;
+    names_on = true;
+}
+//===============================================

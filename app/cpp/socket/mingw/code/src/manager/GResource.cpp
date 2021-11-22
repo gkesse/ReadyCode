@@ -28,7 +28,7 @@ GResource* GResource::Instance() {
     return m_instance;
 }
 //===============================================
-sGResource* GResource::data() {
+sGResource* GResource::getData() {
     return m_res;
 }
 //===============================================

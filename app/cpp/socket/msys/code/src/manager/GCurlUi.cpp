@@ -17,7 +17,7 @@ GCurlUi* GCurlUi::Create(const std::string& key) {
 }
 //===============================================
 void GCurlUi::run(int argc, char** argv) {
-    sGApp* lApp = GResource::Instance()->data()->app;
+    sGApp* lApp = GResource::Instance()->getData()->app;
 
     GCurl lCurl;
     lCurl.init();

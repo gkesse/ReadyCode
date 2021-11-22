@@ -28,5 +28,5 @@ HEADERS +=\
 
 LIBS +=\
     -L$$GRLIB\lib \
-    -lws2_32 -lxml2 -lz -liconv \
+    -lws2_32 -lxml2 -lz -liconv -lsqlite3 \
     

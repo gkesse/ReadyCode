@@ -1,14 +1,16 @@
 //===============================================
-#ifndef _GSocketClient_
-#define _GSocketClient_
+#ifndef _GQtSpreadWindow_
+#define _GQtSpreadWindow_
 //===============================================
-#include "GSocketUi.h"
+#include "GQtMainWindow.h"
 //===============================================
-class GSocketClient : public GSocketUi {
+class GQtSpreadWindow : public GQtMainWindow {
+    Q_OBJECT
+
 public:
-    GSocketClient();
-    ~GSocketClient();
-    void run(int _argc, char** _argv);
+    GQtSpreadWindow(QWidget* _parent = 0);
+    ~GQtSpreadWindow();
+    void createActions();
 };
 //==============================================
 #endif

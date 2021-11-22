@@ -5,8 +5,7 @@
 #include "GSocket.h"
 #include "GThread.h"
 //===============================================
-GSocketServer::GSocketServer(QObject* _parent) :
-GSocketUi(_parent) {
+GSocketServer::GSocketServer() {
 
 }
 //===============================================

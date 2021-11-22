@@ -5,10 +5,8 @@
 #include "GSocketUi.h"
 //===============================================
 class GSocketServer : public GSocketUi {
-    Q_OBJECT
-
 public:
-    GSocketServer(QObject* _parent = 0);
+    GSocketServer();
     ~GSocketServer();
     void run(int _argc, char** _argv);
 };

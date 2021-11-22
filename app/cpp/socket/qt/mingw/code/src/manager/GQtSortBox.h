@@ -1,14 +1,19 @@
 //===============================================
-#ifndef _GSocketClient_
-#define _GSocketClient_
+#ifndef _GQtSortBox_
+#define _GQtSortBox_
 //===============================================
-#include "GSocketUi.h"
+#include "GQtWidget.h"
 //===============================================
-class GSocketClient : public GSocketUi {
+class GQtSortBox : public GQtWidget {
+    Q_OBJECT
+
 public:
-    GSocketClient();
-    ~GSocketClient();
-    void run(int _argc, char** _argv);
+    GQtSortBox(QWidget* _parent = 0);
+    ~GQtSortBox();
+    void setTitle(const QString& _title);
+
+private:
+    QGroupBox* m_groupBox;
 };
 //==============================================
 #endif

@@ -3,7 +3,6 @@
 #define _GQtFindDialog_
 //===============================================
 #include "GQtDialog.h"
-#include "GQt.h"
 //===============================================
 class GQtFindDialog : public GQtDialog {
     Q_OBJECT
@@ -21,10 +20,10 @@ signals:
     void emitFindNext(const QString& _text, Qt::CaseSensitivity _cs);
 
 private:
-    GQt m_findButton;
-    GQt m_findEdit;
-    GQt m_caseCheckBox;
-    GQt m_backwardCheckBox;
+    QPushButton* m_findButton;
+    QLineEdit* m_findEdit;
+    QCheckBox* m_caseCheckBox;
+    QCheckBox* m_backwardCheckBox;
 };
 //==============================================
 #endif

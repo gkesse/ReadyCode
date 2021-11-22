@@ -1,21 +1,24 @@
 //===============================================
 #include "GQtWindow.h"
+#include "GLog.h"
 #include "GQt.h"
 #include "GQtDialog.h"
+#include "GQtMainWindow.h"
 //===============================================
 GQtWindow::GQtWindow(QWidget* _parent) :
 GQtWidget(_parent) {
     sGQt lParams;
-    GQt lButton, lMainLayout;
 
-    lButton.createQPushButton("Ouvrir");
-    lMainLayout.createQVBoxLayout();
-    lMainLayout.addWidget(lButton);
-    lMainLayout.setAlignment(Qt::AlignTop | Qt::AlignRight);
-    lMainLayout.setLayout(this);
+    QPushButton* lButton = new QPushButton("Ouvrir");
+    QVBoxLayout* lMainLayout = new QVBoxLayout;
+    lMainLayout->addWidget(lButton);
+    lMainLayout->setAlignment(Qt::AlignTop | Qt::AlignRight);
+
+    setLayout(lMainLayout);
     setWindowTitle(lParams.app_name);
     resize(lParams.width, lParams.height);
-    lButton.connectObject(SIGNAL(clicked()), this, SLOT(onOpenButton()));
+
+    connect(lButton, SIGNAL(clicked()), this, SLOT(onOpenButton()));
 }
 //===============================================
 GQtWindow::~GQtWindow() {
@@ -23,8 +26,8 @@ GQtWindow::~GQtWindow() {
 }
 //===============================================
 void GQtWindow::onOpenButton() {
-    GQtDialog* lDialog = GQtDialog::Create("qt/cell/location");
-    lDialog->exec();
-    delete lDialog;
+    GLOG->log(GMSG);
+    GQtMainWindow* lWindow = GQtMainWindow::Create("page/spreadsheet");
+    lWindow->show();
 }
 //===============================================

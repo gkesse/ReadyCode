@@ -9,6 +9,7 @@ GResource::GResource() {
     // app
     m_res->app = new sGApp;
     m_res->app->xml_file = "C:/Users/Admin/Downloads/Programs/ReadyData/data/xml/catalog_02.xml";
+    m_res->app->sqlite_file = "C:/Users/Admin/Downloads/Programs/ReadyData/data/sqlite/database.dat";
 }
 //===============================================
 GResource::~GResource() {
@@ -22,7 +23,7 @@ GResource* GResource::Instance() {
     return m_instance;
 }
 //===============================================
-sGResource* GResource::data() {
+sGResource* GResource::getData() {
     return m_res;
 }
 //===============================================

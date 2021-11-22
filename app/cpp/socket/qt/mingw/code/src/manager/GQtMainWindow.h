@@ -1,15 +1,17 @@
 //===============================================
-#ifndef _GSocketUi_
-#define _GSocketUi_
+#ifndef _GQtMainWindow_
+#define _GQtMainWindow_
 //===============================================
 #include "GInclude.h"
+#include "GStruct.h"
 //===============================================
-class GSocketUi {
+class GQtMainWindow : public QMainWindow {
+    Q_OBJECT
+
 public:
-    GSocketUi();
-    virtual ~GSocketUi();
-    static GSocketUi* Create(const QString& key);
-    virtual void run(int _argc, char** _argv);
+    GQtMainWindow(QWidget* _parent = 0);
+    ~GQtMainWindow();
+    static GQtMainWindow* Create(const QString& _key, QWidget* _parent = 0);
 };
 //==============================================
 #endif

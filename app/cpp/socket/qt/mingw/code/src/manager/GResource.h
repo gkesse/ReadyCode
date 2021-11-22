@@ -7,6 +7,8 @@
 struct sGResource;
 struct sGApp;
 //===============================================
+#define GRESOURCE GResource::Instance()
+//===============================================
 class GResource {
 private:
     GResource();
@@ -14,7 +16,7 @@ private:
 public:
     ~GResource();
     static GResource* Instance();
-    sGResource* data();
+    sGResource* getData();
 
 private:
     static GResource* m_instance;
@@ -28,6 +30,8 @@ struct sGResource {
 struct sGApp {
     // xml
     std::string xml_file;
+    // sqlite
+    std::string sqlite_file;
 };
 //==============================================
 #endif

@@ -5,38 +5,36 @@
 //===============================================
 GQtXml::GQtXml(QWidget* _parent) :
 GQtWidget(_parent) {
-    sGQt lParams;
-    GQt lSendButton, lButtonLayout, lCenterLayout, lMainLayout;
+    sGQt lParams; GQt lQt;
 
-    m_textEdit.createQTextEdit();
-    lSendButton.createQPushButton("Envoyer", "send", m_QWidgetMap);
-    lButtonLayout.createQVBoxLayout();
-    lButtonLayout.addWidget(lSendButton);
-    lButtonLayout.setAlignment(Qt::AlignTop);
-    lCenterLayout.createQHBoxLayout();
-    lCenterLayout.addWidget(m_textEdit);
-    lCenterLayout.addLayout(lButtonLayout);
-    lMainLayout.createQVBoxLayout();
-    lMainLayout.addLayout(lCenterLayout);
-    lMainLayout.setLayout(this);
+    m_textEdit = lQt.createQTextEdit();
+    QPushButton* lSendButton = new QPushButton("Envoyer");
+    QVBoxLayout* lButtonLayout = new QVBoxLayout;
+    lButtonLayout->addWidget(lSendButton);
+    lButtonLayout->setAlignment(Qt::AlignTop);
+    QHBoxLayout* lCenterLayout = new QHBoxLayout();
+    lCenterLayout->addWidget(m_textEdit);
+    lCenterLayout->addLayout(lButtonLayout);
+
+    QVBoxLayout* lMainLayout = new QVBoxLayout;
+    lMainLayout->addLayout(lCenterLayout);
+
+    setLayout(lMainLayout);
     setWindowTitle(lParams.app_name);
     resize(lParams.width, lParams.height);
-    lSendButton.connectObject(SIGNAL(clicked()), this, SLOT(onEvent()));
+
+    connect(lSendButton, SIGNAL(clicked()), this, SLOT(onSendButton()));
 }
 //===============================================
 GQtXml::~GQtXml() {
 
 }
 //===============================================
-void GQtXml::onEvent() {
-    QWidget* lWidget = qobject_cast<QWidget*>(sender());
-    QString lWidgetId = m_QWidgetMap[lWidget];
-
-    if(lWidgetId == "send") {
-        if(m_textEdit.isEmpty()) return;
-        GManager lMgr; std::string lDataOut;
-        QString lDataIn = m_textEdit.getText();
-        lMgr.callServer(lDataIn.toStdString(), lDataOut);
-    }
+void GQtXml::onSendButton() {
+    GQt lQt; GManager lMgr;
+    if(lQt.isEmpty(m_textEdit)) return;
+    std::string lDataIn, lDataOut;
+    lDataIn = m_textEdit->toPlainText().toStdString();
+    lMgr.callServer(lDataIn, lDataOut);
 }
 //===============================================

@@ -1,14 +1,15 @@
 //===============================================
-#ifndef _GSocketClient_
-#define _GSocketClient_
+#ifndef _GSQLiteUi_
+#define _GSQLiteUi_
 //===============================================
-#include "GSocketUi.h"
+#include "GInclude.h"
 //===============================================
-class GSocketClient : public GSocketUi {
+class GSQLiteUi {
 public:
-    GSocketClient();
-    ~GSocketClient();
-    void run(int _argc, char** _argv);
+    GSQLiteUi();
+    virtual ~GSQLiteUi();
+    static GSQLiteUi* Create(const QString& _key);
+    virtual void run(int _argc, char** _argv);
 };
 //==============================================
 #endif

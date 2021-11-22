@@ -2,15 +2,13 @@
 #ifndef _GXmlUi_
 #define _GXmlUi_
 //===============================================
-#include "GObject.h"
+#include "GInclude.h"
 //===============================================
 class GXml;
 //===============================================
-class GXmlUi : public GObject {
-    Q_OBJECT
-
+class GXmlUi {
 public:
-    GXmlUi(QObject* _parent = 0);
+    GXmlUi();
     virtual ~GXmlUi();
     static GXmlUi* Create(const QString& _key);
     virtual void run(int _argc, char** _argv);

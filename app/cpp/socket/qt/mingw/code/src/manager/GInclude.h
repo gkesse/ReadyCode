@@ -10,6 +10,8 @@
 // libxml2
 #include <libxml/tree.h>
 #include <libxml/xpath.h>
+// sqlite
+#include <sqlite3.h>
 //==============================================
 #endif
 //==============================================

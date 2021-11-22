@@ -13,13 +13,13 @@ GSocketClient::~GSocketClient() {
 }
 //===============================================
 void GSocketClient::run(int argc, char** argv) {
-    sGApp* lApp = GResource::Instance()->data()->app;
+    sGApp* lApp = GResource::Instance()->getData()->app;
 
     GFile lFile;
     lFile.filename(lApp->cascade_file);
 
     GString lData;
-    lData.data(lFile.read());
+    lData.getData(lFile.read());
 
     GSocket lClient;
     lClient.init();

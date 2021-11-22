@@ -11,8 +11,11 @@ public:
     GQtOpenGL(QWidget* _parent = 0);
     ~GQtOpenGL();
 
+public slots:
+    void onSendButton();
+
 private:
-    QMap<QWidget*, QString> m_QWidgetMap;
+    QTextEdit* m_textEdit;
 };
 //==============================================
 #endif
