@@ -4,6 +4,7 @@
 #include "GXmlUi.h"
 #include "GSocketUi.h"
 #include "GSQLiteUi.h"
+#include "GFileUi.h"
 //===============================================
 GProcess* GProcess::m_instance = 0;
 //===============================================
@@ -30,6 +31,7 @@ void GProcess::run(int _argc, char** _argv) {
     if(lKey == "xml") {runXml(_argc, _argv); return;}
     if(lKey == "socket") {runSocket(_argc, _argv); return;}
     if(lKey == "sqlite") {runSQLite(_argc, _argv); return;}
+    if(lKey == "file") {runFile(_argc, _argv); return;}
     runDefault(_argc, _argv);
 }
 //===============================================
@@ -62,6 +64,13 @@ void GProcess::runSQLite(int _argc, char** _argv) {
     QString lKey = "default";
     if(_argc > 2) {lKey = _argv[2];}
     GSQLiteUi* lProcess = GSQLiteUi::Create(lKey);
+    lProcess->run(_argc, _argv);
+}
+//===============================================
+void GProcess::runFile(int _argc, char** _argv) {
+    QString lKey = "default";
+    if(_argc > 2) {lKey = _argv[2];}
+    GFileUi* lProcess = GFileUi::Create(lKey);
     lProcess->run(_argc, _argv);
 }
 //===============================================

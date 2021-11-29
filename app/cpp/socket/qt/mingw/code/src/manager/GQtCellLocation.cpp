@@ -40,7 +40,7 @@ GQtCellLocation::~GQtCellLocation() {
 }
 //===============================================
 void GQtCellLocation::onCellEdit(const QString& _text) {
-    GLOG->log(GMSG); GQt lQt;
+    GLOG->showMsg(GMSG); GQt lQt;
     lQt.setEnabled(m_buttonBox, QDialogButtonBox::Ok, m_cellEdit->hasAcceptableInput());
 }
 //===============================================

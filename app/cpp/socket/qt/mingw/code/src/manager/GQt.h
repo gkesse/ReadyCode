@@ -4,10 +4,13 @@
 //===============================================
 #include "GInclude.h"
 //===============================================
+#define GQT GQt::Instance()
+//===============================================
 class GQt {
 public:
     GQt();
     ~GQt();
+    static GQt* Instance();
     QTextEdit* createQTextEdit(QWidget* _QWidget = 0);
     GQt& addSpacer(QVBoxLayout* _QVBoxLayout);
     GQt& addSpacer(QHBoxLayout* _QHBoxLayout);
@@ -19,6 +22,9 @@ public:
     Qt::CaseSensitivity getCaseSensitivity(QCheckBox* _QCheckBox);
     bool isEmpty(QLineEdit* _QLineEdit);
     bool isEmpty(QTextEdit* _QTextEdit);
+
+private:
+    static GQt* m_instance;
 };
 //==============================================
 #endif

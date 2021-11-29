@@ -7,7 +7,10 @@
 struct sGResource;
 struct sGApp;
 //===============================================
-#define GRESOURCE GResource::Instance()
+#define GRES GResource::Instance()
+#define GAPP GRES->getData()->app
+#define GPATH(_x, _y) GRES->getPath(_x, _y)
+#define GIMG(_x) GPATH("img", _x)
 //===============================================
 class GResource {
 private:
@@ -17,6 +20,8 @@ public:
     ~GResource();
     static GResource* Instance();
     sGResource* getData();
+    const char* getPath(const std::string& _resource, const std::string& _filename);
+    void loadFileMap(const std::string& _path, const std::string& _resource, std::map<std::string, std::string>& _map);
 
 private:
     static GResource* m_instance;
@@ -28,6 +33,8 @@ struct sGResource {
 };
 //==============================================
 struct sGApp {
+    // data
+    std::string data_path;
     // xml
     std::string xml_file;
     // sqlite

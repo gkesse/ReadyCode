@@ -12,6 +12,8 @@ struct sGSQLite;
 class GSocket;
 //===============================================
 struct sGQt {
+    QString organization_name;
+    QString domain_name;
     QString app_name;
     int width;
     int height;

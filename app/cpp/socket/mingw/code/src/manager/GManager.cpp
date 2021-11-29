@@ -4,12 +4,21 @@
 #include "GThread.h"
 #include "GSocket.h"
 //===============================================
+GManager* GManager::m_instance = 0;
+//===============================================
 GManager::GManager() {
 
 }
 //===============================================
 GManager::~GManager() {
 
+}
+//===============================================
+GManager* GManager::Instance() {
+    if(m_instance == 0) {
+        m_instance = new GManager;
+    }
+    return m_instance;
 }
 //===============================================
 void GManager::getModule(const std::string& _dataIn, std::string& _module) {

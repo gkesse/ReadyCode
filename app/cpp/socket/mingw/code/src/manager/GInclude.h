@@ -12,6 +12,8 @@
 #include <future>
 #include <chrono>
 #include <queue>
+#include <thread>
+#include <signal.h>
 // opengl
 #include <GL/glew.h>
 #include <GL/freeglut.h>

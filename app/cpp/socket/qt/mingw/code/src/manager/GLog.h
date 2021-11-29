@@ -27,12 +27,17 @@ public:
     GLog();
     ~GLog();
     static GLog* Instance();
-    void log(const char* _level, const char* _file, int _line, const char* _func);
-    void log(const char* _level, const char* _file, int _line, const char* _func, const char* _format, ...);
+    void showMsg(const char* _level, const char* _file, int _line, const char* _func);
+    void showMsg(const char* _level, const char* _file, int _line, const char* _func, const char* _format, ...);
+    void addError(const char* _level, const char* _file, int _line, const char* _func, const char* _format, ...);
+    void addError(const char* _level, const char* _file, int _line, const char* _func, const QString& _data);
+    bool hasError();
+    void showError();
 
 private:
     static const int BUFFER_SIZE = 1024;
     static GLog* m_instance;
+    std::vector<std::string> m_errors;
 };
 //==============================================
 #endif

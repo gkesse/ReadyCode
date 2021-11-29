@@ -4,6 +4,8 @@
 //===============================================
 #include "GQtWidget.h"
 //===============================================
+class GQtMainWindow;
+//===============================================
 class GQtWindow : public GQtWidget {
     Q_OBJECT
 
@@ -13,6 +15,9 @@ public:
 
 public slots:
     void onOpenButton();
+
+private:
+    GQtMainWindow* m_window;
 };
 //==============================================
 #endif

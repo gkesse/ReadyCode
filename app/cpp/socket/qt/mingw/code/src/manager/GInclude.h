@@ -5,6 +5,8 @@
 // system
 #include <winsock2.h>
 #include <windows.h>
+#include <dirent.h>
+#include <sys/types.h>
 // qt
 #include <QtWidgets>
 // libxml2

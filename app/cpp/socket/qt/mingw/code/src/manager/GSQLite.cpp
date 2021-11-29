@@ -18,7 +18,7 @@ GSQLite::~GSQLite() {
 GSQLite* GSQLite::Instance() {
     if(m_instance == 0) {
         m_instance = new GSQLite;
-        sGApp* lApp = GRESOURCE->getData()->app;
+        sGApp* lApp = GRES->getData()->app;
         m_instance->openDatabase(lApp->sqlite_file);
     }
     return m_instance;

@@ -9,6 +9,8 @@ GQtWindow::GQtWindow(QWidget* _parent) :
 GQtWidget(_parent) {
     sGQt lParams;
 
+    m_window = GQtMainWindow::Create("page/spreadsheet");
+
     QPushButton* lButton = new QPushButton("Ouvrir");
     QVBoxLayout* lMainLayout = new QVBoxLayout;
     lMainLayout->addWidget(lButton);
@@ -26,8 +28,7 @@ GQtWindow::~GQtWindow() {
 }
 //===============================================
 void GQtWindow::onOpenButton() {
-    GLOG->log(GMSG);
-    GQtMainWindow* lWindow = GQtMainWindow::Create("page/spreadsheet");
-    lWindow->show();
+    GLOG->showMsg(GMSG);
+    m_window->show();
 }
 //===============================================

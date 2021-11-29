@@ -5,6 +5,7 @@
 #include "GOpenGLUi.h"
 #include "GXmlUi.h"
 #include "GMasterUi.h"
+#include "GServerUi.h"
 //===============================================
 GProcess* GProcess::m_instance = 0;
 //===============================================
@@ -32,6 +33,7 @@ void GProcess::run(int _argc, char** _argv) {
     if(lKey == "opengl") {runOpenGL(_argc, _argv); return;}
     if(lKey == "xml") {runXml(_argc, _argv); return;}
     if(lKey == "master") {runMaster(_argc, _argv); return;}
+    if(lKey == "server") {runServer(_argc, _argv); return;}
     runDefault(_argc, _argv);
 }
 //===============================================
@@ -71,6 +73,13 @@ void GProcess::runMaster(int _argc, char** _argv) {
     std::string lKey = "default";
     if(_argc > 2) {lKey = _argv[2];}
     GMasterUi* lProcess = GMasterUi::Create(lKey);
+    lProcess->run(_argc, _argv);
+}
+//===============================================
+void GProcess::runServer(int _argc, char** _argv) {
+    std::string lKey = "default";
+    if(_argc > 2) {lKey = _argv[2];}
+    GServerUi* lProcess = GServerUi::Create(lKey);
     lProcess->run(_argc, _argv);
 }
 //===============================================

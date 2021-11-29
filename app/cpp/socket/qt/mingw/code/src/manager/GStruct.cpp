@@ -2,6 +2,8 @@
 #include "GStruct.h"
 //===============================================
 sGQt::sGQt() {
+    organization_name = "ReadyDev";
+    domain_name = "readydev.ovh";
     app_name = "ReadyApp";
     width = 400;
     height = 400;

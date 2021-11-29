@@ -5,6 +5,8 @@
 #include "GInclude.h"
 #include "GStruct.h"
 //===============================================
+#define GMGR
+//===============================================
 class GManager {
 public:
     GManager();

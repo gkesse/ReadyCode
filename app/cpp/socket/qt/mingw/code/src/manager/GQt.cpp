@@ -1,12 +1,21 @@
 //===============================================
 #include "GQt.h"
 //===============================================
+GQt* GQt::m_instance = 0;
+//===============================================
 GQt::GQt() {
 
 }
 //===============================================
 GQt::~GQt() {
 
+}
+//===============================================
+GQt* GQt::Instance() {
+    if(m_instance == 0) {
+        m_instance = new GQt;
+    }
+    return m_instance;
 }
 //===============================================
 QTextEdit* GQt::createQTextEdit(QWidget* _QWidget) {
@@ -48,7 +57,7 @@ GQt& GQt::addHSpacer(QGridLayout* _QGridLayout, int _row, int _column, int _rowS
 }
 //===============================================
 GQt& GQt::setValidator(QLineEdit* _QLineEdit, QString _pattern, QWidget* _parent) {
-    QRegExp lQRegExp("[A-Za-z][1-9][0-9]{0,2}");
+    QRegExp lQRegExp(_pattern);
     _QLineEdit->setValidator(new QRegExpValidator(lQRegExp, _parent));
     return *this;
 }

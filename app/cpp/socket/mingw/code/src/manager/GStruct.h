@@ -17,6 +17,7 @@ struct sGRange;
 struct sGGrid;
 struct sGOpenGL;
 struct sGSocket;
+struct sGMaster;
 //==============================================
 class GSocket;
 //==============================================
@@ -155,6 +156,13 @@ struct sGSocket {
     int minor;
     void* on_start;
     sGSocket();
+};
+//===============================================
+struct sGMaster {
+    bool run;
+    int port;
+    std::queue<std::string> data_in;
+    sGMaster();
 };
 //==============================================
 #endif
