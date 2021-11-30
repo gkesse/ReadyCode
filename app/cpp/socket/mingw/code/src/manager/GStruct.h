@@ -160,7 +160,6 @@ struct sGSocket {
 //===============================================
 struct sGMaster {
     bool run;
-    int port;
     std::queue<std::string> data_in;
     sGMaster();
 };

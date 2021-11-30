@@ -34,7 +34,6 @@ void GMasterUi::run(int _argc, char** _argv) {
 DWORD WINAPI GMasterUi::onServer(LPVOID _params) {
     GManager lMgr;
     sGSocket lSocket;
-    lSocket.port = 8900;
     lSocket.on_start = (void*)onStart;
     lMgr.startServer(lSocket);
     return 0;
