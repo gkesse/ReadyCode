@@ -1,15 +1,15 @@
 //===============================================
 #include "GQtWindow.h"
-#include "GLog.h"
+#include "GQtLog.h"
 #include "GQt.h"
 #include "GQtDialog.h"
-#include "GQtMainWindow.h"
+#include "GQtSpreadWindow.h"
 //===============================================
 GQtWindow::GQtWindow(QWidget* _parent) :
 GQtWidget(_parent) {
     sGQt lParams;
 
-    m_window = GQtMainWindow::Create("page/spreadsheet");
+    m_GQtSpreadWindow = new GQtSpreadWindow;
 
     QPushButton* lButton = new QPushButton("Ouvrir");
     QVBoxLayout* lMainLayout = new QVBoxLayout;
@@ -28,7 +28,7 @@ GQtWindow::~GQtWindow() {
 }
 //===============================================
 void GQtWindow::onOpenButton() {
-    GLOG->showMsg(GMSG);
-    m_window->show();
+    GQTLOG->showMsg(GMSG);
+    m_GQtSpreadWindow->show();
 }
 //===============================================

@@ -1,7 +1,7 @@
 //===============================================
 #include "GQtFile.h"
 #include "GQt.h"
-#include "GLog.h"
+#include "GQtLog.h"
 //===============================================
 GQtFile::GQtFile() {
     m_version = QDataStream::Qt_4_3;
@@ -12,10 +12,9 @@ GQtFile::~GQtFile() {
 }
 //===============================================
 bool GQtFile::openFileWR(const QString& _filename) {
-    GLOG->showMsg(GMSG, "%s", _filename.toStdString().c_str());
     m_QFile.reset(new QFile(_filename));
     if(!m_QFile->open(QIODevice::WriteOnly)) {
-        GLOG->addError(GERR, "Erreur l'ouverture du fichier a échoué (%s)", _filename.toStdString().c_str());
+        GQTLOG->addError(QString("Erreur l'ouverture du fichier a échoué : %)").arg(_filename));
         return false;
     }
 
@@ -27,7 +26,7 @@ bool GQtFile::openFileWR(const QString& _filename) {
 bool GQtFile::openFileRD(const QString& _filename) {
     m_QFile.reset(new QFile(_filename));
     if(!m_QFile->open(QIODevice::ReadOnly)) {
-        GLOG->addError(GERR, "Erreur l'ouverture du fichier a échoué (%s)", _filename.toStdString().c_str());
+        GQTLOG->addError(QString("Erreur l'ouverture du fichier a échoué : %)").arg(_filename));
         return false;
     }
 

@@ -2,9 +2,9 @@
 #ifndef _GQtSortBox_
 #define _GQtSortBox_
 //===============================================
-#include "GQtWidget.h"
+#include "GInclude.h"
 //===============================================
-class GQtSortBox : public GQtWidget {
+class GQtSortBox : public QWidget {
     Q_OBJECT
 
 public:
@@ -12,7 +12,7 @@ public:
     ~GQtSortBox();
     void setTitle(const QString& _title);
 
-private:
+protected:
     QGroupBox* m_groupBox;
 };
 //==============================================

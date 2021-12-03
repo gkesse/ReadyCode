@@ -14,6 +14,8 @@ QMAKE_CXXFLAGS +=\
 
 GRLIB = C:\Users\Admin\Downloads\Programs\ReadyLib\dev
 
+include($$GRLIB\src\qtawesome\QtAwesome.pri)
+
 INCLUDEPATH +=\
     ..\code\src\manager \
     $$GRLIB\include \

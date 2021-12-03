@@ -2,11 +2,11 @@
 #ifndef _GQtSpreadSheet_
 #define _GQtSpreadSheet_
 //===============================================
-#include "GQtTableWidget.h"
+#include "GInclude.h"
 //===============================================
-class GQtTableWidgetItem;
+class GQtCell;
 //===============================================
-class GQtSpreadSheet : public GQtTableWidget {
+class GQtSpreadSheet : public QTableWidget {
     Q_OBJECT
 
 public:
@@ -17,7 +17,7 @@ public:
     bool loadFile(const QString& _filename);
     QString getFormula(int _row, int _column) const;
     void setFormula(int _row, int _column, const QString& _formula);
-    GQtTableWidgetItem* getCell(int _row, int _column) const;
+    GQtCell* getCell(int _row, int _column) const;
     void recalculate();
     bool getAutoRecalculate();
 

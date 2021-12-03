@@ -138,6 +138,16 @@ GXml& GXml::prevAttribute(GXml& _child) {
     return *this;
 }
 //===============================================
+GXml& GXml::selectSingleNode(const std::string& _xpath) {
+    m_xpath = m_node.select_single_node(_xpath.c_str());
+    return *this;
+}
+//===============================================
+GXml& GXml::getNode() {
+    m_node = m_xpath.node();
+    return *this;
+}
+//===============================================
 GXml& GXml::saveFile(const std::string& _filename) {
     m_doc.save_file(_filename.c_str(), "   ", pugi::format_indent, pugi::encoding_utf8);
     return *this;
@@ -150,6 +160,11 @@ GXml& GXml::printDoc() {
 //===============================================
 GXml& GXml::printNode() {
     m_node.print(std::cout, "   ", pugi::format_indent, pugi::encoding_utf8);
+    return *this;
+}
+//===============================================
+GXml& GXml::operator()(const std::string& _nodename) {
+    selectSingleNode(_nodename).getNode();
     return *this;
 }
 //===============================================

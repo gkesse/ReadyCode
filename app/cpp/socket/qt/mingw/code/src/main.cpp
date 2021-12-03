@@ -1,10 +1,10 @@
 //===============================================
 #include "GProcess.h"
-#include "GLog.h"
+#include "GQtLog.h"
 //===============================================
 int main(int _argc, char** _argv) {
     GProcess::Instance()->run(_argc, _argv);
-    GLOG->showError();
+    GQTLOG->showError();
     return 0;
 }
 //===============================================

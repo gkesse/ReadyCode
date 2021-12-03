@@ -1,6 +1,6 @@
 //===============================================
 #include "GResource.h"
-#include "GLog.h"
+#include "GQtLog.h"
 //===============================================
 GResource* GResource::m_instance = 0;
 //===============================================
@@ -39,7 +39,7 @@ void GResource::loadFileMap(const std::string& _path, const std::string& _resour
     std::string lPath = _path + "/" + _resource;
     DIR* lDir = opendir(lPath.c_str());
     if (lDir == NULL) {
-        GLOG->addError(GERR, "Erreur l'ouverture du repertoire a echoue : %s", lPath.c_str());
+        GQTLOG->addError(QString("Erreur l'ouverture du repertoire a echoue : %1").arg(lPath.c_str()));
         return;
     }
     while ((lEntry = readdir(lDir)) != NULL) {

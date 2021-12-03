@@ -2,12 +2,12 @@
 #ifndef _GQtSpreadWindow_
 #define _GQtSpreadWindow_
 //===============================================
-#include "GQtMainWindow.h"
+#include "GInclude.h"
+#include "GStruct.h"
 //===============================================
-class GQtTableWidget;
-class sGQt;
+class GQtSpreadSheet;
 //===============================================
-class GQtSpreadWindow : public GQtMainWindow {
+class GQtSpreadWindow : public QMainWindow {
     Q_OBJECT
 
 public:
@@ -39,7 +39,7 @@ private:
     //
     sGQt m_params;
     //
-    GQtTableWidget* m_spreadsheet;
+    GQtSpreadSheet* m_spreadsheet;
     QString m_currentFile;
     QStringList m_recentFiles;
     //

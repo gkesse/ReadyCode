@@ -33,15 +33,19 @@ public:
     GXml& lastAttribute(GXml& _child);
     GXml& nextAttribute(GXml& _child);
     GXml& prevAttribute(GXml& _child);
+    GXml& selectSingleNode(const std::string& _xpath);
+    GXml& getNode();
     GXml& saveFile(const std::string& _filename);
     GXml& printDoc();
     GXml& printNode();
+    GXml& operator()(const std::string& _nodename);
 
 protected:
     pugi::xml_document m_doc;
     pugi::xml_parse_result m_result;
     pugi::xml_node m_node;
     pugi::xml_attribute m_attribute;
+    pugi::xpath_node m_xpath;
 };
 //==============================================
 #endif

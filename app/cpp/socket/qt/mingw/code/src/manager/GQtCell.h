@@ -2,9 +2,9 @@
 #ifndef _GQtCell_
 #define _GQtCell_
 //===============================================
-#include "GQtTableWidgetItem.h"
+#include "GInclude.h"
 //===============================================
-class GQtCell : public GQtTableWidgetItem {
+class GQtCell : public QTableWidgetItem {
 public:
     GQtCell();
     ~GQtCell();

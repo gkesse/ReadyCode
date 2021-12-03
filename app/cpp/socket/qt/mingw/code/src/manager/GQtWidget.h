@@ -3,7 +3,6 @@
 #define _GQtWidget_
 //===============================================
 #include "GInclude.h"
-#include "GStruct.h"
 //===============================================
 class GQtWidget : public QFrame {
     Q_OBJECT
@@ -11,8 +10,10 @@ class GQtWidget : public QFrame {
 public:
     GQtWidget(QWidget* _parent = 0);
     ~GQtWidget();
-    static GQtWidget* Create(const QString& _key, QWidget* _parent = 0);
-    virtual void setTitle(const QString& _title);
+    static GQtWidget* Create(const QString& _key = "", QWidget* _parent = 0);
+
+signals:
+    void clicked();
 };
 //==============================================
 #endif

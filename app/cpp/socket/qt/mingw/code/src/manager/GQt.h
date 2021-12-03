@@ -11,7 +11,8 @@ public:
     GQt();
     ~GQt();
     static GQt* Instance();
-    QTextEdit* createQTextEdit(QWidget* _QWidget = 0);
+    QTextEdit* createQTextEdit(QWidget* _parent = 0);
+    QPushButton* createButtonCircle(QWidget* _parent = 0);
     GQt& addSpacer(QVBoxLayout* _QVBoxLayout);
     GQt& addSpacer(QHBoxLayout* _QHBoxLayout);
     GQt& addVSpacer(QGridLayout* _QGridLayout, int _row, int _column, int _rowSpan = 1, int _columnSpan = 1, Qt::Alignment _alignment = Qt::Alignment());

@@ -1,11 +1,10 @@
 //===============================================
 #include "GQtSortBox.h"
 #include "GQt.h"
-#include "GLog.h"
+#include "GQtLog.h"
 //===============================================
 GQtSortBox::GQtSortBox(QWidget* _parent) :
-GQtWidget(_parent) {
-    GQt lQt;
+QWidget(_parent) {
     QLabel* lColumnLabel = new QLabel("Colonne :");
     QComboBox* lColumnCombo = new QComboBox;
     lColumnCombo->addItem("None");
@@ -16,7 +15,7 @@ GQtWidget(_parent) {
     QGridLayout* lBoxLayout = new QGridLayout;
     lBoxLayout->addWidget(lColumnLabel, 0, 0);
     lBoxLayout->addWidget(lColumnCombo, 0, 1);
-    lQt.addHSpacer(lBoxLayout, 0, 2);
+    GQT->addHSpacer(lBoxLayout, 0, 2);
     lBoxLayout->addWidget(lOrderLabel, 1, 0);
     lBoxLayout->addWidget(lOrderCombo, 1, 1, 1, 2);
     m_groupBox = new QGroupBox("Clé primaire");

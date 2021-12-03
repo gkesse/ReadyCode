@@ -1,12 +1,13 @@
 //===============================================
 #include "GQtFindDialog.h"
+#include "GStruct.h"
 #include "GQt.h"
-#include "GLog.h"
+#include "GQtLog.h"
 //===============================================
 GQtFindDialog::GQtFindDialog(QWidget* _parent) :
-GQtDialog(_parent) {
+QDialog(_parent) {
     sGQt lParams;
-    lParams.app_name = "ReadyApp | Recherche de texte";
+    lParams.app_name = "ReadyApp-Spreadsheet | Recherche de texte";
 
     m_findEdit = new QLineEdit;
     QLabel* lFindLabel = new QLabel("Recherche :");
@@ -50,7 +51,7 @@ GQtFindDialog::~GQtFindDialog() {
 }
 //===============================================
 void GQtFindDialog::onFindButton() {
-    GLOG->showMsg(GMSG); GQt lQt;
+    GQTLOG->showMsg(GMSG); GQt lQt;
     QString lFindText = m_findEdit->text();
     Qt::CaseSensitivity lCaseSensitivity = lQt.getCaseSensitivity(m_caseCheckBox);
     if(m_backwardCheckBox->isChecked()) {
@@ -62,7 +63,7 @@ void GQtFindDialog::onFindButton() {
 }
 //===============================================
 void GQtFindDialog::onFindEdit(const QString& _text) {
-    GLOG->showMsg(GMSG); GQt lQt;
-    m_findButton->setEnabled(!lQt.isEmpty(m_findEdit));
+    GQTLOG->showMsg(GMSG);
+    m_findButton->setEnabled(!GQT->isEmpty(m_findEdit));
 }
 //===============================================

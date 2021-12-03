@@ -2,9 +2,9 @@
 #ifndef _GQtCellLocation_
 #define _GQtCellLocation_
 //===============================================
-#include "GQtDialog.h"
+#include "GInclude.h"
 //===============================================
-class GQtCellLocation : public GQtDialog {
+class GQtCellLocation : public QDialog {
     Q_OBJECT
 
 public:

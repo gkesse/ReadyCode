@@ -2,10 +2,9 @@
 #ifndef _GQtSortDialog_
 #define _GQtSortDialog_
 //===============================================
-#include "GQtDialog.h"
-#include "GQt.h"
+#include "GInclude.h"
 //===============================================
-class GQtSortDialog : public GQtDialog {
+class GQtSortDialog : public QDialog {
     Q_OBJECT
 
 public:

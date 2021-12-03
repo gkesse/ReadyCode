@@ -4,7 +4,7 @@
 //===============================================
 #include "GInclude.h"
 //===============================================
-#define GLOG GLog::Instance()
+#define GQTLOG GLog::Instance()
 //===============================================
 enum eGLog {
     eGMSG,
@@ -22,21 +22,21 @@ enum eGLog {
 #define GFAT GLEVEL(eGFAT), __FILE__, __LINE__, __FUNCTION__
 #define GCRI GLEVEL(eGCRI), __FILE__, __LINE__, __FUNCTION__
 //===============================================
-class GLog {
+class GQtLog {
 public:
-    GLog();
-    ~GLog();
-    static GLog* Instance();
+    GQtLog();
+    ~GQtLog();
+    static GQtLog* Instance();
     void showMsg(const char* _level, const char* _file, int _line, const char* _func);
     void showMsg(const char* _level, const char* _file, int _line, const char* _func, const char* _format, ...);
     void addError(const char* _level, const char* _file, int _line, const char* _func, const char* _format, ...);
-    void addError(const char* _level, const char* _file, int _line, const char* _func, const QString& _data);
+    void addError(const char* _level, const char* _file, int _line, const char* _func, const std::string& _data);
     bool hasError();
     void showError();
 
 private:
     static const int BUFFER_SIZE = 1024;
-    static GLog* m_instance;
+    static GQtLog* m_instance;
     std::vector<std::string> m_errors;
 };
 //==============================================

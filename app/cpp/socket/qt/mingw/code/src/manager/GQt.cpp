@@ -18,8 +18,8 @@ GQt* GQt::Instance() {
     return m_instance;
 }
 //===============================================
-QTextEdit* GQt::createQTextEdit(QWidget* _QWidget) {
-    QTextEdit* lQTextEdit = new QTextEdit(_QWidget);
+QTextEdit* GQt::createQTextEdit(QWidget* _parent) {
+    QTextEdit* lQTextEdit = new QTextEdit(_parent);
     lQTextEdit->setStyleSheet(QString(""
             "QTextEdit {"
             "background-color:black;"
@@ -29,6 +29,23 @@ QTextEdit* GQt::createQTextEdit(QWidget* _QWidget) {
             "}"
             ""));
     return lQTextEdit;
+}
+//===============================================
+QPushButton* GQt::createButtonCircle(QWidget* _parent) {
+    QPushButton* lQPushButton = new QPushButton(_parent);
+    lQPushButton->setText("1");
+    lQPushButton->setStyleSheet(QString(""
+            "QPushButton {"
+            "background-color:black;"
+            "color:white;"
+            "font-family:arial;"
+            "font-size:25px;"
+            "width:50px;"
+            "height:50px;"
+            "border-radius:50%;"
+            "}"
+            ""));
+    return lQPushButton;
 }
 //===============================================
 GQt& GQt::addSpacer(QVBoxLayout* _QVBoxLayout) {

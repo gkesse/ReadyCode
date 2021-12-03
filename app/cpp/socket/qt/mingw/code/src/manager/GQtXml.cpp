@@ -1,40 +1,48 @@
 //===============================================
 #include "GQtXml.h"
-#include "GQt.h"
-#include "GManager.h"
+#include "GQtButtonCircle.h"
+#include "GQtTextEdit.h"
+#include "GQtTeamsBox.h"
+#include "GStruct.h"
+#include "GQtLog.h"
 //===============================================
 GQtXml::GQtXml(QWidget* _parent) :
 GQtWidget(_parent) {
-    sGQt lParams; GQt lQt;
+    sGQt lParams;
+    lParams.app_name = "ReadyApp-XML";
 
-    m_textEdit = lQt.createQTextEdit();
-    QPushButton* lSendButton = new QPushButton("Envoyer");
-    QVBoxLayout* lButtonLayout = new QVBoxLayout;
-    lButtonLayout->addWidget(lSendButton);
-    lButtonLayout->setAlignment(Qt::AlignTop);
-    QHBoxLayout* lCenterLayout = new QHBoxLayout();
-    lCenterLayout->addWidget(m_textEdit);
-    lCenterLayout->addLayout(lButtonLayout);
+    QPushButton* lTest = new QPushButton("Tester");
+
+    m_GQtButtonCircle = new GQtButtonCircle;
+    m_GQtTextEdit = new GQtTextEdit;
+    m_GQtTeamsBox = new GQtTeamsBox;
 
     QVBoxLayout* lMainLayout = new QVBoxLayout;
-    lMainLayout->addLayout(lCenterLayout);
+    lMainLayout->addWidget(lTest);
+    lMainLayout->addWidget(m_GQtButtonCircle);
+    lMainLayout->addWidget(m_GQtTextEdit);
+    lMainLayout->addWidget(m_GQtTeamsBox);
+    lMainLayout->setAlignment(Qt::AlignBottom);
 
     setLayout(lMainLayout);
     setWindowTitle(lParams.app_name);
     resize(lParams.width, lParams.height);
 
-    connect(lSendButton, SIGNAL(clicked()), this, SLOT(onSendButton()));
+    connect(lTest, SIGNAL(clicked()), this, SLOT(onEvent()));
+
+    GQTLOG->showErrorQt(this);
 }
 //===============================================
 GQtXml::~GQtXml() {
 
 }
 //===============================================
-void GQtXml::onSendButton() {
-    GQt lQt; GManager lMgr;
-    if(lQt.isEmpty(m_textEdit)) return;
-    std::string lDataIn, lDataOut;
-    lDataIn = m_textEdit->toPlainText().toStdString();
-    lMgr.callServer(lDataIn, lDataOut);
+void GQtXml::onEvent() {
+    m_GQtButtonCircle->setBgColor("navy");
+    m_GQtButtonCircle->setText("NC");
+    m_GQtTextEdit->setBgColor("navy");
+    m_GQtTextEdit->setHoverColor("teal");
+    m_GQtTeamsBox->setIndexText(2, "NC");
+    qDebug() << m_GQtTextEdit->getText();
 }
 //===============================================

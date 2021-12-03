@@ -2,9 +2,9 @@
 #ifndef _GQtFindDialog_
 #define _GQtFindDialog_
 //===============================================
-#include "GQtDialog.h"
+#include "GInclude.h"
 //===============================================
-class GQtFindDialog : public GQtDialog {
+class GQtFindDialog : public QDialog {
     Q_OBJECT
 
 public:

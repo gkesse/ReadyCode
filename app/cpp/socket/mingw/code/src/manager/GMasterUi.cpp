@@ -5,6 +5,8 @@
 #include "GConsole.h"
 #include "GThread.h"
 #include "GSignal.h"
+#include "GDefine.h"
+#include "GLog.h"
 //===============================================
 sGMaster GMasterUi::m_params;
 //===============================================
@@ -16,8 +18,8 @@ GMasterUi::~GMasterUi() {
 
 }
 //===============================================
-GMasterUi* GMasterUi::Create(const std::string& key) {
-    if(key == "default") {return new GMasterUi;}
+GMasterUi* GMasterUi::Create(const std::string& _key) {
+    if(_key == "default") {return new GMasterUi;}
     return new GMasterUi;
 }
 //===============================================
@@ -58,8 +60,28 @@ void GMasterUi::onMessage(std::queue<std::string>& _dataIn) {
     lMgr.getModule(lDataIn, lModule);
     lMgr.getMethod(lDataIn, lMethod);
 
-    lConsole.showData(_dataIn.size());
+    if(lModule == RDV_MOD_SQLITE) {
+        onSQLite(lMethod, lDataIn);
+    }
+    else if(lModule == RDV_MOD_OPENCV) {
+        onOpenCV(lMethod, lDataIn);
+    }
+    else if(lModule == RDV_MOD_OPENGL) {
+        onOpenGL(lMethod, lDataIn);
+    }
 
     _dataIn.pop();
+}
+//===============================================
+void GMasterUi::onSQLite(const std::string& _method, const std::string& _dataIn) {
+    GQTLOG->showMsg(GMSG);
+}
+//===============================================
+void GMasterUi::onOpenCV(const std::string& _method, const std::string& _dataIn) {
+    GQTLOG->showMsg(GMSG);
+}
+//===============================================
+void GMasterUi::onOpenGL(const std::string& _method, const std::string& _dataIn) {
+    GQTLOG->showMsg(GMSG);
 }
 //===============================================

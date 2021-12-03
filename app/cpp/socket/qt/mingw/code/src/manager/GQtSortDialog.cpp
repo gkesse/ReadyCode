@@ -1,18 +1,19 @@
 //===============================================
 #include "GQtSortDialog.h"
-#include "GQtWidget.h"
+#include "GQtSortBox.h"
+#include "GStruct.h"
 #include "GQt.h"
-#include "GLog.h"
+#include "GQtLog.h"
 //===============================================
 GQtSortDialog::GQtSortDialog(QWidget* _parent) :
-GQtDialog(_parent) {
+QDialog(_parent) {
     sGQt lParams; GQt lQt;
-    lParams.app_name = "ReadyApp | Tri de cellule";
+    lParams.app_name = "ReadyApp-Spreadsheet | Tri de cellule";
     lParams.height = 10;
 
-    GQtWidget* lPrimaryBox = GQtWidget::Create("widget/sortbox");
-    GQtWidget* lSecondBox = GQtWidget::Create("widget/sortbox");
-    GQtWidget* lThirdBox = GQtWidget::Create("widget/sortbox");
+    GQtSortBox* lPrimaryBox = new GQtSortBox;
+    GQtSortBox* lSecondBox = new GQtSortBox;
+    GQtSortBox* lThirdBox = new GQtSortBox;
 
     lSecondBox->hide();
     lThirdBox->hide();
@@ -54,6 +55,6 @@ GQtSortDialog::~GQtSortDialog() {
 }
 //===============================================
 void GQtSortDialog::onMoreButton() {
-    GLOG->showMsg(GMSG);
+    GQTLOG->showMsg(GMSG);
 }
 //===============================================

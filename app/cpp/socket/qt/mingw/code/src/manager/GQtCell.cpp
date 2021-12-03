@@ -1,7 +1,7 @@
 //===============================================
 #include "GQtCell.h"
 #include "GQt.h"
-#include "GLog.h"
+#include "GQtLog.h"
 //===============================================
 GQtCell::GQtCell() {
     cacheIsDirty = false;

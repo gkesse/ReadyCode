@@ -1,13 +1,12 @@
 //===============================================
 #include "GQtSpreadSheet.h"
-#include "GQtTableWidgetItem.h"
+#include "GQtCell.h"
 #include "GQtFile.h"
-#include "GQt.h"
-#include "GLog.h"
+#include "GQtLog.h"
 //===============================================
 GQtSpreadSheet::GQtSpreadSheet(QWidget* _parent) :
-GQtTableWidget(_parent) {
-    setItemPrototype(GQtTableWidgetItem::Create("item/cell"));
+QTableWidget(_parent) {
+    setItemPrototype(new GQtCell);
     setSelectionMode(ContiguousSelection);
     clear();
     m_autoRecalc = true;
@@ -18,7 +17,7 @@ GQtSpreadSheet::~GQtSpreadSheet() {
 }
 //===============================================
 void GQtSpreadSheet::clear() {
-    GLOG->showMsg(GMSG);
+    GQTLOG->showMsg(GMSG);
     setRowCount(0);
     setColumnCount(0);
     setRowCount(RowCount);
@@ -34,11 +33,11 @@ void GQtSpreadSheet::clear() {
 }
 //===============================================
 bool GQtSpreadSheet::saveFile(const QString& _filename) {
-    GLOG->showMsg(GMSG);
+    GQTLOG->showMsg(GMSG);
     QApplication::setOverrideCursor(Qt::WaitCursor);
     GQtFile lFile;
     if(!lFile.openFileWR(_filename)) {
-        GLOG->addError(GERR, "Erreur la sauvegarde du tableur a échoué");
+        GQTLOG->addError("Erreur la sauvegarde du tableur a échoué");
         return false;
     }
     lFile.writeData(MagicNumber);
@@ -55,16 +54,16 @@ bool GQtSpreadSheet::saveFile(const QString& _filename) {
 }
 //===============================================
 bool GQtSpreadSheet::loadFile(const QString& _filename) {
-    GLOG->showMsg(GMSG);
+    GQTLOG->showMsg(GMSG);
     GQtFile lFile;
     if(!lFile.openFileRD(_filename)) {
-        GLOG->addError(GERR, "Erreur le chargement du tableur a échoué");
+        GQTLOG->addError("Erreur le chargement du tableur a échoué");
         return false;
     }
     int lMagicNumber;
     lFile.getData(lMagicNumber);
     if(lMagicNumber != MagicNumber) {
-        GLOG->addError(GERR, "Erreur le fichier n'est pas un tableur\n(%s)", _filename.toStdString().c_str());
+        GQTLOG->addError(QString("Erreur le fichier n'est pas un tableur : %1").arg(_filename));
         return false;
     }
     clear();
@@ -79,7 +78,7 @@ bool GQtSpreadSheet::loadFile(const QString& _filename) {
 }
 //===============================================
 QString GQtSpreadSheet::getFormula(int _row, int _column) const {
-    GQtTableWidgetItem* lCell = getCell(_row, _column);
+    GQtCell* lCell = getCell(_row, _column);
     if (lCell) {
         return lCell->getFormula();
     }
@@ -89,16 +88,16 @@ QString GQtSpreadSheet::getFormula(int _row, int _column) const {
 }
 //===============================================
 void GQtSpreadSheet::setFormula(int _row, int _column, const QString& _formula) {
-    GQtTableWidgetItem* lCell = getCell(_row, _column);
+    GQtCell* lCell = getCell(_row, _column);
     if (!lCell) {
-        lCell = GQtTableWidgetItem::Create("item/cell");
+        lCell = new GQtCell;
         setItem(_row, _column, lCell);
     }
     lCell->setFormula(_formula);
 }
 //===============================================
-GQtTableWidgetItem* GQtSpreadSheet::getCell(int _row, int _column) const {
-    return static_cast<GQtTableWidgetItem*>(item(_row, _column));
+GQtCell* GQtSpreadSheet::getCell(int _row, int _column) const {
+    return static_cast<GQtCell*>(item(_row, _column));
 }
 //===============================================
 void GQtSpreadSheet::recalculate() {

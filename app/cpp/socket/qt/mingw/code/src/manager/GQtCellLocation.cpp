@@ -1,16 +1,17 @@
 //===============================================
 #include "GQtCellLocation.h"
+#include "GStruct.h"
 #include "GQt.h"
-#include "GLog.h"
+#include "GQtLog.h"
 //===============================================
 GQtCellLocation::GQtCellLocation(QWidget* _parent) :
-GQtDialog(_parent) {
-    sGQt lParams; GQt lQt;
-    lParams.app_name = "ReadyApp | Localisation de cellule";
+QDialog(_parent) {
+    sGQt lParams;
+    lParams.app_name = "ReadyApp-Spreadsheet | Localisation de cellule";
 
     QLabel* lCellLabel = new QLabel("Cellule :");
     m_cellEdit = new QLineEdit;
-    lQt.setValidator(m_cellEdit, "[A-Za-z][1-9][0-9]{0,2}", this);
+    GQT->setValidator(m_cellEdit, "[A-Za-z][1-9][0-9]{0,2}", this);
     lCellLabel->setBuddy(m_cellEdit);
     QHBoxLayout* lTopLayout = new QHBoxLayout;
     lTopLayout->addWidget(lCellLabel);
@@ -19,7 +20,7 @@ GQtDialog(_parent) {
     m_buttonBox = new QDialogButtonBox();
     m_buttonBox->addButton(QDialogButtonBox::Ok);
     m_buttonBox->addButton(QDialogButtonBox::Cancel);
-    lQt.setEnabled(m_buttonBox, QDialogButtonBox::Ok, false);
+    GQT->setEnabled(m_buttonBox, QDialogButtonBox::Ok, false);
 
     QVBoxLayout* lMainLayout = new QVBoxLayout;
     lMainLayout->addLayout(lTopLayout);
@@ -40,7 +41,7 @@ GQtCellLocation::~GQtCellLocation() {
 }
 //===============================================
 void GQtCellLocation::onCellEdit(const QString& _text) {
-    GLOG->showMsg(GMSG); GQt lQt;
-    lQt.setEnabled(m_buttonBox, QDialogButtonBox::Ok, m_cellEdit->hasAcceptableInput());
+    GQTLOG->showMsg(GMSG); GQt lQt;
+    GQT->setEnabled(m_buttonBox, QDialogButtonBox::Ok, m_cellEdit->hasAcceptableInput());
 }
 //===============================================

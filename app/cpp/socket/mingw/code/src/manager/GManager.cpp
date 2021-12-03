@@ -3,6 +3,7 @@
 #include "GXml.h"
 #include "GThread.h"
 #include "GSocket.h"
+#include "GDefine.h"
 //===============================================
 GManager* GManager::m_instance = 0;
 //===============================================
@@ -24,13 +25,13 @@ GManager* GManager::Instance() {
 void GManager::getModule(const std::string& _dataIn, std::string& _module) {
     GXml lXml;
     lXml.parseData(_dataIn).getRoot();
-    lXml.firstChild(lXml).getNodeValue(_module);
+    lXml(RDV_DATA_MODULE).getNodeValue(_module);
 }
 //===============================================
 void GManager::getMethod(const std::string& _dataIn, std::string& _method) {
     GXml lXml;
     lXml.parseData(_dataIn).getRoot();
-    lXml.firstChild(lXml).nextSibling(lXml).getNodeValue(_method);
+    lXml(RDV_DATA_METHOD).getNodeValue(_method);
 }
 //===============================================
 void GManager::getData(const std::string& _dataIn, int _index, std::string& _data) {
