@@ -8,10 +8,5 @@
             <font>/libs/google_fonts/Allan/css.css</font>
             <font>/libs/google_fonts/Archivo_Narrow/css.css</font>
         </fonts>
-        <scripts>
-            <script>/js/class/GObject.js</script>
-            <script>/js/class/GPhone.js</script>
-            <script>/js/script.js</script>
-        </scripts>
     </header>
 </rdv>

@@ -1,16 +1,24 @@
 //===============================================
 class GPhone extends GObject {
     //===============================================
-    slideIndex;
+    static m_instance = null;
+    //===============================================
+    static slideIndex;
     //===============================================
     constructor() {
         super();
-        this.slideIndex = 1;
     }
     //===============================================
-    showSlides(index) {
+    static Instance() {
+        if(this.m_instance == null) {
+            this.m_instance = new GPhone();
+        }
+        return this.m_instance;
+    }
+    //===============================================
+    showSlide(index) {
         var i;
-        var slides = document.getElementsByClassName("phone_slides");
+        var slides = document.getElementsByClassName("phone_slide");
         var dots = document.getElementsByClassName("phone_slide_bar_dot");
         this.slideIndex = index;
         if (index > slides.length) {this.slideIndex = 1}    
@@ -25,5 +33,17 @@ class GPhone extends GObject {
         dots[this.slideIndex-1].className += " active";
     }
     //===============================================
+    prevSlide() {
+        this.slideIndex -= 1;
+        this.showSlide(this.slideIndex);
+    }
+    //===============================================
+    nextSlide() {
+        this.slideIndex += 1;
+        this.showSlide(this.slideIndex);
+    }
+    //===============================================
 }
+//===============================================
+GPhone.Instance().showSlide(1);
 //===============================================

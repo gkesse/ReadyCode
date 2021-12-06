@@ -55,8 +55,8 @@ button:active {
     text-align: center;
 }
 /* ============================================== */
-.phone_slides {
-    background-color: red;
+.phone_slide {
+    background-color: transparent;
 }
 /* ============================================== */
 .phone_box {
@@ -100,6 +100,26 @@ button:active {
     height: 20px;
 }
 /* ============================================== */
+.phone_slide_prev {
+    background-color: transparent;
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    font-size: 24px;
+    color: #85929e;
+    cursor: pointer;
+}
+/* ============================================== */
+.phone_slide_next {
+    background-color: transparent;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    font-size: 24px;
+    color: #85929e;
+    cursor: pointer;
+}
+/* ============================================== */
 .phone_slide_bar {
     background-color: transparent;
     position: absolute;
@@ -110,13 +130,21 @@ button:active {
 }
 /* ============================================== */
 .phone_slide_bar_dot {
-    background-color: #bbb;
+    background-color: transparent;
+    border: 2px solid #85929e;
     height: 15px;
     width: 15px;
-    margin: 5px 2px;
+    margin: 10px 2px;
     border-radius: 50%;
     display: inline-block;
-    transition: background-color 0.6s ease;
     cursor: pointer;
+}
+/* ============================================== */
+.phone_slide_bar_dot.active {
+    background-color: #85929e;
+}
+/* ============================================== */
+.phone_slide_bar_dot:hover {
+    background-color: #85929e;
 }
 /* ============================================== */

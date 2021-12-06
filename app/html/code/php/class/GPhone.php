@@ -23,11 +23,14 @@ class GPhone extends GWidget {
     public function show() {
         echo sprintf("<div class='phone'>\n");
         echo sprintf("<div class='phone_body'>\n");
-        $lCountPage = 3;
+        $lCountBox = $this->countBox();
+        $lBoxPerPage = $this->getBoxPerPage();
+        $lCountPage = ceil($lCountBox / $lBoxPerPage);
         for($j = 0; $j < $lCountPage; $j++) {
-            echo sprintf("<div class='phone_slides'>\n");
-            $lCountBox = $this->countBox();
-            for($i = 0; $i < $lCountBox; $i++) {
+            echo sprintf("<div class='phone_slide'>\n");
+            for($i = 0; $i < $lBoxPerPage; $i++) {
+                $lBoxIndex = $j * $lBoxPerPage + $i;
+                if($lBoxIndex == $lCountBox) break;
                 $lIcon = $this->getIcon($i);
                 $lTitle = $this->getTitle($i);
                 echo sprintf("<div class='phone_box'>\n");
@@ -37,10 +40,14 @@ class GPhone extends GWidget {
             }
             echo sprintf("</div>\n");
         }
+        echo sprintf("<i class='phone_slide_prev fa fa-chevron-left'
+        onclick='phone_slide_prev_onclick()'></i>\n");
+        echo sprintf("<i class='phone_slide_next fa fa-chevron-right'
+        onclick='phone_slide_next_onclick()'></i>\n");
         echo sprintf("<div class='phone_slide_bar'>\n");
         for($i = 0; $i < $lCountPage; $i++) {
-            echo sprintf("<div class='phone_slide_bar_dot' 
-            onclick='phone_slide_bar_dot_onclick(this, %d)'></div>\n", $i + 1);
+            echo sprintf("<div class='phone_slide_bar_dot' title='Page %d'
+            onclick='phone_slide_bar_dot_onclick(%d)'></div>\n", $i + 1, $i + 1);
         }
         echo sprintf("</div>\n");
         echo sprintf("</div>\n");
@@ -51,6 +58,13 @@ class GPhone extends GWidget {
         $this->dom->getRoot("rdv")->getNode("phone");
         $lCount = $this->dom->getNode("boxes")->countNode();
         return $lCount;
+    }
+    //===============================================
+    public function getBoxPerPage() {
+        $this->dom->getRoot("rdv")->getNode("phone");
+        $this->dom->getNode("settings")->getNode("boxperpage");
+        $lBoxPerPage = $this->dom->getValue();
+        return $lBoxPerPage;
     }
     //===============================================
     public function getIcon($index) {

@@ -32,9 +32,8 @@ class GHeader extends GWidget {
         echo sprintf("<link rel='stylesheet' href='/libs/font_awesome/css/font-awesome.min.css'/>\n");
         $this->loadFonts();
         echo sprintf("<link rel='stylesheet' href='/css/style.css'/>\n");
-        $this->loadScripts();
         echo sprintf("</head>\n");
-        echo sprintf("<body>\n");
+        echo sprintf("<body onload='body_onload()'>\n");
     }
     //===============================================
     public function getLang() {
@@ -62,16 +61,6 @@ class GHeader extends GWidget {
             $this->dom->getNodeItem("font", $i);
             $lFont = $this->dom->getValue();
             echo sprintf("<link rel='stylesheet' href='%s'/>\n", $lFont);
-        }
-    }
-    //===============================================
-    public function loadScripts() {
-        $this->dom->getRoot("rdv")->getNode("header");
-        $lCount = $this->dom->getNode("scripts")->countNode();
-        for($i = 0; $i < $lCount; $i++) {
-            $this->dom->getNodeItem("script", $i);
-            $lScript = $this->dom->getValue();
-            echo sprintf("<script src='%s'></script>\n", $lScript);
         }
     }
     //===============================================

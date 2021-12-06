@@ -21,8 +21,19 @@ class GFooter extends GWidget {
     }
     //===============================================
     public function show() {
+        $this->loadScripts();
         echo sprintf("</body>\n");
         echo sprintf("</html>\n");
+    }
+    //===============================================
+    public function loadScripts() {
+        $this->dom->getRoot("rdv")->getNode("footer");
+        $lCount = $this->dom->getNode("scripts")->countNode();
+        for($i = 0; $i < $lCount; $i++) {
+            $this->dom->getNodeItem("script", $i);
+            $lScript = $this->dom->getValue();
+            echo sprintf("<script src='%s'></script>\n", $lScript);
+        }
     }
     //===============================================
 }
