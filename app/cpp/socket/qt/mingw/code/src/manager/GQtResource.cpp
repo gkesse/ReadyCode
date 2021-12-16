@@ -36,3 +36,8 @@ QString GQtResource::getXmlPath(const QString& _filename) {
     return lPath;
 }
 //===============================================
+QString GQtResource::getImgPath(const QString& _filename) {
+    QString lPath = getResPath(getDataPath(), "img", _filename);
+    return lPath;
+}
+//===============================================

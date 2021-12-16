@@ -6,6 +6,7 @@
 //===============================================
 #define GQTRES GQtResource::Instance()
 #define GQTXML(x) GQTRES->getXmlPath(x)
+#define GQTIMG(x) GQTRES->getImgPath(x)
 //===============================================
 class GQtResource : public GQtObject {
 public:
@@ -14,6 +15,7 @@ public:
     static GQtResource* Instance();
     QString getResPath(const QString& _dataPath, const QString& _resPath, const QString& _filename);
     QString getXmlPath(const QString& _filename);
+    QString getImgPath(const QString& _filename);
 
 private:
     static GQtResource* m_instance;

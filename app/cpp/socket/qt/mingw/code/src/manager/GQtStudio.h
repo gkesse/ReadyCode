@@ -18,9 +18,13 @@ public:
     int countSubMenus(int _menu) const;
     QString getMenuName(int _index) const;
     QString getSubMenuName(int _menu, int _submenu) const;
+    QString getSubMenuIcon(int _menu, int _submenu) const;
     QString getTitle() const;
     int getWidth() const;
     int getHeight() const;
+
+public slots:
+    void onMenuAction();
 
 private:
     QSharedPointer<GQtXml> m_dom;

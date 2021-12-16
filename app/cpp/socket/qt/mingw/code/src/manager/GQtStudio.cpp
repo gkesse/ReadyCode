@@ -32,7 +32,12 @@ void GQtStudio::createActions() {
             QString lSubMenuName = getSubMenuName(i, j);
             QAction* lAction = new QAction(this);
             lAction->setText(lSubMenuName);
+            QString lSubMenuIcon = getSubMenuIcon(i, j);
+            if(lSubMenuIcon != "") {
+                lAction->setIcon(QIcon(GQTIMG(lSubMenuIcon)));
+            }
             lMenu->addAction(lAction);
+            connect(lAction, SIGNAL(triggered()), this, SLOT(onMenuAction()));
         }
     }
 }
@@ -63,6 +68,14 @@ QString GQtStudio::getSubMenuName(int _menu, int _submenu) const {
     m_dom->getNodeItem("submenu", _submenu);
     QString lSubMenuName = m_dom->getNode("name").getNodeValue();
     return lSubMenuName;
+}
+//===============================================
+QString GQtStudio::getSubMenuIcon(int _menu, int _submenu) const {
+    m_dom->getRoot("rdv").getNode("menus");
+    m_dom->getNodeItem("menu", _menu).getNode("submenus");
+    m_dom->getNodeItem("submenu", _submenu);
+    QString lSubMenuIcon = m_dom->getNode("icon").getNodeValue();
+    return lSubMenuIcon;
 }
 //===============================================
 QString GQtStudio::getTitle() const {
