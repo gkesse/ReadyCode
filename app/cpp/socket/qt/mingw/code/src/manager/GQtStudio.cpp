@@ -18,8 +18,8 @@ GQtStudio::~GQtStudio() {
 }
 //===============================================
 void GQtStudio::createDoms() {
-    m_settingsDom.reset(new GQtXml);
-    m_settingsDom->openFileRD(GQTXML("settings.xml"));
+    m_dom.reset(new GQtXml);
+    m_dom->openFileRD(GQTXML("app.xml"));
 }
 //===============================================
 void GQtStudio::createActions() {
@@ -29,20 +29,20 @@ void GQtStudio::createActions() {
 }
 //===============================================
 QString GQtStudio::getTitle() const {
-    m_settingsDom->getRoot("rdv").getNode("settings");
-    QString lTitle = m_settingsDom->getNode("appname").getNodeValue();
+    m_dom->getRoot("rdv").getNode("settings");
+    QString lTitle = m_dom->getNode("appname").getNodeValue();
     return lTitle;
 }
 //===============================================
 int GQtStudio::getWidth() const {
-    m_settingsDom->getRoot("rdv").getNode("settings");
-    QString lWidth = m_settingsDom->getNode("width").getNodeValue();
+    m_dom->getRoot("rdv").getNode("settings");
+    QString lWidth = m_dom->getNode("width").getNodeValue();
     return lWidth.toInt();
 }
 //===============================================
 int GQtStudio::getHeight() const {
-    m_settingsDom->getRoot("rdv").getNode("settings");
-    QString lHeight = m_settingsDom->getNode("height").getNodeValue();
+    m_dom->getRoot("rdv").getNode("settings");
+    QString lHeight = m_dom->getNode("height").getNodeValue();
     return lHeight.toInt();
 }
 //===============================================

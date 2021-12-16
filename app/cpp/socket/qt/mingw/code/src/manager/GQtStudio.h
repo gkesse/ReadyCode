@@ -19,7 +19,7 @@ public:
     int getHeight() const;
 
 private:
-    QSharedPointer<GQtXml> m_settingsDom;
+    QSharedPointer<GQtXml> m_dom;
 };
 //==============================================
 #endif
