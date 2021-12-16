@@ -56,10 +56,48 @@ GQtXml& GQtXml::getNode(const QString& _nodeName) {
     return *this;
 }
 //===============================================
-QString GQtXml::getNodeValue() {
+int GQtXml::getNodeCount(const QString& _nodeName) const {
+    int lCount = 0;
+    if(!m_node.isNull()) {
+        QDomElement lNode = m_node.firstChildElement(_nodeName);
+        while(!lNode.isNull()) {
+            lCount++;
+            lNode = lNode.nextSiblingElement(_nodeName);
+        }
+    }
+    else {
+        GQTLOG->addError(QString("Erreur le noeud courant est nul"));
+    }
+    return lCount;
+}
+//===============================================
+GQtXml& GQtXml::getNodeItem(const QString& _nodeName, int _index) {
+    int lCount = 0;
+    if(!m_node.isNull()) {
+        QDomElement lNode = m_node.firstChildElement(_nodeName);
+        while(!lNode.isNull()) {
+            if(lCount == _index) {
+                m_node = lNode.toElement();
+                return *this;
+            }
+            lCount++;
+            lNode = lNode.nextSiblingElement(_nodeName);
+        }
+    }
+    else {
+        GQTLOG->addError(QString("Erreur le noeud courant est nul"));
+    }
+    m_node = QDomElement();
+    return *this;
+}
+//===============================================
+QString GQtXml::getNodeValue() const {
     QString lValue;
     if(!m_node.isNull()) {
         lValue = m_node.text();
+    }
+    else {
+        GQTLOG->addError(QString("Erreur le noeud courant est nul"));
     }
     return lValue;
 }

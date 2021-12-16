@@ -23,9 +23,46 @@ void GQtStudio::createDoms() {
 }
 //===============================================
 void GQtStudio::createActions() {
-    for(int i = 0; i < 3; i++) {
-        menuBar()->addMenu(tr("&File"));
+    int lCountMenus = countMenus();
+    for(int i = 0; i < lCountMenus; i++) {
+        QString lMenuName = getMenuName(i);
+        QMenu* lMenu = menuBar()->addMenu(lMenuName);
+        int lCountSubMenus = countSubMenus(i);
+        for(int j = 0; j < lCountSubMenus; j++) {
+            QString lSubMenuName = getSubMenuName(i, j);
+            QAction* lAction = new QAction(this);
+            lAction->setText(lSubMenuName);
+            lMenu->addAction(lAction);
+        }
     }
+}
+//===============================================
+int GQtStudio::countMenus() const {
+    m_dom->getRoot("rdv").getNode("menus");
+    int lCount = m_dom->getNodeCount("menu");
+    return lCount;
+}
+//===============================================
+int GQtStudio::countSubMenus(int _menu) const {
+    m_dom->getRoot("rdv").getNode("menus");
+    m_dom->getNodeItem("menu", _menu).getNode("submenus");
+    int lCount = m_dom->getNodeCount("submenu");
+    return lCount;
+}
+//===============================================
+QString GQtStudio::getMenuName(int _index) const {
+    m_dom->getRoot("rdv").getNode("menus");
+    m_dom->getNodeItem("menu", _index);
+    QString lMenuName = m_dom->getNode("name").getNodeValue();
+    return lMenuName;
+}
+//===============================================
+QString GQtStudio::getSubMenuName(int _menu, int _submenu) const {
+    m_dom->getRoot("rdv").getNode("menus");
+    m_dom->getNodeItem("menu", _menu).getNode("submenus");
+    m_dom->getNodeItem("submenu", _submenu);
+    QString lSubMenuName = m_dom->getNode("name").getNodeValue();
+    return lSubMenuName;
 }
 //===============================================
 QString GQtStudio::getTitle() const {

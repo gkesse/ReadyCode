@@ -13,7 +13,9 @@ public:
     bool openFileRD(const QString _filename);
     GQtXml& getRoot(const QString& _nodeName);
     GQtXml& getNode(const QString& _nodeName);
-    QString getNodeValue();
+    int getNodeCount(const QString& _nodeName) const;
+    GQtXml& getNodeItem(const QString& _nodeName, int _index);
+    QString getNodeValue() const;
 
 private:
     QDomDocument m_dom;

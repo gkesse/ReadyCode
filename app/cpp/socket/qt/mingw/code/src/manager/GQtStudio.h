@@ -14,6 +14,10 @@ public:
     ~GQtStudio();
     void createDoms();
     void createActions();
+    int countMenus() const;
+    int countSubMenus(int _menu) const;
+    QString getMenuName(int _index) const;
+    QString getSubMenuName(int _menu, int _submenu) const;
     QString getTitle() const;
     int getWidth() const;
     int getHeight() const;
