@@ -17,7 +17,7 @@ GQtSpreadSheet::~GQtSpreadSheet() {
 }
 //===============================================
 void GQtSpreadSheet::clear() {
-    GQTLOG->showMsg(GMSG);
+    GQTLOG->write(GMSG);
     setRowCount(0);
     setColumnCount(0);
     setRowCount(RowCount);
@@ -33,7 +33,7 @@ void GQtSpreadSheet::clear() {
 }
 //===============================================
 bool GQtSpreadSheet::saveFile(const QString& _filename) {
-    GQTLOG->showMsg(GMSG);
+    GQTLOG->write(GMSG);
     QApplication::setOverrideCursor(Qt::WaitCursor);
     GQtFile lFile;
     if(!lFile.openFileWR(_filename)) {
@@ -54,7 +54,7 @@ bool GQtSpreadSheet::saveFile(const QString& _filename) {
 }
 //===============================================
 bool GQtSpreadSheet::loadFile(const QString& _filename) {
-    GQTLOG->showMsg(GMSG);
+    GQTLOG->write(GMSG);
     GQtFile lFile;
     if(!lFile.openFileRD(_filename)) {
         GQTLOG->addError("Erreur le chargement du tableur a échoué");

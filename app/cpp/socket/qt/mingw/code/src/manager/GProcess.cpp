@@ -5,6 +5,7 @@
 #include "GSocketUi.h"
 #include "GSQLiteUi.h"
 #include "GFileUi.h"
+#include "GQtStudio.h"
 //===============================================
 GProcess* GProcess::m_instance = 0;
 //===============================================
@@ -32,6 +33,7 @@ void GProcess::run(int _argc, char** _argv) {
     if(lKey == "socket") {runSocket(_argc, _argv); return;}
     if(lKey == "sqlite") {runSQLite(_argc, _argv); return;}
     if(lKey == "file") {runFile(_argc, _argv); return;}
+    if(lKey == "studio") {runStudio(_argc, _argv); return;}
     runDefault(_argc, _argv);
 }
 //===============================================
@@ -72,5 +74,12 @@ void GProcess::runFile(int _argc, char** _argv) {
     if(_argc > 2) {lKey = _argv[2];}
     GFileUi* lProcess = GFileUi::Create(lKey);
     lProcess->run(_argc, _argv);
+}
+//===============================================
+void GProcess::runStudio(int _argc, char** _argv) {
+    QApplication app(_argc, _argv);
+    GQtStudio* lWindow = new GQtStudio;
+    lWindow->show();
+    app.exec();
 }
 //===============================================

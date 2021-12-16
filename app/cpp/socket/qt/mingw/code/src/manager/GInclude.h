@@ -9,6 +9,7 @@
 #include <sys/types.h>
 // qt
 #include <QtWidgets>
+#include <QtXml>
 #include <QtAwesome.h>
 // libxml2
 #include <libxml/tree.h>

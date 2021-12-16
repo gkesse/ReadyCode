@@ -14,7 +14,7 @@ enum eGLog {
     eGCRI
 };
 //===============================================
-#define GLEVEL(_x) #_x
+#define GLEVEL(x) #x
 //===============================================
 #define GMSG GLEVEL(eGMSG), __FILE__, __LINE__, __FUNCTION__
 #define GWAR GLEVEL(eGWAR), __FILE__, __LINE__, __FUNCTION__
@@ -27,8 +27,8 @@ public:
     GQtLog();
     ~GQtLog();
     static GQtLog* Instance();
-    void showMsg(const char* _level, const char* _file, int _line, const char* _func);
-    void showMsg(const char* _level, const char* _file, int _line, const char* _func, const QString& _data);
+    void write(const char* _level, const char* _file, int _line, const char* _func);
+    void write(const char* _level, const char* _file, int _line, const char* _func, const QString& _data);
     void addError(const QString& _data);
     bool hasError();
     void showError();
@@ -37,7 +37,7 @@ public:
 private:
     static const int BUFFER_SIZE = 1024;
     static GQtLog* m_instance;
-    std::vector<QString> m_errors;
+    QVector<QString> m_errors;
 };
 //==============================================
 #endif

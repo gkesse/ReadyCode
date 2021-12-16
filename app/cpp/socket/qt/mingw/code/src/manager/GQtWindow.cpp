@@ -28,7 +28,7 @@ GQtWindow::~GQtWindow() {
 }
 //===============================================
 void GQtWindow::onOpenButton() {
-    GQTLOG->showMsg(GMSG);
+    GQTLOG->write(GMSG);
     m_GQtSpreadWindow->show();
 }
 //===============================================

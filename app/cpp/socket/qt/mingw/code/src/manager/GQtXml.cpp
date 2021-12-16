@@ -1,48 +1,66 @@
 //===============================================
 #include "GQtXml.h"
-#include "GQtButtonCircle.h"
-#include "GQtTextEdit.h"
-#include "GQtTeamsBox.h"
-#include "GStruct.h"
 #include "GQtLog.h"
 //===============================================
-GQtXml::GQtXml(QWidget* _parent) :
-GQtWidget(_parent) {
-    sGQt lParams;
-    lParams.app_name = "ReadyApp-XML";
+GQtXml::GQtXml(QObject* _parent) :
+GQtObject(_parent) {
 
-    QPushButton* lTest = new QPushButton("Tester");
-
-    m_GQtButtonCircle = new GQtButtonCircle;
-    m_GQtTextEdit = new GQtTextEdit;
-    m_GQtTeamsBox = new GQtTeamsBox;
-
-    QVBoxLayout* lMainLayout = new QVBoxLayout;
-    lMainLayout->addWidget(lTest);
-    lMainLayout->addWidget(m_GQtButtonCircle);
-    lMainLayout->addWidget(m_GQtTextEdit);
-    lMainLayout->addWidget(m_GQtTeamsBox);
-    lMainLayout->setAlignment(Qt::AlignBottom);
-
-    setLayout(lMainLayout);
-    setWindowTitle(lParams.app_name);
-    resize(lParams.width, lParams.height);
-
-    connect(lTest, SIGNAL(clicked()), this, SLOT(onEvent()));
-
-    GQTLOG->showErrorQt(this);
 }
 //===============================================
 GQtXml::~GQtXml() {
 
 }
 //===============================================
-void GQtXml::onEvent() {
-    m_GQtButtonCircle->setBgColor("navy");
-    m_GQtButtonCircle->setText("NC");
-    m_GQtTextEdit->setBgColor("navy");
-    m_GQtTextEdit->setHoverColor("teal");
-    m_GQtTeamsBox->setIndexText(2, "NC");
-    qDebug() << m_GQtTextEdit->getText();
+bool GQtXml::openFileRD(const QString _filename) {
+    QFile lFile(_filename);
+    if (!lFile.open(QFile::ReadOnly | QFile::Text)) {
+        GQTLOG->addError(QString("Erreur l'ouverture du fichier a echoué :\n"
+                "Fichier : %1").arg(_filename));
+        return false;
+    }
+
+    QString lErrorStr;
+    int lErrorLine;
+    int lErrorColumn;
+
+    if (!m_dom.setContent(&lFile, true, &lErrorStr, &lErrorLine, &lErrorColumn)) {
+        GQTLOG->addError(QString("Erreur la création du document à échoué :\n"
+                "Erreur  : %1\n"
+                "Ligne   : %2\n"
+                "Colonne.: %3").arg(lErrorStr).arg(lErrorLine).arg(lErrorColumn));
+        return false;
+    }
+    lFile.close();
+    return true;
+}
+//===============================================
+GQtXml& GQtXml::getRoot(const QString& _nodeName) {
+    m_node = m_dom.documentElement();
+    if(m_node.nodeName() != _nodeName) {
+        GQTLOG->addError(QString("Erreur le noeud racine (%1) n'existe pas").arg(_nodeName));
+        m_node = QDomElement();
+    }
+    return *this;
+}
+//===============================================
+GQtXml& GQtXml::getNode(const QString& _nodeName) {
+    if(!m_node.isNull()) {
+        m_node = m_node.firstChildElement(_nodeName);
+        if(m_node.isNull()) {
+            GQTLOG->addError(QString("Erreur le noeud (%1) n'existe pas").arg(_nodeName));
+        }
+    }
+    else {
+        GQTLOG->addError(QString("Erreur le noeud courant est nul"));
+    }
+    return *this;
+}
+//===============================================
+QString GQtXml::getNodeValue() {
+    QString lValue;
+    if(!m_node.isNull()) {
+        lValue = m_node.text();
+    }
+    return lValue;
 }
 //===============================================

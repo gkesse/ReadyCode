@@ -251,6 +251,7 @@ Makefile: GProject.pro C:/Qt/5.15.0/mingw81_64/mkspecs/win32-g++/qmake.conf C:/Q
 		C:/Qt/5.15.0/mingw81_64/lib/Qt5PrintSupport.prl \
 		C:/Qt/5.15.0/mingw81_64/lib/Qt5Widgets.prl \
 		C:/Qt/5.15.0/mingw81_64/lib/Qt5Gui.prl \
+		C:/Qt/5.15.0/mingw81_64/lib/Qt5Xml.prl \
 		C:/Qt/5.15.0/mingw81_64/lib/Qt5Core.prl \
 		C:/Qt/5.15.0/mingw81_64/mkspecs/features/build_pass.prf \
 		C:/Users/Admin/Downloads/Programs/ReadyLib/dev/src/qtawesome/QtAwesome.qrc
@@ -436,6 +437,7 @@ GProject.pro:
 C:/Qt/5.15.0/mingw81_64/lib/Qt5PrintSupport.prl:
 C:/Qt/5.15.0/mingw81_64/lib/Qt5Widgets.prl:
 C:/Qt/5.15.0/mingw81_64/lib/Qt5Gui.prl:
+C:/Qt/5.15.0/mingw81_64/lib/Qt5Xml.prl:
 C:/Qt/5.15.0/mingw81_64/lib/Qt5Core.prl:
 C:/Qt/5.15.0/mingw81_64/mkspecs/features/build_pass.prf:
 C:/Users/Admin/Downloads/Programs/ReadyLib/dev/src/qtawesome/QtAwesome.qrc:

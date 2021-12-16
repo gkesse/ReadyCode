@@ -25,7 +25,7 @@ GQtSpreadWindow::~GQtSpreadWindow() {
 }
 //===============================================
 void GQtSpreadWindow::createActions() {
-    GQTLOG->showMsg(GMSG);
+    GQTLOG->write(GMSG);
 
     // ficher
     m_newAction = new QAction(tr("&Nouveau"), this);
@@ -76,7 +76,7 @@ void GQtSpreadWindow::createActions() {
 }
 //===============================================
 void GQtSpreadWindow::createMenus() {
-    GQTLOG->showMsg(GMSG);
+    GQTLOG->write(GMSG);
     // fichier
     m_fileMenu = menuBar()->addMenu(tr("&Fichier"));
     m_fileMenu->addAction(m_newAction);
@@ -97,7 +97,7 @@ void GQtSpreadWindow::createMenus() {
 }
 //===============================================
 bool GQtSpreadWindow::saveFile(const QString& _filename) {
-    GQTLOG->showMsg(GMSG);
+    GQTLOG->write(GMSG);
     if(!m_spreadsheet->saveFile(_filename)) {
         statusBar()->showMessage(tr("Erreur la sauvegarde du tableur a échoué"), 2000);
         GQTLOG->addError(tr("Erreur la sauvegarde du tableur a échoué"));
@@ -120,7 +120,7 @@ bool GQtSpreadWindow::loadFile(const QString& _filename) {
 }
 //===============================================
 void GQtSpreadWindow::setCurrentFile(const QString& _filename) {
-    GQTLOG->showMsg(GMSG);
+    GQTLOG->write(GMSG);
     m_currentFile = _filename;
     setWindowModified(false);
     QString lShowName = tr("Untitled");
@@ -136,12 +136,12 @@ void GQtSpreadWindow::setCurrentFile(const QString& _filename) {
 }
 //===============================================
 QString GQtSpreadWindow::strippedName(const QString& _fullname) {
-    GQTLOG->showMsg(GMSG);
+    GQTLOG->write(GMSG);
     return QFileInfo(_fullname).fileName();
 }
 //===============================================
 void GQtSpreadWindow::updateRecentFileActions() {
-    GQTLOG->showMsg(GMSG);
+    GQTLOG->write(GMSG);
     QMutableStringListIterator lFile(m_recentFiles);
     while (lFile.hasNext()) {
         if (!QFile::exists(lFile.next())) {
@@ -208,11 +208,11 @@ void GQtSpreadWindow::closeEvent(QCloseEvent *event) {
 }
 //===============================================
 void GQtSpreadWindow::onNewFile() {
-    GQTLOG->showMsg(GMSG);
+    GQTLOG->write(GMSG);
 }
 //===============================================
 void GQtSpreadWindow::onOpenFile() {
-    GQTLOG->showMsg(GMSG);
+    GQTLOG->write(GMSG);
     if (okToContinue()) {
         QString lFilename = QFileDialog::getOpenFileName(this,
                 tr("Ouvrir un tableur"), ".",
@@ -224,7 +224,7 @@ void GQtSpreadWindow::onOpenFile() {
 }
 //===============================================
 bool GQtSpreadWindow::onSave() {
-    GQTLOG->showMsg(GMSG);
+    GQTLOG->write(GMSG);
     if (m_currentFile.isEmpty()) {
         return onSaveAs();
     }
@@ -235,7 +235,7 @@ bool GQtSpreadWindow::onSave() {
 }
 //===============================================
 bool GQtSpreadWindow::onSaveAs() {
-    GQTLOG->showMsg(GMSG);
+    GQTLOG->write(GMSG);
     QString lFilename = QFileDialog::getSaveFileName(this,
             tr("Enregistrer le tableur"), ".",
             tr("Spreadsheet files (*.sp)"));

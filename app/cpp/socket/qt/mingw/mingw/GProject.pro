@@ -6,7 +6,7 @@ MOC_DIR = build
 UI_DIR = build
 RCC_DIR = build
 CONFIG += console debug gnu++11
-QT += widgets printsupport
+QT += widgets printsupport xml
 
 QMAKE_CXXFLAGS +=\
     -Wno-unused-parameter \

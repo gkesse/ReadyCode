@@ -55,6 +55,6 @@ GQtSortDialog::~GQtSortDialog() {
 }
 //===============================================
 void GQtSortDialog::onMoreButton() {
-    GQTLOG->showMsg(GMSG);
+    GQTLOG->write(GMSG);
 }
 //===============================================

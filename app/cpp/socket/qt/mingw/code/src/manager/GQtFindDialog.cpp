@@ -51,7 +51,7 @@ GQtFindDialog::~GQtFindDialog() {
 }
 //===============================================
 void GQtFindDialog::onFindButton() {
-    GQTLOG->showMsg(GMSG); GQt lQt;
+    GQTLOG->write(GMSG); GQt lQt;
     QString lFindText = m_findEdit->text();
     Qt::CaseSensitivity lCaseSensitivity = lQt.getCaseSensitivity(m_caseCheckBox);
     if(m_backwardCheckBox->isChecked()) {
@@ -63,7 +63,7 @@ void GQtFindDialog::onFindButton() {
 }
 //===============================================
 void GQtFindDialog::onFindEdit(const QString& _text) {
-    GQTLOG->showMsg(GMSG);
+    GQTLOG->write(GMSG);
     m_findButton->setEnabled(!GQT->isEmpty(m_findEdit));
 }
 //===============================================

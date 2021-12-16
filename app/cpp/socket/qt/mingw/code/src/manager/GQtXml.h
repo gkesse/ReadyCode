@@ -2,26 +2,22 @@
 #ifndef _GQtXml_
 #define _GQtXml_
 //===============================================
-#include "GQtWidget.h"
+#include "GQtObject.h"
 //===============================================
-class GQtTextEdit;
-class GQtButtonCircle;
-class GQtTeamsBox;
-//===============================================
-class GQtXml : public GQtWidget {
+class GQtXml : public GQtObject {
     Q_OBJECT
 
 public:
-    GQtXml(QWidget* _parent = 0);
+    GQtXml(QObject* _parent = 0);
     ~GQtXml();
+    bool openFileRD(const QString _filename);
+    GQtXml& getRoot(const QString& _nodeName);
+    GQtXml& getNode(const QString& _nodeName);
+    QString getNodeValue();
 
-public slots:
-    void onEvent();
-
-protected:
-    GQtTextEdit* m_GQtTextEdit;
-    GQtButtonCircle* m_GQtButtonCircle;
-    GQtTeamsBox* m_GQtTeamsBox;
+private:
+    QDomDocument m_dom;
+    QDomElement m_node;
 };
 //==============================================
 #endif

@@ -41,7 +41,7 @@ GQtCellLocation::~GQtCellLocation() {
 }
 //===============================================
 void GQtCellLocation::onCellEdit(const QString& _text) {
-    GQTLOG->showMsg(GMSG); GQt lQt;
+    GQTLOG->write(GMSG); GQt lQt;
     GQT->setEnabled(m_buttonBox, QDialogButtonBox::Ok, m_cellEdit->hasAcceptableInput());
 }
 //===============================================
