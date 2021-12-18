@@ -127,12 +127,12 @@ void GQtMainWindow::writeRecentFiles(QStringList _recentFiles) {
         QString lRecentFile = _recentFiles.at(i);
         appendRecentFile(lRecentFile);
     }
-    m_domData->saveFile();
 }
 //===============================================
 void GQtMainWindow::clearRecentFiles() {
     m_domData->getRoot("rdv").getNode("recentfiles");
     m_domData->clearNode("name");
+    m_domData->saveFile();
 }
 //===============================================
 void GQtMainWindow::appendRecentFile(QString _recentFile) {
@@ -140,6 +140,7 @@ void GQtMainWindow::appendRecentFile(QString _recentFile) {
     GQtXml lNode(m_domData.get());
     lNode.createNodeText("name", _recentFile);
     m_domData->appendNode(lNode);
+    m_domData->saveFile();
 }
 //===============================================
 int GQtMainWindow::countMenus() const {
