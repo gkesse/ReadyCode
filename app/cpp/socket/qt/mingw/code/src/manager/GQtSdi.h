@@ -1,26 +1,29 @@
 //===============================================
-#ifndef _GQtStudio_
-#define _GQtStudio_
+#ifndef _GQtSdi_
+#define _GQtSdi_
 //===============================================
 #include "GQtMainWindow.h"
 //===============================================
 class GQtXml;
-class GQtSdi;
 //===============================================
-class GQtStudio : public GQtMainWindow {
+class GQtSdi : public GQtMainWindow {
     Q_OBJECT
 
 public:
-    GQtStudio(QWidget* _parent = 0);
-    ~GQtStudio();
+    GQtSdi(QWidget* _parent = 0);
+    ~GQtSdi();
     void createDoms();
-    void createWindows();
+    void createCentralWidget();
+    void createWindowTitle(const QString& _filename = "");
+    void setPosition(QWidget* _parent);
 
 public slots:
     void onMenuAction();
+    void onTextEditChange();
 
 private:
-    GQtSdi* m_sdiWindow;
+    QTextEdit* m_textEdit;
+    static int m_documentCount;
 };
 //==============================================
 #endif
