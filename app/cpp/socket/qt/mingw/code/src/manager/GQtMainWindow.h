@@ -20,6 +20,8 @@ public:
     int countRecentFiles() const;
     QString getRecentFile(int _name) const;
     void writeRecentFiles(QStringList _recentFiles);
+    void clearRecentFiles();
+    void appendRecentFile(QString _recentFile);
     int countMenus() const;
     int countSubMenus(int _menu) const;
     int countBoxMenus(int _menu, int _submenu) const;

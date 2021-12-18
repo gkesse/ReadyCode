@@ -122,8 +122,24 @@ QString GQtMainWindow::getRecentFile(int _name) const {
 }
 //===============================================
 void GQtMainWindow::writeRecentFiles(QStringList _recentFiles) {
+    clearRecentFiles();
+    for(int i = 0; i < _recentFiles.size(); i++) {
+        QString lRecentFile = _recentFiles.at(i);
+        appendRecentFile(lRecentFile);
+    }
+}
+//===============================================
+void GQtMainWindow::clearRecentFiles() {
     m_domData->getRoot("rdv").getNode("recentfiles");
     m_domData->clearNode("name");
+    m_domData->saveFile();
+}
+//===============================================
+void GQtMainWindow::appendRecentFile(QString _recentFile) {
+    m_domData->getRoot("rdv").getNode("recentfiles");
+    GQtXml lNode(m_domData.get());
+    lNode.createNodeText("name", _recentFile);
+    m_domData->appendNode(lNode);
     m_domData->saveFile();
 }
 //===============================================
