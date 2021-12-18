@@ -4,13 +4,13 @@
 //===============================================
 GQtXml::GQtXml(QObject* _parent) :
 GQtObject(_parent) {
-    m_domIn = 0;
+    m_xml = 0;
     m_filename = "";
 }
 //===============================================
-GQtXml::GQtXml(QDomDocument* _dom, QObject* _parent) :
+GQtXml::GQtXml(GQtXml* _xml, QObject* _parent) :
 GQtObject(_parent) {
-    m_domIn = _dom;
+    m_xml = _xml;
     m_filename = "";
 }
 //===============================================
@@ -136,24 +136,40 @@ GQtXml& GQtXml::appendNode(GQtXml& _node) {
 }
 //===============================================
 GQtXml& GQtXml::createNode(const QString& _nodeName) {
-    m_node = m_domIn->createElement(_nodeName);
+    if(!m_xml) {
+        GQTLOG->addError(QString("Erreur la methode (createNode) a echoue."));
+        return *this;
+    }
+    m_node = m_xml->m_dom.createElement(_nodeName);
     return *this;
 }
 //===============================================
 GQtXml& GQtXml::createNodeText(const QString& _nodeName, const QString& _text) {
-    m_node = m_domIn->createElement(_nodeName);
-    QDomText lText = m_domIn->createTextNode(_text);
+    if(!m_xml) {
+        GQTLOG->addError(QString("Erreur la methode (createNodeText) a echoue."));
+        return *this;
+    }
+    m_node = m_xml->m_dom.createElement(_nodeName);
+    QDomText lText = m_xml->m_dom.createTextNode(_text);
     m_node.appendChild(lText);
     return *this;
 }
 //===============================================
 GQtXml& GQtXml::createText(const QString& _text) {
-    m_node = m_domIn->createTextNode(_text);
+    if(!m_xml) {
+        GQTLOG->addError(QString("Erreur la methode (createText) a echoue."));
+        return *this;
+    }
+    m_node = m_xml->m_dom.createTextNode(_text).toElement();
     return *this;
 }
 //===============================================
 GQtXml& GQtXml::appendText(const QString& _text) {
-    QDomText lText = m_domIn->createTextNode(_text);
+    if(!m_xml) {
+        GQTLOG->addError(QString("Erreur la methode (appendText) a echoue."));
+        return *this;
+    }
+    QDomText lText = m_xml->m_dom.createTextNode(_text);
     m_node.appendChild(lText);
     return *this;
 }

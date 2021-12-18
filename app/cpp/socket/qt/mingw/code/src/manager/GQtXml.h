@@ -9,7 +9,7 @@ class GQtXml : public GQtObject {
 
 public:
     GQtXml(QObject* _parent = 0);
-    GQtXml(QDomDocument* _dom, QObject* _parent = 0);
+    GQtXml(GQtXml* _xml, QObject* _parent = 0);
     ~GQtXml();
     bool openFileRD(const QString _filename);
     bool saveFile(const QString _filename = "");
@@ -28,7 +28,7 @@ public:
     QString getNodeValueOrEmpty() const;
 
 private:
-    QDomDocument* m_domIn;
+    GQtXml* m_xml;
     QDomDocument m_dom;
     QDomElement m_node;
     QString m_filename;
