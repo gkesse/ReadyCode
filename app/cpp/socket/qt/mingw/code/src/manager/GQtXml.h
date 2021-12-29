@@ -16,9 +16,11 @@ public:
     GQtXml& getRoot(const QString& _nodeName);
     GQtXml& getNode(const QString& _nodeName);
     GQtXml& getNodeOrEmpty(const QString& _nodeName);
-    int getNodeCount(const QString& _nodeName) const;
+    int countNode(const QString& _nodeName) const;
     GQtXml& clearNode(const QString& _nodeName);
+    bool hasNode(const QString& _nodeName);
     GQtXml& appendNode(GQtXml& _node);
+    GQtXml& setNodeValue(const QString& _value);
     GQtXml& createNode(const QString& _nodeName);
     GQtXml& createNodeText(const QString& _nodeName, const QString& _text);
     GQtXml& createText(const QString& _text);

@@ -20,7 +20,6 @@ public slots:
     void onMenuAction();
 
 private:
-    GQtSdi* m_sdiWindow;
 };
 //==============================================
 #endif

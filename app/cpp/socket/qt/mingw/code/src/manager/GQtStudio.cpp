@@ -26,8 +26,7 @@ void GQtStudio::createDoms() {
 }
 //===============================================
 void GQtStudio::createWindows() {
-    m_sdiWindow = new GQtSdi;
-    m_sdiWindow->setWindowFlag(this);
+
 }
 //===============================================
 void GQtStudio::onMenuAction() {
@@ -36,8 +35,11 @@ void GQtStudio::onMenuAction() {
     qDebug() << lKey;
 
     if(lKey == "qt/mainwindow/sdi") {
-        m_sdiWindow->show();
-        m_sdiWindow->activateWindow();
+        GQtSdi* lSdiWindow = new GQtSdi;
+        lSdiWindow->setWindowFlag(this);
+        lSdiWindow->setPosition(this);
+        lSdiWindow->show();
+        lSdiWindow->activateWindow();
     }
 }
 //===============================================

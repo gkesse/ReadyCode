@@ -7,6 +7,7 @@
 #include <windows.h>
 #include <dirent.h>
 #include <sys/types.h>
+#include <limits>
 // qt
 #include <QtWidgets>
 #include <QtXml>

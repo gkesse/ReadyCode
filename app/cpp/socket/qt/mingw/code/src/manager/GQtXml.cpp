@@ -52,14 +52,15 @@ bool GQtXml::saveFile(const QString _filename) {
         lFilename = m_filename;
     }
     else {
-        GQTLOG->addError(QString("Erreur le nom du fichier est vide."));
+        GQTLOG->addError(QString("Erreur la methode (saveFile) a echoue\n"
+                "sur le fichier (%1).").arg(lFilename));
         return false;
     }
 
     QFile lFile(lFilename);
     if (!lFile.open(QFile::WriteOnly | QFile::Text)) {
-        GQTLOG->addError(QString("Erreur l'ouverture du fichier a echoué :\n"
-                "Fichier : %1").arg(_filename));
+        GQTLOG->addError(QString("Erreur la methode (saveFile) a echoue\n"
+                "sur le fichier (%1).").arg(lFilename));
         return false;
     }
 
@@ -74,7 +75,8 @@ bool GQtXml::saveFile(const QString _filename) {
 GQtXml& GQtXml::getRoot(const QString& _nodeName) {
     m_node = m_dom.documentElement();
     if(m_node.nodeName() != _nodeName) {
-        GQTLOG->addError(QString("Erreur le noeud racine (%1) n'existe pas").arg(_nodeName));
+        GQTLOG->addError(QString("Erreur la methode (getRoot) a echoue\n"
+                "sur le noeud (%1).").arg(_nodeName));
         m_node = QDomElement();
     }
     return *this;
@@ -88,7 +90,8 @@ GQtXml& GQtXml::getNode(const QString& _nodeName) {
         }
     }
     else {
-        GQTLOG->addError(QString("Erreur le noeud courant est nul"));
+        GQTLOG->addError(QString("Erreur la methode (getNode) a echoue\n"
+                "sur le noeud (%1).").arg(_nodeName));
     }
     return *this;
 }
@@ -100,7 +103,7 @@ GQtXml& GQtXml::getNodeOrEmpty(const QString& _nodeName) {
     return *this;
 }
 //===============================================
-int GQtXml::getNodeCount(const QString& _nodeName) const {
+int GQtXml::countNode(const QString& _nodeName) const {
     int lCount = 0;
     if(!m_node.isNull()) {
         QDomElement lNode = m_node.firstChildElement(_nodeName);
@@ -110,7 +113,8 @@ int GQtXml::getNodeCount(const QString& _nodeName) const {
         }
     }
     else {
-        GQTLOG->addError(QString("Erreur le noeud courant est nul"));
+        GQTLOG->addError(QString("Erreur la methode (getNodeCount) a echoue\n"
+                "sur le noeud (%1).").arg(_nodeName));
     }
     return lCount;
 }
@@ -125,13 +129,42 @@ GQtXml& GQtXml::clearNode(const QString& _nodeName) {
         }
     }
     else {
-        GQTLOG->addError(QString("Erreur la suppression du noeud a échoué."));
+        GQTLOG->addError(QString("Erreur la methode (clearNode) a echoue\n"
+                "sur le noeud (%1).").arg(_nodeName));
     }
     return *this;
 }
 //===============================================
+bool GQtXml::hasNode(const QString& _nodeName) {
+    if(!m_node.isNull()) {
+        QDomElement lNode = m_node.firstChildElement(_nodeName);
+        if(lNode.isNull()) {
+            return false;
+        }
+    }
+    else {
+        GQTLOG->addError(QString("Erreur la methode (existeNode) a echoue\n"
+                "sur le noeud (%1).").arg(_nodeName));
+        return false;
+    }
+    return true;
+}
+//===============================================
 GQtXml& GQtXml::appendNode(GQtXml& _node) {
+    if(m_node.isNull()) {
+        GQTLOG->addError(QString("Erreur la methode (appendNode) a echoue."));
+        return *this;
+    }
     m_node.appendChild(_node.m_node);
+    return *this;
+}
+//===============================================
+GQtXml& GQtXml::setNodeValue(const QString& _value) {
+    if(m_node.isNull()) {
+        GQTLOG->addError(QString("Erreur la methode (setNodeValue) a echoue."));
+        return *this;
+    }
+    m_node.firstChild().setNodeValue(_value);
     return *this;
 }
 //===============================================
