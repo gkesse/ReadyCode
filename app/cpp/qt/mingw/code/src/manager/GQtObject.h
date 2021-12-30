@@ -4,16 +4,21 @@
 //===============================================
 #include "GInclude.h"
 //===============================================
+#define GQTOBJECT GQtObject::Instance()
+#define GQTRES(x, y) GQTOBJECT->getResourcePath(x, y)
+//===============================================
 class GQtObject : public QObject {
     Q_OBJECT
 
 public:
     GQtObject(QObject* _parent = 0);
     ~GQtObject();
+    static GQtObject* Instance();
     QString getDataPath();
+    QString getResourcePath(const QString& _resource, const QString& _filename);
 
 private:
-    QString m_dataPath;
+    static GQtObject* m_instance;
 };
 //==============================================
 #endif

@@ -11,8 +11,8 @@ public:
     GQtXml(QObject* _parent = 0);
     GQtXml(GQtXml* _xml, QObject* _parent = 0);
     ~GQtXml();
-    bool openFileRD(const QString _filename);
-    bool saveFile(const QString _filename = "");
+    bool loadXmlFile(const QString _filename);
+    bool saveXmlFile(const QString _filename = "");
     GQtXml& getRoot(const QString& _nodeName);
     GQtXml& getNode(const QString& _nodeName);
     GQtXml& getNodeOrEmpty(const QString& _nodeName);
@@ -27,6 +27,7 @@ public:
     GQtXml& appendText(const QString& _text);
     GQtXml& getNodeItem(const QString& _nodeName, int _index);
     QString getNodeValue() const;
+    QString getCData() const;
     QString getNodeValueOrEmpty() const;
 
 private:

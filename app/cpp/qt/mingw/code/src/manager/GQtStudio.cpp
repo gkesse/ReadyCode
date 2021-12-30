@@ -1,8 +1,9 @@
 //===============================================
 #include "GQtStudio.h"
 #include "GQtSdi.h"
+#include "GQtMdi.h"
 #include "GQtXml.h"
-#include "GQtResource.h"
+#include "GQtObject.h"
 #include "GQtLog.h"
 //===============================================
 GQtStudio::GQtStudio(QWidget* _parent) :
@@ -11,7 +12,7 @@ GQtMainWindow(_parent) {
     createActions();
     createWindows();
     setWindowTitle(getTitle());
-    setWindowIcon(QIcon(GQTIMG(getLogo())));
+    setWindowIcon(QIcon(GQTRES("studio/img", getLogo())));
     resize(getWidth(), getHeight());
     GQTLOG->showErrorQt(this);
 }
@@ -22,7 +23,7 @@ GQtStudio::~GQtStudio() {
 //===============================================
 void GQtStudio::createDoms() {
     m_dom.reset(new GQtXml);
-    m_dom->openFileRD(GQTXML("app.xml"));
+    m_dom->loadXmlFile(GQTRES("studio/xml", "app.xml"));
 }
 //===============================================
 void GQtStudio::createWindows() {
@@ -40,6 +41,12 @@ void GQtStudio::onMenuAction() {
         lSdiWindow->setPosition(this);
         lSdiWindow->show();
         lSdiWindow->activateWindow();
+    }
+    else if(lKey == "qt/mainwindow/mdi") {
+        GQtMdi* lMdiWindow = new GQtMdi;
+        lMdiWindow->setWindowFlag(this);
+        lMdiWindow->show();
+        lMdiWindow->activateWindow();
     }
 }
 //===============================================

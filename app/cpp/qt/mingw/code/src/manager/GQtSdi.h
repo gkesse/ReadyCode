@@ -26,8 +26,6 @@ public:
     bool saveAs();
     bool maybeSave();
     void writeSettings();
-    void setLanguage(const QString& _lang);
-    void setLanguageIndex(const QString& _key);
 
 protected:
     void closeEvent(QCloseEvent* _event);

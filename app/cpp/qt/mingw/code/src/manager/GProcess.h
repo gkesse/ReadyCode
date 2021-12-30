@@ -13,6 +13,7 @@ public:
     static GProcess* Instance();
     void run(int _argc, char** _argv);
     void createDom();
+    std::string getName() const;
     void runDefault(int _argc, char** _argv);
     void runQt(int _argc, char** _argv);
     void runSocket(int _argc, char** _argv);

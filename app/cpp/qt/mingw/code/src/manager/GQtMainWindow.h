@@ -17,9 +17,9 @@ public:
     void createStatusBar();
     void setWindowFlag(QWidget* _parent);
     void prependToRecentFiles(const QString& _filename);
-    virtual void setRecentFilesVisible(bool _visible);
+    virtual void setRecentFilesVisible(bool _visible, const QString& _recentFile = "file/recent", const QString& _separator = "file/recent/separator");
     QStringList readRecentFiles();
-    void updateRecentFiles();
+    void updateRecentFiles(const QString& _recentFileMaxKey = "file/recent/max", const QString& _recentFileKey = "file/recent");
     QString strippedName(const QString& _fullname);
     int countRecentFiles() const;
     bool hasRecentFiles() const;
@@ -50,6 +50,7 @@ public:
     bool getSubMenuSeparatorOn(int _menu, int _submenu) const;
     bool getSubMenuCtrlOn(int _menu, int _submenu) const;
     QString getTitle() const;
+    QString getAbout() const;
     QString getLogo() const;
     int getWidth() const;
     int getHeight() const;
@@ -59,6 +60,8 @@ public:
     QString getWord(const QString& _id) const;
     QString getWord(const QString& _id, const QString& _lang) const;
     QString getWordLang() const;
+    void setLanguage(const QString& _lang);
+    void setLanguageIndex(const QString& _key, const QString& _languageKey = "help/language");
     QAction* getKeyAction(const QString& _key) const;
     int getKeyInt(const QString& _key) const;
     QString getKeyIndex(const QString& _key, int _index) const;

@@ -25,32 +25,25 @@ GProcess* GProcess::Instance() {
 }
 //===============================================
 void GProcess::run(int _argc, char** _argv) {
-    GXml lDom;
-    lDom.loadXmlFile("C:/Users/Admin/Downloads/Programs/ReadyData/data/cpp/xml/process.xml");
-    std::cout << lDom.getRoot("rdv").getNode("process").getNode("name").getNodeValue();
-    QString lKey = "default";
-    if(_argc > 1) {lKey = _argv[1];}
-    if(lKey == "default") {runDefault(_argc, _argv); return;}
-    if(lKey == "qt") {runQt(_argc, _argv); return;}
-    if(lKey == "socket") {runSocket(_argc, _argv); return;}
-    if(lKey == "sqlite") {runSQLite(_argc, _argv); return;}
-    if(lKey == "file") {runFile(_argc, _argv); return;}
-    if(lKey == "studio") {runStudio(_argc, _argv); return;}
-    runDefault(_argc, _argv);
+    std::string lKey = getName();
+    if(lKey == "qt") {runQt(_argc, _argv);}
+    else if(lKey == "socket") {runSocket(_argc, _argv);}
+    else if(lKey == "sqlite") {runSQLite(_argc, _argv);}
+    else if(lKey == "file") {runFile(_argc, _argv);}
+    else if(lKey == "studio") {runStudio(_argc, _argv);}
 }
 //===============================================
 void GProcess::createDom() {
     m_dom.reset(new GXml);
-    m_dom->loadXmlFile(getXmlPath("process.xml"));
+    m_dom->loadXmlFile(GRES("cpp/xml", "process.xml"));
     m_dom->createXPath();
+}
+//===============================================
+std::string GProcess::getName() const {
     m_dom->queryXPath("/rdv/process/name");
     m_dom->getNodeXPath();
     std::string lData = m_dom->getNodeValue();
-    printf("[%s]....\n", lData.c_str());
-}
-//===============================================
-void GProcess::runDefault(int _argc, char** _argv) {
-    printf("[process] process par defaut\n");
+    return lData;
 }
 //===============================================
 void GProcess::runQt(int _argc, char** _argv) {

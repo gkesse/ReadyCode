@@ -1,7 +1,7 @@
 //===============================================
 #include "GQtMainWindow.h"
 #include "GQtXml.h"
-#include "GQtResource.h"
+#include "GQtObject.h"
 #include "GQtLog.h"
 //===============================================
 GQtMainWindow::GQtMainWindow(QWidget* _parent) :
@@ -50,7 +50,7 @@ void GQtMainWindow::createActions() {
                 QString lSubMenuIcon = getSubMenuIcon(i, j);
                 // if submenu icon exist
                 if(lSubMenuIcon != "") {
-                    lAction->setIcon(QIcon(GQTIMG(lSubMenuIcon)));
+                    lAction->setIcon(QIcon(GQTRES("studio/img", lSubMenuIcon)));
                 }
                 // get submenu statustip
                 QString lSubMenuStatusTip = getSubMenuStatusTip(i, j);
@@ -246,12 +246,12 @@ QStringList GQtMainWindow::readRecentFiles() {
     return lRecentFiles;
 }
 //===============================================
-void GQtMainWindow::updateRecentFiles() {
+void GQtMainWindow::updateRecentFiles(const QString& _recentFileMaxKey, const QString& _recentFileKey) {
     QStringList recentFiles = readRecentFiles();
-    int lMax = getKeyInt("file/recent/max");
+    int lMax = getKeyInt(_recentFileMaxKey);
     int lCount = qMin(lMax, recentFiles.size());
     for(int i = 0; i < lMax; i++) {
-        QString lKey = getKeyIndex("file/recent", i);
+        QString lKey = getKeyIndex(_recentFileKey, i);
         QAction* lAction = getKeyAction(lKey);
         if(i < lCount) {
             const QString fileName = strippedName(recentFiles.at(i));
@@ -297,7 +297,7 @@ void GQtMainWindow::writeRecentFiles(QStringList _recentFiles) {
 void GQtMainWindow::clearRecentFiles() {
     m_domData->getRoot("rdv").getNode("recentfiles");
     m_domData->clearNode("name");
-    m_domData->saveFile();
+    m_domData->saveXmlFile();
 }
 //===============================================
 void GQtMainWindow::appendRecentFile(QString _recentFile) {
@@ -305,7 +305,7 @@ void GQtMainWindow::appendRecentFile(QString _recentFile) {
     GQtXml lNode(m_domData.get());
     lNode.createNodeText("name", _recentFile);
     m_domData->appendNode(lNode);
-    m_domData->saveFile();
+    m_domData->saveXmlFile();
 }
 //===============================================
 int GQtMainWindow::countMenus() const {
@@ -535,6 +535,13 @@ QString GQtMainWindow::getTitle() const {
     return lData;
 }
 //===============================================
+QString GQtMainWindow::getAbout() const {
+    m_dom->getRoot("rdv").getNode("settings");
+    m_dom->getNode("about");
+    QString lData = m_dom->getCData();
+    return lData;
+}
+//===============================================
 QString GQtMainWindow::getLogo() const {
     m_dom->getRoot("rdv").getNode("settings");
     m_dom->getNode("logo");
@@ -619,6 +626,38 @@ QString GQtMainWindow::getWordLang() const {
     return lData;
 }
 //===============================================
+void GQtMainWindow::setLanguage(const QString& _lang) {
+    m_domWord->getRoot("rdv").getNode("lang");
+    m_domWord->setNodeValue(_lang);
+    m_domWord->saveXmlFile();
+}
+//===============================================
+void GQtMainWindow::setLanguageIndex(const QString& _key, const QString& _languageKey) {
+    // get index coords
+    QString lKeyI = QString("%1/index/i").arg(_languageKey);
+    QString lKeyJ = QString("%1/index/j").arg(_languageKey);
+    int i = m_keyInt[lKeyI];
+    int j = m_keyInt[lKeyJ];
+    // get index position
+    int lIndex = 0;
+    int lCount = countBoxMenus(i, j);
+    for(int k = 0; k < lCount; k++) {
+        QString lKeyMenu = getBoxMenuKey(i, j, k);
+        if(lKeyMenu == _key) {
+            lIndex = k;
+            break;
+        }
+    }
+    // set index
+    m_dom->getRoot("rdv").getNode("menus");
+    m_dom->getNodeItem("menu", i).getNode("submenus");
+    m_dom->getNodeItem("submenu", j).getNode("menu");
+    m_dom->getNodeOrEmpty("index");
+    m_dom->setNodeValue(QString("%1").arg(lIndex));
+    // save dom
+    m_dom->saveXmlFile();
+}
+//===============================================
 QAction* GQtMainWindow::getKeyAction(const QString& _key) const {
     QAction* lAction = m_keyAction.value(_key, 0);
     if(lAction == 0) {
@@ -644,9 +683,9 @@ QString GQtMainWindow::getKeyIndex(const QString& _key, int _index) const {
     return lKey;
 }
 //===============================================
-void GQtMainWindow::setRecentFilesVisible(bool _visible) {
-    QAction* lRecentFile = getKeyAction("file/recent");
-    QAction* lSeparator = getKeyAction("file/recent/separator");
+void GQtMainWindow::setRecentFilesVisible(bool _visible, const QString& _recentFile, const QString& _separator) {
+    QAction* lRecentFile = getKeyAction(_recentFile);
+    QAction* lSeparator = getKeyAction(_separator);
     lRecentFile->setVisible(_visible);
     lSeparator->setVisible(_visible);
 }

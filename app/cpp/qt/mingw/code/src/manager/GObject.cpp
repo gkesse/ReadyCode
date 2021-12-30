@@ -1,6 +1,8 @@
 //===============================================
 #include "GObject.h"
 //===============================================
+GObject* GObject::m_instance = 0;
+//===============================================
 GObject::GObject() {
 
 }
@@ -9,8 +11,15 @@ GObject::~GObject() {
 
 }
 //===============================================
+GObject* GObject::Instance() {
+    if(m_instance == 0) {
+        m_instance = new GObject;
+    }
+    return m_instance;
+}
+//===============================================
 std::string GObject::getDataPath() const {
-    std::string lPath = "C:/Users/Admin/Downloads/Programs/ReadyData/data/cpp";
+    std::string lPath = "C:/Users/Admin/Downloads/Programs/ReadyData/data";
     return lPath;
 }
 //===============================================
@@ -22,11 +31,6 @@ std::string GObject::getResourcePath(const std::string& _resource, const std::st
     if(getDataPath() != "") {
         lPath = getDataPath() + "/" + lPath;
     }
-    return lPath;
-}
-//===============================================
-std::string GObject::getXmlPath(const std::string& _filename) const {
-    std::string lPath = getResourcePath("xml", _filename);
     return lPath;
 }
 //===============================================

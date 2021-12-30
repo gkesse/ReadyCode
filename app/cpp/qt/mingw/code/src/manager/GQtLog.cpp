@@ -31,19 +31,22 @@ void GQtLog::addError(const QString& _data) {
 }
 //===============================================
 bool GQtLog::hasError() {
-    return (m_errors.size() != 0);
+    return !m_errors.empty();
 }
 //===============================================
 void GQtLog::showError() {
+    if(!hasError()) return;
+    QString lErrors = "";
     for(int i = 0; i < m_errors.size(); i++) {
-        QString lError = m_errors.at(i);
-        fprintf(stdout, "%s\n", lError.toStdString().c_str());
+        if(i != 0) lErrors += "\n";
+        lErrors += m_errors.at(i);
     }
+    fprintf(stdout, "%s\n", lErrors.toStdString().c_str());
 }
 //===============================================
 void GQtLog::showErrorQt(QWidget* _parent) {
     if(!hasError()) return;
-    QString lError;
+    QString lError = "";
     for(int i = 0; i < m_errors.size(); i++) {
         if(i != 0) lError += "\n";
         lError += m_errors.at(i);

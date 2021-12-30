@@ -1,7 +1,6 @@
 //===============================================
 #include "GQtSdi.h"
 #include "GQtXml.h"
-#include "GQtResource.h"
 #include "GQtLog.h"
 //===============================================
 int GQtSdi::m_documentCount = 1;
@@ -18,7 +17,7 @@ GQtMainWindow(_parent) {
     setRecentFilesVisible(hasRecentFiles());
     setCurrentFile();
 
-    setWindowIcon(QIcon(GQTIMG(getLogo())));
+    setWindowIcon(QIcon(GQTRES("studio/img", getLogo())));
     resize(getWidth(), getHeight());
     setUnifiedTitleAndToolBarOnMac(true);
 
@@ -31,11 +30,11 @@ GQtSdi::~GQtSdi() {
 //===============================================
 void GQtSdi::createDoms() {
     m_dom.reset(new GQtXml);
-    m_dom->openFileRD(GQTXML("sdi.xml"));
+    m_dom->loadXmlFile(GQTRES("studio/xml", "sdi.xml"));
     m_domData.reset(new GQtXml);
-    m_domData->openFileRD(GQTXML("sdi_data.xml"));
+    m_domData->loadXmlFile(GQTRES("studio/xml", "sdi_data.xml"));
     m_domWord.reset(new GQtXml);
-    m_domWord->openFileRD(GQTXML("sdi_words.xml"));
+    m_domWord->loadXmlFile(GQTRES("studio/xml", "sdi_words.xml"));
 }
 //===============================================
 void GQtSdi::createCentralWidget() {
@@ -137,8 +136,8 @@ GQtSdi* GQtSdi::findMainWindow(const QString& _filename) const {
 void GQtSdi::loadFile(const QString& _filename) {
     QFile file(_filename);
     if (!file.open(QFile::ReadOnly | QFile::Text)) {
-        GQTLOG->addError(QString("Erreur la methode (loadFile) a echoue\n"
-                "sur le noeud (%1).").arg(_filename));
+        GQTLOG->addError(QString("Erreur la methode (loadFile) a echoue "
+                "sur le noeud (%1).\n").arg(_filename));
         return;
     }
 
@@ -158,8 +157,8 @@ bool GQtSdi::saveFile(const QString& _filename) {
         QTextStream out(&lFile);
         out << m_textEdit->toPlainText();
         if (!lFile.commit()) {
-            GQTLOG->addError(QString("Erreur la methode (saveFile) a echoue\n"
-                    "sur le fichier (%1) (1).").arg(_filename));
+            GQTLOG->addError(QString("Erreur la methode (saveFile) a echoue "
+                    "sur le fichier (%1) (1).\n").arg(_filename));
             return false;
         }
     }
@@ -206,40 +205,6 @@ bool GQtSdi::maybeSave() {
         return false;
     }
     return true;
-}
-//===============================================
-void GQtSdi::setLanguage(const QString& _lang) {
-    m_domWord->getRoot("rdv").getNode("lang");
-    m_domWord->setNodeValue(_lang);
-    m_domWord->saveFile();
-}
-//===============================================
-void GQtSdi::setLanguageIndex(const QString& _key) {
-    // get index coords
-    QString lKey = "help/language";
-    QString lKeyI = QString("%1/index/i").arg(lKey);
-    QString lKeyJ = QString("%1/index/j").arg(lKey);
-    int i = m_keyInt[lKeyI];
-    int j = m_keyInt[lKeyJ];
-    // get index position
-    int lIndex = 0;
-    int lCount = countBoxMenus(i, j);
-    for(int k = 0; k < lCount; k++) {
-        QString lKeyMenu = getBoxMenuKey(i, j, k);
-        if(lKeyMenu == _key) {
-            lIndex = k;
-            break;
-        }
-    }
-    // set index
-    m_dom->getRoot("rdv").getNode("menus");
-    m_dom->getNodeItem("menu", i).getNode("submenus");
-    m_dom->getNodeItem("submenu", j).getNode("menu");
-    m_dom->getNodeOrEmpty("index");
-    m_dom->setNodeValue(QString("%1").arg(lIndex));
-    // save dom
-    m_dom->saveFile();
-
 }
 //===============================================
 void GQtSdi::closeEvent(QCloseEvent* _event) {
