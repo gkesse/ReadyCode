@@ -536,9 +536,21 @@ QString GQtMainWindow::getTitle() const {
 }
 //===============================================
 QString GQtMainWindow::getAbout() const {
+    QString lData;
+    // get id
     m_dom->getRoot("rdv").getNode("settings");
-    m_dom->getNode("about");
-    QString lData = m_dom->getCData();
+    m_dom->getNode("about").getNodeOrEmpty("id");
+    QString lId = m_dom->getNodeValueOrEmpty();
+    // if id exist
+    if(lId != "") {
+        lData = getWordCData(lId);
+    }
+    // if id no exist
+    else {
+        m_dom->getRoot("rdv").getNode("settings");
+        m_dom->getNode("about").getNode("text");
+        lData = m_dom->getCData();
+    }
     return lData;
 }
 //===============================================
@@ -589,6 +601,11 @@ QString GQtMainWindow::getWord(const QString& _id) const {
     return lData;
 }
 //===============================================
+QString GQtMainWindow::getWordCData(const QString& _id) const {
+    QString lData = getWord(_id, getWordLang());
+    return lData;
+}
+//===============================================
 QString GQtMainWindow::getWord(const QString& _id, const QString& _lang) const {
     QString lData;
     // count word
@@ -620,16 +637,47 @@ QString GQtMainWindow::getWord(const QString& _id, const QString& _lang) const {
     return lData;
 }
 //===============================================
+QString GQtMainWindow::getWordCData(const QString& _id, const QString& _lang) const {
+    QString lData;
+    // count word
+    m_domWord->getRoot("rdv").getNode("words");
+    int lCountWord = m_domWord->countNode("word");
+    // loop word
+    int i = 0;
+    for(; i < lCountWord; i++) {
+        // get word id
+        m_domWord->getRoot("rdv").getNode("words");
+        m_domWord->getNodeItem("word", i).getNodeOrEmpty("id");
+        QString lId = m_domWord->getNodeValueOrEmpty();
+        if(lId == _id) {
+            // get word by lang
+            m_domWord->getRoot("rdv").getNode("words");
+            m_domWord->getNodeItem("word", i).getNodeOrEmpty(_lang);
+            lData = m_domWord->getCData();
+            if(lData == "") {
+                GQTLOG->addError(QString("Erreur la methode (getWordCData) a echoue\n"
+                        "sur l'id (%1) et la langue (%2) (1).").arg(_id).arg(_lang));
+            }
+            break;
+        }
+    }
+    if(i == lCountWord) {
+        GQTLOG->addError(QString("Erreur la methode (getWord) a echoue\n"
+                "sur l'id (%1) et la langue (%2) (2).").arg(_id).arg(_lang));
+    }
+    return lData;
+}
+//===============================================
 QString GQtMainWindow::getWordLang() const {
-    m_domWord->getRoot("rdv").getNode("lang");
-    QString lData = m_domWord->getNodeValueOrEmpty();
+    m_domData->getRoot("rdv").getNode("lang");
+    QString lData = m_domData->getNodeValueOrEmpty();
     return lData;
 }
 //===============================================
 void GQtMainWindow::setLanguage(const QString& _lang) {
-    m_domWord->getRoot("rdv").getNode("lang");
-    m_domWord->setNodeValue(_lang);
-    m_domWord->saveXmlFile();
+    m_domData->getRoot("rdv").getNode("lang");
+    m_domData->setNodeValue(_lang);
+    m_domData->saveXmlFile();
 }
 //===============================================
 void GQtMainWindow::setLanguageIndex(const QString& _key, const QString& _languageKey) {

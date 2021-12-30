@@ -58,7 +58,9 @@ public:
     QString getUntitledName() const;
     QString getUntitledExtension() const;
     QString getWord(const QString& _id) const;
+    QString getWordCData(const QString& _id) const;
     QString getWord(const QString& _id, const QString& _lang) const;
+    QString getWordCData(const QString& _id, const QString& _lang) const;
     QString getWordLang() const;
     void setLanguage(const QString& _lang);
     void setLanguageIndex(const QString& _key, const QString& _languageKey = "help/language");

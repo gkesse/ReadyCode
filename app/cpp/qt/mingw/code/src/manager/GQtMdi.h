@@ -21,6 +21,7 @@ public:
     QMdiSubWindow* findMdiChild(const QString &fileName) const;
     bool loadFile(const QString &_filename);
     GQtMdiChild* activeMdiChild() const;
+    void updateMenus();
 
 public slots:
     void onMenuAction();

@@ -11,6 +11,7 @@ GQtMainWindow(_parent) {
     createStatusBar();
     createCentralWidget();
     setRecentFilesVisible(hasRecentFiles());
+    updateMenus();
 
     setWindowTitle(getTitle());
     setWindowIcon(QIcon(GQTRES("studio/img", getLogo())));
@@ -48,8 +49,7 @@ GQtMdiChild* GQtMdi::createMdiChild() {
 #ifndef QT_NO_CLIPBOARD
     QAction* lCutAction = getKeyAction("edit/cut");
     QAction* lCopyAction = getKeyAction("edit/copy");
-    lCutAction->setEnabled(false);
-    lCopyAction->setEnabled(false);
+
     connect(lChild, SIGNAL(copyAvailable(bool)), lCutAction, SLOT(setEnabled(bool)));
     connect(lChild, SIGNAL(copyAvailable(bool)), lCopyAction, SLOT(setEnabled(bool)));
 #endif
@@ -103,6 +103,45 @@ GQtMdiChild* GQtMdi::activeMdiChild() const {
         return qobject_cast<GQtMdiChild*>(activeSubWindow->widget());
     }
     return 0;
+}
+//===============================================
+void GQtMdi::updateMenus() {
+    bool hasMdiChild = (activeMdiChild() != 0);
+
+    QAction* lSaveAction = getKeyAction("file/save");
+    QAction* lSaveAsAction = getKeyAction("file/saveas");
+
+    lSaveAction->setEnabled(hasMdiChild);
+    lSaveAsAction->setEnabled(hasMdiChild);
+
+#ifndef QT_NO_CLIPBOARD
+    QAction* lPasteAction = getKeyAction("edit/paste");
+    lPasteAction->setEnabled(hasMdiChild);
+#endif
+
+    QAction* lClosection = getKeyAction("window/close");
+    QAction* lCloseAllAction = getKeyAction("window/close/all");
+    QAction* lTileAction = getKeyAction("window/tile");
+    QAction* lCascadeAction = getKeyAction("window/cascade");
+    QAction* lNextAction = getKeyAction("window/next");
+    QAction* lPreviousAction = getKeyAction("window/previous");
+
+    lClosection->setEnabled(hasMdiChild);
+    lCloseAllAction->setEnabled(hasMdiChild);
+    lTileAction->setEnabled(hasMdiChild);
+    lCascadeAction->setEnabled(hasMdiChild);
+    lNextAction->setEnabled(hasMdiChild);
+    lPreviousAction->setEnabled(hasMdiChild);
+
+#ifndef QT_NO_CLIPBOARD
+    bool hasSelection = (activeMdiChild() && activeMdiChild()->textCursor().hasSelection());
+
+    QAction* lCutAction = getKeyAction("edit/cut");
+    QAction* lCopyAction = getKeyAction("edit/copy");
+
+    lCutAction->setEnabled(hasSelection);
+    lCopyAction->setEnabled(hasSelection);
+#endif
 }
 //===============================================
 void GQtMdi::closeEvent(QCloseEvent* event) {
@@ -194,7 +233,7 @@ void GQtMdi::onMenuAction() {
      // help
     else if(lKey == "help/app") {
         QString lTitle = getTitle();
-        QString lMessage = getAbout();
+        QString lMessage = getAbout().arg(lTitle);
         QMessageBox::about(this, lTitle, lMessage);
     }
     else if(lKey == "help/qt") {
@@ -228,6 +267,6 @@ void GQtMdi::onMenuBoxAction() {
 }
 //===============================================
 void GQtMdi::onMdiAreaSubWindow(QMdiSubWindow* _subWindow) {
-
+    updateMenus();
 }
 //===============================================
