@@ -1,115 +1,255 @@
 //===============================================
 #include "GQtSpreadWindow.h"
-#include "GQtSpreadSheet.h"
-#include "GResource.h"
+#include "GQtFindDialog.h"
+#include "GQtCellLocation.h"
+#include "GQtSortDialog.h"
+#include "GQtXml.h"
 #include "GQtLog.h"
+#include "GQtSpreadSheet.h"
 //===============================================
 GQtSpreadWindow::GQtSpreadWindow(QWidget* _parent) :
-QMainWindow(_parent) {
-    m_params.app_name = "ReadyApp-Spreadsheet";
-
-    m_spreadsheet = new GQtSpreadSheet;
-    setCentralWidget(m_spreadsheet);
-
-    setWindowTitle(m_params.app_name);
-    resize(m_params.width, m_params.height);
-
+GQtMainWindow(_parent) {
+    createDoms();
     createActions();
-    createMenus();
-
+    createCentralWidget();
+    createStatusBar();
+    createContextMenu();
+    setRecentFilesVisible(hasRecentFiles());
     readSettings();
+    setCurrentFile("");
+
+    setWindowIcon(QIcon(GQTRES("studio/img", getLogo())));
+    resize(getWidth(), getHeight());
+    setUnifiedTitleAndToolBarOnMac(true);
+
+    findDialog = 0;
+
+    GQTLOG->showErrorQt(this);
 }
 //===============================================
 GQtSpreadWindow::~GQtSpreadWindow() {
 
 }
 //===============================================
-void GQtSpreadWindow::createActions() {
-    GQTLOG->write(GMSG);
-
-    // ficher
-    m_newAction = new QAction(tr("&Nouveau"), this);
-    m_newAction->setIcon(QIcon(GIMG("new.png")));
-    m_newAction->setShortcut(QKeySequence::New);
-    m_newAction->setStatusTip(tr("Create a new spreadsheet file"));
-    connect(m_newAction, SIGNAL(triggered()), this, SLOT(onNewFile()));
-
-    m_openAction = new QAction(tr("&Ouvrir..."), this);
-    m_openAction->setIcon(QIcon(GIMG("open.png")));
-    m_openAction->setShortcut(QKeySequence::Open);
-    m_openAction->setStatusTip(tr("Open an existing spreadsheet file"));
-    connect(m_openAction, SIGNAL(triggered()), this, SLOT(onOpenFile()));
-
-    m_saveAction = new QAction(tr("&Enregistrer"), this);
-    m_saveAction->setIcon(QIcon(GIMG("save.png")));
-    m_saveAction->setShortcut(QKeySequence::Save);
-    m_saveAction->setStatusTip(tr("Enregistrer le tableur sur le disque"));
-    connect(m_saveAction, SIGNAL(triggered()), this, SLOT(onSave()));
-
-    m_saveAsAction = new QAction(tr("Enregistrer &sous..."), this);
-    m_saveAsAction->setStatusTip(tr("Enregsitrer le tableur dans un nouveau fichier"));
-    connect(m_saveAsAction, SIGNAL(triggered()), this, SLOT(onSaveAs()));
-
-    for (int i = 0; i < MaxRecentFiles; ++i) {
-        m_recentFileActions[i] = new QAction(this);
-        m_recentFileActions[i]->setVisible(false);
-        connect(m_recentFileActions[i], SIGNAL(triggered()), this, SLOT(onOpenRecentFile()));
-    }
-
-    m_exitAction = new QAction(tr("&Quitter"), this);
-    m_exitAction->setShortcut(tr("Ctrl+Q"));
-    m_exitAction->setStatusTip(tr("Exit the application"));
-    connect(m_exitAction, SIGNAL(triggered()), this, SLOT(close()));
-
-    // options
-    m_showGridAction = new QAction(tr("&Afficher la grille"), this);
-    m_showGridAction->setCheckable(true);
-    m_showGridAction->setChecked(m_spreadsheet->showGrid());
-    m_showGridAction->setStatusTip(tr("Afficher ou masquer la grille du tableur"));
-    connect(m_showGridAction, SIGNAL(toggled(bool)), m_spreadsheet, SLOT(setShowGrid(bool)));
-
-    m_autoRecalcAction = new QAction(tr("&Auto-Recalculer"), this);
-    m_autoRecalcAction->setCheckable(true);
-    m_autoRecalcAction->setChecked(m_spreadsheet->getAutoRecalculate());
-    m_autoRecalcAction->setStatusTip(tr("Activer ou désactiver le recalcul automatique"));
-    connect(m_autoRecalcAction, SIGNAL(toggled(bool)), m_spreadsheet, SLOT(setAutoRecalculate(bool)));
+void GQtSpreadWindow::createDoms() {
+    m_dom.reset(new GQtXml);
+    m_dom->loadXmlFile(GQTRES("studio/xml", "spreadsheet.xml"));
+    m_domData.reset(new GQtXml);
+    m_domData->loadXmlFile(GQTRES("studio/xml", "spreadsheet_data.xml"));
+    m_domWord.reset(new GQtXml);
+    m_domWord->loadXmlFile(GQTRES("studio/xml", "spreadsheet_words.xml"));
 }
 //===============================================
-void GQtSpreadWindow::createMenus() {
-    GQTLOG->write(GMSG);
-    // fichier
-    m_fileMenu = menuBar()->addMenu(tr("&Fichier"));
-    m_fileMenu->addAction(m_newAction);
-    m_fileMenu->addAction(m_openAction);
-    m_fileMenu->addAction(m_saveAction);
-    m_fileMenu->addAction(m_saveAsAction);
-    m_separatorAction = m_fileMenu->addSeparator();
-    for (int i = 0; i < MaxRecentFiles; ++i) {
-        m_fileMenu->addAction(m_recentFileActions[i]);
-    }
-    m_fileMenu->addSeparator();
-    m_fileMenu->addAction(m_exitAction);
-
-    // options
-    m_optionsMenu = menuBar()->addMenu(tr("&Options"));
-    m_optionsMenu->addAction(m_showGridAction);
-    m_optionsMenu->addAction(m_autoRecalcAction);
+void GQtSpreadWindow::createCentralWidget() {
+    spreadsheet = new GQtSpreadSheet;
+    setCentralWidget(spreadsheet);
 }
 //===============================================
-bool GQtSpreadWindow::saveFile(const QString& _filename) {
-    GQTLOG->write(GMSG);
-    if(!m_spreadsheet->saveFile(_filename)) {
-        statusBar()->showMessage(tr("Erreur la sauvegarde du tableur a échoué"), 2000);
-        GQTLOG->addError(tr("Erreur la sauvegarde du tableur a échoué"));
-        return false;
+void GQtSpreadWindow::createStatusBar() {
+    locationLabel = new QLabel(" W999 ");
+    locationLabel->setAlignment(Qt::AlignHCenter);
+    locationLabel->setMinimumSize(locationLabel->sizeHint());
+
+    formulaLabel = new QLabel;
+    formulaLabel->setIndent(3);
+
+    statusBar()->addWidget(locationLabel);
+    statusBar()->addWidget(formulaLabel, 1);
+
+    connect(spreadsheet, SIGNAL(currentCellChanged(int, int, int, int)), this, SLOT(updateStatusBar()));
+    connect(spreadsheet, SIGNAL(modified()), this, SLOT(spreadsheetModified()));
+
+    updateStatusBar();
+}
+//===============================================
+void GQtSpreadWindow::updateStatusBar(int currentRow, int currentColumn, int previousRow, int previousColumn) {
+    locationLabel->setText(spreadsheet->currentLocation());
+    formulaLabel->setText(spreadsheet->currentFormula());
+}
+//===============================================
+void GQtSpreadWindow::spreadsheetModified() {
+    setWindowModified(true);
+    updateStatusBar();
+}
+//===============================================
+void GQtSpreadWindow::createContextMenu() {
+    QAction* cutAction = getKeyAction("edit/cut");
+    QAction* copyAction = getKeyAction("edit/copy");
+    QAction* pasteAction = getKeyAction("edit/paste");
+    spreadsheet->addAction(cutAction);
+    spreadsheet->addAction(copyAction);
+    spreadsheet->addAction(pasteAction);
+    spreadsheet->setContextMenuPolicy(Qt::ActionsContextMenu);
+}
+//===============================================
+bool GQtSpreadWindow::getShowGrid() const {
+    m_domData->getRoot("rdv").getNode("showgrid");
+    bool lData = (m_domData->getNodeValue() == "1");
+    return lData;
+}
+//===============================================
+bool GQtSpreadWindow::getAutoRecalculate() const {
+    m_domData->getRoot("rdv").getNode("autorecalculate");
+    bool lData = (m_domData->getNodeValue() == "1");
+    return lData;
+}
+//===============================================
+void GQtSpreadWindow::setShowGrid(bool _showGrig) {
+    m_domData->getRoot("rdv").getNode("showgrid");
+    QString lData = QString("%1").arg(_showGrig);
+    m_domData->setNodeValue(lData);
+    m_domData->saveXmlFile();
+}
+//===============================================
+void GQtSpreadWindow::setAutoRecalculate(bool _autoRecalculate) {
+    m_domData->getRoot("rdv").getNode("autorecalculate");
+    QString lData = QString("%1").arg(_autoRecalculate);
+    m_domData->setNodeValue(lData);
+    m_domData->saveXmlFile();
+}
+//===============================================
+void GQtSpreadWindow::onMenuAction(bool _checked) {
+    QAction* lAction = qobject_cast<QAction*>(sender());
+    QString lKey = lAction->data().toString();
+    qDebug() << lKey;
+
+    // file
+    if(lKey == "file/new") {
+        if (okToContinue()) {
+            spreadsheet->clear();
+            setCurrentFile("");
+        }
     }
-    setCurrentFile(_filename);
-    statusBar()->showMessage(tr("Le tableur a été sauvegardé"), 2000);
-    return true;
+    else if(lKey == "file/open") {
+        QString lTitle = "Ouvrir un tableur";
+        QString lFilter = "Fichiers tableur (*.sp)";
+        if (okToContinue()) {
+            QString lFilename = QFileDialog::getOpenFileName(this, lTitle, ".", lFilter);
+            if (!lFilename.isEmpty()) {
+                loadFile(lFilename);
+            }
+        }
+    }
+    else if(lKey == "file/save") {
+        save();
+    }
+    else if(lKey == "file/save/as") {
+        saveAs();
+    }
+    else if(lKey == "file/exit") {
+        qApp->quit();
+    }
+    // edit
+    else if(lKey == "edit/cut") {
+        spreadsheet->cut();
+    }
+    else if(lKey == "edit/copy") {
+        spreadsheet->copy();
+    }
+    else if(lKey == "edit/paste") {
+        spreadsheet->paste();
+    }
+    else if(lKey == "edit/delete") {
+        spreadsheet->del();
+    }
+    else if(lKey == "edit/select/row") {
+        spreadsheet->selectCurrentRow();
+    }
+    else if(lKey == "edit/select/column") {
+        spreadsheet->selectCurrentColumn();
+    }
+    else if(lKey == "edit/select/all") {
+        spreadsheet->selectAll();
+    }
+    else if(lKey == "edit/find") {
+        if (!findDialog) {
+            findDialog = new GQtFindDialog(this);
+            connect(findDialog, SIGNAL(findNext(const QString&, Qt::CaseSensitivity)),
+                    spreadsheet, SLOT(findNext(const QString&, Qt::CaseSensitivity)));
+            connect(findDialog, SIGNAL(findPrevious(const QString&, Qt::CaseSensitivity)),
+                    spreadsheet, SLOT(findPrevious(const QString&, Qt::CaseSensitivity)));
+        }
+
+        findDialog->show();
+        findDialog->raise();
+        findDialog->activateWindow();
+    }
+    else if(lKey == "edit/gotocell") {
+        GQtCellLocation dialog(this);
+        if (dialog.exec()) {
+            QString str = dialog.getText().toUpper();
+            spreadsheet->setCurrentCell(str.mid(1).toInt() - 1, str[0].unicode() - 'A');
+        }
+    }
+    // tools
+    else if(lKey == "tools/recalculate") {
+        spreadsheet->recalculate();
+    }
+    else if(lKey == "tools/sort") {
+        GQtSortDialog dialog(this);
+        QTableWidgetSelectionRange range = spreadsheet->selectedRange();
+        dialog.setColumnRange('A' + range.leftColumn(), 'A' + range.rightColumn());
+
+        if (dialog.exec()) {
+            GQtSpreadSheetCompare compare;
+            compare.keys[0] = dialog.currentIndexColumnCombo(1);
+            compare.keys[1] = dialog.currentIndexColumnCombo(2) - 1;
+            compare.keys[2] = dialog.currentIndexColumnCombo(3) - 1;
+            compare.ascending[0] = (dialog.currentIndexOrderCombo(1) == 0);
+            compare.ascending[1] = (dialog.currentIndexOrderCombo(2) == 0);
+            compare.ascending[2] = (dialog.currentIndexOrderCombo(3) == 0);
+            spreadsheet->sort(compare);
+        }
+    }
+    // options
+    else if(lKey == "options/show/grid") {
+        spreadsheet->setShowGrid(_checked);
+    }
+    else if(lKey == "options/auto/recalculate") {
+        spreadsheet->setAutoRecalculate(_checked);
+    }
+    // help
+    else if(lKey == "help/about/app") {
+        QString lTitle = getTitle();
+        QString lVersion = getVersion();
+        QString lMessage = getAbout().arg(lTitle).arg(lVersion);
+        QMessageBox::about(this, lTitle, lMessage);
+    }
+    else if(lKey == "help/about/qt") {
+        qApp->aboutQt();
+    }
+    if(lKey == "help/language/fr") {
+        setLanguageIndex(lKey);
+        setLanguage("fr");
+    }
+    else if(lKey == "help/language/en") {
+        setLanguageIndex(lKey);
+        setLanguage("en");
+    }}
+//===============================================
+void GQtSpreadWindow::onMenuBox() {
+    QMenu* lMenu = qobject_cast<QMenu*>(sender());
+    QString lKey = m_menuKey[lMenu];
+    qDebug() << lKey;
+
+    if(lKey == "file/recent") {
+        updateRecentFiles();
+    }
+}
+//===============================================
+void GQtSpreadWindow::onBoxRecentFile() {
+    if (okToContinue()) {
+        QAction* lAction = qobject_cast<QAction*>(sender());
+        if (lAction) {
+            QString lFilename = lAction->data().toString();
+            qDebug() << lFilename;
+            loadFile(lFilename);
+        }
+    }
 }
 //===============================================
 bool GQtSpreadWindow::loadFile(const QString& _filename) {
-    if (!m_spreadsheet->loadFile(_filename)) {
+    if (!spreadsheet->readFile(_filename)) {
         statusBar()->showMessage(tr("Erreur le chargement du tableur a échoué"), 2000);
         return false;
     }
@@ -120,81 +260,91 @@ bool GQtSpreadWindow::loadFile(const QString& _filename) {
 }
 //===============================================
 void GQtSpreadWindow::setCurrentFile(const QString& _filename) {
-    GQTLOG->write(GMSG);
-    m_currentFile = _filename;
+    curFile = _filename;
     setWindowModified(false);
-    QString lShowName = tr("Untitled");
 
-    if (!m_currentFile.isEmpty()) {
-        lShowName = strippedName(m_currentFile);
-        m_recentFiles.removeAll(m_currentFile);
-        m_recentFiles.prepend(m_currentFile);
-        updateRecentFileActions();
+    QString lTitle = getTitle();
+    QString shownName = tr("Untitled");
+    if (!curFile.isEmpty()) {
+        shownName = strippedName(curFile);
+        prependToRecentFiles(curFile);
     }
 
-    setWindowTitle(tr("%1 | %2[*]").arg(m_params.app_name).arg(lShowName));
+    setWindowTitle(tr("%1 - %2[*]").arg(lTitle).arg(shownName));
 }
 //===============================================
 QString GQtSpreadWindow::strippedName(const QString& _fullname) {
-    GQTLOG->write(GMSG);
     return QFileInfo(_fullname).fileName();
-}
-//===============================================
-void GQtSpreadWindow::updateRecentFileActions() {
-    GQTLOG->write(GMSG);
-    QMutableStringListIterator lFile(m_recentFiles);
-    while (lFile.hasNext()) {
-        if (!QFile::exists(lFile.next())) {
-            lFile.remove();
-        }
-    }
-    for (int j = 0; j < MaxRecentFiles; ++j) {
-        if (j < m_recentFiles.count()) {
-            QString text = tr("&%1 - %2").arg(j + 1).arg(strippedName(m_recentFiles[j]));
-            m_recentFileActions[j]->setText(text);
-            m_recentFileActions[j]->setData(m_recentFiles[j]);
-            m_recentFileActions[j]->setVisible(true);
-        }
-        else {
-            m_recentFileActions[j]->setVisible(false);
-        }
-    }
-    m_separatorAction->setVisible(!m_recentFiles.isEmpty());
 }
 //===============================================
 bool GQtSpreadWindow::okToContinue() {
     if (isWindowModified()) {
-        int lOk = QMessageBox::warning(this, m_params.app_name,
-                tr("Le document a été modifié.\n"
-                "Voulez-vous enregistrer les modifications ?"),
+        QString lTitle = getTitle();
+        QString lMessage = QString(""
+                "Le document a été modifié.\n"
+                "Voulez-vous enregistrer vos modifications?"
+                "");
+        int lAnswer = QMessageBox::warning(this, lTitle, lMessage,
                 QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
-        if (lOk == QMessageBox::Yes) {
-            return onSave();
+
+        if (lAnswer == QMessageBox::Yes) {
+            return save();
         }
-        else if (lOk == QMessageBox::Cancel) {
+        else if (lAnswer == QMessageBox::Cancel) {
             return false;
         }
     }
     return true;
 }
 //===============================================
+bool GQtSpreadWindow::save() {
+    if (curFile.isEmpty()) {
+        return saveAs();
+    }
+    else {
+        return saveFile(curFile);
+    }
+}
+//===============================================
+bool GQtSpreadWindow::saveAs() {
+    QString lTitle = "Enregistrer sous";
+    QString lFilter = "Fichiers tableur (*.sp)";
+    QString lFilename = QFileDialog::getSaveFileName(this, lTitle, ".", lFilter);
+    if (lFilename.isEmpty()) {
+        return false;
+    }
+    return saveFile(lFilename);
+}
+//===============================================
+bool GQtSpreadWindow::saveFile(const QString& _filename) {
+    QString lMsgCancel = "Sauvegarde annulée";
+    QString lMsgSave = "Fichier enregistré";
+    if (!spreadsheet->writeFile(_filename)) {
+        statusBar()->showMessage(lMsgCancel, 2000);
+        return false;
+    }
+
+    setCurrentFile(_filename);
+    statusBar()->showMessage(lMsgSave, 2000);
+    return true;
+}
+//===============================================
 void GQtSpreadWindow::writeSettings() {
-    QSettings lSettings(m_params.organization_name, m_params.app_name);
-    lSettings.setValue("geometry", saveGeometry());
-    lSettings.setValue("recentFiles", m_recentFiles);
-    lSettings.setValue("showGrid", m_showGridAction->isChecked());
-    lSettings.setValue("autoRecalc", m_autoRecalcAction->isChecked());
+    QAction* lShowGridAction = getKeyAction("options/show/grid");
+    QAction* lAutoRecalculateAction = getKeyAction("options/auto/recalculate");
+    writeGeometry(saveGeometry());
+    setShowGrid(lShowGridAction->isChecked());
+    setAutoRecalculate(lAutoRecalculateAction->isChecked());
 }
 //===============================================
 void GQtSpreadWindow::readSettings() {
-    QSettings lSettings(m_params.organization_name, m_params.app_name);
-    restoreGeometry(lSettings.value("geometry").toByteArray());
-    m_recentFiles = lSettings.value("recentFiles").toStringList();
-    updateRecentFileActions();
-    bool lShowGrid = lSettings.value("showGrid", true).toBool();
-    m_showGridAction->setChecked(lShowGrid);
-    bool lAutoRecalc = lSettings.value("autoRecalc", true).toBool();
-    m_autoRecalcAction->setChecked(lAutoRecalc);
+    QAction* lShowGridAction = getKeyAction("options/show/grid");
+    QAction* lAutoRecalculateAction = getKeyAction("options/auto/recalculate");
+    restoreGeometry(getGeometry());
+    lShowGridAction->setChecked(getShowGrid());
+    lAutoRecalculateAction->setChecked(getAutoRecalculate());
+    spreadsheet->setShowGrid(getShowGrid());
+    spreadsheet->setAutoRecalculate(getAutoRecalculate());
 }
 //===============================================
 void GQtSpreadWindow::closeEvent(QCloseEvent *event) {
@@ -204,53 +354,6 @@ void GQtSpreadWindow::closeEvent(QCloseEvent *event) {
     }
     else {
         event->ignore();
-    }
-}
-//===============================================
-void GQtSpreadWindow::onNewFile() {
-    GQTLOG->write(GMSG);
-}
-//===============================================
-void GQtSpreadWindow::onOpenFile() {
-    GQTLOG->write(GMSG);
-    if (okToContinue()) {
-        QString lFilename = QFileDialog::getOpenFileName(this,
-                tr("Ouvrir un tableur"), ".",
-                tr("Spreadsheet files (*.sp)"));
-        if (!lFilename.isEmpty()) {
-            loadFile(lFilename);
-        }
-    }
-}
-//===============================================
-bool GQtSpreadWindow::onSave() {
-    GQTLOG->write(GMSG);
-    if (m_currentFile.isEmpty()) {
-        return onSaveAs();
-    }
-    else {
-        return saveFile(m_currentFile);
-    }
-    return true;
-}
-//===============================================
-bool GQtSpreadWindow::onSaveAs() {
-    GQTLOG->write(GMSG);
-    QString lFilename = QFileDialog::getSaveFileName(this,
-            tr("Enregistrer le tableur"), ".",
-            tr("Spreadsheet files (*.sp)"));
-    if (lFilename.isEmpty()) {
-        return false;
-    }
-
-    return saveFile(lFilename);
-}
-//===============================================
-void GQtSpreadWindow::onOpenRecentFile() {
-    if (okToContinue()) {
-        QAction* action = qobject_cast<QAction*>(sender());
-        if (action)
-            loadFile(action->data().toString());
     }
 }
 //===============================================

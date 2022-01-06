@@ -1,13 +1,11 @@
 //===============================================
 #include "GQtFindDialog.h"
-#include "GStruct.h"
-#include "GQt.h"
 #include "GQtLog.h"
+#include "GQtXml.h"
 //===============================================
 GQtFindDialog::GQtFindDialog(QWidget* _parent) :
-QDialog(_parent) {
-    sGQt lParams;
-    lParams.app_name = "ReadyApp-Spreadsheet | Recherche de texte";
+GQtDialog(_parent) {
+    createDoms();
 
     m_findEdit = new QLineEdit;
     QLabel* lFindLabel = new QLabel("Recherche :");
@@ -37,8 +35,8 @@ QDialog(_parent) {
     lMainLayout->addLayout(lRightLayout);
 
     setLayout(lMainLayout);
-    setWindowTitle(lParams.app_name);
-    resize(lParams.width, lParams.height);
+    setWindowTitle(getTitle());
+    resize(getWidth(), getHeight());
     setFixedHeight(sizeHint().height());
 
     connect(m_findButton, SIGNAL(clicked()), this, SLOT(onFindButton()));
@@ -50,20 +48,47 @@ GQtFindDialog::~GQtFindDialog() {
 
 }
 //===============================================
+void GQtFindDialog::createDoms() {
+    m_dom.reset(new GQtXml);
+    m_dom->loadXmlFile(GQTRES("studio/xml", "spreadsheet.xml"));
+}
+//===============================================
+QString GQtFindDialog::getTitle() const {
+    m_dom->getRoot("rdv").getNode("finddialog");
+    m_dom->getNode("title").getNode("text");
+    QString lData = m_dom->getNodeValue();
+    return lData;
+}
+//===============================================
+int GQtFindDialog::getWidth() const {
+    m_dom->getRoot("rdv").getNode("finddialog");
+    m_dom->getNode("settings").getNode("width");
+    int lData = m_dom->getNodeValue().toInt();
+    return lData;
+}
+//===============================================
+int GQtFindDialog::getHeight() const {
+    m_dom->getRoot("rdv").getNode("finddialog");
+    m_dom->getNode("settings").getNode("height");
+    int lData = m_dom->getNodeValue().toInt();
+    return lData;
+}
+//===============================================
 void GQtFindDialog::onFindButton() {
-    GQTLOG->write(GMSG); GQt lQt;
     QString lFindText = m_findEdit->text();
-    Qt::CaseSensitivity lCaseSensitivity = lQt.getCaseSensitivity(m_caseCheckBox);
+    Qt::CaseSensitivity lCaseSensitivity = Qt::CaseInsensitive;
+    if(m_caseCheckBox->isChecked()) {
+        lCaseSensitivity = Qt::CaseSensitive;
+    }
     if(m_backwardCheckBox->isChecked()) {
-        emit emitFindPrevious(lFindText, lCaseSensitivity);
+        emit findPrevious(lFindText, lCaseSensitivity);
     }
     else {
-        emit emitFindNext(lFindText, lCaseSensitivity);
+        emit findNext(lFindText, lCaseSensitivity);
     }
 }
 //===============================================
 void GQtFindDialog::onFindEdit(const QString& _text) {
-    GQTLOG->write(GMSG);
-    m_findButton->setEnabled(!GQT->isEmpty(m_findEdit));
+    m_findButton->setEnabled(!_text.isEmpty());
 }
 //===============================================

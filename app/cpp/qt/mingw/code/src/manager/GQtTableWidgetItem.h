@@ -1,19 +1,15 @@
 //===============================================
-#ifndef _GManager_
-#define _GManager_
+#ifndef _GQtTableWidgetItem_
+#define _GQtTableWidgetItem_
 //===============================================
 #include "GInclude.h"
-#include "GStruct.h"
 //===============================================
-#define GMGR
+class GQtXml;
 //===============================================
-class GManager {
+class GQtTableWidgetItem : public QTableWidgetItem {
 public:
-    GManager();
-    ~GManager();
-    void callServer(const std::string& _dataIn, std::string& _dataOut);
-    void startServer(sGSocket& _socket);
-    void startServer(void* _onStart);
+    GQtTableWidgetItem();
+    ~GQtTableWidgetItem();
 };
 //==============================================
 #endif

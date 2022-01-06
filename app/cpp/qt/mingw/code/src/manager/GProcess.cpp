@@ -1,10 +1,9 @@
 //===============================================
 #include "GProcess.h"
-#include "GQtUi.h"
-#include "GSocketUi.h"
-#include "GSQLiteUi.h"
-#include "GFileUi.h"
 #include "GQtStudio.h"
+#include "GQtSpreadWindow.h"
+#include "GSocket.h"
+#include "GThread.h"
 #include "GXml.h"
 //===============================================
 GProcess* GProcess::m_instance = 0;
@@ -26,11 +25,25 @@ GProcess* GProcess::Instance() {
 //===============================================
 void GProcess::run(int _argc, char** _argv) {
     std::string lKey = getName();
-    if(lKey == "qt") {runQt(_argc, _argv);}
-    else if(lKey == "socket") {runSocket(_argc, _argv);}
-    else if(lKey == "sqlite") {runSQLite(_argc, _argv);}
-    else if(lKey == "file") {runFile(_argc, _argv);}
-    else if(lKey == "studio") {runStudio(_argc, _argv);}
+    bool lProcShow = getProcShow();
+    bool lArgShow = getArgShow();
+
+    if(lProcShow) {
+        printf("nom processus : %s\n", lKey.c_str());
+    }
+    if(lArgShow) {
+        showArgs(_argc, _argv);
+    }
+
+    if(lKey == "studio") {
+        runStudio(_argc, _argv);
+    }
+    else if(lKey == "spreadsheet") {
+        runSpreadsheet(_argc, _argv);
+    }
+    else if(lKey == "socket") {
+        runSocket(_argc, _argv);
+    }
 }
 //===============================================
 void GProcess::createDom() {
@@ -46,38 +59,77 @@ std::string GProcess::getName() const {
     return lData;
 }
 //===============================================
-void GProcess::runQt(int _argc, char** _argv) {
-    QString lKey = "default";
-    if(_argc > 2) {lKey = _argv[2];}
-    GQtUi* lProcess = GQtUi::Create(lKey);
-    lProcess->run(_argc, _argv);
+bool GProcess::getProcShow() const {
+    m_dom->queryXPath("/rdv/process/procshow");
+    m_dom->getNodeXPath();
+    bool lData = (m_dom->getNodeValue() == "1");
+    return lData;
 }
 //===============================================
-void GProcess::runSocket(int _argc, char** _argv) {
-    QString lKey = "default";
-    if(_argc > 2) {lKey = _argv[2];}
-    GSocketUi* lProcess = GSocketUi::Create(lKey);
-    lProcess->run(_argc, _argv);
-}
-//===============================================
-void GProcess::runSQLite(int _argc, char** _argv) {
-    QString lKey = "default";
-    if(_argc > 2) {lKey = _argv[2];}
-    GSQLiteUi* lProcess = GSQLiteUi::Create(lKey);
-    lProcess->run(_argc, _argv);
-}
-//===============================================
-void GProcess::runFile(int _argc, char** _argv) {
-    QString lKey = "default";
-    if(_argc > 2) {lKey = _argv[2];}
-    GFileUi* lProcess = GFileUi::Create(lKey);
-    lProcess->run(_argc, _argv);
+bool GProcess::getArgShow() const {
+    m_dom->queryXPath("/rdv/process/argshow");
+    m_dom->getNodeXPath();
+    bool lData = (m_dom->getNodeValue() == "1");
+    return lData;
 }
 //===============================================
 void GProcess::runStudio(int _argc, char** _argv) {
-    QApplication app(_argc, _argv);
+    QApplication lApp(_argc, _argv);
     GQtStudio* lWindow = new GQtStudio;
     lWindow->show();
-    app.exec();
+    lApp.exec();
+}
+//===============================================
+void GProcess::runSpreadsheet(int _argc, char** _argv) {
+    QApplication lApp(_argc, _argv);
+    GQtSpreadWindow* lWindow = new GQtSpreadWindow;
+    lWindow->show();
+    lApp.exec();
+}
+//===============================================
+void GProcess::runSocket(int _argc, char** _argv) {
+    std::string lType = "";
+
+    if(_argc > 1) {
+        lType = _argv[1];
+    }
+
+    // client
+    if(lType == "client") {
+        GSocket lSocket;
+        std::string lDataIn = "Bonjour tout le monde";
+        std::string lDataOut;
+        lSocket.callServerTcp(lDataIn, lDataOut);
+        printf("%s\n", lDataOut.c_str());
+    }
+    // server
+    else {
+        GThread lThread;
+        GSocket lServer;
+        lThread.createThread(onServerTcp, &lServer);
+
+        while(1) {
+            std::queue<std::string>& lDataIn = lServer.getDataIn();
+            std::queue<GSocket*>& lClientIn = lServer.getClientIn();
+
+            if(!lDataIn.empty()) {
+                std::string lData = lDataIn.front();
+                GSocket* lClient = lClientIn.front();
+
+                lDataIn.pop();
+                lClientIn.pop();
+
+                printf("ooooo : %s\n", lData.c_str());
+
+                lClient->resultOk("hellooooooooooo");
+            }
+        }
+    }
+}
+//===============================================
+DWORD WINAPI GProcess::onServerTcp(LPVOID _params) {
+    GSocket* lServer = (GSocket*)_params;
+    lServer->startServerTcp();
+    return 0;
 }
 //===============================================

@@ -1,17 +1,18 @@
 //===============================================
 #include "GQtCell.h"
-#include "GQt.h"
 #include "GQtLog.h"
 //===============================================
-GQtCell::GQtCell() {
-    cacheIsDirty = false;
+const QVariant Invalid;
+//===============================================
+GQtCell::GQtCell() : GQtTableWidgetItem() {
+    setDirty();
 }
 //===============================================
 GQtCell::~GQtCell() {
 
 }
 //===============================================
-QTableWidgetItem* GQtCell::clone() const {
+GQtTableWidgetItem* GQtCell::clone() const {
     return new GQtCell(*this);
 }
 //===============================================
@@ -33,18 +34,18 @@ QVariant GQtCell::data(int _role) const {
         }
     }
     else {
-        return QTableWidgetItem::data(_role);
+        return GQtTableWidgetItem::data(_role);
     }
 }
 //===============================================
 void GQtCell::setData(int _role, const QVariant& _value) {
-    QTableWidgetItem::setData(_role, _value);
+    GQtTableWidgetItem::setData(_role, _value);
     if (_role == Qt::EditRole) {
         setDirty();
     }
 }
 //===============================================
-QString GQtCell::getFormula() const {
+QString GQtCell::formula() const {
     return data(Qt::EditRole).toString();
 }
 //===============================================
@@ -56,20 +57,21 @@ QVariant GQtCell::value() const {
     if (cacheIsDirty) {
         cacheIsDirty = false;
 
-        QString lFormulaStr = getFormula();
+        QString lFormulaStr = text();
         if (lFormulaStr.startsWith('\'')) {
             cachedValue = lFormulaStr.mid(1);
         }
         else if (lFormulaStr.startsWith('=')) {
-            cachedValue = QVariant();
+            cachedValue = Invalid;
             QString expr = lFormulaStr.mid(1);
             expr.replace(" ", "");
             expr.append(QChar::Null);
 
             int pos = 0;
             cachedValue = evalExpression(expr, pos);
-            if (expr[pos] != QChar::Null)
-                cachedValue = QVariant();
+            if (expr[pos] != QChar::Null) {
+                cachedValue = Invalid;
+            }
         }
         else {
             bool ok;
@@ -102,7 +104,7 @@ QVariant GQtCell::evalExpression(const QString &str, int &pos) const {
                 result = result.toDouble() - term.toDouble();
             }
         } else {
-            result = QVariant();
+            result = Invalid;
         }
     }
     return result;
@@ -112,8 +114,9 @@ QVariant GQtCell::evalTerm(const QString &str, int &pos) const {
     QVariant result = evalFactor(str, pos);
     while (str[pos] != QChar::Null) {
         QChar op = str[pos];
-        if (op != '*' && op != '/')
+        if (op != '*' && op != '/') {
             return result;
+        }
         ++pos;
 
         QVariant factor = evalFactor(str, pos);
@@ -121,15 +124,18 @@ QVariant GQtCell::evalTerm(const QString &str, int &pos) const {
                 && factor.type() == QVariant::Double) {
             if (op == '*') {
                 result = result.toDouble() * factor.toDouble();
-            } else {
+            }
+            else {
                 if (factor.toDouble() == 0.0) {
-                    result = QVariant();
-                } else {
+                    result = Invalid;
+                }
+                else {
                     result = result.toDouble() / factor.toDouble();
                 }
             }
-        } else {
-            result = QVariant();
+        }
+        else {
+            result = Invalid;
         }
     }
     return result;
@@ -147,10 +153,12 @@ QVariant GQtCell::evalFactor(const QString &str, int &pos) const {
     if (str[pos] == '(') {
         ++pos;
         result = evalExpression(str, pos);
-        if (str[pos] != ')')
-            result = QVariant();
+        if (str[pos] != ')') {
+            result = Invalid;
+        }
         ++pos;
-    } else {
+    }
+    else {
         QRegExp regExp("[A-Za-z][1-9][0-9]{0,2}");
         QString token;
 
@@ -166,22 +174,26 @@ QVariant GQtCell::evalFactor(const QString &str, int &pos) const {
             GQtCell *c = static_cast<GQtCell*>(tableWidget()->item(row, column));
             if (c) {
                 result = c->value();
-            } else {
+            }
+            else {
                 result = 0.0;
             }
-        } else {
+        }
+        else {
             bool ok;
             result = token.toDouble(&ok);
-            if (!ok)
-                result = QVariant();
+            if (!ok) {
+                result = Invalid;
+            }
         }
     }
 
     if (negative) {
         if (result.type() == QVariant::Double) {
             result = -result.toDouble();
-        } else {
-            result = QVariant();
+        }
+        else {
+            result = Invalid;
         }
     }
     return result;

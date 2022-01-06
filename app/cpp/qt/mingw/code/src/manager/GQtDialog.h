@@ -3,7 +3,8 @@
 #define _GQtDialog_
 //===============================================
 #include "GInclude.h"
-#include "GStruct.h"
+//===============================================
+class GQtXml;
 //===============================================
 class GQtDialog : public QDialog {
     Q_OBJECT
@@ -11,7 +12,9 @@ class GQtDialog : public QDialog {
 public:
     GQtDialog(QWidget* _parent = 0);
     ~GQtDialog();
-    static GQtDialog* Create(const QString& _key, QWidget* _parent = 0);
+
+protected:
+    QSharedPointer<GQtXml> m_dom;
 };
 //==============================================
 #endif

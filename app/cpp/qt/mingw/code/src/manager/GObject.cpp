@@ -34,4 +34,10 @@ std::string GObject::getResourcePath(const std::string& _resource, const std::st
     return lPath;
 }
 //===============================================
+void GObject::showArgs(int _argc, char** _argv) {
+    for(int i = 0; i < _argc; i++) {
+        printf("argument[%d] : %s\n", i, _argv[i]);
+    }
+}
+//===============================================
 

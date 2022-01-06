@@ -16,6 +16,7 @@ public:
     static GObject* Instance();
     std::string getDataPath() const;
     std::string getResourcePath(const std::string& _resource, const std::string& _filename) const;
+    void showArgs(int _argc, char** _argv);
 
 private:
     static GObject* m_instance;

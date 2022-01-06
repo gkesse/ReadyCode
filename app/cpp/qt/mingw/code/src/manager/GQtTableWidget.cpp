@@ -1,13 +1,12 @@
 //===============================================
-#include "GQtDialog.h"
-#include "GQtXml.h"
+#include "GQtTableWidget.h"
 //===============================================
-GQtDialog::GQtDialog(QWidget* _parent) :
-QDialog(_parent) {
+GQtTableWidget::GQtTableWidget(QWidget* _parent) :
+QTableWidget(_parent) {
 
 }
 //===============================================
-GQtDialog::~GQtDialog() {
+GQtTableWidget::~GQtTableWidget() {
 
 }
 //===============================================

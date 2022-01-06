@@ -2,16 +2,16 @@
 #ifndef _GQtCell_
 #define _GQtCell_
 //===============================================
-#include "GInclude.h"
+#include "GQtTableWidgetItem.h"
 //===============================================
-class GQtCell : public QTableWidgetItem {
+class GQtCell : public GQtTableWidgetItem {
 public:
     GQtCell();
     ~GQtCell();
-    QTableWidgetItem* clone() const;
+    GQtTableWidgetItem* clone() const;
     QVariant data(int _role) const;
     void setData(int role, const QVariant &value);
-    QString getFormula() const;
+    QString formula() const;
     void setFormula(const QString& _formula);
     void setDirty();
 

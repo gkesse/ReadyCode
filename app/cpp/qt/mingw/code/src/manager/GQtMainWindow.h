@@ -14,10 +14,10 @@ public:
     ~GQtMainWindow();
     virtual void createDoms();
     void createActions();
-    void createStatusBar();
+    virtual void createStatusBar();
     void setWindowFlag(QWidget* _parent);
     void prependToRecentFiles(const QString& _filename);
-    virtual void setRecentFilesVisible(bool _visible, const QString& _recentFile = "file/recent", const QString& _separator = "file/recent/separator");
+    virtual void setRecentFilesVisible(bool _visible, const QString& _recentFileKey = "file/recent", const QString& _separatorKey = "file/recent/separator");
     QStringList readRecentFiles();
     void updateRecentFiles(const QString& _recentFileMaxKey = "file/recent/max", const QString& _recentFileKey = "file/recent");
     QString strippedName(const QString& _fullname);
@@ -31,6 +31,7 @@ public:
     int countSubMenus(int _menu) const;
     int countBoxMenus(int _menu, int _submenu) const;
     QString getMenuName(int _menu) const;
+    bool getMenuSep(int _menu) const;
     QString getBoxMenuName(int _menu, int _submenu, int _box) const;
     QString getBoxMenuKey(int _menu, int _submenu, int _box) const;
     bool getMenuToolBarOn(int _index) const;
@@ -43,13 +44,16 @@ public:
     bool getSubMenuBoxRecentFileMaxCtrlOn(int _menu, int _submenu) const;
     QString getSubMenuBoxRecentFileMaxKey(int _menu, int _submenu) const;
     QString getSubMenuIcon(int _menu, int _submenu) const;
+    bool getSubMenuCheckBox(int _menu, int _submenu) const;
     QString getSubMenuStatusTip(int _menu, int _submenu) const;
     QString getSubMenuKey(int _menu, int _submenu) const;
     QString getSubMenuShortcut(int _menu, int _submenu) const;
     bool getSubMenuToolBarOn(int _menu, int _submenu) const;
+    bool getSubMenuToolBarSep(int _menu, int _submenu) const;
     bool getSubMenuSeparatorOn(int _menu, int _submenu) const;
     bool getSubMenuCtrlOn(int _menu, int _submenu) const;
     QString getTitle() const;
+    QString getVersion() const;
     QString getAbout() const;
     QString getLogo() const;
     int getWidth() const;
@@ -64,14 +68,16 @@ public:
     QString getWordLang() const;
     void setLanguage(const QString& _lang);
     void setLanguageIndex(const QString& _key, const QString& _languageKey = "help/language");
+    void writeGeometry(const QByteArray& _geometry);
+    QByteArray getGeometry() const;
     QAction* getKeyAction(const QString& _key) const;
     int getKeyInt(const QString& _key) const;
     QString getKeyIndex(const QString& _key, int _index) const;
 
 public slots:
     virtual void onMenuAction();
+    virtual void onMenuAction(bool _checked);
     virtual void onMenuBox();
-    virtual void onMenuBoxAction();
     virtual void onBoxRecentFile();
 
 protected:

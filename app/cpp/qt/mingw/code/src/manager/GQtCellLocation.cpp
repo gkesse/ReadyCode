@@ -1,17 +1,16 @@
 //===============================================
 #include "GQtCellLocation.h"
-#include "GStruct.h"
-#include "GQt.h"
+#include "GQtXml.h"
 #include "GQtLog.h"
 //===============================================
 GQtCellLocation::GQtCellLocation(QWidget* _parent) :
-QDialog(_parent) {
-    sGQt lParams;
-    lParams.app_name = "ReadyApp-Spreadsheet | Localisation de cellule";
+GQtDialog(_parent) {
+    createDoms();
 
     QLabel* lCellLabel = new QLabel("Cellule :");
     m_cellEdit = new QLineEdit;
-    GQT->setValidator(m_cellEdit, "[A-Za-z][1-9][0-9]{0,2}", this);
+    QRegExp regExp("[A-Za-z][1-9][0-9]{0,2}");
+    m_cellEdit->setValidator(new QRegExpValidator(regExp, this));
     lCellLabel->setBuddy(m_cellEdit);
     QHBoxLayout* lTopLayout = new QHBoxLayout;
     lTopLayout->addWidget(lCellLabel);
@@ -20,15 +19,15 @@ QDialog(_parent) {
     m_buttonBox = new QDialogButtonBox();
     m_buttonBox->addButton(QDialogButtonBox::Ok);
     m_buttonBox->addButton(QDialogButtonBox::Cancel);
-    GQT->setEnabled(m_buttonBox, QDialogButtonBox::Ok, false);
+    m_buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 
     QVBoxLayout* lMainLayout = new QVBoxLayout;
     lMainLayout->addLayout(lTopLayout);
     lMainLayout->addWidget(m_buttonBox);
 
     setLayout(lMainLayout);
-    setWindowTitle(lParams.app_name);
-    resize(lParams.width, lParams.height);
+    setWindowTitle(getTitle());
+    resize(getWidth(), getHeight());
     setFixedHeight(sizeHint().height());
 
     connect(m_buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
@@ -40,8 +39,38 @@ GQtCellLocation::~GQtCellLocation() {
 
 }
 //===============================================
+void GQtCellLocation::createDoms() {
+    m_dom.reset(new GQtXml);
+    m_dom->loadXmlFile(GQTRES("studio/xml", "spreadsheet.xml"));
+}
+//===============================================
+QString GQtCellLocation::getTitle() const {
+    m_dom->getRoot("rdv").getNode("celllocation");
+    m_dom->getNode("title").getNode("text");
+    QString lData = m_dom->getNodeValue();
+    return lData;
+}
+//===============================================
+int GQtCellLocation::getWidth() const {
+    m_dom->getRoot("rdv").getNode("celllocation");
+    m_dom->getNode("settings").getNode("width");
+    int lData = m_dom->getNodeValue().toInt();
+    return lData;
+}
+//===============================================
+int GQtCellLocation::getHeight() const {
+    m_dom->getRoot("rdv").getNode("celllocation");
+    m_dom->getNode("settings").getNode("height");
+    int lData = m_dom->getNodeValue().toInt();
+    return lData;
+}
+//===============================================
+QString GQtCellLocation::getText() const {
+    QString lData = m_cellEdit->text();
+    return lData;
+}
+//===============================================
 void GQtCellLocation::onCellEdit(const QString& _text) {
-    GQTLOG->write(GMSG); GQt lQt;
-    GQT->setEnabled(m_buttonBox, QDialogButtonBox::Ok, m_cellEdit->hasAcceptableInput());
+    m_buttonBox->button(QDialogButtonBox::Ok)->setEnabled(m_cellEdit->hasAcceptableInput());
 }
 //===============================================

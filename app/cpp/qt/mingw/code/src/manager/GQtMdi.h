@@ -16,6 +16,7 @@ public:
     void createDoms();
     void createCentralWidget();
     GQtMdiChild* createMdiChild();
+    void readSettings();
     void writeSettings();
     bool openFile(const QString& fileName);
     QMdiSubWindow* findMdiChild(const QString &fileName) const;
@@ -24,9 +25,8 @@ public:
     void updateMenus();
 
 public slots:
-    void onMenuAction();
+    void onMenuAction(bool _checked = false);
     void onMenuBox();
-    void onMenuBoxAction();
     void onMdiAreaSubWindow(QMdiSubWindow* _subWindow);
 
 protected:

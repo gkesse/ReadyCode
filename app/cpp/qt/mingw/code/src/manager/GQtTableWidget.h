@@ -1,14 +1,15 @@
 //===============================================
-#ifndef _GSocketClient_
-#define _GSocketClient_
+#ifndef _GQtTableWidget_
+#define _GQtTableWidget_
 //===============================================
-#include "GSocketUi.h"
+#include "GInclude.h"
 //===============================================
-class GSocketClient : public GSocketUi {
+class GQtTableWidget : public QTableWidget {
+    Q_OBJECT
+
 public:
-    GSocketClient();
-    ~GSocketClient();
-    void run(int _argc, char** _argv);
+    GQtTableWidget(QWidget* _parent = 0);
+    ~GQtTableWidget();
 };
 //==============================================
 #endif

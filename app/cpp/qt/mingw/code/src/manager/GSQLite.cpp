@@ -1,6 +1,5 @@
 //===============================================
 #include "GSQLite.h"
-#include "GResource.h"
 #include "GStruct.h"
 //===============================================
 GSQLite* GSQLite::m_instance = 0;
@@ -18,8 +17,7 @@ GSQLite::~GSQLite() {
 GSQLite* GSQLite::Instance() {
     if(m_instance == 0) {
         m_instance = new GSQLite;
-        sGApp* lApp = GRES->getData()->app;
-        m_instance->openDatabase(lApp->sqlite_file);
+        m_instance->openDatabase("database.dat");
     }
     return m_instance;
 }

@@ -2,39 +2,57 @@
 #ifndef _GSocket_
 #define _GSocket_
 //===============================================
-#include "GInclude.h"
-#include "GStruct.h"
+#include "GObject.h"
 //===============================================
-class GSocket {
+class GSocket : public GObject {
 public:
     GSocket();
     ~GSocket();
+    void createDoms();
+    int getMajor() const;
+    int getMinor() const;
+    bool getVersionShow() const;
+    bool getHostnameShow() const;
+    bool getAddressIpShow() const;
+    std::string getAddressClient() const;
+    std::string getAddressServer() const;
+    int getPort() const;
+    int getBacklog() const;
     void initSocket(int _major, int _minor);
-    void createSocketTcp();
-    void cretaeSocketUdp();
+    bool createSocketTcp();
+    bool cretaeSocketUdp();
     void createAddress(const std::string& _ip, int _port);
-    void listenSocket(int _backlog);
-    void bindSocket();
-    void connectToServer();
-    void acceptConnection(GSocket& _socket);
+    bool listenSocket(int _backlog);
+    bool bindSocket();
+    bool connectToServer();
+    bool acceptConnection(GSocket& _socket);
     int recvData(std::string& _data);
     int readData(std::string& _data);
     int recvData(GSocket& _socket, std::string& _data);
     void sendData(const std::string& _data);
     void writeData(const std::string& _data);
     void sendData(GSocket& _socket, const std::string& _data);
-    void getAddressIp(std::string& _ip);
-    void getHostname(std::string& _hostname);
+    std::string getAddressIp() const;
+    std::string getHostname() const;
     void shutdownWR();
     void shutdownRD();
     void closeSocket();
     void cleanSocket();
-    
+    void startServerTcp();
+    void callServerTcp(const std::string& _dataIn, std::string& _dataOut);
+    static DWORD WINAPI onServerTcp(LPVOID _params);
+    std::queue<std::string>& getDataIn() const;
+    std::queue<GSocket*>& getClientIn() const;
+    void resultOk(const std::string& _dataOut = "");
+
 protected:
     static const int BUFFER_SIZE = 1024;
     static const int HOSTNAME_SIZE = 256;
     SOCKET m_socket;
     SOCKADDR_IN m_address;
+    void* m_onThread;
+    static std::queue<std::string> m_dataIn;
+    static std::queue<GSocket*> m_clientIn;
 };
 //==============================================
 #endif

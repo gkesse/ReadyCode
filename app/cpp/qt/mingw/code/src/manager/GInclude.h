@@ -10,6 +10,8 @@
 #include <limits>
 #include <iostream>
 #include <string>
+#include <queue>
+#include <cstdlib>
 // qt
 #include <QtWidgets>
 #include <QtXml>

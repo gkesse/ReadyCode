@@ -10,10 +10,6 @@ class GQtWidget : public QFrame {
 public:
     GQtWidget(QWidget* _parent = 0);
     ~GQtWidget();
-    static GQtWidget* Create(const QString& _key = "", QWidget* _parent = 0);
-
-signals:
-    void clicked();
 };
 //==============================================
 #endif

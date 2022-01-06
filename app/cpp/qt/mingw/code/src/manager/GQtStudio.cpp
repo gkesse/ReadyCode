@@ -23,7 +23,7 @@ GQtStudio::~GQtStudio() {
 //===============================================
 void GQtStudio::createDoms() {
     m_dom.reset(new GQtXml);
-    m_dom->loadXmlFile(GQTRES("studio/xml", "app.xml"));
+    m_dom->loadXmlFile(GQTRES("studio/xml", "studio.xml"));
 }
 //===============================================
 void GQtStudio::createWindows() {

@@ -12,6 +12,7 @@ GQtMainWindow(_parent) {
     createCentralWidget();
     setRecentFilesVisible(hasRecentFiles());
     updateMenus();
+    readSettings();
 
     setWindowTitle(getTitle());
     setWindowIcon(QIcon(GQTRES("studio/img", getLogo())));
@@ -57,8 +58,12 @@ GQtMdiChild* GQtMdi::createMdiChild() {
     return lChild;
 }
 //===============================================
+void GQtMdi::readSettings() {
+    restoreGeometry(getGeometry());
+}
+//===============================================
 void GQtMdi::writeSettings() {
-
+    writeGeometry(saveGeometry());
 }
 //===============================================
 bool GQtMdi::openFile(const QString& _filename) {
@@ -155,7 +160,7 @@ void GQtMdi::closeEvent(QCloseEvent* event) {
     }
 }
 //===============================================
-void GQtMdi::onMenuAction() {
+void GQtMdi::onMenuAction(bool _checked) {
     QAction* lAction = qobject_cast<QAction*>(sender());
     QString lKey = lAction->data().toString();
     qDebug() << lKey;
@@ -237,7 +242,15 @@ void GQtMdi::onMenuAction() {
         QMessageBox::about(this, lTitle, lMessage);
     }
     else if(lKey == "help/qt") {
-        QApplication::aboutQt();
+        qApp->aboutQt();
+    }
+    else if(lKey == "help/language/fr") {
+        setLanguageIndex(lKey);
+        setLanguage("fr");
+    }
+    else if(lKey == "help/language/en") {
+        setLanguageIndex(lKey);
+        setLanguage("en");
     }
 }
 //===============================================
@@ -248,21 +261,6 @@ void GQtMdi::onMenuBox() {
 
     if(lKey == "file/recent") {
         updateRecentFiles();
-    }
-}
-//===============================================
-void GQtMdi::onMenuBoxAction() {
-    QAction* lAction = qobject_cast<QAction*>(sender());
-    QString lKey = lAction->data().toString();
-    qDebug() << lKey;
-
-    if(lKey == "help/language/fr") {
-        setLanguageIndex(lKey);
-        setLanguage("fr");
-    }
-    else if(lKey == "help/language/en") {
-        setLanguageIndex(lKey);
-        setLanguage("en");
     }
 }
 //===============================================

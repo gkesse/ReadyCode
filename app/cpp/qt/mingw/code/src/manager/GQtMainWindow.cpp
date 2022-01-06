@@ -18,142 +18,175 @@ void GQtMainWindow::createDoms() {
 }
 //===============================================
 void GQtMainWindow::createActions() {
-    // count menu
+    // menu count
     int lCountMenus = countMenus();
-    // loop menu
+    // menu loop
     for(int i = 0; i < lCountMenus; i++) {
-        // get menu name
+        // menu name
         QString lMenuName = getMenuName(i);
-        // if menu name no exist
         if(lMenuName == "") continue;
-        // add menu
+        // menu sep
+        bool lMenuSep = getMenuSep(i);
+        // menu sep exist
+        if(lMenuSep) {
+            menuBar()->addSeparator();
+        }
+        // menu add
         QMenu* lMenu = menuBar()->addMenu(lMenuName);
-        // count submenu
+        // submenu count
         int lCountSubMenus = countSubMenus(i);
-        // get toolbar on
+        // toolbar on
         bool lMenuToolBarOn = getMenuToolBarOn(i);
         QToolBar* lToolBar = 0;
-        // if toolbar on exist
+        // toolbar exist
         if(lMenuToolBarOn) {
+            // toolbar add
             lToolBar = addToolBar(lMenuName);
         }
-        // loop submenu
+        // submenu loop
         for(int j = 0; j < lCountSubMenus; j++) {
             QString lSubMenuName = getSubMenuName(i, j);
             QString lSubMenuBoxName = getSubMenuBoxName(i, j);
-            // if submenu name exist
+            // submenu name exist
             if(lSubMenuName != "") {
-                // get submenu action
+                // submenu action
                 QAction* lAction = new QAction(this);
                 lAction->setText(lSubMenuName);
-                // get submenu icon
+                // submenu icon
                 QString lSubMenuIcon = getSubMenuIcon(i, j);
-                // if submenu icon exist
+                bool lSubMenuCheckBox = getSubMenuCheckBox(i, j);
+                // submenu icon exist
                 if(lSubMenuIcon != "") {
                     lAction->setIcon(QIcon(GQTRES("studio/img", lSubMenuIcon)));
                 }
-                // get submenu statustip
+                // submenu checkbox exist
+                else if(lSubMenuCheckBox) {
+                    lAction->setCheckable(true);
+                }
+                // submenu statustip
                 QString lSubMenuStatusTip = getSubMenuStatusTip(i, j);
-                // if submenu statustip exist
+                // submenu statustip exist
                 if(lSubMenuStatusTip != "") {
                     lAction->setStatusTip(lSubMenuStatusTip);
                 }
-                // get submenu key
+                // submenu key
                 QString lSubMenuKey = getSubMenuKey(i, j);
-                // if submenu key exist
+                // submenu key exist
                 if(lSubMenuKey != "") {
+                    // submenu key set
                     lAction->setData(lSubMenuKey);
                     bool lSubMenuCtrlOn = getSubMenuCtrlOn(i, j);
-                    // if submenu ctrl on exist
+                    // submenu ctrl exist
                     if(lSubMenuCtrlOn) {
+                        // submenu ctrl set
                         m_keyAction[lSubMenuKey] = lAction;
                     }
                 }
-                // get submenu shortcut
+                // submenu shortcut
                 QString lSubMenuShortcut = getSubMenuShortcut(i, j);
+                // submenu shortcut exist
                 if(lSubMenuShortcut != "") {
+                    // submenu shortcut set
                     lAction->setShortcut(lSubMenuShortcut);
                 }
-                // add action
+                // menu action add
                 lMenu->addAction(lAction);
-                // if menu toolbar on
+                // menu toolbar on exist
                 if(lMenuToolBarOn) {
+                    // submenu toolbar sep
+                    bool lSubMenuToolBarSep = getSubMenuToolBarSep(i, j);
+                    // submenu toolbar on
                     bool lSubMenuToolBarOn = getSubMenuToolBarOn(i, j);
-                    // if submenu toolbar on
+                    // submenu toolbar exist
+                    if(lSubMenuToolBarSep) {
+                        // submenu toolbar separator add
+                        lToolBar->addSeparator();
+                    }
                     if(lSubMenuToolBarOn) {
+                        // submenu toolbar add
                         lToolBar->addAction(lAction);
                     }
                 }
-                // connect action
-                connect(lAction, SIGNAL(triggered()), this, SLOT(onMenuAction()));
+                // submenu checkbox exist
+                if(lSubMenuCheckBox) {
+                    // submenu action connect toggled
+                    connect(lAction, SIGNAL(toggled(bool)), this, SLOT(onMenuAction(bool)));
+                }
+                else {
+                    // submenu action connect triggered
+                    connect(lAction, SIGNAL(triggered()), this, SLOT(onMenuAction()));
+                }
             }
-            // if menu box name exist
+            // menu box name exist
             else if(lSubMenuBoxName != "") {
-                // add menu
+                // menu box add
                 QMenu* lBox = lMenu->addMenu(lSubMenuBoxName);
                 // get menu box key
                 QString lSubMenuBoxKey = getSubMenuBoxKey(i, j);
-                // if menu box key exist
+                // menu box key exist
                 if(lSubMenuBoxKey != "") {
+                    // menu box key set
                     m_menuKey[lBox] = lSubMenuBoxKey;
                     connect(lBox, SIGNAL(aboutToShow()), this, SLOT(onMenuBox()));
                     bool lSubMenuBoxCtrlOn = getSubMenuBoxCtrlOn(i, j);
-                    // if menu box ctrl on exist
+                    // menu box ctrl exist
                     if(lSubMenuBoxCtrlOn) {
+                        // menu box ctrl set
                         m_keyAction[lSubMenuBoxKey] = lBox->menuAction();
                     }
                 }
-                // get menu recent files on
+                // menu recent files on
                 bool lSubMenuBoxRecentFileOn = getSubMenuBoxRecentFileOn(i, j);
-                // if menu recent files on exist
+                // menu recent files exist
                 if(lSubMenuBoxRecentFileOn) {
                     int lSubMenuBoxRecentFileMax = getSubMenuBoxRecentFileMaxValue(i, j);
                     bool lSubMenuBoxRecentFileMaxCtrlOn = getSubMenuBoxRecentFileMaxCtrlOn(i, j);
                     QString lSubMenuBoxRecentFileMaxKey = getSubMenuBoxRecentFileMaxKey(i, j);
-                    // if menu recent files max ctrl on exist
+                    // menu recent files max ctrl exist
                     if(lSubMenuBoxRecentFileMaxCtrlOn) {
                         m_keyInt[lSubMenuBoxRecentFileMaxKey] = lSubMenuBoxRecentFileMax;
                     }
-                    // loop menu recent files max
+                    // menu recent files max loop
                     for(int k = 0; k < lSubMenuBoxRecentFileMax; k++) {
                         QAction* lBoxAction = new QAction(this);
                         lBoxAction->setVisible(false);
                         lBox->addAction(lBoxAction);
                         connect(lBoxAction, SIGNAL(triggered()), this, SLOT(onBoxRecentFile()));
+                        // menu recent files max ctrl exist
                         if(lSubMenuBoxRecentFileMaxCtrlOn) {
                             m_keyAction[getKeyIndex(lSubMenuBoxKey, k)] = lBoxAction;
                         }
                     }
                 }
-                // if menu box
+                // menu box exist
                 else {
-                    // count menu box
+                    // menu box count
                     int lCountBoxMenus = countBoxMenus(i, j);
-                    // get group on
+                    // radiobutton on
                     m_dom->getRoot("rdv").getNode("menus");
                     m_dom->getNodeItem("menu", i).getNode("submenus");
                     m_dom->getNodeItem("submenu", j).getNode("menu");
-                    m_dom->getNodeOrEmpty("group");
-                    bool lGroupOn = (m_dom->getNodeValueOrEmpty() == "1");
-                    // get key
+                    m_dom->getNodeOrEmpty("radiobutton");
+                    bool lRadioButtonOn = (m_dom->getNodeValueOrEmpty() == "1");
+                    // menu box key
                     m_dom->getRoot("rdv").getNode("menus");
                     m_dom->getNodeItem("menu", i).getNode("submenus");
                     m_dom->getNodeItem("submenu", j).getNode("menu");
                     m_dom->getNodeOrEmpty("key");
                     QString lKey = m_dom->getNodeValueOrEmpty();
-                    // get index
+                    // menu box index
                     m_dom->getRoot("rdv").getNode("menus");
                     m_dom->getNodeItem("menu", i).getNode("submenus");
                     m_dom->getNodeItem("submenu", j).getNode("menu");
                     m_dom->getNodeOrEmpty("index");
                     int lIndex = m_dom->getNodeValueOrEmpty().toInt();
-                    // get index ctrl
+                    // menu box index ctrl
                     m_dom->getRoot("rdv").getNode("menus");
                     m_dom->getNodeItem("menu", i).getNode("submenus");
                     m_dom->getNodeItem("submenu", j).getNode("menu");
                     m_dom->getNodeOrEmpty("indexctrl");
                     bool lIndexCtrl = (m_dom->getNodeValueOrEmpty() == "1");
-                    // if index ctrl exist
+                    // menu box index ctrl exist
                     if(lIndexCtrl) {
                         if(lKey != "") {
                             QString lKeyI = QString("%1/index/i").arg(lKey);
@@ -162,40 +195,40 @@ void GQtMainWindow::createActions() {
                             m_keyInt[lKeyJ] = j;
                         }
                     }
-                    // if group on exist
+                    // radiobutton exist
                     QActionGroup* lActionGroup = 0;
-                    if(lGroupOn) {
+                    if(lRadioButtonOn) {
                         lActionGroup = new QActionGroup(this);
                         lActionGroup->setExclusive(true);
                     }
-                    // loop menu box
+                    // menu box loop
                     for(int k = 0; k < lCountBoxMenus; k++) {
-                        // get menu box name
+                        // menu box name
                         QString lName = getBoxMenuName(i, j, k);
-                        // get menu box key
+                        // menu box key
                         QString lMenuKey = getBoxMenuKey(i, j, k);
                         QAction* lBoxAction = new QAction(this);
                         lBoxAction->setText(lName);
-                        // if group on exist
-                        if(lGroupOn) {
+                        // radiobutton exist
+                        if(lRadioButtonOn) {
                             lActionGroup->addAction(lBoxAction);
                             lBoxAction->setCheckable(true);
                             if(lIndex == k) {
                                 lBoxAction->setChecked(true);
                             }
                         }
-                        // if menu box key exist
+                        // menu box key exist
                         if(lMenuKey != "") {
                             lBoxAction->setData(lMenuKey);
                         }
-                        // add action
+                        // menu box action add
                         lBox->addAction(lBoxAction);
-                        // connect action
-                        connect(lBoxAction, SIGNAL(triggered()), this, SLOT(onMenuBoxAction()));
+                        // menu box action connect triggered
+                        connect(lBoxAction, SIGNAL(triggered()), this, SLOT(onMenuAction()));
                     }
                 }
             }
-            // if menu separator
+            // menu separator exist
             else {
                 // get menu separator on
                 bool lSubMenuSeparatorOn = getSubMenuSeparatorOn(i, j);
@@ -209,8 +242,9 @@ void GQtMainWindow::createActions() {
                     }
                 }
             }
-        }
-    }
+            // submenu highline end
+        } // submenu loop end
+    } // menu loop end
 }
 //===============================================
 void GQtMainWindow::createStatusBar() {
@@ -348,6 +382,13 @@ QString GQtMainWindow::getMenuName(int _menu) const {
     return lData;
 }
 //===============================================
+bool GQtMainWindow::getMenuSep(int _menu) const {
+    m_dom->getRoot("rdv").getNode("menus");
+    m_dom->getNodeItem("menu", _menu).getNodeOrEmpty("menusep");
+    bool lData = (m_dom->getNodeValueOrEmpty() == "1");
+    return lData;
+}
+//===============================================
 QString GQtMainWindow::getBoxMenuName(int _menu, int _submenu, int _box) const {
     m_dom->getRoot("rdv").getNode("menus");
     m_dom->getNodeItem("menu", _menu).getNode("submenus");
@@ -480,6 +521,14 @@ QString GQtMainWindow::getSubMenuIcon(int _menu, int _submenu) const {
     return lData;
 }
 //===============================================
+bool GQtMainWindow::getSubMenuCheckBox(int _menu, int _submenu) const {
+    m_dom->getRoot("rdv").getNode("menus");
+    m_dom->getNodeItem("menu", _menu).getNode("submenus");
+    m_dom->getNodeItem("submenu", _submenu).getNodeOrEmpty("checkbox");
+    bool lData = (m_dom->getNodeValueOrEmpty() == "1");
+    return lData;
+}
+//===============================================
 QString GQtMainWindow::getSubMenuStatusTip(int _menu, int _submenu) const {
     m_dom->getRoot("rdv").getNode("menus");
     m_dom->getNodeItem("menu", _menu).getNode("submenus");
@@ -512,6 +561,14 @@ bool GQtMainWindow::getSubMenuToolBarOn(int _menu, int _submenu) const {
     return lData;
 }
 //===============================================
+bool GQtMainWindow::getSubMenuToolBarSep(int _menu, int _submenu) const {
+    m_dom->getRoot("rdv").getNode("menus");
+    m_dom->getNodeItem("menu", _menu).getNode("submenus");
+    m_dom->getNodeItem("submenu", _submenu).getNodeOrEmpty("toolbarsep");
+    bool lData = (m_dom->getNodeValueOrEmpty() == "1");
+    return lData;
+}
+//===============================================
 bool GQtMainWindow::getSubMenuSeparatorOn(int _menu, int _submenu) const {
     m_dom->getRoot("rdv").getNode("menus");
     m_dom->getNodeItem("menu", _menu).getNode("submenus");
@@ -531,6 +588,13 @@ bool GQtMainWindow::getSubMenuCtrlOn(int _menu, int _submenu) const {
 QString GQtMainWindow::getTitle() const {
     m_dom->getRoot("rdv").getNode("settings");
     m_dom->getNode("appname");
+    QString lData = m_dom->getNodeValue();
+    return lData;
+}
+//===============================================
+QString GQtMainWindow::getVersion() const {
+    m_dom->getRoot("rdv").getNode("settings");
+    m_dom->getNode("version");
     QString lData = m_dom->getNodeValue();
     return lData;
 }
@@ -706,6 +770,21 @@ void GQtMainWindow::setLanguageIndex(const QString& _key, const QString& _langua
     m_dom->saveXmlFile();
 }
 //===============================================
+void GQtMainWindow::writeGeometry(const QByteArray& _geometry) {
+    m_domData->getRoot("rdv").getNode("geometry");
+    m_domData->setNodeValue(_geometry.toBase64());
+    m_domData->saveXmlFile();
+}
+//===============================================
+QByteArray GQtMainWindow::getGeometry() const {
+    m_domData->getRoot("rdv").getNode("geometry");
+    QString lData = m_domData->getCData();
+    QByteArray lData64;
+    lData64 += lData;
+    QByteArray lDataBA = QByteArray::fromBase64(lData64);
+    return lDataBA;
+}
+//===============================================
 QAction* GQtMainWindow::getKeyAction(const QString& _key) const {
     QAction* lAction = m_keyAction.value(_key, 0);
     if(lAction == 0) {
@@ -731,15 +810,15 @@ QString GQtMainWindow::getKeyIndex(const QString& _key, int _index) const {
     return lKey;
 }
 //===============================================
-void GQtMainWindow::setRecentFilesVisible(bool _visible, const QString& _recentFile, const QString& _separator) {
-    QAction* lRecentFile = getKeyAction(_recentFile);
-    QAction* lSeparator = getKeyAction(_separator);
+void GQtMainWindow::setRecentFilesVisible(bool _visible, const QString& _recentFileKey, const QString& _separatorKey) {
+    QAction* lRecentFile = getKeyAction(_recentFileKey);
+    QAction* lSeparator = getKeyAction(_separatorKey);
     lRecentFile->setVisible(_visible);
     lSeparator->setVisible(_visible);
 }
 //===============================================
 void GQtMainWindow::onMenuAction() {}
+void GQtMainWindow::onMenuAction(bool _checked) {}
 void GQtMainWindow::onMenuBox() {}
-void GQtMainWindow::onMenuBoxAction() {}
 void GQtMainWindow::onBoxRecentFile() {}
 //===============================================
