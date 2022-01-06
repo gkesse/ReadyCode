@@ -4,6 +4,8 @@
 //===============================================
 #include "GObject.h"
 //===============================================
+#define GTHREAD GThread::Instance()
+//===============================================
 class GThread : public GObject {
 public:
     typedef LPTHREAD_START_ROUTINE onThreadCB;

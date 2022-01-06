@@ -3,6 +3,7 @@
 #include "GQtStudio.h"
 #include "GQtSpreadWindow.h"
 #include "GSocket.h"
+#include "GMaster.h"
 #include "GSQLite.h"
 #include "GTimer.h"
 #include "GThread.h"
@@ -11,7 +12,7 @@
 GProcess* GProcess::m_instance = 0;
 //===============================================
 GProcess::GProcess() : GObject() {
-    createDom();
+    createDoms();
 }
 //===============================================
 GProcess::~GProcess() {
@@ -26,7 +27,7 @@ GProcess* GProcess::Instance() {
 }
 //===============================================
 void GProcess::run(int _argc, char** _argv) {
-    std::string lKey = getName();
+    std::string lKey = getName(_argc, _argv);
     bool lProcShow = getProcShow();
     bool lArgShow = getArgShow();
 
@@ -46,6 +47,9 @@ void GProcess::run(int _argc, char** _argv) {
     else if(lKey == "socket") {
         runSocket(_argc, _argv);
     }
+    else if(lKey == "master") {
+        runMaster(_argc, _argv);
+    }
     else if(lKey == "sqlite") {
         runSQLite(_argc, _argv);
     }
@@ -54,10 +58,23 @@ void GProcess::run(int _argc, char** _argv) {
     }
 }
 //===============================================
-void GProcess::createDom() {
+void GProcess::createDoms() {
     m_dom.reset(new GXml);
     m_dom->loadXmlFile(GRES("cpp/xml", "process.xml"));
     m_dom->createXPath();
+}
+//===============================================
+std::string GProcess::getName(int _argc, char** _argv) const {
+    std::string lData = "";
+    if(getNameUse()) {
+        lData = getName();
+    }
+    else {
+        if(_argc > 1) {
+            lData = _argv[1];
+        }
+    }
+    return lData;
 }
 //===============================================
 std::string GProcess::getName() const {
@@ -65,6 +82,13 @@ std::string GProcess::getName() const {
     m_dom->getNodeXPath();
     std::string lData = m_dom->getNodeValue();
     return lData;
+}
+//===============================================
+bool GProcess::getNameUse() const {
+    m_dom->queryXPath("/rdv/process/nameuse");
+    m_dom->getNodeXPath();
+    std::string lData = m_dom->getNodeValue();
+    return (lData == "1");
 }
 //===============================================
 bool GProcess::getProcShow() const {
@@ -98,8 +122,15 @@ void GProcess::runSpreadsheet(int _argc, char** _argv) {
 void GProcess::runSocket(int _argc, char** _argv) {
     std::string lType = "";
 
-    if(_argc > 1) {
-        lType = _argv[1];
+    if(getNameUse()) {
+        if(_argc > 1) {
+            lType = _argv[1];
+        }
+    }
+    else {
+        if(_argc > 2) {
+            lType = _argv[2];
+        }
     }
 
     // client
@@ -112,33 +143,14 @@ void GProcess::runSocket(int _argc, char** _argv) {
     }
     // server
     else {
-        GThread lThread;
-        GSocket lServer;
-        lThread.createThread(onServerTcp, &lServer);
-
-        while(1) {
-            std::queue<std::string>& lDataIn = lServer.getDataIn();
-            std::queue<GSocket*>& lClientIn = lServer.getClientIn();
-
-            if(!lDataIn.empty()) {
-                std::string lData = lDataIn.front();
-                GSocket* lClient = lClientIn.front();
-
-                lDataIn.pop();
-                lClientIn.pop();
-
-                printf("%s\n", lData.c_str());
-
-                lClient->resultOk();
-            }
-        }
+        GTHREAD->createThread(onServerTcp, GSOCKET);
+        GTIMER->setTimer(onServerTcpTimer, 50);
+        GTIMER->pause();
     }
 }
 //===============================================
-DWORD WINAPI GProcess::onServerTcp(LPVOID _params) {
-    GSocket* lServer = (GSocket*)_params;
-    lServer->startServerTcp();
-    return 0;
+void GProcess::runMaster(int _argc, char** _argv) {
+    GMASTER->run(_argc, _argv);
 }
 //===============================================
 void GProcess::runSQLite(int _argc, char** _argv) {
@@ -151,6 +163,29 @@ void GProcess::runSQLite(int _argc, char** _argv) {
 void GProcess::runTimer(int _argc, char** _argv) {
     GTIMER->setTimer(onTimer, 1000);
     GTIMER->pause();
+}
+//===============================================
+DWORD WINAPI GProcess::onServerTcp(LPVOID _params) {
+    GSocket* lServer = (GSocket*)_params;
+    lServer->startServerTcp();
+    return 0;
+}
+//===============================================
+void CALLBACK GProcess::onServerTcpTimer(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime) {
+    std::queue<std::string>& lDataIn = GSOCKET->getDataIn();
+    std::queue<GSocket*>& lClientIn = GSOCKET->getClientIn();
+
+    if(!lDataIn.empty()) {
+        std::string lData = lDataIn.front();
+        GSocket* lClient = lClientIn.front();
+
+        lDataIn.pop();
+        lClientIn.pop();
+
+        printf("%s\n", lData.c_str());
+
+        lClient->resultOk();
+    }
 }
 //===============================================
 void CALLBACK GProcess::onTimer(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime) {

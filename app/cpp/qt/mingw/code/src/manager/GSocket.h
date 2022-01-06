@@ -4,10 +4,13 @@
 //===============================================
 #include "GObject.h"
 //===============================================
+#define GSOCKET GSocket::Instance()
+//===============================================
 class GSocket : public GObject {
 public:
     GSocket(bool _init = true);
     ~GSocket();
+    static GSocket* Instance();
     void createDoms();
     int getMajor() const;
     int getMinor() const;
@@ -45,9 +48,12 @@ public:
     std::queue<GSocket*>& getClientIn() const;
     void resultOk(const std::string& _dataOut = "");
 
-protected:
+private:
     static const int BUFFER_SIZE = 1024;
     static const int HOSTNAME_SIZE = 256;
+
+private:
+    static GSocket* m_instance;
     SOCKET m_socket;
     SOCKADDR_IN m_address;
     static std::queue<std::string> m_dataIn;

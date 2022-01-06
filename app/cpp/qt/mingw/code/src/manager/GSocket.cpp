@@ -5,6 +5,8 @@
 #include "GString.h"
 #include "GLog.h"
 //===============================================
+GSocket* GSocket::m_instance = 0;
+//===============================================
 std::queue<std::string> GSocket::m_dataIn;
 std::queue<GSocket*> GSocket::m_clientIn;
 //===============================================
@@ -18,6 +20,13 @@ GSocket::GSocket(bool _init) : GObject() {
 //===============================================
 GSocket::~GSocket() {
 
+}
+//===============================================
+GSocket* GSocket::Instance() {
+    if(m_instance == 0) {
+        m_instance = new GSocket;
+    }
+    return m_instance;
 }
 //===============================================
 void GSocket::createDoms() {
@@ -240,7 +249,7 @@ void GSocket::cleanSocket() {
 }
 //===============================================
 void GSocket::startServerTcp() {
-    GSocket lServer;
+    GSocket lServer(false);
     GThread lThread;
 
     lServer.initSocket(getMajor(), getMinor());
@@ -273,7 +282,7 @@ void GSocket::startServerTcp() {
 }
 //===============================================
 void GSocket::callServerTcp(const std::string& _dataIn, std::string& _dataOut) {
-    GSocket lClient;
+    GSocket lClient(false);
 
     lClient.initSocket(getMajor(), getMinor());
 
@@ -283,6 +292,7 @@ void GSocket::callServerTcp(const std::string& _dataIn, std::string& _dataOut) {
     if(getHostnameShow()) {
         printf("nom machine : %s\n", getHostname().c_str());
     }
+
     lClient.createSocketTcp();
     lClient.createAddress(getAddressServer(), getPort());
     lClient.connectToServer();
