@@ -16,6 +16,8 @@ public:
     void runSpreadsheet(int _argc, char** _argv);
     void runSocket(int _argc, char** _argv);
     void runSQLite(int _argc, char** _argv);
+    void runTimer(int _argc, char** _argv);
+    static void CALLBACK onTimer(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime);
     void createDom();
     std::string getName() const;
     bool getProcShow() const;

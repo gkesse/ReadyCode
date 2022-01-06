@@ -2,18 +2,20 @@
 #ifndef _GThread_
 #define _GThread_
 //===============================================
-#include "GInclude.h"
+#include "GObject.h"
 //===============================================
-class GThread {
+class GThread : public GObject {
 public:
-    typedef DWORD WINAPI (*onThreadCB)(LPVOID _params);
+    typedef LPTHREAD_START_ROUTINE onThreadCB;
 
 public:
     GThread();
     ~GThread();
+    static GThread* Instance();
     void createThread(onThreadCB _onThread, void* _params);
     
 private:
+    static GThread* m_instance;
     HANDLE m_handleID;
     DWORD m_threadID;
 };

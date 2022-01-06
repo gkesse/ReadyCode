@@ -4,6 +4,7 @@
 #include "GQtSpreadWindow.h"
 #include "GSocket.h"
 #include "GSQLite.h"
+#include "GTimer.h"
 #include "GThread.h"
 #include "GXml.h"
 //===============================================
@@ -47,6 +48,9 @@ void GProcess::run(int _argc, char** _argv) {
     }
     else if(lKey == "sqlite") {
         runSQLite(_argc, _argv);
+    }
+    else if(lKey == "timer") {
+        runTimer(_argc, _argv);
     }
 }
 //===============================================
@@ -123,12 +127,18 @@ void GProcess::runSocket(int _argc, char** _argv) {
                 lDataIn.pop();
                 lClientIn.pop();
 
-                printf("ooooo : %s\n", lData.c_str());
+                printf("%s\n", lData.c_str());
 
-                lClient->resultOk("hellooooooooooo");
+                lClient->resultOk();
             }
         }
     }
+}
+//===============================================
+DWORD WINAPI GProcess::onServerTcp(LPVOID _params) {
+    GSocket* lServer = (GSocket*)_params;
+    lServer->startServerTcp();
+    return 0;
 }
 //===============================================
 void GProcess::runSQLite(int _argc, char** _argv) {
@@ -138,9 +148,12 @@ void GProcess::runSQLite(int _argc, char** _argv) {
     printf("%s\n", lData.c_str());
 }
 //===============================================
-DWORD WINAPI GProcess::onServerTcp(LPVOID _params) {
-    GSocket* lServer = (GSocket*)_params;
-    lServer->startServerTcp();
-    return 0;
+void GProcess::runTimer(int _argc, char** _argv) {
+    GTIMER->setTimer(onTimer, 1000);
+    GTIMER->pause();
+}
+//===============================================
+void CALLBACK GProcess::onTimer(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime) {
+    printf("onTimer... %lu (ms)\n", dwTime);
 }
 //===============================================
