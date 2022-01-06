@@ -15,6 +15,7 @@ public:
     void runStudio(int _argc, char** _argv);
     void runSpreadsheet(int _argc, char** _argv);
     void runSocket(int _argc, char** _argv);
+    void runSQLite(int _argc, char** _argv);
     void createDom();
     std::string getName() const;
     bool getProcShow() const;

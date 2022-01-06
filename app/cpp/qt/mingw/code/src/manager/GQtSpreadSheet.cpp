@@ -6,10 +6,11 @@
 //===============================================
 GQtSpreadSheet::GQtSpreadSheet(QWidget* _parent) :
 GQtTableWidget(_parent) {
+    autoRecalc = true;
+
     setItemPrototype(new GQtCell);
     setSelectionMode(ContiguousSelection);
     clear();
-    autoRecalc = true;
     connect(this, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(somethingChanged(QTableWidgetItem*)));
 }
 //===============================================

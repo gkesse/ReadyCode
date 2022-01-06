@@ -3,6 +3,7 @@
 #include "GQtStudio.h"
 #include "GQtSpreadWindow.h"
 #include "GSocket.h"
+#include "GSQLite.h"
 #include "GThread.h"
 #include "GXml.h"
 //===============================================
@@ -43,6 +44,9 @@ void GProcess::run(int _argc, char** _argv) {
     }
     else if(lKey == "socket") {
         runSocket(_argc, _argv);
+    }
+    else if(lKey == "sqlite") {
+        runSQLite(_argc, _argv);
     }
 }
 //===============================================
@@ -125,6 +129,13 @@ void GProcess::runSocket(int _argc, char** _argv) {
             }
         }
     }
+}
+//===============================================
+void GProcess::runSQLite(int _argc, char** _argv) {
+    std::string lData = GSQLITE->readData(""
+            "select 'Bonjour tout le monde'"
+            "");
+    printf("%s\n", lData.c_str());
 }
 //===============================================
 DWORD WINAPI GProcess::onServerTcp(LPVOID _params) {

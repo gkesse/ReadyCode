@@ -8,10 +8,12 @@
 std::queue<std::string> GSocket::m_dataIn;
 std::queue<GSocket*> GSocket::m_clientIn;
 //===============================================
-GSocket::GSocket() : GObject() {
-    createDoms();
+GSocket::GSocket(bool _init) : GObject() {
     m_socket = -1;
-    m_onThread = 0;
+
+    if(_init) {
+        createDoms();
+    }
 }
 //===============================================
 GSocket::~GSocket() {
@@ -241,6 +243,8 @@ void GSocket::startServerTcp() {
     GSocket lServer;
     GThread lThread;
 
+    lServer.initSocket(getMajor(), getMinor());
+
     if(getVersionShow()) {
         printf("version socket : %d.%d\n", getMajor(), getMinor());
     }
@@ -248,25 +252,20 @@ void GSocket::startServerTcp() {
         printf("nom machine : %s\n", getHostname().c_str());
     }
 
-    lServer.initSocket(getMajor(), getMinor());
     lServer.createSocketTcp();
     lServer.createAddress(getAddressClient(), getPort());
     lServer.bindSocket();
     lServer.listenSocket(getBacklog());
 
     while(1) {
-        GSocket* lClient = new GSocket;
+        GSocket* lClient = new GSocket(false);
         lServer.acceptConnection(*lClient);
-
-        if(m_onThread == 0) {
-            m_onThread = (void*)onServerTcp;
-        }
 
         if(getAddressIpShow()) {
             printf("adresse ip client : %s\n", lClient->getAddressIp().c_str());
         }
 
-        lThread.createThread((GThread::onThreadCB)m_onThread, lClient);
+        lThread.createThread(onServerTcp, lClient);
     }
 
     lServer.cleanSocket();
@@ -276,11 +275,14 @@ void GSocket::startServerTcp() {
 void GSocket::callServerTcp(const std::string& _dataIn, std::string& _dataOut) {
     GSocket lClient;
 
+    lClient.initSocket(getMajor(), getMinor());
+
     if(getVersionShow()) {
         printf("version socket : %d.%d\n", getMajor(), getMinor());
     }
-
-    lClient.initSocket(getMajor(), getMinor());
+    if(getHostnameShow()) {
+        printf("nom machine : %s\n", getHostname().c_str());
+    }
     lClient.createSocketTcp();
     lClient.createAddress(getAddressServer(), getPort());
     lClient.connectToServer();

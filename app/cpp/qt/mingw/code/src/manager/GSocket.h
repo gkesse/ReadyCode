@@ -6,7 +6,7 @@
 //===============================================
 class GSocket : public GObject {
 public:
-    GSocket();
+    GSocket(bool _init = true);
     ~GSocket();
     void createDoms();
     int getMajor() const;
@@ -50,7 +50,6 @@ protected:
     static const int HOSTNAME_SIZE = 256;
     SOCKET m_socket;
     SOCKADDR_IN m_address;
-    void* m_onThread;
     static std::queue<std::string> m_dataIn;
     static std::queue<GSocket*> m_clientIn;
 };

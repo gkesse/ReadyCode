@@ -1,12 +1,25 @@
 //===============================================
 #include "GSQLite.h"
-#include "GStruct.h"
+#include "GXml.h"
+#include "GLog.h"
 //===============================================
 GSQLite* GSQLite::m_instance = 0;
 //===============================================
-GSQLite::GSQLite() {
+GSQLite::GSQLite(bool _init) : GObject() {
     m_sqlite3 = 0;
     m_stmt = 0;
+    m_rowCount = 0;
+    m_namesOn = true;
+
+    if(_init) {
+        createDoms();
+
+        if(getVersionShow()) {
+            printf("version sqlite : %s\n", getVersion().c_str());
+        }
+
+        openDatabase(GRES("cpp/sqlite", "database.xml"));
+    }
 }
 //===============================================
 GSQLite::~GSQLite() {
@@ -17,34 +30,71 @@ GSQLite::~GSQLite() {
 GSQLite* GSQLite::Instance() {
     if(m_instance == 0) {
         m_instance = new GSQLite;
-        m_instance->openDatabase("database.dat");
     }
     return m_instance;
 }
 //===============================================
-void GSQLite::getVersion(std::string& _version) {
-    _version = sqlite3_libversion();
+void GSQLite::createDoms() {
+    m_dom.reset(new GXml);
+    m_dom->loadXmlFile(GRES("cpp/xml", "sqlite.xml"));
+    m_dom->createXPath();
 }
 //===============================================
-void GSQLite::openDatabase(const std::string& _filename) {
-    sqlite3_open(_filename.c_str(), &m_sqlite3);
+bool GSQLite::getVersionShow() const {
+    m_dom->queryXPath("/rdv/sqlite/versionshow");
+    m_dom->getNodeXPath();
+    std::string lData = m_dom->getNodeValue();
+    return (lData == "1");
 }
 //===============================================
-void GSQLite::executeQuery(const std::string& _query, onExecCB _onExec, void* _params) {
+std::string GSQLite::getVersion() const {
+    std::string lVersion = sqlite3_libversion();
+    return lVersion;
+}
+//===============================================
+bool GSQLite::openDatabase(const std::string& _filename) {
+    int lAnswer = sqlite3_open(_filename.c_str(), &m_sqlite3);
+    if(lAnswer != SQLITE_OK) {
+        GLOG->addError("Erreur la methode (openDatabase) a echoue "
+                "sur le fichier (%s).", _filename.c_str());
+        return false;
+    }
+    return true;
+}
+//===============================================
+bool GSQLite::executeQuery(const std::string& _query, onExecCB _onExec, void* _params) {
     char* lError;
-    sqlite3_exec(m_sqlite3, _query.c_str(), _onExec, _params, &lError);
+    int lAnswer = sqlite3_exec(m_sqlite3, _query.c_str(), _onExec, _params, &lError);
+    if(lAnswer != SQLITE_OK) {
+        GLOG->addError("Erreur la methode (executeQuery) a echoue "
+                "sur la requete (%s) avec le message (%s).", _query.c_str(), lError);
+        return false;
+    }
+    return true;
 }
 //===============================================
-void GSQLite::prepareQuery(const std::string& _query) {
-    sqlite3_prepare_v2(m_sqlite3, _query.c_str(), -1, &m_stmt, 0);
+bool GSQLite::prepareQuery(const std::string& _query) {
+    int lAnswer = sqlite3_prepare_v2(m_sqlite3, _query.c_str(), -1, &m_stmt, 0);
+    if(lAnswer != SQLITE_OK) {
+        GLOG->addError("Erreur la methode (prepareQuery) a echoue "
+                "sur la requete (%s).", _query.c_str());
+        return false;
+    }
+    return true;
 }
 //===============================================
-void GSQLite::stepQuery() {
-    sqlite3_step(m_stmt);
+bool GSQLite::stepQuery() {
+    int lAnswer = sqlite3_step(m_stmt);
+    if(lAnswer != SQLITE_OK) {
+        GLOG->addError("Erreur la methode (stepQuery) a echoue.");
+        return false;
+    }
+    return true;
 }
 //===============================================
-void GSQLite::getColumnData(std::string& _data, int _col) {
-    _data = (char*)sqlite3_column_text(m_stmt, _col);
+std::string GSQLite::getColumnData(int _col) const {
+    std::string lData = (char*)sqlite3_column_text(m_stmt, _col);
+    return lData;
 }
 //===============================================
 void GSQLite::finalizeQuery() {
@@ -55,89 +105,124 @@ void GSQLite::closeDatabase() {
     sqlite3_close(m_sqlite3);
 }
 //===============================================
-void GSQLite::writeData(const std::string& _query) {
-    executeQuery(_query, 0, 0);
+void GSQLite::writeData(const char* _query, ...) {
+    va_list lArgs;
+    va_start (lArgs, _query);
+    int lSize = vsprintf(m_buffer, _query, lArgs);
+    va_end(lArgs);
+    if(lSize >= BUFFER_SIZE) {
+        GLOG->addError("Erreur la methode (writeData) a echoue.");
+    }
+    executeQuery(m_buffer, 0, 0);
 }
 //===============================================
-std::string GSQLite::readData(const std::string& _query, std::vector<std::string>* _names) {
-    sGSQLite lParams;
-    lParams.names = _names;
+std::string GSQLite::readData(const char* _query, ...) {
+    va_list lArgs;
+    va_start (lArgs, _query);
+    int lSize = vsprintf(m_buffer, _query, lArgs);
+    va_end(lArgs);
+    if(lSize >= BUFFER_SIZE) {
+        GLOG->addError("Erreur la methode (readData) a echoue.");
+    }
+    GSQLite lParams(false);
     executeQuery(_query, onReadData, &lParams);
-    return lParams.data_val;
+    m_rowCount = lParams.m_rowCount;
+    return lParams.m_dataVal;
 }
 //===============================================
-std::vector<std::string> GSQLite::readRow(const std::string& _query, std::vector<std::string>* _names) {
-    sGSQLite lParams;
-    lParams.names = _names;
+std::vector<std::string> GSQLite::readRow(const char* _query, ...) {
+    va_list lArgs;
+    va_start (lArgs, _query);
+    int lSize = vsprintf(m_buffer, _query, lArgs);
+    va_end(lArgs);
+    if(lSize >= BUFFER_SIZE) {
+        GLOG->addError("Erreur la methode (readRow) a echoue.");
+    }
+    GSQLite lParams(false);
     executeQuery(_query, onReadRow, &lParams);
-    return lParams.data_list;
+    m_rowCount = lParams.m_rowCount;
+    return lParams.m_dataList;
 }
 //===============================================
-std::vector<std::string> GSQLite::readCol(const std::string& _query, std::vector<std::string>* _names) {
-    sGSQLite lParams;
-    lParams.names = _names;
+std::vector<std::string> GSQLite::readCol(const char* _query, ...) {
+    va_list lArgs;
+    va_start (lArgs, _query);
+    int lSize = vsprintf(m_buffer, _query, lArgs);
+    va_end(lArgs);
+    if(lSize >= BUFFER_SIZE) {
+        GLOG->addError("Erreur la methode (readCol) a echoue.");
+    }
+    GSQLite lParams(false);
     executeQuery(_query, onReadCol, &lParams);
-    return lParams.data_list;
+    m_rowCount = lParams.m_rowCount;
+    return lParams.m_dataList;
 }
 //===============================================
-std::vector<std::vector<std::string>> GSQLite::readMap(const std::string& _query, std::vector<std::string>* _names) {
-    sGSQLite lParams;
-    lParams.names = _names;
+std::vector<std::vector<std::string>> GSQLite::readMap(const char* _query, ...) {
+    va_list lArgs;
+    va_start (lArgs, _query);
+    int lSize = vsprintf(m_buffer, _query, lArgs);
+    va_end(lArgs);
+    if(lSize >= BUFFER_SIZE) {
+        GLOG->addError("Erreur la methode (readMap) a echoue.");
+    }
+    GSQLite lParams(false);
     executeQuery(_query, onReadMap, &lParams);
-    return lParams.data_map;
+    m_rowCount = lParams.m_rowCount;
+    return lParams.m_dataMap;
 }
 //===============================================
 int GSQLite::onReadData(void* _params, int _colCount, char** _colVals, char** _colNames) {
-    sGSQLite* lParams = (sGSQLite*)_params;
-    if(lParams->row_count == 0) {
-        if(lParams->names && lParams->names_on) {
-            lParams->names->push_back(_colNames[0]);
+    GSQLite* lParams = (GSQLite*)_params;
+    if(lParams->m_rowCount == 0) {
+        if(lParams->m_namesOn) {
+            lParams->m_names.push_back(_colNames[0]);
         }
-        lParams->data_val = _colVals[0];
-        lParams->names_on = false;
-        lParams->row_count++;
+        lParams->m_dataVal = _colVals[0];
+        lParams->m_namesOn = false;
+        lParams->m_rowCount++;
     }
     return 0;
 }
 //===============================================
 int GSQLite::onReadRow(void* _params, int _colCount, char** _colVals, char** _colNames) {
-    sGSQLite* lParams = (sGSQLite*)_params;
-    if(lParams->row_count == 0) {
+    GSQLite* lParams = (GSQLite*)_params;
+    if(lParams->m_rowCount == 0) {
         for(int i = 0; i < _colCount; i++) {
-            if(lParams->names && lParams->names_on) {
-                lParams->names->push_back(_colNames[i]);
+            if(lParams->m_namesOn) {
+                lParams->m_names.push_back(_colNames[i]);
             }
-            lParams->data_list.push_back(_colVals[i]);
+            lParams->m_dataList.push_back(_colVals[i]);
         }
-        lParams->names_on = false;
-        lParams->row_count++;
+        lParams->m_namesOn = false;
+        lParams->m_rowCount++;
     }
     return 0;
 }
 //===============================================
 int GSQLite::onReadCol(void* _params, int _colCount, char** _colVals, char** _colNames) {
-    sGSQLite* lParams = (sGSQLite*)_params;
-    if(lParams->names && lParams->names_on) {
-        lParams->names->push_back(_colNames[0]);
+    GSQLite* lParams = (GSQLite*)_params;
+    if(lParams->m_namesOn) {
+        lParams->m_names.push_back(_colNames[0]);
     }
-    lParams->data_list.push_back(_colVals[0]);
-    lParams->names_on = false;
-    lParams->row_count++;
+    lParams->m_dataList.push_back(_colVals[0]);
+    lParams->m_namesOn = false;
+    lParams->m_rowCount++;
     return 0;
 }
 //===============================================
 int GSQLite::onReadMap(void* _params, int _colCount, char** _colVals, char** _colNames) {
-    sGSQLite* lParams = (sGSQLite*)_params;
+    GSQLite* lParams = (GSQLite*)_params;
     std::vector<std::string> lData;
     for(int i = 0; i < _colCount; i++) {
-        if(lParams->names && lParams->names_on) {
-            lParams->names->push_back(_colNames[i]);
+        if(lParams->m_namesOn) {
+            lParams->m_names.push_back(_colNames[i]);
         }
         lData.push_back(_colVals[i]);
     }
-    lParams->names_on = false;
-    lParams->data_map.push_back(lData);
-    lParams->row_count++;
+    lParams->m_namesOn = false;
+    lParams->m_dataMap.push_back(lData);
+    lParams->m_rowCount++;
     return 0;
 }
 //===============================================
