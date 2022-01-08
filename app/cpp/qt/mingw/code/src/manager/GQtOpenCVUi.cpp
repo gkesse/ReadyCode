@@ -57,6 +57,8 @@ void GQtOpenCVUi::onMenuAction(bool _checked) {
     else if(lKey == "opencv/stop") {
         stopOpenCV();
     }
+
+    GQTLOG->showErrorQt(this);
 }
 //===============================================
 void GQtOpenCVUi::runOpenCV() {
@@ -67,6 +69,7 @@ void GQtOpenCVUi::runOpenCV() {
     std::string lDataOut;
     GSOCKET->callServerTcp(lDataIn, lDataOut);
     showDebug(lDataOut.c_str());
+    GQTLOG->addError(QString("Erreurooooooooooooooooooooo."));
 }
 //===============================================
 void GQtOpenCVUi::stopOpenCV() {
