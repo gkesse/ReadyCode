@@ -21,12 +21,23 @@ public:
     //
     void initDom();
     void initDom(const std::string& _module, const std::string& _method);
+    void initResult();
+    void initResultOk();
+    void initError();
     void loadDom(const std::string& _data);
-    std::string getDom(const std::string& _encoding = "UTF-8", int _format = 4) const;
-    void setModule(const std::string& _module);
+    //
+    void addResult();
+    void addResult(const std::string& _msg);
+    void addError();
+    void addError(const std::string& _msg);
+    void addModule(const std::string& _module);
+    void addMethod(const std::string& _method);
+    //
+    std::string toString(const std::string& _encoding = "UTF-8", int _format = 4) const;
+    //
     std::string getModule() const;
-    void setMethod(const std::string& _method);
     std::string getMethod() const;
+    std::string getResultOk() const;
 
 private:
     static GObject* m_instance;

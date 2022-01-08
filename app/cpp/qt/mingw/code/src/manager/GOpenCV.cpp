@@ -131,7 +131,7 @@ void CALLBACK GOpenCV::onTimer(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwT
 
         printf("%s\n", lData.c_str());
 
-        lClient->resultOk();
+        lClient->sendResponse();
     }
 }
 //===============================================

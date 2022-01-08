@@ -108,6 +108,26 @@ GXml& GXml::appendNode(GXml& _xml) {
     return *this;
 }
 //===============================================
+GXml& GXml::appendNode(const std::string& _nodename) {
+    if(!m_node) {
+        return *this;
+    }
+    GXml lNode;
+    lNode.createNode(_nodename);
+    appendNode(lNode);
+    return *this;
+}
+//===============================================
+GXml& GXml::appendNode(const std::string& _nodename, const std::string& _value) {
+    if(!m_node) {
+        return *this;
+    }
+    GXml lNode;
+    lNode.createNodeValue(_nodename, _value);
+    appendNode(lNode);
+    return *this;
+}
+//===============================================
 GXml& GXml::replaceNode(GXml& _xml) {
     if(!m_node || !_xml.m_node) {
         return *this;

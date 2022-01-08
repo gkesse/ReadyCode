@@ -48,16 +48,20 @@ public:
     //
     void startServerTcp();
     void callServerTcp(const std::string& _dataIn, std::string& _dataOut);
-    //
     static DWORD WINAPI onServerTcp(LPVOID _params);
+    //
     std::queue<std::string>& getDataIn() const;
     std::queue<GSocket*>& getClientIn() const;
     int& getMessageId() const;
+    std::string getDataOut();
+    //
     void showMessage(const std::string& _dataIn) const;
     void addDataOut(const std::string& _dataOut);
+    void addDataOut(const GObject& _dataOut);
+    void addDataOut(const GObject* _dataOut);
     void addDataOut(const char* _format, ...);
-    std::string getDataOut();
-    void resultOk();
+    //
+    void sendResponse();
 
 private:
     static const int BUFFER_SIZE = 1024;

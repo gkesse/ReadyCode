@@ -214,7 +214,7 @@ void CALLBACK GProcess::onServerTcpTimer(HWND hwnd, UINT uMsg, UINT_PTR timerId,
 
         GSOCKET->showMessage(lData);
 
-        lClient->resultOk();
+        lClient->sendResponse();
         free(lClient);
     }
 }

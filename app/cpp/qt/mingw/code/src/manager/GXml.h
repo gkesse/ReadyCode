@@ -22,6 +22,8 @@ public:
     GXml& createNodeValue(const std::string& _nodename, const std::string& _value);
     GXml& setNodeValue(const std::string& _value);
     GXml& appendNode(GXml& _xml);
+    GXml& appendNode(const std::string& _nodename);
+    GXml& appendNode(const std::string& _nodename, const std::string& _value);
     GXml& replaceNode(GXml& _xml);
     //
     GXml& getNode(const std::string& _nodename);

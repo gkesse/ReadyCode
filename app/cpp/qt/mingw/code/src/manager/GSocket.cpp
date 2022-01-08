@@ -360,6 +360,14 @@ void GSocket::addDataOut(const std::string& _dataOut) {
     m_dataOut.push_back(_dataOut);
 }
 //===============================================
+void GSocket::addDataOut(const GObject& _dataOut) {
+    m_dataOut.push_back(_dataOut.toString());
+}
+//===============================================
+void GSocket::addDataOut(const GObject* _dataOut) {
+    m_dataOut.push_back(_dataOut->toString());
+}
+//===============================================
 void GSocket::addDataOut(const char* _format, ...) {
     va_list lArgs;
     va_start (lArgs, _format);
@@ -378,12 +386,12 @@ std::string GSocket::getDataOut() {
         lDataOut += m_dataOut.at(i);
     }
     if(lDataOut == "") {
-        lDataOut = "<result>ok</result>";
+        lDataOut = getResultOk();
     }
     return lDataOut;
 }
 //===============================================
-void GSocket::resultOk() {
+void GSocket::sendResponse() {
     writeData(getDataOut());
     closeSocket();
 }

@@ -62,13 +62,19 @@ void CALLBACK GMaster::onTimer(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwT
 
         GObject* lRequest = new GObject;
         lRequest->loadDom(lData);
+        std::string lModule = lRequest->getModule();
+        std::string lMethod = lRequest->getMethod();
 
-        lClient->addDataOut(lRequest->getModule());
-        lClient->addDataOut(lRequest->getMethod());
+        GObject* lResponse = new GObject;
+        lResponse->initError();
+        lResponse->addError("Erreur la methode (runOpenCV) a echoue.");
 
-        lClient->resultOk();
+        lClient->addDataOut(lResponse);
+
+        lClient->sendResponse();
         free(lClient);
         free(lRequest);
+        free(lResponse);
     }
 }
 //===============================================

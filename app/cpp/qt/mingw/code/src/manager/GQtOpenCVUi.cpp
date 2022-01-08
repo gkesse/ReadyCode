@@ -63,7 +63,7 @@ void GQtOpenCVUi::runOpenCV() {
     GObject lRequest;
     lRequest.initDom("opencv", "run_opencv");
 
-    std::string lDataIn = lRequest.getDom();
+    std::string lDataIn = lRequest.toString();
     std::string lDataOut;
     GSOCKET->callServerTcp(lDataIn, lDataOut);
     showDebug(lDataOut.c_str());
