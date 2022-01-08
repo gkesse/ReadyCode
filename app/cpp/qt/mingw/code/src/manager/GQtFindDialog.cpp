@@ -54,24 +54,24 @@ void GQtFindDialog::createDoms() {
 }
 //===============================================
 QString GQtFindDialog::getTitle() const {
-    m_dom->getRoot("rdv").getNode("finddialog");
-    m_dom->getNode("title").getNode("text");
+    m_dom->queryXPath("/rdv/finddialog/title/text");
+    m_dom->getNodeXPath();
     QString lData = m_dom->getNodeValue();
     return lData;
 }
 //===============================================
 int GQtFindDialog::getWidth() const {
-    m_dom->getRoot("rdv").getNode("finddialog");
-    m_dom->getNode("settings").getNode("width");
-    int lData = m_dom->getNodeValue().toInt();
-    return lData;
+    m_dom->queryXPath("/rdv/finddialog/settings/width");
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData.toInt();
 }
 //===============================================
 int GQtFindDialog::getHeight() const {
-    m_dom->getRoot("rdv").getNode("finddialog");
-    m_dom->getNode("settings").getNode("height");
-    int lData = m_dom->getNodeValue().toInt();
-    return lData;
+    m_dom->queryXPath("/rdv/finddialog/settings/height");
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData.toInt();
 }
 //===============================================
 void GQtFindDialog::onFindButton() {

@@ -9,31 +9,37 @@ class GQtXml : public GQtObject {
 
 public:
     GQtXml(QObject* _parent = 0);
-    GQtXml(GQtXml* _xml, QObject* _parent = 0);
     ~GQtXml();
-    bool loadXmlFile(const QString _filename);
-    bool saveXmlFile(const QString _filename = "");
-    GQtXml& getRoot(const QString& _nodeName);
-    GQtXml& getNode(const QString& _nodeName);
-    GQtXml& getNodeOrEmpty(const QString& _nodeName);
-    int countNode(const QString& _nodeName) const;
-    GQtXml& clearNode(const QString& _nodeName);
-    bool hasNode(const QString& _nodeName);
-    GQtXml& appendNode(GQtXml& _node);
-    GQtXml& setNodeValue(const QString& _value);
-    GQtXml& createNode(const QString& _nodeName);
-    GQtXml& createNodeText(const QString& _nodeName, const QString& _text);
-    GQtXml& createText(const QString& _text);
-    GQtXml& appendText(const QString& _text);
-    GQtXml& getNodeItem(const QString& _nodeName, int _index);
+    GQtXml& loadXmlFile(const QString& _filename);
+    bool saveXmlFile(const QString _filename = "", const QString _encoding = "UTF-8", int _format = 4);
+    //
+    GQtXml& getRoot(const QString& _nodename);
+    GQtXml& getNode(const QString& _nodename);
     QString getNodeValue() const;
-    QString getCData() const;
-    QString getNodeValueOrEmpty() const;
+    //
+    GQtXml& createNode(const QString& _nodename);
+    GQtXml& createNodeValue(const QString& _nodename, const QString& _value);
+    GQtXml& setNodeValue(const QString& _value);
+    GQtXml& appendNode(GQtXml& _xml);
+    GQtXml& replaceNode(GQtXml& _xml);
+    //
+    GQtXml& createXPath();
+    GQtXml& queryXPath(const QString& _query);
+    int countXPath() const;
+    GQtXml& getNodeXPath();
+    GQtXml& getNodeItem(int _index);
+    GQtXml& clearNodeXPath();
+    //
+    GQtXml& createNodeCData(GQtXml& _xml, const QString& _value);
+    GQtXml& createNodeCData(const QString& _nodename, const QString& _value);
+    GQtXml& setNodeCData(const QString& _value);
+    QString getNodeCData() const;
 
 private:
-    GQtXml* m_xml;
-    QDomDocument m_dom;
-    QDomElement m_node;
+    xmlNodePtr m_node;
+    xmlDocPtr m_doc;
+    xmlXPathContextPtr m_xpath;
+    xmlXPathObjectPtr m_xpathObj;
     QString m_filename;
 };
 //==============================================

@@ -18,6 +18,7 @@ public:
     void runMaster(int _argc, char** _argv);
     void runSQLite(int _argc, char** _argv);
     void runTimer(int _argc, char** _argv);
+    void runOpenCV(int _argc, char** _argv);
     void createDoms();
     std::string getName(int _argc, char** _argv) const;
     std::string getName() const;

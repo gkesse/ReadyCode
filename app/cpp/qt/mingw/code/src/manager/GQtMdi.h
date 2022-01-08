@@ -4,7 +4,6 @@
 //===============================================
 #include "GQtMainWindow.h"
 //===============================================
-class GQtXml;
 class GQtMdiChild;
 //===============================================
 class GQtMdi : public GQtMainWindow {

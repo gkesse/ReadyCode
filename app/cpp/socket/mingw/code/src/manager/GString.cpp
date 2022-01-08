@@ -28,17 +28,17 @@ GString::~GString() {
 
 }
 //===============================================
-void GString::add(const char* _data, int _size) {
+void GString::addData(const char* _data, int _size) {
     for(int i = 0; i < _size; i++) {
         m_data += _data[i];
     }
 }
 //===============================================
-void GString::clear() {
+void GString::clearData() {
     m_data = "";
 }
 //===============================================
-std::string GString::datas() const {
+std::string GString::getData() const {
     return m_data;
 }
 //===============================================

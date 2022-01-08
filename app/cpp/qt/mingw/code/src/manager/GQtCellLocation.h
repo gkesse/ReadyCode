@@ -10,6 +10,7 @@ class GQtCellLocation : public GQtDialog {
 public:
     GQtCellLocation(QWidget* _parent = 0);
     ~GQtCellLocation();
+    //
     void createDoms();
     QString getTitle() const;
     int getWidth() const;

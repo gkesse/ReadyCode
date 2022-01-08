@@ -32,4 +32,5 @@ LIBS +=\
     -L$$GRLIB\lib \
     -L$$GRLIB\bin \
     -lws2_32 -lxml2 -lz -liconv -lsqlite3 \
+    -lopencv_core452 -lopencv_highgui452 \
     

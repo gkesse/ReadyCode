@@ -12,10 +12,12 @@ class GQtSortDialog : public GQtDialog {
 public:
     GQtSortDialog(QWidget* _parent = 0);
     ~GQtSortDialog();
+    //
     void createDoms();
     QString getTitle() const;
     int getWidth() const;
     int getHeight() const;
+    //
     void setColumnRange(QChar first, QChar last);
     int currentIndexColumnCombo(int _index) const;
     int currentIndexOrderCombo(int _index) const;

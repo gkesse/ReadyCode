@@ -86,7 +86,7 @@ void GSocket::recvs(GSocket& _socket) {
 }
 //===============================================
 void GSocket::recvs(GString& _data) {
-    _data.clear();
+    _data.clearData();
     while(1) {
         recvs();
         if(m_bytes <= 0) break;

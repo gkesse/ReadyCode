@@ -13,10 +13,6 @@ GQtMainWindow::~GQtMainWindow() {
 
 }
 //===============================================
-void GQtMainWindow::createDoms() {
-
-}
-//===============================================
 void GQtMainWindow::createActions() {
     // menu count
     int lCountMenus = countMenus();
@@ -163,29 +159,13 @@ void GQtMainWindow::createActions() {
                     // menu box count
                     int lCountBoxMenus = countBoxMenus(i, j);
                     // radiobutton on
-                    m_dom->getRoot("rdv").getNode("menus");
-                    m_dom->getNodeItem("menu", i).getNode("submenus");
-                    m_dom->getNodeItem("submenu", j).getNode("menu");
-                    m_dom->getNodeOrEmpty("radiobutton");
-                    bool lRadioButtonOn = (m_dom->getNodeValueOrEmpty() == "1");
+                    bool lRadioButtonOn = getRadioButton(i, j);
                     // menu box key
-                    m_dom->getRoot("rdv").getNode("menus");
-                    m_dom->getNodeItem("menu", i).getNode("submenus");
-                    m_dom->getNodeItem("submenu", j).getNode("menu");
-                    m_dom->getNodeOrEmpty("key");
-                    QString lKey = m_dom->getNodeValueOrEmpty();
+                    QString lKey = getMenuKey(i, j);
                     // menu box index
-                    m_dom->getRoot("rdv").getNode("menus");
-                    m_dom->getNodeItem("menu", i).getNode("submenus");
-                    m_dom->getNodeItem("submenu", j).getNode("menu");
-                    m_dom->getNodeOrEmpty("index");
-                    int lIndex = m_dom->getNodeValueOrEmpty().toInt();
+                    int lIndex = getMenuIndex(i, j);
                     // menu box index ctrl
-                    m_dom->getRoot("rdv").getNode("menus");
-                    m_dom->getNodeItem("menu", i).getNode("submenus");
-                    m_dom->getNodeItem("submenu", j).getNode("menu");
-                    m_dom->getNodeOrEmpty("indexctrl");
-                    bool lIndexCtrl = (m_dom->getNodeValueOrEmpty() == "1");
+                    bool lIndexCtrl = getMenuIndexCtrl(i, j);
                     // menu box index ctrl exist
                     if(lIndexCtrl) {
                         if(lKey != "") {
@@ -304,8 +284,8 @@ QString GQtMainWindow::strippedName(const QString& _fullname) {
 }
 //===============================================
 int GQtMainWindow::countRecentFiles() const {
-    m_domData->getRoot("rdv").getNode("recentfiles");
-    int lData = m_domData->countNode("name");
+    m_domData->queryXPath(QString("/rdv/recentfiles/name"));
+    int lData = m_domData->countXPath();
     return lData;
 }
 //===============================================
@@ -315,8 +295,9 @@ bool GQtMainWindow::hasRecentFiles() const {
 }
 //===============================================
 QString GQtMainWindow::getRecentFile(int _name) const {
-    m_domData->getRoot("rdv").getNode("recentfiles");
-    QString lData = m_domData->getNodeItem("name", _name).getNodeValueOrEmpty();
+    m_domData->queryXPath(QString("/rdv/recentfiles/name[position()=%1]").arg(_name));
+    m_domData->getNodeXPath();
+    QString lData = m_domData->getNodeValue();
     return lData;
 }
 //===============================================
@@ -329,335 +310,356 @@ void GQtMainWindow::writeRecentFiles(QStringList _recentFiles) {
 }
 //===============================================
 void GQtMainWindow::clearRecentFiles() {
-    m_domData->getRoot("rdv").getNode("recentfiles");
-    m_domData->clearNode("name");
+    m_domData->queryXPath(QString("/rdv/recentfiles/name"));
+    m_domData->clearNodeXPath();
     m_domData->saveXmlFile();
 }
 //===============================================
 void GQtMainWindow::appendRecentFile(QString _recentFile) {
+    m_domData->queryXPath(QString("/rdv/recentfiles"));
+    m_domData->getNodeXPath();
     m_domData->getRoot("rdv").getNode("recentfiles");
-    GQtXml lNode(m_domData.get());
-    lNode.createNodeText("name", _recentFile);
+    GQtXml lNode;
+    lNode.createNodeValue("name", _recentFile);
     m_domData->appendNode(lNode);
     m_domData->saveXmlFile();
 }
 //===============================================
-int GQtMainWindow::countMenus() const {
-    m_dom->getRoot("rdv").getNode("menus");
-    int lData = m_dom->countNode("menu");
-    return lData;
-}
-//===============================================
-int GQtMainWindow::countSubMenus(int _menu) const {
-    m_dom->getRoot("rdv").getNode("menus");
-    m_dom->getNodeItem("menu", _menu).getNode("submenus");
-    int lData = m_dom->countNode("submenu");
-    return lData;
-}
-//===============================================
-int GQtMainWindow::countBoxMenus(int _menu, int _submenu) const {
-    m_dom->getRoot("rdv").getNode("menus");
-    m_dom->getNodeItem("menu", _menu).getNode("submenus");
-    m_dom->getNodeItem("submenu", _submenu).getNode("menu").getNode("submenus");
-    int lData = m_dom->countNode("submenu");
-    return lData;
-}
-//===============================================
-QString GQtMainWindow::getMenuName(int _menu) const {
-    QString lData;
-    // get id
-    m_dom->getRoot("rdv").getNode("menus");
-    m_dom->getNodeItem("menu", _menu).getNodeOrEmpty("id");
-    QString lId = m_dom->getNodeValueOrEmpty();
-    // if id exist
-    if(lId != "") {
-        lData = getWord(lId);
-    }
-    // if id no exist
-    else {
-        m_dom->getRoot("rdv").getNode("menus");
-        m_dom->getNodeItem("menu", _menu).getNodeOrEmpty("name");
-        lData = m_dom->getNodeValueOrEmpty();
-    }
-    return lData;
-}
-//===============================================
-bool GQtMainWindow::getMenuSep(int _menu) const {
-    m_dom->getRoot("rdv").getNode("menus");
-    m_dom->getNodeItem("menu", _menu).getNodeOrEmpty("menusep");
-    bool lData = (m_dom->getNodeValueOrEmpty() == "1");
-    return lData;
-}
-//===============================================
-QString GQtMainWindow::getBoxMenuName(int _menu, int _submenu, int _box) const {
-    m_dom->getRoot("rdv").getNode("menus");
-    m_dom->getNodeItem("menu", _menu).getNode("submenus");
-    m_dom->getNodeItem("submenu", _submenu).getNode("menu");
-    m_dom->getNode("submenus").getNodeItem("submenu", _box);
-    m_dom->getNodeOrEmpty("name");
-    QString lData = m_dom->getNodeValueOrEmpty();
-    return lData;
-}
-//===============================================
-QString GQtMainWindow::getBoxMenuKey(int _menu, int _submenu, int _box) const {
-    m_dom->getRoot("rdv").getNode("menus");
-    m_dom->getNodeItem("menu", _menu).getNode("submenus");
-    m_dom->getNodeItem("submenu", _submenu).getNode("menu");
-    m_dom->getNode("submenus").getNodeItem("submenu", _box);
-    m_dom->getNodeOrEmpty("key");
-    QString lData = m_dom->getNodeValueOrEmpty();
-    return lData;
-}
-//===============================================
-bool GQtMainWindow::getMenuToolBarOn(int _index) const {
-    m_dom->getRoot("rdv").getNode("menus");
-    m_dom->getNodeItem("menu", _index).getNodeOrEmpty("toolbar");
-    bool lData = (m_dom->getNodeValueOrEmpty() == "1");
-    return lData;
-}
-//===============================================
-QString GQtMainWindow::getSubMenuName(int _menu, int _submenu) const {
-    QString lData;
-    // get id
-    m_dom->getRoot("rdv").getNode("menus");
-    m_dom->getNodeItem("menu", _menu).getNode("submenus");
-    m_dom->getNodeItem("submenu", _submenu).getNodeOrEmpty("id");
-    QString lId = m_dom->getNodeValueOrEmpty();
-    // if id exist
-    if(lId != "") {
-        lData = getWord(lId);
-    }
-    // if id no exist
-    else {
-        m_dom->getRoot("rdv").getNode("menus");
-        m_dom->getNodeItem("menu", _menu).getNode("submenus");
-        m_dom->getNodeItem("submenu", _submenu).getNodeOrEmpty("name");
-        lData = m_dom->getNodeValueOrEmpty();
-    }
-    return lData;
-}
-//===============================================
-QString GQtMainWindow::getSubMenuBoxName(int _menu, int _submenu) const {
-    QString lData;
-    // get id
-    m_dom->getRoot("rdv").getNode("menus");
-    m_dom->getNodeItem("menu", _menu).getNode("submenus");
-    m_dom->getNodeItem("submenu", _submenu).getNodeOrEmpty("menu");
-    m_dom->getNodeOrEmpty("id");
-    QString lId = m_dom->getNodeValueOrEmpty();
-    // if id exist
-    if(lId != "") {
-        lData = getWord(lId);
-    }
-    // if id no exist
-    else {
-        m_dom->getRoot("rdv").getNode("menus");
-        m_dom->getNodeItem("menu", _menu).getNode("submenus");
-        m_dom->getNodeItem("submenu", _submenu).getNodeOrEmpty("menu");
-        m_dom->getNodeOrEmpty("name");
-        lData = m_dom->getNodeValueOrEmpty();
-    }
-    return lData;
-}
-//===============================================
-QString GQtMainWindow::getSubMenuBoxKey(int _menu, int _submenu) const {
-    m_dom->getRoot("rdv").getNode("menus");
-    m_dom->getNodeItem("menu", _menu).getNode("submenus");
-    m_dom->getNodeItem("submenu", _submenu).getNodeOrEmpty("menu");
-    m_dom->getNodeOrEmpty("key");
-    QString lData = m_dom->getNodeValueOrEmpty();
-    return lData;
-}
-//===============================================
-bool GQtMainWindow::getSubMenuBoxRecentFileOn(int _menu, int _submenu) const {
-    m_dom->getRoot("rdv").getNode("menus");
-    m_dom->getNodeItem("menu", _menu).getNode("submenus");
-    m_dom->getNodeItem("submenu", _submenu).getNodeOrEmpty("menu");
-    bool lData = m_dom->hasNode("recentfile");
-    return lData;
-}
-//===============================================
-bool GQtMainWindow::getSubMenuBoxCtrlOn(int _menu, int _submenu) const {
-    m_dom->getRoot("rdv").getNode("menus");
-    m_dom->getNodeItem("menu", _menu).getNode("submenus");
-    m_dom->getNodeItem("submenu", _submenu).getNodeOrEmpty("menu");
-    m_dom->getNodeOrEmpty("ctrl");
-    bool lData = (m_dom->getNodeValueOrEmpty() == "1");
-    return lData;
-}
-//===============================================
-int GQtMainWindow::getSubMenuBoxRecentFileMaxValue(int _menu, int _submenu) const {
-    m_dom->getRoot("rdv").getNode("menus");
-    m_dom->getNodeItem("menu", _menu).getNode("submenus");
-    m_dom->getNodeItem("submenu", _submenu).getNodeOrEmpty("menu");
-    m_dom->getNodeOrEmpty("recentfile").getNodeOrEmpty("max");
-    int lData = m_dom->getNodeValueOrEmpty().toInt();
-    return lData;
-}
-//===============================================
-bool GQtMainWindow::getSubMenuBoxRecentFileMaxCtrlOn(int _menu, int _submenu) const {
-    m_dom->getRoot("rdv").getNode("menus");
-    m_dom->getNodeItem("menu", _menu).getNode("submenus");
-    m_dom->getNodeItem("submenu", _submenu).getNodeOrEmpty("menu");
-    m_dom->getNodeOrEmpty("recentfile").getNodeOrEmpty("ctrl");
-    bool lData = (m_dom->getNodeValueOrEmpty() == "1");
-    return lData;
-}
-//===============================================
-QString GQtMainWindow::getSubMenuBoxRecentFileMaxKey(int _menu, int _submenu) const {
-    m_dom->getRoot("rdv").getNode("menus");
-    m_dom->getNodeItem("menu", _menu).getNode("submenus");
-    m_dom->getNodeItem("submenu", _submenu).getNodeOrEmpty("menu");
-    m_dom->getNodeOrEmpty("recentfile").getNodeOrEmpty("key");
-    QString lData = m_dom->getNodeValueOrEmpty();
-    return lData;
-}
-//===============================================
-QString GQtMainWindow::getSubMenuIcon(int _menu, int _submenu) const {
-    m_dom->getRoot("rdv").getNode("menus");
-    m_dom->getNodeItem("menu", _menu).getNode("submenus");
-    m_dom->getNodeItem("submenu", _submenu).getNodeOrEmpty("icon");
-    QString lData = m_dom->getNodeValueOrEmpty();
-    return lData;
-}
-//===============================================
-bool GQtMainWindow::getSubMenuCheckBox(int _menu, int _submenu) const {
-    m_dom->getRoot("rdv").getNode("menus");
-    m_dom->getNodeItem("menu", _menu).getNode("submenus");
-    m_dom->getNodeItem("submenu", _submenu).getNodeOrEmpty("checkbox");
-    bool lData = (m_dom->getNodeValueOrEmpty() == "1");
-    return lData;
-}
-//===============================================
-QString GQtMainWindow::getSubMenuStatusTip(int _menu, int _submenu) const {
-    m_dom->getRoot("rdv").getNode("menus");
-    m_dom->getNodeItem("menu", _menu).getNode("submenus");
-    m_dom->getNodeItem("submenu", _submenu).getNodeOrEmpty("statustip");
-    QString lData = m_dom->getNodeValueOrEmpty();
-    return lData;
-}
-//===============================================
-QString GQtMainWindow::getSubMenuKey(int _menu, int _submenu) const {
-    m_dom->getRoot("rdv").getNode("menus");
-    m_dom->getNodeItem("menu", _menu).getNode("submenus");
-    m_dom->getNodeItem("submenu", _submenu).getNodeOrEmpty("key");
-    QString lData = m_dom->getNodeValueOrEmpty();
-    return lData;
-}
-//===============================================
-QString GQtMainWindow::getSubMenuShortcut(int _menu, int _submenu) const {
-    m_dom->getRoot("rdv").getNode("menus");
-    m_dom->getNodeItem("menu", _menu).getNode("submenus");
-    m_dom->getNodeItem("submenu", _submenu).getNodeOrEmpty("shortcut");
-    QString lData = m_dom->getNodeValueOrEmpty();
-    return lData;
-}
-//===============================================
-bool GQtMainWindow::getSubMenuToolBarOn(int _menu, int _submenu) const {
-    m_dom->getRoot("rdv").getNode("menus");
-    m_dom->getNodeItem("menu", _menu).getNode("submenus");
-    m_dom->getNodeItem("submenu", _submenu).getNodeOrEmpty("toolbar");
-    bool lData = (m_dom->getNodeValueOrEmpty() == "1");
-    return lData;
-}
-//===============================================
-bool GQtMainWindow::getSubMenuToolBarSep(int _menu, int _submenu) const {
-    m_dom->getRoot("rdv").getNode("menus");
-    m_dom->getNodeItem("menu", _menu).getNode("submenus");
-    m_dom->getNodeItem("submenu", _submenu).getNodeOrEmpty("toolbarsep");
-    bool lData = (m_dom->getNodeValueOrEmpty() == "1");
-    return lData;
-}
-//===============================================
-bool GQtMainWindow::getSubMenuSeparatorOn(int _menu, int _submenu) const {
-    m_dom->getRoot("rdv").getNode("menus");
-    m_dom->getNodeItem("menu", _menu).getNode("submenus");
-    m_dom->getNodeItem("submenu", _submenu).getNodeOrEmpty("separator");
-    bool lData = (m_dom->getNodeValueOrEmpty() == "1");
-    return lData;
-}
-//===============================================
-bool GQtMainWindow::getSubMenuCtrlOn(int _menu, int _submenu) const {
-    m_dom->getRoot("rdv").getNode("menus");
-    m_dom->getNodeItem("menu", _menu).getNode("submenus");
-    m_dom->getNodeItem("submenu", _submenu).getNodeOrEmpty("ctrl");
-    bool lData = (m_dom->getNodeValueOrEmpty() == "1");
-    return lData;
+void GQtMainWindow::createDoms() {
+
 }
 //===============================================
 QString GQtMainWindow::getTitle() const {
-    m_dom->getRoot("rdv").getNode("settings");
-    m_dom->getNode("appname");
+    m_dom->queryXPath("/rdv/settings/appname");
+    m_dom->getNodeXPath();
     QString lData = m_dom->getNodeValue();
     return lData;
 }
 //===============================================
 QString GQtMainWindow::getVersion() const {
-    m_dom->getRoot("rdv").getNode("settings");
-    m_dom->getNode("version");
+    m_dom->queryXPath("/rdv/settings/version");
+    m_dom->getNodeXPath();
     QString lData = m_dom->getNodeValue();
     return lData;
 }
 //===============================================
 QString GQtMainWindow::getAbout() const {
-    QString lData;
-    // get id
-    m_dom->getRoot("rdv").getNode("settings");
-    m_dom->getNode("about").getNodeOrEmpty("id");
-    QString lId = m_dom->getNodeValueOrEmpty();
-    // if id exist
-    if(lId != "") {
-        lData = getWordCData(lId);
+    if(getAboutId() != "") {
+        return getWordCData(getAboutId());
     }
-    // if id no exist
     else {
-        m_dom->getRoot("rdv").getNode("settings");
-        m_dom->getNode("about").getNode("text");
-        lData = m_dom->getCData();
+        return getAboutText();
     }
+    return "";
+}
+//===============================================
+QString GQtMainWindow::getAboutId() const {
+    m_dom->queryXPath("/rdv/settings/about/id");
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData;
+}
+//===============================================
+QString GQtMainWindow::getAboutText() const {
+    m_dom->queryXPath("/rdv/settings/about/text");
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
     return lData;
 }
 //===============================================
 QString GQtMainWindow::getLogo() const {
-    m_dom->getRoot("rdv").getNode("settings");
-    m_dom->getNode("logo");
+    m_dom->queryXPath("/rdv/settings/logo");
+    m_dom->getNodeXPath();
     QString lData = m_dom->getNodeValue();
     return lData;
 }
 //===============================================
 int GQtMainWindow::getWidth() const {
-    m_dom->getRoot("rdv").getNode("settings");
-    m_dom->getNode("width");
-    int lData = m_dom->getNodeValue().toInt();
-    return lData;
+    m_dom->queryXPath("/rdv/settings/width");
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData.toInt();
 }
 //===============================================
 int GQtMainWindow::getHeight() const {
-    m_dom->getRoot("rdv").getNode("settings");
-    m_dom->getNode("height");
-    int lData = m_dom->getNodeValue().toInt();
-    return lData;
+    m_dom->queryXPath("/rdv/settings/height");
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData.toInt();
 }
 //===============================================
 QString GQtMainWindow::getWindowFlag() const {
-    m_dom->getRoot("rdv").getNode("settings");
-    m_dom->getNodeOrEmpty("windowflag");
-    QString lData = m_dom->getNodeValueOrEmpty();
+    m_dom->queryXPath("/rdv/settings/windowflag");
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
     return lData;
 }
 //===============================================
 QString GQtMainWindow::getUntitledName() const {
-    m_dom->getRoot("rdv").getNode("untitled");
-    m_dom->getNodeOrEmpty("name");
-    QString lData = m_dom->getNodeValueOrEmpty();
+    m_dom->queryXPath("/rdv/settings/untitled/name");
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
     return lData;
 }
 //===============================================
 QString GQtMainWindow::getUntitledExtension() const {
-    m_dom->getRoot("rdv").getNode("untitled");
-    m_dom->getNodeOrEmpty("extension");
-    QString lData = m_dom->getNodeValueOrEmpty();
+    m_dom->queryXPath("/rdv/settings/untitled/extension");
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
     return lData;
+}
+//===============================================
+int GQtMainWindow::countMenus() const {
+    m_dom->queryXPath("/rdv/menus/menu");
+    int lData = m_dom->countXPath();
+    return lData;
+}
+//===============================================
+int GQtMainWindow::countSubMenus(int _menu) const {
+    m_dom->queryXPath(QString("/rdv/menus/menu[position()=%1]/submenus/submenu").arg(_menu + 1));
+    int lData = m_dom->countXPath();
+    return lData;
+}
+//===============================================
+int GQtMainWindow::countBoxMenus(int _menu, int _submenu) const {
+    m_dom->queryXPath(QString("/rdv/menus/menu[position()=%1]/submenus/submenu[position()=%2]/menu/submenus/submenu").arg(_menu + 1).arg(_submenu + 1));
+    int lData = m_dom->countXPath();
+    return lData;
+}
+//===============================================
+bool GQtMainWindow::getRadioButton(int _menu, int _submenu) const {
+    m_dom->queryXPath(QString("/rdv/menus/menu[position()=%1]/submenus/submenu[position()=%2]/menu/radiobutton").arg(_menu + 1).arg(_submenu + 1));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return (lData == "1");
+}
+//===============================================
+QString GQtMainWindow::getMenuKey(int _menu, int _submenu) const {
+    m_dom->queryXPath(QString("/rdv/menus/menu[position()=%1]/submenus/submenu[position()=%2]/menu/key").arg(_menu + 1).arg(_submenu + 1));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData;
+}
+//===============================================
+int GQtMainWindow::getMenuIndex(int _menu, int _submenu) const {
+    m_dom->queryXPath(QString("/rdv/menus/menu[position()=%1]/submenus/submenu[position()=%2]/menu/index").arg(_menu + 1).arg(_submenu + 1));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData.toInt();
+}
+//===============================================
+bool GQtMainWindow::getMenuIndexCtrl(int _menu, int _submenu) const {
+    m_dom->queryXPath(QString("/rdv/menus/menu[position()=%1]/submenus/submenu[position()=%2]/menu/indexctrl").arg(_menu + 1).arg(_submenu + 1));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return (lData == "1");
+}
+//===============================================
+QString GQtMainWindow::getMenuName(int _menu) const {
+    QString lId = getMenuNameId(_menu);
+    if(lId != "") {
+        return getWord(lId);
+    }
+    else {
+        return getMenuNameText(_menu);
+    }
+    return "";
+}
+//===============================================
+QString GQtMainWindow::getMenuNameId(int _menu) const {
+    m_dom->queryXPath(QString("/rdv/menus/menu[position()=%1]/id").arg(_menu + 1));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData;
+}
+//===============================================
+QString GQtMainWindow::getMenuNameText(int _menu) const {
+    m_dom->queryXPath(QString("/rdv/menus/menu[position()=%1]/name").arg(_menu + 1));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData;
+}
+//===============================================
+bool GQtMainWindow::getMenuSep(int _menu) const {
+    m_dom->queryXPath(QString("/rdv/menus/menu[position()=%1]/menusep").arg(_menu + 1));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return (lData == "1");
+}
+//===============================================
+QString GQtMainWindow::getBoxMenuName(int _menu, int _submenu, int _box) const {
+    m_dom->queryXPath(QString("/rdv/menus/menu[position()=%1]/submenus/submenu[position()=%2]/menu/submenus/submenu[position()=%3]/name").arg(_menu + 1).arg(_submenu + 1).arg(_box + 1));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData;
+}
+//===============================================
+QString GQtMainWindow::getBoxMenuKey(int _menu, int _submenu, int _box) const {
+    m_dom->queryXPath(QString("/rdv/menus/menu[position()=%1]/submenus/submenu[position()=%2]/menu/submenus/submenu[position()=%3]/key").arg(_menu + 1).arg(_submenu + 1).arg(_box + 1));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData;
+}
+//===============================================
+bool GQtMainWindow::getMenuToolBarOn(int _menu) const {
+    m_dom->queryXPath(QString("/rdv/menus/menu[position()=%1]/toolbar").arg(_menu + 1));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return (lData == "1");
+}
+//===============================================
+QString GQtMainWindow::getSubMenuName(int _menu, int _submenu) const {
+    QString lId = getSubMenuNameId(_menu, _submenu);
+    if(lId != "") {
+        return getWord(lId);
+    }
+    else {
+        return getSubMenuNameText(_menu, _submenu);
+    }
+    return "";
+}
+//===============================================
+QString GQtMainWindow::getSubMenuNameId(int _menu, int _submenu) const {
+    m_dom->queryXPath(QString("/rdv/menus/menu[position()=%1]/submenus/submenu[position()=%2]/id").arg(_menu + 1).arg(_submenu + 1));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData;
+}
+//===============================================
+QString GQtMainWindow::getSubMenuNameText(int _menu, int _submenu) const {
+    m_dom->queryXPath(QString("/rdv/menus/menu[position()=%1]/submenus/submenu[position()=%2]/name").arg(_menu + 1).arg(_submenu + 1));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData;
+}
+//===============================================
+QString GQtMainWindow::getSubMenuBoxName(int _menu, int _submenu) const {
+    QString lId = getSubMenuBoxNameId(_menu, _submenu);
+    if(lId != "") {
+        return getWord(lId);
+    }
+    else {
+        return getSubMenuBoxNameText(_menu, _submenu);
+    }
+    return "";
+}
+//===============================================
+QString GQtMainWindow::getSubMenuBoxNameId(int _menu, int _submenu) const {
+    m_dom->queryXPath(QString("/rdv/menus/menu[position()=%1]/submenus/submenu[position()=%2]/menu/id").arg(_menu + 1).arg(_submenu + 1));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData;
+}
+//===============================================
+QString GQtMainWindow::getSubMenuBoxNameText(int _menu, int _submenu) const {
+    m_dom->queryXPath(QString("/rdv/menus/menu[position()=%1]/submenus/submenu[position()=%2]/menu/name").arg(_menu + 1).arg(_submenu + 1));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData;
+}
+//===============================================
+QString GQtMainWindow::getSubMenuBoxKey(int _menu, int _submenu) const {
+    m_dom->queryXPath(QString("/rdv/menus/menu[position()=%1]/submenus/submenu[position()=%2]/menu/key").arg(_menu + 1).arg(_submenu + 1));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData;
+}
+//===============================================
+bool GQtMainWindow::getSubMenuBoxRecentFileOn(int _menu, int _submenu) const {
+    m_dom->queryXPath(QString("/rdv/menus/menu[position()=%1]/submenus/submenu[position()=%2]/menu/recentfile").arg(_menu + 1).arg(_submenu + 1));
+    int lData = m_dom->countXPath();
+    return (lData != 0);
+}
+//===============================================
+bool GQtMainWindow::getSubMenuBoxCtrlOn(int _menu, int _submenu) const {
+    m_dom->queryXPath(QString("/rdv/menus/menu[position()=%1]/submenus/submenu[position()=%2]/menu/ctrl").arg(_menu + 1).arg(_submenu + 1));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return (lData == "1");
+}
+//===============================================
+int GQtMainWindow::getSubMenuBoxRecentFileMaxValue(int _menu, int _submenu) const {
+    m_dom->queryXPath(QString("/rdv/menus/menu[position()=%1]/submenus/submenu[position()=%2]/menu/recentfile/max").arg(_menu + 1).arg(_submenu + 1));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData.toInt();
+}
+//===============================================
+bool GQtMainWindow::getSubMenuBoxRecentFileMaxCtrlOn(int _menu, int _submenu) const {
+    m_dom->queryXPath(QString("/rdv/menus/menu[position()=%1]/submenus/submenu[position()=%2]/menu/recentfile/ctrl").arg(_menu + 1).arg(_submenu + 1));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return (lData == "1");
+}
+//===============================================
+QString GQtMainWindow::getSubMenuBoxRecentFileMaxKey(int _menu, int _submenu) const {
+    m_dom->queryXPath(QString("/rdv/menus/menu[position()=%1]/submenus/submenu[position()=%2]/menu/recentfile/key").arg(_menu + 1).arg(_submenu + 1));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData;
+}
+//===============================================
+QString GQtMainWindow::getSubMenuIcon(int _menu, int _submenu) const {
+    m_dom->queryXPath(QString("/rdv/menus/menu[position()=%1]/submenus/submenu[position()=%2]/icon").arg(_menu + 1).arg(_submenu + 1));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData;
+}
+//===============================================
+bool GQtMainWindow::getSubMenuCheckBox(int _menu, int _submenu) const {
+    m_dom->queryXPath(QString("/rdv/menus/menu[position()=%1]/submenus/submenu[position()=%2]/checkbox").arg(_menu + 1).arg(_submenu + 1));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return (lData == "1");
+}
+//===============================================
+QString GQtMainWindow::getSubMenuStatusTip(int _menu, int _submenu) const {
+    m_dom->queryXPath(QString("/rdv/menus/menu[position()=%1]/submenus/submenu[position()=%2]/statustip").arg(_menu + 1).arg(_submenu + 1));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData;
+}
+//===============================================
+QString GQtMainWindow::getSubMenuKey(int _menu, int _submenu) const {
+    m_dom->queryXPath(QString("/rdv/menus/menu[position()=%1]/submenus/submenu[position()=%2]/key").arg(_menu + 1).arg(_submenu + 1));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData;
+}
+//===============================================
+QString GQtMainWindow::getSubMenuShortcut(int _menu, int _submenu) const {
+    m_dom->queryXPath(QString("/rdv/menus/menu[position()=%1]/submenus/submenu[position()=%2]/shortcut").arg(_menu + 1).arg(_submenu + 1));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData;
+}
+//===============================================
+bool GQtMainWindow::getSubMenuToolBarOn(int _menu, int _submenu) const {
+    m_dom->queryXPath(QString("/rdv/menus/menu[position()=%1]/submenus/submenu[position()=%2]/toolbar").arg(_menu + 1).arg(_submenu + 1));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return (lData == "1");
+}
+//===============================================
+bool GQtMainWindow::getSubMenuToolBarSep(int _menu, int _submenu) const {
+    m_dom->queryXPath(QString("/rdv/menus/menu[position()=%1]/submenus/submenu[position()=%2]/toolbarsep").arg(_menu + 1).arg(_submenu + 1));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return (lData == "1");
+}
+//===============================================
+bool GQtMainWindow::getSubMenuSeparatorOn(int _menu, int _submenu) const {
+    m_dom->queryXPath(QString("/rdv/menus/menu[position()=%1]/submenus/submenu[position()=%2]/separator").arg(_menu + 1).arg(_submenu + 1));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return (lData == "1");
+}
+//===============================================
+bool GQtMainWindow::getSubMenuCtrlOn(int _menu, int _submenu) const {
+    m_dom->queryXPath(QString("/rdv/menus/menu[position()=%1]/submenus/submenu[position()=%2]/ctrl").arg(_menu + 1).arg(_submenu + 1));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return (lData == "1");
 }
 //===============================================
 QString GQtMainWindow::getWord(const QString& _id) const {
@@ -671,75 +673,29 @@ QString GQtMainWindow::getWordCData(const QString& _id) const {
 }
 //===============================================
 QString GQtMainWindow::getWord(const QString& _id, const QString& _lang) const {
-    QString lData;
-    // count word
-    m_domWord->getRoot("rdv").getNode("words");
-    int lCountWord = m_domWord->countNode("word");
-    // loop word
-    int i = 0;
-    for(; i < lCountWord; i++) {
-        // get word id
-        m_domWord->getRoot("rdv").getNode("words");
-        m_domWord->getNodeItem("word", i).getNodeOrEmpty("id");
-        QString lId = m_domWord->getNodeValueOrEmpty();
-        if(lId == _id) {
-            // get word by lang
-            m_domWord->getRoot("rdv").getNode("words");
-            m_domWord->getNodeItem("word", i).getNodeOrEmpty(_lang);
-            lData = m_domWord->getNodeValueOrEmpty();
-            if(lData == "") {
-                GQTLOG->addError(QString("Erreur la methode (getWord) a echoue\n"
-                        "sur l'id (%1) et la langue (%2) (1).").arg(_id).arg(_lang));
-            }
-            break;
-        }
-    }
-    if(i == lCountWord) {
-        GQTLOG->addError(QString("Erreur la methode (getWord) a echoue\n"
-                "sur l'id (%1) et la langue (%2) (2).").arg(_id).arg(_lang));
-    }
+    m_domWord->queryXPath(QString("/rdv/words/word[position()=%1]/%2").arg(_id).arg(_lang));
+    m_domWord->getNodeXPath();
+    QString lData = m_domWord->getNodeValue();
     return lData;
 }
 //===============================================
 QString GQtMainWindow::getWordCData(const QString& _id, const QString& _lang) const {
-    QString lData;
-    // count word
-    m_domWord->getRoot("rdv").getNode("words");
-    int lCountWord = m_domWord->countNode("word");
-    // loop word
-    int i = 0;
-    for(; i < lCountWord; i++) {
-        // get word id
-        m_domWord->getRoot("rdv").getNode("words");
-        m_domWord->getNodeItem("word", i).getNodeOrEmpty("id");
-        QString lId = m_domWord->getNodeValueOrEmpty();
-        if(lId == _id) {
-            // get word by lang
-            m_domWord->getRoot("rdv").getNode("words");
-            m_domWord->getNodeItem("word", i).getNodeOrEmpty(_lang);
-            lData = m_domWord->getCData();
-            if(lData == "") {
-                GQTLOG->addError(QString("Erreur la methode (getWordCData) a echoue\n"
-                        "sur l'id (%1) et la langue (%2) (1).").arg(_id).arg(_lang));
-            }
-            break;
-        }
-    }
-    if(i == lCountWord) {
-        GQTLOG->addError(QString("Erreur la methode (getWord) a echoue\n"
-                "sur l'id (%1) et la langue (%2) (2).").arg(_id).arg(_lang));
-    }
+    m_domWord->queryXPath(QString("/rdv/words/word[position()=%1]/%2").arg(_id).arg(_lang));
+    m_domWord->getNodeXPath();
+    QString lData = m_domWord->getNodeValue();
     return lData;
 }
 //===============================================
 QString GQtMainWindow::getWordLang() const {
-    m_domData->getRoot("rdv").getNode("lang");
-    QString lData = m_domData->getNodeValueOrEmpty();
+    m_domData->queryXPath(QString("/rdv/lang"));
+    m_domData->getNodeXPath();
+    QString lData = m_domData->getNodeValue();
     return lData;
 }
 //===============================================
 void GQtMainWindow::setLanguage(const QString& _lang) {
-    m_domData->getRoot("rdv").getNode("lang");
+    m_domData->queryXPath(QString("/rdv/lang"));
+    m_domData->getNodeXPath();
     m_domData->setNodeValue(_lang);
     m_domData->saveXmlFile();
 }
@@ -761,28 +717,44 @@ void GQtMainWindow::setLanguageIndex(const QString& _key, const QString& _langua
         }
     }
     // set index
-    m_dom->getRoot("rdv").getNode("menus");
-    m_dom->getNodeItem("menu", i).getNode("submenus");
-    m_dom->getNodeItem("submenu", j).getNode("menu");
-    m_dom->getNodeOrEmpty("index");
-    m_dom->setNodeValue(QString("%1").arg(lIndex));
-    // save dom
-    m_dom->saveXmlFile();
+    setLanguageIndex(i, j, lIndex);
+}
+//===============================================
+void GQtMainWindow::setLanguageIndex(int _menu, int _submenu, int _index) {
+    m_domData->queryXPath(QString("/rdv/menus/menu[position()=%1]/submenus/submenu[position()=%2]/menu/index").arg(_menu).arg(_submenu));
+    m_domData->getNodeXPath();
+    m_domData->setNodeValue(QString("%1").arg(_index));
+    m_domData->saveXmlFile();
 }
 //===============================================
 void GQtMainWindow::writeGeometry(const QByteArray& _geometry) {
-    m_domData->getRoot("rdv").getNode("geometry");
-    m_domData->setNodeValue(_geometry.toBase64());
+    m_domData->queryXPath(QString("/rdv/geometry"));
+    m_domData->getNodeXPath();
+    m_domData->setNodeCData(_geometry.toBase64());
     m_domData->saveXmlFile();
 }
 //===============================================
 QByteArray GQtMainWindow::getGeometry() const {
-    m_domData->getRoot("rdv").getNode("geometry");
-    QString lData = m_domData->getCData();
+    m_domData->queryXPath(QString("/rdv/geometry"));
+    m_domData->getNodeXPath();
+    QString lData = m_domData->getNodeCData();
     QByteArray lData64;
     lData64 += lData;
     QByteArray lDataBA = QByteArray::fromBase64(lData64);
     return lDataBA;
+}
+//===============================================
+bool GQtMainWindow::getDebug() const {
+    m_dom->queryXPath(QString("/rdv/settings/debug"));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return (lData == "1");
+}
+//===============================================
+void GQtMainWindow::getDebug(const QString& _debug) {
+    if(getDebug()) {
+        qDebug() << _debug;
+    }
 }
 //===============================================
 QAction* GQtMainWindow::getKeyAction(const QString& _key) const {

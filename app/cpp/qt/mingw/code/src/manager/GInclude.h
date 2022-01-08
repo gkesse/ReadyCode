@@ -21,6 +21,8 @@
 #include <libxml/xpath.h>
 // sqlite
 #include <sqlite3.h>
+// opencv
+#include <opencv2/opencv.hpp>
 //==============================================
 #endif
 //==============================================

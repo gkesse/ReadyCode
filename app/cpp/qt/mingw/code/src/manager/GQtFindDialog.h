@@ -10,6 +10,7 @@ class GQtFindDialog : public GQtDialog {
 public:
     GQtFindDialog(QWidget* _parent = 0);
     ~GQtFindDialog();
+    //
     void createDoms();
     QString getTitle() const;
     int getWidth() const;

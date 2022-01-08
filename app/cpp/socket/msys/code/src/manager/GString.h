@@ -14,8 +14,8 @@ public:
     void data(const char* _data, int _size);
     std::string data() const ;
     void add(const char* _data);
-    void add(const char* _data, int _size);
-    void clear();
+    void addData(const char* _data, int _size);
+    void clearData();
     int size() const;
     const char* c_str() const;
     void toChar(char* _buffer, int _size) const;

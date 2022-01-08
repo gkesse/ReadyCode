@@ -4,45 +4,31 @@
 //===============================================
 GQtXml::GQtXml(QObject* _parent) :
 GQtObject(_parent) {
-    m_xml = 0;
-    m_filename = "";
-}
-//===============================================
-GQtXml::GQtXml(GQtXml* _xml, QObject* _parent) :
-GQtObject(_parent) {
-    m_xml = _xml;
-    m_filename = "";
+    m_node = 0;
+    m_doc = 0;
+    m_xpath = 0;
+    m_xpathObj = 0;
 }
 //===============================================
 GQtXml::~GQtXml() {
-
+    xmlXPathFreeObject(m_xpathObj);
+    xmlXPathFreeContext(m_xpath);
+    xmlFreeDoc(m_doc);
+    xmlCleanupParser();
+    xmlMemoryDump();
 }
 //===============================================
-bool GQtXml::loadXmlFile(const QString _filename) {
+GQtXml& GQtXml::loadXmlFile(const QString& _filename) {
+    m_doc = xmlParseFile(_filename.toStdString().c_str());
+    if(!m_doc) {
+        GQTLOG->addError(QString("Erreur la methode (loadXmlFile) a echoue "
+                "sur le fichier (%1).").arg(_filename));
+    }
     m_filename = _filename;
-    QFile lFile(_filename);
-    if (!lFile.open(QFile::ReadOnly | QFile::Text)) {
-        GQTLOG->addError(QString("Erreur l'ouverture du fichier a echoué : "
-                "Fichier : %1").arg(_filename));
-        return false;
-    }
-
-    QString lErrorStr;
-    int lErrorLine;
-    int lErrorColumn;
-
-    if (!m_dom.setContent(&lFile, true, &lErrorStr, &lErrorLine, &lErrorColumn)) {
-        GQTLOG->addError(QString("Erreur la création du document à échoué : "
-                "Erreur  : %1 "
-                "Ligne   : %2 "
-                "Colonne.: %3").arg(lErrorStr).arg(lErrorLine).arg(lErrorColumn));
-        return false;
-    }
-    lFile.close();
-    return true;
+    return *this;
 }
 //===============================================
-bool GQtXml::saveXmlFile(const QString _filename) {
+bool GQtXml::saveXmlFile(const QString _filename, const QString _encoding, int _format) {
     QString lFilename = "";
 
     if(_filename != "") {
@@ -52,215 +38,211 @@ bool GQtXml::saveXmlFile(const QString _filename) {
         lFilename = m_filename;
     }
     else {
-        GQTLOG->addError(QString("Erreur la methode (saveFile) a echoue "
+        GQTLOG->addError(QString("Erreur la methode (saveXmlFile) a echoue "
                 "sur le fichier (%1).").arg(lFilename));
         return false;
     }
 
-    QFile lFile(lFilename);
-    if (!lFile.open(QFile::WriteOnly | QFile::Text)) {
-        GQTLOG->addError(QString("Erreur la methode (saveFile) a echoue "
-                "sur le fichier (%1).").arg(lFilename));
-        return false;
-    }
-
-    int lIndentSize = 4;
-    QTextStream lStreamOut(&lFile);
-    m_dom.save(lStreamOut, lIndentSize);
-
-    lFile.close();
+    xmlSaveFormatFileEnc(lFilename.toStdString().c_str(), m_doc, _encoding.toStdString().c_str(), _format);
     return true;
 }
 //===============================================
-GQtXml& GQtXml::getRoot(const QString& _nodeName) {
-    m_node = m_dom.documentElement();
-    if(m_node.nodeName() != _nodeName) {
+GQtXml& GQtXml::getRoot(const QString& _nodename) {
+    m_node = xmlDocGetRootElement(m_doc);
+    if(!m_node) {
         GQTLOG->addError(QString("Erreur la methode (getRoot) a echoue "
-                "sur le noeud (%1).").arg(_nodeName));
-        m_node = QDomElement();
+                "sur le noeud (%1) (1).").arg(_nodename));
+        return *this;
+    }
+    QString lNodeName = (char*)m_node->name;
+    if(lNodeName != _nodename) {
+        GQTLOG->addError(QString("Erreur la methode (getRoot) a echoue "
+                "sur le noeud (%1) (2).").arg(_nodename));
     }
     return *this;
 }
 //===============================================
-GQtXml& GQtXml::getNode(const QString& _nodeName) {
-    if(!m_node.isNull()) {
-        m_node = m_node.firstChildElement(_nodeName);
-        if(m_node.isNull()) {
-            GQTLOG->addError(QString("Erreur le noeud (%1) n'existe pas").arg(_nodeName));
-        }
-    }
-    else {
+GQtXml& GQtXml::getNode(const QString& _nodename) {
+    if(!m_node) {
         GQTLOG->addError(QString("Erreur la methode (getNode) a echoue "
-                "sur le noeud (%1).").arg(_nodeName));
+                "sur le noeud (%s) (1).").arg(_nodename));
+        return *this;
     }
-    return *this;
-}
-//===============================================
-GQtXml& GQtXml::getNodeOrEmpty(const QString& _nodeName) {
-    if(!m_node.isNull()) {
-        m_node = m_node.firstChildElement(_nodeName);
-    }
-    return *this;
-}
-//===============================================
-int GQtXml::countNode(const QString& _nodeName) const {
-    int lCount = 0;
-    if(!m_node.isNull()) {
-        QDomElement lNode = m_node.firstChildElement(_nodeName);
-        while(!lNode.isNull()) {
-            lCount++;
-            lNode = lNode.nextSiblingElement(_nodeName);
+    xmlNodePtr lNode  = xmlFirstElementChild(m_node);
+    while(lNode) {
+        QString lNodeName = (char*)lNode->name;
+        if(lNodeName == _nodename) {
+            m_node = lNode;
+            return *this;
         }
+        lNode = xmlNextElementSibling(lNode);
     }
-    else {
-        GQTLOG->addError(QString("Erreur la methode (getNodeCount) a echoue "
-                "sur le noeud (%1).").arg(_nodeName));
-    }
-    return lCount;
-}
-//===============================================
-GQtXml& GQtXml::clearNode(const QString& _nodeName) {
-    if(!m_node.isNull()) {
-        QDomElement lNode = m_node.firstChildElement(_nodeName);
-        while(!lNode.isNull()) {
-            QDomElement lLast = lNode;
-            lNode = lNode.nextSiblingElement(_nodeName);
-            m_node.removeChild(lLast);
-        }
-    }
-    else {
-        GQTLOG->addError(QString("Erreur la methode (clearNode) a echoue "
-                "sur le noeud (%1).").arg(_nodeName));
-    }
-    return *this;
-}
-//===============================================
-bool GQtXml::hasNode(const QString& _nodeName) {
-    if(!m_node.isNull()) {
-        QDomElement lNode = m_node.firstChildElement(_nodeName);
-        if(lNode.isNull()) {
-            return false;
-        }
-    }
-    else {
-        GQTLOG->addError(QString("Erreur la methode (existeNode) a echoue "
-                "sur le noeud (%1).").arg(_nodeName));
-        return false;
-    }
-    return true;
-}
-//===============================================
-GQtXml& GQtXml::appendNode(GQtXml& _node) {
-    if(m_node.isNull()) {
-        GQTLOG->addError(QString("Erreur la methode (appendNode) a echoue."));
-        return *this;
-    }
-    m_node.appendChild(_node.m_node);
-    return *this;
-}
-//===============================================
-GQtXml& GQtXml::setNodeValue(const QString& _value) {
-    if(m_node.isNull()) {
-        GQTLOG->addError(QString("Erreur la methode (setNodeValue) a echoue."));
-        return *this;
-    }
-    m_node.firstChild().setNodeValue(_value);
-    return *this;
-}
-//===============================================
-GQtXml& GQtXml::createNode(const QString& _nodeName) {
-    if(!m_xml) {
-        GQTLOG->addError(QString("Erreur la methode (createNode) a echoue."));
-        return *this;
-    }
-    m_node = m_xml->m_dom.createElement(_nodeName);
-    return *this;
-}
-//===============================================
-GQtXml& GQtXml::createNodeText(const QString& _nodeName, const QString& _text) {
-    if(!m_xml) {
-        GQTLOG->addError(QString("Erreur la methode (createNodeText) a echoue."));
-        return *this;
-    }
-    m_node = m_xml->m_dom.createElement(_nodeName);
-    QDomText lText = m_xml->m_dom.createTextNode(_text);
-    m_node.appendChild(lText);
-    return *this;
-}
-//===============================================
-GQtXml& GQtXml::createText(const QString& _text) {
-    if(!m_xml) {
-        GQTLOG->addError(QString("Erreur la methode (createText) a echoue."));
-        return *this;
-    }
-    m_node = m_xml->m_dom.createTextNode(_text).toElement();
-    return *this;
-}
-//===============================================
-GQtXml& GQtXml::appendText(const QString& _text) {
-    if(!m_xml) {
-        GQTLOG->addError(QString("Erreur la methode (appendText) a echoue."));
-        return *this;
-    }
-    QDomText lText = m_xml->m_dom.createTextNode(_text);
-    m_node.appendChild(lText);
-    return *this;
-}
-//===============================================
-GQtXml& GQtXml::getNodeItem(const QString& _nodeName, int _index) {
-    int lCount = 0;
-    if(!m_node.isNull()) {
-        QDomElement lNode = m_node.firstChildElement(_nodeName);
-        while(!lNode.isNull()) {
-            if(lCount == _index) {
-                m_node = lNode;
-                return *this;
-            }
-            lCount++;
-            lNode = lNode.nextSiblingElement(_nodeName);
-        }
-    }
-    else {
-        GQTLOG->addError(QString("Erreur la methode (getNodeItem) a echoue "
-                "sur le noeud (%1) et l'index (%2).").arg(_nodeName).arg(_index));
-    }
-    m_node = QDomElement();
+    GQTLOG->addError(QString("Erreur la methode (getNode) a echoue "
+            "sur le noeud (%1) (2).").arg(_nodename));
     return *this;
 }
 //===============================================
 QString GQtXml::getNodeValue() const {
-    QString lValue;
-    if(!m_node.isNull()) {
-        lValue = m_node.text();
+    if(!m_node) {
+        return "";
     }
-    else {
-        GQTLOG->addError(QString("Erreur la methode (getNodeValue) a echoue."));
-    }
-    return lValue;
+    QString lData = (char*)xmlNodeGetContent(m_node);
+    return lData;
 }
 //===============================================
-QString GQtXml::getCData() const {
-    QString lValue;
-    if(!m_node.isNull()) {
-        QDomNode lNode = m_node.firstChild();
-        if(!lNode.isCDATASection()) {
-            GQTLOG->addError(QString("Erreur la methode (getCData) a echoue (1)."));
-            return "";
-        }
-        QDomCDATASection lCData = lNode.toCDATASection();
-        lValue = lCData.data();
+GQtXml& GQtXml::createNode(const QString& _nodename) {
+    m_node = xmlNewNode(NULL, BAD_CAST(_nodename.toStdString().c_str()));
+    if(!m_node) {
+        GQTLOG->addError(QString("Erreur la methode (createNode) a echoue "
+                "sur le noeud (%1).").arg(_nodename));
+        return *this;
     }
-    else {
-        GQTLOG->addError(QString("Erreur la methode (getCData) a echoue (2)."));
-    }
-    return lValue;
+    return *this;
 }
 //===============================================
-QString GQtXml::getNodeValueOrEmpty() const {
-    QString lValue;
-    if(!m_node.isNull()) {
-        lValue = m_node.text();
+GQtXml& GQtXml::createNodeValue(const QString& _nodename, const QString& _value) {
+    m_node = xmlNewTextChild(NULL, NULL, BAD_CAST(_nodename.toStdString().c_str()), BAD_CAST(_nodename.toStdString().c_str()));
+    if(!m_node) {
+        GQTLOG->addError(QString("Erreur la methode (createNodeValue) a echoue "
+                "sur le noeud (%1).").arg(_nodename));
+        return *this;
     }
-    return lValue;
+    return *this;
+}
+//===============================================
+GQtXml& GQtXml::setNodeValue(const QString& _value) {
+    if(!m_node) {
+        GQTLOG->addError(QString("Erreur la methode (setNodeValue) a echoue "
+                "sur le noeud (%1).").arg(_value));
+        return *this;
+    }
+    xmlNodeSetContent(m_node, BAD_CAST(_value.toStdString().c_str()));
+    return *this;
+}
+//===============================================
+GQtXml& GQtXml::appendNode(GQtXml& _xml) {
+    if(!m_node) {
+        GQTLOG->addError(QString("Erreur la methode (appendNode) a echoue "
+                "sur le noeud (%1)."));
+        return *this;
+    }
+    xmlAddChild(m_node, _xml.m_node);
+    return *this;
+}
+//===============================================
+GQtXml& GQtXml::replaceNode(GQtXml& _xml) {
+    if(!m_node || !_xml.m_node) {
+        GQTLOG->addError(QString("Erreur la methode (replaceNode) a echoue."));
+        return *this;
+    }
+    xmlReplaceNode(m_node, _xml.m_node);
+    xmlFreeNode(m_node);
+    return *this;
+}
+//===============================================
+GQtXml& GQtXml::createXPath() {
+    if(!m_doc) {
+        GQTLOG->addError(QString("Erreur la methode (createXPath) a echoue (1)."));
+        return *this;
+    }
+    m_xpath = xmlXPathNewContext(m_doc);
+    return *this;
+}
+//===============================================
+GQtXml& GQtXml::queryXPath(const QString& _query) {
+    if(!m_xpath) {
+        return *this;
+    }
+    m_xpathObj = xmlXPathEvalExpression((xmlChar*)_query.toStdString().c_str(), m_xpath);
+    return *this;
+}
+//===============================================
+int GQtXml::countXPath() const {
+    if(!m_xpathObj->nodesetval) {
+        return 0;
+    }
+    if(!m_xpathObj->nodesetval->nodeNr) {
+        return 0;
+    }
+    int lCount = m_xpathObj->nodesetval->nodeNr;
+    return lCount;
+}
+//===============================================
+GQtXml& GQtXml::getNodeXPath() {
+    if(!m_xpathObj->nodesetval) {
+        m_node = 0;
+        return *this;
+    }
+    if(!m_xpathObj->nodesetval->nodeNr) {
+        m_node = 0;
+        return *this;
+    }
+    m_node = m_xpathObj->nodesetval->nodeTab[0];
+    return *this;
+}
+//===============================================
+GQtXml& GQtXml::getNodeItem(int _index) {
+    if(!m_xpathObj->nodesetval) {
+        m_node = 0;
+        return *this;
+    }
+    if(!m_xpathObj->nodesetval->nodeNr) {
+        m_node = 0;
+        return *this;
+    }
+    m_node = m_xpathObj->nodesetval->nodeTab[_index];
+    return *this;
+}
+//===============================================
+GQtXml& GQtXml::clearNodeXPath() {
+    for(int i = 0; i < countXPath(); i++) {
+        xmlNodePtr lNode = m_xpathObj->nodesetval->nodeTab[i];
+        xmlUnlinkNode(lNode);
+        xmlFreeNode(lNode);
+    }
+    return *this;
+}
+//===============================================
+GQtXml& GQtXml::createNodeCData(GQtXml& _xml, const QString& _value) {
+    if(!_xml.m_node) {
+        GQTLOG->addError(QString("Erreur la methode (createNodeCData) a echoue "
+                "sur le noeud (%1) (1).").arg(_value));
+        return *this;
+    }
+    m_node = xmlNewCDataBlock(_xml.m_node->doc, BAD_CAST(_value.toStdString().c_str()), _value.size());
+    if(!m_node) {
+        GQTLOG->addError(QString("Erreur la methode (createNodeCData) a echoue "
+                "sur le noeud (%1) (2).").arg(_value));
+        return *this;
+    }
+    return *this;
+}
+//===============================================
+GQtXml& GQtXml::createNodeCData(const QString& _nodename, const QString& _value) {
+    createNode(_nodename);
+    GQtXml lNode;
+    lNode.createNodeCData(*this, _value);
+    appendNode(lNode);
+    return *this;
+}
+//===============================================
+GQtXml& GQtXml::setNodeCData(const QString& _value) {
+    if(!m_node) {
+        GQTLOG->addError(QString("Erreur la methode (setNodeCData) a echoue "
+                "sur le noeud (%1).").arg(_value));
+        return *this;
+    }
+    GQtXml lNode;
+    lNode.createNodeCData((char*)m_node->name, _value);
+    replaceNode(lNode);
+    return *this;
+}
+//===============================================
+QString GQtXml::getNodeCData() const {
+    if(!m_node) {
+        return "";
+    }
+    QString lData = (char*)xmlNodeGetContent(m_node);
+    return lData;
 }
 //===============================================

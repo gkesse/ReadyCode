@@ -6,6 +6,8 @@
 #include "GMaster.h"
 #include "GSQLite.h"
 #include "GTimer.h"
+#include "GOpenCV.h"
+#include "GQtOpenCVUi.h"
 #include "GThread.h"
 #include "GXml.h"
 //===============================================
@@ -55,6 +57,9 @@ void GProcess::run(int _argc, char** _argv) {
     }
     else if(lKey == "timer") {
         runTimer(_argc, _argv);
+    }
+    else if(lKey == "opencv") {
+        runOpenCV(_argc, _argv);
     }
 }
 //===============================================
@@ -163,6 +168,31 @@ void GProcess::runSQLite(int _argc, char** _argv) {
 void GProcess::runTimer(int _argc, char** _argv) {
     GTIMER->setTimer(onTimer, 1000);
     GTIMER->pause();
+}
+//===============================================
+void GProcess::runOpenCV(int _argc, char** _argv) {
+    std::string lType = "";
+
+    if(getNameUse()) {
+        if(_argc > 1) {
+            lType = _argv[1];
+        }
+    }
+    else {
+        if(_argc > 2) {
+            lType = _argv[2];
+        }
+    }
+
+    if(lType == "ui") {
+        QApplication lApp(_argc, _argv);
+        GQtOpenCVUi* lWindow = new GQtOpenCVUi;
+        lWindow->show();
+        lApp.exec();
+    }
+    else {
+        GOPENCV->run(_argc, _argv);
+    }
 }
 //===============================================
 DWORD WINAPI GProcess::onServerTcp(LPVOID _params) {

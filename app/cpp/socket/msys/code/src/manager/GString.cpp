@@ -18,7 +18,7 @@ void GString::data(const std::string& _data) {
 }
 //===============================================
 void GString::data(const char* _data) {
-    clear();
+    clearData();
     int lSize = strlen(_data);
     for(int i = 0; i < lSize; i++) {
         m_data += _data[i];
@@ -26,7 +26,7 @@ void GString::data(const char* _data) {
 }
 //===============================================
 void GString::data(const char* _data, int _size) {
-    clear();
+    clearData();
     for(int i = 0; i < _size; i++) {
         m_data += _data[i];
     }
@@ -36,20 +36,20 @@ std::string GString::data() const {
     return m_data;
 }
 //===============================================
-void GString::add(const char* _data) {
+void GString::addData(const char* _data) {
     int lSize = strlen(_data);
     for(int i = 0; i < lSize; i++) {
         m_data += _data[i];
     }
 }
 //===============================================
-void GString::add(const char* _data, int _size) {
+void GString::addData(const char* _data, int _size) {
     for(int i = 0; i < _size; i++) {
         m_data += _data[i];
     }
 }
 //===============================================
-void GString::clear() {
+void GString::clearData() {
     m_data.clear();
 }
 //===============================================

@@ -55,24 +55,24 @@ void GQtSortDialog::createDoms() {
 }
 //===============================================
 QString GQtSortDialog::getTitle() const {
-    m_dom->getRoot("rdv").getNode("celllocation");
-    m_dom->getNode("title").getNode("text");
+    m_dom->queryXPath("/rdv/sortdialog/title/text");
+    m_dom->getNodeXPath();
     QString lData = m_dom->getNodeValue();
     return lData;
 }
 //===============================================
 int GQtSortDialog::getWidth() const {
-    m_dom->getRoot("rdv").getNode("celllocation");
-    m_dom->getNode("settings").getNode("width");
-    int lData = m_dom->getNodeValue().toInt();
-    return lData;
+    m_dom->queryXPath("/rdv/sortdialog/settings/width");
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData.toInt();
 }
 //===============================================
 int GQtSortDialog::getHeight() const {
-    m_dom->getRoot("rdv").getNode("celllocation");
-    m_dom->getNode("settings").getNode("height");
-    int lData = m_dom->getNodeValue().toInt();
-    return lData;
+    m_dom->queryXPath("/rdv/sortdialog/settings/height");
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData.toInt();
 }
 //===============================================
 void GQtSortDialog::setColumnRange(QChar first, QChar last) {

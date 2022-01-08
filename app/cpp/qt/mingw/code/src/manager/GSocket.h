@@ -11,6 +11,7 @@ public:
     GSocket(bool _init = true);
     ~GSocket();
     static GSocket* Instance();
+    //
     void createDoms();
     int getMajor() const;
     int getMinor() const;
@@ -21,6 +22,7 @@ public:
     std::string getAddressServer() const;
     int getPort() const;
     int getBacklog() const;
+    //
     void initSocket(int _major, int _minor);
     bool createSocketTcp();
     bool cretaeSocketUdp();
@@ -41,8 +43,10 @@ public:
     void shutdownRD();
     void closeSocket();
     void cleanSocket();
+    //
     void startServerTcp();
     void callServerTcp(const std::string& _dataIn, std::string& _dataOut);
+    //
     static DWORD WINAPI onServerTcp(LPVOID _params);
     std::queue<std::string>& getDataIn() const;
     std::queue<GSocket*>& getClientIn() const;

@@ -12,9 +12,9 @@ public:
     GString(const char* _data, int _size);
     GString(const GString& _data);
     ~GString();
-    void add(const char* _data, int _size);
-    void clear();
-    std::string datas() const ;
+    void addData(const char* _data, int _size);
+    void clearData();
+    std::string getData() const ;
     const char* c_str() const;
     void toChar(char* _buffer, int _size) const;
     int toChar(char* _buffer, int _index, int _size) const;
