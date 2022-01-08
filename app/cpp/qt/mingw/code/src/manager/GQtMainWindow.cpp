@@ -753,6 +753,7 @@ bool GQtMainWindow::getDebug() const {
 //===============================================
 void GQtMainWindow::showDebug(const QString& _debug) {
     if(getDebug()) {
+        qDebug() << "----->";
         qDebug() << _debug;
     }
 }

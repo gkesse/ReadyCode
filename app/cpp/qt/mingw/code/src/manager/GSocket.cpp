@@ -351,7 +351,7 @@ int& GSocket::getMessageId() const {
 //===============================================
 void GSocket::showMessage(const std::string& _dataIn) const {
     if(getDebugShow()) {
-        printf("---------------> %d\n", m_messageId++);
+        printf("-----> %d\n", m_messageId++);
         printf("%s\n", _dataIn.c_str());
     }
 }
