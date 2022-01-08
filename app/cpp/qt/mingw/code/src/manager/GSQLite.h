@@ -35,13 +35,9 @@ public:
     static int onReadMap(void* _params, int _colCount, char** _colVals, char** _colNames);
 
 private:
-    static const int BUFFER_SIZE = 256;
-
-private:
     static GSQLite* m_instance;
     sqlite3* m_sqlite3;
     sqlite3_stmt* m_stmt;
-    char m_buffer[BUFFER_SIZE + 1];
     int m_rowCount;
     std::string m_dataVal;
     std::vector<std::string> m_dataList;

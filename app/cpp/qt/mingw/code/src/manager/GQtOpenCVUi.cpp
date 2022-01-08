@@ -68,8 +68,8 @@ void GQtOpenCVUi::runOpenCV() {
     std::string lDataIn = lRequest.toString();
     std::string lDataOut;
     GSOCKET->callServerTcp(lDataIn, lDataOut);
+    GQTLOG->addErrorIn(lDataOut.c_str());
     showDebug(lDataOut.c_str());
-    GQTLOG->addError(QString("Erreurooooooooooooooooooooo."));
 }
 //===============================================
 void GQtOpenCVUi::stopOpenCV() {

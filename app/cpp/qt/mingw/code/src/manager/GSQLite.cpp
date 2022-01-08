@@ -108,20 +108,20 @@ void GSQLite::closeDatabase() {
 void GSQLite::writeData(const char* _query, ...) {
     va_list lArgs;
     va_start (lArgs, _query);
-    int lSize = vsprintf(m_buffer, _query, lArgs);
+    int lSize = vsprintf(m_format, _query, lArgs);
     va_end(lArgs);
-    if(lSize >= BUFFER_SIZE) {
+    if(lSize >= FORMAT_SIZE) {
         GLOG->addError("Erreur la methode (writeData) a echoue.");
     }
-    executeQuery(m_buffer, 0, 0);
+    executeQuery(m_format, 0, 0);
 }
 //===============================================
 std::string GSQLite::readData(const char* _query, ...) {
     va_list lArgs;
     va_start (lArgs, _query);
-    int lSize = vsprintf(m_buffer, _query, lArgs);
+    int lSize = vsprintf(m_format, _query, lArgs);
     va_end(lArgs);
-    if(lSize >= BUFFER_SIZE) {
+    if(lSize >= FORMAT_SIZE) {
         GLOG->addError("Erreur la methode (readData) a echoue.");
     }
     GSQLite lParams(false);
@@ -133,9 +133,9 @@ std::string GSQLite::readData(const char* _query, ...) {
 std::vector<std::string> GSQLite::readRow(const char* _query, ...) {
     va_list lArgs;
     va_start (lArgs, _query);
-    int lSize = vsprintf(m_buffer, _query, lArgs);
+    int lSize = vsprintf(m_format, _query, lArgs);
     va_end(lArgs);
-    if(lSize >= BUFFER_SIZE) {
+    if(lSize >= FORMAT_SIZE) {
         GLOG->addError("Erreur la methode (readRow) a echoue.");
     }
     GSQLite lParams(false);
@@ -147,9 +147,9 @@ std::vector<std::string> GSQLite::readRow(const char* _query, ...) {
 std::vector<std::string> GSQLite::readCol(const char* _query, ...) {
     va_list lArgs;
     va_start (lArgs, _query);
-    int lSize = vsprintf(m_buffer, _query, lArgs);
+    int lSize = vsprintf(m_format, _query, lArgs);
     va_end(lArgs);
-    if(lSize >= BUFFER_SIZE) {
+    if(lSize >= FORMAT_SIZE) {
         GLOG->addError("Erreur la methode (readCol) a echoue.");
     }
     GSQLite lParams(false);
@@ -161,9 +161,9 @@ std::vector<std::string> GSQLite::readCol(const char* _query, ...) {
 std::vector<std::vector<std::string>> GSQLite::readMap(const char* _query, ...) {
     va_list lArgs;
     va_start (lArgs, _query);
-    int lSize = vsprintf(m_buffer, _query, lArgs);
+    int lSize = vsprintf(m_format, _query, lArgs);
     va_end(lArgs);
-    if(lSize >= BUFFER_SIZE) {
+    if(lSize >= FORMAT_SIZE) {
         GLOG->addError("Erreur la methode (readMap) a echoue.");
     }
     GSQLite lParams(false);

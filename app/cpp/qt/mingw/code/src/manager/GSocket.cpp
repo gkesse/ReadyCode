@@ -371,12 +371,12 @@ void GSocket::addDataOut(const GObject* _dataOut) {
 void GSocket::addDataOut(const char* _format, ...) {
     va_list lArgs;
     va_start (lArgs, _format);
-    int lSize = vsprintf(m_buffer, _format, lArgs);
+    int lSize = vsprintf(m_format, _format, lArgs);
     va_end(lArgs);
-    if(lSize >= BUFFER_SIZE) {
+    if(lSize >= FORMAT_SIZE) {
         GLOG->addError("Erreur la methode (addDataOut) a echoue.");
     }
-    m_dataOut.push_back(m_buffer);
+    m_dataOut.push_back(m_format);
 }
 //===============================================
 std::string GSocket::getDataOut() {

@@ -1,5 +1,6 @@
 //===============================================
 #include "GQtLog.h"
+#include "GObject.h"
 //===============================================
 GQtLog* GQtLog::m_instance = 0;
 //===============================================
@@ -30,6 +31,15 @@ void GQtLog::addError(const QString& _data) {
     m_errors.push_back(_data);
 }
 //===============================================
+void GQtLog::addErrorIn(const QString& _data) {
+    GObject lDom;
+    lDom.loadDom(_data.toStdString());
+    for(int i = 0; i < lDom.countErrors(); i++) {
+        std::string lErrors = lDom.getErrors(i);
+        m_errors.push_back(lErrors.c_str());
+    }
+}
+//===============================================
 bool GQtLog::hasError() {
     return !m_errors.empty();
 }
@@ -52,5 +62,6 @@ void GQtLog::showErrorQt(QWidget* _parent) {
         lError += m_errors.at(i);
     }
     QMessageBox::critical(_parent, "Messages d'erreurs", lError);
+    m_errors.clear();
 }
 //===============================================

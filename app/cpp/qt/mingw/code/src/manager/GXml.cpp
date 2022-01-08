@@ -168,39 +168,40 @@ std::string GXml::getNodeValue() const {
 //===============================================
 GXml& GXml::createXPath() {
     if(!m_doc) {
-        GLOG->addError("Erreur la methode (createXPath) a echoue (1).");
         return *this;
     }
     m_xpath = xmlXPathNewContext(m_doc);
-    if(!m_xpath) {
-        GLOG->addError("Erreur la methode (createXPath) a echoue (2).");
-    }
     return *this;
 }
 //===============================================
 GXml& GXml::queryXPath(const std::string& _query) {
     if(!m_xpath) {
-        GLOG->addError("Erreur la methode (queryXPath) a echoue "
-                "sur la requete (%s) (1).", _query.c_str());
         return *this;
     }
-    m_xpathObj = xmlXPathEvalExpression((xmlChar*)_query.c_str(), m_xpath);
-    if(!m_xpathObj) {
-        GLOG->addError("Erreur la methode (queryXPath) a echoue "
-                "sur la requete (%s) (2).", _query.c_str());
+    m_xpathObj = xmlXPathEvalExpression(BAD_CAST(_query.c_str()), m_xpath);
+    return *this;
+}
+//===============================================
+GXml& GXml::queryXPath(const char* _format, ...) {
+    if(!m_xpath) {
         return *this;
     }
-    int lCount = m_xpathObj->nodesetval->nodeNr;
-    if(!lCount) {
-        GLOG->addError("Erreur la methode (queryXPath) a echoue "
-                "sur la requete (%s) (2).", _query.c_str());
-        return *this;
+    va_list lArgs;
+    va_start (lArgs, _format);
+    int lSize = vsprintf(m_format, _format, lArgs);
+    va_end(lArgs);
+    if(lSize >= FORMAT_SIZE) {
+        GLOG->addError("Erreur la methode (queryXPath) a echoue.");
     }
+    m_xpathObj = xmlXPathEvalExpression(BAD_CAST(m_format), m_xpath);
     return *this;
 }
 //===============================================
 int GXml::countXPath() const {
     if(!m_xpathObj) {
+        return 0;
+    }
+    if(!m_xpathObj->nodesetval) {
         return 0;
     }
     int lCount = m_xpathObj->nodesetval->nodeNr;
@@ -209,13 +210,14 @@ int GXml::countXPath() const {
 //===============================================
 GXml& GXml::getNodeXPath() {
     if(!m_xpathObj) {
-        GLOG->addError("Erreur la methode (getNodeXPath) a echoue (1).");
         m_node = 0;
         return *this;
     }
-    int lCount = m_xpathObj->nodesetval->nodeNr;
-    if(!lCount) {
-        GLOG->addError("Erreur la methode (getNodeXPath) a echoue (1).");
+    if(!m_xpathObj->nodesetval) {
+        m_node = 0;
+        return *this;
+    }
+    if(!m_xpathObj->nodesetval->nodeNr) {
         m_node = 0;
         return *this;
     }
@@ -225,18 +227,23 @@ GXml& GXml::getNodeXPath() {
 //===============================================
 GXml& GXml::getNodeItem(int _index) {
     if(!m_xpathObj) {
-        GLOG->addError("Erreur la methode (getNodeItem) a echoue (1).");
         m_node = 0;
         return *this;
     }
-    int lCount = m_xpathObj->nodesetval->nodeNr;
-    if(_index >= lCount) {
-        GLOG->addError("Erreur la methode (getNodeItem) a echoue (2).");
+    if(!m_xpathObj->nodesetval) {
+        m_node = 0;
+        return *this;
+    }
+    if(!m_xpathObj->nodesetval->nodeNr) {
         m_node = 0;
         return *this;
     }
     m_node = m_xpathObj->nodesetval->nodeTab[_index];
     return *this;
+}
+//===============================================
+std::string GXml::toString() const {
+    return toString("UTF-8", 4);
 }
 //===============================================
 std::string GXml::toString(const std::string& _encoding, int _format) const {

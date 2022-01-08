@@ -38,12 +38,20 @@ public:
     std::string getModule() const;
     std::string getMethod() const;
     std::string getResultOk() const;
+    // erros
+    int countErrors() const;
+    bool hasErrors() const;
+    std::string getErrors(int _index) const;
 
 private:
     static GObject* m_instance;
 
 protected:
+    static const int FORMAT_SIZE = 1024;
+
+protected:
     std::shared_ptr<GXml> m_dom;
+    char m_format[FORMAT_SIZE + 1];
 };
 //==============================================
 #endif

@@ -77,7 +77,6 @@ private:
     std::vector<std::string> m_dataOut;
     //
     static int m_messageId;
-    char m_buffer[BUFFER_SIZE + 1];
 };
 //==============================================
 #endif

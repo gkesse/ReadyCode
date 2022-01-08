@@ -1,5 +1,6 @@
 //===============================================
 #include "GObject.h"
+#include "GLog.h"
 #include "GXml.h"
 //===============================================
 GObject* GObject::m_instance = 0;
@@ -135,6 +136,23 @@ std::string GObject::getResultOk() const {
     lDom->initResultOk();
     lData = lDom->toString();
     free(lDom);
+    return lData;
+}
+//===============================================
+int GObject::countErrors() const {
+    m_dom->queryXPath("/rdv/errors/msg");
+    int lData = m_dom->countXPath();
+    return lData;
+}
+//===============================================
+bool GObject::hasErrors() const {
+    return (countErrors() != 0);
+}
+//===============================================
+std::string GObject::getErrors(int _index) const {
+    m_dom->queryXPath("/rdv/errors/msg[position()=%d]", _index + 1);
+    m_dom->getNodeXPath();
+    std::string lData = m_dom->getNodeValue();
     return lData;
 }
 //===============================================

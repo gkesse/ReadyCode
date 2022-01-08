@@ -31,12 +31,13 @@ public:
     //
     GXml& createXPath();
     GXml& queryXPath(const std::string& _query);
+    GXml& queryXPath(const char* _format, ...);
     int countXPath() const;
     GXml& getNodeXPath();
     GXml& getNodeItem(int _index);
     //
-    std::string toString(const std::string& _encoding = "UTF-8", int _format = 4) const;
-
+    std::string toString() const;
+    std::string toString(const std::string& _encoding, int _format) const;
 
 private:
     xmlNodePtr m_node;

@@ -12,6 +12,7 @@ public:
     GString(const char* _data, int _size);
     GString(const GString& _data);
     ~GString();
+    static GString* Instance();
     //
     void addData(const char* _data, int _size);
     void clearData();
