@@ -17,6 +17,15 @@ public:
     std::string getDataPath() const;
     std::string getResourcePath(const std::string& _resource, const std::string& _filename) const;
     void showArgs(int _argc, char** _argv);
+    //
+    void initDom();
+    void initDom(const std::string& _module, const std::string& _method);
+    void loadDom(const std::string& _data);
+    std::string getDom(const std::string& _encoding = "UTF-8", int _format = 4) const;
+    void setModule(const std::string& _module);
+    std::string getModule() const;
+    void setMethod(const std::string& _method);
+    std::string getMethod() const;
 
 private:
     static GObject* m_instance;

@@ -8,6 +8,8 @@ GQtObject(_parent) {
     m_doc = 0;
     m_xpath = 0;
     m_xpathObj = 0;
+
+    xmlKeepBlanksDefault(0);
 }
 //===============================================
 GQtXml::~GQtXml() {
@@ -28,7 +30,7 @@ GQtXml& GQtXml::loadXmlFile(const QString& _filename) {
     return *this;
 }
 //===============================================
-bool GQtXml::saveXmlFile(const QString _filename, const QString _encoding, int _format) {
+bool GQtXml::saveXmlFile(const QString& _filename, const QString& _encoding, int _format) {
     QString lFilename = "";
 
     if(_filename != "") {
@@ -101,10 +103,11 @@ GQtXml& GQtXml::createNode(const QString& _nodename) {
 }
 //===============================================
 GQtXml& GQtXml::createNodeValue(const QString& _nodename, const QString& _value) {
-    m_node = xmlNewTextChild(NULL, NULL, BAD_CAST(_nodename.toStdString().c_str()), BAD_CAST(_nodename.toStdString().c_str()));
+    createNode(_nodename);
+    setNodeValue(_value);
     if(!m_node) {
         GQTLOG->addError(QString("Erreur la methode (createNodeValue) a echoue "
-                "sur le noeud (%1).").arg(_nodename));
+                "sur le noeud (%1) avec la valeur (%2).").arg(_nodename).arg(_value));
         return *this;
     }
     return *this;

@@ -1,5 +1,6 @@
 //===============================================
 #include "GQtOpenCVUi.h"
+#include "GOpenCV.h"
 #include "GSocket.h"
 #include "GQtXml.h"
 #include "GQtObject.h"
@@ -59,7 +60,10 @@ void GQtOpenCVUi::onMenuAction(bool _checked) {
 }
 //===============================================
 void GQtOpenCVUi::runOpenCV() {
-    std::string lDataIn = "Bonjour OpenCV...";
+    GObject lRequest;
+    lRequest.initDom("opencv", "run_opencv");
+
+    std::string lDataIn = lRequest.getDom();
     std::string lDataOut;
     GSOCKET->callServerTcp(lDataIn, lDataOut);
     showDebug(lDataOut.c_str());

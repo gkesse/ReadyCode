@@ -6,6 +6,8 @@
 //===============================================
 #define GOPENCV GOpenCV::Instance()
 //===============================================
+class GXml;
+//===============================================
 class GOpenCV : public GObject {
 public:
     GOpenCV(bool _init = false);
