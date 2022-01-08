@@ -9,6 +9,7 @@ GSocket* GSocket::m_instance = 0;
 //===============================================
 std::queue<std::string> GSocket::m_dataIn;
 std::queue<GSocket*> GSocket::m_clientIn;
+int GSocket::m_messageId = 1;
 //===============================================
 GSocket::GSocket(bool _init) : GObject() {
     m_socket = -1;
@@ -24,7 +25,7 @@ GSocket::~GSocket() {
 //===============================================
 GSocket* GSocket::Instance() {
     if(m_instance == 0) {
-        m_instance = new GSocket;
+        m_instance = new GSocket(true);
     }
     return m_instance;
 }
@@ -65,6 +66,20 @@ bool GSocket::getHostnameShow() const {
 //===============================================
 bool GSocket::getAddressIpShow() const {
     m_dom->queryXPath("/rdv/socket/addressipshow");
+    m_dom->getNodeXPath();
+    std::string lData = m_dom->getNodeValue();
+    return (lData == "1");
+}
+//===============================================
+bool GSocket::getWelcomShow() const {
+    m_dom->queryXPath("/rdv/socket/welcomshow");
+    m_dom->getNodeXPath();
+    std::string lData = m_dom->getNodeValue();
+    return (lData == "1");
+}
+//===============================================
+bool GSocket::getDebugShow() const {
+    m_dom->queryXPath("/rdv/socket/debugshow");
     m_dom->getNodeXPath();
     std::string lData = m_dom->getNodeValue();
     return (lData == "1");
@@ -249,7 +264,7 @@ void GSocket::cleanSocket() {
 }
 //===============================================
 void GSocket::startServerTcp() {
-    GSocket lServer(false);
+    GSocket lServer;
     GThread lThread;
 
     lServer.initSocket(getMajor(), getMinor());
@@ -266,8 +281,12 @@ void GSocket::startServerTcp() {
     lServer.bindSocket();
     lServer.listenSocket(getBacklog());
 
+    if(getWelcomShow()) {
+        printf("Demarrage du serveur...\n");
+    }
+
     while(1) {
-        GSocket* lClient = new GSocket(false);
+        GSocket* lClient = new GSocket;
         lServer.acceptConnection(*lClient);
 
         if(getAddressIpShow()) {
@@ -282,7 +301,7 @@ void GSocket::startServerTcp() {
 }
 //===============================================
 void GSocket::callServerTcp(const std::string& _dataIn, std::string& _dataOut) {
-    GSocket lClient(false);
+    GSocket lClient;
 
     lClient.initSocket(getMajor(), getMinor());
 
@@ -324,6 +343,17 @@ std::queue<std::string>& GSocket::getDataIn() const {
 //===============================================
 std::queue<GSocket*>& GSocket::getClientIn() const {
     return m_clientIn;
+}
+//===============================================
+int& GSocket::getMessageId() const {
+    return m_messageId;
+}
+//===============================================
+void GSocket::showMessage(const std::string& _dataIn) const {
+    if(getDebugShow()) {
+        printf("---------------> %d\n", m_messageId++);
+        printf("%s\n", _dataIn.c_str());
+    }
 }
 //===============================================
 void GSocket::resultOk(const std::string& _dataOut) {

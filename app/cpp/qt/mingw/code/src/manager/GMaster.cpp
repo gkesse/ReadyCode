@@ -58,7 +58,7 @@ void CALLBACK GMaster::onTimer(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwT
         lDataIn.pop();
         lClientIn.pop();
 
-        printf("%s\n", lData.c_str());
+        GSOCKET->showMessage(lData);
 
         lClient->resultOk();
     }

@@ -8,7 +8,7 @@
 //===============================================
 class GSocket : public GObject {
 public:
-    GSocket(bool _init = true);
+    GSocket(bool _init = false);
     ~GSocket();
     static GSocket* Instance();
     //
@@ -18,6 +18,8 @@ public:
     bool getVersionShow() const;
     bool getHostnameShow() const;
     bool getAddressIpShow() const;
+    bool getWelcomShow() const;
+    bool getDebugShow() const;
     std::string getAddressClient() const;
     std::string getAddressServer() const;
     int getPort() const;
@@ -50,6 +52,8 @@ public:
     static DWORD WINAPI onServerTcp(LPVOID _params);
     std::queue<std::string>& getDataIn() const;
     std::queue<GSocket*>& getClientIn() const;
+    int& getMessageId() const;
+    void showMessage(const std::string& _dataIn) const;
     void resultOk(const std::string& _dataOut = "");
 
 private:
@@ -62,6 +66,7 @@ private:
     SOCKADDR_IN m_address;
     static std::queue<std::string> m_dataIn;
     static std::queue<GSocket*> m_clientIn;
+    static int m_messageId;
 };
 //==============================================
 #endif
