@@ -61,6 +61,7 @@ void CALLBACK GMaster::onTimer(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwT
         GSOCKET->showMessage(lData);
 
         lClient->resultOk();
+        free(lClient);
     }
 }
 //===============================================

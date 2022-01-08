@@ -66,9 +66,11 @@ private:
     static GSocket* m_instance;
     SOCKET m_socket;
     SOCKADDR_IN m_address;
+    //
     static std::queue<std::string> m_dataIn;
     static std::queue<GSocket*> m_clientIn;
-    static std::vector<std::string> m_dataOut;
+    std::vector<std::string> m_dataOut;
+    //
     static int m_messageId;
 };
 //==============================================

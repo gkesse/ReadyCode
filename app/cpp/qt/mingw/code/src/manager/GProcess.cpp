@@ -212,9 +212,10 @@ void CALLBACK GProcess::onServerTcpTimer(HWND hwnd, UINT uMsg, UINT_PTR timerId,
         lDataIn.pop();
         lClientIn.pop();
 
-        printf("%s\n", lData.c_str());
+        GSOCKET->showMessage(lData);
 
         lClient->resultOk();
+        free(lClient);
     }
 }
 //===============================================
