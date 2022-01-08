@@ -48,7 +48,7 @@ void GQtOpenCVUi::closeEvent(QCloseEvent *event) {
 void GQtOpenCVUi::onMenuAction(bool _checked) {
     QAction* lAction = qobject_cast<QAction*>(sender());
     QString lKey = lAction->data().toString();
-    getDebug(lKey);
+    showDebug(lKey);
 
     if(lKey == "opencv/run") {
         runOpenCV();
@@ -62,6 +62,7 @@ void GQtOpenCVUi::runOpenCV() {
     std::string lDataIn = "Bonjour OpenCV...";
     std::string lDataOut;
     GSOCKET->callServerTcp(lDataIn, lDataOut);
+    showDebug(lDataOut.c_str());
 }
 //===============================================
 void GQtOpenCVUi::stopOpenCV() {

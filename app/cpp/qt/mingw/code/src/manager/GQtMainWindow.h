@@ -87,7 +87,7 @@ public:
     virtual void writeGeometry(const QByteArray& _geometry);
     virtual QByteArray getGeometry() const;
     virtual bool getDebug() const;
-    virtual void getDebug(const QString& _debug);
+    virtual void showDebug(const QString& _debug);
     //
     virtual QAction* getKeyAction(const QString& _key) const;
     virtual int getKeyInt(const QString& _key) const;

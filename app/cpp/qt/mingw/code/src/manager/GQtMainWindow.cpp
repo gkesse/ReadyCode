@@ -751,7 +751,7 @@ bool GQtMainWindow::getDebug() const {
     return (lData == "1");
 }
 //===============================================
-void GQtMainWindow::getDebug(const QString& _debug) {
+void GQtMainWindow::showDebug(const QString& _debug) {
     if(getDebug()) {
         qDebug() << _debug;
     }

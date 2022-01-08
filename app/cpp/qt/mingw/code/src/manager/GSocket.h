@@ -54,7 +54,9 @@ public:
     std::queue<GSocket*>& getClientIn() const;
     int& getMessageId() const;
     void showMessage(const std::string& _dataIn) const;
-    void resultOk(const std::string& _dataOut = "");
+    void addDataOut(const std::string& _dataOut);
+    std::string getDataOut() const;
+    void resultOk();
 
 private:
     static const int BUFFER_SIZE = 1024;
@@ -66,6 +68,7 @@ private:
     SOCKADDR_IN m_address;
     static std::queue<std::string> m_dataIn;
     static std::queue<GSocket*> m_clientIn;
+    static std::vector<std::string> m_dataOut;
     static int m_messageId;
 };
 //==============================================

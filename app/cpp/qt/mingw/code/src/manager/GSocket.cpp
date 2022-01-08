@@ -356,10 +356,24 @@ void GSocket::showMessage(const std::string& _dataIn) const {
     }
 }
 //===============================================
-void GSocket::resultOk(const std::string& _dataOut) {
-    std::string lDataOut = "<result>ok</result>";
-    if(_dataOut != "") lDataOut = _dataOut;
-    writeData(lDataOut);
+void GSocket::addDataOut(const std::string& _dataOut) {
+    m_dataOut.push_back(_dataOut);
+}
+//===============================================
+std::string GSocket::getDataOut() const {
+    std::string lDataOut = "";
+    for(size_t i = 0; i < m_dataOut.size(); i++) {
+        if(i != 0) lDataOut += "\n";
+        lDataOut += m_dataOut.at(i);
+    }
+    if(lDataOut == "") {
+        lDataOut = "<result>ok</result>";
+    }
+    return lDataOut;
+}
+//===============================================
+void GSocket::resultOk() {
+    writeData(getDataOut());
     closeSocket();
 }
 //===============================================
