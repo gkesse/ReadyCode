@@ -11,6 +11,7 @@ public:
     GLog();
     ~GLog();
     static GLog* Instance();
+    void addError(const std::string& _error);
     void addError(const char* _format, ...);
     void showError();
     bool hasError();

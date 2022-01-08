@@ -360,7 +360,18 @@ void GSocket::addDataOut(const std::string& _dataOut) {
     m_dataOut.push_back(_dataOut);
 }
 //===============================================
-std::string GSocket::getDataOut() const {
+void GSocket::addDataOut(const char* _format, ...) {
+    va_list lArgs;
+    va_start (lArgs, _format);
+    int lSize = vsprintf(m_buffer, _format, lArgs);
+    va_end(lArgs);
+    if(lSize >= BUFFER_SIZE) {
+        GLOG->addError("Erreur la methode (addDataOut) a echoue.");
+    }
+    m_dataOut.push_back(m_buffer);
+}
+//===============================================
+std::string GSocket::getDataOut() {
     std::string lDataOut = "";
     for(size_t i = 0; i < m_dataOut.size(); i++) {
         if(i != 0) lDataOut += "\n";

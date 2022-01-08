@@ -60,16 +60,15 @@ void CALLBACK GMaster::onTimer(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwT
 
         GSOCKET->showMessage(lData);
 
-        GObject lRequest;
-        lRequest.loadDom(lData);
-        std::string lModule = lRequest.getModule();
-        std::string lMethod = lRequest.getMethod();
+        GObject* lRequest = new GObject;
+        lRequest->loadDom(lData);
 
-        lClient->addDataOut(lModule);
-        lClient->addDataOut(lMethod);
+        lClient->addDataOut(lRequest->getModule());
+        lClient->addDataOut(lRequest->getMethod());
 
         lClient->resultOk();
         free(lClient);
+        free(lRequest);
     }
 }
 //===============================================

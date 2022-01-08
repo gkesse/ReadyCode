@@ -55,7 +55,8 @@ public:
     int& getMessageId() const;
     void showMessage(const std::string& _dataIn) const;
     void addDataOut(const std::string& _dataOut);
-    std::string getDataOut() const;
+    void addDataOut(const char* _format, ...);
+    std::string getDataOut();
     void resultOk();
 
 private:
@@ -72,6 +73,7 @@ private:
     std::vector<std::string> m_dataOut;
     //
     static int m_messageId;
+    char m_buffer[BUFFER_SIZE + 1];
 };
 //==============================================
 #endif

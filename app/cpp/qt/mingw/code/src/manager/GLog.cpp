@@ -18,6 +18,10 @@ GLog* GLog::Instance() {
     return m_instance;
 }
 //===============================================
+void GLog::addError(const std::string& _error) {
+    m_errors.push_back(_error);
+}
+//===============================================
 void GLog::addError(const char* _format, ...) {
     va_list lArgs;
     va_start (lArgs, _format);
