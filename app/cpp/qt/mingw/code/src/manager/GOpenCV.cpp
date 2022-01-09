@@ -159,6 +159,8 @@ DWORD WINAPI GOpenCV::onRunOpenCVThread(LPVOID _params) {
         if(lOpenCV->waitKey(lWiatKey) == 'q') break;
     }
 
+    delete lOpenCV;
+    lOpenCV = 0;
     return 0;
 }
 //===============================================
