@@ -112,6 +112,10 @@ void GObject::addMethod(const std::string& _method) {
     m_dom->appendNode("method", _method);
 }
 //===============================================
+std::string GObject::toString() const {
+    return m_dom->toString();
+}
+//===============================================
 std::string GObject::toString(const std::string& _encoding, int _format) const {
     return m_dom->toString(_encoding, _format);
 }
@@ -127,15 +131,6 @@ std::string GObject::getMethod() const {
     m_dom->queryXPath("/rdv/method");
     m_dom->getNodeXPath();
     std::string lData = m_dom->getNodeValue();
-    return lData;
-}
-//===============================================
-std::string GObject::getResultOk() const {
-    std::string lData;
-    GObject* lDom = new GObject;
-    lDom->initResultOk();
-    lData = lDom->toString();
-    free(lDom);
     return lData;
 }
 //===============================================

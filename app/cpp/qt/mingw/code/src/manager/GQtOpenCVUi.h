@@ -4,6 +4,8 @@
 //===============================================
 #include "GQtMainWindow.h"
 //===============================================
+class GObject;
+//===============================================
 class GQtOpenCVUi : public GQtMainWindow {
     Q_OBJECT
 
@@ -21,6 +23,9 @@ public slots:
 
 protected:
     void closeEvent(QCloseEvent *event);
+
+private:
+    QSharedPointer<GObject> m_request;
 };
 //==============================================
 #endif

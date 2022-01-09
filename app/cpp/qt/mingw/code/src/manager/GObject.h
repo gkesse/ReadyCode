@@ -33,11 +33,11 @@ public:
     void addModule(const std::string& _module);
     void addMethod(const std::string& _method);
     //
-    std::string toString(const std::string& _encoding = "UTF-8", int _format = 4) const;
+    std::string toString() const;
+    std::string toString(const std::string& _encoding, int _format) const;
     //
     std::string getModule() const;
     std::string getMethod() const;
-    std::string getResultOk() const;
     // erros
     int countErrors() const;
     bool hasErrors() const;

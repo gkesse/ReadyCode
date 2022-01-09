@@ -112,12 +112,6 @@ int GOpenCV::getTimer() const {
     return std::stoi(lData);
 }
 //===============================================
-DWORD WINAPI GOpenCV::onThread(LPVOID _params) {
-    GSocket* lServer = (GSocket*)_params;
-    lServer->startServerTcp();
-    return 0;
-}
-//===============================================
 void CALLBACK GOpenCV::onTimer(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime) {
     std::queue<std::string>& lDataIn = GSOCKET->getDataIn();
     std::queue<GSocket*>& lClientIn = GSOCKET->getClientIn();
@@ -129,9 +123,42 @@ void CALLBACK GOpenCV::onTimer(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwT
         lDataIn.pop();
         lClientIn.pop();
 
-        printf("%s\n", lData.c_str());
+        GSOCKET->showMessage(lData);
 
         lClient->sendResponse();
     }
+}
+//===============================================
+void GOpenCV::onModule(GObject* _request, GSocket* _client) {
+    std::string lMethod = _request->getMethod();
+    if(lMethod == "run_opencv") {
+        onRunOpenCV(_request, _client);
+    }
+}
+//===============================================
+void GOpenCV::onRunOpenCV(GObject* _request, GSocket* _client) {
+    GOPENCV->m_request = _request;
+    GOPENCV->m_client = _client;
+    GTHREAD->createThread(onRunOpenCVThread, GOPENCV);
+}
+//===============================================
+DWORD WINAPI GOpenCV::onRunOpenCVThread(LPVOID _params) {
+    GOpenCV* lOpenCV = (GOpenCV*)_params;
+
+    int lWiatKey = lOpenCV->getWaitKey();
+    int lWidth = lOpenCV->getWidth();
+    int lHeight = lOpenCV->getHeight();
+    std::string lTitle = lOpenCV->getTitle();
+    cv::Scalar lBgColor = lOpenCV->getBgColor();
+
+    lOpenCV->createWindow(lTitle, 1);
+    lOpenCV->createImageRgb(lWidth, lHeight, lBgColor);
+
+    while(1) {
+        lOpenCV->showImage(*lOpenCV);
+        if(lOpenCV->waitKey(lWiatKey) == 'q') break;
+    }
+
+    return 0;
 }
 //===============================================

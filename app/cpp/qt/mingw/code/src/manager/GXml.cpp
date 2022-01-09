@@ -153,7 +153,7 @@ GXml& GXml::getNode(const std::string& _nodename) {
         lNode = xmlNextElementSibling(lNode);
     }
     GLOG->addError("Erreur la methode (getNode) a echoue "
-             "sur le noeud (%s) (2).", _nodename.c_str());
+            "sur le noeud (%s) (2).", _nodename.c_str());
     return *this;
 }
 //===============================================

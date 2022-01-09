@@ -62,10 +62,10 @@ void GQtOpenCVUi::onMenuAction(bool _checked) {
 }
 //===============================================
 void GQtOpenCVUi::runOpenCV() {
-    GObject lRequest;
-    lRequest.initDom("opencv", "run_opencv");
+    m_request.reset(new GObject);
+    m_request->initDom("opencv", "run_opencv");
 
-    std::string lDataIn = lRequest.toString();
+    std::string lDataIn = m_request->toString();
     std::string lDataOut;
     GSOCKET->callServerTcp(lDataIn, lDataOut);
     GQTLOG->addErrorIn(lDataOut.c_str());

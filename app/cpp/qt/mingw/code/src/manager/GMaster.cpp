@@ -4,8 +4,12 @@
 #include "GThread.h"
 #include "GTimer.h"
 #include "GXml.h"
+#include "GOpenCV.h"
 //===============================================
 GMaster* GMaster::m_instance = 0;
+//===============================================
+std::shared_ptr<GObject> GMaster::m_request;
+std::shared_ptr<GObject> GMaster::m_resultOk;
 //===============================================
 GMaster::GMaster() : GObject() {
     createDoms();
@@ -60,21 +64,25 @@ void CALLBACK GMaster::onTimer(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwT
 
         GSOCKET->showMessage(lData);
 
-        GObject* lRequest = new GObject;
-        lRequest->loadDom(lData);
-        std::string lModule = lRequest->getModule();
-        std::string lMethod = lRequest->getMethod();
+        m_request.reset(new GObject);
+        m_request->loadDom(lData);
+        std::string lModule = m_request->getModule();
 
-        GObject* lResponse = new GObject;
-        lResponse->initError();
-        lResponse->addError("Erreur la methode (runOpenCV) a echoue.");
+        if(lModule == "opencv") {
+            onModuleOpenCV(m_request.get(), lClient);
+        }
 
-        lClient->addDataOut(lResponse);
+        m_resultOk.reset(new GObject);
+        m_resultOk->initResultOk();
+        lClient->addResultOk(m_resultOk.get());
 
         lClient->sendResponse();
-        free(lClient);
-        free(lRequest);
-        free(lResponse);
+
+        delete lClient;
     }
+}
+//===============================================
+void GMaster::onModuleOpenCV(GObject* _request, GSocket* _client) {
+    GOPENCV->onModule(_request, _client);
 }
 //===============================================

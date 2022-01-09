@@ -356,16 +356,12 @@ void GSocket::showMessage(const std::string& _dataIn) const {
     }
 }
 //===============================================
-void GSocket::addDataOut(const std::string& _dataOut) {
-    m_dataOut.push_back(_dataOut);
+void GSocket::addDataOut(const std::string& _data) {
+    m_dataOut.push_back(_data);
 }
 //===============================================
-void GSocket::addDataOut(const GObject& _dataOut) {
-    m_dataOut.push_back(_dataOut.toString());
-}
-//===============================================
-void GSocket::addDataOut(const GObject* _dataOut) {
-    m_dataOut.push_back(_dataOut->toString());
+void GSocket::addDataOut(const GObject* _data) {
+    m_dataOut.push_back(_data->toString());
 }
 //===============================================
 void GSocket::addDataOut(const char* _format, ...) {
@@ -379,16 +375,68 @@ void GSocket::addDataOut(const char* _format, ...) {
     m_dataOut.push_back(m_format);
 }
 //===============================================
-std::string GSocket::getDataOut() {
+void GSocket::addResultOk(const std::string& _data) {
+    m_resultOk.push_back(_data);
+}
+//===============================================
+void GSocket::addResultOk(const GObject* _data) {
+    m_resultOk.push_back(_data->toString());
+}
+//===============================================
+void GSocket::addResultOk(const char* _format, ...) {
+    va_list lArgs;
+    va_start (lArgs, _format);
+    int lSize = vsprintf(m_format, _format, lArgs);
+    va_end(lArgs);
+    if(lSize >= FORMAT_SIZE) {
+        GLOG->addError("Erreur la methode (addResultOk) a echoue.");
+    }
+    m_resultOk.push_back(m_format);
+}
+//===============================================
+void GSocket::addErrors(const std::string& _data) {
+    m_errors.push_back(_data);
+}
+//===============================================
+void GSocket::addErrors(const GObject* _data) {
+    m_errors.push_back(_data->toString());
+}
+//===============================================
+void GSocket::addErrors(const char* _format, ...) {
+    va_list lArgs;
+    va_start (lArgs, _format);
+    int lSize = vsprintf(m_format, _format, lArgs);
+    va_end(lArgs);
+    if(lSize >= FORMAT_SIZE) {
+        GLOG->addError("Erreur la methode (addErrors) a echoue.");
+    }
+    m_errors.push_back(m_format);
+}
+//===============================================
+std::string GSocket::getDataOut() const {
     std::string lDataOut = "";
+    std::string lResultOk = "";
+    std::string lErrors = "";
+
     for(size_t i = 0; i < m_dataOut.size(); i++) {
         if(i != 0) lDataOut += "\n";
         lDataOut += m_dataOut.at(i);
     }
-    if(lDataOut == "") {
-        lDataOut = getResultOk();
+    for(size_t i = 0; i < m_resultOk.size(); i++) {
+        if(i != 0) lResultOk += "\n";
+        lResultOk += m_resultOk.at(i);
     }
-    return lDataOut;
+    for(size_t i = 0; i < m_errors.size(); i++) {
+        if(i != 0) lErrors += "\n";
+        lErrors += m_errors.at(i);
+    }
+    if(lErrors != "") {
+        return lErrors;
+    }
+    if(lDataOut != "") {
+        return lDataOut;
+    }
+    return lResultOk;
 }
 //===============================================
 void GSocket::sendResponse() {

@@ -53,13 +53,18 @@ public:
     std::queue<std::string>& getDataIn() const;
     std::queue<GSocket*>& getClientIn() const;
     int& getMessageId() const;
-    std::string getDataOut();
+    std::string getDataOut() const;
     //
-    void showMessage(const std::string& _dataIn) const;
-    void addDataOut(const std::string& _dataOut);
-    void addDataOut(const GObject& _dataOut);
-    void addDataOut(const GObject* _dataOut);
+    void showMessage(const std::string& _data) const;
+    void addDataOut(const std::string& _data);
+    void addDataOut(const GObject* _data);
     void addDataOut(const char* _format, ...);
+    void addResultOk(const std::string& _data);
+    void addResultOk(const GObject* _data);
+    void addResultOk(const char* _format, ...);
+    void addErrors(const std::string& _data);
+    void addErrors(const GObject* _data);
+    void addErrors(const char* _format, ...);
     //
     void sendResponse();
 
@@ -74,7 +79,10 @@ private:
     //
     static std::queue<std::string> m_dataIn;
     static std::queue<GSocket*> m_clientIn;
+    //
     std::vector<std::string> m_dataOut;
+    std::vector<std::string> m_resultOk;
+    std::vector<std::string> m_errors;
     //
     static int m_messageId;
 };
