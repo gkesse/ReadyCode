@@ -751,11 +751,15 @@ bool GQtMainWindow::getDebug() const {
     return (lData == "1");
 }
 //===============================================
-void GQtMainWindow::showDebug(const QString& _debug) {
+void GQtMainWindow::showDebug(const std::string& _debug) {
     if(getDebug()) {
         printf("----->\n");
-        printf("%s\n", _debug.toStdString().c_str());
+        printf("%s\n", _debug.c_str());
     }
+}
+//===============================================
+void GQtMainWindow::showDebug(const QString& _debug) {
+    showDebug(_debug.toStdString());
 }
 //===============================================
 QAction* GQtMainWindow::getKeyAction(const QString& _key) const {
@@ -781,6 +785,16 @@ QString GQtMainWindow::getKeyIndex(const QString& _key, int _index) const {
             arg(_key).
             arg(_index);
     return lKey;
+}
+//===============================================
+QObject* GQtMainWindow::getObject(const QString& _key) {
+    QObject* lObject = m_objectMap.key(_key, 0);
+    if(lObject == 0) {
+        GQTLOG->addError(QString("Erreur la methode (getKeyObject) a echoue "
+                "sur la cle (%1).").arg(_key));
+        GQTLOG->showErrorQt(this);
+    }
+    return lObject;
 }
 //===============================================
 void GQtMainWindow::setRecentFilesVisible(bool _visible, const QString& _recentFileKey, const QString& _separatorKey) {

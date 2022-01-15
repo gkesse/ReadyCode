@@ -55,8 +55,8 @@ std::string GSQLite::getVersion() const {
 bool GSQLite::openDatabase(const std::string& _filename) {
     int lAnswer = sqlite3_open(_filename.c_str(), &m_sqlite3);
     if(lAnswer != SQLITE_OK) {
-        GLOG->addError("Erreur la methode (openDatabase) a echoue "
-                "sur le fichier (%s).", _filename.c_str());
+        GLOG->addError(sformat("Erreur la methode (openDatabase) a echoue "
+                "sur le fichier (%s).", _filename.c_str()));
         return false;
     }
     return true;
@@ -66,8 +66,8 @@ bool GSQLite::executeQuery(const std::string& _query, onExecCB _onExec, void* _p
     char* lError;
     int lAnswer = sqlite3_exec(m_sqlite3, _query.c_str(), _onExec, _params, &lError);
     if(lAnswer != SQLITE_OK) {
-        GLOG->addError("Erreur la methode (executeQuery) a echoue "
-                "sur la requete (%s) avec le message (%s).", _query.c_str(), lError);
+        GLOG->addError(sformat("Erreur la methode (executeQuery) a echoue "
+                "sur la requete (%s) avec le message (%s).", _query.c_str(), lError));
         return false;
     }
     return true;
@@ -76,8 +76,8 @@ bool GSQLite::executeQuery(const std::string& _query, onExecCB _onExec, void* _p
 bool GSQLite::prepareQuery(const std::string& _query) {
     int lAnswer = sqlite3_prepare_v2(m_sqlite3, _query.c_str(), -1, &m_stmt, 0);
     if(lAnswer != SQLITE_OK) {
-        GLOG->addError("Erreur la methode (prepareQuery) a echoue "
-                "sur la requete (%s).", _query.c_str());
+        GLOG->addError(sformat("Erreur la methode (prepareQuery) a echoue "
+                "sur la requete (%s).", _query.c_str()));
         return false;
     }
     return true;
@@ -105,67 +105,32 @@ void GSQLite::closeDatabase() {
     sqlite3_close(m_sqlite3);
 }
 //===============================================
-void GSQLite::writeData(const char* _query, ...) {
-    va_list lArgs;
-    va_start (lArgs, _query);
-    int lSize = vsprintf(m_format, _query, lArgs);
-    va_end(lArgs);
-    if(lSize >= FORMAT_SIZE) {
-        GLOG->addError("Erreur la methode (writeData) a echoue.");
-    }
-    executeQuery(m_format, 0, 0);
+void GSQLite::writeData(const std::string& _query) {
+    executeQuery(_query, 0, 0);
 }
 //===============================================
-std::string GSQLite::readData(const char* _query, ...) {
-    va_list lArgs;
-    va_start (lArgs, _query);
-    int lSize = vsprintf(m_format, _query, lArgs);
-    va_end(lArgs);
-    if(lSize >= FORMAT_SIZE) {
-        GLOG->addError("Erreur la methode (readData) a echoue.");
-    }
+std::string GSQLite::readData(const std::string& _query) {
     GSQLite lParams(false);
     executeQuery(_query, onReadData, &lParams);
     m_rowCount = lParams.m_rowCount;
     return lParams.m_dataVal;
 }
 //===============================================
-std::vector<std::string> GSQLite::readRow(const char* _query, ...) {
-    va_list lArgs;
-    va_start (lArgs, _query);
-    int lSize = vsprintf(m_format, _query, lArgs);
-    va_end(lArgs);
-    if(lSize >= FORMAT_SIZE) {
-        GLOG->addError("Erreur la methode (readRow) a echoue.");
-    }
+std::vector<std::string> GSQLite::readRow(const std::string& _query) {
     GSQLite lParams(false);
     executeQuery(_query, onReadRow, &lParams);
     m_rowCount = lParams.m_rowCount;
     return lParams.m_dataList;
 }
 //===============================================
-std::vector<std::string> GSQLite::readCol(const char* _query, ...) {
-    va_list lArgs;
-    va_start (lArgs, _query);
-    int lSize = vsprintf(m_format, _query, lArgs);
-    va_end(lArgs);
-    if(lSize >= FORMAT_SIZE) {
-        GLOG->addError("Erreur la methode (readCol) a echoue.");
-    }
+std::vector<std::string> GSQLite::readCol(const std::string& _query) {
     GSQLite lParams(false);
     executeQuery(_query, onReadCol, &lParams);
     m_rowCount = lParams.m_rowCount;
     return lParams.m_dataList;
 }
 //===============================================
-std::vector<std::vector<std::string>> GSQLite::readMap(const char* _query, ...) {
-    va_list lArgs;
-    va_start (lArgs, _query);
-    int lSize = vsprintf(m_format, _query, lArgs);
-    va_end(lArgs);
-    if(lSize >= FORMAT_SIZE) {
-        GLOG->addError("Erreur la methode (readMap) a echoue.");
-    }
+std::vector<std::vector<std::string>> GSQLite::readMap(const std::string& _query) {
     GSQLite lParams(false);
     executeQuery(_query, onReadMap, &lParams);
     m_rowCount = lParams.m_rowCount;

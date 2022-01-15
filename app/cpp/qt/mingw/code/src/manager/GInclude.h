@@ -12,6 +12,8 @@
 #include <string>
 #include <queue>
 #include <cstdlib>
+#include <fstream>
+#include <sstream>
 // qt
 #include <QtWidgets>
 #include <QtXml>

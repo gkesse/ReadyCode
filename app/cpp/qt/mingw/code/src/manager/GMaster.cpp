@@ -8,11 +8,16 @@
 //===============================================
 GMaster* GMaster::m_instance = 0;
 //===============================================
-std::shared_ptr<GObject> GMaster::m_request;
-std::shared_ptr<GObject> GMaster::m_resultOk;
+GSocket* GMaster::m_server = 0;
+GTimer* GMaster::m_timer = 0;
 //===============================================
-GMaster::GMaster() : GObject() {
-    createDoms();
+std::queue<std::string> GMaster::m_dataIn;
+std::queue<GSocket*> GMaster::m_clientIn;
+//===============================================
+GMaster::GMaster(bool _init) : GObject() {
+    if(_init) {
+        createDoms();
+    }
 }
 //===============================================
 GMaster::~GMaster() {
@@ -21,7 +26,7 @@ GMaster::~GMaster() {
 //===============================================
 GMaster* GMaster::Instance() {
     if(m_instance == 0) {
-        m_instance = new GMaster;
+        m_instance = new GMaster(true);
     }
     return m_instance;
 }
@@ -30,6 +35,9 @@ void GMaster::createDoms() {
     m_dom.reset(new GXml);
     m_dom->loadXmlFile(GRES("cpp/xml", "master.xml"));
     m_dom->createXPath();
+    m_domData.reset(new GXml);
+    m_domData->loadXmlFile(GRES("cpp/xml", "master_data.xml"));
+    m_domData->createXPath();
 }
 //===============================================
 int GMaster::getTimer() const {
@@ -39,47 +47,120 @@ int GMaster::getTimer() const {
     return std::stoi(lData);
 }
 //===============================================
+void GMaster::saveXmlMessage(GObject* _request) {
+    std::string lRequestName = _request->getRequestName();
+    std::string lMessage = _request->toString();
+    int lMessageId = getMessageId();
+    m_domData->queryXPath("/rdv/datas/data[code='master/xml/messages']/map");
+    m_domData->getNodeXPath();
+    GXml lNode;
+    lNode.createNode("data");
+    lNode.appendNode("id", std::to_string(lMessageId));
+    lNode.appendNode("name", lRequestName);
+    lNode.appendCData("msg", lMessage);
+    m_domData->appendNode(lNode);
+    m_domData->saveXmlFile();
+    saveMessageId(++lMessageId);
+}
+//===============================================
+int GMaster::getMessageId() const {
+    m_domData->queryXPath("/rdv/datas/data[code='master/xml/messages']/id");
+    m_domData->getNodeXPath();
+    std::string lData = m_domData->getNodeValue();
+    return std::stoi(lData);
+}
+//===============================================
+void GMaster::saveMessageId(int _id) const {
+    m_domData->queryXPath("/rdv/datas/data[code='master/xml/messages']/id");
+    m_domData->getNodeXPath();
+    m_domData->setNodeValue(std::to_string(_id));
+    m_domData->saveXmlFile();
+}
+//===============================================
 void GMaster::run(int _argc, char** _argv) {
-    GTHREAD->createThread(onThread, GSOCKET);
-    GTIMER->setTimer(onTimer, getTimer());
-    GTIMER->pause();
+    GThread lThread;
+    m_server = new GSocket(true);
+    m_timer = new GTimer;
+    lThread.createThread(onThread, m_server);
+    m_timer->setTimer(onTimer, getTimer());
+    m_timer->pauseTimer();
 }
 //===============================================
 DWORD WINAPI GMaster::onThread(LPVOID _params) {
     GSocket* lServer = (GSocket*)_params;
+    lServer->setOnServerTcp(onServerTcp);
     lServer->startServerTcp();
+    delete lServer;
+    return 0;
+}
+//===============================================
+DWORD WINAPI GMaster::onServerTcp(LPVOID _params) {
+    GSocket* lClient = (GSocket*)_params;
+    std::string lDataIn;
+
+    lClient->readData(lDataIn);
+    lClient->shutdownRD();
+
+    m_dataIn.push(lDataIn);
+    m_clientIn.push(lClient);
+
     return 0;
 }
 //===============================================
 void CALLBACK GMaster::onTimer(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime) {
-    std::queue<std::string>& lDataIn = GSOCKET->getDataIn();
-    std::queue<GSocket*>& lClientIn = GSOCKET->getClientIn();
+    if(!m_dataIn.empty()) {
+        std::string lData = m_dataIn.front();
+        GSocket* lClient = m_clientIn.front();
 
-    if(!lDataIn.empty()) {
-        std::string lData = lDataIn.front();
-        GSocket* lClient = lClientIn.front();
+        m_dataIn.pop();
+        m_clientIn.pop();
 
-        lDataIn.pop();
-        lClientIn.pop();
+        m_server->showMessage(lData);
 
-        GSOCKET->showMessage(lData);
+        m_requestDom.reset(new GObject);
+        m_requestDom->loadDom(lData);
+        std::string lModule = m_requestDom->getModule();
 
-        m_request.reset(new GObject);
-        m_request->loadDom(lData);
-        std::string lModule = m_request->getModule();
+        bool lMethodExist = true;
 
-        if(lModule == "opencv") {
-            onModuleOpenCV(m_request.get(), lClient);
+        if(lModule == "server") {
+            onModuleServer(m_requestDom.get(), lClient);
+        }
+        else if(lModule == "opencv") {
+            onModuleOpenCV(m_requestDom.get(), lClient);
+        }
+        else {
+            onUnknownModule(m_requestDom.get(), lClient);
+            lMethodExist = false;
         }
 
-        m_resultOk.reset(new GObject);
-        m_resultOk->initResultOk();
-        lClient->addResultOk(m_resultOk.get());
+        if(lMethodExist) {
+            GMaster lMaster(true);
+            lMaster.saveXmlMessage(m_requestDom.get());
+        }
+
+        m_resultOkDom.reset(new GObject);
+        m_resultOkDom->createResult();
+        m_resultOkDom->addResultMsg("ok");
+        lClient->addResultOk(m_resultOkDom);
 
         lClient->sendResponse();
 
         delete lClient;
     }
+}
+//===============================================
+void GMaster::onModuleServer(GObject* _request, GSocket* _client) {
+    std::string lMethod = _request->getMethod();
+
+    if(lMethod == "stop_server") {
+        onStopServer(_request, _client);
+    }
+}
+//===============================================
+void GMaster::onStopServer(GObject* _request, GSocket* _client) {
+    m_server->stopServer();
+    m_timer->stopTimer();
 }
 //===============================================
 void GMaster::onModuleOpenCV(GObject* _request, GSocket* _client) {

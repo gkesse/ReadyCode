@@ -3,7 +3,7 @@
 //===============================================
 GQtPicto* GQtPicto::m_instance = 0;
 //===============================================
-GQtPicto::GQtPicto() {
+GQtPicto::GQtPicto(QObject* _parent) : GQtObject(_parent) {
     m_QtAwesome = new QtAwesome(qApp);
     m_QtAwesome->initFontAwesome();
 }

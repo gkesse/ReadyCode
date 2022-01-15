@@ -150,12 +150,13 @@ void GProcess::runSocket(int _argc, char** _argv) {
     else {
         GTHREAD->createThread(onServerTcp, GSOCKET);
         GTIMER->setTimer(onServerTcpTimer, 50);
-        GTIMER->pause();
+        GTIMER->pauseTimer();
     }
 }
 //===============================================
 void GProcess::runMaster(int _argc, char** _argv) {
-    GMASTER->run(_argc, _argv);
+    GMaster lMaster(true);
+    lMaster.run(_argc, _argv);
 }
 //===============================================
 void GProcess::runSQLite(int _argc, char** _argv) {
@@ -166,8 +167,9 @@ void GProcess::runSQLite(int _argc, char** _argv) {
 }
 //===============================================
 void GProcess::runTimer(int _argc, char** _argv) {
-    GTIMER->setTimer(onTimer, 1000);
-    GTIMER->pause();
+    GTimer lTimer;
+    lTimer.setTimer(onTimer, 1000);
+    lTimer.pauseTimer();
 }
 //===============================================
 void GProcess::runOpenCV(int _argc, char** _argv) {

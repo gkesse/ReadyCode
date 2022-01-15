@@ -13,6 +13,8 @@ int GSocket::m_messageId = 1;
 //===============================================
 GSocket::GSocket(bool _init) : GObject() {
     m_socket = -1;
+    m_serverOn = true;
+    m_onServerTcp = onServerTcp;
 
     if(_init) {
         createDoms();
@@ -263,9 +265,16 @@ void GSocket::cleanSocket() {
     WSACleanup();
 }
 //===============================================
+void GSocket::stopServer() {
+    m_serverOn = false;
+}
+//===============================================
+bool GSocket::isServerOn() const {
+    return m_serverOn;
+}
+//===============================================
 void GSocket::startServerTcp() {
     GSocket lServer;
-    GThread lThread;
 
     lServer.initSocket(getMajor(), getMinor());
 
@@ -293,10 +302,10 @@ void GSocket::startServerTcp() {
             printf("adresse ip client : %s\n", lClient->getAddressIp().c_str());
         }
 
-        lThread.createThread(onServerTcp, lClient);
+        GTHREAD->createThread(m_onServerTcp, lClient);
     }
 
-    lServer.cleanSocket();
+    lServer.closeSocket();
     lServer.cleanSocket();
 }
 //===============================================
@@ -337,6 +346,10 @@ DWORD WINAPI GSocket::onServerTcp(LPVOID _params) {
     return 0;
 }
 //===============================================
+void GSocket::setOnServerTcp(GThread::onThreadCB _onServerTcp) {
+    m_onServerTcp = _onServerTcp;
+}
+//===============================================
 std::queue<std::string>& GSocket::getDataIn() const {
     return m_dataIn;
 }
@@ -364,15 +377,8 @@ void GSocket::addDataOut(const GObject* _data) {
     m_dataOut.push_back(_data->toString());
 }
 //===============================================
-void GSocket::addDataOut(const char* _format, ...) {
-    va_list lArgs;
-    va_start (lArgs, _format);
-    int lSize = vsprintf(m_format, _format, lArgs);
-    va_end(lArgs);
-    if(lSize >= FORMAT_SIZE) {
-        GLOG->addError("Erreur la methode (addDataOut) a echoue.");
-    }
-    m_dataOut.push_back(m_format);
+void GSocket::addDataOut(const GObject& _data) {
+    m_dataOut.push_back(_data.toString());
 }
 //===============================================
 void GSocket::addResultOk(const std::string& _data) {
@@ -383,15 +389,8 @@ void GSocket::addResultOk(const GObject* _data) {
     m_resultOk.push_back(_data->toString());
 }
 //===============================================
-void GSocket::addResultOk(const char* _format, ...) {
-    va_list lArgs;
-    va_start (lArgs, _format);
-    int lSize = vsprintf(m_format, _format, lArgs);
-    va_end(lArgs);
-    if(lSize >= FORMAT_SIZE) {
-        GLOG->addError("Erreur la methode (addResultOk) a echoue.");
-    }
-    m_resultOk.push_back(m_format);
+void GSocket::addResultOk(const std::shared_ptr<GObject>& _data) {
+    m_resultOk.push_back(_data->toString());
 }
 //===============================================
 void GSocket::addErrors(const std::string& _data) {
@@ -402,15 +401,8 @@ void GSocket::addErrors(const GObject* _data) {
     m_errors.push_back(_data->toString());
 }
 //===============================================
-void GSocket::addErrors(const char* _format, ...) {
-    va_list lArgs;
-    va_start (lArgs, _format);
-    int lSize = vsprintf(m_format, _format, lArgs);
-    va_end(lArgs);
-    if(lSize >= FORMAT_SIZE) {
-        GLOG->addError("Erreur la methode (addErrors) a echoue.");
-    }
-    m_errors.push_back(m_format);
+void GSocket::addErrors(const std::shared_ptr<GObject>& _data) {
+    m_errors.push_back(_data->toString());
 }
 //===============================================
 std::string GSocket::getDataOut() const {

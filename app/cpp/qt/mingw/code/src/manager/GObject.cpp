@@ -1,12 +1,17 @@
 //===============================================
 #include "GObject.h"
-#include "GLog.h"
+#include "GSocket.h"
 #include "GXml.h"
+#include "GLog.h"
 //===============================================
 GObject* GObject::m_instance = 0;
 //===============================================
+std::shared_ptr<GObject> GObject::m_requestDom;
+std::shared_ptr<GObject> GObject::m_resultOkDom;
+//===============================================
 GObject::GObject() {
-
+    m_request = 0;
+    m_client = 0;
 }
 //===============================================
 GObject::~GObject() {
@@ -49,75 +54,61 @@ void GObject::initDom() {
     m_dom->createXPath();
 }
 //===============================================
-void GObject::initDom(const std::string& _module, const std::string& _method) {
-    initDom();
-    addModule(_module);
-    addMethod(_method);
-}
-//===============================================
-void GObject::initResult() {
-    initDom();
-    addResult();
-}
-//===============================================
-void GObject::initResultOk() {
-    initResult();
-    addResult("ok");
-}
-//===============================================
-void GObject::initError() {
-    initDom();
-    addError();
-}
-//===============================================
 void GObject::loadDom(const std::string& _data) {
     m_dom.reset(new GXml);
     m_dom->loadXmlData(_data);
     m_dom->createXPath();
 }
 //===============================================
-void GObject::addResult() {
+void GObject::createResult() {
+    initDom();
     m_dom->queryXPath("/rdv");
     m_dom->getNodeXPath();
     m_dom->appendNode("results");
 }
 //===============================================
-void GObject::addResult(const std::string& _msg) {
+void GObject::addResultMsg(const std::string& _msg) {
     m_dom->queryXPath("/rdv/results");
     m_dom->getNodeXPath();
     m_dom->appendNode("msg", _msg);
 }
 //===============================================
-void GObject::addError() {
+void GObject::createError() {
+    initDom();
     m_dom->queryXPath("/rdv");
     m_dom->getNodeXPath();
     m_dom->appendNode("errors");
 }
 //===============================================
-void GObject::addError(const std::string& _msg) {
+void GObject::addErrorMsg(const std::string& _msg) {
     m_dom->queryXPath("/rdv/errors");
     m_dom->getNodeXPath();
     m_dom->appendNode("msg", _msg);
 }
 //===============================================
-void GObject::addModule(const std::string& _module) {
+int GObject::countErrors() const {
+    m_dom->queryXPath("/rdv/errors/msg");
+    int lData = m_dom->countXPath();
+    return lData;
+}
+//===============================================
+bool GObject::hasErrors() const {
+    return (countErrors() != 0);
+}
+//===============================================
+std::string GObject::getErrors(int _index) const {
+    m_dom->queryXPath(sformat("/rdv/errors/msg[position()=%d]", _index + 1));
+    m_dom->getNodeXPath();
+    std::string lData = m_dom->getNodeValue();
+    return lData;
+}
+//===============================================
+void GObject::createRequest(const std::string& _module, const std::string& _method) {
+    initDom();
     m_dom->queryXPath("/rdv");
     m_dom->getNodeXPath();
     m_dom->appendNode("module", _module);
-}
-//===============================================
-void GObject::addMethod(const std::string& _method) {
-    m_dom->queryXPath("/rdv");
-    m_dom->getNodeXPath();
     m_dom->appendNode("method", _method);
-}
-//===============================================
-std::string GObject::toString() const {
-    return m_dom->toString();
-}
-//===============================================
-std::string GObject::toString(const std::string& _encoding, int _format) const {
-    return m_dom->toString(_encoding, _format);
 }
 //===============================================
 std::string GObject::getModule() const {
@@ -134,20 +125,45 @@ std::string GObject::getMethod() const {
     return lData;
 }
 //===============================================
-int GObject::countErrors() const {
-    m_dom->queryXPath("/rdv/errors/msg");
-    int lData = m_dom->countXPath();
-    return lData;
+std::string GObject::getRequestName() const {
+    std::string lModule = getModule();
+    std::string lMethod = getMethod();
+    std::string lName = sformat("%s/%s", lModule.c_str(), lMethod.c_str());
+    return lName;
 }
 //===============================================
-bool GObject::hasErrors() const {
-    return (countErrors() != 0);
+void GObject::onUnknownModule(GObject* _request, GSocket* _client) {
+    std::string lModule = _request->getModule();
+    GObject lDom;
+    lDom.createError();
+    lDom.addErrorMsg(lDom.sformat("Erreur le module (%s) n'existe pas.", lModule.c_str()));
+    _client->addDataOut(lDom);
 }
 //===============================================
-std::string GObject::getErrors(int _index) const {
-    m_dom->queryXPath("/rdv/errors/msg[position()=%d]", _index + 1);
-    m_dom->getNodeXPath();
-    std::string lData = m_dom->getNodeValue();
-    return lData;
+void GObject::onUnknownMethod(GObject* _request, GSocket* _client) {
+    std::string lModule = _request->getModule();
+    std::string lMethod = _request->getMethod();
+    GObject lDom;
+    lDom.createError();
+    lDom.addErrorMsg(sformat("Erreur la methode (%s) du module (%s) n'existe pas.", lMethod.c_str(), lModule.c_str()));
+    _client->addDataOut(lDom);
+}
+//===============================================
+std::string GObject::toString() const {
+    return m_dom->toString();
+}
+//===============================================
+std::string GObject::toString(const std::string& _encoding, int _format) const {
+    return m_dom->toString(_encoding, _format);
+}
+//===============================================
+std::string GObject::sformat(const char* _format, ...) const {
+    va_list lArgs;
+    va_start (lArgs, _format);
+    int lSize = vsnprintf(0, 0, _format, lArgs);
+    std::vector<char> lData(lSize + 1);
+    vsnprintf(lData.data(), lData.size(), _format, lArgs);
+    va_end(lArgs);
+    return lData.data();
 }
 //===============================================

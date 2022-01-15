@@ -4,6 +4,8 @@
 //===============================================
 #include "GObject.h"
 //===============================================
+#define GPROCESS GProcess::Instance()
+//===============================================
 class GProcess : public GObject {
 private:
     GProcess();
@@ -11,6 +13,7 @@ private:
 public:
     ~GProcess();
     static GProcess* Instance();
+    //
     void run(int _argc, char** _argv);
     void runStudio(int _argc, char** _argv);
     void runSpreadsheet(int _argc, char** _argv);
@@ -19,12 +22,14 @@ public:
     void runSQLite(int _argc, char** _argv);
     void runTimer(int _argc, char** _argv);
     void runOpenCV(int _argc, char** _argv);
+    //
     void createDoms();
     std::string getName(int _argc, char** _argv) const;
     std::string getName() const;
     bool getNameUse() const;
     bool getProcShow() const;
     bool getArgShow() const;
+    //
     static DWORD WINAPI onServerTcp(LPVOID _params);
     static void CALLBACK onServerTcpTimer(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime);
     static void CALLBACK onTimer(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime);

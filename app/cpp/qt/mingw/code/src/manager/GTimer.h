@@ -14,11 +14,17 @@ public:
     GTimer();
     ~GTimer();
     static GTimer* Instance();
+    //
     void setTimer(onTimerCB _onTimer, int _ms);
-    void pause();
+    void pauseTimer();
+    //
+    void stopTimer();
+    bool isTimerOn() const;
     
 private:
     static GTimer* m_instance;
+    //
+    bool m_timerOn;
 };
 //==============================================
 #endif

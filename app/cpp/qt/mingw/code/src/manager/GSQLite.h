@@ -24,11 +24,11 @@ public:
     std::string getColumnData(int _col) const;
     void finalizeQuery();
     void closeDatabase();
-    void writeData(const char* _query, ...);
-    std::string readData(const char* _query, ...);
-    std::vector<std::string> readRow(const char* _query, ...);
-    std::vector<std::string> readCol(const char* _query, ...);
-    std::vector<std::vector<std::string>> readMap(const char* _query, ...);
+    void writeData(const std::string& _query);
+    std::string readData(const std::string& _query);
+    std::vector<std::string> readRow(const std::string& _query);
+    std::vector<std::string> readCol(const std::string& _query);
+    std::vector<std::vector<std::string>> readMap(const std::string& _query);
     static int onReadData(void* _params, int _colCount, char** _colVals, char** _colNames);
     static int onReadRow(void* _params, int _colCount, char** _colVals, char** _colNames);
     static int onReadCol(void* _params, int _colCount, char** _colVals, char** _colNames);

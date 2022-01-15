@@ -8,11 +8,12 @@
 #define GRES(x, y) GOBJECT->getResourcePath(x, y)
 //===============================================
 class GXml;
+class GSocket;
 //===============================================
 class GObject {
 public:
     GObject();
-    ~GObject();
+    virtual ~GObject();
     static GObject* Instance();
     //
     std::string getDataPath() const;
@@ -20,38 +21,42 @@ public:
     void showArgs(int _argc, char** _argv);
     //
     void initDom();
-    void initDom(const std::string& _module, const std::string& _method);
-    void initResult();
-    void initResultOk();
-    void initError();
     void loadDom(const std::string& _data);
     //
-    void addResult();
-    void addResult(const std::string& _msg);
-    void addError();
-    void addError(const std::string& _msg);
-    void addModule(const std::string& _module);
-    void addMethod(const std::string& _method);
+    void createResult();
+    void addResultMsg(const std::string& _msg);
+    //
+    void createError();
+    void addErrorMsg(const std::string& _msg);
+    int countErrors() const;
+    bool hasErrors() const;
+    std::string getErrors(int _index) const;
+    //
+    void createRequest(const std::string& _module, const std::string& _method);
+    std::string getModule() const;
+    std::string getMethod() const;
+    std::string getRequestName() const;
+    //
+    static void onUnknownModule(GObject* _request, GSocket* _client);
+    void onUnknownMethod(GObject* _request, GSocket* _client);
     //
     std::string toString() const;
     std::string toString(const std::string& _encoding, int _format) const;
     //
-    std::string getModule() const;
-    std::string getMethod() const;
-    // erros
-    int countErrors() const;
-    bool hasErrors() const;
-    std::string getErrors(int _index) const;
+    std::string sformat(const char* _format, ...) const;
 
 private:
     static GObject* m_instance;
 
 protected:
-    static const int FORMAT_SIZE = 1024;
-
-protected:
     std::shared_ptr<GXml> m_dom;
-    char m_format[FORMAT_SIZE + 1];
+    std::shared_ptr<GXml> m_domData;
+    //
+    static std::shared_ptr<GObject> m_requestDom;
+    static std::shared_ptr<GObject> m_resultOkDom;
+    //
+    GObject* m_request;
+    GSocket* m_client;
 };
 //==============================================
 #endif

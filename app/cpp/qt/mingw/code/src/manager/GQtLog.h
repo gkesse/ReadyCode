@@ -30,6 +30,7 @@ public:
     void write(const char* _level, const char* _file, int _line, const char* _func);
     void write(const char* _level, const char* _file, int _line, const char* _func, const QString& _data);
     void addError(const QString& _data);
+    void addErrorIn(const std::string& _data);
     void addErrorIn(const QString& _data);
     bool hasError();
     void showError();

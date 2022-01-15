@@ -5,6 +5,7 @@
 #include "GInclude.h"
 //===============================================
 class GQtXml;
+class GObject;
 //===============================================
 class GQtMainWindow : public QMainWindow {
     Q_OBJECT
@@ -87,11 +88,13 @@ public:
     virtual void writeGeometry(const QByteArray& _geometry);
     virtual QByteArray getGeometry() const;
     virtual bool getDebug() const;
+    virtual void showDebug(const std::string& _debug);
     virtual void showDebug(const QString& _debug);
     //
     virtual QAction* getKeyAction(const QString& _key) const;
     virtual int getKeyInt(const QString& _key) const;
     virtual QString getKeyIndex(const QString& _key, int _index) const;
+    virtual QObject* getObject(const QString& _key);
 
 public slots:
     virtual void onMenuAction();
@@ -107,6 +110,11 @@ protected:
     QMap<QMenu*, QString> m_menuKey;
     QMap<QString, QAction*> m_keyAction;
     QMap<QString, int> m_keyInt;
+    //
+    QMap<QObject*, QString> m_objectMap;
+    QMap<QString, QObject*> m_keyObject;
+    //
+    QSharedPointer<GObject> m_requestDom;
 };
 //==============================================
 #endif

@@ -3,6 +3,7 @@
 #define _GSocket_
 //===============================================
 #include "GObject.h"
+#include "GThread.h"
 //===============================================
 #define GSOCKET GSocket::Instance()
 //===============================================
@@ -46,9 +47,13 @@ public:
     void closeSocket();
     void cleanSocket();
     //
+    void stopServer();
+    bool isServerOn() const;
+    //
     void startServerTcp();
     void callServerTcp(const std::string& _dataIn, std::string& _dataOut);
     static DWORD WINAPI onServerTcp(LPVOID _params);
+    void setOnServerTcp(GThread::onThreadCB _onServerTcp);
     //
     std::queue<std::string>& getDataIn() const;
     std::queue<GSocket*>& getClientIn() const;
@@ -58,21 +63,20 @@ public:
     void showMessage(const std::string& _data) const;
     void addDataOut(const std::string& _data);
     void addDataOut(const GObject* _data);
-    void addDataOut(const char* _format, ...);
+    void addDataOut(const GObject& _data);
     void addResultOk(const std::string& _data);
     void addResultOk(const GObject* _data);
-    void addResultOk(const char* _format, ...);
+    void addResultOk(const std::shared_ptr<GObject>& _data);
     void addErrors(const std::string& _data);
     void addErrors(const GObject* _data);
-    void addErrors(const char* _format, ...);
+    void addErrors(const std::shared_ptr<GObject>& _data);
     //
     void sendResponse();
 
 private:
     static const int BUFFER_SIZE = 1024;
     static const int HOSTNAME_SIZE = 256;
-
-private:
+    //
     static GSocket* m_instance;
     SOCKET m_socket;
     SOCKADDR_IN m_address;
@@ -85,6 +89,10 @@ private:
     std::vector<std::string> m_errors;
     //
     static int m_messageId;
+    //
+    bool m_serverOn;
+    //
+    GThread::onThreadCB m_onServerTcp;
 };
 //==============================================
 #endif

@@ -12,7 +12,7 @@ class GQtObject : public QObject {
 
 public:
     GQtObject(QObject* _parent = 0);
-    ~GQtObject();
+    virtual ~GQtObject();
     static GQtObject* Instance();
     QString getDataPath();
     QString getResourcePath(const QString& _resource, const QString& _filename);

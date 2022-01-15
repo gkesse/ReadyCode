@@ -1,6 +1,6 @@
 //===============================================
 #include "GQtLog.h"
-#include "GObject.h"
+#include "GLog.h"
 //===============================================
 GQtLog* GQtLog::m_instance = 0;
 //===============================================
@@ -31,13 +31,17 @@ void GQtLog::addError(const QString& _data) {
     m_errors.push_back(_data);
 }
 //===============================================
-void GQtLog::addErrorIn(const QString& _data) {
+void GQtLog::addErrorIn(const std::string& _data) {
     GObject lDom;
-    lDom.loadDom(_data.toStdString());
+    lDom.loadDom(_data);
     for(int i = 0; i < lDom.countErrors(); i++) {
         std::string lErrors = lDom.getErrors(i);
         m_errors.push_back(lErrors.c_str());
     }
+}
+//===============================================
+void GQtLog::addErrorIn(const QString& _data) {
+    addErrorIn(_data.toStdString());
 }
 //===============================================
 bool GQtLog::hasError() {
@@ -56,12 +60,12 @@ void GQtLog::showError() {
 //===============================================
 void GQtLog::showErrorQt(QWidget* _parent) {
     if(!hasError()) return;
-    QString lError = "";
+    QString lErrors = "";
     for(int i = 0; i < m_errors.size(); i++) {
-        if(i != 0) lError += "\n";
-        lError += m_errors.at(i);
+        if(i != 0) lErrors += "\n";
+        lErrors += m_errors.at(i);
     }
-    QMessageBox::critical(_parent, "Messages d'erreurs", lError);
+    QMessageBox::critical(_parent, "Messages d'erreurs", lErrors);
     m_errors.clear();
 }
 //===============================================

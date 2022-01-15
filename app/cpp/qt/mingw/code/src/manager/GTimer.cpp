@@ -4,7 +4,7 @@
 GTimer* GTimer::m_instance = 0;
 //===============================================
 GTimer::GTimer() : GObject() {
-
+    m_timerOn = true;
 }
 //===============================================
 GTimer::~GTimer() {
@@ -22,11 +22,19 @@ void GTimer::setTimer(onTimerCB _onTimer, int _ms) {
     SetTimer(0, 0, _ms, _onTimer);
 }
 //===============================================
-void GTimer::pause() {
+void GTimer::pauseTimer() {
     MSG lMsg;
-    while(GetMessage(&lMsg, NULL, 0, 0)) {
+    while(GetMessage(&lMsg, NULL, 0, 0) && m_timerOn) {
         TranslateMessage(&lMsg);
         DispatchMessage(&lMsg);
     }
+}
+//===============================================
+void GTimer::stopTimer() {
+    m_timerOn = false;
+}
+//===============================================
+bool GTimer::isTimerOn() const {
+    return m_timerOn;
 }
 //===============================================

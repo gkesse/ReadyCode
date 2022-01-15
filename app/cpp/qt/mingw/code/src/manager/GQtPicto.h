@@ -2,14 +2,16 @@
 #ifndef _GQtPicto_
 #define _GQtPicto_
 //===============================================
-#include "GInclude.h"
+#include "GQtObject.h"
 //===============================================
 #define GQTPICTOI GQtPicto::Instance()
 #define GQTPICTO(_x, _y) GQTPICTOI->getPicto(_x, _y)
 //===============================================
-class GQtPicto {
+class GQtPicto : public GQtObject {
+    Q_OBJECT
+
 public:
-    GQtPicto();
+    GQtPicto(QObject* _parent = 0);
     ~GQtPicto();
     static GQtPicto* Instance();
     QIcon getPicto(int _picto, const QColor& _color);

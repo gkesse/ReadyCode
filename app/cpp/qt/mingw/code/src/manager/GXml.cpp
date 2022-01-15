@@ -2,6 +2,8 @@
 #include "GXml.h"
 #include "GLog.h"
 //===============================================
+GXml* GXml::m_instance = 0;
+//===============================================
 GXml::GXml() : GObject() {
     m_node = 0;
     m_doc = 0;
@@ -15,25 +17,39 @@ GXml::~GXml() {
     xmlXPathFreeObject(m_xpathObj);
     xmlXPathFreeContext(m_xpath);
     xmlFreeDoc(m_doc);
+}
+//===============================================
+GXml* GXml::Instance() {
+    if(m_instance == 0) {
+        m_instance = new GXml;
+    }
+    return m_instance;
+}
+//===============================================
+void GXml::initModule() {
+    xmlInitParser();
+}
+//===============================================
+void GXml::cleanModule() {
     xmlCleanupParser();
     xmlMemoryDump();
 }
 //===============================================
 GXml& GXml::loadXmlFile(const std::string& _filename) {
-    m_doc = xmlParseFile(_filename.c_str());
+    m_doc = xmlReadFile(_filename.c_str(), 0, 0);
     if(!m_doc) {
-        GLOG->addError("Erreur la methode (loadXmlFile) a echoue "
-                "sur le fichier (%s).", _filename.c_str());
+        GLOG->addError(sformat("Erreur la methode (loadXmlFile) a echoue "
+                "sur le fichier (%s).", _filename.c_str()));
     }
     m_filename = _filename;
     return *this;
 }
 //===============================================
 GXml& GXml::loadXmlData(const std::string& _data) {
-    m_doc = xmlParseDoc((xmlChar*)_data.c_str());
+    m_doc = xmlParseDoc(BAD_CAST(_data.c_str()));
     if(!m_doc) {
-        GLOG->addError("Erreur la methode (loadXmlData) a echoue "
-                "sur la source (%s).", _data.c_str());
+        GLOG->addError(sformat("Erreur la methode (loadXmlData) a echoue "
+                "sur la source (%s).", _data.c_str()));
     }
     return *this;
 }
@@ -69,20 +85,28 @@ GXml& GXml::createRoot(const std::string& _nodename) {
 GXml& GXml::getRoot(const std::string& _nodename) {
     m_node = xmlDocGetRootElement(m_doc);
     if(!m_node) {
-        GLOG->addError("Erreur la methode (getRoot) a echoue "
-                "sur le noeud (%s) (1).", _nodename.c_str());
+        GLOG->addError(sformat("Erreur la methode (getRoot) a echoue "
+                "sur le noeud (%s) (1).", _nodename.c_str()));
         return *this;
     }
     std::string lNodeName = (char*)m_node->name;
     if(lNodeName != _nodename) {
-        GLOG->addError("Erreur la methode (getRoot) a echoue "
-                "sur le noeud (%s) (2).", _nodename.c_str());
+        GLOG->addError(sformat("Erreur la methode (getRoot) a echoue "
+                "sur le noeud (%s) (2).", _nodename.c_str()));
     }
     return *this;
 }
 //===============================================
 GXml& GXml::createNode(const std::string& _nodename) {
     m_node = xmlNewNode(NULL, BAD_CAST(_nodename.c_str()));
+    return *this;
+}
+//===============================================
+GXml& GXml::createCData(GXml& _xml, const std::string& _value) {
+    if(!_xml.m_node) {
+        return *this;
+    }
+    m_node = xmlNewCDataBlock(_xml.m_node->doc, BAD_CAST(_value.c_str()), _value.size());
     return *this;
 }
 //===============================================
@@ -128,6 +152,27 @@ GXml& GXml::appendNode(const std::string& _nodename, const std::string& _value) 
     return *this;
 }
 //===============================================
+GXml& GXml::appendCData(const std::string& _value) {
+    if(!m_node) {
+        return *this;
+    }
+    GXml lCData;
+    lCData.createCData(*this, _value);
+    appendNode(lCData);
+    return *this;
+}
+//===============================================
+GXml& GXml::appendCData(const std::string& _nodename, const std::string& _value) {
+    if(!m_node) {
+        return *this;
+    }
+    GXml lNode;
+    lNode.createNode(_nodename);
+    lNode.appendCData(_value);
+    appendNode(lNode);
+    return *this;
+}
+//===============================================
 GXml& GXml::replaceNode(GXml& _xml) {
     if(!m_node || !_xml.m_node) {
         return *this;
@@ -139,8 +184,8 @@ GXml& GXml::replaceNode(GXml& _xml) {
 //===============================================
 GXml& GXml::getNode(const std::string& _nodename) {
     if(!m_node) {
-        GLOG->addError("Erreur la methode (getNode) a echoue "
-                "sur le noeud (%s) (1).", _nodename.c_str());
+        GLOG->addError(sformat("Erreur la methode (getNode) a echoue "
+                "sur le noeud (%s) (1).", _nodename.c_str()));
         return *this;
     }
     xmlNodePtr lNode  = xmlFirstElementChild(m_node);
@@ -152,8 +197,8 @@ GXml& GXml::getNode(const std::string& _nodename) {
         }
         lNode = xmlNextElementSibling(lNode);
     }
-    GLOG->addError("Erreur la methode (getNode) a echoue "
-            "sur le noeud (%s) (2).", _nodename.c_str());
+    GLOG->addError(sformat("Erreur la methode (getNode) a echoue "
+            "sur le noeud (%s) (2).", _nodename.c_str()));
     return *this;
 }
 //===============================================
@@ -182,21 +227,6 @@ GXml& GXml::queryXPath(const std::string& _query) {
     return *this;
 }
 //===============================================
-GXml& GXml::queryXPath(const char* _format, ...) {
-    if(!m_xpath) {
-        return *this;
-    }
-    va_list lArgs;
-    va_start (lArgs, _format);
-    int lSize = vsprintf(m_format, _format, lArgs);
-    va_end(lArgs);
-    if(lSize >= FORMAT_SIZE) {
-        GLOG->addError("Erreur la methode (queryXPath) a echoue.");
-    }
-    m_xpathObj = xmlXPathEvalExpression(BAD_CAST(m_format), m_xpath);
-    return *this;
-}
-//===============================================
 int GXml::countXPath() const {
     if(!m_xpathObj) {
         return 0;
@@ -222,6 +252,15 @@ GXml& GXml::getNodeXPath() {
         return *this;
     }
     m_node = m_xpathObj->nodesetval->nodeTab[0];
+    return *this;
+}
+//===============================================
+GXml& GXml::clearNodeXPath() {
+    for(int i = 0; i < countXPath(); i++) {
+        xmlNodePtr lNode = m_xpathObj->nodesetval->nodeTab[i];
+        xmlUnlinkNode(lNode);
+        xmlFreeNode(lNode);
+    }
     return *this;
 }
 //===============================================

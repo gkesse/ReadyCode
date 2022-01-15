@@ -22,17 +22,6 @@ void GLog::addError(const std::string& _error) {
     m_errors.push_back(_error);
 }
 //===============================================
-void GLog::addError(const char* _format, ...) {
-    va_list lArgs;
-    va_start (lArgs, _format);
-    int lSize = vsprintf(m_format, _format, lArgs);
-    va_end(lArgs);
-    if(lSize >= FORMAT_SIZE) {
-        m_errors.push_back("Erreur la methode (addError) a echoue.");
-    }
-    m_errors.push_back(m_buffer);
-}
-//===============================================
 void GLog::showError() {
     if(!hasError()) return;
     std::string lErrors = "";
