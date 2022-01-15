@@ -189,7 +189,7 @@ void GMaster::onModuleMaster(const std::string& _request, GSocket* _client) {
     if(lMethod == "stop_server") {
         onStopServer(_request, _client);
     }
-    if(lMethod == "clear_xml_messages") {
+    else if(lMethod == "clear_xml_messages") {
         onClearXmlMessages(_request, _client);
     }
     else {

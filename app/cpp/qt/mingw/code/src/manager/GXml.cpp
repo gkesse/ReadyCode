@@ -124,6 +124,17 @@ GXml& GXml::setNodeValue(const std::string& _value) {
     return *this;
 }
 //===============================================
+GXml& GXml::setNodeCData(const std::string& _value) {
+    if(!m_node) {
+        return *this;
+    }
+    GXml lNode;
+    lNode.createNode((char*)m_node->name);
+    lNode.appendCData(_value);
+    replaceNode(lNode);
+    return *this;
+}
+//===============================================
 GXml& GXml::appendNode(GXml& _xml) {
     if(!m_node || !_xml.m_node) {
         return *this;

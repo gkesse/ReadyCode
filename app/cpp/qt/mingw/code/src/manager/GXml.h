@@ -28,6 +28,7 @@ public:
     GXml& createCData(GXml& _xml, const std::string& _value);
     GXml& createNodeValue(const std::string& _nodename, const std::string& _value);
     GXml& setNodeValue(const std::string& _value);
+    GXml& setNodeCData(const std::string& _value);
     GXml& appendNode(GXml& _xml);
     GXml& appendNode(const std::string& _nodename);
     GXml& appendNode(const std::string& _nodename, const std::string& _value);
