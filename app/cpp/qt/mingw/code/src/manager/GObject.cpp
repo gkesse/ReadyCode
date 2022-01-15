@@ -145,7 +145,7 @@ void GObject::onUnknownMethod(const std::string& _request, GSocket* _client) {
     std::string lMethod = lRequest.getMethod();
     GObject lDom;
     lDom.createError();
-    lDom.addErrorMsg(sformat("Erreur la methode (%s) du module (%s) n'existe pas.", lMethod.c_str(), lModule.c_str()));
+    lDom.addErrorMsg(GOBJECT->sformat("Erreur la methode (%s) \ndu module (%s) n'existe pas.", lMethod.c_str(), lModule.c_str()));
     _client->addDataOut(lDom);
 }
 //===============================================

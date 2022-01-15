@@ -38,7 +38,7 @@ public:
     std::string getRequestName() const;
     //
     static void onUnknownModule(const std::string& _request, GSocket* _client);
-    void onUnknownMethod(const std::string& _request, GSocket* _client);
+    static void onUnknownMethod(const std::string& _request, GSocket* _client);
     //
     std::string toString() const;
     std::string toString(const std::string& _encoding, int _format) const;

@@ -106,15 +106,15 @@ QString GQtOpenCVUi::getTestPageXmlFilename() const {
 //===============================================
 std::string GQtOpenCVUi::sendTestMessage() {
     QTextEdit* lTextEdit = qobject_cast<QTextEdit*>(getObject("test/page/textedit"));
-    QString lDataIn = lTextEdit->toPlainText();
+    std::string lDataIn = lTextEdit->toPlainText().toStdString();
     if(lDataIn == "") {
         GObject lRequest;
         lRequest.createError();
-        lRequest.addErrorMsg("Erreur la methode (sendTestMessage) a echoue.");
+        lRequest.addErrorMsg("Erreur l'editeur de text est vide.");
         return lRequest.toString();
     }
     std::string lDataOut;
-    GSOCKET->callServerTcp(lDataIn.toStdString(), lDataOut);
+    GSOCKET->callServerTcp(lDataIn, lDataOut);
     return lDataOut;
 }
 //===============================================

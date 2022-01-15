@@ -18,9 +18,13 @@ public:
     void createDoms();
     int getTimer() const;
     //
-    void saveXmlMessage(const std::string& _request);
+    void insertXmlMessage(const std::string& _request);
+    void updateXmlMessage(const std::string& _request);
+    int countXmlMessage(const std::string& _request) const;
+    void clearXmlMessage();
     int getMessageId() const;
     void saveMessageId(int _id) const;
+    void incMessageId() const;
     //
     void run(int _argc, char** _argv);
     //
@@ -28,8 +32,11 @@ public:
     static DWORD WINAPI onServerTcp(LPVOID _params);
     static void CALLBACK onTimer(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime);
     //
-    static void onModuleServer(const std::string& _request, GSocket* _client);
+    static void onModuleMaster(const std::string& _request, GSocket* _client);
     static void onStopServer(const std::string& _request, GSocket* _client);
+    static void onSaveXmlMessages(const std::string& _request, GSocket* _client);
+    static void onClearXmlMessages(const std::string& _request, GSocket* _client);
+    //
     static void onModuleOpenCV(const std::string& _request, GSocket* _client);
 
 private:

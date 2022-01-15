@@ -45,14 +45,15 @@ int GMaster::getTimer() const {
     return std::stoi(lData);
 }
 //===============================================
-void GMaster::saveXmlMessage(const std::string& _request) {
+void GMaster::insertXmlMessage(const std::string& _request) {
     GObject lRequest;
     lRequest.loadDom(_request);
-    std::string lModule = lRequest.getModule();
-    std::string lMethod = lRequest.getMethod();
     std::string lRequestName = lRequest.getRequestName();
     std::string lMessage = lRequest.toString();
+    //
+    incMessageId();
     int lMessageId = getMessageId();
+    //
     m_domData->queryXPath("/rdv/datas/data[code='master/xml/messages']/map");
     m_domData->getNodeXPath();
     GXml lNode;
@@ -62,7 +63,35 @@ void GMaster::saveXmlMessage(const std::string& _request) {
     lNode.appendCData("msg", lMessage);
     m_domData->appendNode(lNode);
     m_domData->saveXmlFile();
-    saveMessageId(++lMessageId);
+}
+//===============================================
+void GMaster::updateXmlMessage(const std::string& _request) {
+    GObject lRequest;
+    lRequest.loadDom(_request);
+    std::string lRequestName = lRequest.getRequestName();
+    std::string lMessage = lRequest.toString();
+    //
+    m_domData->queryXPath(sformat("/rdv/datas/data[code='master/xml/messages']/map/data[name='%s']/msg", lRequestName.c_str()));
+    m_domData->getNodeXPath();
+    m_domData->setNodeCData(lMessage);
+    m_domData->saveXmlFile();
+}
+//===============================================
+int GMaster::countXmlMessage(const std::string& _request) const {
+    GObject lRequest;
+    lRequest.loadDom(_request);
+    std::string lRequestName = lRequest.getRequestName();
+    //
+    m_domData->queryXPath(sformat("/rdv/datas/data[code='master/xml/messages']/map/data[name='%s']", lRequestName.c_str()));
+    int lData = m_domData->countXPath();
+    return lData;
+}
+//===============================================
+void GMaster::clearXmlMessage() {
+    m_domData->queryXPath("/rdv/datas/data[code='master/xml/messages']/map/data");
+    m_domData->getNodeXPath();
+    m_domData->clearNodeXPath();
+    m_domData->saveXmlFile();
 }
 //===============================================
 int GMaster::getMessageId() const {
@@ -77,6 +106,12 @@ void GMaster::saveMessageId(int _id) const {
     m_domData->getNodeXPath();
     m_domData->setNodeValue(std::to_string(_id));
     m_domData->saveXmlFile();
+}
+//===============================================
+void GMaster::incMessageId() const {
+    int lMessageId = getMessageId();
+    lMessageId++;
+    saveMessageId(lMessageId);
 }
 //===============================================
 void GMaster::run(int _argc, char** _argv) {
@@ -111,35 +146,29 @@ DWORD WINAPI GMaster::onServerTcp(LPVOID _params) {
 //===============================================
 void CALLBACK GMaster::onTimer(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime) {
     if(!m_dataIn.empty()) {
-        std::string lDataIn = m_dataIn.front();
+        std::string lRequestIn = m_dataIn.front();
         GSocket* lClient = m_clientIn.front();
 
         m_dataIn.pop();
         m_clientIn.pop();
 
-        m_server->showMessage(lDataIn);
+        m_server->showMessage(lRequestIn);
 
         GObject lRequest;
-        lRequest.loadDom(lDataIn);
+        lRequest.loadDom(lRequestIn);
         std::string lModule = lRequest.getModule();
 
-        bool lMethodExist = true;
-
         if(lModule == "master") {
-            onModuleServer(lDataIn, lClient);
+            onModuleMaster(lRequestIn, lClient);
         }
         else if(lModule == "opencv") {
-            onModuleOpenCV(lDataIn, lClient);
+            onModuleOpenCV(lRequestIn, lClient);
         }
         else {
-            onUnknownModule(lDataIn, lClient);
-            lMethodExist = false;
+            onUnknownModule(lRequestIn, lClient);
         }
 
-        if(lMethodExist) {
-            GMaster lMaster;
-            lMaster.saveXmlMessage(lDataIn);
-        }
+        onSaveXmlMessages(lRequestIn, lClient);
 
         GObject lResultOk;
         lResultOk.createResult();
@@ -152,7 +181,7 @@ void CALLBACK GMaster::onTimer(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwT
     }
 }
 //===============================================
-void GMaster::onModuleServer(const std::string& _request, GSocket* _client) {
+void GMaster::onModuleMaster(const std::string& _request, GSocket* _client) {
     GObject lRequest;
     lRequest.loadDom(_request);
     std::string lMethod = lRequest.getMethod();
@@ -160,11 +189,32 @@ void GMaster::onModuleServer(const std::string& _request, GSocket* _client) {
     if(lMethod == "stop_server") {
         onStopServer(_request, _client);
     }
+    if(lMethod == "clear_xml_messages") {
+        onClearXmlMessages(_request, _client);
+    }
+    else {
+        onUnknownMethod(_request, _client);
+    }
 }
 //===============================================
 void GMaster::onStopServer(const std::string& _request, GSocket* _client) {
     m_server->stopServer();
     m_timer->stopTimer();
+}
+//===============================================
+void GMaster::onSaveXmlMessages(const std::string& _request, GSocket* _client) {
+    GMaster lDom;
+    if(!lDom.countXmlMessage(_request)) {
+        lDom.insertXmlMessage(_request);
+    }
+    else {
+        lDom.updateXmlMessage(_request);
+    }
+}
+//===============================================
+void GMaster::onClearXmlMessages(const std::string& _request, GSocket* _client) {
+    GMaster lDom;
+    lDom.clearXmlMessage();
 }
 //===============================================
 void GMaster::onModuleOpenCV(const std::string& _request, GSocket* _client) {
