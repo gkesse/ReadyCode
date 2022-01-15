@@ -27,7 +27,7 @@ public:
     std::string loadTestMessage();
     std::string clearXmlMessage();
     //
-    std::string stopServer();
+    std::string stopMasterServer();
     //
     std::string runOpenCV();
     std::string stopOpenCV();

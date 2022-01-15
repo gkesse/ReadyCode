@@ -113,8 +113,6 @@ protected:
     //
     QMap<QObject*, QString> m_objectMap;
     QMap<QString, QObject*> m_keyObject;
-    //
-    QSharedPointer<GObject> m_requestDom;
 };
 //==============================================
 #endif

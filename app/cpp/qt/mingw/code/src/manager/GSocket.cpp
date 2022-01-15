@@ -330,6 +330,10 @@ void GSocket::callServerTcp(const std::string& _dataIn, std::string& _dataOut) {
     lClient.cleanSocket();
 }
 //===============================================
+void GSocket::callServerTcp(const GObject& _request, std::string& _dataOut) {
+    callServerTcp(_request.toString(), _dataOut);
+}
+//===============================================
 DWORD WINAPI GSocket::onServerTcp(LPVOID _params) {
     GSocket* lClient = (GSocket*)_params;
     std::string lDataIn;
@@ -370,10 +374,6 @@ void GSocket::addDataOut(const std::string& _data) {
     m_dataOut.push_back(_data);
 }
 //===============================================
-void GSocket::addDataOut(const GObject* _data) {
-    m_dataOut.push_back(_data->toString());
-}
-//===============================================
 void GSocket::addDataOut(const GObject& _data) {
     m_dataOut.push_back(_data.toString());
 }
@@ -382,24 +382,16 @@ void GSocket::addResultOk(const std::string& _data) {
     m_resultOk.push_back(_data);
 }
 //===============================================
-void GSocket::addResultOk(const GObject* _data) {
-    m_resultOk.push_back(_data->toString());
-}
-//===============================================
-void GSocket::addResultOk(const std::shared_ptr<GObject>& _data) {
-    m_resultOk.push_back(_data->toString());
+void GSocket::addResultOk(const GObject& _data) {
+    m_resultOk.push_back(_data.toString());
 }
 //===============================================
 void GSocket::addErrors(const std::string& _data) {
     m_errors.push_back(_data);
 }
 //===============================================
-void GSocket::addErrors(const GObject* _data) {
-    m_errors.push_back(_data->toString());
-}
-//===============================================
-void GSocket::addErrors(const std::shared_ptr<GObject>& _data) {
-    m_errors.push_back(_data->toString());
+void GSocket::addErrors(const GObject& _data) {
+    m_errors.push_back(_data.toString());
 }
 //===============================================
 std::string GSocket::getDataOut() const {

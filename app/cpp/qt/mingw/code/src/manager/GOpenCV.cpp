@@ -170,25 +170,10 @@ int GOpenCV::getWindowId() const {
     return GOpenCV::m_winnameId;
 }
 //===============================================
-void CALLBACK GOpenCV::onTimer(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime) {
-    std::queue<std::string>& lDataIn = GSOCKET->getDataIn();
-    std::queue<GSocket*>& lClientIn = GSOCKET->getClientIn();
-
-    if(!lDataIn.empty()) {
-        std::string lData = lDataIn.front();
-        GSocket* lClient = lClientIn.front();
-
-        lDataIn.pop();
-        lClientIn.pop();
-
-        GSOCKET->showMessage(lData);
-
-        lClient->sendResponse();
-    }
-}
-//===============================================
-void GOpenCV::onModule(GObject* _request, GSocket* _client) {
-    std::string lMethod = _request->getMethod();
+void GOpenCV::onModule(const std::string& _request, GSocket* _client) {
+    GObject lRequest;
+    lRequest.loadDom(_request);
+    std::string lMethod = lRequest.getMethod();
 
     if(lMethod == "run_opencv") {
         onRunOpenCV(_request, _client);
@@ -229,7 +214,7 @@ bool GOpenCV::hasModule(int _id) {
     return false;
 }
 //===============================================
-void GOpenCV::onRunOpenCV(GObject* _request, GSocket* _client) {
+void GOpenCV::onRunOpenCV(const std::string& _request, GSocket* _client) {
     GOpenCV* lOpenCV = new GOpenCV;
     lOpenCV->m_request = _request;
     lOpenCV->m_client = _client;
@@ -272,12 +257,12 @@ DWORD WINAPI GOpenCV::onRunOpenCVThread(LPVOID _params) {
     return 0;
 }
 //===============================================
-void GOpenCV::onClearWindowId(GObject* _request, GSocket* _client) {
+void GOpenCV::onClearWindowId(const std::string& _request, GSocket* _client) {
     GOpenCV lDom;
     lDom.clearWindowId();
 }
 //===============================================
-void GOpenCV::onOpenImageFile(GObject* _request, GSocket* _client) {
+void GOpenCV::onOpenImageFile(const std::string& _request, GSocket* _client) {
     if(!hasModule()) return;
     int lModuleId = 1;
     std::string lImageFile = GRES("img", "fruits.jpg");
@@ -285,14 +270,15 @@ void GOpenCV::onOpenImageFile(GObject* _request, GSocket* _client) {
     lOpenCV->loadImage(lImageFile);
 }
 //===============================================
-void GOpenCV::onUnknownMethod(GObject* _request, GSocket* _client) {
-    std::string lModule = _request->getModule();
-    std::string lMethod = _request->getMethod();
-    GOpenCV* lDataOut = new GOpenCV;
-    lDataOut->createError();
-    lDataOut->addErrorMsg(sformat("Erreur la methode (%s) "
+void GOpenCV::onUnknownMethod(const std::string& _request, GSocket* _client) {
+    GObject lRequest;
+    lRequest.loadDom(_request);
+    std::string lModule = lRequest.getModule();
+    std::string lMethod = lRequest.getMethod();
+    GOpenCV lDataOut;
+    lDataOut.createError();
+    lDataOut.addErrorMsg(sformat("Erreur la methode (%s) "
             "du module (%s) n'existe pas.", lMethod.c_str(), lModule.c_str()));
     _client->addDataOut(lDataOut);
-    delete lDataOut;
 }
 //===============================================

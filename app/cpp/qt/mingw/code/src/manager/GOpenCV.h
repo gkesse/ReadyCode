@@ -44,20 +44,18 @@ public:
     void incWindowId();
     int getWindowId() const;
     //
-    static void CALLBACK onTimer(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime);
-    //
-    void onModule(GObject* _request, GSocket* _client);
+    void onModule(const std::string& _request, GSocket* _client);
     void addModule(int _id, GOpenCV* _opencv);
     GOpenCV* getModule(int _id);
     int countModule() const;
     bool hasModule() const;
     bool hasModule(int _id);
     //
-    void onRunOpenCV(GObject* _request, GSocket* _client);
+    void onRunOpenCV(const std::string& _request, GSocket* _client);
     static DWORD WINAPI onRunOpenCVThread(LPVOID _params);
-    void onClearWindowId(GObject* _request, GSocket* _client);
-    void onOpenImageFile(GObject* _request, GSocket* _client);
-    void onUnknownMethod(GObject* _request, GSocket* _client);
+    void onClearWindowId(const std::string& _request, GSocket* _client);
+    void onOpenImageFile(const std::string& _request, GSocket* _client);
+    void onUnknownMethod(const std::string& _request, GSocket* _client);
 
 private:
     static GOpenCV* m_instance;

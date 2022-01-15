@@ -52,6 +52,7 @@ public:
     //
     void startServerTcp();
     void callServerTcp(const std::string& _dataIn, std::string& _dataOut);
+    void callServerTcp(const GObject& _request, std::string& _dataOut);
     static DWORD WINAPI onServerTcp(LPVOID _params);
     void setOnServerTcp(GThread::onThreadCB _onServerTcp);
     //
@@ -62,14 +63,11 @@ public:
     //
     void showMessage(const std::string& _data) const;
     void addDataOut(const std::string& _data);
-    void addDataOut(const GObject* _data);
     void addDataOut(const GObject& _data);
     void addResultOk(const std::string& _data);
-    void addResultOk(const GObject* _data);
-    void addResultOk(const std::shared_ptr<GObject>& _data);
+    void addResultOk(const GObject& _data);
     void addErrors(const std::string& _data);
-    void addErrors(const GObject* _data);
-    void addErrors(const std::shared_ptr<GObject>& _data);
+    void addErrors(const GObject& _data);
     //
     void sendResponse();
 

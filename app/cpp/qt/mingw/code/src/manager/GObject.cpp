@@ -6,11 +6,7 @@
 //===============================================
 GObject* GObject::m_instance = 0;
 //===============================================
-std::shared_ptr<GObject> GObject::m_requestDom;
-std::shared_ptr<GObject> GObject::m_resultOkDom;
-//===============================================
 GObject::GObject() {
-    m_request = 0;
     m_client = 0;
 }
 //===============================================
@@ -132,17 +128,21 @@ std::string GObject::getRequestName() const {
     return lName;
 }
 //===============================================
-void GObject::onUnknownModule(GObject* _request, GSocket* _client) {
-    std::string lModule = _request->getModule();
+void GObject::onUnknownModule(const std::string& _request, GSocket* _client) {
+    GObject lRequest;
+    lRequest.loadDom(_request);
+    std::string lModule = lRequest.getModule();
     GObject lDom;
     lDom.createError();
     lDom.addErrorMsg(lDom.sformat("Erreur le module (%s) n'existe pas.", lModule.c_str()));
     _client->addDataOut(lDom);
 }
 //===============================================
-void GObject::onUnknownMethod(GObject* _request, GSocket* _client) {
-    std::string lModule = _request->getModule();
-    std::string lMethod = _request->getMethod();
+void GObject::onUnknownMethod(const std::string& _request, GSocket* _client) {
+    GObject lRequest;
+    lRequest.loadDom(_request);
+    std::string lModule = lRequest.getModule();
+    std::string lMethod = lRequest.getMethod();
     GObject lDom;
     lDom.createError();
     lDom.addErrorMsg(sformat("Erreur la methode (%s) du module (%s) n'existe pas.", lMethod.c_str(), lModule.c_str()));

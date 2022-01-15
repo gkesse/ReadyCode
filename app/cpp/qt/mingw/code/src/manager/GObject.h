@@ -37,8 +37,8 @@ public:
     std::string getMethod() const;
     std::string getRequestName() const;
     //
-    static void onUnknownModule(GObject* _request, GSocket* _client);
-    void onUnknownMethod(GObject* _request, GSocket* _client);
+    static void onUnknownModule(const std::string& _request, GSocket* _client);
+    void onUnknownMethod(const std::string& _request, GSocket* _client);
     //
     std::string toString() const;
     std::string toString(const std::string& _encoding, int _format) const;
@@ -52,10 +52,7 @@ protected:
     std::shared_ptr<GXml> m_dom;
     std::shared_ptr<GXml> m_domData;
     //
-    static std::shared_ptr<GObject> m_requestDom;
-    static std::shared_ptr<GObject> m_resultOkDom;
-    //
-    GObject* m_request;
+    std::string m_request;
     GSocket* m_client;
 };
 //==============================================

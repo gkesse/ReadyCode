@@ -108,10 +108,10 @@ std::string GQtOpenCVUi::sendTestMessage() {
     QTextEdit* lTextEdit = qobject_cast<QTextEdit*>(getObject("test/page/textedit"));
     QString lDataIn = lTextEdit->toPlainText();
     if(lDataIn == "") {
-        m_requestDom.reset(new GObject);
-        m_requestDom->createError();
-        m_requestDom->addErrorMsg("Erreur la methode (sendTestMessage) a echoue.");
-        return m_requestDom->toString();
+        GObject lRequest;
+        lRequest.createError();
+        lRequest.addErrorMsg("Erreur la methode (sendTestMessage) a echoue.");
+        return lRequest.toString();
     }
     std::string lDataOut;
     GSOCKET->callServerTcp(lDataIn.toStdString(), lDataOut);
@@ -123,11 +123,11 @@ std::string GQtOpenCVUi::loadTestMessage() {
     QString lFilename = getTestPageXmlFilename();
     QFile lFile(lFilename);
     if (!lFile.open(QFile::ReadOnly | QFile::Text)) {
-        m_requestDom.reset(new GObject);
-        m_requestDom->createError();
-        m_requestDom->addErrorMsg(GOBJECT->sformat("Erreur la methode (loadTestMessage) a echoue "
+        GOpenCV lRequest;
+        lRequest.createError();
+        lRequest.addErrorMsg(GOBJECT->sformat("Erreur la methode (loadTestMessage) a echoue "
                 "sur le fichier (%s).", lFilename.toStdString().c_str()));
-        return m_requestDom->toString();
+        return lRequest.toString();
     }
     QTextStream in(&lFile);
     QString lDataIn = in.readAll();
@@ -140,9 +140,9 @@ std::string GQtOpenCVUi::loadTestMessage() {
 //===============================================
 std::string GQtOpenCVUi::clearXmlMessage() {
     std::string lDataOut;
-    m_requestDom.reset(new GObject);
-    m_requestDom->createRequest("opencv", "clear_xml_messages");
-    GSOCKET->callServerTcp(m_requestDom->toString(), lDataOut);
+    GOpenCV lRequest;
+    lRequest.createRequest("opencv", "clear_xml_messages");
+    GSOCKET->callServerTcp(lRequest.toString(), lDataOut);
     return lDataOut;
 }
 //===============================================
@@ -156,8 +156,8 @@ void GQtOpenCVUi::onMenuAction(bool _checked) {
     showDebug(lKey);
     std::string lDataOut;
 
-    if(lKey == "server/stop") {
-        lDataOut = stopServer();
+    if(lKey == "master/server/stop") {
+        lDataOut = stopMasterServer();
     }
     //
     else if(lKey == "opencv/run") {
@@ -196,19 +196,19 @@ void GQtOpenCVUi::onEvent() {
     GQTLOG->showErrorQt(this);
 }
 //===============================================
-std::string GQtOpenCVUi::stopServer() {
+std::string GQtOpenCVUi::stopMasterServer() {
     std::string lDataOut;
-    m_requestDom.reset(new GObject);
-    m_requestDom->createRequest("server", "stop_server");
-    GSOCKET->callServerTcp(m_requestDom->toString(), lDataOut);
+    GObject lRequest;
+    lRequest.createRequest("master", "stop_server");
+    GSOCKET->callServerTcp(lRequest, lDataOut);
     return lDataOut;
 }
 //===============================================
 std::string GQtOpenCVUi::runOpenCV() {
     std::string lDataOut;
-    m_requestDom.reset(new GObject);
-    m_requestDom->createRequest("opencv", "run_opencv");
-    GSOCKET->callServerTcp(m_requestDom->toString(), lDataOut);
+    GOpenCV lRequest;
+    lRequest.createRequest("opencv", "run_opencv");
+    GSOCKET->callServerTcp(lRequest.toString(), lDataOut);
     return lDataOut;
 }
 //===============================================
@@ -219,17 +219,17 @@ std::string GQtOpenCVUi::stopOpenCV() {
 //===============================================
 std::string GQtOpenCVUi::clearWindowId() {
     std::string lDataOut;
-    m_requestDom.reset(new GObject);
-    m_requestDom->createRequest("opencv", "clear_window_id");
-    GSOCKET->callServerTcp(m_requestDom->toString(), lDataOut);
+    GOpenCV lRequest;
+    lRequest.createRequest("opencv", "clear_window_id");
+    GSOCKET->callServerTcp(lRequest.toString(), lDataOut);
     return lDataOut;
 }
 //===============================================
 std::string GQtOpenCVUi::openImageFile() {
     std::string lDataOut;
-    m_requestDom.reset(new GOpenCV);
-    m_requestDom->createRequest("opencv", "open_image_file");
-    GSOCKET->callServerTcp(m_requestDom->toString(), lDataOut);
+    GOpenCV lRequest;
+    lRequest.createRequest("opencv", "open_image_file");
+    GSOCKET->callServerTcp(lRequest, lDataOut);
     return lDataOut;
 }
 //===============================================
