@@ -11,7 +11,7 @@ class GTimer;
 //===============================================
 class GMaster : public GObject {
 public:
-    GMaster(bool _init = false);
+    GMaster();
     ~GMaster();
     static GMaster* Instance();
     //

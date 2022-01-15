@@ -155,7 +155,7 @@ void GProcess::runSocket(int _argc, char** _argv) {
 }
 //===============================================
 void GProcess::runMaster(int _argc, char** _argv) {
-    GMaster lMaster(true);
+    GMaster lMaster;
     lMaster.run(_argc, _argv);
 }
 //===============================================

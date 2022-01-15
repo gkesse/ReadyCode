@@ -9,7 +9,7 @@
 //===============================================
 class GSocket : public GObject {
 public:
-    GSocket(bool _init = false);
+    GSocket();
     ~GSocket();
     static GSocket* Instance();
     //

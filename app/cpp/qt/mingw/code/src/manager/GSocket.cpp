@@ -11,14 +11,11 @@ std::queue<std::string> GSocket::m_dataIn;
 std::queue<GSocket*> GSocket::m_clientIn;
 int GSocket::m_messageId = 1;
 //===============================================
-GSocket::GSocket(bool _init) : GObject() {
+GSocket::GSocket() : GObject() {
     m_socket = -1;
     m_serverOn = true;
     m_onServerTcp = onServerTcp;
-
-    if(_init) {
-        createDoms();
-    }
+    createDoms();
 }
 //===============================================
 GSocket::~GSocket() {
@@ -27,7 +24,7 @@ GSocket::~GSocket() {
 //===============================================
 GSocket* GSocket::Instance() {
     if(m_instance == 0) {
-        m_instance = new GSocket(true);
+        m_instance = new GSocket;
     }
     return m_instance;
 }

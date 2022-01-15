@@ -14,10 +14,8 @@ GTimer* GMaster::m_timer = 0;
 std::queue<std::string> GMaster::m_dataIn;
 std::queue<GSocket*> GMaster::m_clientIn;
 //===============================================
-GMaster::GMaster(bool _init) : GObject() {
-    if(_init) {
-        createDoms();
-    }
+GMaster::GMaster() : GObject() {
+    createDoms();
 }
 //===============================================
 GMaster::~GMaster() {
@@ -26,7 +24,7 @@ GMaster::~GMaster() {
 //===============================================
 GMaster* GMaster::Instance() {
     if(m_instance == 0) {
-        m_instance = new GMaster(true);
+        m_instance = new GMaster;
     }
     return m_instance;
 }
@@ -79,7 +77,7 @@ void GMaster::saveMessageId(int _id) const {
 //===============================================
 void GMaster::run(int _argc, char** _argv) {
     GThread lThread;
-    m_server = new GSocket(true);
+    m_server = new GSocket;
     m_timer = new GTimer;
     lThread.createThread(onThread, m_server);
     m_timer->setTimer(onTimer, getTimer());
@@ -135,7 +133,7 @@ void CALLBACK GMaster::onTimer(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwT
         }
 
         if(lMethodExist) {
-            GMaster lMaster(true);
+            GMaster lMaster;
             lMaster.saveXmlMessage(m_requestDom.get());
         }
 
