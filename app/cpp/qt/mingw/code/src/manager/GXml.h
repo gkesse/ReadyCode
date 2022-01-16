@@ -25,6 +25,7 @@ public:
     GXml& getRoot(const std::string& _nodename);
     //
     GXml& createNode(const std::string& _nodename);
+    GXml& createNodePath(const std::string& _path);
     GXml& createNodeFromString(const std::string& _value);
     GXml& createCData(GXml& _xml, const std::string& _value);
     GXml& createNodeValue(const std::string& _nodename, const std::string& _value);

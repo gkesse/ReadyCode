@@ -1,6 +1,8 @@
 //===============================================
 #include "GQtOpenCVUi.h"
+#include "GQtStackWidget.h"
 #include "GOpenCV.h"
+#include "GRequest.h"
 #include "GSocket.h"
 #include "GQtXml.h"
 #include "GQtObject.h"
@@ -19,7 +21,7 @@ GQtMainWindow(_parent) {
     resize(getWidth(), getHeight());
     setUnifiedTitleAndToolBarOnMac(true);
 
-    clearWindowId();
+    showDebug(clearWindowId());
 
     GQTLOG->showErrorQt(this);
 }
@@ -51,6 +53,17 @@ QWidget* GQtOpenCVUi::createTestPage() {
     QTextEdit* lTextEdit = new QTextEdit;
     m_objectMap[lTextEdit] = "test/page/textedit";
 
+    lTextEdit->setStyleSheet(QString(""
+            "QTextEdit {"
+            "background-color: #111111;"
+            "color: #ffffff;"
+            "font-family: courier new;"
+            "font-size: 14px;"
+            "font-weight: bold;"
+            "padding: 10px;"
+            "}"
+            ""));
+
     QVBoxLayout* lButtonLayout = new QVBoxLayout;
     lButtonLayout->setAlignment(Qt::AlignTop);
 
@@ -65,6 +78,8 @@ QWidget* GQtOpenCVUi::createTestPage() {
     }
 
     QTabWidget* lTabWidget = new QTabWidget;
+    m_objectMap[lTabWidget] = "test/page/tabwidget";
+
     lTabWidget->addTab(lTextEdit, "Editer");
     lTabWidget->addTab(createTestLoadPage(), "Charger");
 
@@ -83,16 +98,30 @@ QWidget* GQtOpenCVUi::createTestPage() {
 //===============================================
 QWidget* GQtOpenCVUi::createTestLoadPage() {
     QTreeWidget* lTreeWidget = new QTreeWidget;
-    lTreeWidget->setHeaderLabels(QStringList() << "ID" << "Module" << "Methode");
+    m_objectMap[lTreeWidget] = "test/page/load/xml/messages";
 
-    for(int i = 0; i < 5; i++) {
+    lTreeWidget->setHeaderLabels(QStringList() << "ID" << "Méthode");
+
+    std::string lXmlMessage = loadXmlMessage();
+
+    GRequest lRequest;
+    lRequest.loadDom(lXmlMessage);
+    showDebug(lRequest);
+
+    std::vector<std::string> lModules = lRequest.loadXmlModules();
+
+    for(size_t i = 0; i < lModules.size(); i++) {
+        std::string lModule = lModules.at(i);
         QTreeWidgetItem* lRoot = new QTreeWidgetItem(lTreeWidget);
-        lRoot->setText(0, "Module");
-        for(int j = 0; j < 5; j++) {
+        lRoot->setText(0, lModule.c_str());
+        std::vector<GRequest> lReqs = lRequest.loadRequests(lModule);
+
+        for(size_t j = 0; j < lReqs.size(); j++) {
+            GRequest lReq = lReqs.at(j);
             QTreeWidgetItem* lChild = new QTreeWidgetItem();
-            lChild->setText(0, "ID");
-            lChild->setText(1, "Module");
-            lChild->setText(2, "Méthode");
+            lChild->setData(2, Qt::EditRole, lReq.getMessage().c_str());
+            lChild->setText(0, lReq.getId().c_str());
+            lChild->setText(1, lReq.getMethod().c_str());
             lRoot->addChild(lChild);
         }
     }
@@ -105,6 +134,8 @@ QWidget* GQtOpenCVUi::createTestLoadPage() {
 
     QFrame* lMainWidget = new QFrame;
     lMainWidget->setLayout(lMainLayout);
+
+    connect(lTreeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(onEvent(QTreeWidgetItem*, int)));
 
     return lMainWidget;
 }
@@ -172,9 +203,17 @@ std::string GQtOpenCVUi::loadTestMessage() {
 //===============================================
 std::string GQtOpenCVUi::clearXmlMessage() {
     std::string lDataOut;
-    GOpenCV lRequest;
+    GObject lRequest;
     lRequest.createRequest("opencv", "clear_xml_messages");
-    GSOCKET->callServerTcp(lRequest.toString(), lDataOut);
+    GSOCKET->callServerTcp(lRequest, lDataOut);
+    return lDataOut;
+}
+//===============================================
+std::string GQtOpenCVUi::loadXmlMessage() {
+    std::string lDataOut;
+    GObject lRequest;
+    lRequest.createRequest("master", "load_xml_messages");
+    GSOCKET->callServerTcp(lRequest, lDataOut);
     return lDataOut;
 }
 //===============================================
@@ -228,6 +267,27 @@ void GQtOpenCVUi::onEvent() {
     GQTLOG->showErrorQt(this);
 }
 //===============================================
+void GQtOpenCVUi::onEvent(QTreeWidgetItem* _item, int _column) {
+    QString lKey = m_objectMap[sender()];
+    showDebug(lKey);
+    QTreeWidgetItem* lParent = _item->parent();
+
+    if(lKey == "test/page/load/xml/messages") {
+        if(lParent) {
+            QString lId = _item->data(0, Qt::EditRole).toString();
+            QString lModule = lParent->data(0, Qt::EditRole).toString();
+            QString lMethod = _item->data(1, Qt::EditRole).toString();
+            QString lMessage = _item->data(2, Qt::EditRole).toString();
+            GRequest lReq;
+            lReq.setId(lId.toStdString());
+            lReq.setModule(lModule.toStdString());
+            lReq.setMethod(lMethod.toStdString());
+            lReq.setMessage(lMessage.toStdString());
+            onLoadXmlMessage(lReq);
+        }
+    }
+}
+//===============================================
 std::string GQtOpenCVUi::stopMasterServer() {
     std::string lDataOut;
     GObject lRequest;
@@ -263,5 +323,12 @@ std::string GQtOpenCVUi::openImageFile() {
     lRequest.createRequest("opencv", "open_image_file");
     GSOCKET->callServerTcp(lRequest, lDataOut);
     return lDataOut;
+}
+//===============================================
+void GQtOpenCVUi::onLoadXmlMessage(const GRequest& _req) {
+    QTabWidget* lTabWidget = qobject_cast<QTabWidget*>(getObject("test/page/tabwidget"));
+    QTextEdit* lTextEdit = qobject_cast<QTextEdit*>(getObject("test/page/textedit"));
+    lTextEdit->setPlainText(_req.getMessage().c_str());
+    lTabWidget->setCurrentIndex(0);
 }
 //===============================================

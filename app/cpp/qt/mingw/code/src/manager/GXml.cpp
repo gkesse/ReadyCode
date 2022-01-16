@@ -1,5 +1,6 @@
 //===============================================
 #include "GXml.h"
+#include "GString.h"
 #include "GLog.h"
 //===============================================
 GXml* GXml::m_instance = 0;
@@ -99,6 +100,28 @@ GXml& GXml::getRoot(const std::string& _nodename) {
 //===============================================
 GXml& GXml::createNode(const std::string& _nodename) {
     m_node = xmlNewNode(NULL, BAD_CAST(_nodename.c_str()));
+    return *this;
+}
+//===============================================
+GXml& GXml::createNodePath(const std::string& _path) {
+    if(!m_doc) {
+        return *this;
+    }
+    std::vector<std::string> lPaths = GString(_path).splitData('/');
+    std::string lName = "";
+    m_node = xmlDocGetRootElement(m_doc);
+    for(size_t i = 0; i < lPaths.size(); i++) {
+        std::string lPath = GString(lPaths.at(i)).trimData();
+        if(lPath == "") continue;
+        lName += "/" + lPath;
+        int lCount = queryXPath(lName).countXPath();
+        if(!lCount) {
+            GXml lDom;
+            lDom.createNode(lPath);
+            appendNode(lDom);
+        }
+        getNode(lPath);
+    }
     return *this;
 }
 //===============================================
@@ -237,8 +260,6 @@ GXml& GXml::appendFromNodes(GXml& _xml) {
 //===============================================
 GXml& GXml::getNode(const std::string& _nodename) {
     if(!m_node) {
-        GLOG->addError(sformat("Erreur la methode (getNode) a echoue "
-                "sur le noeud (%s) (1).", _nodename.c_str()));
         return *this;
     }
     xmlNodePtr lNode  = xmlFirstElementChild(m_node);
@@ -250,8 +271,6 @@ GXml& GXml::getNode(const std::string& _nodename) {
         }
         lNode = xmlNextElementSibling(lNode);
     }
-    GLOG->addError(sformat("Erreur la methode (getNode) a echoue "
-            "sur le noeud (%s) (2).", _nodename.c_str()));
     return *this;
 }
 //===============================================

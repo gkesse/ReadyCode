@@ -40,7 +40,10 @@ void GProcess::run(int _argc, char** _argv) {
         showArgs(_argc, _argv);
     }
 
-    if(lKey == "studio") {
+    if(lKey == "test") {
+        runTest(_argc, _argv);
+    }
+    else if(lKey == "studio") {
         runStudio(_argc, _argv);
     }
     else if(lKey == "spreadsheet") {
@@ -108,6 +111,16 @@ bool GProcess::getArgShow() const {
     m_dom->getNodeXPath();
     bool lData = (m_dom->getNodeValue() == "1");
     return lData;
+}
+//===============================================
+void GProcess::runTest(int _argc, char** _argv) {
+    GXml lDom;
+    lDom.createDoc("1.0");
+    lDom.createRoot("rdv");
+    lDom.createXPath();
+    lDom.createNodePath("/rdv/request/data/map/data");
+    lDom.createNodePath("/rdv/request/data/map/data");
+    std::cout << lDom.toString() << "\n";
 }
 //===============================================
 void GProcess::runStudio(int _argc, char** _argv) {

@@ -3,9 +3,10 @@
 #define _GQtOpenCVUi_
 //===============================================
 #include "GQtMainWindow.h"
-#include "GQtStackWidget.h"
 //===============================================
 class GObject;
+class GQtStackWidget;
+class GRequest;
 //===============================================
 class GQtOpenCVUi : public GQtMainWindow {
     Q_OBJECT
@@ -27,6 +28,7 @@ public:
     std::string sendTestMessage();
     std::string loadTestMessage();
     std::string clearXmlMessage();
+    std::string loadXmlMessage();
     //
     std::string stopMasterServer();
     //
@@ -35,10 +37,14 @@ public:
     std::string clearWindowId();
     //
     std::string openImageFile();
+    //
+    void onLoadXmlMessage(const GRequest& _req);
+
 
 public slots:
     void onMenuAction(bool _checked = false);
     void onEvent();
+    void onEvent(QTreeWidgetItem *item, int column);
 
 protected:
     void closeEvent(QCloseEvent *event);

@@ -1,6 +1,7 @@
 //===============================================
 #include "GQtMainWindow.h"
 #include "GQtXml.h"
+#include "GObject.h"
 #include "GQtObject.h"
 #include "GQtLog.h"
 //===============================================
@@ -760,6 +761,10 @@ void GQtMainWindow::showDebug(const std::string& _debug) {
 //===============================================
 void GQtMainWindow::showDebug(const QString& _debug) {
     showDebug(_debug.toStdString());
+}
+//===============================================
+void GQtMainWindow::showDebug(const GObject& _debug) {
+    showDebug(_debug.toString());
 }
 //===============================================
 QAction* GQtMainWindow::getKeyAction(const QString& _key) const {

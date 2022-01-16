@@ -90,6 +90,7 @@ public:
     virtual bool getDebug() const;
     virtual void showDebug(const std::string& _debug);
     virtual void showDebug(const QString& _debug);
+    virtual void showDebug(const GObject& _debug);
     //
     virtual QAction* getKeyAction(const QString& _key) const;
     virtual int getKeyInt(const QString& _key) const;

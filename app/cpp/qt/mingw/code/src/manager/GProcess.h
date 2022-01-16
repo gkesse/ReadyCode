@@ -15,6 +15,7 @@ public:
     static GProcess* Instance();
     //
     void run(int _argc, char** _argv);
+    void runTest(int _argc, char** _argv);
     void runStudio(int _argc, char** _argv);
     void runSpreadsheet(int _argc, char** _argv);
     void runSocket(int _argc, char** _argv);

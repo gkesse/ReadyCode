@@ -14,6 +14,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 // qt
 #include <QtWidgets>
 #include <QtXml>

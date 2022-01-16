@@ -97,10 +97,9 @@ void GMaster::clearXmlMessage() const {
 //===============================================
 void GMaster::loadXmlMessageModule(GSocket* _client) const {
     m_domData->queryXPath("/rdv/datas/data[code='master/xml/messages']/map/data");
-    m_domData->getNodeXPath();
     GRequest lDom;
     lDom.createRequest();
-    lDom.addRequest(m_domData->getNodeString());
+    lDom.addRequest(*m_domData);
     _client->addDataOut(lDom.toString());
 }
 //===============================================
