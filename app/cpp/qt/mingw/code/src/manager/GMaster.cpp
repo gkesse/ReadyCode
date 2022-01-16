@@ -5,6 +5,7 @@
 #include "GTimer.h"
 #include "GXml.h"
 #include "GOpenCV.h"
+#include "GRequest.h"
 //===============================================
 GMaster* GMaster::m_instance = 0;
 //===============================================
@@ -45,7 +46,7 @@ int GMaster::getTimer() const {
     return std::stoi(lData);
 }
 //===============================================
-void GMaster::insertXmlMessage(const std::string& _request) {
+void GMaster::insertXmlMessage(const std::string& _request) const {
     GObject lRequest;
     lRequest.loadDom(_request);
     std::string lRequestName = lRequest.getRequestName();
@@ -65,7 +66,7 @@ void GMaster::insertXmlMessage(const std::string& _request) {
     m_domData->saveXmlFile();
 }
 //===============================================
-void GMaster::updateXmlMessage(const std::string& _request) {
+void GMaster::updateXmlMessage(const std::string& _request) const {
     GObject lRequest;
     lRequest.loadDom(_request);
     std::string lRequestName = lRequest.getRequestName();
@@ -87,11 +88,19 @@ int GMaster::countXmlMessage(const std::string& _request) const {
     return lData;
 }
 //===============================================
-void GMaster::clearXmlMessage() {
+void GMaster::clearXmlMessage() const {
     m_domData->queryXPath("/rdv/datas/data[code='master/xml/messages']/map/data");
     m_domData->getNodeXPath();
     m_domData->clearNodeXPath();
     m_domData->saveXmlFile();
+}
+//===============================================
+void GMaster::loadXmlMessageModule(GSocket* _client) const {
+    m_domData->queryXPath("/rdv/datas/data[code='master/xml/messages']/map");
+    m_domData->getNodeXPath();
+    GRequest lDom;
+    lDom.initDom();
+    _client->addDataOut(m_domData->getNodeString());
 }
 //===============================================
 int GMaster::getMessageId() const {
@@ -192,6 +201,9 @@ void GMaster::onModuleMaster(const std::string& _request, GSocket* _client) {
     else if(lMethod == "clear_xml_messages") {
         onClearXmlMessages(_request, _client);
     }
+    else if(lMethod == "load_xml_messages") {
+        onLoadXmlMessages(_request, _client);
+    }
     else {
         onUnknownMethod(_request, _client);
     }
@@ -215,6 +227,11 @@ void GMaster::onSaveXmlMessages(const std::string& _request, GSocket* _client) {
 void GMaster::onClearXmlMessages(const std::string& _request, GSocket* _client) {
     GMaster lDom;
     lDom.clearXmlMessage();
+}
+//===============================================
+void GMaster::onLoadXmlMessages(const std::string& _request, GSocket* _client) {
+    GMaster lDom;
+    lDom.loadXmlMessageModule(_client);
 }
 //===============================================
 void GMaster::onModuleOpenCV(const std::string& _request, GSocket* _client) {

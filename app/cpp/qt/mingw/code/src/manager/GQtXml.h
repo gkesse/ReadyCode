@@ -10,6 +10,7 @@ class GQtXml : public GQtObject {
 public:
     GQtXml(QObject* _parent = 0);
     ~GQtXml();
+    //
     GQtXml& loadXmlFile(const QString& _filename);
     bool saveXmlFile(const QString& _filename = "", const QString& _encoding = "UTF-8", int _format = 4);
     //

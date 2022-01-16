@@ -64,9 +64,41 @@ QWidget* GQtOpenCVUi::createTestPage() {
         m_objectMap[lButton] = lKey;
     }
 
+    QTabWidget* lTabWidget = new QTabWidget;
+    lTabWidget->addTab(lTextEdit, "Editer");
+    lTabWidget->addTab(createTestLoadPage(), "Charger");
+
     QHBoxLayout* lCenterLayout = new QHBoxLayout;
-    lCenterLayout->addWidget(lTextEdit);
+    lCenterLayout->addWidget(lTabWidget);
     lCenterLayout->addLayout(lButtonLayout);
+
+    QVBoxLayout* lMainLayout = new QVBoxLayout;
+    lMainLayout->addLayout(lCenterLayout);
+
+    QFrame* lMainWidget = new QFrame;
+    lMainWidget->setLayout(lMainLayout);
+
+    return lMainWidget;
+}
+//===============================================
+QWidget* GQtOpenCVUi::createTestLoadPage() {
+    QTreeWidget* lTreeWidget = new QTreeWidget;
+    lTreeWidget->setHeaderLabels(QStringList() << "ID" << "Module" << "Methode");
+
+    for(int i = 0; i < 5; i++) {
+        QTreeWidgetItem* lRoot = new QTreeWidgetItem(lTreeWidget);
+        lRoot->setText(0, "Module");
+        for(int j = 0; j < 5; j++) {
+            QTreeWidgetItem* lChild = new QTreeWidgetItem();
+            lChild->setText(0, "ID");
+            lChild->setText(1, "Module");
+            lChild->setText(2, "Méthode");
+            lRoot->addChild(lChild);
+        }
+    }
+
+    QHBoxLayout* lCenterLayout = new QHBoxLayout;
+    lCenterLayout->addWidget(lTreeWidget);
 
     QVBoxLayout* lMainLayout = new QVBoxLayout;
     lMainLayout->addLayout(lCenterLayout);

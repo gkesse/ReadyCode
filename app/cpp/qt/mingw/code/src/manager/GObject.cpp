@@ -149,10 +149,6 @@ void GObject::onUnknownMethod(const std::string& _request, GSocket* _client) {
     _client->addDataOut(lDom);
 }
 //===============================================
-std::string GObject::toString() const {
-    return m_dom->toString();
-}
-//===============================================
 std::string GObject::toString(const std::string& _encoding, int _format) const {
     return m_dom->toString(_encoding, _format);
 }

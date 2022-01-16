@@ -16,8 +16,6 @@ public:
     bool hasError();
 
 private:
-    static const int BUFFER_SIZE = 256;
-    //
     static GLog* m_instance;
     //
     std::vector<std::string> m_errors;

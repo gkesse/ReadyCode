@@ -18,10 +18,11 @@ public:
     void createDoms();
     int getTimer() const;
     //
-    void insertXmlMessage(const std::string& _request);
-    void updateXmlMessage(const std::string& _request);
+    void insertXmlMessage(const std::string& _request) const;
+    void updateXmlMessage(const std::string& _request) const;
     int countXmlMessage(const std::string& _request) const;
-    void clearXmlMessage();
+    void clearXmlMessage() const;
+    void loadXmlMessageModule(GSocket* _client) const;
     int getMessageId() const;
     void saveMessageId(int _id) const;
     void incMessageId() const;
@@ -36,6 +37,7 @@ public:
     static void onStopServer(const std::string& _request, GSocket* _client);
     static void onSaveXmlMessages(const std::string& _request, GSocket* _client);
     static void onClearXmlMessages(const std::string& _request, GSocket* _client);
+    static void onLoadXmlMessages(const std::string& _request, GSocket* _client);
     //
     static void onModuleOpenCV(const std::string& _request, GSocket* _client);
 

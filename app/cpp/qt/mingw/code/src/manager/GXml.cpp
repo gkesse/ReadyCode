@@ -193,6 +193,24 @@ GXml& GXml::replaceNode(GXml& _xml) {
     return *this;
 }
 //===============================================
+GXml& GXml::copyNode(GXml& _xml) {
+    if(_xml.m_node) {
+        return *this;
+    }
+    m_node = xmlCopyNode(_xml.m_node, 1);
+    return *this;
+}
+//===============================================
+GXml& GXml::appendFromNode(GXml& _xml) {
+    if(!m_node || _xml.m_node) {
+        return *this;
+    }
+    GXml lNode;
+    lNode.copyNode(_xml);
+    appendNode(lNode);
+    return *this;
+}
+//===============================================
 GXml& GXml::getNode(const std::string& _nodename) {
     if(!m_node) {
         GLOG->addError(sformat("Erreur la methode (getNode) a echoue "
@@ -219,6 +237,17 @@ std::string GXml::getNodeValue() const {
         return "";
     }
     std::string lData = (char*)xmlNodeGetContent(m_node);
+    return lData;
+}
+//===============================================
+std::string GXml::getNodeString(const std::string& _encoding, int _format) const {
+    if(!m_node) {
+        return "";
+    }
+    xmlBufferPtr lBuffer = xmlBufferCreate();
+    xmlNodeDump(lBuffer, m_doc, m_node, 0, 1);
+    std::string lData = (char*)lBuffer->content;
+    xmlBufferFree(lBuffer);
     return lData;
 }
 //===============================================
@@ -290,10 +319,6 @@ GXml& GXml::getNodeItem(int _index) {
     }
     m_node = m_xpathObj->nodesetval->nodeTab[_index];
     return *this;
-}
-//===============================================
-std::string GXml::toString() const {
-    return toString("UTF-8", 4);
 }
 //===============================================
 std::string GXml::toString(const std::string& _encoding, int _format) const {

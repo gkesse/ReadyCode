@@ -34,10 +34,15 @@ public:
     GXml& appendNode(const std::string& _nodename, const std::string& _value);
     GXml& appendCData(const std::string& _value);
     GXml& appendCData(const std::string& _nodename, const std::string& _value);
+    //
     GXml& replaceNode(GXml& _xml);
+    //
+    GXml& copyNode(GXml& _xml);
+    GXml& appendFromNode(GXml& _xml);
     //
     GXml& getNode(const std::string& _nodename);
     std::string getNodeValue() const;
+    std::string getNodeString(const std::string& _encoding = "UTF-8", int _format = 4) const;
     //
     GXml& createXPath();
     GXml& queryXPath(const std::string& _query);
@@ -46,8 +51,7 @@ public:
     GXml& clearNodeXPath();
     GXml& getNodeItem(int _index);
     //
-    std::string toString() const;
-    std::string toString(const std::string& _encoding, int _format) const;
+    std::string toString(const std::string& _encoding = "UTF8", int _format = 4) const;
 
 private:
     static GXml* m_instance;

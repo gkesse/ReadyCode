@@ -37,7 +37,6 @@ public:
     void showErrorQt(QWidget* _parent);
 
 private:
-    static const int BUFFER_SIZE = 1024;
     static GQtLog* m_instance;
     QVector<QString> m_errors;
 };

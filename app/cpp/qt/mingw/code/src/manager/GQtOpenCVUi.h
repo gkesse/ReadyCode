@@ -19,6 +19,7 @@ public:
     void createCentralWidget();
     //
     QWidget* createTestPage();
+    QWidget* createTestLoadPage();
     int countTestPageButtons() const;
     QString getTestPageButtonName(int _index) const;
     QString getTestPageButtonKey(int _index) const;
