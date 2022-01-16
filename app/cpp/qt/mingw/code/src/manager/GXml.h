@@ -25,6 +25,7 @@ public:
     GXml& getRoot(const std::string& _nodename);
     //
     GXml& createNode(const std::string& _nodename);
+    GXml& createNodeFromString(const std::string& _value);
     GXml& createCData(GXml& _xml, const std::string& _value);
     GXml& createNodeValue(const std::string& _nodename, const std::string& _value);
     GXml& setNodeValue(const std::string& _value);
@@ -39,6 +40,7 @@ public:
     //
     GXml& copyNode(GXml& _xml);
     GXml& appendFromNode(GXml& _xml);
+    GXml& appendFromNodes(GXml& _xml);
     //
     GXml& getNode(const std::string& _nodename);
     std::string getNodeValue() const;

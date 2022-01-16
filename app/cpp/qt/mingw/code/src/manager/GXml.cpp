@@ -102,6 +102,22 @@ GXml& GXml::createNode(const std::string& _nodename) {
     return *this;
 }
 //===============================================
+GXml& GXml::createNodeFromString(const std::string& _value) {
+    if(!m_node) {
+        return *this;
+    }
+    xmlNodePtr lNewNode;
+    std::string lData = "<rdv>" + _value + "</rdv>";
+    xmlParseInNodeContext(m_node, lData.c_str(), lData.length(), 0, &lNewNode);
+    xmlNodePtr lNode = lNewNode->children;
+     while(lNode) {
+         xmlAddChild(m_node, xmlCopyNode(lNode, 1));
+         lNode = lNode->next;
+     }
+     xmlFreeNode(lNewNode);
+    return *this;
+}
+//===============================================
 GXml& GXml::createCData(GXml& _xml, const std::string& _value) {
     if(!_xml.m_node) {
         return *this;
@@ -194,7 +210,7 @@ GXml& GXml::replaceNode(GXml& _xml) {
 }
 //===============================================
 GXml& GXml::copyNode(GXml& _xml) {
-    if(_xml.m_node) {
+    if(!_xml.m_node) {
         return *this;
     }
     m_node = xmlCopyNode(_xml.m_node, 1);
@@ -202,12 +218,20 @@ GXml& GXml::copyNode(GXml& _xml) {
 }
 //===============================================
 GXml& GXml::appendFromNode(GXml& _xml) {
-    if(!m_node || _xml.m_node) {
+    if(!m_node || !_xml.m_node) {
         return *this;
     }
     GXml lNode;
     lNode.copyNode(_xml);
     appendNode(lNode);
+    return *this;
+}
+//===============================================
+GXml& GXml::appendFromNodes(GXml& _xml) {
+    for(int i = 0; i < _xml.countXPath(); i++) {
+        _xml.getNodeItem(i);
+        appendFromNode(_xml);
+    }
     return *this;
 }
 //===============================================
@@ -322,6 +346,9 @@ GXml& GXml::getNodeItem(int _index) {
 }
 //===============================================
 std::string GXml::toString(const std::string& _encoding, int _format) const {
+    if(!m_doc) {
+        return "";
+    }
     xmlChar* lBuffer = NULL;
     int lSize;
     xmlDocDumpFormatMemoryEnc(m_doc, &lBuffer, &lSize, _encoding.c_str(), _format);
