@@ -2,19 +2,20 @@
 #include "GSocket.h"
 #include "GXml.h"
 #include "GThread.h"
+#include "GTimer.h"
 #include "GString.h"
 #include "GLog.h"
 //===============================================
 GSocket* GSocket::m_instance = 0;
-//===============================================
-std::queue<std::string> GSocket::m_dataIn;
-std::queue<GSocket*> GSocket::m_clientIn;
+GSocket* GSocket::m_socketObj = 0;
 int GSocket::m_messageId = 1;
 //===============================================
 GSocket::GSocket() : GObject() {
-    m_socket = -1;
+    m_socket = 0;
     m_serverOn = true;
     m_onServerTcp = onServerTcp;
+    m_onClientTcp = onClientTcp;
+    m_option = true;
     createDoms();
 }
 //===============================================
@@ -271,9 +272,7 @@ bool GSocket::isServerOn() const {
 }
 //===============================================
 void GSocket::startServerTcp() {
-    GSocket lServer;
-
-    lServer.initSocket(getMajor(), getMinor());
+    initSocket(getMajor(), getMinor());
 
     if(getVersionShow()) {
         printf("version socket : %d.%d\n", getMajor(), getMinor());
@@ -282,34 +281,35 @@ void GSocket::startServerTcp() {
         printf("nom machine : %s\n", getHostname().c_str());
     }
 
-    lServer.createSocketTcp();
-    lServer.createAddress(getAddressClient(), getPort());
-    lServer.bindSocket();
-    lServer.listenSocket(getBacklog());
+    createSocketTcp();
+    createAddress(getAddressClient(), getPort());
+    bindSocket();
+    listenSocket(getBacklog());
 
     if(getWelcomShow()) {
         printf("Demarrage du serveur...\n");
     }
 
+    GThread lThread;
+
     while(1) {
         GSocket* lClient = new GSocket;
-        lServer.acceptConnection(*lClient);
+        acceptConnection(*lClient);
+        lClient->m_server = this;
 
         if(getAddressIpShow()) {
             printf("adresse ip client : %s\n", lClient->getAddressIp().c_str());
         }
 
-        GTHREAD->createThread(m_onServerTcp, lClient);
+        lThread.createThread(m_onServerTcp, lClient);
     }
 
-    lServer.closeSocket();
-    lServer.cleanSocket();
+    closeSocket();
+    cleanSocket();
 }
 //===============================================
 void GSocket::callServerTcp(const std::string& _dataIn, std::string& _dataOut) {
-    GSocket lClient;
-
-    lClient.initSocket(getMajor(), getMinor());
+    initSocket(getMajor(), getMinor());
 
     if(getVersionShow()) {
         printf("version socket : %d.%d\n", getMajor(), getMinor());
@@ -318,16 +318,17 @@ void GSocket::callServerTcp(const std::string& _dataIn, std::string& _dataOut) {
         printf("nom machine : %s\n", getHostname().c_str());
     }
 
-    lClient.createSocketTcp();
-    lClient.createAddress(getAddressServer(), getPort());
-    lClient.connectToServer();
+    createSocketTcp();
+    createAddress(getAddressServer(), getPort());
+    connectToServer();
 
-    lClient.writeData(_dataIn);
-    lClient.shutdownWR();
-    lClient.readData(_dataOut);
+    writeData(_dataIn);
+    shutdownWR();
+    readData(_dataOut);
+    shutdownRD();
 
-    lClient.cleanSocket();
-    lClient.cleanSocket();
+    cleanSocket();
+    cleanSocket();
 }
 //===============================================
 void GSocket::callServerTcp(const GObject& _request, std::string& _dataOut) {
@@ -336,38 +337,108 @@ void GSocket::callServerTcp(const GObject& _request, std::string& _dataOut) {
 //===============================================
 DWORD WINAPI GSocket::onServerTcp(LPVOID _params) {
     GSocket* lClient = (GSocket*)_params;
-    std::string lDataIn;
+    GSocket* lServer = lClient->m_server;
+    std::queue<std::string>& lDataIn = lServer->m_dataIn;
+    std::queue<GSocket*>& lClientIn = lServer->m_clientIn;
 
-    lClient->readData(lDataIn);
+    std::string lDataRD;
+
+    lClient->readData(lDataRD);
     lClient->shutdownRD();
 
-    m_dataIn.push(lDataIn);
-    m_clientIn.push(lClient);
+    lDataIn.push(lDataRD);
+    lClientIn.push(lClient);
 
     return 0;
+}
+//===============================================
+void GSocket::startClientTcp() {
+    m_socketObj = this;
+
+    initSocket(getMajor(), getMinor());
+
+    if(getVersionShow()) {
+        printf("version socket : %d.%d\n", getMajor(), getMinor());
+    }
+    if(getHostnameShow()) {
+        printf("nom machine : %s\n", getHostname().c_str());
+    }
+
+    createSocketTcp();
+    createAddress(getAddressServer(), getPort());
+    connectToServer();
+
+    GTimer lTimer;
+    lTimer.setTimer(m_onClientTcp, 50);
+}
+//===============================================
+void CALLBACK GSocket::onClientTcp(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime) {
+    GSocket* lClient = m_socketObj;
+    std::queue<std::string>& lDataIn = lClient->m_dataIn;
+    std::queue<std::string>& lDataAns = lClient->m_dataAns;
+
+    if(!lDataIn.empty()) {
+        std::string iDataIn = lDataIn.front();
+        std::string lDataOut;
+        lDataIn.pop();
+
+        lClient->writeData(iDataIn);
+        lClient->shutdownWR();
+        lClient->readData(lDataOut);
+        lClient->shutdownRD();
+        lDataAns.push(lDataOut);
+    }
 }
 //===============================================
 void GSocket::setOnServerTcp(GThread::onThreadCB _onServerTcp) {
     m_onServerTcp = _onServerTcp;
 }
 //===============================================
-std::queue<std::string>& GSocket::getDataIn() const {
+void GSocket::setOnClientTcp(GTimer::onTimerCB _onClientTcp) {
+    m_onClientTcp = _onClientTcp;
+}
+//===============================================
+void GSocket::addDataIn(const std::string& _data) {
+    m_dataIn.push(_data);
+}
+//===============================================
+void GSocket::addDataIn(const GObject& _data) {
+    m_dataIn.push(_data.toString());
+}
+//===============================================
+std::queue<std::string>& GSocket::getDataIn() {
     return m_dataIn;
 }
 //===============================================
-std::queue<GSocket*>& GSocket::getClientIn() const {
+std::queue<GSocket*>& GSocket::getClientIn() {
     return m_clientIn;
 }
 //===============================================
-int& GSocket::getMessageId() const {
-    return m_messageId;
+GSocket* GSocket::getServer() const {
+    return m_server;
+}
+//===============================================
+std::string GSocket::getRequest() const {
+    return m_request;
+}
+//===============================================
+void GSocket::setRequest(const std::string& _request) {
+    m_request = _request;
 }
 //===============================================
 void GSocket::showMessage(const std::string& _dataIn) const {
     if(getDebugShow()) {
-        printf("-----> %d\n", m_messageId++);
+        printf("-----> %d\n", GSocket::m_messageId++);
         printf("%s\n", _dataIn.c_str());
     }
+}
+//===============================================
+void GSocket::addDataAns(const std::string& _data) {
+    m_dataAns.push(_data);
+}
+//===============================================
+std::queue<std::string>& GSocket::getDataAns() {
+    return m_dataAns;
 }
 //===============================================
 void GSocket::addDataOut(const std::string& _data) {
@@ -423,5 +494,45 @@ std::string GSocket::getDataOut() const {
 void GSocket::sendResponse() {
     writeData(getDataOut());
     closeSocket();
+}
+//===============================================
+bool GSocket::setOption() {
+    if(setsockopt(m_socket, SOL_SOCKET, SO_REUSEADDR, (char*)&m_option, sizeof(m_option)) < 0) {
+        return false;
+    }
+    return true;
+}
+//===============================================
+void GSocket::clearDescriptor() {
+    FD_ZERO(&m_descriptor);
+}
+//===============================================
+void GSocket::setDescriptor() {
+    FD_SET(m_socket, &m_descriptor);
+}
+//===============================================
+bool GSocket::selectDescriptor() {
+    if(select(m_socket + 1, &m_descriptor , NULL , NULL , NULL) <= 0) {
+        return false;
+    }
+    return true;
+}
+//===============================================
+bool GSocket::issetDescriptor() {
+    if(FD_ISSET(m_socket, &m_descriptor)) {
+        return true;
+    }
+    return false;
+}
+//===============================================
+void GSocket::addClient(const std::string& _id, GSocket* _socket) {
+    if(m_clientMap.count(_id) == 0) {
+        m_clientMap[_id] = _socket;
+        showMessage(sformat("nombre de clients (%d)", (int)m_clientMap.size()));
+    }
+    else {
+        GLOG->addError(sformat("Erreur la methode (addClient) a echoue "
+                "sur l'ID (%s).", _id.c_str()));
+    }
 }
 //===============================================

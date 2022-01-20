@@ -23,16 +23,16 @@ public:
     virtual void initDom();
     virtual void loadDom(const std::string& _data);
     //
-    virtual void createResult();
+    virtual void initResult();
     virtual void addResultMsg(const std::string& _msg);
     //
-    virtual void createError();
+    virtual void initError();
     virtual void addErrorMsg(const std::string& _msg);
     virtual int countErrors() const;
     virtual bool hasErrors() const;
     virtual std::string getErrors(int _index) const;
     //
-    virtual void createRequest(const std::string& _module, const std::string& _method);
+    virtual void initRequest(const std::string& _module, const std::string& _method);
     virtual std::string getModule() const;
     virtual std::string getMethod() const;
     virtual std::string getRequestName() const;
@@ -50,9 +50,6 @@ private:
 protected:
     std::shared_ptr<GXml> m_dom;
     std::shared_ptr<GXml> m_domData;
-    //
-    std::string m_request;
-    GSocket* m_client;
 };
 //==============================================
 #endif

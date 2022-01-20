@@ -65,6 +65,9 @@ private:
     //
     static int m_winnameId;
     static std::map<int, GOpenCV*> m_opencvMap;
+    //
+    GSocket* m_client;
+    std::string m_request;
 };
 //==============================================
 #endif

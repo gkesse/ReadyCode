@@ -12,6 +12,7 @@ int GOpenCV::m_winnameId = 1;
 std::map<int, GOpenCV*> GOpenCV::m_opencvMap;
 //===============================================
 GOpenCV::GOpenCV() : GObject() {
+    m_client = 0;
     createDoms();
 }
 //===============================================
@@ -276,7 +277,7 @@ void GOpenCV::onUnknownMethod(const std::string& _request, GSocket* _client) {
     std::string lModule = lRequest.getModule();
     std::string lMethod = lRequest.getMethod();
     GOpenCV lDataOut;
-    lDataOut.createError();
+    lDataOut.initError();
     lDataOut.addErrorMsg(sformat("Erreur la methode (%s) "
             "du module (%s) n'existe pas.", lMethod.c_str(), lModule.c_str()));
     _client->addDataOut(lDataOut);

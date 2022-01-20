@@ -7,7 +7,7 @@
 GObject* GObject::m_instance = 0;
 //===============================================
 GObject::GObject() {
-    m_client = 0;
+
 }
 //===============================================
 GObject::~GObject() {
@@ -56,7 +56,7 @@ void GObject::loadDom(const std::string& _data) {
     m_dom->createXPath();
 }
 //===============================================
-void GObject::createResult() {
+void GObject::initResult() {
     initDom();
     m_dom->queryXPath("/rdv");
     m_dom->getNodeXPath();
@@ -69,7 +69,7 @@ void GObject::addResultMsg(const std::string& _msg) {
     m_dom->appendNode("msg", _msg);
 }
 //===============================================
-void GObject::createError() {
+void GObject::initError() {
     initDom();
     m_dom->queryXPath("/rdv");
     m_dom->getNodeXPath();
@@ -99,7 +99,7 @@ std::string GObject::getErrors(int _index) const {
     return lData;
 }
 //===============================================
-void GObject::createRequest(const std::string& _module, const std::string& _method) {
+void GObject::initRequest(const std::string& _module, const std::string& _method) {
     initDom();
     m_dom->queryXPath("/rdv");
     m_dom->getNodeXPath();
@@ -133,7 +133,7 @@ void GObject::onUnknownModule(const std::string& _request, GSocket* _client) {
     lRequest.loadDom(_request);
     std::string lModule = lRequest.getModule();
     GObject lDom;
-    lDom.createError();
+    lDom.initError();
     lDom.addErrorMsg(lDom.sformat("Erreur le module (%s) n'existe pas.", lModule.c_str()));
     _client->addDataOut(lDom);
 }
@@ -144,7 +144,7 @@ void GObject::onUnknownMethod(const std::string& _request, GSocket* _client) {
     std::string lModule = lRequest.getModule();
     std::string lMethod = lRequest.getMethod();
     GObject lDom;
-    lDom.createError();
+    lDom.initError();
     lDom.addErrorMsg(GOBJECT->sformat("Erreur la methode (%s) \ndu module (%s) n'existe pas.", lMethod.c_str(), lModule.c_str()));
     _client->addDataOut(lDom);
 }

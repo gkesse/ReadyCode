@@ -180,7 +180,7 @@ void CALLBACK GMaster::onTimer(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwT
         onSaveXmlMessages(lRequestIn, lClient);
 
         GObject lResultOk;
-        lResultOk.createResult();
+        lResultOk.initResult();
         lResultOk.addResultMsg("ok");
         lClient->addResultOk(lResultOk);
 

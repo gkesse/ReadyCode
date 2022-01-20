@@ -2,16 +2,21 @@
 #include "GProcess.h"
 #include "GQtStudio.h"
 #include "GQtSpreadWindow.h"
+#include "GQtOpenCVUi.h"
+#include "GOpenCV.h"
+#include "GChat.h"
 #include "GSocket.h"
 #include "GMaster.h"
-#include "GSQLite.h"
 #include "GTimer.h"
-#include "GOpenCV.h"
-#include "GQtOpenCVUi.h"
 #include "GThread.h"
+#include "GSQLite.h"
+#include "GConsole.h"
+#include "GString.h"
 #include "GXml.h"
+#include "GLog.h"
 //===============================================
 GProcess* GProcess::m_instance = 0;
+GProcess* GProcess::m_process = 0;
 //===============================================
 GProcess::GProcess() : GObject() {
     createDoms();
@@ -49,9 +54,14 @@ void GProcess::run(int _argc, char** _argv) {
     else if(lKey == "spreadsheet") {
         runSpreadsheet(_argc, _argv);
     }
-    else if(lKey == "socket") {
-        runSocket(_argc, _argv);
+    //
+    else if(lKey == "socket/server") {
+        runSocketServer(_argc, _argv);
     }
+    else if(lKey == "socket/client") {
+        runSocketClient(_argc, _argv);
+    }
+    //
     else if(lKey == "master") {
         runMaster(_argc, _argv);
     }
@@ -61,8 +71,12 @@ void GProcess::run(int _argc, char** _argv) {
     else if(lKey == "timer") {
         runTimer(_argc, _argv);
     }
+    //
     else if(lKey == "opencv") {
         runOpenCV(_argc, _argv);
+    }
+    else if(lKey == "opencv/ui") {
+        runOpenCVUi(_argc, _argv);
     }
 }
 //===============================================
@@ -137,34 +151,65 @@ void GProcess::runSpreadsheet(int _argc, char** _argv) {
     lApp.exec();
 }
 //===============================================
-void GProcess::runSocket(int _argc, char** _argv) {
-    std::string lType = "";
+void GProcess::runSocketServer(int _argc, char** _argv) {
+    GThread lThread;
+    GTimer lTimer;
 
-    if(getNameUse()) {
-        if(_argc > 1) {
-            lType = _argv[1];
-        }
-    }
-    else {
-        if(_argc > 2) {
-            lType = _argv[2];
-        }
+    m_process = new GProcess;
+    m_process->m_server = new GSocket;
+
+    lThread.createThread(onSocketServer, m_process);
+    lTimer.setTimer(onSocketServerTimer, 50);
+    lTimer.pauseTimer();
+}
+//===============================================
+void GProcess::runSocketClient(int _argc, char** _argv) {
+    if(_argc < 3) {
+        GLOG->addError(sformat("Erreur la methode (runSocketClient) a echoue "
+                "sur le nombre d'arguments (%d).", _argc));
+        return;
     }
 
-    // client
-    if(lType == "client") {
-        GSocket lSocket;
-        std::string lDataIn = "Bonjour tout le monde";
-        std::string lDataOut;
-        lSocket.callServerTcp(lDataIn, lDataOut);
-        printf("%s\n", lDataOut.c_str());
-    }
-    // server
-    else {
-        GTHREAD->createThread(onServerTcp, GSOCKET);
-        GTIMER->setTimer(onServerTcpTimer, 50);
-        GTIMER->pauseTimer();
-    }
+    std::string lId = _argv[2];
+    std::string lPseudo = _argv[3];
+
+    m_process = new GProcess;
+
+    m_process->m_console = new GConsole;
+    m_process->m_console->setPseudo(lPseudo);
+    m_process->m_console->runConsole();
+
+    GChat lChat;
+    lChat.setId(lId);
+    lChat.setPseudo(lPseudo);
+    lChat.createConnection();
+
+    std::string lDataOut;
+
+    m_process->m_client = new GSocket;
+    m_process->m_client->startClientTcp();
+    m_process->m_client->addDataIn(lChat);
+
+    m_process->m_timer = new GTimer;
+    m_process->m_timer->setTimer(onSocketClientTimer, 50);
+    m_process->m_timer->setTimer(onSocketClientDispatcher, 50);
+    m_process->m_timer->pauseTimer();
+
+    /*
+    m_chat.reset(new GChat);
+    m_chat->setId(_argv[2]);
+    m_chat->setPseudo(_argv[3]);
+    m_chat->createConnection();
+
+    GSocket lSocket;
+    std::string lDataOut;
+
+    GTimer lTimer;
+    lTimer.setTimer(onSocketClientTimer, 50);
+    lTimer.pauseTimer();
+    lSocket.callServerTcp(*m_chat, lDataOut);
+    printf("%s\n", lDataOut.c_str());
+    */
 }
 //===============================================
 void GProcess::runMaster(int _argc, char** _argv) {
@@ -186,56 +231,134 @@ void GProcess::runTimer(int _argc, char** _argv) {
 }
 //===============================================
 void GProcess::runOpenCV(int _argc, char** _argv) {
-    std::string lType = "";
-
-    if(getNameUse()) {
-        if(_argc > 1) {
-            lType = _argv[1];
-        }
-    }
-    else {
-        if(_argc > 2) {
-            lType = _argv[2];
-        }
-    }
-
-    if(lType == "ui") {
-        QApplication lApp(_argc, _argv);
-        GQtOpenCVUi* lWindow = new GQtOpenCVUi;
-        lWindow->show();
-        lApp.exec();
-    }
-    else {
-        GOPENCV->run(_argc, _argv);
-    }
+    GOpenCV lOpenCV;
+    lOpenCV.run(_argc, _argv);
 }
 //===============================================
-DWORD WINAPI GProcess::onServerTcp(LPVOID _params) {
-    GSocket* lServer = (GSocket*)_params;
+void GProcess::runOpenCVUi(int _argc, char** _argv) {
+    QApplication lApp(_argc, _argv);
+    GQtOpenCVUi* lWindow = new GQtOpenCVUi;
+    lWindow->show();
+    lApp.exec();
+}
+//===============================================
+DWORD WINAPI GProcess::onSocketServer(LPVOID _params) {
+    GProcess* lProcess = (GProcess*)_params;
+    GSocket* lServer = lProcess->m_server;
+    lServer->setOnServerTcp(onSocketServerThread);
     lServer->startServerTcp();
+    delete lServer;
     return 0;
 }
 //===============================================
-void CALLBACK GProcess::onServerTcpTimer(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime) {
-    std::queue<std::string>& lDataIn = GSOCKET->getDataIn();
-    std::queue<GSocket*>& lClientIn = GSOCKET->getClientIn();
+DWORD WINAPI GProcess::onSocketServerThread(LPVOID _params) {
+    GSocket* lClient = (GSocket*)_params;
+    GSocket* lServer = lClient->getServer();
+    std::queue<std::string>& lDataIn = lServer->getDataIn();
+    std::queue<GSocket*>& lClientIn = lServer->getClientIn();
+    std::string iDataIn;
+
+    lClient->readData(iDataIn);
+    lClient->shutdownRD();
+
+    lDataIn.push(iDataIn);
+    lClientIn.push(lClient);
+
+    return 0;
+}
+//===============================================
+void CALLBACK GProcess::onSocketServerTimer(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime) {
+    GSocket* lServer = m_process->m_server;
+    std::queue<std::string>& lDataIn = lServer->getDataIn();
+    std::queue<GSocket*>& lClientIn = lServer->getClientIn();
 
     if(!lDataIn.empty()) {
-        std::string lData = lDataIn.front();
+        std::string lRequest = lDataIn.front();
         GSocket* lClient = lClientIn.front();
 
         lDataIn.pop();
         lClientIn.pop();
 
-        GSOCKET->showMessage(lData);
+        lServer->showMessage(lRequest);
+
+        GObject lDom;
+        lDom.loadDom(lRequest);
+        std::string lModule = lDom.getModule();
+        std::string lMethod = lDom.getMethod();
+
+        bool lChatOn = false;
+
+        lClient->setRequest(lRequest);
+
+        if(lModule == "chat") {
+            onModuleChat(lClient);
+            lChatOn = true;
+        }
+        else {
+            onUnknownModule(lRequest, lClient);
+        }
+
+        GObject lResultOk;
+        lResultOk.initResult();
+        lResultOk.addResultMsg(GOBJECT->sformat("%s/%s (OK).", lModule.c_str(), lMethod.c_str()));
+        lClient->addResultOk(lResultOk);
 
         lClient->sendResponse();
 
-        delete lClient;
+        if(!lChatOn) {
+            delete lClient;
+        }
     }
+}
+//===============================================
+void CALLBACK GProcess::onSocketClientTimer(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime) {
+    GConsole* lConsole = m_process->m_console;
+    GTimer* lTimer = m_process->m_timer;
+    std::queue<std::string>& lDataIn = lConsole->getDataIn();
+    bool& lReadyOn = lConsole->getReadyOn();
+
+    if(!lDataIn.empty()) {
+        std::string lData = lDataIn.front();
+        lDataIn.pop();
+
+        std::string lKey = GString(lData).trimData();
+
+        if(lKey == "exit" || lKey == "quit") {
+            lConsole->stopConsole();
+            lTimer->stopTimer();
+            delete lConsole;
+            delete lTimer;
+            delete m_process;
+            return;
+        }
+
+        printf("---> (cpu)\n%s\n", lData.c_str());
+    }
+
+    lReadyOn = true;
+}
+//===============================================
+void CALLBACK GProcess::onSocketClientDispatcher(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime) {
+    GSocket* lClient = m_process->m_client;
+    GConsole* lConsole = m_process->m_console;
+    std::queue<std::string>& lDataAns = lClient->getDataAns();
+    bool& lReadyOn = lConsole->getReadyOn();
+
+    if(!lDataAns.empty()) {
+        std::string iDataAns = lDataAns.front();
+        lDataAns.pop();
+
+        printf("---> (cpu)\n%s\n", iDataAns.c_str());
+    }
+    lReadyOn = true;
 }
 //===============================================
 void CALLBACK GProcess::onTimer(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime) {
     printf("onTimer... %lu (ms)\n", dwTime);
+}
+//===============================================
+void GProcess::onModuleChat(GSocket* _client) {
+    GChat lChat;
+    lChat.onModule(_client);
 }
 //===============================================

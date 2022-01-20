@@ -4,6 +4,7 @@
 //===============================================
 #include "GObject.h"
 #include "GThread.h"
+#include "GTimer.h"
 //===============================================
 #define GSOCKET GSocket::Instance()
 //===============================================
@@ -53,44 +54,80 @@ public:
     void startServerTcp();
     void callServerTcp(const std::string& _dataIn, std::string& _dataOut);
     void callServerTcp(const GObject& _request, std::string& _dataOut);
-    static DWORD WINAPI onServerTcp(LPVOID _params);
     void setOnServerTcp(GThread::onThreadCB _onServerTcp);
+    static DWORD WINAPI onServerTcp(LPVOID _params);
     //
-    std::queue<std::string>& getDataIn() const;
-    std::queue<GSocket*>& getClientIn() const;
-    int& getMessageId() const;
-    std::string getDataOut() const;
+    void startClientTcp();
+    void setOnClientTcp(GTimer::onTimerCB _onClientTcp);
+    static void CALLBACK onClientTcp(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime);
+    //
+    std::queue<GSocket*>& getClientIn();
+    //
+    GSocket* getServer() const;
+    //
+    std::string getRequest() const;
+    void setRequest(const std::string& _request);
     //
     void showMessage(const std::string& _data) const;
+    //
+    void addDataIn(const std::string& _data);
+    void addDataIn(const GObject& _data);
+    std::queue<std::string>& getDataIn();
+    //
+    void addDataAns(const std::string& _data);
+    std::queue<std::string>& getDataAns();
+    //
     void addDataOut(const std::string& _data);
     void addDataOut(const GObject& _data);
+    std::string getDataOut() const;
+    //
     void addResultOk(const std::string& _data);
     void addResultOk(const GObject& _data);
+    //
     void addErrors(const std::string& _data);
     void addErrors(const GObject& _data);
     //
     void sendResponse();
+    //
+    bool setOption();
+    void clearDescriptor();
+    void setDescriptor();
+    bool selectDescriptor();
+    bool issetDescriptor();
+    //
+    void addClient(const std::string& _id, GSocket* _socket);
 
 private:
     static const int BUFFER_SIZE = 1024;
     static const int HOSTNAME_SIZE = 256;
     //
     static GSocket* m_instance;
+    static GSocket* m_socketObj;
+    static int m_messageId;
+    //
     SOCKET m_socket;
     SOCKADDR_IN m_address;
     //
-    static std::queue<std::string> m_dataIn;
-    static std::queue<GSocket*> m_clientIn;
+    std::queue<GSocket*> m_clientIn;
+    std::queue<std::string> m_dataIn;
+    std::queue<std::string> m_dataAns;
     //
     std::vector<std::string> m_dataOut;
     std::vector<std::string> m_resultOk;
     std::vector<std::string> m_errors;
     //
-    static int m_messageId;
-    //
     bool m_serverOn;
     //
     GThread::onThreadCB m_onServerTcp;
+    GTimer::onTimerCB m_onClientTcp;
+    //
+    fd_set m_descriptor;
+    int m_option;
+    //
+    std::map<std::string, GSocket*> m_clientMap;
+    //
+    std::string m_request;
+    GSocket* m_server;
 };
 //==============================================
 #endif
