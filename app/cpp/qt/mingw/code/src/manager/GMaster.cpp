@@ -145,7 +145,6 @@ DWORD WINAPI GMaster::onServerTcp(LPVOID _params) {
     std::string lDataIn;
 
     lClient->readData(lDataIn);
-    lClient->shutdownRD();
 
     m_dataIn.push(lDataIn);
     m_clientIn.push(lClient);

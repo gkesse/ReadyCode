@@ -18,6 +18,9 @@ public:
     bool& getReadyOn();
     void stopConsole();
     void setPseudo(const std::string& _pseudo);
+    std::string getPseudo() const;
+    void setPseudoId(const std::string& _pseudoId);
+    std::string getPseudoId() const;
     //
     static DWORD WINAPI onRunConsole(LPVOID _params);
 
@@ -29,6 +32,7 @@ private:
     std::queue<std::string> m_dataIn;
     bool m_readyOn;
     std::string m_pseudo;
+    std::string m_pseudoId;
 };
 //==============================================
 #endif

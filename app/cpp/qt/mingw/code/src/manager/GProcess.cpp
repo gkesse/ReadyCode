@@ -54,12 +54,18 @@ void GProcess::run(int _argc, char** _argv) {
     else if(lKey == "spreadsheet") {
         runSpreadsheet(_argc, _argv);
     }
-    //
+    // socket
     else if(lKey == "socket/server") {
         runSocketServer(_argc, _argv);
     }
     else if(lKey == "socket/client") {
         runSocketClient(_argc, _argv);
+    }
+    else if(lKey == "socket/server/test") {
+        runSocketServerTest(_argc, _argv);
+    }
+    else if(lKey == "socket/client/test") {
+        runSocketClientTest(_argc, _argv);
     }
     //
     else if(lKey == "master") {
@@ -157,6 +163,7 @@ void GProcess::runSocketServer(int _argc, char** _argv) {
 
     m_process = new GProcess;
     m_process->m_server = new GSocket;
+    m_process->m_server->setResponseLoop(true);
 
     lThread.createThread(onSocketServer, m_process);
     lTimer.setTimer(onSocketServerTimer, 50);
@@ -177,6 +184,7 @@ void GProcess::runSocketClient(int _argc, char** _argv) {
 
     m_process->m_console = new GConsole;
     m_process->m_console->setPseudo(lPseudo);
+    m_process->m_console->setPseudoId(lId);
     m_process->m_console->runConsole();
 
     GChat lChat;
@@ -191,7 +199,7 @@ void GProcess::runSocketClient(int _argc, char** _argv) {
     m_process->m_client->addDataIn(lChat);
 
     m_process->m_timer = new GTimer;
-    m_process->m_timer->setTimer(onSocketClientTimer, 50);
+    m_process->m_timer->setTimer(onSocketClientConsole, 50);
     m_process->m_timer->setTimer(onSocketClientDispatcher, 50);
     m_process->m_timer->pauseTimer();
 
@@ -210,6 +218,58 @@ void GProcess::runSocketClient(int _argc, char** _argv) {
     lSocket.callServerTcp(*m_chat, lDataOut);
     printf("%s\n", lDataOut.c_str());
     */
+}
+//===============================================
+void GProcess::runSocketServerTest(int _argc, char** _argv) {
+    GSocket lServer;
+
+    lServer.initSocket(lServer.getMajor(), lServer.getMinor());
+    lServer.createSocketTcp();
+    lServer.createAddress(lServer.getAddressClient(), lServer.getPort());
+    lServer.bindSocket();
+    lServer.listenSocket(lServer.getBacklog());
+
+    printf("Demarrage su derveur...\n");
+
+    GSocket lClient;
+    lServer.acceptConnection(lClient);
+
+    printf("adresse ip client : %s\n", lClient.getAddressIp().c_str());
+
+    std::string lData;
+
+    for(int i = 0; i < 4; i++) {
+        lClient.recvData(lData);
+        printf("----->\n%s\n", lData.c_str());
+    }
+
+    lClient.sendData("Server : Bienvenue !!!");
+
+    lClient.closeSocket();
+    lServer.closeSocket();
+    lServer.cleanSocket();
+}
+//===============================================
+void GProcess::runSocketClientTest(int _argc, char** _argv) {
+    GSocket lClient;
+
+    lClient.initSocket(lClient.getMajor(), lClient.getMinor());
+    lClient.createSocketTcp();
+    lClient.createAddress(lClient.getAddressServer(), lClient.getPort());
+    lClient.connectToServer();
+
+    std::string lData;
+
+    for(int i = 0; i < 4; i++) {
+        lClient.sendData("Client : Bonjour tout le monde");
+    }
+
+    lClient.recvData(lData);
+    printf("----->\n%s\n", lData.c_str());
+
+
+    lClient.cleanSocket();
+    lClient.cleanSocket();
 }
 //===============================================
 void GProcess::runMaster(int _argc, char** _argv) {
@@ -258,9 +318,9 @@ DWORD WINAPI GProcess::onSocketServerThread(LPVOID _params) {
     std::queue<GSocket*>& lClientIn = lServer->getClientIn();
     std::string iDataIn;
 
-    lClient->readData(iDataIn);
-    lClient->shutdownRD();
+    lClient->setResponseLoop(lServer->hasResponseLoop());
 
+    lClient->readData(iDataIn);
     lDataIn.push(iDataIn);
     lClientIn.push(lClient);
 
@@ -286,13 +346,10 @@ void CALLBACK GProcess::onSocketServerTimer(HWND hwnd, UINT uMsg, UINT_PTR timer
         std::string lModule = lDom.getModule();
         std::string lMethod = lDom.getMethod();
 
-        bool lChatOn = false;
-
         lClient->setRequest(lRequest);
 
         if(lModule == "chat") {
             onModuleChat(lClient);
-            lChatOn = true;
         }
         else {
             onUnknownModule(lRequest, lClient);
@@ -305,13 +362,13 @@ void CALLBACK GProcess::onSocketServerTimer(HWND hwnd, UINT uMsg, UINT_PTR timer
 
         lClient->sendResponse();
 
-        if(!lChatOn) {
+        if(!lClient->hasResponseLoop()) {
             delete lClient;
         }
     }
 }
 //===============================================
-void CALLBACK GProcess::onSocketClientTimer(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime) {
+void CALLBACK GProcess::onSocketClientConsole(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime) {
     GConsole* lConsole = m_process->m_console;
     GTimer* lTimer = m_process->m_timer;
     std::queue<std::string>& lDataIn = lConsole->getDataIn();
@@ -321,9 +378,9 @@ void CALLBACK GProcess::onSocketClientTimer(HWND hwnd, UINT uMsg, UINT_PTR timer
         std::string lData = lDataIn.front();
         lDataIn.pop();
 
-        std::string lKey = GString(lData).trimData();
+        lData = GString(lData).trimData();
 
-        if(lKey == "exit" || lKey == "quit") {
+        if(lData == "exit" || lData == "quit") {
             lConsole->stopConsole();
             lTimer->stopTimer();
             delete lConsole;
@@ -331,8 +388,22 @@ void CALLBACK GProcess::onSocketClientTimer(HWND hwnd, UINT uMsg, UINT_PTR timer
             delete m_process;
             return;
         }
+        else {
+            GChat lChat;
+            lChat.setId(lConsole->getPseudoId());
+            lChat.setPseudo(lConsole->getPseudo());
+            lChat.createMessage();
+            lChat.addMessage(lData);
+
+            std::string lDataOut;
+
+            m_process->m_client = new GSocket;
+            m_process->m_client->startClientTcp();
+            m_process->m_client->addDataIn(lChat);
+        }
 
         printf("---> (cpu)\n%s\n", lData.c_str());
+        printf("===> (%s)\n> ", lConsole->getPseudo().c_str());
     }
 
     lReadyOn = true;
@@ -349,7 +420,9 @@ void CALLBACK GProcess::onSocketClientDispatcher(HWND hwnd, UINT uMsg, UINT_PTR 
         lDataAns.pop();
 
         printf("---> (cpu)\n%s\n", iDataAns.c_str());
+        printf("===> (%s)\n> ", lConsole->getPseudo().c_str());
     }
+
     lReadyOn = true;
 }
 //===============================================

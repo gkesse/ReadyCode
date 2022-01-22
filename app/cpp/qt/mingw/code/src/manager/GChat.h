@@ -13,6 +13,8 @@ public:
     static GChat* Instance();
     //
     void createConnection();
+    void createMessage();
+    void addMessage(const std::string& _msg);
     std::string readId();
     std::string readPseudo();
     //

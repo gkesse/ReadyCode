@@ -58,8 +58,10 @@ public:
     static DWORD WINAPI onServerTcp(LPVOID _params);
     //
     void startClientTcp();
-    void setOnClientTcp(GTimer::onTimerCB _onClientTcp);
-    static void CALLBACK onClientTcp(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime);
+    void setOnClientTcp(GThread::onThreadCB _onClientTcp);
+    void setOnClientTcpTimer(GTimer::onTimerCB _onClientTcpTimer);
+    static DWORD WINAPI onClientTcp(LPVOID _params);
+    static void CALLBACK onClientTcpTimer(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime);
     //
     std::queue<GSocket*>& getClientIn();
     //
@@ -88,6 +90,13 @@ public:
     void addErrors(const GObject& _data);
     //
     void sendResponse();
+    void sendResponseLoop();
+    void setResponseLoop(bool _hasResponseLoop);
+    bool hasResponseLoop() const;
+    void setBroadcast(bool _hasBroadcast);
+    bool hasBroadcast() const;
+    void setBroadcastExclusive(bool _hasBroadcastExclusive);
+    bool hasBroadcastExclusive() const;
     //
     bool setOption();
     void clearDescriptor();
@@ -117,9 +126,11 @@ private:
     std::vector<std::string> m_errors;
     //
     bool m_serverOn;
+    bool m_readOn;
     //
     GThread::onThreadCB m_onServerTcp;
-    GTimer::onTimerCB m_onClientTcp;
+    GThread::onThreadCB m_onClientTcp;
+    GTimer::onTimerCB m_onClientTcpTimer;
     //
     fd_set m_descriptor;
     int m_option;
@@ -128,6 +139,10 @@ private:
     //
     std::string m_request;
     GSocket* m_server;
+    //
+    bool m_hasBroadcast;
+    bool m_hasBroadcastExclusive;
+    bool m_hasResponseLoop;
 };
 //==============================================
 #endif

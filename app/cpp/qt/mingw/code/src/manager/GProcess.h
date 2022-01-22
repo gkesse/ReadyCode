@@ -24,6 +24,8 @@ public:
     void runSpreadsheet(int _argc, char** _argv);
     void runSocketServer(int _argc, char** _argv);
     void runSocketClient(int _argc, char** _argv);
+    void runSocketServerTest(int _argc, char** _argv);
+    void runSocketClientTest(int _argc, char** _argv);
     void runMaster(int _argc, char** _argv);
     void runSQLite(int _argc, char** _argv);
     void runTimer(int _argc, char** _argv);
@@ -40,7 +42,7 @@ public:
     static DWORD WINAPI onSocketServer(LPVOID _params);
     static DWORD WINAPI onSocketServerThread(LPVOID _params);
     static void CALLBACK onSocketServerTimer(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime);
-    static void CALLBACK onSocketClientTimer(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime);
+    static void CALLBACK onSocketClientConsole(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime);
     static void CALLBACK onSocketClientDispatcher(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime);
     static void CALLBACK onTimer(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime);
     //

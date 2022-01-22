@@ -39,6 +39,18 @@ void GConsole::setPseudo(const std::string& _pseudo) {
     m_pseudo = _pseudo;
 }
 //===============================================
+std::string GConsole::getPseudo() const {
+    return m_pseudo;
+}
+//===============================================
+void GConsole::setPseudoId(const std::string& _pseudoId) {
+    m_pseudoId = _pseudoId;
+}
+//===============================================
+std::string GConsole::getPseudoId() const {
+    return m_pseudoId;
+}
+//===============================================
 std::queue<std::string>& GConsole::getDataIn() {
     return m_dataIn;
 }

@@ -15,7 +15,12 @@ GSocket::GSocket() : GObject() {
     m_serverOn = true;
     m_onServerTcp = onServerTcp;
     m_onClientTcp = onClientTcp;
+    m_onClientTcpTimer = onClientTcpTimer;
     m_option = true;
+    m_hasBroadcast = false;
+    m_hasBroadcastExclusive = false;
+    m_hasResponseLoop = false;
+    m_readOn = false;
     createDoms();
 }
 //===============================================
@@ -187,6 +192,7 @@ int GSocket::recvData(std::string& _data) {
         lBuffer[lBytes] = 0;
         _data = lBuffer;
     }
+    send(m_socket, "ok", 2, 0);
     return lBytes;
 }
 //===============================================
@@ -194,7 +200,7 @@ int GSocket::readData(std::string& _data) {
     _data = "";
     std::string lData;
     int lIndex = 0;
-    while(1) {
+    for(int i = 0; i < 1; i++) {
         int lBytes = recvData(lData);
         if(lBytes <= 0) break;
         lIndex += lBytes;
@@ -215,14 +221,19 @@ int GSocket::recvData(GSocket& _socket, std::string& _data) {
 }
 //===============================================
 void GSocket::sendData(const std::string& _data) {
+    char lBuffer[3];
     send(m_socket, _data.c_str(), _data.size(), 0);
+    int lBytes = recv(m_socket, lBuffer, 3, 0);
+    if(lBytes > 0) {
+        lBuffer[lBytes] = 0;
+    }
 }
 //===============================================
 void GSocket::writeData(const std::string& _data) {
     int lIndex = 0;
     char lBuffer[BUFFER_SIZE + 1];
     GString lData(_data);
-    while(1) {
+    for(int i = 0; i < 1; i++) {
         int lBytes = lData.toChar(lBuffer, lIndex, BUFFER_SIZE);
         if(lBytes <= 0) break;
         lIndex += lBytes;
@@ -323,9 +334,7 @@ void GSocket::callServerTcp(const std::string& _dataIn, std::string& _dataOut) {
     connectToServer();
 
     writeData(_dataIn);
-    shutdownWR();
     readData(_dataOut);
-    shutdownRD();
 
     cleanSocket();
     cleanSocket();
@@ -344,7 +353,6 @@ DWORD WINAPI GSocket::onServerTcp(LPVOID _params) {
     std::string lDataRD;
 
     lClient->readData(lDataRD);
-    lClient->shutdownRD();
 
     lDataIn.push(lDataRD);
     lClientIn.push(lClient);
@@ -368,25 +376,35 @@ void GSocket::startClientTcp() {
     createAddress(getAddressServer(), getPort());
     connectToServer();
 
-    GTimer lTimer;
-    lTimer.setTimer(m_onClientTcp, 50);
+    GThread lThread;
+    lThread.createThread(m_onClientTcp, this);
 }
 //===============================================
-void CALLBACK GSocket::onClientTcp(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime) {
+DWORD WINAPI GSocket::onClientTcp(LPVOID _params) {
+    GSocket* lServer = (GSocket*)_params;
+    GTimer lTimer;
+    lTimer.setTimer(lServer->m_onClientTcpTimer, 50);
+    lTimer.pauseTimer();
+    return 0;
+}
+//===============================================
+void CALLBACK GSocket::onClientTcpTimer(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime) {
     GSocket* lClient = m_socketObj;
     std::queue<std::string>& lDataIn = lClient->m_dataIn;
     std::queue<std::string>& lDataAns = lClient->m_dataAns;
+    std::string iDataAns;
 
     if(!lDataIn.empty()) {
         std::string iDataIn = lDataIn.front();
-        std::string lDataOut;
         lDataIn.pop();
 
         lClient->writeData(iDataIn);
-        lClient->shutdownWR();
-        lClient->readData(lDataOut);
-        lClient->shutdownRD();
-        lDataAns.push(lDataOut);
+        lClient->readData(iDataAns);
+        lDataAns.push(iDataAns);
+    }
+    else {
+        lClient->readData(iDataAns);
+        lDataAns.push(iDataAns);
     }
 }
 //===============================================
@@ -394,8 +412,12 @@ void GSocket::setOnServerTcp(GThread::onThreadCB _onServerTcp) {
     m_onServerTcp = _onServerTcp;
 }
 //===============================================
-void GSocket::setOnClientTcp(GTimer::onTimerCB _onClientTcp) {
+void GSocket::setOnClientTcp(GThread::onThreadCB _onClientTcp) {
     m_onClientTcp = _onClientTcp;
+}
+//===============================================
+void GSocket::setOnClientTcpTimer(GTimer::onTimerCB _onClientTcpTimer) {
+    m_onClientTcpTimer = _onClientTcpTimer;
 }
 //===============================================
 void GSocket::addDataIn(const std::string& _data) {
@@ -492,8 +514,49 @@ std::string GSocket::getDataOut() const {
 }
 //===============================================
 void GSocket::sendResponse() {
-    writeData(getDataOut());
-    closeSocket();
+    if(hasBroadcast()) {
+        std::map<std::string, GSocket*>& lClientMap = m_server->m_clientMap;
+        std::map<std::string, GSocket*>::iterator it;
+
+        for (it = lClientMap.begin(); it != lClientMap.end(); it++) {
+            GSocket* lClient = it->second;
+            if(hasBroadcastExclusive()) {
+                if(lClient == this) continue;
+            }
+            lClient->writeData(getDataOut());
+        }
+        setBroadcast(false);
+    }
+    else {
+        writeData(getDataOut());
+        if(!hasResponseLoop()) {
+            closeSocket();
+        }
+    }
+}
+//===============================================
+void GSocket::setResponseLoop(bool _hasResponseLoop) {
+    m_hasResponseLoop = _hasResponseLoop;
+}
+//===============================================
+bool GSocket::hasResponseLoop() const {
+    return m_hasResponseLoop;
+}
+//===============================================
+void GSocket::setBroadcast(bool _hasBroadcast) {
+    m_hasBroadcast = _hasBroadcast;
+}
+//===============================================
+bool GSocket::hasBroadcast() const {
+    return m_hasBroadcast;
+}
+//===============================================
+void GSocket::setBroadcastExclusive(bool _hasBroadcastExclusive) {
+    m_hasBroadcastExclusive = _hasBroadcastExclusive;
+}
+//===============================================
+bool GSocket::hasBroadcastExclusive() const {
+    return m_hasBroadcastExclusive;
 }
 //===============================================
 bool GSocket::setOption() {

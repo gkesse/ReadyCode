@@ -26,6 +26,16 @@ void GChat::createConnection() {
     m_dom->createNodePath("/rdv/client/pseudo").setNodeValue(m_pseudo);
 }
 //===============================================
+void GChat::createMessage() {
+    initRequest("chat", "send_message_client");
+    m_dom->createNodePath("/rdv/client/id").setNodeValue(m_id);
+    m_dom->createNodePath("/rdv/client/pseudo").setNodeValue(m_pseudo);
+}
+//===============================================
+void GChat::addMessage(const std::string& _msg) {
+    m_dom->createNodePath("/rdv/client/data").appendNode("msg", _msg);
+}
+//===============================================
 std::string GChat::readId() {
     m_dom->queryXPath("/rdv/client/id");
     m_dom->getNodeXPath();
@@ -70,9 +80,13 @@ void GChat::onModule(GSocket* _client) {
         onConnectClient(_client);
         std::string lId = lRequest.readId();
         lServer->addClient(lId, _client);
+        _client->setBroadcast(true);
+        _client->setBroadcastExclusive(false);
     }
     else if(lMethod == "send_message_client") {
         onSendMessageClient(_client);
+        _client->setBroadcast(true);
+        _client->setBroadcastExclusive(false);
     }
 }
 //===============================================
