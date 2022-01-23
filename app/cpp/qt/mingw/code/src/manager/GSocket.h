@@ -101,12 +101,9 @@ public:
     bool hasBroadcastExclusive() const;
     //
     bool hasReadData();
-    void clearDescriptor();
-    void setDescriptor();
-    bool selectDescriptor();
-    bool issetDescriptor();
     //
     void addClient(const std::string& _id, GSocket* _socket);
+    void removeClient();
 
 private:
     static const int BUFFER_SIZE = 1024;

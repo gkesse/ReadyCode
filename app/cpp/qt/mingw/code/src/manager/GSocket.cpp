@@ -386,6 +386,12 @@ DWORD WINAPI GSocket::onClientTcp(LPVOID _params) {
 
     while(1) {
         lClient->readData(lData);
+        if(lData == "") {
+            lClient->closeSocket();
+            lClient->cleanSocket();
+            delete lClient;
+            break;
+        }
         lDataAns.push(lData);
     }
 
@@ -555,6 +561,19 @@ void GSocket::addClient(const std::string& _id, GSocket* _socket) {
     else {
         GLOG->addError(sformat("Erreur la methode (addClient) a echoue "
                 "sur l'ID (%s).", _id.c_str()));
+    }
+}
+//===============================================
+void GSocket::removeClient() {
+    std::map<std::string, GSocket*>& lClientMap = m_server->getClientMap();
+    std::map<std::string, GSocket*>::iterator it;
+
+    for (it = lClientMap.begin(); it != lClientMap.end(); it++) {
+        GSocket* lClient = it->second;
+        if(lClient == this) {
+            lClientMap.erase(it);
+            break;
+        }
     }
 }
 //===============================================

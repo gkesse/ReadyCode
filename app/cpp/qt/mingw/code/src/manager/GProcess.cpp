@@ -312,20 +312,26 @@ DWORD WINAPI GProcess::onSocketServerThread(LPVOID _params) {
     GSocket* lServer = lClient->getServer();
     std::queue<std::string>& lDataIn = lServer->getDataIn();
     std::queue<GSocket*>& lClientIn = lServer->getClientIn();
-    std::string iDataIn;
+    std::string lData;
 
     lClient->setResponseLoop(lServer->hasResponseLoop());
 
     if(lServer->hasResponseLoop()) {
         while(1) {
-            lClient->readData(iDataIn);
-            lDataIn.push(iDataIn);
+            lClient->readData(lData);
+            if(lData == "") {
+                lClient->removeClient();
+                lClient->closeSocket();
+                delete lClient;
+                break;
+            }
+            lDataIn.push(lData);
             lClientIn.push(lClient);
         }
     }
     else {
-        lClient->readData(iDataIn);
-        lDataIn.push(iDataIn);
+        lClient->readData(lData);
+        lDataIn.push(lData);
         lClientIn.push(lClient);
     }
     return 0;
@@ -337,7 +343,7 @@ void CALLBACK GProcess::onSocketServerLoopWR(HWND hwnd, UINT uMsg, UINT_PTR time
     std::queue<GSocket*>& lClientAns = lServer->getClientAns();
 
     if(!lDataAns.empty()) {
-        std::string iDataAns = lDataAns.front();
+        std::string lData = lDataAns.front();
         GSocket* lClient = lClientAns.front();
 
         lDataAns.pop();
@@ -352,12 +358,12 @@ void CALLBACK GProcess::onSocketServerLoopWR(HWND hwnd, UINT uMsg, UINT_PTR time
                 if(lClient->hasBroadcastExclusive()) {
                     if(iClient == lClient) continue;
                 }
-                iClient->writeData(iDataAns);
+                iClient->writeData(lData);
             }
             lClient->setBroadcast(false);
         }
         else {
-            lClient->writeData(iDataAns);
+            lClient->writeData(lData);
         }
     }
 }
