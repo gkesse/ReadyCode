@@ -481,7 +481,7 @@ void GSocket::addErrors(const GObject& _data) {
     m_errors.push_back(_data.toString());
 }
 //===============================================
-std::string GSocket::getDataOut() const {
+std::string GSocket::getDataOut() {
     std::string lDataOut = "";
     std::string lResultOk = "";
     std::string lErrors = "";
@@ -498,6 +498,11 @@ std::string GSocket::getDataOut() const {
         if(i != 0) lErrors += "\n";
         lErrors += m_errors.at(i);
     }
+
+    m_dataOut.clear();
+    m_resultOk.clear();
+    m_errors.clear();
+
     if(lErrors != "") {
         return lErrors;
     }

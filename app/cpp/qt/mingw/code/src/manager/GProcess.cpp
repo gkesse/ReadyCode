@@ -404,6 +404,7 @@ void CALLBACK GProcess::onSocketServerTimer(HWND hwnd, UINT uMsg, UINT_PTR timer
         lClient->sendResponse();
 
         if(!lClient->hasResponseLoop()) {
+            lClient->closeSocket();
             delete lClient;
         }
     }
@@ -430,14 +431,13 @@ void CALLBACK GProcess::onSocketClientConsole(HWND hwnd, UINT uMsg, UINT_PTR tim
             delete m_process;
             return;
         }
-        else {
-            GChat lChat;
-            lChat.setId(lConsole->getPseudoId());
-            lChat.setPseudo(lConsole->getPseudo());
-            lChat.createMessage();
-            lChat.addMessage(lData);
-            lClient->addDataIn(lChat);
-        }
+
+        GChat lChat;
+        lChat.setId(lConsole->getPseudoId());
+        lChat.setPseudo(lConsole->getPseudo());
+        lChat.createMessage();
+        lChat.addMessage(lData);
+        lClient->addDataIn(lChat);
 
         printf("---> (cpu)\n%s\n", lData.c_str());
         printf("===> (%s)\n> ", lConsole->getPseudo().c_str());
@@ -466,10 +466,11 @@ void CALLBACK GProcess::onSocketClientDispatcher(HWND hwnd, UINT uMsg, UINT_PTR 
     bool& lReadyOn = lConsole->getReadyOn();
 
     if(!lDataAns.empty()) {
-        std::string iDataAns = lDataAns.front();
+        std::string lData = lDataAns.front();
+
         lDataAns.pop();
 
-        printf("---> (cpu)\n%s\n", iDataAns.c_str());
+        printf("---> (cpu)\n%s\n", lData.c_str());
         printf("===> (%s)\n> ", lConsole->getPseudo().c_str());
     }
 

@@ -83,7 +83,7 @@ public:
     //
     void addDataOut(const std::string& _data);
     void addDataOut(const GObject& _data);
-    std::string getDataOut() const;
+    std::string getDataOut();
     //
     void addResultOk(const std::string& _data);
     void addResultOk(const GObject& _data);
