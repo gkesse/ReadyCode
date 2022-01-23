@@ -143,6 +143,16 @@ void GProcess::runTest(int _argc, char** _argv) {
     std::cout << lDom.toString() << "\n";
 }
 //===============================================
+void GProcess::runTestPoll(int _argc, char** _argv) {
+    GXml lDom;
+    lDom.createDoc("1.0");
+    lDom.createRoot("rdv");
+    lDom.createXPath();
+    lDom.createNodePath("/rdv/request/data/map/data");
+    lDom.createNodePath("/rdv/request/data/map/data");
+    std::cout << lDom.toString() << "\n";
+}
+//===============================================
 void GProcess::runStudio(int _argc, char** _argv) {
     QApplication lApp(_argc, _argv);
     GQtStudio* lWindow = new GQtStudio;
@@ -167,6 +177,7 @@ void GProcess::runSocketServer(int _argc, char** _argv) {
 
     lThread.createThread(onSocketServer, m_process);
     lTimer.setTimer(onSocketServerTimer, 50);
+    lTimer.setTimer(onSocketServerLoopWR, 50);
     lTimer.pauseTimer();
 }
 //===============================================
@@ -200,24 +211,9 @@ void GProcess::runSocketClient(int _argc, char** _argv) {
 
     m_process->m_timer = new GTimer;
     m_process->m_timer->setTimer(onSocketClientConsole, 50);
+    m_process->m_timer->setTimer(onSocketClientLoopWR, 50);
     m_process->m_timer->setTimer(onSocketClientDispatcher, 50);
     m_process->m_timer->pauseTimer();
-
-    /*
-    m_chat.reset(new GChat);
-    m_chat->setId(_argv[2]);
-    m_chat->setPseudo(_argv[3]);
-    m_chat->createConnection();
-
-    GSocket lSocket;
-    std::string lDataOut;
-
-    GTimer lTimer;
-    lTimer.setTimer(onSocketClientTimer, 50);
-    lTimer.pauseTimer();
-    lSocket.callServerTcp(*m_chat, lDataOut);
-    printf("%s\n", lDataOut.c_str());
-    */
 }
 //===============================================
 void GProcess::runSocketServerTest(int _argc, char** _argv) {
@@ -320,11 +316,50 @@ DWORD WINAPI GProcess::onSocketServerThread(LPVOID _params) {
 
     lClient->setResponseLoop(lServer->hasResponseLoop());
 
-    lClient->readData(iDataIn);
-    lDataIn.push(iDataIn);
-    lClientIn.push(lClient);
-
+    if(lServer->hasResponseLoop()) {
+        while(1) {
+            lClient->readData(iDataIn);
+            lDataIn.push(iDataIn);
+            lClientIn.push(lClient);
+        }
+    }
+    else {
+        lClient->readData(iDataIn);
+        lDataIn.push(iDataIn);
+        lClientIn.push(lClient);
+    }
     return 0;
+}
+//===============================================
+void CALLBACK GProcess::onSocketServerLoopWR(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime) {
+    GSocket* lServer = m_process->m_server;
+    std::queue<std::string>& lDataAns = lServer->getDataAns();
+    std::queue<GSocket*>& lClientAns = lServer->getClientAns();
+
+    if(!lDataAns.empty()) {
+        std::string iDataAns = lDataAns.front();
+        GSocket* lClient = lClientAns.front();
+
+        lDataAns.pop();
+        lClientAns.pop();
+
+        if(lClient->hasBroadcast()) {
+            std::map<std::string, GSocket*>& lClientMap = lServer->getClientMap();
+            std::map<std::string, GSocket*>::iterator it;
+
+            for (it = lClientMap.begin(); it != lClientMap.end(); it++) {
+                GSocket* iClient = it->second;
+                if(lClient->hasBroadcastExclusive()) {
+                    if(iClient == lClient) continue;
+                }
+                iClient->writeData(iDataAns);
+            }
+            lClient->setBroadcast(false);
+        }
+        else {
+            lClient->writeData(iDataAns);
+        }
+    }
 }
 //===============================================
 void CALLBACK GProcess::onSocketServerTimer(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime) {
@@ -370,6 +405,7 @@ void CALLBACK GProcess::onSocketServerTimer(HWND hwnd, UINT uMsg, UINT_PTR timer
 //===============================================
 void CALLBACK GProcess::onSocketClientConsole(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime) {
     GConsole* lConsole = m_process->m_console;
+    GSocket* lClient = m_process->m_client;
     GTimer* lTimer = m_process->m_timer;
     std::queue<std::string>& lDataIn = lConsole->getDataIn();
     bool& lReadyOn = lConsole->getReadyOn();
@@ -394,12 +430,7 @@ void CALLBACK GProcess::onSocketClientConsole(HWND hwnd, UINT uMsg, UINT_PTR tim
             lChat.setPseudo(lConsole->getPseudo());
             lChat.createMessage();
             lChat.addMessage(lData);
-
-            std::string lDataOut;
-
-            m_process->m_client = new GSocket;
-            m_process->m_client->startClientTcp();
-            m_process->m_client->addDataIn(lChat);
+            lClient->addDataIn(lChat);
         }
 
         printf("---> (cpu)\n%s\n", lData.c_str());
@@ -407,6 +438,19 @@ void CALLBACK GProcess::onSocketClientConsole(HWND hwnd, UINT uMsg, UINT_PTR tim
     }
 
     lReadyOn = true;
+}
+//===============================================
+void CALLBACK GProcess::onSocketClientLoopWR(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime) {
+    GSocket* lClient = m_process->m_client;
+    std::queue<std::string>& lDataIn = lClient->getDataIn();
+
+    if(!lDataIn.empty()) {
+        std::string lData = lDataIn.front();
+
+        lDataIn.pop();
+
+        lClient->writeData(lData);
+    }
 }
 //===============================================
 void CALLBACK GProcess::onSocketClientDispatcher(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime) {

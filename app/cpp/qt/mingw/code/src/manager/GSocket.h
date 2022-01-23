@@ -8,6 +8,8 @@
 //===============================================
 #define GSOCKET GSocket::Instance()
 //===============================================
+class GDescriptor;
+//===============================================
 class GSocket : public GObject {
 public:
     GSocket();
@@ -59,11 +61,11 @@ public:
     //
     void startClientTcp();
     void setOnClientTcp(GThread::onThreadCB _onClientTcp);
-    void setOnClientTcpTimer(GTimer::onTimerCB _onClientTcpTimer);
     static DWORD WINAPI onClientTcp(LPVOID _params);
-    static void CALLBACK onClientTcpTimer(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime);
     //
     std::queue<GSocket*>& getClientIn();
+    std::queue<GSocket*>& getClientAns();
+    std::map<std::string, GSocket*>& getClientMap();
     //
     GSocket* getServer() const;
     //
@@ -98,7 +100,7 @@ public:
     void setBroadcastExclusive(bool _hasBroadcastExclusive);
     bool hasBroadcastExclusive() const;
     //
-    bool setOption();
+    bool hasReadData();
     void clearDescriptor();
     void setDescriptor();
     bool selectDescriptor();
@@ -118,6 +120,7 @@ private:
     SOCKADDR_IN m_address;
     //
     std::queue<GSocket*> m_clientIn;
+    std::queue<GSocket*> m_clientAns;
     std::queue<std::string> m_dataIn;
     std::queue<std::string> m_dataAns;
     //
@@ -130,10 +133,8 @@ private:
     //
     GThread::onThreadCB m_onServerTcp;
     GThread::onThreadCB m_onClientTcp;
-    GTimer::onTimerCB m_onClientTcpTimer;
     //
-    fd_set m_descriptor;
-    int m_option;
+    std::shared_ptr<GDescriptor> m_fdRead;
     //
     std::map<std::string, GSocket*> m_clientMap;
     //

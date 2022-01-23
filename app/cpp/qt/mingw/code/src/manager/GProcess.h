@@ -20,6 +20,7 @@ public:
     //
     void run(int _argc, char** _argv);
     void runTest(int _argc, char** _argv);
+    void runTestPoll(int _argc, char** _argv);
     void runStudio(int _argc, char** _argv);
     void runSpreadsheet(int _argc, char** _argv);
     void runSocketServer(int _argc, char** _argv);
@@ -41,8 +42,10 @@ public:
     //
     static DWORD WINAPI onSocketServer(LPVOID _params);
     static DWORD WINAPI onSocketServerThread(LPVOID _params);
+    static void CALLBACK onSocketServerLoopWR(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime);
     static void CALLBACK onSocketServerTimer(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime);
     static void CALLBACK onSocketClientConsole(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime);
+    static void CALLBACK onSocketClientLoopWR(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime);
     static void CALLBACK onSocketClientDispatcher(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime);
     static void CALLBACK onTimer(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime);
     //
