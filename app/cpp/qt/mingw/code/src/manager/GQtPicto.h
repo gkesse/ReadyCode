@@ -14,7 +14,8 @@ public:
     GQtPicto(QObject* _parent = 0);
     ~GQtPicto();
     static GQtPicto* Instance();
-    QIcon getPicto(int _picto, const QColor& _color);
+    QIcon getPicto(const QString& _picto, const QColor& _color);
+    QIcon getPictoId(int _picto, const QColor& _color);
 
 private:
     static GQtPicto* m_instance;

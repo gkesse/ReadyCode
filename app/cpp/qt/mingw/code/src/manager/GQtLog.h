@@ -2,7 +2,7 @@
 #ifndef _GQtLog_
 #define _GQtLog_
 //===============================================
-#include "GInclude.h"
+#include "GQtObject.h"
 //===============================================
 #define GQTLOG GQtLog::Instance()
 //===============================================
@@ -22,9 +22,11 @@ enum eGLog {
 #define GFAT GLEVEL(eGFAT), __FILE__, __LINE__, __FUNCTION__
 #define GCRI GLEVEL(eGCRI), __FILE__, __LINE__, __FUNCTION__
 //===============================================
-class GQtLog {
+class GQtLog : public GQtObject {
+    Q_OBJECT
+
 public:
-    GQtLog();
+    GQtLog(QObject* _parent = 0);
     ~GQtLog();
     static GQtLog* Instance();
     void write(const char* _level, const char* _file, int _line, const char* _func);

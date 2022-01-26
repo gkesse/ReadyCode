@@ -1,6 +1,7 @@
 //===============================================
 #include "GProcess.h"
 #include "GQtStudio.h"
+#include "GQtPlan.h"
 #include "GQtSpreadWindow.h"
 #include "GQtOpenCVUi.h"
 #include "GOpenCV.h"
@@ -50,6 +51,9 @@ void GProcess::run(int _argc, char** _argv) {
     }
     else if(lKey == "studio") {
         runStudio(_argc, _argv);
+    }
+    else if(lKey == "plan") {
+        runPlan(_argc, _argv);
     }
     else if(lKey == "spreadsheet") {
         runSpreadsheet(_argc, _argv);
@@ -156,6 +160,13 @@ void GProcess::runTestPoll(int _argc, char** _argv) {
 void GProcess::runStudio(int _argc, char** _argv) {
     QApplication lApp(_argc, _argv);
     GQtStudio* lWindow = new GQtStudio;
+    lWindow->show();
+    lApp.exec();
+}
+//===============================================
+void GProcess::runPlan(int _argc, char** _argv) {
+    QApplication lApp(_argc, _argv);
+    GQtPlan* lWindow = new GQtPlan;
     lWindow->show();
     lApp.exec();
 }

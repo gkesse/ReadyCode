@@ -19,9 +19,21 @@ GQtPicto* GQtPicto::Instance() {
     return m_instance;
 }
 //===============================================
-QIcon GQtPicto::getPicto(int _picto, const QColor& _color) {
+QIcon GQtPicto::getPicto(const QString& _picto, const QColor& _color) {
     QVariantMap lOptions;
+    lOptions.insert("color" , _color);
     lOptions.insert("color-active" , _color);
-    return m_QtAwesome->icon(_picto);
+    lOptions.insert("color-disabled" , _color);
+    lOptions.insert("color-selected" , _color);
+    return m_QtAwesome->icon(_picto, lOptions);
+}
+//===============================================
+QIcon GQtPicto::getPictoId(int _picto, const QColor& _color) {
+    QVariantMap lOptions;
+    lOptions.insert("color" , _color);
+    lOptions.insert("color-active" , _color);
+    lOptions.insert("color-disabled" , _color);
+    lOptions.insert("color-selected" , _color);
+    return m_QtAwesome->icon(_picto, lOptions);
 }
 //===============================================

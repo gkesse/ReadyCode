@@ -5,7 +5,7 @@
 GQtObject* GQtObject::m_instance = 0;
 //===============================================
 GQtObject::GQtObject(QObject* _parent) :
-QObject(_parent) {
+        QObject(_parent) {
 
 }
 //===============================================
@@ -40,5 +40,15 @@ QString GQtObject::getResourcePath(const QString& _resource, const QString& _fil
         return "";
     }
     return lPath;
+}
+//===============================================
+bool GQtObject::setStylesheet(const QString& _filename) {
+    QFile lFile(_filename);
+    if(!lFile.open(QFile::ReadOnly)) {
+        return false;
+    }
+    QString lStyleSheet = QLatin1String(lFile.readAll());
+    qApp->setStyleSheet(lStyleSheet);
+    return true;
 }
 //===============================================

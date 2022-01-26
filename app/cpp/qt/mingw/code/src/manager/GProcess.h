@@ -22,6 +22,7 @@ public:
     void runTest(int _argc, char** _argv);
     void runTestPoll(int _argc, char** _argv);
     void runStudio(int _argc, char** _argv);
+    void runPlan(int _argc, char** _argv);
     void runSpreadsheet(int _argc, char** _argv);
     void runSocketServer(int _argc, char** _argv);
     void runSocketClient(int _argc, char** _argv);
