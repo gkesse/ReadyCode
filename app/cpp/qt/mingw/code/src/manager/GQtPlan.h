@@ -22,27 +22,15 @@ public:
     //
     QLayout* createMainWindow();
     int countMainWindowItems() const;
-    QString getMainWindowItemType(int _index) const;
-    QString getMainWindowItemText(int _index) const;
-    QString getMainWindowItemFontSize(int _index) const;
+    QString getMainWindowItem(int _index, const QString& _data) const;
     //
-    QFrame* createTitleBar();
+    QWidget* createTitleBar();
     int countTitleBarItems() const;
-    QString getTitleBarItemType(int _index) const;
-    QString getTitleBarItemName(int _index) const;
-    QString getTitleBarItemIcon(int _index) const;
-    QString getTitleBarItemPicto(int _index) const;
-    QString getTitleBarItemPictoColor(int _index) const;
+    QString getTitleBarItem(int _index, const QString& _data) const;
     //
-    QFrame* createSearchBar();
+    QWidget* createSearchBar();
     int countSearchBarItems() const;
-    QString getSearchBarItemCategory(int _index) const;
-    QString getSearchBarItemType(int _index) const;
-    QString getSearchBarItemName(int _index) const;
-    QString getSearchBarItemIcon(int _index) const;
-    QString getSearchBarItemPicto(int _index) const;
-    QString getSearchBarItemPictoColor(int _index) const;
-    int getSearchBarItemMinWidth(int _index) const;
+    QString getSearchBarItem(int _index, const QString& _data) const;
 
 private:
 

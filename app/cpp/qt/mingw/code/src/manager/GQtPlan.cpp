@@ -80,14 +80,16 @@ bool GQtPlan::maximizeOn() const {
 QLayout* GQtPlan::createMainWindow() {
     QVBoxLayout* lMainLayout = new QVBoxLayout;
     lMainLayout->setAlignment(Qt::AlignTop);
-    lMainLayout->setSpacing(20);
+    lMainLayout->setMargin(10);
+    lMainLayout->setSpacing(10);
 
     int lCount = countMainWindowItems();
 
     for(int i = 0; i < lCount; i++) {
-        QString lType = getMainWindowItemType(i);
-        QString lText = getMainWindowItemText(i);
-        QString lFontSize = getMainWindowItemFontSize(i);
+        QString lType = getMainWindowItem(i, "type");
+        QString lText = getMainWindowItem(i, "text");
+        QString lFontSize = getMainWindowItem(i, "font_size");
+        QString lFontColor = getMainWindowItem(i, "font_color");
 
         if(lType == "titlebar") {
             lMainLayout->addWidget(createTitleBar());
@@ -103,8 +105,10 @@ QLayout* GQtPlan::createMainWindow() {
             if(lFontSize != "") {
                 lStyle += QString("QLabel {font-size: %1px;}").arg(lFontSize);
             }
+            if(lFontColor != "") {
+                lStyle += QString("QLabel {color: %1;}").arg(lFontColor);
+            }
             lLabel->setStyleSheet(lStyle);
-            lLabel->setScaledContents(true);
             lMainLayout->addWidget(lLabel);
         }
     }
@@ -118,28 +122,14 @@ int GQtPlan::countMainWindowItems() const {
     return lData;
 }
 //===============================================
-QString GQtPlan::getMainWindowItemType(int _index) const {
-    m_dom->queryXPath(QString("/rdv/datas/data[code='app/mainwindow']/map/data[position()=%1]/type").arg(_index + 1));
+QString GQtPlan::getMainWindowItem(int _index, const QString& _data) const {
+    m_dom->queryXPath(QString("/rdv/datas/data[code='app/mainwindow']/map/data[position()=%1]/%2").arg(_index + 1).arg(_data));
     m_dom->getNodeXPath();
     QString lData = m_dom->getNodeValue();
     return lData;
 }
 //===============================================
-QString GQtPlan::getMainWindowItemText(int _index) const {
-    m_dom->queryXPath(QString("/rdv/datas/data[code='app/mainwindow']/map/data[position()=%1]/text").arg(_index + 1));
-    m_dom->getNodeXPath();
-    QString lData = m_dom->getNodeValue();
-    return lData;
-}
-//===============================================
-QString GQtPlan::getMainWindowItemFontSize(int _index) const {
-    m_dom->queryXPath(QString("/rdv/datas/data[code='app/mainwindow']/map/data[position()=%1]/font_size").arg(_index + 1));
-    m_dom->getNodeXPath();
-    QString lData = m_dom->getNodeValue();
-    return lData;
-}
-//===============================================
-QFrame* GQtPlan::createTitleBar() {
+QWidget* GQtPlan::createTitleBar() {
     QHBoxLayout* lMainLayout = new QHBoxLayout;
     lMainLayout->setMargin(0);
     lMainLayout->setSpacing(10);
@@ -147,11 +137,11 @@ QFrame* GQtPlan::createTitleBar() {
     int lCount = countTitleBarItems();
 
     for(int i = 0; i < lCount; i++) {
-        QString lType = getTitleBarItemType(i);
-        QString lName = getTitleBarItemName(i);
-        QString lIcon = getTitleBarItemIcon(i);
-        QString lPicto = getTitleBarItemPicto(i);
-        QString lPictoColor = getTitleBarItemPictoColor(i);
+        QString lType = getTitleBarItem(i, "type");
+        QString lName = getTitleBarItem(i, "name");
+        QString lIcon = getTitleBarItem(i, "icon");
+        QString lPicto = getTitleBarItem(i, "picto");
+        QString lPictoColor = getTitleBarItem(i, "picto_color");
 
         if(lType == "button") {
             QPushButton* lButton = new QPushButton;
@@ -170,8 +160,14 @@ QFrame* GQtPlan::createTitleBar() {
         }
     }
 
-    QFrame* lMainPage = new QFrame;
-    lMainPage->setLayout(lMainLayout);
+    QFrame* lContentPage = new QFrame;
+    lContentPage->setLayout(lMainLayout);
+    lContentPage->setMinimumSize(lContentPage->sizeHint());
+
+    QScrollArea* lMainPage = new QScrollArea;
+    lMainPage->setWidget(lContentPage);
+    lMainPage->setWidgetResizable(true);
+    lMainPage->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 
     return lMainPage;
 }
@@ -182,42 +178,14 @@ int GQtPlan::countTitleBarItems() const {
     return lData;
 }
 //===============================================
-QString GQtPlan::getTitleBarItemType(int _index) const {
-    m_dom->queryXPath(QString("/rdv/datas/data[code='app/titlebar']/map/data[position()=%1]/type").arg(_index + 1));
+QString GQtPlan::getTitleBarItem(int _index, const QString& _data) const {
+    m_dom->queryXPath(QString("/rdv/datas/data[code='app/titlebar']/map/data[position()=%1]/%2").arg(_index + 1).arg(_data));
     m_dom->getNodeXPath();
     QString lData = m_dom->getNodeValue();
     return lData;
 }
 //===============================================
-QString GQtPlan::getTitleBarItemName(int _index) const {
-    m_dom->queryXPath(QString("/rdv/datas/data[code='app/titlebar']/map/data[position()=%1]/name").arg(_index + 1));
-    m_dom->getNodeXPath();
-    QString lData = m_dom->getNodeValue();
-    return lData;
-}
-//===============================================
-QString GQtPlan::getTitleBarItemIcon(int _index) const {
-    m_dom->queryXPath(QString("/rdv/datas/data[code='app/titlebar']/map/data[position()=%1]/icon").arg(_index + 1));
-    m_dom->getNodeXPath();
-    QString lData = m_dom->getNodeValue();
-    return lData;
-}
-//===============================================
-QString GQtPlan::getTitleBarItemPicto(int _index) const {
-    m_dom->queryXPath(QString("/rdv/datas/data[code='app/titlebar']/map/data[position()=%1]/picto").arg(_index + 1));
-    m_dom->getNodeXPath();
-    QString lData = m_dom->getNodeValue();
-    return lData;
-}
-//===============================================
-QString GQtPlan::getTitleBarItemPictoColor(int _index) const {
-    m_dom->queryXPath(QString("/rdv/datas/data[code='app/titlebar']/map/data[position()=%1]/picto_color").arg(_index + 1));
-    m_dom->getNodeXPath();
-    QString lData = m_dom->getNodeValue();
-    return lData;
-}
-//===============================================
-QFrame* GQtPlan::createSearchBar() {
+QWidget* GQtPlan::createSearchBar() {
     QHBoxLayout* lTopLayout = new QHBoxLayout;
     lTopLayout->setMargin(0);
     lTopLayout->setSpacing(10);
@@ -229,13 +197,13 @@ QFrame* GQtPlan::createSearchBar() {
     int lCount = countSearchBarItems();
 
     for(int i = 0; i < lCount; i++) {
-        QString lCategory = getSearchBarItemCategory(i);
-        QString lType = getSearchBarItemType(i);
-        QString lName = getSearchBarItemName(i);
-        QString lIcon = getSearchBarItemIcon(i);
-        QString lPicto = getSearchBarItemPicto(i);
-        QString lPictoColor = getSearchBarItemPictoColor(i);
-        int lMinWidth = getSearchBarItemMinWidth(i);
+        QString lCategory = getSearchBarItem(i, "category");
+        QString lType = getSearchBarItem(i, "type");
+        QString lName = getSearchBarItem(i, "name");
+        QString lIcon = getSearchBarItem(i, "icon");
+        QString lPicto = getSearchBarItem(i, "picto");
+        QString lPictoColor = getSearchBarItem(i, "picto_color");
+        int lMinWidth = getSearchBarItem(i, "min_width").toInt();
 
         if(lCategory == "top") {
             if(lType == "radiobutton") {
@@ -292,21 +260,26 @@ QFrame* GQtPlan::createSearchBar() {
     QVBoxLayout* lContentLayout = new QVBoxLayout;
     lContentLayout->addLayout(lTopLayout);
     lContentLayout->addLayout(lCenterLayout);
-    lContentLayout->setMargin(0);
+    lContentLayout->setMargin(20);
     lContentLayout->setSpacing(20);
-    lContentLayout->setSizeConstraint(QLayout::SetMinimumSize);
 
     QFrame* lContentPage = new QFrame;
     lContentPage->setObjectName("plan_search");
     lContentPage->setLayout(lContentLayout);
+    lContentPage->setMinimumSize(lContentPage->sizeHint());
 
     QHBoxLayout* lMainLayout = new QHBoxLayout;
     lMainLayout->addWidget(lContentPage);
     lMainLayout->setMargin(0);
-    lMainLayout->setAlignment(Qt::AlignCenter);
+    lMainLayout->setSpacing(10);
 
-    QFrame* lMainPage = new QFrame;
-    lMainPage->setLayout(lMainLayout);
+    QFrame* lBodyPage = new QFrame;
+    lBodyPage->setLayout(lMainLayout);
+
+    QScrollArea* lMainPage = new QScrollArea;
+    lMainPage->setWidget(lBodyPage);
+    lMainPage->setWidgetResizable(true);
+    lMainPage->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 
     return lMainPage;
 }
@@ -317,52 +290,10 @@ int GQtPlan::countSearchBarItems() const {
     return lData;
 }
 //===============================================
-QString GQtPlan::getSearchBarItemCategory(int _index) const {
-    m_dom->queryXPath(QString("/rdv/datas/data[code='app/searchbar']/map/data[position()=%1]/category").arg(_index + 1));
+QString GQtPlan::getSearchBarItem(int _index, const QString& _data) const {
+    m_dom->queryXPath(QString("/rdv/datas/data[code='app/searchbar']/map/data[position()=%1]/%2").arg(_index + 1).arg(_data));
     m_dom->getNodeXPath();
     QString lData = m_dom->getNodeValue();
     return lData;
-}
-//===============================================
-QString GQtPlan::getSearchBarItemType(int _index) const {
-    m_dom->queryXPath(QString("/rdv/datas/data[code='app/searchbar']/map/data[position()=%1]/type").arg(_index + 1));
-    m_dom->getNodeXPath();
-    QString lData = m_dom->getNodeValue();
-    return lData;
-}
-//===============================================
-QString GQtPlan::getSearchBarItemName(int _index) const {
-    m_dom->queryXPath(QString("/rdv/datas/data[code='app/searchbar']/map/data[position()=%1]/name").arg(_index + 1));
-    m_dom->getNodeXPath();
-    QString lData = m_dom->getNodeValue();
-    return lData;
-}
-//===============================================
-QString GQtPlan::getSearchBarItemIcon(int _index) const {
-    m_dom->queryXPath(QString("/rdv/datas/data[code='app/searchbar']/map/data[position()=%1]/icon").arg(_index + 1));
-    m_dom->getNodeXPath();
-    QString lData = m_dom->getNodeValue();
-    return lData;
-}
-//===============================================
-QString GQtPlan::getSearchBarItemPicto(int _index) const {
-    m_dom->queryXPath(QString("/rdv/datas/data[code='app/searchbar']/map/data[position()=%1]/picto").arg(_index + 1));
-    m_dom->getNodeXPath();
-    QString lData = m_dom->getNodeValue();
-    return lData;
-}
-//===============================================
-QString GQtPlan::getSearchBarItemPictoColor(int _index) const {
-    m_dom->queryXPath(QString("/rdv/datas/data[code='app/searchbar']/map/data[position()=%1]/picto_color").arg(_index + 1));
-    m_dom->getNodeXPath();
-    QString lData = m_dom->getNodeValue();
-    return lData;
-}
-//===============================================
-int GQtPlan::getSearchBarItemMinWidth(int _index) const {
-    m_dom->queryXPath(QString("/rdv/datas/data[code='app/searchbar']/map/data[position()=%1]/min_width").arg(_index + 1));
-    m_dom->getNodeXPath();
-    QString lData = m_dom->getNodeValue();
-    return lData.toInt();
 }
 //===============================================
