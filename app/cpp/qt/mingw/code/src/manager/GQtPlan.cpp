@@ -25,62 +25,33 @@ void GQtPlan::createDoms() {
 }
 //===============================================
 void GQtPlan::initSettings() {
-    setWindowTitle(getTitle());
-    setWindowIcon(QIcon(GQTRES("studio/img", getLogo())));
-    resize(getWidth(), getHeight());
-    if(maximizeOn()) {
+    QString lTitle = getSettingItem("title");
+    QString lLogo = getSettingItem("logo");
+    int lWidth = getSettingItem("width").toInt();
+    int lHeight = getSettingItem("height").toInt();
+    bool lMaximizeOn = (getSettingItem("maximize_on") == "1");
+    bool lFullscreenOn = (getSettingItem("fullscreen_on") == "1");
+
+    setWindowTitle(lTitle);
+    setWindowIcon(QIcon(GQTRES("studio/img", lLogo)));
+    resize(lWidth, lHeight);
+    if(lMaximizeOn) {
         showMaximized();
     }
-    else if(fullscreenOn()) {
+    else if(lFullscreenOn) {
         showFullScreen();
     }
 }
 //===============================================
-QString GQtPlan::getTitle() const {
-    m_dom->queryXPath("/rdv/datas/data[code='app/settings']/title");
+QString GQtPlan::getSettingItem(const QString& _data) const {
+    m_dom->queryXPath(QString("/rdv/datas/data[code='app/settings']/%1").arg(_data));
     m_dom->getNodeXPath();
     QString lData = m_dom->getNodeValue();
-    return lData;
-}
-//===============================================
-QString GQtPlan::getLogo() const {
-    m_dom->queryXPath("/rdv/datas/data[code='app/settings']/logo");
-    m_dom->getNodeXPath();
-    QString lData = m_dom->getNodeValue();
-    return lData;
-}
-//===============================================
-int GQtPlan::getWidth() const {
-    m_dom->queryXPath("/rdv/datas/data[code='app/settings']/width");
-    m_dom->getNodeXPath();
-    QString lData = m_dom->getNodeValue();
-    return lData.toInt();
-}
-//===============================================
-int GQtPlan::getHeight() const {
-    m_dom->queryXPath("/rdv/datas/data[code='app/settings']/height");
-    m_dom->getNodeXPath();
-    QString lData = m_dom->getNodeValue();
-    return lData.toInt();
-}
-//===============================================
-bool GQtPlan::fullscreenOn() const {
-    m_dom->queryXPath("/rdv/datas/data[code='app/settings']/fullscreen_on");
-    m_dom->getNodeXPath();
-    bool lData = (m_dom->getNodeValue() == "1");
-    return lData;
-}
-//===============================================
-bool GQtPlan::maximizeOn() const {
-    m_dom->queryXPath("/rdv/datas/data[code='app/settings']/maximize_on");
-    m_dom->getNodeXPath();
-    bool lData = (m_dom->getNodeValue() == "1");
     return lData;
 }
 //===============================================
 QLayout* GQtPlan::createMainWindow() {
     QVBoxLayout* lContentLayout = new QVBoxLayout;
-    lContentLayout->setAlignment(Qt::AlignTop);
     lContentLayout->setMargin(10);
     lContentLayout->setSpacing(10);
 
@@ -118,6 +89,9 @@ QLayout* GQtPlan::createMainWindow() {
 
             lContentLayout->addWidget(lLabelScroll);
         }
+        else if(lType == "spacer") {
+            lContentLayout->addStretch();
+        }
     }
 
     QFrame* lContentPage = new QFrame;
@@ -126,11 +100,10 @@ QLayout* GQtPlan::createMainWindow() {
     QScrollArea* lMainPage = new QScrollArea;
     lMainPage->setWidget(lContentPage);
     lMainPage->setWidgetResizable(true);
-    lMainPage->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+    lMainPage->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
     QVBoxLayout* lMainLayout = new QVBoxLayout;
     lMainLayout->addWidget(lMainPage);
-    lMainLayout->setAlignment(Qt::AlignTop);
     lMainLayout->setMargin(0);
     lMainLayout->setSpacing(0);
 
@@ -206,13 +179,28 @@ QString GQtPlan::getTitleBarItem(int _index, const QString& _data) const {
 }
 //===============================================
 QWidget* GQtPlan::createSearchBar() {
-    QHBoxLayout* lTopLayout = new QHBoxLayout;
-    lTopLayout->setMargin(0);
-    lTopLayout->setSpacing(10);
+    QHBoxLayout* lOfferLayout = new QHBoxLayout;
+    lOfferLayout->setMargin(0);
+    lOfferLayout->setSpacing(10);
 
-    QHBoxLayout* lCenterLayout = new QHBoxLayout;
-    lCenterLayout->setMargin(0);
-    lCenterLayout->setSpacing(10);
+    QHBoxLayout* lLocationLayout = new QHBoxLayout;
+    lLocationLayout->setMargin(0);
+    lLocationLayout->setSpacing(10);
+
+    QHBoxLayout* lFilterLayout = new QHBoxLayout;
+    lFilterLayout->setMargin(0);
+    lFilterLayout->setSpacing(10);
+
+    QHBoxLayout* lDeliveryLayout = new QHBoxLayout;
+    lDeliveryLayout->setMargin(0);
+    lDeliveryLayout->setSpacing(10);
+
+    QHBoxLayout* lSearchLayout = new QHBoxLayout;
+    lSearchLayout->setMargin(0);
+    lSearchLayout->setSpacing(10);
+    lSearchLayout->setAlignment(Qt::AlignCenter);
+
+    QBoxLayout* lItemLayout = 0;
 
     int lCount = countSearchBarItems();
 
@@ -223,63 +211,98 @@ QWidget* GQtPlan::createSearchBar() {
         QString lIcon = getSearchBarItem(i, "icon");
         QString lPicto = getSearchBarItem(i, "picto");
         QString lPictoColor = getSearchBarItem(i, "picto_color");
+        int lPictoSize = getSearchBarItem(i, "picto_size").toInt();
         int lMinWidth = getSearchBarItem(i, "min_width").toInt();
 
-        if(lCategory == "top") {
-            if(lType == "radiobutton") {
-                QRadioButton* lButton = new QRadioButton;
-                lButton->setText(lName);
-                lButton->setCursor(Qt::PointingHandCursor);
-                lTopLayout->addWidget(lButton);
-            }
-            else if(lType == "spacer") {
-                lTopLayout->addStretch();
-            }
+        if(lCategory == "offer_layout") {
+            lItemLayout = lOfferLayout;
         }
-        else if(lCategory == "center") {
-            if(lType == "button/icon") {
-                QPushButton* lIcon;
-                QPushButton* lButton = createButtonIcon(lName, &lIcon);
-                if(lPicto != "") {
-                    if(lPictoColor == "") lPictoColor = "#ffffff";
-                    lIcon->setIcon(GQTPICTO(lPicto, lPictoColor));
-                }
-                lButton->setCursor(Qt::PointingHandCursor);
-                lCenterLayout->addWidget(lButton);
+        else if(lCategory == "location_layout") {
+            lItemLayout = lLocationLayout;
+        }
+        else if(lCategory == "filter_layout") {
+            lItemLayout = lFilterLayout;
+        }
+        else if(lCategory == "delivery_layout") {
+            lItemLayout = lDeliveryLayout;
+        }
+        else if(lCategory == "search_layout") {
+            lItemLayout = lSearchLayout;
+        }
+
+        if(lItemLayout == 0) break;
+
+
+        if(lType == "button") {
+            QPushButton* lButton = new QPushButton;
+            lButton->setText(lName);
+            if(lPicto != "") {
+                if(lPictoColor == "") lPictoColor = "#ffffff";
+                lButton->setIcon(GQTPICTO(lPicto, lPictoColor));
             }
-            else if(lType == "button") {
-                QPushButton* lButton = new QPushButton;
-                lButton->setText(lName);
-                if(lPicto != "") {
-                    if(lPictoColor == "") lPictoColor = "#ffffff";
-                    lButton->setIcon(GQTPICTO(lPicto, lPictoColor));
-                }
-                lButton->setCursor(Qt::PointingHandCursor);
-                lCenterLayout->addWidget(lButton);
+            lButton->setCursor(Qt::PointingHandCursor);
+            lItemLayout->addWidget(lButton);
+        }
+        else if(lType == "button/icon") {
+            QPushButton* lIcon;
+            QPushButton* lButton = createButtonIcon(lName, &lIcon);
+            if(lPicto != "") {
+                if(lPictoColor == "") lPictoColor = "#ffffff";
+                lIcon->setIcon(GQTPICTO(lPicto, lPictoColor));
             }
-            else if(lType == "lineedit/icon") {
-                QPushButton* lIcon;
-                QLineEdit* lLineEdit = createLineEditIcon(&lIcon);
-                lLineEdit->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Maximum);
-                lLineEdit->setPlaceholderText(lName);
-                if(lMinWidth != 0) {
-                    lLineEdit->setMinimumWidth(lMinWidth);
-                }
-                if(lPicto != "") {
-                    if(lPictoColor == "") lPictoColor = "#ffffff";
-                    lIcon->setIcon(GQTPICTO(lPicto, lPictoColor));
-                }
-                lCenterLayout->addWidget(lLineEdit);
+            lButton->setCursor(Qt::PointingHandCursor);
+            lItemLayout->addWidget(lButton);
+        }
+        else if(lType == "button/icon/round") {
+            QPushButton* lButton = new QPushButton;
+            lButton->setObjectName("button_icon_round");
+            if(lPicto != "") {
+                if(lPictoColor == "") lPictoColor = "#ffffff";
+                lButton->setIcon(GQTPICTO(lPicto, lPictoColor));
             }
-            else if(lType == "spacer") {
-                lCenterLayout->addStretch();
+            if(lPictoSize) {
+                lButton->setIconSize(QSize(lPictoSize, lPictoSize));
             }
+            lButton->setCursor(Qt::PointingHandCursor);
+            lItemLayout->addWidget(lButton);
+        }
+        else if(lType == "radiobutton") {
+            QRadioButton* lButton = new QRadioButton;
+            lButton->setText(lName);
+            lButton->setCursor(Qt::PointingHandCursor);
+            lItemLayout->addWidget(lButton);
+        }
+        else if(lType == "checkbox") {
+            QCheckBox* lCheckBox = new QCheckBox;
+            lCheckBox->setText(lName);
+            lCheckBox->setCursor(Qt::PointingHandCursor);
+            lItemLayout->addWidget(lCheckBox);
+        }
+        else if(lType == "lineedit/icon") {
+            QPushButton* lIcon;
+            QLineEdit* lLineEdit = createLineEditIcon(&lIcon);
+            lLineEdit->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Maximum);
+            lLineEdit->setPlaceholderText(lName);
+            if(lMinWidth != 0) {
+                lLineEdit->setMinimumWidth(lMinWidth);
+            }
+            if(lPicto != "") {
+                if(lPictoColor == "") lPictoColor = "#ffffff";
+                lIcon->setIcon(GQTPICTO(lPicto, lPictoColor));
+            }
+            lItemLayout->addWidget(lLineEdit);
+        }
+        else if(lType == "spacer") {
+            lItemLayout->addStretch();
         }
     }
 
     QVBoxLayout* lContentLayout = new QVBoxLayout;
-    lContentLayout->addLayout(lTopLayout);
-    lContentLayout->addLayout(lCenterLayout);
+    lContentLayout->addLayout(lOfferLayout);
+    lContentLayout->addLayout(lLocationLayout);
+    lContentLayout->addLayout(lFilterLayout);
+    lContentLayout->addLayout(lDeliveryLayout);
+    lContentLayout->addLayout(lSearchLayout);
     lContentLayout->setMargin(20);
     lContentLayout->setSpacing(20);
 

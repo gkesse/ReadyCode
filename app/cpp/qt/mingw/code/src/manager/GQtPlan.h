@@ -13,12 +13,7 @@ public:
     void createDoms();
     //
     void initSettings();
-    QString getTitle() const;
-    QString getLogo() const;
-    int getWidth() const;
-    int getHeight() const;
-    bool fullscreenOn() const;
-    bool maximizeOn() const;
+    QString getSettingItem(const QString& _data) const;
     //
     QLayout* createMainWindow();
     int countMainWindowItems() const;
