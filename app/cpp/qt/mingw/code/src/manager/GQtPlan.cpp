@@ -3,6 +3,7 @@
 #include "GQtXml.h"
 #include "GQtPicto.h"
 #include "GQtLog.h"
+#include "GQtScrollArea.h"
 //===============================================
 GQtPlan::GQtPlan(QWidget* _parent) :
 GQtWidget(_parent) {
@@ -78,10 +79,10 @@ bool GQtPlan::maximizeOn() const {
 }
 //===============================================
 QLayout* GQtPlan::createMainWindow() {
-    QVBoxLayout* lMainLayout = new QVBoxLayout;
-    lMainLayout->setAlignment(Qt::AlignTop);
-    lMainLayout->setMargin(10);
-    lMainLayout->setSpacing(10);
+    QVBoxLayout* lContentLayout = new QVBoxLayout;
+    lContentLayout->setAlignment(Qt::AlignTop);
+    lContentLayout->setMargin(10);
+    lContentLayout->setSpacing(10);
 
     int lCount = countMainWindowItems();
 
@@ -92,10 +93,10 @@ QLayout* GQtPlan::createMainWindow() {
         QString lFontColor = getMainWindowItem(i, "font_color");
 
         if(lType == "titlebar") {
-            lMainLayout->addWidget(createTitleBar());
+            lContentLayout->addWidget(createTitleBar());
         }
         else if(lType == "searchbar") {
-            lMainLayout->addWidget(createSearchBar());
+            lContentLayout->addWidget(createSearchBar());
         }
         else if(lType == "message") {
             QLabel* lLabel = new QLabel;
@@ -109,9 +110,29 @@ QLayout* GQtPlan::createMainWindow() {
                 lStyle += QString("QLabel {color: %1;}").arg(lFontColor);
             }
             lLabel->setStyleSheet(lStyle);
-            lMainLayout->addWidget(lLabel);
+
+            GQtScrollArea* lLabelScroll = new GQtScrollArea;
+            lLabelScroll->setWidget(lLabel);
+            lLabelScroll->setWidgetResizable(true);
+            lLabelScroll->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+
+            lContentLayout->addWidget(lLabelScroll);
         }
     }
+
+    QFrame* lContentPage = new QFrame;
+    lContentPage->setLayout(lContentLayout);
+
+    QScrollArea* lMainPage = new QScrollArea;
+    lMainPage->setWidget(lContentPage);
+    lMainPage->setWidgetResizable(true);
+    lMainPage->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+
+    QVBoxLayout* lMainLayout = new QVBoxLayout;
+    lMainLayout->addWidget(lMainPage);
+    lMainLayout->setAlignment(Qt::AlignTop);
+    lMainLayout->setMargin(0);
+    lMainLayout->setSpacing(0);
 
     return lMainLayout;
 }
@@ -162,12 +183,11 @@ QWidget* GQtPlan::createTitleBar() {
 
     QFrame* lContentPage = new QFrame;
     lContentPage->setLayout(lMainLayout);
-    lContentPage->setMinimumSize(lContentPage->sizeHint());
 
-    QScrollArea* lMainPage = new QScrollArea;
+    GQtScrollArea* lMainPage = new GQtScrollArea;
     lMainPage->setWidget(lContentPage);
     lMainPage->setWidgetResizable(true);
-    lMainPage->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    lMainPage->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
 
     return lMainPage;
 }
@@ -276,10 +296,10 @@ QWidget* GQtPlan::createSearchBar() {
     QFrame* lBodyPage = new QFrame;
     lBodyPage->setLayout(lMainLayout);
 
-    QScrollArea* lMainPage = new QScrollArea;
+    GQtScrollArea* lMainPage = new GQtScrollArea;
     lMainPage->setWidget(lBodyPage);
     lMainPage->setWidgetResizable(true);
-    lMainPage->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    lMainPage->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
 
     return lMainPage;
 }
