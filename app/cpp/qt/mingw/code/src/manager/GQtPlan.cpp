@@ -59,35 +59,48 @@ QLayout* GQtPlan::createMainWindow() {
 
     for(int i = 0; i < lCount; i++) {
         QString lType = getMainWindowItem(i, "type");
-        QString lText = getMainWindowItem(i, "text");
-        QString lFontSize = getMainWindowItem(i, "font_size");
-        QString lFontColor = getMainWindowItem(i, "font_color");
 
-        if(lType == "titlebar") {
+        if(lType == "message") {
+            lContentLayout->addWidget(createMainWindow(i));
+        }
+        else if(lType == "titlebar") {
             lContentLayout->addWidget(createTitleBar());
         }
         else if(lType == "searchbar") {
             lContentLayout->addWidget(createSearchBar());
         }
-        else if(lType == "message") {
-            QLabel* lLabel = new QLabel;
-            lLabel->setText(lText);
-            lLabel->setAlignment(Qt::AlignCenter);
-            QString lStyle = "";
-            if(lFontSize != "") {
-                lStyle += QString("QLabel {font-size: %1px;}").arg(lFontSize);
-            }
-            if(lFontColor != "") {
-                lStyle += QString("QLabel {color: %1;}").arg(lFontColor);
-            }
-            lLabel->setStyleSheet(lStyle);
-
-            GQtScrollArea* lLabelScroll = new GQtScrollArea;
-            lLabelScroll->setWidget(lLabel);
-            lLabelScroll->setWidgetResizable(true);
-            lLabelScroll->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
-
-            lContentLayout->addWidget(lLabelScroll);
+        else if(lType == "quick_access") {
+            lContentLayout->addWidget(createQuickAccess());
+        }
+        else if(lType == "recent_search") {
+            lContentLayout->addWidget(createRecentSearch());
+        }
+        else if(lType == "top_category") {
+            lContentLayout->addWidget(createTopCategory());
+        }
+        else if(lType == "holiday") {
+            lContentLayout->addWidget(createHoliday());
+        }
+        else if(lType == "location_map") {
+            lContentLayout->addWidget(createLocationMap());
+        }
+        else if(lType == "community") {
+            lContentLayout->addWidget(createCommunity());
+        }
+        else if(lType == "motivation") {
+            lContentLayout->addWidget(createMotivation());
+        }
+        else if(lType == "quick_link") {
+            lContentLayout->addWidget(createQuickLink());
+        }
+        else if(lType == "about") {
+            lContentLayout->addWidget(createAbout());
+        }
+        else if(lType == "partner") {
+            lContentLayout->addWidget(createPartner());
+        }
+        else if(lType == "social_networks") {
+            lContentLayout->addWidget(createSocialNetworks());
         }
         else if(lType == "spacer") {
             lContentLayout->addStretch();
@@ -110,14 +123,95 @@ QLayout* GQtPlan::createMainWindow() {
     return lMainLayout;
 }
 //===============================================
+QWidget* GQtPlan::createMainWindow(int _index) {
+    QHBoxLayout* lMainLayout = new QHBoxLayout;
+    lMainLayout->setMargin(0);
+    lMainLayout->setSpacing(10);
+
+    int lCount = countMainWindowItems(_index);
+
+    for(int i = 0; i < lCount; i++) {
+        QString lType = getMainWindowItem(_index, i, "type");
+        QString lText = getMainWindowItem(_index, i, "text");
+        QString lName = getMainWindowItem(_index, i, "name");
+        QString lFontSize = getMainWindowItem(_index, i, "font_size");
+        QString lFontColor = getMainWindowItem(_index, i, "font_color");
+        QString lPicto = getMainWindowItem(_index, i, "picto");
+        QString lPictoColor = getMainWindowItem(_index, i, "picto_color");
+        int lPictoSize = getMainWindowItem(_index, i, "picto_size").toInt();
+
+        if(lType == "label") {
+            QLabel* lLabel = new QLabel;
+            lLabel->setText(lText);
+            QString lStyle = "";
+            if(lFontSize != "") {
+                lStyle += QString("QLabel {font-size: %1px;}").arg(lFontSize);
+            }
+            if(lFontColor != "") {
+                lStyle += QString("QLabel {color: %1;}").arg(lFontColor);
+            }
+            lLabel->setStyleSheet(lStyle);
+
+            lMainLayout->addWidget(lLabel);
+        }
+        else if(lType == "button") {
+            QPushButton* lButton = new QPushButton;
+            lButton->setObjectName("plan_button_title");
+            lButton->setText(lName);
+            if(lPicto != "") {
+                if(lPictoColor == "") lPictoColor = "#ffffff";
+                lButton->setIcon(GQTPICTO(lPicto, lPictoColor));
+            }
+            if(lPictoSize) {
+                lButton->setIconSize(QSize(lPictoSize, lPictoSize));
+            }
+            QString lStyle = "";
+            if(lFontSize != "") {
+                lStyle += QString("QPushButton {font-size: %1px;}").arg(lFontSize);
+            }
+            if(lFontColor != "") {
+                lStyle += QString("QPushButton {color: %1;}").arg(lFontColor);
+            }
+            lButton->setStyleSheet(lStyle);
+            lMainLayout->addWidget(lButton);
+        }
+        else if(lType == "spacer") {
+            lMainLayout->addStretch();
+        }
+    }
+
+    QFrame* lContentPage = new QFrame;
+    lContentPage->setLayout(lMainLayout);
+
+    GQtScrollArea* lMainPage = new GQtScrollArea;
+    lMainPage->setWidget(lContentPage);
+    lMainPage->setWidgetResizable(true);
+    lMainPage->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+
+    return lMainPage;
+}
+//===============================================
 int GQtPlan::countMainWindowItems() const {
     m_dom->queryXPath("/rdv/datas/data[code='app/mainwindow']/map/data");
     int lData = m_dom->countXPath();
     return lData;
 }
 //===============================================
+int GQtPlan::countMainWindowItems(int _index) const {
+    m_dom->queryXPath(QString("/rdv/datas/data[code='app/mainwindow']/map/data[position()=%1]/map/data").arg(_index + 1));
+    int lData = m_dom->countXPath();
+    return lData;
+}
+//===============================================
 QString GQtPlan::getMainWindowItem(int _index, const QString& _data) const {
     m_dom->queryXPath(QString("/rdv/datas/data[code='app/mainwindow']/map/data[position()=%1]/%2").arg(_index + 1).arg(_data));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData;
+}
+//===============================================
+QString GQtPlan::getMainWindowItem(int _i, int _j, const QString& _data) const {
+    m_dom->queryXPath(QString("/rdv/datas/data[code='app/mainwindow']/map/data[position()=%1]/map/data[position()=%2]/%3").arg(_i+ 1).arg(_j+ 1).arg(_data));
     m_dom->getNodeXPath();
     QString lData = m_dom->getNodeValue();
     return lData;
@@ -335,6 +429,692 @@ int GQtPlan::countSearchBarItems() const {
 //===============================================
 QString GQtPlan::getSearchBarItem(int _index, const QString& _data) const {
     m_dom->queryXPath(QString("/rdv/datas/data[code='app/searchbar']/map/data[position()=%1]/%2").arg(_index + 1).arg(_data));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData;
+}
+//===============================================
+QWidget* GQtPlan::createQuickAccess() {
+    QHBoxLayout* lMainLayout = new QHBoxLayout;
+    lMainLayout->setMargin(0);
+    lMainLayout->setSpacing(10);
+
+    int lCount = countQuickAccessItems();
+
+    for(int i = 0; i < lCount; i++) {
+        QString lType = getQuickAccessItem(i, "type");
+        QString lName = getQuickAccessItem(i, "name");
+        QString lPicto = getQuickAccessItem(i, "picto");
+        QString lPictoColor = getQuickAccessItem(i, "picto_color");
+
+        if(lType == "button/icon") {
+            QPushButton* lIcon;
+            QPushButton* lButton = createButtonIcon(lName, &lIcon);
+            if(lPicto != "") {
+                if(lPictoColor == "") lPictoColor = "#ffffff";
+                lIcon->setIcon(GQTPICTO(lPicto, lPictoColor));
+            }
+            lButton->setCursor(Qt::PointingHandCursor);
+            lMainLayout->addWidget(lButton);
+        }
+        else if(lType == "spacer") {
+            lMainLayout->addStretch();
+        }
+    }
+
+    QFrame* lContentPage = new QFrame;
+    lContentPage->setLayout(lMainLayout);
+
+    GQtScrollArea* lMainPage = new GQtScrollArea;
+    lMainPage->setWidget(lContentPage);
+    lMainPage->setWidgetResizable(true);
+    lMainPage->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+
+    return lMainPage;
+}
+//===============================================
+int GQtPlan::countQuickAccessItems() const {
+    m_dom->queryXPath("/rdv/datas/data[code='app/quick_access']/map/data");
+    int lData = m_dom->countXPath();
+    return lData;
+}
+//===============================================
+QString GQtPlan::getQuickAccessItem(int _index, const QString& _data) const {
+    m_dom->queryXPath(QString("/rdv/datas/data[code='app/quick_access']/map/data[position()=%1]/%2").arg(_index + 1).arg(_data));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData;
+}
+//===============================================
+QWidget* GQtPlan::createRecentSearch() {
+    QHBoxLayout* lMainLayout = new QHBoxLayout;
+    lMainLayout->setMargin(0);
+    lMainLayout->setSpacing(10);
+
+    int lCount = countRecentSearchItems();
+
+    for(int i = 0; i < lCount; i++) {
+        QString lType = getRecentSearchItem(i, "type");
+
+        if(lType == "box") {
+            lMainLayout->addWidget(createRecentSearch(i));
+        }
+        else if(lType == "spacer") {
+            lMainLayout->addStretch();
+        }
+    }
+
+    QFrame* lContentPage = new QFrame;
+    lContentPage->setLayout(lMainLayout);
+
+    GQtScrollArea* lMainPage = new GQtScrollArea;
+    lMainPage->setWidget(lContentPage);
+    lMainPage->setWidgetResizable(true);
+    lMainPage->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+
+    return lMainPage;
+}
+//===============================================
+QWidget* GQtPlan::createRecentSearch(int _index) {
+    QVBoxLayout* lMainLayout = new QVBoxLayout;
+    lMainLayout->setMargin(10);
+    lMainLayout->setSpacing(10);
+
+    QHBoxLayout* lTitleLayout = 0;
+    QHBoxLayout* lCategoryLayout = 0;
+    QHBoxLayout* lLocationLayout = 0;
+    QBoxLayout* lItemLayout = 0;
+
+    int lCount = countSearchBarItems();
+
+    int lMinWidth = getRecentSearchItem(_index, "min_width").toInt();
+
+    for(int i = 0; i < lCount; i++) {
+        QString lCategory = getRecentSearchItem(_index, i, "category");
+        QString lType = getRecentSearchItem(_index, i, "type");
+        QString lText = getRecentSearchItem(_index, i, "text");
+        QString lName = getRecentSearchItem(_index, i, "name");
+        QString lFontColor = getRecentSearchItem(_index, i, "font_color");
+        QString lFontSize = getRecentSearchItem(_index, i, "font_size");
+        QString lPicto = getRecentSearchItem(_index, i, "picto");
+        QString lPictoColor = getRecentSearchItem(_index, i, "picto_color");
+        int lPictoSize = getRecentSearchItem(_index, i, "picto_size").toInt();
+
+        if(lCategory == "main_layout") {
+            lItemLayout = lMainLayout;
+        }
+        else if(lCategory == "title_layout") {
+            if(!lTitleLayout) {
+                lTitleLayout = new QHBoxLayout;
+                lTitleLayout->setMargin(0);
+                lTitleLayout->setSpacing(10);
+                lMainLayout->addLayout(lTitleLayout);
+            }
+            lItemLayout = lTitleLayout;
+        }
+        else if(lCategory == "category_layout") {
+            if(!lCategoryLayout) {
+                lCategoryLayout = new QHBoxLayout;
+                lCategoryLayout->setMargin(0);
+                lCategoryLayout->setSpacing(10);
+                lMainLayout->addLayout(lCategoryLayout);
+            }
+            lItemLayout = lCategoryLayout;
+        }
+        else if(lCategory == "location_layout") {
+            if(!lLocationLayout) {
+                lLocationLayout = new QHBoxLayout;
+                lLocationLayout->setMargin(0);
+                lLocationLayout->setSpacing(10);
+                lMainLayout->addLayout(lLocationLayout);
+            }
+            lItemLayout = lLocationLayout;
+        }
+
+        if(lItemLayout == 0) break;
+
+        if(lType == "label") {
+            QLabel* lLabel = new QLabel;
+            lLabel->setText(lText);
+            QString lStyle = "";
+            if(lFontSize != "") {
+                lStyle += QString("QLabel {font-size: %1px;}").arg(lFontSize);
+            }
+            if(lFontColor != "") {
+                lStyle += QString("QLabel {color: %1;}").arg(lFontColor);
+            }
+            lLabel->setStyleSheet(lStyle);
+
+            lItemLayout->addWidget(lLabel);
+        }
+        else if(lType == "button") {
+            QPushButton* lButton = new QPushButton;
+            lButton->setObjectName("plan_button_title");
+            lButton->setText(lName);
+            if(lPicto != "") {
+                if(lPictoColor == "") lPictoColor = "#ffffff";
+                lButton->setIcon(GQTPICTO(lPicto, lPictoColor));
+            }
+            if(lPictoSize != 0) {
+                lButton->setIconSize(QSize(lPictoSize, lPictoSize));
+            }
+            lButton->setCursor(Qt::PointingHandCursor);
+            lItemLayout->addWidget(lButton);
+        }
+        else if(lType == "spacer") {
+            lItemLayout->addStretch();
+        }
+    }
+
+    QFrame* lBodyPage = new QFrame;
+    lBodyPage->setLayout(lMainLayout);
+
+    GQtScrollArea* lMainPage = new GQtScrollArea;
+    lMainPage->setWidget(lBodyPage);
+    lMainPage->setWidgetResizable(true);
+    lMainPage->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+
+    QVBoxLayout* lFormLayout = new QVBoxLayout;
+    lFormLayout->addWidget(lMainPage);
+    lFormLayout->setMargin(0);
+    lFormLayout->setSpacing(0);
+
+    QFrame* lFormPage = new QFrame;
+    lFormPage->setObjectName("plan_box");
+    lFormPage->setLayout(lFormLayout);
+
+    return lFormPage;
+}
+//===============================================
+int GQtPlan::countRecentSearchItems() const {
+    m_dom->queryXPath("/rdv/datas/data[code='app/recent_search']/map/data");
+    int lData = m_dom->countXPath();
+    return lData;
+}
+//===============================================
+int GQtPlan::countRecentSearchItems(int _index) const {
+    m_dom->queryXPath(QString("/rdv/datas/data[code='app/recent_search']/map/data[position()=%1]/map/data").arg(_index + 1));
+    int lData = m_dom->countXPath();
+    return lData;
+}
+//===============================================
+QString GQtPlan::getRecentSearchItem(int _index, const QString& _data) const {
+    m_dom->queryXPath(QString("/rdv/datas/data[code='app/recent_search']/map/data[position()=%1]/%2").arg(_index + 1).arg(_data));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData;
+}
+//===============================================
+QString GQtPlan::getRecentSearchItem(int _i, int _j, const QString& _data) const {
+    m_dom->queryXPath(QString("/rdv/datas/data[code='app/recent_search']/map/data[position()=%1]/map/data[position()=%2]/%3").arg(_i + 1).arg(_j + 1).arg(_data));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData;
+}
+//===============================================
+QWidget* GQtPlan::createTopCategory() {
+    QHBoxLayout* lMainLayout = new QHBoxLayout;
+    lMainLayout->setMargin(0);
+    lMainLayout->setSpacing(10);
+
+    int lCount = countTopCategoryItems();
+
+    for(int i = 0; i < lCount; i++) {
+        QString lType = getTopCategoryItem(i, "type");
+        QString lName = getQuickAccessItem(i, "name");
+        QString lPicto = getQuickAccessItem(i, "picto");
+        QString lPictoColor = getQuickAccessItem(i, "picto_color");
+
+        if(lType == "button/icon") {
+            QPushButton* lIcon;
+            QPushButton* lButton = createButtonIcon(lName, &lIcon);
+            if(lPicto != "") {
+                if(lPictoColor == "") lPictoColor = "#ffffff";
+                lIcon->setIcon(GQTPICTO(lPicto, lPictoColor));
+            }
+            lButton->setCursor(Qt::PointingHandCursor);
+            lMainLayout->addWidget(lButton);
+        }
+        else if(lType == "spacer") {
+            lMainLayout->addStretch();
+        }
+    }
+
+    QFrame* lContentPage = new QFrame;
+    lContentPage->setLayout(lMainLayout);
+
+    GQtScrollArea* lMainPage = new GQtScrollArea;
+    lMainPage->setWidget(lContentPage);
+    lMainPage->setWidgetResizable(true);
+    lMainPage->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+
+    return lMainPage;
+}
+//===============================================
+int GQtPlan::countTopCategoryItems() const {
+    m_dom->queryXPath("/rdv/datas/data[code='app/top_category']/map/data");
+    int lData = m_dom->countXPath();
+    return lData;
+}
+//===============================================
+QString GQtPlan::getTopCategoryItem(int _index, const QString& _data) const {
+    m_dom->queryXPath(QString("/rdv/datas/data[code='app/top_category']/map/data[position()=%1]/%2").arg(_index + 1).arg(_data));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData;
+}
+//===============================================
+QWidget* GQtPlan::createHoliday() {
+    QHBoxLayout* lMainLayout = new QHBoxLayout;
+    lMainLayout->setMargin(0);
+    lMainLayout->setSpacing(10);
+
+    int lCount = countQuickAccessItems();
+
+    for(int i = 0; i < lCount; i++) {
+        QString lType = getQuickAccessItem(i, "type");
+        QString lName = getQuickAccessItem(i, "name");
+        QString lPicto = getQuickAccessItem(i, "picto");
+        QString lPictoColor = getQuickAccessItem(i, "picto_color");
+
+        if(lType == "button/icon") {
+            QPushButton* lIcon;
+            QPushButton* lButton = createButtonIcon(lName, &lIcon);
+            if(lPicto != "") {
+                if(lPictoColor == "") lPictoColor = "#ffffff";
+                lIcon->setIcon(GQTPICTO(lPicto, lPictoColor));
+            }
+            lButton->setCursor(Qt::PointingHandCursor);
+            lMainLayout->addWidget(lButton);
+        }
+        else if(lType == "spacer") {
+            lMainLayout->addStretch();
+        }
+    }
+
+    QFrame* lContentPage = new QFrame;
+    lContentPage->setLayout(lMainLayout);
+
+    GQtScrollArea* lMainPage = new GQtScrollArea;
+    lMainPage->setWidget(lContentPage);
+    lMainPage->setWidgetResizable(true);
+    lMainPage->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+
+    return lMainPage;
+}
+//===============================================
+int GQtPlan::countHolidayItems() const {
+    m_dom->queryXPath("/rdv/datas/data[code='app/holiday']/map/data");
+    int lData = m_dom->countXPath();
+    return lData;
+}
+//===============================================
+QString GQtPlan::getHolidayItem(int _index, const QString& _data) const {
+    m_dom->queryXPath(QString("/rdv/datas/data[code='app/holiday']/map/data[position()=%1]/%2").arg(_index + 1).arg(_data));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData;
+}
+//===============================================
+QWidget* GQtPlan::createLocationMap() {
+    QHBoxLayout* lMainLayout = new QHBoxLayout;
+    lMainLayout->setMargin(0);
+    lMainLayout->setSpacing(10);
+
+    int lCount = countQuickAccessItems();
+
+    for(int i = 0; i < lCount; i++) {
+        QString lType = getQuickAccessItem(i, "type");
+        QString lName = getQuickAccessItem(i, "name");
+        QString lPicto = getQuickAccessItem(i, "picto");
+        QString lPictoColor = getQuickAccessItem(i, "picto_color");
+
+        if(lType == "button/icon") {
+            QPushButton* lIcon;
+            QPushButton* lButton = createButtonIcon(lName, &lIcon);
+            if(lPicto != "") {
+                if(lPictoColor == "") lPictoColor = "#ffffff";
+                lIcon->setIcon(GQTPICTO(lPicto, lPictoColor));
+            }
+            lButton->setCursor(Qt::PointingHandCursor);
+            lMainLayout->addWidget(lButton);
+        }
+        else if(lType == "spacer") {
+            lMainLayout->addStretch();
+        }
+    }
+
+    QFrame* lContentPage = new QFrame;
+    lContentPage->setLayout(lMainLayout);
+
+    GQtScrollArea* lMainPage = new GQtScrollArea;
+    lMainPage->setWidget(lContentPage);
+    lMainPage->setWidgetResizable(true);
+    lMainPage->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+
+    return lMainPage;
+}
+//===============================================
+int GQtPlan::countLocationMapItems() const {
+    m_dom->queryXPath("/rdv/datas/data[code='app/location_map']/map/data");
+    int lData = m_dom->countXPath();
+    return lData;
+}
+//===============================================
+QString GQtPlan::getLocationMapItem(int _index, const QString& _data) const {
+    m_dom->queryXPath(QString("/rdv/datas/data[code='app/location_map']/map/data[position()=%1]/%2").arg(_index + 1).arg(_data));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData;
+}
+//===============================================
+QWidget* GQtPlan::createCommunity() {
+    QHBoxLayout* lMainLayout = new QHBoxLayout;
+    lMainLayout->setMargin(0);
+    lMainLayout->setSpacing(10);
+
+    int lCount = countQuickAccessItems();
+
+    for(int i = 0; i < lCount; i++) {
+        QString lType = getQuickAccessItem(i, "type");
+        QString lName = getQuickAccessItem(i, "name");
+        QString lPicto = getQuickAccessItem(i, "picto");
+        QString lPictoColor = getQuickAccessItem(i, "picto_color");
+
+        if(lType == "button/icon") {
+            QPushButton* lIcon;
+            QPushButton* lButton = createButtonIcon(lName, &lIcon);
+            if(lPicto != "") {
+                if(lPictoColor == "") lPictoColor = "#ffffff";
+                lIcon->setIcon(GQTPICTO(lPicto, lPictoColor));
+            }
+            lButton->setCursor(Qt::PointingHandCursor);
+            lMainLayout->addWidget(lButton);
+        }
+        else if(lType == "spacer") {
+            lMainLayout->addStretch();
+        }
+    }
+
+    QFrame* lContentPage = new QFrame;
+    lContentPage->setLayout(lMainLayout);
+
+    GQtScrollArea* lMainPage = new GQtScrollArea;
+    lMainPage->setWidget(lContentPage);
+    lMainPage->setWidgetResizable(true);
+    lMainPage->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+
+    return lMainPage;
+}
+//===============================================
+int GQtPlan::countCommunityItems() const {
+    m_dom->queryXPath("/rdv/datas/data[code='app/community']/map/data");
+    int lData = m_dom->countXPath();
+    return lData;
+}
+//===============================================
+QString GQtPlan::getCommunityItem(int _index, const QString& _data) const {
+    m_dom->queryXPath(QString("/rdv/datas/data[code='app/community']/map/data[position()=%1]/%2").arg(_index + 1).arg(_data));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData;
+}
+//===============================================
+QWidget* GQtPlan::createMotivation() {
+    QHBoxLayout* lMainLayout = new QHBoxLayout;
+    lMainLayout->setMargin(0);
+    lMainLayout->setSpacing(10);
+
+    int lCount = countQuickAccessItems();
+
+    for(int i = 0; i < lCount; i++) {
+        QString lType = getQuickAccessItem(i, "type");
+        QString lName = getQuickAccessItem(i, "name");
+        QString lPicto = getQuickAccessItem(i, "picto");
+        QString lPictoColor = getQuickAccessItem(i, "picto_color");
+
+        if(lType == "button/icon") {
+            QPushButton* lIcon;
+            QPushButton* lButton = createButtonIcon(lName, &lIcon);
+            if(lPicto != "") {
+                if(lPictoColor == "") lPictoColor = "#ffffff";
+                lIcon->setIcon(GQTPICTO(lPicto, lPictoColor));
+            }
+            lButton->setCursor(Qt::PointingHandCursor);
+            lMainLayout->addWidget(lButton);
+        }
+        else if(lType == "spacer") {
+            lMainLayout->addStretch();
+        }
+    }
+
+    QFrame* lContentPage = new QFrame;
+    lContentPage->setLayout(lMainLayout);
+
+    GQtScrollArea* lMainPage = new GQtScrollArea;
+    lMainPage->setWidget(lContentPage);
+    lMainPage->setWidgetResizable(true);
+    lMainPage->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+
+    return lMainPage;
+}
+//===============================================
+int GQtPlan::countMotivationItems() const {
+    m_dom->queryXPath("/rdv/datas/data[code='app/motivation']/map/data");
+    int lData = m_dom->countXPath();
+    return lData;
+}
+//===============================================
+QString GQtPlan::getMotivationItem(int _index, const QString& _data) const {
+    m_dom->queryXPath(QString("/rdv/datas/data[code='app/motivation']/map/data[position()=%1]/%2").arg(_index + 1).arg(_data));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData;
+}
+//===============================================
+QWidget* GQtPlan::createQuickLink() {
+    QHBoxLayout* lMainLayout = new QHBoxLayout;
+    lMainLayout->setMargin(0);
+    lMainLayout->setSpacing(10);
+
+    int lCount = countQuickAccessItems();
+
+    for(int i = 0; i < lCount; i++) {
+        QString lType = getQuickAccessItem(i, "type");
+        QString lName = getQuickAccessItem(i, "name");
+        QString lPicto = getQuickAccessItem(i, "picto");
+        QString lPictoColor = getQuickAccessItem(i, "picto_color");
+
+        if(lType == "button/icon") {
+            QPushButton* lIcon;
+            QPushButton* lButton = createButtonIcon(lName, &lIcon);
+            if(lPicto != "") {
+                if(lPictoColor == "") lPictoColor = "#ffffff";
+                lIcon->setIcon(GQTPICTO(lPicto, lPictoColor));
+            }
+            lButton->setCursor(Qt::PointingHandCursor);
+            lMainLayout->addWidget(lButton);
+        }
+        else if(lType == "spacer") {
+            lMainLayout->addStretch();
+        }
+    }
+
+    QFrame* lContentPage = new QFrame;
+    lContentPage->setLayout(lMainLayout);
+
+    GQtScrollArea* lMainPage = new GQtScrollArea;
+    lMainPage->setWidget(lContentPage);
+    lMainPage->setWidgetResizable(true);
+    lMainPage->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+
+    return lMainPage;
+}
+//===============================================
+int GQtPlan::countQuickLinkItems() const {
+    m_dom->queryXPath("/rdv/datas/data[code='app/quick_link']/map/data");
+    int lData = m_dom->countXPath();
+    return lData;
+}
+//===============================================
+QString GQtPlan::getQuickLinkItem(int _index, const QString& _data) const {
+    m_dom->queryXPath(QString("/rdv/datas/data[code='app/quick_link']/map/data[position()=%1]/%2").arg(_index + 1).arg(_data));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData;
+}
+//===============================================
+QWidget* GQtPlan::createAbout() {
+    QHBoxLayout* lMainLayout = new QHBoxLayout;
+    lMainLayout->setMargin(0);
+    lMainLayout->setSpacing(10);
+
+    int lCount = countQuickAccessItems();
+
+    for(int i = 0; i < lCount; i++) {
+        QString lType = getQuickAccessItem(i, "type");
+        QString lName = getQuickAccessItem(i, "name");
+        QString lPicto = getQuickAccessItem(i, "picto");
+        QString lPictoColor = getQuickAccessItem(i, "picto_color");
+
+        if(lType == "button/icon") {
+            QPushButton* lIcon;
+            QPushButton* lButton = createButtonIcon(lName, &lIcon);
+            if(lPicto != "") {
+                if(lPictoColor == "") lPictoColor = "#ffffff";
+                lIcon->setIcon(GQTPICTO(lPicto, lPictoColor));
+            }
+            lButton->setCursor(Qt::PointingHandCursor);
+            lMainLayout->addWidget(lButton);
+        }
+        else if(lType == "spacer") {
+            lMainLayout->addStretch();
+        }
+    }
+
+    QFrame* lContentPage = new QFrame;
+    lContentPage->setLayout(lMainLayout);
+
+    GQtScrollArea* lMainPage = new GQtScrollArea;
+    lMainPage->setWidget(lContentPage);
+    lMainPage->setWidgetResizable(true);
+    lMainPage->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+
+    return lMainPage;
+}
+//===============================================
+int GQtPlan::countAboutItems() const {
+    m_dom->queryXPath("/rdv/datas/data[code='app/about']/map/data");
+    int lData = m_dom->countXPath();
+    return lData;
+}
+//===============================================
+QString GQtPlan::getAboutItem(int _index, const QString& _data) const {
+    m_dom->queryXPath(QString("/rdv/datas/data[code='app/about']/map/data[position()=%1]/%2").arg(_index + 1).arg(_data));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData;
+}
+//===============================================
+QWidget* GQtPlan::createPartner() {
+    QHBoxLayout* lMainLayout = new QHBoxLayout;
+    lMainLayout->setMargin(0);
+    lMainLayout->setSpacing(10);
+
+    int lCount = countQuickAccessItems();
+
+    for(int i = 0; i < lCount; i++) {
+        QString lType = getQuickAccessItem(i, "type");
+        QString lName = getQuickAccessItem(i, "name");
+        QString lPicto = getQuickAccessItem(i, "picto");
+        QString lPictoColor = getQuickAccessItem(i, "picto_color");
+
+        if(lType == "button/icon") {
+            QPushButton* lIcon;
+            QPushButton* lButton = createButtonIcon(lName, &lIcon);
+            if(lPicto != "") {
+                if(lPictoColor == "") lPictoColor = "#ffffff";
+                lIcon->setIcon(GQTPICTO(lPicto, lPictoColor));
+            }
+            lButton->setCursor(Qt::PointingHandCursor);
+            lMainLayout->addWidget(lButton);
+        }
+        else if(lType == "spacer") {
+            lMainLayout->addStretch();
+        }
+    }
+
+    QFrame* lContentPage = new QFrame;
+    lContentPage->setLayout(lMainLayout);
+
+    GQtScrollArea* lMainPage = new GQtScrollArea;
+    lMainPage->setWidget(lContentPage);
+    lMainPage->setWidgetResizable(true);
+    lMainPage->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+
+    return lMainPage;
+}
+//===============================================
+int GQtPlan::countPartnerItems() const {
+    m_dom->queryXPath("/rdv/datas/data[code='app/partner']/map/data");
+    int lData = m_dom->countXPath();
+    return lData;
+}
+//===============================================
+QString GQtPlan::getPartnerItem(int _index, const QString& _data) const {
+    m_dom->queryXPath(QString("/rdv/datas/data[code='app/partner']/map/data[position()=%1]/%2").arg(_index + 1).arg(_data));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData;
+}
+//===============================================
+QWidget* GQtPlan::createSocialNetworks() {
+    QHBoxLayout* lMainLayout = new QHBoxLayout;
+    lMainLayout->setMargin(0);
+    lMainLayout->setSpacing(10);
+
+    int lCount = countQuickAccessItems();
+
+    for(int i = 0; i < lCount; i++) {
+        QString lType = getQuickAccessItem(i, "type");
+        QString lName = getQuickAccessItem(i, "name");
+        QString lPicto = getQuickAccessItem(i, "picto");
+        QString lPictoColor = getQuickAccessItem(i, "picto_color");
+
+        if(lType == "button/icon") {
+            QPushButton* lIcon;
+            QPushButton* lButton = createButtonIcon(lName, &lIcon);
+            if(lPicto != "") {
+                if(lPictoColor == "") lPictoColor = "#ffffff";
+                lIcon->setIcon(GQTPICTO(lPicto, lPictoColor));
+            }
+            lButton->setCursor(Qt::PointingHandCursor);
+            lMainLayout->addWidget(lButton);
+        }
+        else if(lType == "spacer") {
+            lMainLayout->addStretch();
+        }
+    }
+
+    QFrame* lContentPage = new QFrame;
+    lContentPage->setLayout(lMainLayout);
+
+    GQtScrollArea* lMainPage = new GQtScrollArea;
+    lMainPage->setWidget(lContentPage);
+    lMainPage->setWidgetResizable(true);
+    lMainPage->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+
+    return lMainPage;
+}
+//===============================================
+int GQtPlan::countSocialNetworksItems() const {
+    m_dom->queryXPath("/rdv/datas/data[code='app/social_networks']/map/data");
+    int lData = m_dom->countXPath();
+    return lData;
+}
+//===============================================
+QString GQtPlan::getSocialNetworksItem(int _index, const QString& _data) const {
+    m_dom->queryXPath(QString("/rdv/datas/data[code='app/social_networks']/map/data[position()=%1]/%2").arg(_index + 1).arg(_data));
     m_dom->getNodeXPath();
     QString lData = m_dom->getNodeValue();
     return lData;
