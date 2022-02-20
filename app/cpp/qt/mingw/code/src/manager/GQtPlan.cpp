@@ -657,23 +657,13 @@ QWidget* GQtPlan::createTopCategory() {
     lMainLayout->setMargin(0);
     lMainLayout->setSpacing(10);
 
-    int lCount = countTopCategoryItems();
+    int lCount = countRecentSearchItems();
 
     for(int i = 0; i < lCount; i++) {
-        QString lType = getTopCategoryItem(i, "type");
-        QString lName = getQuickAccessItem(i, "name");
-        QString lPicto = getQuickAccessItem(i, "picto");
-        QString lPictoColor = getQuickAccessItem(i, "picto_color");
+        QString lType = getRecentSearchItem(i, "type");
 
-        if(lType == "button/icon") {
-            QPushButton* lIcon;
-            QPushButton* lButton = createButtonIcon(lName, &lIcon);
-            if(lPicto != "") {
-                if(lPictoColor == "") lPictoColor = "#ffffff";
-                lIcon->setIcon(GQTPICTO(lPicto, lPictoColor));
-            }
-            lButton->setCursor(Qt::PointingHandCursor);
-            lMainLayout->addWidget(lButton);
+        if(lType == "box") {
+            lMainLayout->addWidget(createRecentSearch(i));
         }
         else if(lType == "spacer") {
             lMainLayout->addStretch();
@@ -709,23 +699,13 @@ QWidget* GQtPlan::createHoliday() {
     lMainLayout->setMargin(0);
     lMainLayout->setSpacing(10);
 
-    int lCount = countQuickAccessItems();
+    int lCount = countRecentSearchItems();
 
     for(int i = 0; i < lCount; i++) {
-        QString lType = getQuickAccessItem(i, "type");
-        QString lName = getQuickAccessItem(i, "name");
-        QString lPicto = getQuickAccessItem(i, "picto");
-        QString lPictoColor = getQuickAccessItem(i, "picto_color");
+        QString lType = getRecentSearchItem(i, "type");
 
-        if(lType == "button/icon") {
-            QPushButton* lIcon;
-            QPushButton* lButton = createButtonIcon(lName, &lIcon);
-            if(lPicto != "") {
-                if(lPictoColor == "") lPictoColor = "#ffffff";
-                lIcon->setIcon(GQTPICTO(lPicto, lPictoColor));
-            }
-            lButton->setCursor(Qt::PointingHandCursor);
-            lMainLayout->addWidget(lButton);
+        if(lType == "box") {
+            lMainLayout->addWidget(createRecentSearch(i));
         }
         else if(lType == "spacer") {
             lMainLayout->addStretch();
@@ -761,23 +741,13 @@ QWidget* GQtPlan::createLocationMap() {
     lMainLayout->setMargin(0);
     lMainLayout->setSpacing(10);
 
-    int lCount = countQuickAccessItems();
+    int lCount = countRecentSearchItems();
 
     for(int i = 0; i < lCount; i++) {
-        QString lType = getQuickAccessItem(i, "type");
-        QString lName = getQuickAccessItem(i, "name");
-        QString lPicto = getQuickAccessItem(i, "picto");
-        QString lPictoColor = getQuickAccessItem(i, "picto_color");
+        QString lType = getRecentSearchItem(i, "type");
 
-        if(lType == "button/icon") {
-            QPushButton* lIcon;
-            QPushButton* lButton = createButtonIcon(lName, &lIcon);
-            if(lPicto != "") {
-                if(lPictoColor == "") lPictoColor = "#ffffff";
-                lIcon->setIcon(GQTPICTO(lPicto, lPictoColor));
-            }
-            lButton->setCursor(Qt::PointingHandCursor);
-            lMainLayout->addWidget(lButton);
+        if(lType == "box") {
+            lMainLayout->addWidget(createRecentSearch(i));
         }
         else if(lType == "spacer") {
             lMainLayout->addStretch();
@@ -813,23 +783,13 @@ QWidget* GQtPlan::createCommunity() {
     lMainLayout->setMargin(0);
     lMainLayout->setSpacing(10);
 
-    int lCount = countQuickAccessItems();
+    int lCount = countRecentSearchItems();
 
     for(int i = 0; i < lCount; i++) {
-        QString lType = getQuickAccessItem(i, "type");
-        QString lName = getQuickAccessItem(i, "name");
-        QString lPicto = getQuickAccessItem(i, "picto");
-        QString lPictoColor = getQuickAccessItem(i, "picto_color");
+        QString lType = getRecentSearchItem(i, "type");
 
-        if(lType == "button/icon") {
-            QPushButton* lIcon;
-            QPushButton* lButton = createButtonIcon(lName, &lIcon);
-            if(lPicto != "") {
-                if(lPictoColor == "") lPictoColor = "#ffffff";
-                lIcon->setIcon(GQTPICTO(lPicto, lPictoColor));
-            }
-            lButton->setCursor(Qt::PointingHandCursor);
-            lMainLayout->addWidget(lButton);
+        if(lType == "box") {
+            lMainLayout->addWidget(createRecentSearch(i));
         }
         else if(lType == "spacer") {
             lMainLayout->addStretch();

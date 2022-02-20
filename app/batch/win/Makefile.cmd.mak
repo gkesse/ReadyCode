@@ -3,7 +3,7 @@
 all: run
 
 run:
-	@cd $(GPROJECT_SRC) && .\main.bat $(argv)
+	@cd $(GPROJECT_SRC) && main $(argv)
 #================================================
 # git
 git_status:
