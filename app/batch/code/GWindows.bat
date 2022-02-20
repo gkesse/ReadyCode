@@ -11,6 +11,6 @@ if "%lKey%" == "activate" ( call :runActivate %*
 goto :eof
 ::===============================================
 :runActivate
-slmgr/xpr
+slmgr /xpr
 goto :eof
 ::===============================================
