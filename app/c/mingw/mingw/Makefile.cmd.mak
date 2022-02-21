@@ -9,10 +9,13 @@ GRLIB = C:\Users\Admin\Downloads\Programs\ReadyLib\dev\mingw
 GINCS = \
     -I$(GSRC)\manager \
     -I$(GRLIB)\include \
+    -I$(GRLIB)\include\libxml2 \
     -I$(GRLIB)\src\xml \
     
 GLIBS = \
-
+    -L$(GRLIB)\lib \
+	-lxml2 \
+	
 GOBJS = \
     $(patsubst $(GSRC)/%.c, $(GBUILD)/%.o, $(wildcard $(GSRC)/*.c)) \
     $(patsubst $(GSRC)/manager/%.c, $(GBUILD)/%.o, $(wildcard $(GSRC)/manager/*.c)) \

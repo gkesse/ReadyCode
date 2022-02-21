@@ -1,194 +1,268 @@
 //===============================================
 #include "GXml.h"
 //===============================================
-static void GXml_delete(GObjectO* _obj);
-static void GXml_loadXmlFile(GObjectO* _obj, const char* _filename);
-static void GXml_loadXmlData(GObjectO* _obj, char* _source, int _size);
-static GXmlO* GXml_getRoot(GObjectO* _obj, const char* _nodename);
-static GXmlO* GXml_getNode(GObjectO* _obj, const char* _nodename);
-static GXmlO* GXml_getNodeEmpty(GObjectO* _obj, const char* _nodename);
-static GXmlO* GXml_getNodeIndex(GObjectO* _obj, const char* _nodename, int _index);
-static char* GXml_getNodeName(GObjectO* _obj);
-static char* GXml_getNodeValue(GObjectO* _obj);
-static int GXml_countNode(GObjectO* _obj, const char* _nodename);
+static GXmlO* m_GXmlO = 0;
 //===============================================
-GObjectO* GXml_New() {
+static void GXml_delete(GXmlO* _obj);
+static void GXml_init(GXmlO* _obj);
+static void GXml_clean(GXmlO* _obj);
+//===============================================
+static void GXml_run(GXmlO* _obj, int _argc, char** _argv);
+static void GXml_runTest(GXmlO* _obj, int _argc, char** _argv);
+static void GXml_runNodeNamePrint(GXmlO* _obj, int _argc, char** _argv);
+//===============================================
+static void GXml_printNodeName(GXmlO* _obj);
+//===============================================
+static int GXml_loadXmlFile(GXmlO* _obj, const char* _filename);
+static void GXml_loadXmlData(GXmlO* _obj, char* _source, int _size);
+static int GXml_saveXmlFile(GXmlO* _obj, const char* _filename, const char* _encoding);
+static GXmlO* GXml_createDoc(GXmlO* _obj, const char* _root);
+static GXmlO* GXml_createDtd(GXmlO* _obj, const char* _root, const char* _filename);
+static GXmlO* GXml_createNode(GXmlO* _obj, GXmlO* _node, const char* _name, const char* _content);
+static GXmlO* GXml_getRoot(GXmlO* _obj, const char* _nodename);
+static GXmlO* GXml_getNode(GXmlO* _obj, const char* _nodename);
+static GXmlO* GXml_getNodePtr(GXmlO* _obj, GXmlO* _node);
+static GXmlO* GXml_getNodeNext(GXmlO* _obj, GXmlO* _node);
+static int GXml_getNodeType(GXmlO* _obj);
+static GXmlO* GXml_getNodeChildren(GXmlO* _obj, GXmlO* _node);
+static GXmlO* GXml_getNodeEmpty(GXmlO* _obj, const char* _nodename);
+static GXmlO* GXml_getNodeIndex(GXmlO* _obj, const char* _nodename, int _index);
+static const char* GXml_getNodeName(GXmlO* _obj);
+static char* GXml_getNodeValue(GXmlO* _obj);
+static char* GXml_getNodeXml(GXmlO* _obj);
+static int GXml_isNodeEmpty(GXmlO* _obj);
+static int GXml_countNode(GXmlO* _obj, const char* _nodename);
+//===============================================
+GXmlO* GXml_new() {
     GObjectO* lParent = GObject_new();
     GXmlO* lChild = (GXmlO*)malloc(sizeof(GXmlO));
 
+    lChild->parent = lParent;
+    lChild->delete = GXml_delete;
+    lChild->init = GXml_init;
+    lChild->clean = GXml_clean;
+    lChild->run = GXml_run;
+    //
     lChild->loadXmlFile = GXml_loadXmlFile;
     lChild->loadXmlData = GXml_loadXmlData;
+    lChild->saveXmlFile = GXml_saveXmlFile;
+    lChild->createDoc = GXml_createDoc;
+    lChild->createDtd = GXml_createDtd;
+    lChild->createNode = GXml_createNode;
     lChild->getRoot = GXml_getRoot;
     lChild->getNode = GXml_getNode;
+    lChild->getNodePtr = GXml_getNodePtr;
+    lChild->getNodeNext = GXml_getNodeNext;
+    lChild->getNodeType = GXml_getNodeType;
+    lChild->getNodeChildren = GXml_getNodeChildren;
     lChild->getNodeEmpty = GXml_getNodeEmpty;
     lChild->getNodeIndex = GXml_getNodeIndex;
     lChild->getNodeName = GXml_getNodeName;
     lChild->getNodeValue = GXml_getNodeValue;
+    lChild->getNodeXml = GXml_getNodeXml;
+    lChild->isNodeEmpty = GXml_isNodeEmpty;
     lChild->countNode = GXml_countNode;
+    //
     lChild->m_doc = 0;
     lChild->m_node = 0;
-
+    lChild->m_dtd = 0;
+    //
     lParent->child = lChild;
-    lParent->delete = GXml_delete;
-    return lParent;
-}
-//===============================================
-static void GXml_delete(GObjectO* _obj) {
-    GXmlO* lChild = _obj->child;
-    xml_document_free(lChild->m_doc, false);
-    GObject_delete(_obj);
-}
-//===============================================
-static void GXml_loadXmlFile(GObjectO* _obj, const char* _filename) {
-    GXmlO* lChild = _obj->child;
-    FILE* lFile = fopen(_obj->getXmlPath(_obj, _filename), "r");
-    if(!lFile) {
-        printf("Erreur la methode (GXml_LoadXmlFile) a echoue "
-                "sur le fichier (%s) (1).\n", _filename);
-        return;
-    }
-    int lSize = _obj->fsize(_obj, lFile);
-    char* lBuffer = (char*)malloc(sizeof(char)*(lSize + 1));
-    int lBytes = fread(lBuffer, 1, lSize, lFile);
-    if(lBytes <= 0) {
-        printf("Erreur la methode (GXml_LoadXmlFile) a echoue "
-                "sur le fichier (%s) (2).\n", _filename);
-        return;
-    }
-    lBuffer[lBytes] = 0;
-    lChild->m_doc = xml_parse_document(lBuffer, lSize);
-    if(!lChild->m_doc) {
-        printf("Erreur la methode (GXml_LoadXmlFile) a echoue "
-                "sur le fichier (%s) (3).\n", _filename);
-        return;
-    }
-    fclose(lFile);
-}
-//===============================================
-static void GXml_loadXmlData(GObjectO* _obj, char* _source, int _size) {
-    GXmlO* lChild = _obj->child;
-    lChild->m_doc = xml_parse_document(_source, _size);
-    if(!lChild->m_doc) {
-        printf("Erreur la methode (GXml_loadXmlData) a echoue.");
-        return;
-    }
-}
-//===============================================
-static GXmlO* GXml_getRoot(GObjectO* _obj, const char* _nodename) {
-    GXmlO* lChild = _obj->child;
-    lChild->m_node = xml_document_root(lChild->m_doc);
-    if(!lChild->m_node) {
-        printf("Erreur la methode (GXml_getRoot) a echoue "
-                "sur le noeud (%s) (1).\n", _nodename);
-        return lChild;
-    }
-    if(strcmp(_nodename, GXml_getNodeName(_obj))) {
-        printf("Erreur la methode (GXml_getRoot) a echoue "
-                "sur le noeud (%s) (2).\n", _nodename);
-        lChild->m_node = 0;
-        return lChild;
-    }
+
     return lChild;
 }
 //===============================================
-static GXmlO* GXml_getNode(GObjectO* _obj, const char* _nodename) {
-    GXmlO* lChild = _obj->child;
-    if(!lChild->m_node) {
-        printf("Erreur la methode (GXml_getNode) a echoue "
-                "sur le noeud (%s) (1).\n", _nodename);
-        return lChild;
+static void GXml_delete(GXmlO* _obj) {
+    xmlFreeDoc(_obj->m_doc);
+    GObject_delete(_obj->parent);
+}
+//===============================================
+static void GXml_init(GXmlO* _obj) {
+
+}
+//===============================================
+static void GXml_clean(GXmlO* _obj) {
+    xmlCleanupParser();
+    xmlMemoryDump();
+}
+//===============================================
+GXmlO* GXml() {
+    if(m_GXmlO == 0) {
+        m_GXmlO = GXml_new();
     }
-    int lCount = xml_node_children(lChild->m_node);
-    for(int i = 0; i < lCount; i++) {
-        struct xml_node* lNode = xml_node_child(lChild->m_node, i);
-        uint8_t* lNodeName = xml_easy_name(lNode);
-        if(!strcmp(_nodename, lNodeName)) {
-            free(lNodeName);
-            lChild->m_node = lNode;
-            return lChild;
+    return m_GXmlO;
+}
+//===============================================
+static void GXml_run(GXmlO* _obj, int _argc, char** _argv) {
+    char* lKey = "default";
+    //
+    if(_argc > 2) {
+        lKey = _argv[2];
+    }
+    //
+    if(!strcmp(lKey, "test")) {
+        GXml_runTest(_obj, _argc, _argv);
+    }
+    else if(!strcmp(lKey, "node/name/print")) {
+        GXml_runNodeNamePrint(_obj, _argc, _argv);
+    }
+}
+//===============================================
+static void GXml_runTest(GXmlO* _obj, int _argc, char** _argv) {
+    printf("%s\n", __FUNCTION__);
+    GXmlO* lDom = GXml_new();
+
+    lDom->createDoc(lDom, "rdv");
+
+    lDom->getRoot(lDom, "rdv");
+
+    lDom->delete(lDom);
+}
+//===============================================
+static void GXml_runNodeNamePrint(GXmlO* _obj, int _argc, char** _argv) {
+    printf("%s\n", __FUNCTION__);
+    GXmlO* lDom = GXml_new();
+
+    lDom->loadXmlFile(lDom, "process.xml");
+    lDom->getRoot(lDom, "rdv");
+    GXml_printNodeName(lDom);
+    lDom->delete(lDom);
+}
+//===============================================
+static void GXml_printNodeName(GXmlO* _obj) {
+    GXmlO* lNode = GXml_new();
+    GXmlO* lChildren = GXml_new();
+
+    _obj->getNodePtr(_obj, lNode);
+
+    while(1) {
+        if(lNode->isNodeEmpty(lNode)) break;
+        int lType = lNode->getNodeType(lNode);
+        if(lType == XML_ELEMENT_NODE) {
+            const char* lName = lNode->getNodeName(lNode);
+            printf("<%s>\n", lName);
         }
-        free(lNodeName);
+        lNode->getNodeChildren(lNode, lChildren);
+        GXml_printNodeName(lChildren);
+        lNode->getNodeNext(lNode, lNode);
     }
-    printf("Erreur la methode (GXml_getNode) a echoue "
-            "sur le noeud (%s) (2).\n", _nodename);
-    lChild->m_node = 0;
-    return lChild;
+
+    lNode->delete(lNode);
+    lChildren->delete(lChildren);
 }
 //===============================================
-static GXmlO* GXml_getNodeEmpty(GObjectO* _obj, const char* _nodename) {
-    GXmlO* lChild = _obj->child;
-    if(!lChild->m_node) {
-        return lChild;
+static int GXml_loadXmlFile(GXmlO* _obj, const char* _filename) {
+    GObjectO* lObj = _obj->parent;
+    char* lFilename = lObj->getRepoPath(lObj, "c/xml", _filename);
+    _obj->m_doc = xmlReadFile(lFilename, 0, 0);
+    if(!_obj->m_doc) {
+        return 0;
     }
-    int lCount = xml_node_children(lChild->m_node);
-    for(int i = 0; i < lCount; i++) {
-        struct xml_node* lNode = xml_node_child(lChild->m_node, i);
-        uint8_t* lNodeName = xml_easy_name(lNode);
-        if(!strcmp(_nodename, lNodeName)) {
-            free(lNodeName);
-            lChild->m_node = lNode;
-            return lChild;
-        }
-        free(lNodeName);
-    }
-    lChild->m_node = 0;
-    return lChild;
+    return 1;
 }
 //===============================================
-static GXmlO* GXml_getNodeIndex(GObjectO* _obj, const char* _nodename, int _index) {
-    GXmlO* lChild = _obj->child;
-    if(!lChild->m_node) {
-        return lChild;
-    }
-    int lCount = xml_node_children(lChild->m_node);
-    for(int i = 0; i < lCount; i++) {
-        struct xml_node* lNode = xml_node_child(lChild->m_node, i);
-        uint8_t* lNodeName = xml_easy_name(lNode);
-        if(!strcmp(_nodename, lNodeName)) {
-            free(lNodeName);
-            if(i == _index) {
-                lChild->m_node = lNode;
-                return lChild;
-            }
-        }
-        free(lNodeName);
-    }
-    lChild->m_node = 0;
-    return lChild;
+static void GXml_loadXmlData(GXmlO* _obj, char* _source, int _size) {
+
 }
 //===============================================
-static char* GXml_getNodeName(GObjectO* _obj) {
-    GXmlO* lChild = _obj->child;
-    if(!lChild->m_node) return "";
-    uint8_t* lData = xml_easy_name(lChild->m_node);
-    sprintf(lChild->m_nodeName, "%s", lData);
-    free(lData);
-    return lChild->m_nodeName;
+static int GXml_saveXmlFile(GXmlO* _obj, const char* _filename, const char* _encoding) {
+    const char* lFilename = _obj->m_filename;
+    const char* lEncoding = "UTF-8";
+    if(_filename) lFilename = _filename;
+    if(_encoding) lEncoding = _encoding;
+    int lOk = xmlSaveFormatFileEnc(lFilename, _obj->m_doc, lEncoding, 1);
+    if(lOk == -1) return 0;
+    return 1;
 }
 //===============================================
-static char* GXml_getNodeValue(GObjectO* _obj) {
-    GXmlO* lChild = _obj->child;
-    if(!lChild->m_node) return "";
-    uint8_t* lData = xml_easy_content(lChild->m_node);
-    sprintf(lChild->m_nodeValue, "%s", lData);
-    free(lData);
-    return lChild->m_nodeValue;
+static GXmlO* GXml_createDoc(GXmlO* _obj, const char* _root) {
+    _obj->m_doc = xmlNewDoc(BAD_CAST("1.0"));
+    _obj->m_node = xmlNewNode(NULL, BAD_CAST(_root));
+    xmlDocSetRootElement(_obj->m_doc, _obj->m_node);
+    return _obj;
 }
 //===============================================
-static int GXml_countNode(GObjectO* _obj, const char* _nodename) {
-    GXmlO* lChild = _obj->child;
-    if(!lChild->m_node) return 0;
-    int lNodeCount = (int)xml_node_children(lChild->m_node);
-    int lCount = 0;
-    for(int i = 0; i < lNodeCount; i++) {
-        struct xml_node* lNode = xml_node_child(lChild->m_node, i);
-        uint8_t* lNodeName = xml_easy_name(lNode);
-        if(!strcmp(_nodename, lNodeName)) {
-            free(lNodeName);
-            lCount++;
-        }
-        free(lNodeName);
+static GXmlO* GXml_createDtd(GXmlO* _obj, const char* _root, const char* _filename) {
+    GObjectO* lObj = _obj->parent;
+    char* lFilename = lObj->getRepoPath(lObj, "c/xml", _filename);
+    if(!_obj->m_doc) return _obj;
+    _obj->m_dtd = xmlCreateIntSubset(_obj->m_doc, BAD_CAST(_root), NULL, BAD_CAST(lFilename));
+    return _obj;
+}
+//===============================================
+static GXmlO* GXml_createNode(GXmlO* _obj, GXmlO* _node, const char* _name, const char* _content) {
+    if(!_obj->m_node) return _obj;
+    _node->m_node = xmlNewChild(_obj->m_node, 0, BAD_CAST(_name), BAD_CAST(_content));
+    return _obj;
+}
+//===============================================
+static GXmlO* GXml_getRoot(GXmlO* _obj, const char* _nodename) {
+    _obj->m_node = xmlDocGetRootElement(_obj->m_doc);
+    if(strcmp(_obj->m_node->name, _nodename)) {
+        _obj->m_node = 0;
     }
-    return lCount;
+    return _obj;
+}
+//===============================================
+static GXmlO* GXml_getNode(GXmlO* _obj, const char* _nodename) {
+    return _obj;
+}
+//===============================================
+static GXmlO* GXml_getNodePtr(GXmlO* _obj, GXmlO* _node) {
+    _node->m_node = _obj->m_node;
+    return _obj;
+}
+//===============================================
+static GXmlO* GXml_getNodeNext(GXmlO* _obj, GXmlO* _node) {
+    if(!_obj->m_node) {
+        _node->m_node = 0;
+        return _obj;
+    }
+    _node->m_node = _obj->m_node->next;
+    return _obj;
+}
+//===============================================
+static int GXml_getNodeType(GXmlO* _obj) {
+    if(!_obj->m_node) return 0;
+    return _obj->m_node->type;
+}
+//===============================================
+static GXmlO* GXml_getNodeChildren(GXmlO* _obj, GXmlO* _node) {
+    if(!_obj->m_node) {
+        _node->m_node = 0;
+        return _obj;
+    }
+    _node->m_node = _obj->m_node->children;
+    return _obj;
+}
+//===============================================
+static GXmlO* GXml_getNodeEmpty(GXmlO* _obj, const char* _nodename) {
+    return _obj;
+}
+//===============================================
+static GXmlO* GXml_getNodeIndex(GXmlO* _obj, const char* _nodename, int _index) {
+    return _obj;
+}
+//===============================================
+static const char* GXml_getNodeName(GXmlO* _obj) {
+    if(!_obj->m_node) return "";
+    return _obj->m_node->name;
+}
+//===============================================
+static char* GXml_getNodeValue(GXmlO* _obj) {
+    return "";
+}
+//===============================================
+static char* GXml_getNodeXml(GXmlO* _obj) {
+    return "";
+}
+//===============================================
+static int GXml_isNodeEmpty(GXmlO* _obj) {
+    if(!_obj->m_node) return 1;
+    return 0;
+}
+//===============================================
+static int GXml_countNode(GXmlO* _obj, const char* _nodename) {
+    return 0;
 }
 //===============================================

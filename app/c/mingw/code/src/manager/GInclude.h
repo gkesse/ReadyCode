@@ -7,7 +7,9 @@
 #include <stdlib.h>
 // xml
 #include <xml.h>
-#include <qxml/qxml.h>
+// libxml2
+#include <libxml/parser.h>
+#include <libxml/tree.h>
 //===============================================
 #endif
 //===============================================

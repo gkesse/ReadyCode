@@ -1,20 +1,19 @@
 //===============================================
-#ifndef _GProcess_
-#define _GProcess_
+#ifndef _GTuto_
+#define _GTuto_
 //===============================================
 #include "GObject.h"
 //===============================================
-typedef struct _GProcessO GProcessO;
+typedef struct _GTutoO GTutoO;
 //===============================================
-struct _GProcessO {
+struct _GTutoO {
     void* parent;
     //
-    void (*delete)(GProcessO* _obj);
-    void (*run)(GProcessO* _obj, int _argc, char** _argv);
+    void (*delete)(GTutoO* _obj);
+    void (*run)(GTutoO* _obj, int _argc, char** _argv);
 };
 //===============================================
-GProcessO* GProcess_new();
-GProcessO* GProcess();
+GTutoO* GTuto_new();
 //===============================================
 #endif
 //===============================================

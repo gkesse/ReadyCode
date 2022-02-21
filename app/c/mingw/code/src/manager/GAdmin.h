@@ -1,18 +1,21 @@
 //===============================================
-#ifndef _GAdminUi_
-#define _GAdminUi_
+#ifndef _GAdmin_
+#define _GAdmin_
 //===============================================
 #include "GObject.h"
 //===============================================
-typedef struct _GAdminUiO GAdminUiO;
+typedef struct _GAdminO GAdminO;
 //===============================================
-struct _GAdminUiO {
-
+struct _GAdminO {
+    void* parent;
+    //
+    void (*delete)(GAdminO* _obj);
+    void (*run)(GAdminO* _obj, int _argc, char** _argv);
+    //
+    char* state;
 };
 //===============================================
-GObjectO* GAdminUi_new();
-GObjectO* GAdminUiI();
-GAdminUiO* GAdminUiIO();
+GAdminO* GAdmin_new();
 //===============================================
 #endif
 //===============================================

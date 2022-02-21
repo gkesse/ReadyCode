@@ -1,20 +1,20 @@
 //===============================================
-#ifndef _GProcess_
-#define _GProcess_
+#ifndef _GLog_
+#define _GLog_
 //===============================================
 #include "GObject.h"
 //===============================================
-typedef struct _GProcessO GProcessO;
+typedef struct _GLogO GLogO;
 //===============================================
-struct _GProcessO {
+struct _GLogO {
     void* parent;
     //
-    void (*delete)(GProcessO* _obj);
-    void (*run)(GProcessO* _obj, int _argc, char** _argv);
+    void (*delete)(GLogO* _obj);
+    void (*run)(GLogO* _obj, int _argc, char** _argv);
+    void (*runTest)(GLogO* _obj, int _argc, char** _argv);
 };
 //===============================================
-GProcessO* GProcess_new();
-GProcessO* GProcess();
+GLogO* GLog_new();
 //===============================================
 #endif
 //===============================================
