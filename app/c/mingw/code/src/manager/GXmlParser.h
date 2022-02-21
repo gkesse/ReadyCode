@@ -10,7 +10,6 @@ struct _GXmlParserO {
     void* parent;
     //
     void (*delete)(GXmlParserO* _obj);
-    void (*run)(GXmlParserO* _obj, int _argc, char** _argv);
     void (*loadXmlFile)(GXmlParserO* _obj, const char* _filename);
     void (*loadXmlData)(GXmlParserO* _obj, char* _source, int _size);
     void (*createDoc)(GXmlParserO* _obj, const char* _root);

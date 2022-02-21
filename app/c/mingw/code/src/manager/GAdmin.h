@@ -12,7 +12,7 @@ struct _GAdminO {
     void (*delete)(GAdminO* _obj);
     void (*run)(GAdminO* _obj, int _argc, char** _argv);
     //
-    char* state;
+    char* m_state;
 };
 //===============================================
 GAdminO* GAdmin_new();

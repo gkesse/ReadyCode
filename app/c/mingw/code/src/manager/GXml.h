@@ -12,7 +12,6 @@ struct _GXmlO {
     void (*delete)(GXmlO* _obj);
     void (*init)(GXmlO* _obj);
     void (*clean)(GXmlO* _obj);
-    void (*run)(GXmlO* _obj, int _argc, char** _argv);
     int (*loadXmlFile)(GXmlO* _obj, const char* _filename);
     void (*loadXmlData)(GXmlO* _obj, char* _source, int _size);
     int (*saveXmlFile)(GXmlO* _obj, const char* _filename, const char* _encoding);

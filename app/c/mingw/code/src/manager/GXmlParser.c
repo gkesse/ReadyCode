@@ -2,9 +2,6 @@
 #include "GXmlParser.h"
 //===============================================
 static void GXmlParser_delete(GXmlParserO* _obj);
-static void GXmlParser_run(GXmlParserO* _obj, int _argc, char** _argv);
-static void GXmlParser_runTest(GXmlParserO* _obj, int _argc, char** _argv);
-//===============================================
 static void GXmlParser_loadXmlFile(GXmlParserO* _obj, const char* _filename);
 static void GXmlParser_loadXmlData(GXmlParserO* _obj, char* _source, int _size);
 static void GXmlParser_createDoc(GXmlParserO* _obj, const char* _root);
@@ -23,7 +20,6 @@ GXmlParserO* GXmlParser_new() {
 
     lChild->parent = lParent;
     lChild->delete = GXmlParser_delete;
-    lChild->run = GXmlParser_run;
     //
     lChild->loadXmlFile = GXmlParser_loadXmlFile;
     lChild->loadXmlData = GXmlParser_loadXmlData;
@@ -49,22 +45,6 @@ static void GXmlParser_delete(GXmlParserO* _obj) {
         xml_document_free(_obj->m_doc, false);
     }
     GObject_delete(_obj->parent);
-}
-//===============================================
-static void GXmlParser_run(GXmlParserO* _obj, int _argc, char** _argv) {
-    char* lKey = "default";
-    //
-    if(_argc > 2) {
-        lKey = _argv[2];
-    }
-    //
-    if(!strcmp(lKey, "test")) {
-        GXmlParser_runTest(_obj, _argc, _argv);
-    }
-}
-//===============================================
-static void GXmlParser_runTest(GXmlParserO* _obj, int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
 }
 //===============================================
 static void GXmlParser_loadXmlFile(GXmlParserO* _obj, const char* _filename) {

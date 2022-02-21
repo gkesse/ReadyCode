@@ -7,12 +7,6 @@ static void GXml_delete(GXmlO* _obj);
 static void GXml_init(GXmlO* _obj);
 static void GXml_clean(GXmlO* _obj);
 //===============================================
-static void GXml_run(GXmlO* _obj, int _argc, char** _argv);
-static void GXml_runTest(GXmlO* _obj, int _argc, char** _argv);
-static void GXml_runNodeNamePrint(GXmlO* _obj, int _argc, char** _argv);
-//===============================================
-static void GXml_printNodeName(GXmlO* _obj);
-//===============================================
 static int GXml_loadXmlFile(GXmlO* _obj, const char* _filename);
 static void GXml_loadXmlData(GXmlO* _obj, char* _source, int _size);
 static int GXml_saveXmlFile(GXmlO* _obj, const char* _filename, const char* _encoding);
@@ -41,7 +35,6 @@ GXmlO* GXml_new() {
     lChild->delete = GXml_delete;
     lChild->init = GXml_init;
     lChild->clean = GXml_clean;
-    lChild->run = GXml_run;
     //
     lChild->loadXmlFile = GXml_loadXmlFile;
     lChild->loadXmlData = GXml_loadXmlData;
@@ -91,64 +84,6 @@ GXmlO* GXml() {
         m_GXmlO = GXml_new();
     }
     return m_GXmlO;
-}
-//===============================================
-static void GXml_run(GXmlO* _obj, int _argc, char** _argv) {
-    char* lKey = "default";
-    //
-    if(_argc > 2) {
-        lKey = _argv[2];
-    }
-    //
-    if(!strcmp(lKey, "test")) {
-        GXml_runTest(_obj, _argc, _argv);
-    }
-    else if(!strcmp(lKey, "node/name/print")) {
-        GXml_runNodeNamePrint(_obj, _argc, _argv);
-    }
-}
-//===============================================
-static void GXml_runTest(GXmlO* _obj, int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
-    GXmlO* lDom = GXml_new();
-
-    lDom->createDoc(lDom, "rdv");
-
-    lDom->getRoot(lDom, "rdv");
-
-    lDom->delete(lDom);
-}
-//===============================================
-static void GXml_runNodeNamePrint(GXmlO* _obj, int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
-    GXmlO* lDom = GXml_new();
-
-    lDom->loadXmlFile(lDom, "process.xml");
-    lDom->getRoot(lDom, "rdv");
-    GXml_printNodeName(lDom);
-    lDom->delete(lDom);
-}
-//===============================================
-static void GXml_printNodeName(GXmlO* _obj) {
-    GXmlO* lNode = GXml_new();
-    GXmlO* lChildren = GXml_new();
-
-    _obj->getNodePtr(_obj, lNode);
-
-    while(1) {
-        if(lNode->isNodeEmpty(lNode)) break;
-        int lType = lNode->getNodeType(lNode);
-        if(lType == XML_ELEMENT_NODE) {
-            const char* lName = lNode->getNodeName(lNode);
-            printf("<%s>\n", lName);
-        }
-        lNode->getNodeChildren(lNode, lChildren);
-        GXml_printNodeName(lChildren);
-        lNode->getNodeNext(lNode, lNode);
-    }
-
-    lNode->delete(lNode);
-    lChildren->delete(lChildren);
 }
 //===============================================
 static int GXml_loadXmlFile(GXmlO* _obj, const char* _filename) {

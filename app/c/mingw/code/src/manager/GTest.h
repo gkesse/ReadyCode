@@ -1,18 +1,19 @@
 //===============================================
-#ifndef _GLog_
-#define _GLog_
+#ifndef _GTest_
+#define _GTest_
 //===============================================
 #include "GObject.h"
 //===============================================
-typedef struct _GLogO GLogO;
+typedef struct _GTestO GTestO;
 //===============================================
-struct _GLogO {
+struct _GTestO {
     void* parent;
     //
-    void (*delete)(GLogO* _obj);
+    void (*delete)(GTestO* _obj);
+    void (*run)(GTestO* _obj, int _argc, char** _argv);
 };
 //===============================================
-GLogO* GLog_new();
+GTestO* GTest_new();
 //===============================================
 #endif
 //===============================================
