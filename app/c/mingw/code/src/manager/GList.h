@@ -2,7 +2,7 @@
 #ifndef _GList_
 #define _GList_
 //===============================================
-#include "GInclude.h"
+#include "GObject.h"
 //===============================================
 #define GDECLARE_LIST(GDATA) \
         typedef struct _GListNodeO_##GDATA GListNodeO_##GDATA; \
@@ -58,7 +58,7 @@
         } \
         \
         static void GList_delete_##GDATA(GListO_##GDATA* obj) { \
-            GList_clear_##GDATA(obj); \
+            obj->clear(obj); \
             GObject_delete(obj->parent); \
         } \
         \

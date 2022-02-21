@@ -2,15 +2,17 @@
 #include "GTest.h"
 #include "GXml.h"
 #include "GList.h"
+#include "GMap.h"
 //===============================================
 GDECLARE_LIST(GINT)
 GDEFINE_LIST(GINT)
-//===============================================
 GDECLARE_LIST(GCHAR_PTR)
 GDEFINE_LIST(GCHAR_PTR)
-//===============================================
 GDECLARE_LIST(GVOID_PTR)
 GDEFINE_LIST(GVOID_PTR)
+//===============================================
+GDECLARE_MAP(GINT, GCHAR_PTR)
+GDEFINE_MAP(GINT, GCHAR_PTR)
 //===============================================
 static void GTest_delete(GTestO* _obj);
 static void GTest_run(GTestO* _obj, int _argc, char** _argv);
@@ -163,27 +165,15 @@ static void GTest_runListVoid(GTestO* _obj, int _argc, char** _argv) {
 static void GTest_runMapIntChar(GTestO* _obj, int _argc, char** _argv) {
     printf("%s\n", __FUNCTION__);
 
-    GListO(GVOID_PTR)* lList = GList_new(GVOID_PTR)();
+    GMapO(GINT, GCHAR_PTR)* lMap = GMap_new(GINT, GCHAR_PTR)();
 
-    for(int i = 0; i < 5; i++) {
-        double* lData = (double*)malloc(sizeof(double));
-        *lData = 3.14*(i + 1);
-        lList->addData(lList, lData);
-    }
+    lMap->setData(lMap, 1, "Un");
+    lMap->setData(lMap, 1, "Un");
+    lMap->setData(lMap, 1, "Un");
+    lMap->setData(lMap, 1, "Un");
+    lMap->setData(lMap, 1, "Un");
 
-    int lSize = lList->size(lList);
-
-    for(int i = 0; i < lSize; i++) {
-        double* lData = lList->getData(lList, i);
-        printf("%.2f\n", *lData);
-    }
-
-    for(int i = 0; i < lSize; i++) {
-        double* lData = lList->getData(lList, i);
-        free(lData);
-    }
-
-    lList->delete(lList);
+    lMap->delete(lMap);
 }
 //===============================================
 static void GTest_runXmlNodeNamePrint(GTestO* _obj, int _argc, char** _argv) {
