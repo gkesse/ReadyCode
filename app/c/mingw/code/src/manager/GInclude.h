@@ -10,6 +10,10 @@
 // libxml2
 #include <libxml/parser.h>
 #include <libxml/tree.h>
+// sqlite
+#include <sqlite3.h>
+// gsl
+#include <gsl/gsl_sf_bessel.h>
 //===============================================
 #endif
 //===============================================

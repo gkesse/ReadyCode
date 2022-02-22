@@ -79,27 +79,14 @@ static void GTest_run(GTestO* _obj, int _argc, char** _argv) {
     else if(!strcmp(lKey, "xml/node/name/print")) {
         GTest_runXmlNodeNamePrint(_obj, _argc, _argv);
     }
+    //
+    else {
+        GTest_runTest(_obj, _argc, _argv);
+    }
 }
 //===============================================
 static void GTest_runTest(GTestO* _obj, int _argc, char** _argv) {
     printf("%s\n", __FUNCTION__);
-
-    GListO(GINT)* lList = GList_new(GINT)();
-
-    lList->addData(lList, 10);
-    lList->addData(lList, 20);
-    lList->addData(lList, 30);
-    lList->addData(lList, 40);
-    lList->addData(lList, 50);
-
-    int lSize = lList->size(lList);
-
-    for(int i = 0; i < lSize; i++) {
-        int lData = lList->getData(lList, i);
-        printf("%d\n", lData);
-    }
-
-    lList->delete(&lList);
 }
 //===============================================
 static void GTest_runListInt(GTestO* _obj, int _argc, char** _argv) {

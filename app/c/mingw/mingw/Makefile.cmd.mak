@@ -14,7 +14,7 @@ GINCS = \
     
 GLIBS = \
     -L$(GRLIB)\lib \
-	-lxml2 \
+	-lxml2 -lsqlite3 -lgsl \
 	
 GOBJS = \
     $(patsubst $(GSRC)/%.c, $(GBUILD)/%.o, $(wildcard $(GSRC)/*.c)) \
