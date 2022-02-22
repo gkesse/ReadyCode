@@ -7,7 +7,7 @@
 typedef struct _GAdminO GAdminO;
 //===============================================
 struct _GAdminO {
-    void* parent;
+    GObjectO* parent;
     //
     void (*delete)(GAdminO** _obj);
     void (*run)(GAdminO* _obj, int _argc, char** _argv);

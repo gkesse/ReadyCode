@@ -27,7 +27,7 @@ GProcessO* GProcess_new() {
 //===============================================
 static void GProcess_delete(GProcessO** _obj) {
     GProcessO* lObj = *_obj;
-    GObject_delete(lObj->parent);
+    lObj->parent->delete(&lObj->parent);
     *_obj = 0;
 }
 //===============================================
@@ -59,18 +59,18 @@ static void GProcess_run(GProcessO* _obj, int _argc, char** _argv) {
 static void GProcess_runTest(GProcessO* _obj, int _argc, char** _argv) {
     GTestO* lObj = GTest_new();
     lObj->run(lObj, _argc, _argv);
-    lObj->delete(lObj);
+    lObj->delete(&lObj);
 }
 //===============================================
 static void GProcess_runTuto(GProcessO* _obj, int _argc, char** _argv) {
     GTutoO* lObj = GTuto_new();
     lObj->run(lObj, _argc, _argv);
-    lObj->delete(lObj);
+    lObj->delete(&lObj);
 }
 //===============================================
 static void GProcess_runAdmin(GProcessO* _obj, int _argc, char** _argv) {
     GAdminO* lObj = GAdmin_new();
     lObj->run(lObj, _argc, _argv);
-    lObj->delete(lObj);
+    lObj->delete(&lObj);
 }
 //===============================================

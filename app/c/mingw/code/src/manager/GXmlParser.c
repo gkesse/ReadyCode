@@ -45,7 +45,7 @@ static void GXmlParser_delete(GXmlParserO** _obj) {
     if(lObj->m_doc) {
         xml_document_free(lObj->m_doc, false);
     }
-    GObject_delete(lObj->parent);
+    lObj->parent->delete(&lObj->parent);
     *_obj = 0;
 }
 //===============================================

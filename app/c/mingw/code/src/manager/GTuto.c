@@ -20,7 +20,7 @@ GTutoO* GTuto_new() {
 //===============================================
 static void GTuto_delete(GTutoO** _obj) {
     GTutoO* lObj = *_obj;
-    GObject_delete(lObj->parent);
+    lObj->parent->delete(&lObj->parent);
     *_obj = 0;
 }
 //===============================================

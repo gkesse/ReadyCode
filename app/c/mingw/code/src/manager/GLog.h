@@ -7,7 +7,7 @@
 typedef struct _GLogO GLogO;
 //===============================================
 struct _GLogO {
-    void* parent;
+    GObjectO* parent;
     //
     void (*delete)(GLogO** _obj);
 };

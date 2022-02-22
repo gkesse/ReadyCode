@@ -17,7 +17,7 @@ GLogO* GLog_new() {
 //===============================================
 static void GLog_delete(GLogO** _obj) {
     GLogO* lObj = *_obj;
-    GObject_delete(lObj->parent);
+    lObj->parent->delete(&lObj->parent);
     *_obj = 0;
 }
 //===============================================

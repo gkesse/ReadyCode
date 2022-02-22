@@ -44,7 +44,7 @@ GTestO* GTest_new() {
 //===============================================
 static void GTest_delete(GTestO** _obj) {
     GTestO* lObj = *_obj;
-    GObject_delete(lObj->parent);
+    lObj->parent->delete(&lObj->parent);
     *_obj = 0;
 }
 //===============================================

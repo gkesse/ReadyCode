@@ -24,7 +24,7 @@ GAdminO* GAdmin_new() {
 //===============================================
 static void GAdmin_delete(GAdminO** _obj) {
     GAdminO* lObj = *_obj;
-    GObject_delete(lObj->parent);
+    lObj->parent->delete(&lObj->parent);
     *_obj = 0;
 }
 //===============================================

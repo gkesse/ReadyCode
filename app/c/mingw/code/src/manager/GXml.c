@@ -68,7 +68,7 @@ GXmlO* GXml_new() {
 static void GXml_delete(GXmlO** _obj) {
     GXmlO* lObj = *_obj;
     xmlFreeDoc(lObj->m_doc);
-    GObject_delete(lObj->parent);
+    lObj->parent->delete(&lObj->parent);
     *_obj = 0;
 }
 //===============================================

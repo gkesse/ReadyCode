@@ -2,6 +2,7 @@
 #include "GObject.h"
 #include "GXml.h"
 //===============================================
+static void GObject_delete(GObjectO** _obj);
 static void GObject_run(GObjectO* _obj, int _argc, char** _argv);
 static int GObject_fsize(GObjectO* _obj, FILE* _file);
 static char* GObject_getDataPath(GObjectO* _obj);
@@ -10,7 +11,7 @@ static char* GObject_getRepoPath(GObjectO* _obj, const char* _repo, const char* 
 GObjectO* GObject_new() {
     GObjectO* lObj = (GObjectO*)malloc(sizeof(GObjectO));
 
-    lObj->child = lObj;
+    lObj->child = 0;
     lObj->delete = GObject_delete;
     lObj->run = GObject_run;
     lObj->fsize = GObject_fsize;
@@ -30,7 +31,9 @@ void GObject_delete(GObjectO** _obj) {
     }
     free(lObj->child);
     free(lObj);
-    *_obj = 0;
+    if(lObj->child == 0) {
+        *_obj = 0;
+    }
 }
 //===============================================
 static void GObject_run(GObjectO* _obj, int _argc, char** _argv) {

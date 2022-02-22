@@ -7,7 +7,7 @@
 typedef struct _GTutoO GTutoO;
 //===============================================
 struct _GTutoO {
-    void* parent;
+    GObjectO* parent;
     //
     void (*delete)(GTutoO** _obj);
     void (*run)(GTutoO* _obj, int _argc, char** _argv);

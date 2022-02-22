@@ -14,7 +14,7 @@
         }; \
         \
         struct _GListO_##GDATA { \
-            void* parent; \
+            GObjectO* parent; \
             \
             void (*delete)(GListO_##GDATA** obj); \
             void (*clear)(GListO_##GDATA* obj); \
@@ -60,7 +60,7 @@
         static void GList_delete_##GDATA(GListO_##GDATA** obj) { \
             GListO_##GDATA* lObj = *obj; \
             lObj->clear(lObj); \
-            GObject_delete(lObj->parent); \
+            lObj->parent->delete(&lObj->parent); \
             *obj = 0; \
         } \
         \

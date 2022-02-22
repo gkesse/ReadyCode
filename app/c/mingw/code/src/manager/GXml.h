@@ -7,7 +7,7 @@
 typedef struct _GXmlO GXmlO;
 //===============================================
 struct _GXmlO {
-    void* parent;
+    GObjectO* parent;
     //
     void (*delete)(GXmlO** _obj);
     void (*init)(GXmlO* _obj);

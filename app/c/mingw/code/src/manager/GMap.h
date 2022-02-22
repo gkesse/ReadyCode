@@ -16,7 +16,7 @@
         }; \
         \
         struct _GMapO_##GKEY##_##GVALUE { \
-            void* parent; \
+            GObjectO* parent; \
             \
             void (*delete)(GMapO_##GKEY##_##GVALUE** obj); \
             void (*setData)(GMapO_##GKEY##_##GVALUE* obj, GKEY key, GVALUE value, void* equal); \
@@ -65,7 +65,7 @@
         static void GMap_delete_##GKEY##_##GVALUE(GMapO_##GKEY##_##GVALUE** obj) { \
             GMapO_##GKEY##_##GVALUE* lObj = *obj; \
             lObj->clear(lObj); \
-            GObject_delete(lObj->parent); \
+            lObj->parent->delete(&lObj->parent); \
             *obj = 0; \
         } \
         \

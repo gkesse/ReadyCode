@@ -7,7 +7,7 @@
 typedef struct _GXmlParserO GXmlParserO;
 //===============================================
 struct _GXmlParserO {
-    void* parent;
+    GObjectO* parent;
     //
     void (*delete)(GXmlParserO** _obj);
     void (*loadXmlFile)(GXmlParserO* _obj, const char* _filename);

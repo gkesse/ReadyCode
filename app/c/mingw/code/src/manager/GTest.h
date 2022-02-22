@@ -7,7 +7,7 @@
 typedef struct _GTestO GTestO;
 //===============================================
 struct _GTestO {
-    void* parent;
+    GObjectO* parent;
     //
     void (*delete)(GTestO** _obj);
     void (*run)(GTestO* _obj, int _argc, char** _argv);
