@@ -13,6 +13,8 @@ GDEFINE_LIST(GVOID_PTR)
 //===============================================
 GDECLARE_MAP(GINT, GCHAR_PTR)
 GDEFINE_MAP(GINT, GCHAR_PTR)
+GDECLARE_MAP(GCHAR_PTR, GVOID_PTR)
+GDEFINE_MAP(GCHAR_PTR, GVOID_PTR)
 //===============================================
 static void GTest_delete(GTestO* _obj);
 static void GTest_run(GTestO* _obj, int _argc, char** _argv);
@@ -22,6 +24,7 @@ static void GTest_runListInt(GTestO* _obj, int _argc, char** _argv);
 static void GTest_runListChar(GTestO* _obj, int _argc, char** _argv);
 static void GTest_runListVoid(GTestO* _obj, int _argc, char** _argv);
 static void GTest_runMapIntChar(GTestO* _obj, int _argc, char** _argv);
+static void GTest_runMapCharVoid(GTestO* _obj, int _argc, char** _argv);
 //===============================================
 static void GTest_runXmlNodeNamePrint(GTestO* _obj, int _argc, char** _argv);
 static void GTest_runXmlNodeNamePrintChildren(GXmlO* _obj);
@@ -68,6 +71,9 @@ static void GTest_run(GTestO* _obj, int _argc, char** _argv) {
     // map
     else if(!strcmp(lKey, "map/int/char")) {
         GTest_runMapIntChar(_obj, _argc, _argv);
+    }
+    else if(!strcmp(lKey, "map/char/void")) {
+        GTest_runMapCharVoid(_obj, _argc, _argv);
     }
     // xml
     else if(!strcmp(lKey, "xml/node/name/print")) {
@@ -169,21 +175,60 @@ static void GTest_runMapIntChar(GTestO* _obj, int _argc, char** _argv) {
 
     GMapO(GINT, GCHAR_PTR)* lMap = GMap_new(GINT, GCHAR_PTR)();
 
-    lMap->setData(lMap, 10, "Un x 10");
-    lMap->setData(lMap, 20, "Deux x 10");
-    lMap->setData(lMap, 30, "Trois x 10");
-    lMap->setData(lMap, 40, "Quatre x 10");
-    lMap->setData(lMap, 50, "Cinq x 10");
+    lMap->setData(lMap, 10, "Un x 10", 0);
+    lMap->setData(lMap, 20, "Deux x 10", 0);
+    lMap->setData(lMap, 30, "Trois x 10", 0);
+    lMap->setData(lMap, 40, "Quatre x 10", 0);
+    lMap->setData(lMap, 50, "Cinq x 10", 0);
 
     int lSize = lMap->size(lMap);
 
     for(int i = 0; i < lSize; i++) {
         int lKey = lMap->getKey(lMap, i);
-        char* lValue = lMap->getData(lMap, lKey);
+        char* lValue = lMap->getData(lMap, lKey, 0);
         printf("%d : %s\n", lKey, lValue);
     }
 
-    lMap->delete(lMap);
+    lMap->delete(&lMap);
+}
+//===============================================
+static void GTest_runMapCharVoid(GTestO* _obj, int _argc, char** _argv) {
+    printf("%s\n", __FUNCTION__);
+
+    GMapO(GCHAR_PTR, GVOID_PTR)* lMap = GMap_new(GCHAR_PTR, GVOID_PTR)();
+
+    double* lData;
+    int i = 0;
+
+    lData = (double*)malloc(sizeof(double));
+    *lData = 3.14*(++i);
+    lMap->setData(lMap, "Un", lData, lMap->equalChar);
+
+    lData = (double*)malloc(sizeof(double));
+    *lData = 3.14*(++i);
+    lMap->setData(lMap, "Deux", lData, lMap->equalChar);
+
+    lData = (double*)malloc(sizeof(double));
+    *lData = 3.14*(++i);
+    lMap->setData(lMap, "Trois", lData, lMap->equalChar);
+
+    lData = (double*)malloc(sizeof(double));
+    *lData = 3.14*(++i);
+    lMap->setData(lMap, "Quatre", lData, lMap->equalChar);
+
+    lData = (double*)malloc(sizeof(double));
+    *lData = 3.14*(++i);
+    lMap->setData(lMap, "Cinq", lData, lMap->equalChar);
+
+    int lSize = lMap->size(lMap);
+
+    for(int i = 0; i < lSize; i++) {
+        char* lKey = lMap->getKey(lMap, i);
+        double* lValue = lMap->getData(lMap, lKey, lMap->equalChar);
+        printf("%s : %.2f\n", lKey, *lValue);
+    }
+
+    lMap->delete(&lMap);
 }
 //===============================================
 static void GTest_runXmlNodeNamePrint(GTestO* _obj, int _argc, char** _argv) {
