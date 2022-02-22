@@ -1,7 +1,7 @@
 //===============================================
 #include "GLog.h"
 //===============================================
-static void GLog_delete(GLogO* _obj);
+static void GLog_delete(GLogO** _obj);
 //===============================================
 GLogO* GLog_new() {
     GObjectO* lParent = GObject_new();
@@ -15,7 +15,9 @@ GLogO* GLog_new() {
     return lChild;
 }
 //===============================================
-static void GLog_delete(GLogO* _obj) {
-    GObject_delete(_obj->parent);
+static void GLog_delete(GLogO** _obj) {
+    GLogO* lObj = *_obj;
+    GObject_delete(lObj->parent);
+    *_obj = 0;
 }
 //===============================================

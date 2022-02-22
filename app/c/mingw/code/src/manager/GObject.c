@@ -23,12 +23,14 @@ GObjectO* GObject_new() {
     return lObj;
 }
 //===============================================
-void GObject_delete(GObjectO* _obj) {
-    if(_obj->m_dom) {
-        _obj->m_dom->delete(_obj->m_dom);
+void GObject_delete(GObjectO** _obj) {
+    GObjectO* lObj = *_obj;
+    if(lObj->m_dom) {
+        lObj->m_dom->delete(&lObj->m_dom);
     }
-    free(_obj->child);
-    free(_obj);
+    free(lObj->child);
+    free(lObj);
+    *_obj = 0;
 }
 //===============================================
 static void GObject_run(GObjectO* _obj, int _argc, char** _argv) {

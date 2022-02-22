@@ -3,7 +3,7 @@
 //===============================================
 static GXmlO* m_GXmlO = 0;
 //===============================================
-static void GXml_delete(GXmlO* _obj);
+static void GXml_delete(GXmlO** _obj);
 static void GXml_init(GXmlO* _obj);
 static void GXml_clean(GXmlO* _obj);
 //===============================================
@@ -65,9 +65,11 @@ GXmlO* GXml_new() {
     return lChild;
 }
 //===============================================
-static void GXml_delete(GXmlO* _obj) {
-    xmlFreeDoc(_obj->m_doc);
-    GObject_delete(_obj->parent);
+static void GXml_delete(GXmlO** _obj) {
+    GXmlO* lObj = *_obj;
+    xmlFreeDoc(lObj->m_doc);
+    GObject_delete(lObj->parent);
+    *_obj = 0;
 }
 //===============================================
 static void GXml_init(GXmlO* _obj) {

@@ -1,7 +1,7 @@
 //===============================================
 #include "GTuto.h"
 //===============================================
-static void GTuto_delete(GTutoO* _obj);
+static void GTuto_delete(GTutoO** _obj);
 static void GTuto_run(GTutoO* _obj, int _argc, char** _argv);
 static void GTuto_runTest(GTutoO* _obj, int _argc, char** _argv);
 //===============================================
@@ -18,8 +18,10 @@ GTutoO* GTuto_new() {
     return lChild;
 }
 //===============================================
-static void GTuto_delete(GTutoO* _obj) {
-    GObject_delete(_obj->parent);
+static void GTuto_delete(GTutoO** _obj) {
+    GTutoO* lObj = *_obj;
+    GObject_delete(lObj->parent);
+    *_obj = 0;
 }
 //===============================================
 static void GTuto_run(GTutoO* _obj, int _argc, char** _argv) {

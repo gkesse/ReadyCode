@@ -66,7 +66,7 @@
             GMapO_##GKEY##_##GVALUE* lObj = *obj; \
             lObj->clear(lObj); \
             GObject_delete(lObj->parent); \
-            obj = 0; \
+            *obj = 0; \
         } \
         \
         static void GMap_clear_##GKEY##_##GVALUE(GMapO_##GKEY##_##GVALUE* obj) { \

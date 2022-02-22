@@ -9,7 +9,7 @@ typedef struct _GLogO GLogO;
 struct _GLogO {
     void* parent;
     //
-    void (*delete)(GLogO* _obj);
+    void (*delete)(GLogO** _obj);
 };
 //===============================================
 GLogO* GLog_new();

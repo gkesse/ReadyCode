@@ -11,7 +11,7 @@ typedef struct _GObjectO GObjectO;
 struct _GObjectO {
     void* child;
     //
-    void (*delete)(GObjectO* _obj);
+    void (*delete)(GObjectO** _obj);
     void (*run)(GObjectO* _obj, int _argc, char** _argv);
     int (*fsize)(GObjectO* _obj, FILE* _file);
     char* (*getDataPath)(GObjectO* _obj);
@@ -22,7 +22,7 @@ struct _GObjectO {
 };
 //===============================================
 GObjectO* GObject_new();
-void GObject_delete(GObjectO* _obj);
+void GObject_delete(GObjectO** _obj);
 //===============================================
 #endif
 //===============================================

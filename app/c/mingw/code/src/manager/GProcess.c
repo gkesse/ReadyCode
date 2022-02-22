@@ -6,7 +6,7 @@
 //===============================================
 static GProcessO* m_GProcessO = 0;
 //===============================================
-static void GProcess_delete(GProcessO* _obj);
+static void GProcess_delete(GProcessO** _obj);
 static void GProcess_run(GProcessO* _obj, int _argc, char** _argv);
 static void GProcess_runTest(GProcessO* _obj, int _argc, char** _argv);
 static void GProcess_runTuto(GProcessO* _obj, int _argc, char** _argv);
@@ -25,8 +25,10 @@ GProcessO* GProcess_new() {
     return lChild;
 }
 //===============================================
-static void GProcess_delete(GProcessO* _obj) {
-    GObject_delete(_obj->parent);
+static void GProcess_delete(GProcessO** _obj) {
+    GProcessO* lObj = *_obj;
+    GObject_delete(lObj->parent);
+    *_obj = 0;
 }
 //===============================================
 GProcessO* GProcess() {

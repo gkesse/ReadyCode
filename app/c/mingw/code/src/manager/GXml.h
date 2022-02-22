@@ -9,7 +9,7 @@ typedef struct _GXmlO GXmlO;
 struct _GXmlO {
     void* parent;
     //
-    void (*delete)(GXmlO* _obj);
+    void (*delete)(GXmlO** _obj);
     void (*init)(GXmlO* _obj);
     void (*clean)(GXmlO* _obj);
     int (*loadXmlFile)(GXmlO* _obj, const char* _filename);

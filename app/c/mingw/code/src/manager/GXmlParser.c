@@ -1,7 +1,7 @@
 //===============================================
 #include "GXmlParser.h"
 //===============================================
-static void GXmlParser_delete(GXmlParserO* _obj);
+static void GXmlParser_delete(GXmlParserO** _obj);
 static void GXmlParser_loadXmlFile(GXmlParserO* _obj, const char* _filename);
 static void GXmlParser_loadXmlData(GXmlParserO* _obj, char* _source, int _size);
 static void GXmlParser_createDoc(GXmlParserO* _obj, const char* _root);
@@ -40,11 +40,13 @@ GXmlParserO* GXmlParser_new() {
     return lChild;
 }
 //===============================================
-static void GXmlParser_delete(GXmlParserO* _obj) {
-    if(_obj->m_doc) {
-        xml_document_free(_obj->m_doc, false);
+static void GXmlParser_delete(GXmlParserO** _obj) {
+    GXmlParserO* lObj = *_obj;
+    if(lObj->m_doc) {
+        xml_document_free(lObj->m_doc, false);
     }
-    GObject_delete(_obj->parent);
+    GObject_delete(lObj->parent);
+    *_obj = 0;
 }
 //===============================================
 static void GXmlParser_loadXmlFile(GXmlParserO* _obj, const char* _filename) {

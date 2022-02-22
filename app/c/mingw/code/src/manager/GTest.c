@@ -16,7 +16,7 @@ GDEFINE_MAP(GINT, GCHAR_PTR)
 GDECLARE_MAP(GCHAR_PTR, GVOID_PTR)
 GDEFINE_MAP(GCHAR_PTR, GVOID_PTR)
 //===============================================
-static void GTest_delete(GTestO* _obj);
+static void GTest_delete(GTestO** _obj);
 static void GTest_run(GTestO* _obj, int _argc, char** _argv);
 static void GTest_runTest(GTestO* _obj, int _argc, char** _argv);
 //===============================================
@@ -33,7 +33,6 @@ GTestO* GTest_new() {
     GObjectO* lParent = GObject_new();
     GTestO* lChild = (GTestO*)malloc(sizeof(GTestO));
 
-    lChild->this = lChild;
     lChild->parent = lParent;
     lChild->delete = GTest_delete;
     lChild->run = GTest_run;
@@ -43,9 +42,10 @@ GTestO* GTest_new() {
     return lChild;
 }
 //===============================================
-static void GTest_delete(GTestO* _obj) {
-    GObject_delete(_obj->parent);
-    _obj->this = 0;
+static void GTest_delete(GTestO** _obj) {
+    GTestO* lObj = *_obj;
+    GObject_delete(lObj->parent);
+    *_obj = 0;
 }
 //===============================================
 static void GTest_run(GTestO* _obj, int _argc, char** _argv) {
@@ -99,7 +99,7 @@ static void GTest_runTest(GTestO* _obj, int _argc, char** _argv) {
         printf("%d\n", lData);
     }
 
-    lList->delete(lList);
+    lList->delete(&lList);
 }
 //===============================================
 static void GTest_runListInt(GTestO* _obj, int _argc, char** _argv) {
@@ -120,7 +120,7 @@ static void GTest_runListInt(GTestO* _obj, int _argc, char** _argv) {
         printf("%d\n", lData);
     }
 
-    lList->delete(lList);
+    lList->delete(&lList);
 }
 //===============================================
 static void GTest_runListChar(GTestO* _obj, int _argc, char** _argv) {
@@ -141,7 +141,7 @@ static void GTest_runListChar(GTestO* _obj, int _argc, char** _argv) {
         printf("%s\n", lData);
     }
 
-    lList->delete(lList);
+    lList->delete(&lList);
 }
 //===============================================
 static void GTest_runListVoid(GTestO* _obj, int _argc, char** _argv) {
@@ -167,7 +167,7 @@ static void GTest_runListVoid(GTestO* _obj, int _argc, char** _argv) {
         free(lData);
     }
 
-    lList->delete(lList);
+    lList->delete(&lList);
 }
 //===============================================
 static void GTest_runMapIntChar(GTestO* _obj, int _argc, char** _argv) {
@@ -238,7 +238,7 @@ static void GTest_runXmlNodeNamePrint(GTestO* _obj, int _argc, char** _argv) {
     lDom->loadXmlFile(lDom, "process.xml");
     lDom->getRoot(lDom, "rdv");
     GTest_runXmlNodeNamePrintChildren(lDom);
-    lDom->delete(lDom);
+    lDom->delete(&lDom);
 }
 //===============================================
 static void GTest_runXmlNodeNamePrintChildren(GXmlO* _obj) {
@@ -259,7 +259,7 @@ static void GTest_runXmlNodeNamePrintChildren(GXmlO* _obj) {
         lNode->getNodeNext(lNode, lNode);
     }
 
-    lNode->delete(lNode);
-    lChildren->delete(lChildren);
+    lNode->delete(&lNode);
+    lChildren->delete(&lChildren);
 }
 //===============================================

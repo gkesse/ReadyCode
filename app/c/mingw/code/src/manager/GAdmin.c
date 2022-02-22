@@ -1,7 +1,7 @@
 //===============================================
 #include "GAdmin.h"
 //===============================================
-static void GAdmin_delete(GAdminO* _obj);
+static void GAdmin_delete(GAdminO** _obj);
 static void GAdmin_run(GAdminO* _obj, int _argc, char** _argv);
 static void GAdmin_runInit(GAdminO* _obj, int _argc, char** _argv);
 static void GAdmin_runMethod(GAdminO* _obj, int _argc, char** _argv);
@@ -22,8 +22,10 @@ GAdminO* GAdmin_new() {
     return lChild;
 }
 //===============================================
-static void GAdmin_delete(GAdminO* _obj) {
-    GObject_delete(_obj->parent);
+static void GAdmin_delete(GAdminO** _obj) {
+    GAdminO* lObj = *_obj;
+    GObject_delete(lObj->parent);
+    *_obj = 0;
 }
 //===============================================
 static void GAdmin_run(GAdminO* _obj, int _argc, char** _argv) {
