@@ -30,6 +30,7 @@ GTestO* GTest_new() {
     GObjectO* lParent = GObject_new();
     GTestO* lChild = (GTestO*)malloc(sizeof(GTestO));
 
+    lChild->this = lChild;
     lChild->parent = lParent;
     lChild->delete = GTest_delete;
     lChild->run = GTest_run;
@@ -41,6 +42,7 @@ GTestO* GTest_new() {
 //===============================================
 static void GTest_delete(GTestO* _obj) {
     GObject_delete(_obj->parent);
+    _obj->this = 0;
 }
 //===============================================
 static void GTest_run(GTestO* _obj, int _argc, char** _argv) {
@@ -167,11 +169,19 @@ static void GTest_runMapIntChar(GTestO* _obj, int _argc, char** _argv) {
 
     GMapO(GINT, GCHAR_PTR)* lMap = GMap_new(GINT, GCHAR_PTR)();
 
-    lMap->setData(lMap, 1, "Un");
-    lMap->setData(lMap, 1, "Un");
-    lMap->setData(lMap, 1, "Un");
-    lMap->setData(lMap, 1, "Un");
-    lMap->setData(lMap, 1, "Un");
+    lMap->setData(lMap, 10, "Un x 10");
+    lMap->setData(lMap, 20, "Deux x 10");
+    lMap->setData(lMap, 30, "Trois x 10");
+    lMap->setData(lMap, 40, "Quatre x 10");
+    lMap->setData(lMap, 50, "Cinq x 10");
+
+    int lSize = lMap->size(lMap);
+
+    for(int i = 0; i < lSize; i++) {
+        int lKey = lMap->getKey(lMap, i);
+        char* lValue = lMap->getData(lMap, lKey);
+        printf("%d : %s\n", lKey, lValue);
+    }
 
     lMap->delete(lMap);
 }
