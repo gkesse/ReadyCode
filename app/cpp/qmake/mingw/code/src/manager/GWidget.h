@@ -15,6 +15,7 @@ public:
 
 protected:
 	QSharedPointer<GXml> m_dom;
+	QMap<QObject*, QString> m_objectMap;
 };
 //===============================================
 #endif

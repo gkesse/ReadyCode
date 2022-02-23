@@ -4,6 +4,7 @@
 #include "GXml.h"
 #include "GStyle.h"
 #include "GPicto.h"
+#include "GLog.h"
 //===============================================
 GPad::GPad(QWidget* _parent) :
 GWidget(_parent) {
@@ -109,6 +110,7 @@ QWidget* GPad::createHeader() {
 
 	for(int i = 0; i < lCount; i++) {
 		QString lType = getPadHeaderItem(i, "type");
+		QString lKey = getPadHeaderItem(i, "key");
 		QString lText = getPadHeaderItem(i, "text");
 		QString lStyle = getPadHeaderItem(i, "style");
 		QString lPicto = getPadHeaderItem(i, "picto");
@@ -120,6 +122,7 @@ QWidget* GPad::createHeader() {
 		}
 		else if(lType == "button") {
 			QPushButton* lButton = new QPushButton;
+			m_objectMap[lButton] = lKey;
 			lButton->setObjectName(lStyle);
 			lButton->setText(lText);
 			lButton->setCursor(Qt::PointingHandCursor);
@@ -129,11 +132,24 @@ QWidget* GPad::createHeader() {
 			if(lPictoSize != 0) {
 				lButton->setIconSize(QSize(lPictoSize, lPictoSize));
 			}
+			connect(lButton, SIGNAL(clicked()), this, SLOT(onEvent()));
 			lMainLayout->addWidget(lButton);
 		}
 	}
 
 	lMainPage->setLayout(lMainLayout);
     return lMainPage;
+}
+//===============================================
+void GPad::onEvent() {
+    QString lKey = m_objectMap[sender()];
+    if(lKey == "header/connect") {
+
+    }
+    else {
+    	GLOG->addError(QString("Erreur la methode (onEvent) a échoué\n"
+    			"sur la clé (%1)").arg(lKey));
+    }
+    GLOG->showError(this);
 }
 //===============================================

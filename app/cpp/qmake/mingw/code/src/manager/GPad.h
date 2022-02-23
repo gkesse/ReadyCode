@@ -20,6 +20,9 @@ public:
 	QString getPadHeaderItem(int _i, const QString& _data) const;
 	void createWindow();
 	QWidget* createHeader();
+
+public slots:
+	void onEvent();
 };
 //===============================================
 #endif

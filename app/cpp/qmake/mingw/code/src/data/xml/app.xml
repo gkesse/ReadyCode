@@ -30,6 +30,7 @@
 			<map>
 				<data>
 					<type>button</type>
+					<key>header/connectO</key>
 					<style>flat</style>
 					<text>Connexion</text>
 					<picto>search</picto>

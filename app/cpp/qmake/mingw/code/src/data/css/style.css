@@ -1,9 +1,31 @@
 /* ============================================== */
+/* common */
+/* ============================================== */
 QWidget {
+	background-color: transparent;
 	color: #eeeeee;
 	font-family: arial;
 	font-size: 16px;
 }
+/* ============================================== */
+QMessageBox {
+	background-color: #111133;
+}
+/* ============================================== */
+QPushButton {
+	background-color: transparent;
+	border: 2px solid #aaaaff;
+	padding: 5px 10px;
+	border-radius: 5px;
+}
+QPushButton:hover {
+	background-color: rgba(255, 255, 255, 0.2);
+}
+QPushButton:pressed {
+	background-color: transparent;
+}
+/* ============================================== */
+/* custom */
 /* ============================================== */
 QFrame#flat {
 	background-color: #111111;
