@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<rdv>
+    <datas>
+		<data>
+			<code>pad</code>
+			<title>ReadyPlan</title>
+			<logo>readydev.png</logo>
+			<width>400</width>
+			<height>400</height>
+			<fullscreen_on>1</fullscreen_on>
+			<maximize_on>1</maximize_on>
+		</data>
+		<data>
+			<code>pad/window</code>
+			<map>
+				<data>
+					<type>header</type>
+				</data>
+				<data>
+					<type>spacer</type>
+				</data>
+			</map>
+		</data>
+		<data>
+			<code>login</code>
+			<title>ReadyPlan</title>
+			<logo>readydev.png</logo>
+			<width>400</width>
+			<height>400</height>
+			<fullscreen_on>1</fullscreen_on>
+			<maximize_on>1</maximize_on>
+		</data>
+    </datas>
+</rdv>
