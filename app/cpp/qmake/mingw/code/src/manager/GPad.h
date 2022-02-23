@@ -11,15 +11,14 @@ public:
 	GPad(QWidget* _parent = 0);
 	~GPad();
 	void createDoms();
+	int countPadItem() const;
 	QString getPadItem(const QString& _data) const;
-	int countPadWindowItem() const;
-	QString getPadWindowItem(const QString& _data) const;
-	QString getPadWindowItem(int _i, const QString& _data) const;
-	int countPadHeaderItem() const;
-	QString getPadHeaderItem(const QString& _data) const;
-	QString getPadHeaderItem(int _i, const QString& _data) const;
-	void createWindow();
-	QWidget* createHeader();
+	QString getPadItem(int _i, const QString& _data) const;
+	int countLoginItem() const;
+	QString getLoginItem(const QString& _data) const;
+	QString getLoginItem(int _i, const QString& _data) const;
+	void createPad();
+	QDialog* createLogin(QWidget* _parent = 0);
 
 public slots:
 	void onEvent();

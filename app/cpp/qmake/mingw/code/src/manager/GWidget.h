@@ -12,6 +12,7 @@ class GWidget : public QFrame {
 public:
 	GWidget(QWidget* _parent = 0);
 	~GWidget();
+	QObject* getObject(const QString& _key);
 
 protected:
 	QSharedPointer<GXml> m_dom;

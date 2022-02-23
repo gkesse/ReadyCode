@@ -10,13 +10,15 @@ GPad::GPad(QWidget* _parent) :
 GWidget(_parent) {
 	GSTYLE(GRES("css", "style.css"));
 	createDoms();
-	createWindow();
+	createPad();
 
 	QString lTitle = getPadItem("title");
+	QString lLogo = getPadItem("logo");
 	int lWidth = getPadItem("width").toInt();
 	int lHeight = getPadItem("height").toInt();
 
 	setWindowTitle(lTitle);
+    setWindowIcon(QIcon(GRES("img", lLogo)));
 	resize(lWidth, lHeight);
 }
 //===============================================
@@ -26,8 +28,14 @@ GPad::~GPad() {
 //===============================================
 void GPad::createDoms() {
 	m_dom.reset(new GXml);
-    m_dom->loadXmlFile(GRES("xml", "app.xml"));
+    m_dom->loadXmlFile(GRES("xml", "pad.xml"));
     m_dom->createXPath();
+}
+//===============================================
+int GPad::countPadItem() const {
+    m_dom->queryXPath(QString("/rdv/datas/data[code='pad']/map/data"));
+    int lData = m_dom->countXPath();
+    return lData;
 }
 //===============================================
 QString GPad::getPadItem(const QString& _data) const {
@@ -37,88 +45,68 @@ QString GPad::getPadItem(const QString& _data) const {
     return lData;
 }
 //===============================================
-int GPad::countPadWindowItem() const {
-    m_dom->queryXPath(QString("/rdv/datas/data[code='pad/window']/map/data"));
+QString GPad::getPadItem(int _i, const QString& _data) const {
+    m_dom->queryXPath(QString("/rdv/datas/data[code='pad']/map/data[position()=%1]/%2").arg(_i + 1).arg(_data));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData;
+}
+//===============================================
+int GPad::countLoginItem() const {
+    m_dom->queryXPath(QString("/rdv/datas/data[code='login']/map/data"));
     int lData = m_dom->countXPath();
     return lData;
 }
 //===============================================
-QString GPad::getPadWindowItem(const QString& _data) const {
-    m_dom->queryXPath(QString("/rdv/datas/data[code='pad/window']/%1").arg(_data));
+QString GPad::getLoginItem(const QString& _data) const {
+    m_dom->queryXPath(QString("/rdv/datas/data[code='login']/%1").arg(_data));
     m_dom->getNodeXPath();
     QString lData = m_dom->getNodeValue();
     return lData;
 }
 //===============================================
-QString GPad::getPadWindowItem(int _i, const QString& _data) const {
-    m_dom->queryXPath(QString("/rdv/datas/data[code='pad/window']/map/data[position()=%1]/%2").arg(_i + 1).arg(_data));
+QString GPad::getLoginItem(int _i, const QString& _data) const {
+    m_dom->queryXPath(QString("/rdv/datas/data[code='login']/map/data[position()=%1]/%2").arg(_i + 1).arg(_data));
     m_dom->getNodeXPath();
     QString lData = m_dom->getNodeValue();
     return lData;
 }
 //===============================================
-int GPad::countPadHeaderItem() const {
-    m_dom->queryXPath(QString("/rdv/datas/data[code='pad/header']/map/data"));
-    int lData = m_dom->countXPath();
-    return lData;
-}
-//===============================================
-QString GPad::getPadHeaderItem(const QString& _data) const {
-    m_dom->queryXPath(QString("/rdv/datas/data[code='pad/header']/%1").arg(_data));
-    m_dom->getNodeXPath();
-    QString lData = m_dom->getNodeValue();
-    return lData;
-}
-//===============================================
-QString GPad::getPadHeaderItem(int _i, const QString& _data) const {
-    m_dom->queryXPath(QString("/rdv/datas/data[code='pad/header']/map/data[position()=%1]/%2").arg(_i + 1).arg(_data));
-    m_dom->getNodeXPath();
-    QString lData = m_dom->getNodeValue();
-    return lData;
-}
-//===============================================
-void GPad::createWindow() {
+void GPad::createPad() {
+	QHBoxLayout* lHeaderLayout = new QHBoxLayout;
+
 	QVBoxLayout* lMainLayout = new QVBoxLayout;
+	lMainLayout->addLayout(lHeaderLayout);
+	lMainLayout->addStretch();
 	lMainLayout->setMargin(10);
 	lMainLayout->setSpacing(10);
 
-	int lCount = countPadWindowItem();
-	QString lStyle = getPadWindowItem("style");
+	int lCount = countPadItem();
+	QString lStyle = getPadItem("style");
 
 	for(int i = 0; i < lCount; i++) {
-		QString lType = getPadWindowItem(i, "type");
+		QString lCategory = getPadItem(i, "category");
+		QString lType = getPadItem(i, "type");
+		QString lKey = getPadItem(i, "key");
+		QString lText = getPadItem(i, "text");
+		QString lStyle = getPadItem(i, "style");
+		QString lPicto = getPadItem(i, "picto");
+		QString lPictoColor = getPadItem(i, "picto_color");
+		int lPictoSize = getPadItem(i, "picto_size").toInt();
+
+		QBoxLayout* lItemLayout = 0;
+		if(lCategory == "header") {
+			lItemLayout = lHeaderLayout;
+		}
+		else {
+	        GLOG->addError(QString("Erreur la methode (createPad) a echoue\n"
+	                "sur la categorie (%1).").arg(lCategory));
+	        GLOG->showError(this);
+	        continue;
+	    }
 
 		if(lType == "spacer") {
-			lMainLayout->addStretch();
-		}
-		else if(lType == "header") {
-			lMainLayout->addWidget(createHeader());
-		}
-	}
-
-	setLayout(lMainLayout);
-	setObjectName(lStyle);
-}
-//===============================================
-QWidget* GPad::createHeader() {
-    QFrame* lMainPage = new QFrame;
-	QHBoxLayout* lMainLayout = new QHBoxLayout;
-	lMainLayout->setMargin(0);
-	lMainLayout->setSpacing(10);
-
-	int lCount = countPadHeaderItem();
-
-	for(int i = 0; i < lCount; i++) {
-		QString lType = getPadHeaderItem(i, "type");
-		QString lKey = getPadHeaderItem(i, "key");
-		QString lText = getPadHeaderItem(i, "text");
-		QString lStyle = getPadHeaderItem(i, "style");
-		QString lPicto = getPadHeaderItem(i, "picto");
-		QString lPictoColor = getPadHeaderItem(i, "picto_color");
-		int lPictoSize = getPadHeaderItem(i, "picto_size").toInt();
-
-		if(lType == "spacer") {
-			lMainLayout->addStretch();
+			lItemLayout->addStretch();
 		}
 		else if(lType == "button") {
 			QPushButton* lButton = new QPushButton;
@@ -133,18 +121,118 @@ QWidget* GPad::createHeader() {
 				lButton->setIconSize(QSize(lPictoSize, lPictoSize));
 			}
 			connect(lButton, SIGNAL(clicked()), this, SLOT(onEvent()));
-			lMainLayout->addWidget(lButton);
+			lItemLayout->addWidget(lButton);
+		}
+	}
+
+	setLayout(lMainLayout);
+	setObjectName(lStyle);
+}
+//===============================================
+QDialog* GPad::createLogin(QWidget* _parent) {
+    QDialog* lMainPage = new QDialog(_parent);
+
+	QHBoxLayout* lUsernameLayout = new QHBoxLayout;
+	lUsernameLayout->setMargin(0);
+	lUsernameLayout->setSpacing(10);
+
+	QHBoxLayout* lPasswordLayout = new QHBoxLayout;
+	lPasswordLayout->setMargin(0);
+	lPasswordLayout->setSpacing(10);
+
+	QHBoxLayout* lButtonLayout = new QHBoxLayout;
+	lButtonLayout->setMargin(0);
+	lButtonLayout->setSpacing(10);
+
+	QVBoxLayout* lMainLayout = new QVBoxLayout;
+	lMainLayout->addLayout(lUsernameLayout);
+	lMainLayout->addLayout(lPasswordLayout);
+	lMainLayout->addLayout(lButtonLayout);
+	lMainLayout->setMargin(10);
+	lMainLayout->setSpacing(10);
+
+	int lCount = countLoginItem();
+	QString lTitle = getLoginItem("title");
+	QString lLogo = getLoginItem("logo");
+	int lWidth = getLoginItem("width").toInt();
+	int lHeight = getLoginItem("height").toInt();
+
+	for(int i = 0; i < lCount; i++) {
+		QString lCategory = getLoginItem(i, "category");
+		QString lType = getLoginItem(i, "type");
+		QString lKey = getLoginItem(i, "key");
+		QString lText = getLoginItem(i, "text");
+		QString lStyle = getLoginItem(i, "style");
+		QString lPicto = getLoginItem(i, "picto");
+		QString lPictoColor = getLoginItem(i, "picto_color");
+		int lPictoSize = getLoginItem(i, "picto_size").toInt();
+
+		QBoxLayout* lItemLayout = 0;
+
+		if(lCategory == "username") {
+			lItemLayout = lUsernameLayout;
+		}
+		else if(lCategory == "password") {
+			lItemLayout = lPasswordLayout;
+		}
+		else if(lCategory == "button") {
+			lItemLayout = lButtonLayout;
+		}
+		else {
+	        GLOG->addError(QString("Erreur la methode (createLogin) a echoue\n"
+	                "sur la categorie (%1).").arg(lCategory));
+	        GLOG->showError(this);
+	        continue;
+	    }
+
+		if(lType == "spacer") {
+			lItemLayout->addStretch();
+		}
+		else if(lType == "button") {
+			QPushButton* lButton = new QPushButton;
+			m_objectMap[lButton] = lKey;
+			lButton->setObjectName(lStyle);
+			lButton->setText(lText);
+			lButton->setCursor(Qt::PointingHandCursor);
+			if(lPicto != "" && lPictoColor != "") {
+				lButton->setIcon(GPICTO(lPicto, lPictoColor));
+			}
+			if(lPictoSize != 0) {
+				lButton->setIconSize(QSize(lPictoSize, lPictoSize));
+			}
+			connect(lButton, SIGNAL(clicked()), this, SLOT(onEvent()));
+			lItemLayout->addWidget(lButton);
+		}
+		else if(lType == "label") {
+			QLabel* lLabel = new QLabel;
+			lLabel->setText(lText);
+			lItemLayout->addWidget(lLabel);
+		}
+		else if(lType == "lineedit") {
+			QLineEdit* lLineEdit = new QLineEdit;
+			if(lStyle != "") {
+				lLineEdit->setObjectName("flat");
+			}
+			lItemLayout->addWidget(lLineEdit);
 		}
 	}
 
 	lMainPage->setLayout(lMainLayout);
+
+	lMainPage->setWindowTitle(lTitle);
+	lMainPage->setWindowIcon(QIcon(GRES("img", lLogo)));
+	lMainPage->resize(lWidth, lHeight);
+	lMainPage->setFixedHeight(lMainPage->sizeHint().height());
+
     return lMainPage;
 }
 //===============================================
 void GPad::onEvent() {
     QString lKey = m_objectMap[sender()];
     if(lKey == "header/connect") {
-
+    	QDialog* lDialog = createLogin();
+    	lDialog->exec();
+    	delete lDialog;
     }
     else {
     	GLOG->addError(QString("Erreur la methode (onEvent) a échoué\n"

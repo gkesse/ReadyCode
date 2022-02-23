@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<rdv>
+    <datas>
+		<!-- pad -->
+		<data>
+			<code>pad</code>
+			<title>ReadyPlan</title>
+			<logo>readydev.png</logo>
+			<width>400</width>
+			<height>400</height>
+			<fullscreen_on>1</fullscreen_on>
+			<maximize_on>1</maximize_on>
+			<map>
+				<!-- header -->
+				<data>
+					<category>header</category>
+					<type>button</type>
+					<key>header/connect</key>
+					<style>flat</style>
+					<text>Connexion</text>
+					<picto>search</picto>
+					<picto_color>#aaaaff</picto_color>
+					<picto_size>20</picto_size>
+				</data>
+				<data>
+					<category>header</category>
+					<type>spacer</type>
+				</data>
+				<!-- end -->
+			</map>
+		</data>
+		<!-- login -->
+		<data>
+			<code>login</code>
+			<title>CONNEXION</title>
+			<logo>readydev.png</logo>
+			<width>380</width>
+			<height>150</height>
+			<map>
+				<!-- username -->
+				<data>
+					<category>username</category>
+					<type>label</type>
+					<text>Nom d'utilisateur :</text>
+				</data>
+				<data>
+					<category>username</category>
+					<type>lineedit</type>
+					<style>flat</style>
+				</data>
+				<!-- button -->
+				<data>
+					<category>button</category>
+					<type>spacer</type>
+				</data>
+				<data>
+					<category>button</category>
+					<type>button</type>
+					<key>login/connect</key>
+					<style>flat</style>
+					<text>Connexion</text>
+					<picto>search</picto>
+					<picto_color>#aaaaff</picto_color>
+					<picto_size>20</picto_size>
+				</data>
+				<!-- end -->
+			</map>
+		</data>
+		<!-- end -->
+    </datas>
+</rdv>

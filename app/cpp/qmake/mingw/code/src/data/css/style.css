@@ -8,14 +8,14 @@ QWidget {
 	font-size: 16px;
 }
 /* ============================================== */
-QMessageBox {
+QDialog {
 	background-color: #111133;
 }
 /* ============================================== */
 QPushButton {
 	background-color: transparent;
 	border: 2px solid #aaaaff;
-	padding: 5px 10px;
+	padding: 2px 5px;
 	border-radius: 5px;
 }
 QPushButton:hover {
@@ -34,7 +34,7 @@ QFrame#flat {
 QPushButton#flat {
 	background-color: transparent;
 	border: 2px solid #aaaaff;
-	padding: 5px 10px;
+	padding: 2px 5px;
 	border-radius: 5px;
 }
 QPushButton#flat:hover {
@@ -42,5 +42,12 @@ QPushButton#flat:hover {
 }
 QPushButton#flat:pressed {
 	background-color: transparent;
+}
+/* ============================================== */
+QLineEdit#flat {
+	background-color: transparent;
+	border: 2px solid #aaaaff;
+	padding: 2px 5px;
+	border-radius: 5px;
 }
 /* ============================================== */
