@@ -74,6 +74,8 @@ QString GPad::getLoginItem(int _i, const QString& _data) const {
 //===============================================
 void GPad::createPad() {
 	QHBoxLayout* lHeaderLayout = new QHBoxLayout;
+	lHeaderLayout->setMargin(0);
+	lHeaderLayout->setSpacing(10);
 
 	QVBoxLayout* lMainLayout = new QVBoxLayout;
 	lMainLayout->addLayout(lHeaderLayout);
@@ -131,14 +133,15 @@ void GPad::createPad() {
 //===============================================
 QDialog* GPad::createLogin(QWidget* _parent) {
     QDialog* lMainPage = new QDialog(_parent);
+	m_objectMap[lMainPage] = "login/dialog";
 
 	QHBoxLayout* lUsernameLayout = new QHBoxLayout;
 	lUsernameLayout->setMargin(0);
-	lUsernameLayout->setSpacing(10);
+	lUsernameLayout->setSpacing(0);
 
 	QHBoxLayout* lPasswordLayout = new QHBoxLayout;
 	lPasswordLayout->setMargin(0);
-	lPasswordLayout->setSpacing(10);
+	lPasswordLayout->setSpacing(0);
 
 	QHBoxLayout* lButtonLayout = new QHBoxLayout;
 	lButtonLayout->setMargin(0);
@@ -156,6 +159,7 @@ QDialog* GPad::createLogin(QWidget* _parent) {
 	QString lLogo = getLoginItem("logo");
 	int lWidth = getLoginItem("width").toInt();
 	int lHeight = getLoginItem("height").toInt();
+	int lLabelWidth = getLoginItem("label_width").toInt();
 
 	for(int i = 0; i < lCount; i++) {
 		QString lCategory = getLoginItem(i, "category");
@@ -206,7 +210,21 @@ QDialog* GPad::createLogin(QWidget* _parent) {
 		else if(lType == "label") {
 			QLabel* lLabel = new QLabel;
 			lLabel->setText(lText);
+			lLabel->setMinimumWidth(lLabelWidth);
 			lItemLayout->addWidget(lLabel);
+		}
+		else if(lType == "label/icon") {
+			QPushButton* lButton = new QPushButton;
+			lButton->setObjectName("left");
+			lButton->setText(lText);
+			lButton->setMinimumWidth(lLabelWidth);
+			if(lPicto != "" && lPictoColor != "") {
+				lButton->setIcon(GPICTO(lPicto, lPictoColor));
+			}
+			if(lPictoSize != 0) {
+				lButton->setIconSize(QSize(lPictoSize, lPictoSize));
+			}
+			lItemLayout->addWidget(lButton);
 		}
 		else if(lType == "lineedit") {
 			QLineEdit* lLineEdit = new QLineEdit;
@@ -229,10 +247,20 @@ QDialog* GPad::createLogin(QWidget* _parent) {
 //===============================================
 void GPad::onEvent() {
     QString lKey = m_objectMap[sender()];
+    // pad/header
     if(lKey == "header/connect") {
     	QDialog* lDialog = createLogin();
     	lDialog->exec();
-    	delete lDialog;
+    }
+    // login/connect
+    else if(lKey == "login/connect") {
+    	QDialog* lDialog = qobject_cast<QDialog*>(getObject("login/dialog"));
+    	bool lLoginOn = true;
+    	if(lLoginOn) {
+    		lDialog->accept();
+    		delete lDialog;
+    	}
+
     }
     else {
     	GLOG->addError(QString("Erreur la methode (onEvent) a échoué\n"

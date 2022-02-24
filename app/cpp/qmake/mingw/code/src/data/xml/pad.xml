@@ -36,15 +36,33 @@
 			<logo>readydev.png</logo>
 			<width>380</width>
 			<height>150</height>
+			<label_width>160</label_width>
 			<map>
 				<!-- username -->
 				<data>
 					<category>username</category>
-					<type>label</type>
+					<type>label/icon</type>
 					<text>Nom d'utilisateur :</text>
+					<picto>user</picto>
+					<picto_color>#aaaaff</picto_color>
+					<picto_size>20</picto_size>
 				</data>
 				<data>
 					<category>username</category>
+					<type>lineedit</type>
+					<style>flat</style>
+				</data>
+				<!-- password -->
+				<data>
+					<category>password</category>
+					<type>label/icon</type>
+					<text>Mot de passe :</text>
+					<picto>key</picto>
+					<picto_color>#aaaaff</picto_color>
+					<picto_size>20</picto_size>
+				</data>
+				<data>
+					<category>password</category>
 					<type>lineedit</type>
 					<style>flat</style>
 				</data>
@@ -56,10 +74,11 @@
 				<data>
 					<category>button</category>
 					<type>button</type>
+					<action>accept</action>
 					<key>login/connect</key>
 					<style>flat</style>
 					<text>Connexion</text>
-					<picto>search</picto>
+					<picto>user</picto>
 					<picto_color>#aaaaff</picto_color>
 					<picto_size>20</picto_size>
 				</data>
