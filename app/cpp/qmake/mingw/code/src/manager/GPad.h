@@ -19,9 +19,17 @@ public:
 	QString getLoginItem(int _i, const QString& _data) const;
 	void createPad();
 	QDialog* createLogin(QWidget* _parent = 0);
+	bool hasErrors() const;
+	void addErrors(const QString& _errors);
+	QString getErrors() const;
+	void clearErrors();
 
 public slots:
 	void onEvent();
+
+private:
+	QVector<QString> m_errors;
+	QDialog* m_loginDialog;
 };
 //===============================================
 #endif

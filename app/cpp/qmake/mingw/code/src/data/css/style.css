@@ -55,3 +55,15 @@ QLineEdit#flat {
 	border-radius: 5px;
 }
 /* ============================================== */
+QLineEdit#flat_icon {
+	background-color: transparent;
+	border: 2px solid #aaaaff;
+	padding: 2px 5px;
+	padding-left: 25px;
+	border-radius: 5px;
+}
+/* ============================================== */
+QLabel#flat_message {
+	color: #ffaaaa;
+}
+/* ============================================== */

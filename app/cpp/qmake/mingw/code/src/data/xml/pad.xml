@@ -41,30 +41,34 @@
 				<!-- username -->
 				<data>
 					<category>username</category>
-					<type>label/icon</type>
-					<text>Nom d'utilisateur :</text>
+					<type>lineedit/icon</type>
+					<key>login/username</key>
+					<text>Nom d'utilisateur</text>
 					<picto>user</picto>
 					<picto_color>#aaaaff</picto_color>
 					<picto_size>20</picto_size>
-				</data>
-				<data>
-					<category>username</category>
-					<type>lineedit</type>
-					<style>flat</style>
+					<style>flat_icon</style>
 				</data>
 				<!-- password -->
 				<data>
 					<category>password</category>
-					<type>label/icon</type>
-					<text>Mot de passe :</text>
+					<type>lineedit/icon</type>
+					<key>login/password</key>
+					<text>Mot de passe</text>
 					<picto>key</picto>
 					<picto_color>#aaaaff</picto_color>
 					<picto_size>20</picto_size>
+					<echo_mode>password</echo_mode>
+					<style>flat_icon</style>
 				</data>
+				<!-- message -->
 				<data>
-					<category>password</category>
-					<type>lineedit</type>
-					<style>flat</style>
+					<category>message</category>
+					<type>label/message</type>
+					<key>login/error</key>
+					<text>Votre mot de passe est incorrect.</text>
+					<align>center</align>
+					<style>flat_message</style>
 				</data>
 				<!-- button -->
 				<data>
@@ -74,13 +78,30 @@
 				<data>
 					<category>button</category>
 					<type>button</type>
-					<action>accept</action>
 					<key>login/connect</key>
 					<style>flat</style>
 					<text>Connexion</text>
 					<picto>user</picto>
 					<picto_color>#aaaaff</picto_color>
 					<picto_size>20</picto_size>
+				</data>
+				<!-- account -->
+				<data>
+					<category>account</category>
+					<type>spacer</type>
+				</data>
+				<data>
+					<category>account</category>
+					<type>button</type>
+					<key>account/create</key>
+					<text>Créer un compte</text>
+					<picto>plus</picto>
+					<picto_color>#aaaaff</picto_color>
+					<picto_size>20</picto_size>
+				</data>
+				<data>
+					<category>account</category>
+					<type>spacer</type>
 				</data>
 				<!-- end -->
 			</map>

@@ -12,6 +12,7 @@ class GWidget : public QFrame {
 public:
 	GWidget(QWidget* _parent = 0);
 	~GWidget();
+	void addObject(QObject* _object, const QString& _key);
 	QObject* getObject(const QString& _key);
 
 protected:

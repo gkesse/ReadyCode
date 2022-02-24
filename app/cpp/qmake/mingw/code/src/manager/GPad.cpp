@@ -86,6 +86,8 @@ void GPad::createPad() {
 	int lCount = countPadItem();
 	QString lStyle = getPadItem("style");
 
+	m_loginDialog = createLogin(this);
+
 	for(int i = 0; i < lCount; i++) {
 		QString lCategory = getPadItem(i, "category");
 		QString lType = getPadItem(i, "type");
@@ -112,7 +114,7 @@ void GPad::createPad() {
 		}
 		else if(lType == "button") {
 			QPushButton* lButton = new QPushButton;
-			m_objectMap[lButton] = lKey;
+			addObject(lButton, lKey);
 			lButton->setObjectName(lStyle);
 			lButton->setText(lText);
 			lButton->setCursor(Qt::PointingHandCursor);
@@ -133,7 +135,7 @@ void GPad::createPad() {
 //===============================================
 QDialog* GPad::createLogin(QWidget* _parent) {
     QDialog* lMainPage = new QDialog(_parent);
-	m_objectMap[lMainPage] = "login/dialog";
+	addObject(lMainPage, "login/dialog");
 
 	QHBoxLayout* lUsernameLayout = new QHBoxLayout;
 	lUsernameLayout->setMargin(0);
@@ -143,14 +145,24 @@ QDialog* GPad::createLogin(QWidget* _parent) {
 	lPasswordLayout->setMargin(0);
 	lPasswordLayout->setSpacing(0);
 
+	QHBoxLayout* lMessageLayout = new QHBoxLayout;
+	lMessageLayout->setMargin(0);
+	lMessageLayout->setSpacing(0);
+
 	QHBoxLayout* lButtonLayout = new QHBoxLayout;
 	lButtonLayout->setMargin(0);
 	lButtonLayout->setSpacing(10);
 
+	QHBoxLayout* lAccountLayout = new QHBoxLayout;
+	lAccountLayout->setMargin(0);
+	lAccountLayout->setSpacing(10);
+
 	QVBoxLayout* lMainLayout = new QVBoxLayout;
 	lMainLayout->addLayout(lUsernameLayout);
 	lMainLayout->addLayout(lPasswordLayout);
+	lMainLayout->addLayout(lMessageLayout);
 	lMainLayout->addLayout(lButtonLayout);
+	lMainLayout->addLayout(lAccountLayout);
 	lMainLayout->setMargin(10);
 	lMainLayout->setSpacing(10);
 
@@ -164,12 +176,17 @@ QDialog* GPad::createLogin(QWidget* _parent) {
 	for(int i = 0; i < lCount; i++) {
 		QString lCategory = getLoginItem(i, "category");
 		QString lType = getLoginItem(i, "type");
+		QString lStyle = getLoginItem(i, "style");
+		QString lAlign = getLoginItem(i, "align");
+		QString lAction = getLoginItem(i, "action");
 		QString lKey = getLoginItem(i, "key");
 		QString lText = getLoginItem(i, "text");
-		QString lStyle = getLoginItem(i, "style");
+		QString lEchoMode = getLoginItem(i, "echo_mode");
+		QString lMask = getLoginItem(i, "mask");
 		QString lPicto = getLoginItem(i, "picto");
 		QString lPictoColor = getLoginItem(i, "picto_color");
 		int lPictoSize = getLoginItem(i, "picto_size").toInt();
+		bool lLink = (getLoginItem(i, "link") == "1");
 
 		QBoxLayout* lItemLayout = 0;
 
@@ -179,8 +196,14 @@ QDialog* GPad::createLogin(QWidget* _parent) {
 		else if(lCategory == "password") {
 			lItemLayout = lPasswordLayout;
 		}
+		else if(lCategory == "message") {
+			lItemLayout = lMessageLayout;
+		}
 		else if(lCategory == "button") {
 			lItemLayout = lButtonLayout;
+		}
+		else if(lCategory == "account") {
+			lItemLayout = lAccountLayout;
 		}
 		else {
 	        GLOG->addError(QString("Erreur la methode (createLogin) a echoue\n"
@@ -194,7 +217,7 @@ QDialog* GPad::createLogin(QWidget* _parent) {
 		}
 		else if(lType == "button") {
 			QPushButton* lButton = new QPushButton;
-			m_objectMap[lButton] = lKey;
+			addObject(lButton, lKey);
 			lButton->setObjectName(lStyle);
 			lButton->setText(lText);
 			lButton->setCursor(Qt::PointingHandCursor);
@@ -213,9 +236,23 @@ QDialog* GPad::createLogin(QWidget* _parent) {
 			lLabel->setMinimumWidth(lLabelWidth);
 			lItemLayout->addWidget(lLabel);
 		}
+		else if(lType == "label/message") {
+			QLabel* lLabel = new QLabel;
+			addObject(lLabel, lKey);
+			lLabel->setObjectName(lStyle);
+			lLabel->setText(lText);
+			if(lKey == "login/error") {
+				lLabel->hide();
+			}
+			if(lAlign == "center") {
+				lLabel->setAlignment(Qt::AlignCenter);
+			}
+			lLabel->setOpenExternalLinks(lLink);
+			lItemLayout->addWidget(lLabel);
+		}
 		else if(lType == "label/icon") {
 			QPushButton* lButton = new QPushButton;
-			lButton->setObjectName("left");
+			lButton->setObjectName(lStyle);
 			lButton->setText(lText);
 			lButton->setMinimumWidth(lLabelWidth);
 			if(lPicto != "" && lPictoColor != "") {
@@ -228,8 +265,39 @@ QDialog* GPad::createLogin(QWidget* _parent) {
 		}
 		else if(lType == "lineedit") {
 			QLineEdit* lLineEdit = new QLineEdit;
-			if(lStyle != "") {
-				lLineEdit->setObjectName("flat");
+			lLineEdit->setObjectName(lStyle);
+			if(lKey != "") {
+				addObject(lLineEdit, lKey);
+			}
+			if(lEchoMode == "password") {
+				lLineEdit->setEchoMode(QLineEdit::Password);
+			}
+			if(lMask != "") {
+				lLineEdit->setInputMask(lMask);
+			}
+			lItemLayout->addWidget(lLineEdit);
+		}
+		else if(lType == "lineedit/icon") {
+			QLineEdit* lLineEdit = new QLineEdit;
+			lLineEdit->setObjectName(lStyle);
+			if(lKey != "") {
+				addObject(lLineEdit, lKey);
+			}
+			if(lText != "") {
+				lLineEdit->setPlaceholderText(lText);
+			}
+			if(lEchoMode == "password") {
+				lLineEdit->setEchoMode(QLineEdit::Password);
+			}
+			if(lMask != "") {
+				lLineEdit->setInputMask(lMask);
+			}
+			QPushButton* lButton = new QPushButton(lLineEdit);
+			if(lPicto != "" && lPictoColor != "") {
+				lButton->setIcon(GPICTO(lPicto, lPictoColor));
+			}
+			if(lPictoSize != 0) {
+				lButton->setIconSize(QSize(lPictoSize, lPictoSize));
 			}
 			lItemLayout->addWidget(lLineEdit);
 		}
@@ -249,16 +317,36 @@ void GPad::onEvent() {
     QString lKey = m_objectMap[sender()];
     // pad/header
     if(lKey == "header/connect") {
-    	QDialog* lDialog = createLogin();
+    	QDialog* lDialog = qobject_cast<QDialog*>(getObject("login/dialog"));
+    	QLabel* lErrorLabel = qobject_cast<QLabel*>(getObject("login/error"));
+		lErrorLabel->hide();
+		lDialog->setFixedHeight(lDialog->sizeHint().height());
     	lDialog->exec();
     }
     // login/connect
     else if(lKey == "login/connect") {
     	QDialog* lDialog = qobject_cast<QDialog*>(getObject("login/dialog"));
-    	bool lLoginOn = true;
-    	if(lLoginOn) {
-    		lDialog->accept();
-    		delete lDialog;
+    	QLineEdit* lUsernameEdit = qobject_cast<QLineEdit*>(getObject("login/username"));
+    	QLineEdit* lPasswordEdit = qobject_cast<QLineEdit*>(getObject("login/password"));
+    	QLabel* lErrorLabel = qobject_cast<QLabel*>(getObject("login/error"));
+
+    	QString lUsername = lUsernameEdit->text();
+    	QString lPassword = lPasswordEdit->text();
+
+		lErrorLabel->hide();
+		lDialog->setFixedHeight(lDialog->sizeHint().height());
+
+    	if(lUsername != "") {
+			bool lLoginOn = false;
+			if(lLoginOn) {
+				lDialog->accept();
+				delete lDialog;
+			}
+    	}
+    	else {
+    		lErrorLabel->setText("Le nom d'utilisateur est obligatoire.");
+    		lErrorLabel->show();
+    		lDialog->setFixedHeight(lDialog->sizeHint().height());
     	}
 
     }
@@ -267,5 +355,26 @@ void GPad::onEvent() {
     			"sur la clé (%1)").arg(lKey));
     }
     GLOG->showError(this);
+}
+//===============================================
+bool GPad::hasErrors() const {
+	return !m_errors.empty();
+}
+//===============================================
+void GPad::addErrors(const QString& _errors) {
+	m_errors.append(_errors);
+}
+//===============================================
+QString GPad::getErrors() const {
+	if(!hasErrors()) return "";
+	QString lErrors = "";
+	for(int i = 0; i < m_errors.size(); i++) {
+		lErrors += m_errors.at(i);
+	}
+	return lErrors;
+}
+//===============================================
+void GPad::clearErrors() {
+	m_errors.clear();
 }
 //===============================================
