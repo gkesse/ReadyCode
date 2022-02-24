@@ -29,12 +29,12 @@
 	-	h : caractere hexadecimal autorise mais non obligatoire : AF, 0-9
 	-	B : caractere binaire requis : 0-1
 	-	b : caractere binaire autorise mais non obligatoire : 0-1
+->	meta-caracteres	
 	
-	
-	
-	
-	
-# setValidator
+#================================================
+### qobject
+#================================================
+
 
 
 

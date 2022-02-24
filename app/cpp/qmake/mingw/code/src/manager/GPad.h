@@ -27,6 +27,9 @@ public:
 public slots:
 	void onEvent();
 
+protected:
+	bool eventFilter(QObject* _obj, QEvent* _event);
+
 private:
 	QVector<QString> m_errors;
 	QDialog* m_loginDialog;

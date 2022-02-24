@@ -37,29 +37,35 @@
 			<width>380</width>
 			<height>150</height>
 			<label_width>160</label_width>
+			<width_fix>0</width_fix>
+			<height_fix>1</height_fix>
 			<map>
 				<!-- username -->
 				<data>
 					<category>username</category>
-					<type>lineedit/icon</type>
+					<type>lineedit/icon/clear</type>
 					<key>login/username</key>
+					<key_clear>login/username/clear</key_clear>
 					<text>Nom d'utilisateur</text>
 					<picto>user</picto>
+					<picto_clear>times</picto_clear>
 					<picto_color>#aaaaff</picto_color>
 					<picto_size>20</picto_size>
-					<style>flat_icon</style>
+					<style>flat_icon_clear</style>
 				</data>
 				<!-- password -->
 				<data>
 					<category>password</category>
-					<type>lineedit/icon</type>
+					<type>lineedit/icon/clear</type>
 					<key>login/password</key>
+					<key_clear>login/password/clear</key_clear>
 					<text>Mot de passe</text>
 					<picto>key</picto>
+					<picto_clear>times</picto_clear>
 					<picto_color>#aaaaff</picto_color>
 					<picto_size>20</picto_size>
 					<echo_mode>password</echo_mode>
-					<style>flat_icon</style>
+					<style>flat_icon_clear</style>
 				</data>
 				<!-- message -->
 				<data>
