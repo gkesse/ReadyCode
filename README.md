@@ -24,7 +24,10 @@ La programmation représente donc ici la rédaction du code source d'un logiciel
 # Modules
 *	Connexion d'un utilisateur
 
+![alt login.png](https://raw.githubusercontent.com/gkesse/ReadyCode/main/img/login.png "Connexion d'un utilisateur")
+
 # Environnements
 * 	Langage : C++
 	*	Interface Homme-Machine : Qt
 	* 	Pictogramme : QtAwesome
+	*	Manipulation de données XML : LibXml2
