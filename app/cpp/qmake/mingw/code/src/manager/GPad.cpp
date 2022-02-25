@@ -419,6 +419,7 @@ void GPad::onEvent() {
 bool GPad::eventFilter(QObject* _obj, QEvent* _event) {
 	QDialog* lLoginDialog = qobject_cast<QDialog*>(getObject("login/dialog"));
 
+	// login/dialog
     if (_obj == lLoginDialog && _event->type() == QEvent::Resize) {
     	QPushButton* lUsernameClear = qobject_cast<QPushButton*>(getObject("login/username/clear"));
     	QPushButton* lPasswordClear = qobject_cast<QPushButton*>(getObject("login/password/clear"));
@@ -427,6 +428,7 @@ bool GPad::eventFilter(QObject* _obj, QEvent* _event) {
     	lPasswordClear->move(lWidth - 50, 0);
     	return true;
     }
+    // end
     return QObject::eventFilter(_obj, _event);
 }
 //===============================================

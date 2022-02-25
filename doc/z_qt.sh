@@ -35,8 +35,15 @@
 ### qobject
 #================================================
 
-
-
+# eventFilter
+->	role
+	-	filtrer evenements
+->	installation
+	-	installEventFilter
+->	suppression
+	-	removeEventFilter
+->	traitement
+	-	eventFilter
 
 
 
