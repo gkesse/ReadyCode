@@ -26,6 +26,7 @@ public:
 
 public slots:
 	void onEvent();
+	void onEvent(const QString& _text);
 
 protected:
 	bool eventFilter(QObject* _obj, QEvent* _event);

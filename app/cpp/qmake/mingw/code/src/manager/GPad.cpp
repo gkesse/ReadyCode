@@ -271,9 +271,7 @@ QDialog* GPad::createLogin(QWidget* _parent) {
 		else if(lType == "lineedit") {
 			QLineEdit* lLineEdit = new QLineEdit;
 			lLineEdit->setObjectName(lStyle);
-			if(lKey != "") {
-				addObject(lLineEdit, lKey);
-			}
+			addObject(lLineEdit, lKey);
 			if(lEchoMode == "password") {
 				lLineEdit->setEchoMode(QLineEdit::Password);
 			}
@@ -285,9 +283,7 @@ QDialog* GPad::createLogin(QWidget* _parent) {
 		else if(lType == "lineedit/icon") {
 			QLineEdit* lLineEdit = new QLineEdit;
 			lLineEdit->setObjectName(lStyle);
-			if(lKey != "") {
-				addObject(lLineEdit, lKey);
-			}
+			addObject(lLineEdit, lKey);
 			if(lText != "") {
 				lLineEdit->setPlaceholderText(lText);
 			}
@@ -309,9 +305,7 @@ QDialog* GPad::createLogin(QWidget* _parent) {
 		else if(lType == "lineedit/icon/clear") {
 			QLineEdit* lLineEdit = new QLineEdit;
 			lLineEdit->setObjectName(lStyle);
-			if(lKey != "") {
-				addObject(lLineEdit, lKey);
-			}
+			addObject(lLineEdit, lKey);
 			if(lText != "") {
 				lLineEdit->setPlaceholderText(lText);
 			}
@@ -333,8 +327,10 @@ QDialog* GPad::createLogin(QWidget* _parent) {
 				lButton->setIcon(GPICTO(lPictoClear, lPictoColor));
 				lButton->setIconSize(QSize(lPictoSize, lPictoSize));
 				lButton->move(lWidth - 50, 0);
+				lButton->hide();
 				connect(lButton, SIGNAL(clicked()), this, SLOT(onEvent()));
 			}
+			connect(lLineEdit, SIGNAL(textChanged(QString)), this, SLOT(onEvent(QString)));
 			lItemLayout->addWidget(lLineEdit);
 		}
 	}
@@ -414,6 +410,21 @@ void GPad::onEvent() {
     			"sur la clé (%1)").arg(lKey));
     }
     GLOG->showError(this);
+}
+//===============================================
+void GPad::onEvent(const QString& _text) {
+	QString lKey = m_objectMap[sender()];
+	// login
+	if(lKey == "login/username") {
+    	QPushButton* lUsernameClear = qobject_cast<QPushButton*>(getObject("login/username/clear"));
+    	bool lVisible = (_text != "");
+    	lUsernameClear->setVisible(lVisible);
+	}
+	else if(lKey == "login/password") {
+    	QPushButton* lPasswordClear = qobject_cast<QPushButton*>(getObject("login/password/clear"));
+    	bool lVisible = (_text != "");
+    	lPasswordClear->setVisible(lVisible);
+	}
 }
 //===============================================
 bool GPad::eventFilter(QObject* _obj, QEvent* _event) {
