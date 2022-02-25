@@ -18,10 +18,18 @@ Avec à la fois des compétences en Systèmes Embarqués et en Robotique.
 
 # Modules
 *	Connexion d'un utilisateur
-	*	![alt login.png](https://raw.githubusercontent.com/gkesse/ReadyCode/main/img/login.png "Connexion d'un utilisateur")
+	![alt login.png](https://raw.githubusercontent.com/gkesse/ReadyCode/main/img/login.png "Connexion d'un utilisateur")
 
 # Environnements
 * 	Langage : C++
 	*	Interface Homme-Machine : Qt
 	* 	Pictogramme : QtAwesome
 	*	Manipulation de données XML : LibXml2
+	*	Vision par Ordinateur : OpenCV
+	*	Base de données : MySQL
+*	Système de gestion de versions
+	*	Git
+	*	TortoiseGit
+*	Scripts
+	*	Shell
+	*	Batch
