@@ -5,7 +5,8 @@ GBUILD = build
 GTARGET = $(GBIN)/rdcpp.exe
 
 GINCS = \
-    
+    -I$(GSRC)/manager \
+	
 GLIBS = \
     
 GOBJS = \
