@@ -1,4 +1,4 @@
 GPWD=$PWD
 cd /home/gkesse/Programs/ReadyCode
-git pull
+git status
 cd $GPWD
