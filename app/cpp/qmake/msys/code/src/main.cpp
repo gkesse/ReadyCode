@@ -8,7 +8,7 @@ int main(int _argc, char** _argv) {
 	lXml->initModule();
 	QSharedPointer<GProcess> lProcess(new GProcess);
 	lProcess->run(_argc, _argv);
-	GLOG->showError(0);
+	GLOG->showError();
 	lXml->cleanModule();
 	return 0;
 }

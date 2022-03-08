@@ -112,6 +112,16 @@
 				<!-- end -->
 			</map>
 		</data>
+		<!-- login -->
+		<data>
+			<code>mysql</code>
+			<hostname>localhost</hostname>
+			<port>3306</port>
+			<username>gkesse</username>
+			<password>3IYlfOhz4UwiT1Nc7WhP</password>
+			<database>pad</database>
+			<debug>1</debug>
+		</data>
 		<!-- end -->
     </datas>
 </rdv>

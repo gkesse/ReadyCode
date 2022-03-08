@@ -14,6 +14,7 @@ public:
     ~GLog();
     static GLog* Instance();
     void addError(const QString& _error);
+    void showError();
     void showError(QWidget* _parent);
     bool hasError();
 

@@ -5,27 +5,30 @@ OBJECTS_DIR = build
 MOC_DIR = build
 UI_DIR = build
 RCC_DIR = build
-CONFIG += console release gnu++11
-QT += widgets sql printsupport dbus
+CONFIG += console debug gnu++11
+QT += widgets
 
 QMAKE_CXXFLAGS +=\
     -Wno-unused-parameter \
-    -Wno-deprecated-declarations
+    -Wno-deprecated-declarations \
 
-include(C:\Users\Admin\Downloads\Programs\ReadyLib\dev\qtawesome\4.7.0\QtAwesome.pri)
-include(C:\Users\Admin\Downloads\Programs\ReadyLib\dev\qcustomplot\2.1.0\GQCustomPlot.pri)
+GRLIB = C:\Users\Admin\Downloads\Programs\ReadyLib\dev\msys
+
+include($$GRLIB\src\qtawesome\QtAwesome.pri)
 
 INCLUDEPATH +=\
-    /mingw32/include \
-    ../code \
+    ..\code\src\manager \
+    /mingw64/include \
+    /mingw64/include/libxml2 \
 
 SOURCES +=\
-    ../code/*.cpp \
+    $$files(..\code\src\*.cpp) \
+    $$files(..\code\src\manager\*.cpp) \
 
 HEADERS +=\
-    ../code/*.h \
+    $$files(..\code\src\manager\*.h) \
 
 LIBS +=\
-    -lgsl -lgslcblas -lm \
-    -lfreeglut -lglew32 -lopengl32 \
+    -L/mingw64/lib \
+	-lxml2 -lmariadb \
     

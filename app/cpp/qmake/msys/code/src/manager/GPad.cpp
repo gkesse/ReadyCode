@@ -5,6 +5,7 @@
 #include "GStyle.h"
 #include "GPicto.h"
 #include "GLog.h"
+#include "GMySQL.h"
 //===============================================
 GPad::GPad(QWidget* _parent) :
 GWidget(_parent) {
@@ -74,13 +75,13 @@ QString GPad::getLoginItem(int _i, const QString& _data) const {
 //===============================================
 void GPad::createPad() {
 	QHBoxLayout* lHeaderLayout = new QHBoxLayout;
-	lHeaderLayout->setMargin(0);
+	lHeaderLayout->setContentsMargins(0, 0, 0, 0);
 	lHeaderLayout->setSpacing(10);
 
 	QVBoxLayout* lMainLayout = new QVBoxLayout;
 	lMainLayout->addLayout(lHeaderLayout);
 	lMainLayout->addStretch();
-	lMainLayout->setMargin(10);
+	lMainLayout->setContentsMargins(10, 10, 10, 10);
 	lMainLayout->setSpacing(10);
 
 	int lCount = countPadItem();
@@ -103,7 +104,7 @@ void GPad::createPad() {
 			lItemLayout = lHeaderLayout;
 		}
 		else {
-	        GLOG->addError(QString("Erreur la methode (createPad) a echoue\n"
+	        GLOG->addError(QString("Erreur la methode (GPad::createPad) a echoue\n"
 	                "sur la categorie (%1).").arg(lCategory));
 	        GLOG->showError(this);
 	        continue;
@@ -139,23 +140,23 @@ QDialog* GPad::createLogin(QWidget* _parent) {
 	lMainPage->installEventFilter(this);
 
 	QHBoxLayout* lUsernameLayout = new QHBoxLayout;
-	lUsernameLayout->setMargin(0);
+	lUsernameLayout->setContentsMargins(0, 0, 0, 0);
 	lUsernameLayout->setSpacing(0);
 
 	QHBoxLayout* lPasswordLayout = new QHBoxLayout;
-	lPasswordLayout->setMargin(0);
+	lPasswordLayout->setContentsMargins(0, 0, 0, 0);
 	lPasswordLayout->setSpacing(0);
 
 	QHBoxLayout* lMessageLayout = new QHBoxLayout;
-	lMessageLayout->setMargin(0);
+	lMessageLayout->setContentsMargins(0, 0, 0, 0);
 	lMessageLayout->setSpacing(0);
 
 	QHBoxLayout* lButtonLayout = new QHBoxLayout;
-	lButtonLayout->setMargin(0);
+	lButtonLayout->setContentsMargins(0, 0, 0, 0);
 	lButtonLayout->setSpacing(10);
 
 	QHBoxLayout* lAccountLayout = new QHBoxLayout;
-	lAccountLayout->setMargin(0);
+	lAccountLayout->setContentsMargins(0, 0, 0, 0);
 	lAccountLayout->setSpacing(10);
 
 	QVBoxLayout* lMainLayout = new QVBoxLayout;
@@ -164,7 +165,7 @@ QDialog* GPad::createLogin(QWidget* _parent) {
 	lMainLayout->addLayout(lMessageLayout);
 	lMainLayout->addLayout(lButtonLayout);
 	lMainLayout->addLayout(lAccountLayout);
-	lMainLayout->setMargin(10);
+	lMainLayout->setContentsMargins(10, 10, 10, 10);
 	lMainLayout->setSpacing(10);
 
 	int lCount = countLoginItem();
@@ -211,7 +212,7 @@ QDialog* GPad::createLogin(QWidget* _parent) {
 			lItemLayout = lAccountLayout;
 		}
 		else {
-	        GLOG->addError(QString("Erreur la methode (createLogin) a echoue\n"
+	        GLOG->addError(QString("Erreur la methode (GPad::createLogin) a echoue\n"
 	                "sur la categorie (%1).").arg(lCategory));
 	        GLOG->showError(this);
 	        continue;
@@ -406,7 +407,7 @@ void GPad::onEvent() {
     }
     // end
     else {
-    	GLOG->addError(QString("Erreur la methode (onEvent) a échoué\n"
+    	GLOG->addError(QString("Erreur la methode (GPad::onEvent) a échoué\n"
     			"sur la clé (%1)").arg(lKey));
     }
     GLOG->showError(this);

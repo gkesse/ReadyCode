@@ -12,8 +12,10 @@
 #include <libxml/xpath.h>
 // sqlite
 #include <sqlite3.h>
+// mysql
+#include <mysql/mysql.h>
 // opencv
-#include <opencv2/opencv.hpp>
+//#include <opencv2/opencv.hpp>
 //===============================================
 #endif
 //===============================================

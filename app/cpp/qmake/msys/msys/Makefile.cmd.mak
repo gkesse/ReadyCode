@@ -6,13 +6,16 @@ GTARGET = $(GBIN)/rdcpp
 #================================================
 # cpp
 all: clean_exe qmake compile run
+all_g: clean_exe qmake compile run_g
 
 qmake:
-	@qmake
+	@qmake6
 compile: $(GOBJS)
 	@make 
 run:
 	@$(GTARGET) $(argv)
+run_g:
+	@gdb --args $(GTARGET) $(argv)
 clean_exe: 
 	@if ! [ -d $(GBIN) ] ; then mkdir -p $(GBIN) ; fi
 	@rm -f $(GBIN)/*

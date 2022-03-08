@@ -12,7 +12,8 @@ public:
 	~GTest();
 	void run(int _argc, char** _argv);
 	void runTest(int _argc, char** _argv);
-	void runLogin(int _argc, char** _argv);
+	void runPath(int _argc, char** _argv);
+	void runMysql(int _argc, char** _argv);
 };
 //===============================================
 #endif
