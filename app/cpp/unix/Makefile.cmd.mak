@@ -1,5 +1,5 @@
 #================================================
-GSRC = ../code
+GSRC = ../code/src
 GBIN = bin
 GBUILD = build
 GTARGET = $(GBIN)/rdcpp.exe
