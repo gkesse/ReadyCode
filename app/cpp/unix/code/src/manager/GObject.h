@@ -1,12 +1,14 @@
 //===============================================
-#ifndef _GInclude_
-#define _GInclude_
+#ifndef _GObject_
+#define _GObject_
 //===============================================
-#include <iostream>
-#include <string>
-#include <vector>
-#include <map>
-#include <memory>
+#include "GInclude.h"
+//===============================================
+class GObject {
+public:
+	GObject();
+	~GObject();
+};
 //===============================================
 #endif
 //===============================================

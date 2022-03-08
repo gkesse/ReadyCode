@@ -1,12 +1,11 @@
 //===============================================
-#ifndef _GInclude_
-#define _GInclude_
+#include "GObject.h"
 //===============================================
-#include <iostream>
-#include <string>
-#include <vector>
-#include <map>
-#include <memory>
+GObject::GObject() {
+
+}
 //===============================================
-#endif
+GObject::~GObject() {
+
+}
 //===============================================
