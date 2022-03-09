@@ -12,8 +12,6 @@ GSocket::GSocket() {
     m_familyIp = AF_INET;
     //
     m_socket = -1;
-    m_size = 0;
-    m_bytes = 0;
     m_buffer[0] = 0;
     m_bufferIp[0] = 0;
 }
@@ -62,8 +60,8 @@ void GSocket::start() {
 }
 //===============================================
 void GSocket::acceptSocket(GSocket& _socket) {
-    _socket.m_size = sizeof(_socket.m_address);
-    _socket.m_socket = accept(m_socket, (struct sockaddr*)&_socket.m_address, (socklen_t*)&_socket.m_size);
+    int lSize = sizeof(_socket.m_address);
+    _socket.m_socket = accept(m_socket, (struct sockaddr*)&_socket.m_address, (socklen_t*)&lSize);
 }
 //===============================================
 int GSocket::recvData() {
@@ -74,8 +72,8 @@ int GSocket::recvData() {
 }
 //===============================================
 int GSocket::recvData(GSocket& _socket) {
-    _socket.m_size = sizeof(_socket.m_address);
-    int lBytes = recvfrom(m_socket, m_buffer, BUFFER_DATA_SIZE, 0, (struct sockaddr*)&_socket.m_address, (socklen_t*)&_socket.m_size);
+    int lSize = sizeof(_socket.m_address);
+    int lBytes = recvfrom(m_socket, m_buffer, BUFFER_DATA_SIZE, 0, (struct sockaddr*)&_socket.m_address, (socklen_t*)&lSize);
     if(lBytes <= 0) lBytes = 0;
     m_buffer[lBytes] = 0;
     return lBytes;
