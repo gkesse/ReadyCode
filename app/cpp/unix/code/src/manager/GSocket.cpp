@@ -112,7 +112,7 @@ int GSocket::sendData(const std::string& _data) {
 	std::string lBuffer;
     int lIndex = 0;
     while(1) {
-        int lBytes = GString(_data).read(lBuffer, lIndex, BUFFER_DATA_SIZE);
+        int lBytes = GString(_data).readData(lBuffer, lIndex, BUFFER_DATA_SIZE);
         if(lBytes <= 0) break;
         lIndex += lBytes;
         sendData(lBuffer);
