@@ -32,8 +32,8 @@ protected:
     static const int BUFFER_DATA_SIZE = 1024;
     static const int BUFFER_IP_SIZE = 32;
     //
-    const char m_buffer[BUFFER_DATA_SIZE + 1];
-    const char m_bufferIp[BUFFER_IP_SIZE + 1];
+    char m_buffer[BUFFER_DATA_SIZE + 1];
+    char m_bufferIp[BUFFER_IP_SIZE + 1];
     //
     int m_socket;
     struct sockaddr_in m_address;
