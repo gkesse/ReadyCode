@@ -6,6 +6,7 @@ GTARGET = $(GBIN)/rdcpp.exe
 
 GINCS = \
     -I$(GSRC)/manager \
+	-I/usr/include/libxml2 \
 	
 GLIBS = \
     
