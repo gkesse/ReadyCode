@@ -10,7 +10,9 @@ public:
 	~GTest();
 	void run(int _argc, char** _argv);
 	void runTest(int _argc, char** _argv);
-	void runLogin(int _argc, char** _argv);
+	void runPath(int _argc, char** _argv);
+	void runXml(int _argc, char** _argv);
+	std::string getPadItem(const std::string& _data) const;
 };
 //===============================================
 #endif

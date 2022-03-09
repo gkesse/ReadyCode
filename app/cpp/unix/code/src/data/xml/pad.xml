@@ -4,6 +4,8 @@
 		<!-- pad -->
 		<data>
 			<code>pad</code>
+			<app_name>ReadyPad</app_name>
+			<app_version>1.0</app_version>
 		</data>
 		<!-- socket -->
 		<data>
