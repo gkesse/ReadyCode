@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<rdv>
+    <datas>
+		<!-- pad -->
+		<data>
+			<code>pad</code>
+		</data>
+		<!-- socket -->
+		<data>
+			<code>socket</code>
+		</data>
+		<!-- end -->
+    </datas>
+</rdv>

@@ -1,9 +1,9 @@
 //===============================================
 #include "GXml.h"
 #include "GLog.h"
+#include "GFormat.h"
 //===============================================
-GXml::GXml(QObject* _parent) :
-GObject(_parent) {
+GXml::GXml() {
     m_node = 0;
     m_doc = 0;
     m_xpath = 0;
@@ -27,18 +27,18 @@ void GXml::cleanModule() {
     xmlMemoryDump();
 }
 //===============================================
-GXml& GXml::loadXmlFile(const QString& _filename) {
-    m_doc = xmlParseFile(_filename.toStdString().c_str());
+GXml& GXml::loadXmlFile(const std::string& _filename) {
+    m_doc = xmlParseFile(_filename.c_str());
     if(!m_doc) {
-        GLOG->addError(QString("Erreur la methode (loadXmlFile) a echoue "
-                "sur le fichier (%1).").arg(_filename));
+        GLOG->addError(GFORMAT->sformat("Erreur la methode (loadXmlFile) a echoue "
+                "sur le fichier (%s).", _filename.c_str()));
     }
     m_filename = _filename;
     return *this;
 }
 //===============================================
-bool GXml::saveXmlFile(const QString& _filename, const QString& _encoding, int _format) {
-    QString lFilename = "";
+bool GXml::saveXmlFile(const std::string& _filename, const std::string& _encoding, int _format) {
+    std::string lFilename = "";
 
     if(_filename != "") {
         lFilename = _filename;
@@ -47,92 +47,92 @@ bool GXml::saveXmlFile(const QString& _filename, const QString& _encoding, int _
         lFilename = m_filename;
     }
     else {
-        GLOG->addError(QString("Erreur la methode (saveXmlFile) a echoue "
-                "sur le fichier (%1).").arg(lFilename));
+        GLOG->addError(GFORMAT->sformat("Erreur la methode (saveXmlFile) a echoue "
+                "sur le fichier (%s).", lFilename.c_str()));
         return false;
     }
 
-    xmlSaveFormatFileEnc(lFilename.toStdString().c_str(), m_doc, _encoding.toStdString().c_str(), _format);
+    xmlSaveFormatFileEnc(lFilename.c_str(), m_doc, _encoding.c_str(), _format);
     return true;
 }
 //===============================================
-GXml& GXml::getRoot(const QString& _nodename) {
+GXml& GXml::getRoot(const std::string& _nodename) {
     m_node = xmlDocGetRootElement(m_doc);
     if(!m_node) {
-        GLOG->addError(QString("Erreur la methode (getRoot) a echoue "
-                "sur le noeud (%1) (1).").arg(_nodename));
+        GLOG->addError(GFORMAT->sformat("Erreur la methode (getRoot) a echoue "
+                "sur le noeud (%s) (1).", _nodename.c_str()));
         return *this;
     }
-    QString lNodeName = (char*)m_node->name;
+    std::string lNodeName = (char*)m_node->name;
     if(lNodeName != _nodename) {
-        GLOG->addError(QString("Erreur la methode (getRoot) a echoue "
-                "sur le noeud (%1) (2).").arg(_nodename));
+        GLOG->addError(GFORMAT->sformat("Erreur la methode (getRoot) a echoue "
+                "sur le noeud (%s) (2).", _nodename.c_str()));
     }
     return *this;
 }
 //===============================================
-GXml& GXml::getNode(const QString& _nodename) {
+GXml& GXml::getNode(const std::string& _nodename) {
     if(!m_node) {
-        GLOG->addError(QString("Erreur la methode (getNode) a echoue "
-                "sur le noeud (%s) (1).").arg(_nodename));
+        GLOG->addError(GFORMAT->sformat("Erreur la methode (getNode) a echoue "
+                "sur le noeud (%s) (1).", _nodename.c_str()));
         return *this;
     }
     xmlNodePtr lNode  = xmlFirstElementChild(m_node);
     while(lNode) {
-        QString lNodeName = (char*)lNode->name;
+        std::string lNodeName = (char*)lNode->name;
         if(lNodeName == _nodename) {
             m_node = lNode;
             return *this;
         }
         lNode = xmlNextElementSibling(lNode);
     }
-    GLOG->addError(QString("Erreur la methode (getNode) a echoue "
-            "sur le noeud (%1) (2).").arg(_nodename));
+    GLOG->addError(GFORMAT->sformat("Erreur la methode (getNode) a echoue "
+            "sur le noeud (%s) (2).", _nodename.c_str()));
     return *this;
 }
 //===============================================
-QString GXml::getNodeValue() const {
+std::string GXml::getNodeValue() const {
     if(!m_node) {
         return "";
     }
-    QString lData = (char*)xmlNodeGetContent(m_node);
+    std::string lData = (char*)xmlNodeGetContent(m_node);
     return lData;
 }
 //===============================================
-GXml& GXml::createNode(const QString& _nodename) {
-    m_node = xmlNewNode(NULL, BAD_CAST(_nodename.toStdString().c_str()));
+GXml& GXml::createNode(const std::string& _nodename) {
+    m_node = xmlNewNode(NULL, BAD_CAST(_nodename.c_str()));
     if(!m_node) {
-        GLOG->addError(QString("Erreur la methode (createNode) a echoue "
-                "sur le noeud (%1).").arg(_nodename));
+        GLOG->addError(GFORMAT->sformat("Erreur la methode (createNode) a echoue "
+                "sur le noeud (%s).", _nodename.c_str()));
         return *this;
     }
     return *this;
 }
 //===============================================
-GXml& GXml::createNodeValue(const QString& _nodename, const QString& _value) {
+GXml& GXml::createNodeValue(const std::string& _nodename, const std::string& _value) {
     createNode(_nodename);
     setNodeValue(_value);
     if(!m_node) {
-        GLOG->addError(QString("Erreur la methode (createNodeValue) a echoue "
-                "sur le noeud (%1) avec la valeur (%2).").arg(_nodename).arg(_value));
+        GLOG->addError(GFORMAT->sformat("Erreur la methode (createNodeValue) a echoue "
+                "sur le noeud (%s) avec la valeur (%s).", _nodename.c_str(), _value.c_str()));
         return *this;
     }
     return *this;
 }
 //===============================================
-GXml& GXml::setNodeValue(const QString& _value) {
+GXml& GXml::setNodeValue(const std::string& _value) {
     if(!m_node) {
-        GLOG->addError(QString("Erreur la methode (setNodeValue) a echoue "
-                "sur le noeud (%1).").arg(_value));
+        GLOG->addError(GFORMAT->sformat("Erreur la methode (setNodeValue) a echoue "
+                "sur le noeud (%s).", _value.c_str()));
         return *this;
     }
-    xmlNodeSetContent(m_node, BAD_CAST(_value.toStdString().c_str()));
+    xmlNodeSetContent(m_node, BAD_CAST(_value.c_str()));
     return *this;
 }
 //===============================================
 GXml& GXml::appendNode(GXml& _xml) {
     if(!m_node) {
-        GLOG->addError(QString("Erreur la methode (appendNode) a echoue."));
+        GLOG->addError(GFORMAT->sformat("Erreur la methode (appendNode) a echoue."));
         return *this;
     }
     xmlAddChild(m_node, _xml.m_node);
@@ -141,7 +141,7 @@ GXml& GXml::appendNode(GXml& _xml) {
 //===============================================
 GXml& GXml::replaceNode(GXml& _xml) {
     if(!m_node || !_xml.m_node) {
-        GLOG->addError(QString("Erreur la methode (replaceNode) a echoue."));
+        GLOG->addError(GFORMAT->sformat("Erreur la methode (replaceNode) a echoue."));
         return *this;
     }
     xmlReplaceNode(m_node, _xml.m_node);
@@ -151,18 +151,18 @@ GXml& GXml::replaceNode(GXml& _xml) {
 //===============================================
 GXml& GXml::createXPath() {
     if(!m_doc) {
-        GLOG->addError(QString("Erreur la methode (createXPath) a echoue."));
+        GLOG->addError(GFORMAT->sformat("Erreur la methode (createXPath) a echoue."));
         return *this;
     }
     m_xpath = xmlXPathNewContext(m_doc);
     return *this;
 }
 //===============================================
-GXml& GXml::queryXPath(const QString& _query) {
+GXml& GXml::queryXPath(const std::string& _query) {
     if(!m_xpath) {
         return *this;
     }
-    m_xpathObj = xmlXPathEvalExpression((xmlChar*)_query.toStdString().c_str(), m_xpath);
+    m_xpathObj = xmlXPathEvalExpression((xmlChar*)_query.c_str(), m_xpath);
     return *this;
 }
 //===============================================
@@ -212,22 +212,22 @@ GXml& GXml::clearNodeXPath() {
     return *this;
 }
 //===============================================
-GXml& GXml::createNodeCData(GXml& _xml, const QString& _value) {
+GXml& GXml::createNodeCData(GXml& _xml, const std::string& _value) {
     if(!_xml.m_node) {
-        GLOG->addError(QString("Erreur la methode (createNodeCData) a echoue "
-                "sur le noeud (%1) (1).").arg(_value));
+        GLOG->addError(GFORMAT->sformat("Erreur la methode (createNodeCData) a echoue "
+                "sur le noeud (%s) (1).", _value.c_str()));
         return *this;
     }
-    m_node = xmlNewCDataBlock(_xml.m_node->doc, BAD_CAST(_value.toStdString().c_str()), _value.size());
+    m_node = xmlNewCDataBlock(_xml.m_node->doc, BAD_CAST(_value.c_str()), _value.size());
     if(!m_node) {
-        GLOG->addError(QString("Erreur la methode (createNodeCData) a echoue "
-                "sur le noeud (%1) (2).").arg(_value));
+        GLOG->addError(GFORMAT->sformat("Erreur la methode (createNodeCData) a echoue "
+                "sur le noeud (%s) (2).", _value.c_str()));
         return *this;
     }
     return *this;
 }
 //===============================================
-GXml& GXml::createNodeCData(const QString& _nodename, const QString& _value) {
+GXml& GXml::createNodeCData(const std::string& _nodename, const std::string& _value) {
     createNode(_nodename);
     GXml lNode;
     lNode.createNodeCData(*this, _value);
@@ -235,10 +235,10 @@ GXml& GXml::createNodeCData(const QString& _nodename, const QString& _value) {
     return *this;
 }
 //===============================================
-GXml& GXml::setNodeCData(const QString& _value) {
+GXml& GXml::setNodeCData(const std::string& _value) {
     if(!m_node) {
-        GLOG->addError(QString("Erreur la methode (setNodeCData) a echoue "
-                "sur le noeud (%1).").arg(_value));
+        GLOG->addError(GFORMAT->sformat("Erreur la methode (setNodeCData) a echoue "
+                "sur le noeud (%s).", _value.c_str()));
         return *this;
     }
     GXml lNode;
@@ -247,11 +247,11 @@ GXml& GXml::setNodeCData(const QString& _value) {
     return *this;
 }
 //===============================================
-QString GXml::getNodeCData() const {
+std::string GXml::getNodeCData() const {
     if(!m_node) {
         return "";
     }
-    QString lData = (char*)xmlNodeGetContent(m_node);
+    std::string lData = (char*)xmlNodeGetContent(m_node);
     return lData;
 }
 //===============================================
