@@ -26,8 +26,7 @@ void GProcess::run(int _argc, char** _argv) {
 }
 //===============================================
 void GProcess::runTest(int _argc, char** _argv) {
-	GTest* lObj = new GTest;
+	std::shared_ptr<GTest> lObj(new GTest);
 	lObj->run(_argc, _argv);
-	delete lObj;
 }
 //===============================================
