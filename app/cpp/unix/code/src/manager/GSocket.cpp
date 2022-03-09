@@ -84,7 +84,7 @@ int GSocket::recvData(GSocket& _socket, std::string& _data) {
     return lBytes;
 }
 //===============================================
-int GSocket::recvData(std::string& _data) {
+int GSocket::readData(std::string& _data) {
 	std::string lBuffer;
     _data.clear();
     while(1) {
@@ -108,7 +108,7 @@ int GSocket::sendData(GSocket& _socket, const std::string& _data) {
     return lBytes;
 }
 //===============================================
-int GSocket::sendData(const std::string& _data) {
+int GSocket::writeData(const std::string& _data) {
 	std::string lBuffer;
     int lIndex = 0;
     while(1) {

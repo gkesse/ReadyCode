@@ -20,10 +20,10 @@ public:
     void acceptSocket(GSocket& _socket);
     int recvData(std::string& _data);
     int recvData(GSocket& _socket, std::string& _data);
-    int recvData(std::string& _data);
+    int readData(std::string& _data);
     int sendData(const std::string& _data);
     int sendData(GSocket& _socket, const std::string& _data);
-    int sendData(const std::string& _data);
+    int writeData(const std::string& _data);
     std::string readAddressIp() const;
     void closeSocket();
     
