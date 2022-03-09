@@ -7,23 +7,24 @@
 class GString : public GObject {
 public:
     GString();
+    GString(int _data);
+    GString(const std::string& _data);
+    GString(const GString& _data);
     ~GString();
-    void data(int _data);
-    void data(const std::string& _data);
-    void data(const char* _data);
-    void data(const char* _data, int _size);
-    std::string data() const ;
-    void add(const char* _data);
-    void add(const char* _data, int _size);
-    void clear();
-    int size() const;
-    const char* c_str() const;
-    void toChar(char* _buffer, int _size) const;
-    int toChar(char* _buffer, int _index, int _size) const;
-    void print() const;
+    //
+    std::string getData() const ;
+    const char* getChar() const;
+    int getSize() const;
+    //
+    void addData(const std::string& _data);
+    void clearData();
+    //
+    int readData(std::string& _data, int _index, int _size) const;
+    //
+    void printData() const;
 
 public:
-    friend std::ostream& operator<<(std::ostream& os, const GString& obj);
+    friend std::ostream& operator<<(std::ostream& _os, const GString& _obj);
 
 private:
     std::string m_data;

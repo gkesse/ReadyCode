@@ -2,7 +2,7 @@
 #include "GProcess.h"
 #include "GTest.h"
 //===============================================
-GProcess::GProcess() {
+GProcess::GProcess() : GObject() {
 
 }
 //===============================================

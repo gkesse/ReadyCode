@@ -1,95 +1,59 @@
 //===============================================
 #include "GString.h"
 //===============================================
-GString::GString() {
+GString::GString() : GObject() {
     m_data = "";
+}
+//===============================================
+GString::GString(int _data) : GObject() {
+    m_data = std::to_string(_data);
+}
+//===============================================
+GString::GString(const std::string& _data) : GObject() {
+    m_data = _data;
+}
+//===============================================
+GString::GString(const GString& _data) : GObject() {
+    m_data = _data.m_data;
 }
 //===============================================
 GString::~GString() {
 
 }
 //===============================================
-void GString::data(int _data) {
-    m_data = std::to_string(_data);
-}
-//===============================================
-void GString::data(const std::string& _data) {
-    m_data = _data;
-}
-//===============================================
-void GString::data(const char* _data) {
-    clear();
-    int lSize = strlen(_data);
-    for(int i = 0; i < lSize; i++) {
-        m_data += _data[i];
-    }
-}
-//===============================================
-void GString::data(const char* _data, int _size) {
-    clear();
-    for(int i = 0; i < _size; i++) {
-        m_data += _data[i];
-    }
-}
-//===============================================
-std::string GString::data() const {
+std::string GString::getData() const {
     return m_data;
 }
 //===============================================
-void GString::add(const char* _data) {
-    int lSize = strlen(_data);
-    for(int i = 0; i < lSize; i++) {
-        m_data += _data[i];
-    }
-}
-//===============================================
-void GString::add(const char* _data, int _size) {
-    for(int i = 0; i < _size; i++) {
-        m_data += _data[i];
-    }
-}
-//===============================================
-void GString::clear() {
-    m_data.clear();
-}
-//===============================================
-int GString::size() const {
-    return m_data.size();
-}
-//===============================================
-const char* GString::c_str() const {
+const char* GString::getChar() const {
     return m_data.c_str();
 }
 //===============================================
-void GString::toChar(char* _buffer, int _size) const {
-    int i = 0;
-    while(1) {
-        if(i >= _size) break;
-        if(m_data[i] == 0) break;
-        _buffer[i] = m_data[i];
-        i++;
-    }
-    _buffer[i] = 0;
+int GString::getSize() const {
+    return m_data.size();
 }
 //===============================================
-int GString::toChar(char* _buffer, int _index, int _size) const {
-    int i = 0;
-    while(1) {
-        if(i >= _size) break;
-        if(m_data[i + _index] == 0) break;
-        _buffer[i] = m_data[i + _index];
-        i++;
-    }
-    _buffer[i] = 0;
-    return i;
+void GString::addData(const std::string& _data) {
+	m_data += _data;
 }
 //===============================================
-void GString::print() const {
+void GString::clearData() {
+    m_data.clear();
+}
+//===============================================
+int GString::readData(std::string& _data, int _index, int _size) const {
+	_data.clear();
+    if(_index >= _size) return 0;
+    _data = m_data.substr(_index, _size);
+    return _data.size();
+}
+//===============================================
+void GString::printData() const {
     std::cout << m_data;
 }
 //===============================================
-std::ostream& operator<<(std::ostream& os, const GString& obj) {
-    obj.print();
-    return os;
+std::ostream& operator<<(std::ostream& _os, const GString& _data) {
+	_data.printData();
+    return _os;
 }
 //===============================================

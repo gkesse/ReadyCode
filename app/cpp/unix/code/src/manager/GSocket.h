@@ -2,10 +2,9 @@
 #ifndef _GSocket_
 #define _GSocket_
 //===============================================
-#include "GInclude.h"
-#include "GString.h"
+#include "GObject.h"
 //===============================================
-class GSocket {
+class GSocket : public GObject {
 public:
     GSocket();
     ~GSocket();
@@ -19,21 +18,18 @@ public:
     void connectSocket();
     void start();
     void acceptSocket(GSocket& _socket);
-    int recvData();
-    int recvData(GSocket& _socket);
-    int recvData(GString& _data);
-    int sendData(const char* _data);
-    int sendData(GSocket& _socket, const char* _data);
-    int sendData(const GString& _data);
+    int recvData(std::string& _data);
+    int recvData(GSocket& _socket, std::string& _data);
+    int recvData(std::string& _data);
+    int sendData(const std::string& _data);
+    int sendData(GSocket& _socket, const std::string& _data);
+    int sendData(const std::string& _data);
     std::string readAddressIp() const;
     void closeSocket();
     
 protected:
     static const int BUFFER_DATA_SIZE = 1024;
     static const int BUFFER_IP_SIZE = 32;
-    //
-    char m_buffer[BUFFER_DATA_SIZE + 1];
-    char m_bufferIp[BUFFER_IP_SIZE + 1];
     //
     int m_socket;
     struct sockaddr_in m_address;

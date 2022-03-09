@@ -3,12 +3,12 @@
 #include "GLog.h"
 #include "GFormat.h"
 //===============================================
-GXml::GXml() {
+GXml::GXml() : GObject() {
     m_node = 0;
     m_doc = 0;
     m_xpath = 0;
     m_xpathObj = 0;
-
+    //
     xmlKeepBlanksDefault(0);
 }
 //===============================================

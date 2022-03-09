@@ -9,7 +9,8 @@ GINCS = \
 	-I/usr/include/libxml2 \
 	
 GLIBS = \
-    
+    -lxml2 \
+	
 GOBJS = \
     $(patsubst $(GSRC)/%.cpp, $(GBUILD)/%.o, $(wildcard $(GSRC)/*.cpp)) \
     $(patsubst $(GSRC)/manager/%.cpp, $(GBUILD)/%.o, $(wildcard $(GSRC)/manager/*.cpp)) \

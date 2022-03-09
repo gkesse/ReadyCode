@@ -1,7 +1,8 @@
 //===============================================
 #include "GSocket.h"
+#include "GString.h"
 //===============================================
-GSocket::GSocket() {
+GSocket::GSocket() : GObject() {
     m_ip = "0.0.0.0";
     m_port = 8585;
     m_backlog = 5;
@@ -12,8 +13,6 @@ GSocket::GSocket() {
     m_familyIp = AF_INET;
     //
     m_socket = -1;
-    m_buffer[0] = 0;
-    m_bufferIp[0] = 0;
 }
 //===============================================
 GSocket::~GSocket() {
@@ -64,51 +63,59 @@ void GSocket::acceptSocket(GSocket& _socket) {
     _socket.m_socket = accept(m_socket, (struct sockaddr*)&_socket.m_address, (socklen_t*)&lSize);
 }
 //===============================================
-int GSocket::recvData() {
-    int lBytes = read(m_socket, m_buffer, BUFFER_DATA_SIZE);
+int GSocket::recvData(std::string& _data) {
+    char lBuffer[BUFFER_DATA_SIZE + 1];
+    _data.clear();
+    int lBytes = read(m_socket, lBuffer, BUFFER_DATA_SIZE);
     if(lBytes <= 0) lBytes = 0;
-    m_buffer[lBytes] = 0;
+    lBuffer[lBytes] = 0;
+    _data = lBuffer;
     return lBytes;
 }
 //===============================================
-int GSocket::recvData(GSocket& _socket) {
+int GSocket::recvData(GSocket& _socket, std::string& _data) {
+    char lBuffer[BUFFER_DATA_SIZE + 1];
     int lSize = sizeof(_socket.m_address);
-    int lBytes = recvfrom(m_socket, m_buffer, BUFFER_DATA_SIZE, 0, (struct sockaddr*)&_socket.m_address, (socklen_t*)&lSize);
+    _data.clear();
+    int lBytes = recvfrom(m_socket, lBuffer, BUFFER_DATA_SIZE, 0, (struct sockaddr*)&_socket.m_address, (socklen_t*)&lSize);
     if(lBytes <= 0) lBytes = 0;
-    m_buffer[lBytes] = 0;
+    lBuffer[lBytes] = 0;
+    _data = lBuffer;
     return lBytes;
 }
 //===============================================
-int GSocket::recvData(GString& _data) {
+int GSocket::recvData(std::string& _data) {
+	std::string lBuffer;
     _data.clear();
     while(1) {
-        int lBytes = recvData();
+        int lBytes = recvData(lBuffer);
         if(lBytes <= 0) break;
-        _data.add(m_buffer);
+        _data += lBuffer;
     }
     return _data.size();
 }
 //===============================================
-int GSocket::sendData(const char* _data) {
-    int lBytes = write(m_socket, _data, strlen(_data));
+int GSocket::sendData(const std::string& _data) {
+    int lBytes = write(m_socket, _data.c_str(), _data.size());
     if(lBytes <= 0) lBytes = 0;
     return lBytes;
 }
 //===============================================
-int GSocket::sendData(GSocket& _socket, const char* _data) {
+int GSocket::sendData(GSocket& _socket, const std::string& _data) {
 	int lSize = sizeof(_socket.m_address);
-    int lBytes = sendto(m_socket, _data, strlen(_data), 0, (struct sockaddr*)&_socket.m_address, lSize);
+    int lBytes = sendto(m_socket, _data.c_str(), _data.size(), 0, (struct sockaddr*)&_socket.m_address, lSize);
     if(lBytes <= 0) lBytes = 0;
     return lBytes;
 }
 //===============================================
-int GSocket::sendData(const GString& _data) {
+int GSocket::sendData(const std::string& _data) {
+	std::string lBuffer;
     int lIndex = 0;
     while(1) {
-        int lBytes = _data.toChar(m_buffer, lIndex, BUFFER_DATA_SIZE);
+        int lBytes = GString(_data).read(lBuffer, lIndex, BUFFER_DATA_SIZE);
         if(lBytes <= 0) break;
         lIndex += lBytes;
-        sendData(m_buffer);
+        sendData(lBuffer);
     }
     return lIndex;
 }
