@@ -114,8 +114,9 @@ int GSocket::sendData(const GString& _data) {
 }
 //===============================================
 std::string GSocket::readAddressIp() const {
-    inet_ntop(m_familyIp, &m_address.sin_addr, m_bufferIp, BUFFER_IP_SIZE);
-    return m_bufferIp;
+	char lBuffer[BUFFER_IP_SIZE + 1];
+    inet_ntop(m_familyIp, &(m_address.sin_addr), lBuffer, BUFFER_IP_SIZE);
+    return lBuffer;
 }
 //===============================================
 void GSocket::closeSocket() {
