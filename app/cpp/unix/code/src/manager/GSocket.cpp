@@ -1,6 +1,5 @@
 //===============================================
 #include "GSocket.h"
-#include "GString.h"
 #include "GPath.h"
 #include "GLog.h"
 #include "GXml.h"
@@ -129,13 +128,16 @@ int GSocket::recvData(GSocket& _socket, std::string& _data) {
 //===============================================
 int GSocket::readData(std::string& _data) {
     std::string lBuffer;
+    recvData(lBuffer);
+    int lSize = std::stoi(lBuffer);
+    int lBytes = 0;
     _data.clear();
-    while(1) {
-        int lBytes = recvData(lBuffer);
-        if(lBytes <= 0) break;
+
+    for(int i = 0; i < lSize; i++) {
+        lBytes += recvData(lBuffer);
         _data += lBuffer;
     }
-    return _data.size();
+    return lBytes;
 }
 //===============================================
 int GSocket::sendData(const std::string& _data) {
@@ -152,14 +154,18 @@ int GSocket::sendData(GSocket& _socket, const std::string& _data) {
 }
 //===============================================
 int GSocket::writeData(const std::string& _data) {
-    std::string lBuffer;
     int lIndex = 0;
-    while(1) {
-        int lBytes = GString(_data).readData(lBuffer, lIndex, BUFFER_DATA_SIZE);
-        if(lBytes <= 0) break;
-        lIndex += lBytes;
+    int lLength = _data.size();
+    int lSize = (int)ceil((double)lLength/BUFFER_DATA_SIZE);
+
+    sendData(std::to_string(lSize));
+
+    for(int i = 0; i < lSize; i++) {
+        std::string lBuffer = _data.substr(lIndex, BUFFER_DATA_SIZE);
+        lIndex += lBuffer.size();
         sendData(lBuffer);
     }
+
     return lIndex;
 }
 //===============================================

@@ -17,6 +17,8 @@ public:
     std::string getPadItem(const std::string& _data) const;
     void runSocketServer(int _argc, char** _argv);
     void runSocketClient(int _argc, char** _argv);
+    void runSocketServerFile(int _argc, char** _argv);
+    void runSocketClientFile(int _argc, char** _argv);
 };
 //===============================================
 #endif

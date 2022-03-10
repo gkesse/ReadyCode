@@ -18,13 +18,6 @@ public:
     //
     void addData(const std::string& _data);
     void clearData();
-    //
-    int readData(std::string& _data, int _index, int _size) const;
-    //
-    void printData() const;
-
-public:
-    friend std::ostream& operator<<(std::ostream& _os, const GString& _obj);
 
 private:
     std::string m_data;

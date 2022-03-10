@@ -5,7 +5,6 @@
 #include "GFormat.h"
 #include "GSocket.h"
 #include "GFile.h"
-#include "GString.h"
 //===============================================
 GTest::GTest() : GObject() {
 
@@ -63,14 +62,7 @@ void GTest::runString(int _argc, char** _argv) {
     int BUFFER_DATA_SIZE = 1024;
     int lSize = (int)ceil((double)lLength/BUFFER_DATA_SIZE);
     int lIndex = 0;
-    GString lString(lContent);
     std::string lData;
-
-    //lIndex += lString.readData(lData, lIndex, BUFFER_DATA_SIZE);
-    //lIndex += lString.readData(lData, lIndex, BUFFER_DATA_SIZE);
-    //lIndex += lString.readData(lData, lIndex, BUFFER_DATA_SIZE);
-    //lIndex += lString.readData(lData, lIndex, BUFFER_DATA_SIZE);
-    //lIndex += lString.readData(lData, lIndex, BUFFER_DATA_SIZE);
 
     printf("lLength.................: %d\n", lLength);
     printf("BUFFER_DATA_SIZE........: %d\n", BUFFER_DATA_SIZE);
@@ -159,6 +151,56 @@ void GTest::runSocketClient(int _argc, char** _argv) {
     lClient.sendData("Bonjour tout le monde");
     lClient.sendData("Voici mon premier test");
     std::string lData;
+    lClient.recvData(lData);
+    printf("[client] : %s\n", lData.c_str());
+    lClient.closeSocket();
+}
+//===============================================
+void GTest::runSocketServerFile(int _argc, char** _argv) {
+    printf("%s\n", __FUNCTION__);
+    GSocket lServer;
+    GSocket lClient;
+
+    int lDomain = lServer.loadDomain();
+    int lType = lServer.loadType();
+    int lProtocol = lServer.loadProtocol();
+    int lFamily = lServer.loadFamily();
+    std::string lClientIp = lServer.getSocketItem("client_ip");
+    int lPort = std::stoi(lServer.getSocketItem("port"));
+    int lBacklog = std::stoi(lServer.getSocketItem("backlog"));
+
+    lServer.createSocket(lDomain, lType, lProtocol);
+    lServer.createAddress(lFamily, lClientIp, lPort);
+    lServer.bindSocket();
+    lServer.listenSocket(lBacklog);
+    lServer.start();
+    lServer.acceptSocket(lClient);
+
+    std::string lData;
+    lClient.readData(lData);
+    printf("[server] : %s\n", lData.c_str());
+
+    lClient.sendData("Ok bien recu");
+
+    lClient.closeSocket();
+    lServer.closeSocket();
+}
+//===============================================
+void GTest::runSocketClientFile(int _argc, char** _argv) {
+    printf("%s\n", __FUNCTION__);
+    GSocket lClient;
+
+    int lDomain = lClient.loadDomain();
+    int lType = lClient.loadType();
+    int lProtocol = lClient.loadProtocol();
+    int lFamily = lClient.loadFamily();
+    std::string lServerIp = lClient.getSocketItem("server_ip");
+    int lPort = std::stoi(lClient.getSocketItem("port"));
+
+    std::string lFilename = GRES("file", "test.txt");
+    std::string lData = GFile(lFilename).getData();
+    lClient.writeData(lData);
+
     lClient.recvData(lData);
     printf("[client] : %s\n", lData.c_str());
     lClient.closeSocket();
