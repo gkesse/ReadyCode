@@ -6,12 +6,14 @@
 //===============================================
 #define GFORMAT GFormat::Instance()
 //===============================================
+#define sformat(...) GFORMAT->getFormat(__VA_ARGS__)
+//===============================================
 class GFormat : public GObject {
 public:
     GFormat();
     ~GFormat();
     static GFormat* Instance();
-    std::string sformat(const char* _format, ...);
+    std::string getFormat(const char* _format, ...);
 
 private:
     static GFormat* m_instance;

@@ -18,7 +18,7 @@ GFormat* GFormat::Instance() {
 	return m_instance;
 }
 //===============================================
-std::string GFormat::sformat(const char* _format, ...) {
+std::string GFormat::getFormat(const char* _format, ...) {
 	va_list lArgs;
 	va_start (lArgs, _format);
 	vsprintf(m_buffer, _format, lArgs);

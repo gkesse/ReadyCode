@@ -30,7 +30,7 @@ void GXml::cleanModule() {
 GXml& GXml::loadXmlFile(const std::string& _filename) {
     m_doc = xmlParseFile(_filename.c_str());
     if(!m_doc) {
-        GLOG->addError(GFORMAT->sformat("Erreur la methode (loadXmlFile) a echoue "
+        GLOG->addError(GFORMAT->getFormat("Erreur la methode (loadXmlFile) a echoue "
                 "sur le fichier (%s).", _filename.c_str()));
     }
     m_filename = _filename;
@@ -47,7 +47,7 @@ bool GXml::saveXmlFile(const std::string& _filename, const std::string& _encodin
         lFilename = m_filename;
     }
     else {
-        GLOG->addError(GFORMAT->sformat("Erreur la methode (saveXmlFile) a echoue "
+        GLOG->addError(GFORMAT->getFormat("Erreur la methode (saveXmlFile) a echoue "
                 "sur le fichier (%s).", lFilename.c_str()));
         return false;
     }
@@ -59,13 +59,13 @@ bool GXml::saveXmlFile(const std::string& _filename, const std::string& _encodin
 GXml& GXml::getRoot(const std::string& _nodename) {
     m_node = xmlDocGetRootElement(m_doc);
     if(!m_node) {
-        GLOG->addError(GFORMAT->sformat("Erreur la methode (getRoot) a echoue "
+        GLOG->addError(GFORMAT->getFormat("Erreur la methode (getRoot) a echoue "
                 "sur le noeud (%s) (1).", _nodename.c_str()));
         return *this;
     }
     std::string lNodeName = (char*)m_node->name;
     if(lNodeName != _nodename) {
-        GLOG->addError(GFORMAT->sformat("Erreur la methode (getRoot) a echoue "
+        GLOG->addError(GFORMAT->getFormat("Erreur la methode (getRoot) a echoue "
                 "sur le noeud (%s) (2).", _nodename.c_str()));
     }
     return *this;
@@ -73,7 +73,7 @@ GXml& GXml::getRoot(const std::string& _nodename) {
 //===============================================
 GXml& GXml::getNode(const std::string& _nodename) {
     if(!m_node) {
-        GLOG->addError(GFORMAT->sformat("Erreur la methode (getNode) a echoue "
+        GLOG->addError(GFORMAT->getFormat("Erreur la methode (getNode) a echoue "
                 "sur le noeud (%s) (1).", _nodename.c_str()));
         return *this;
     }
@@ -86,7 +86,7 @@ GXml& GXml::getNode(const std::string& _nodename) {
         }
         lNode = xmlNextElementSibling(lNode);
     }
-    GLOG->addError(GFORMAT->sformat("Erreur la methode (getNode) a echoue "
+    GLOG->addError(GFORMAT->getFormat("Erreur la methode (getNode) a echoue "
             "sur le noeud (%s) (2).", _nodename.c_str()));
     return *this;
 }
@@ -102,7 +102,7 @@ std::string GXml::getNodeValue() const {
 GXml& GXml::createNode(const std::string& _nodename) {
     m_node = xmlNewNode(NULL, BAD_CAST(_nodename.c_str()));
     if(!m_node) {
-        GLOG->addError(GFORMAT->sformat("Erreur la methode (createNode) a echoue "
+        GLOG->addError(GFORMAT->getFormat("Erreur la methode (createNode) a echoue "
                 "sur le noeud (%s).", _nodename.c_str()));
         return *this;
     }
@@ -113,7 +113,7 @@ GXml& GXml::createNodeValue(const std::string& _nodename, const std::string& _va
     createNode(_nodename);
     setNodeValue(_value);
     if(!m_node) {
-        GLOG->addError(GFORMAT->sformat("Erreur la methode (createNodeValue) a echoue "
+        GLOG->addError(GFORMAT->getFormat("Erreur la methode (createNodeValue) a echoue "
                 "sur le noeud (%s) avec la valeur (%s).", _nodename.c_str(), _value.c_str()));
         return *this;
     }
@@ -122,7 +122,7 @@ GXml& GXml::createNodeValue(const std::string& _nodename, const std::string& _va
 //===============================================
 GXml& GXml::setNodeValue(const std::string& _value) {
     if(!m_node) {
-        GLOG->addError(GFORMAT->sformat("Erreur la methode (setNodeValue) a echoue "
+        GLOG->addError(GFORMAT->getFormat("Erreur la methode (setNodeValue) a echoue "
                 "sur le noeud (%s).", _value.c_str()));
         return *this;
     }
@@ -132,7 +132,7 @@ GXml& GXml::setNodeValue(const std::string& _value) {
 //===============================================
 GXml& GXml::appendNode(GXml& _xml) {
     if(!m_node) {
-        GLOG->addError(GFORMAT->sformat("Erreur la methode (appendNode) a echoue."));
+        GLOG->addError(GFORMAT->getFormat("Erreur la methode (appendNode) a echoue."));
         return *this;
     }
     xmlAddChild(m_node, _xml.m_node);
@@ -141,7 +141,7 @@ GXml& GXml::appendNode(GXml& _xml) {
 //===============================================
 GXml& GXml::replaceNode(GXml& _xml) {
     if(!m_node || !_xml.m_node) {
-        GLOG->addError(GFORMAT->sformat("Erreur la methode (replaceNode) a echoue."));
+        GLOG->addError(GFORMAT->getFormat("Erreur la methode (replaceNode) a echoue."));
         return *this;
     }
     xmlReplaceNode(m_node, _xml.m_node);
@@ -151,7 +151,7 @@ GXml& GXml::replaceNode(GXml& _xml) {
 //===============================================
 GXml& GXml::createXPath() {
     if(!m_doc) {
-        GLOG->addError(GFORMAT->sformat("Erreur la methode (createXPath) a echoue."));
+        GLOG->addError(GFORMAT->getFormat("Erreur la methode (createXPath) a echoue."));
         return *this;
     }
     m_xpath = xmlXPathNewContext(m_doc);
@@ -214,13 +214,13 @@ GXml& GXml::clearNodeXPath() {
 //===============================================
 GXml& GXml::createNodeCData(GXml& _xml, const std::string& _value) {
     if(!_xml.m_node) {
-        GLOG->addError(GFORMAT->sformat("Erreur la methode (createNodeCData) a echoue "
+        GLOG->addError(GFORMAT->getFormat("Erreur la methode (createNodeCData) a echoue "
                 "sur le noeud (%s) (1).", _value.c_str()));
         return *this;
     }
     m_node = xmlNewCDataBlock(_xml.m_node->doc, BAD_CAST(_value.c_str()), _value.size());
     if(!m_node) {
-        GLOG->addError(GFORMAT->sformat("Erreur la methode (createNodeCData) a echoue "
+        GLOG->addError(GFORMAT->getFormat("Erreur la methode (createNodeCData) a echoue "
                 "sur le noeud (%s) (2).", _value.c_str()));
         return *this;
     }
@@ -237,7 +237,7 @@ GXml& GXml::createNodeCData(const std::string& _nodename, const std::string& _va
 //===============================================
 GXml& GXml::setNodeCData(const std::string& _value) {
     if(!m_node) {
-        GLOG->addError(GFORMAT->sformat("Erreur la methode (setNodeCData) a echoue "
+        GLOG->addError(GFORMAT->getFormat("Erreur la methode (setNodeCData) a echoue "
                 "sur le noeud (%s).", _value.c_str()));
         return *this;
     }
