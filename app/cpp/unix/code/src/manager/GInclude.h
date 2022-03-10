@@ -12,11 +12,11 @@
 #include <fstream>
 #include <sstream>
 #include <cmath>
+#include <strings.h>
+#include <unistd.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#include <strings.h>
-#include <unistd.h>
 // libxml2
 #include <libxml/tree.h>
 #include <libxml/xpath.h>

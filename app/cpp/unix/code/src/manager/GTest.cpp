@@ -59,9 +59,11 @@ void GTest::runString(int _argc, char** _argv) {
 	std::string lFilename = GRES("file", "test.txt");
 	std::string lContent = GFile(lFilename).getData();
 	int lLength = lContent.size();
-	int lSize = (int)ceil((double)lLength/BASE_BUFFER_SIZE);
+	int BUFFER_DATA_SIZE = 1024;
+	int lSize = (int)ceil((double)lLength/BUFFER_DATA_SIZE);
+
 	printf("lLength.................: %d\n", lLength);
-	printf("BASE_BUFFER_SIZE........: %d\n", BASE_BUFFER_SIZE);
+	printf("BUFFER_DATA_SIZE........: %d\n", BUFFER_DATA_SIZE);
 	printf("lSize...................: %d\n", lSize);
 }
 //===============================================
