@@ -154,11 +154,14 @@ void GTest::runSocketClient(int _argc, char** _argv) {
     lClient.createSocket(lDomain, lType, lProtocol);
     lClient.createAddress(lFamily, lServerIp, lPort);
     lClient.connectSocket();
+
     lClient.sendData("Bonjour tout le monde");
     lClient.sendData("Voici mon premier test");
+
     std::string lData;
     lClient.recvData(lData);
     printf("[client] : %s\n", lData.c_str());
+
     lClient.closeSocket();
 }
 //===============================================
@@ -202,6 +205,10 @@ void GTest::runSocketClientFile(int _argc, char** _argv) {
     int lFamily = lClient.loadFamily();
     std::string lServerIp = lClient.getSocketItem("server_ip");
     int lPort = std::stoi(lClient.getSocketItem("port"));
+
+    lClient.createSocket(lDomain, lType, lProtocol);
+    lClient.createAddress(lFamily, lServerIp, lPort);
+    lClient.connectSocket();
 
     std::string lFilename = GRES("file", "test.txt");
     std::string lData = GFile(lFilename).getData();
