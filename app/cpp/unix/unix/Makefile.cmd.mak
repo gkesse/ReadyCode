@@ -21,7 +21,7 @@ GCFLAGS = \
 #================================================
 # cpp
 all: git_pull clean_exe compile run
-all_g: git_pull clean_exe compile run
+all_g: git_pull clean_exe compile run_g
 
 compile: $(GOBJS)
 	@if ! [ -d $(GBIN) ] ; then mkdir -p $(GBIN) ; fi
