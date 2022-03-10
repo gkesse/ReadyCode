@@ -35,8 +35,6 @@ void GTest::run(int _argc, char** _argv) {
 //===============================================
 void GTest::runTest(int _argc, char** _argv) {
 	printf("%s\n", __FUNCTION__);
-	std::string lPath = GRES("xml", "app.xml");
-	printf("%s\n", lPath.c_str());
 }
 //===============================================
 void GTest::runPath(int _argc, char** _argv) {
@@ -47,7 +45,7 @@ void GTest::runPath(int _argc, char** _argv) {
 //===============================================
 void GTest::runFormat(int _argc, char** _argv) {
 	printf("%s\n", __FUNCTION__);
-	std::cout << sformat("app : %s - v%s", "ReadyPad", "1.0");
+	printf("%s\n", sformat("app : %s - v%s", "ReadyPad", "1.0").c_str());
 }
 //===============================================
 void GTest::runXml(int _argc, char** _argv) {
