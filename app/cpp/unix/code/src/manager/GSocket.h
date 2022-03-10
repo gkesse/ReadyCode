@@ -22,7 +22,7 @@ public:
     void listenSocket(int _backlog);
     void bindSocket();
     void connectSocket();
-    void start();
+    void startMessage();
     void acceptSocket(GSocket& _socket);
     int recvData(std::string& _data);
     int recvData(GSocket& _socket, std::string& _data);
@@ -32,6 +32,8 @@ public:
     int writeData(const std::string& _data);
     std::string readAddressIp() const;
     void closeSocket();
+    void startServerTcp();
+    static void onServerTcp(GSocket* _client);
     
 protected:
     static const int BUFFER_DATA_SIZE = 1024;

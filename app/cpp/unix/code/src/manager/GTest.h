@@ -19,6 +19,7 @@ public:
     void runSocketClient(int _argc, char** _argv);
     void runSocketServerFile(int _argc, char** _argv);
     void runSocketClientFile(int _argc, char** _argv);
+    void runSocketServerStart(int _argc, char** _argv);
     void runThread(int _argc, char** _argv);
     static void onThread(const std::string& _message);
 };

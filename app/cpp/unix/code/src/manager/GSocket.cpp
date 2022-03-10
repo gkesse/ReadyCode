@@ -96,7 +96,7 @@ void GSocket::connectSocket() {
     connect(m_socket, (struct sockaddr*)&m_address, sizeof(m_address));
 }
 //===============================================
-void GSocket::start() {
+void GSocket::startMessage() {
     printf("demarrage du serveur...\n");
 }
 //===============================================
@@ -177,5 +177,43 @@ std::string GSocket::readAddressIp() const {
 //===============================================
 void GSocket::closeSocket() {
     close(m_socket);
+}
+//===============================================
+void GSocket::startServerTcp() {
+    int lDomain = loadDomain();
+    int lType = loadType();
+    int lProtocol = loadProtocol();
+    int lFamily = loadFamily();
+    std::string lClientIp = getSocketItem("client_ip");
+    int lPort = std::stoi(getSocketItem("port"));
+    int lBacklog = std::stoi(getSocketItem("backlog"));
+
+    createSocket(lDomain, lType, lProtocol);
+    createAddress(lFamily, lClientIp, lPort);
+    bindSocket();
+    listenSocket(lBacklog);
+
+    startMessage();
+
+    while(1) {
+        GSocket* lClient = new GSocket;
+        acceptSocket(*lClient);
+        std::thread(onServerTcp, lClient);
+    }
+
+    closeSocket();
+}
+//===============================================
+void GSocket::onServerTcp(GSocket* _client) {
+    GSocket* lClient = _client;
+
+    std::string lData;
+    lClient->readData(lData);
+    printf("[server] : %s\n", lData.c_str());
+
+    lClient->writeData("Ok bien recu");
+
+    lClient->closeSocket();
+    delete lClient;
 }
 //===============================================

@@ -50,6 +50,9 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "socket/client/file") {
         runSocketClientFile(_argc, _argv);
     }
+    else if(lKey == "socket/server/start") {
+        runSocketServerStart(_argc, _argv);
+    }
     // thread
     else if(lKey == "thread") {
         runThread(_argc, _argv);
@@ -130,7 +133,7 @@ void GTest::runSocketServer(int _argc, char** _argv) {
     lServer.createAddress(lFamily, lClientIp, lPort);
     lServer.bindSocket();
     lServer.listenSocket(lBacklog);
-    lServer.start();
+    lServer.startMessage();
     lServer.acceptSocket(lClient);
 
     std::string lData;
@@ -186,7 +189,7 @@ void GTest::runSocketServerFile(int _argc, char** _argv) {
     lServer.createAddress(lFamily, lClientIp, lPort);
     lServer.bindSocket();
     lServer.listenSocket(lBacklog);
-    lServer.start();
+    lServer.startMessage();
     lServer.acceptSocket(lClient);
 
     std::string lData;
@@ -221,6 +224,12 @@ void GTest::runSocketClientFile(int _argc, char** _argv) {
     lClient.readData(lData);
     printf("[client] : %s\n", lData.c_str());
     lClient.closeSocket();
+}
+//===============================================
+void GTest::runSocketServerStart(int _argc, char** _argv) {
+    printf("%s\n", __FUNCTION__);
+    GSocket lServer;
+    lServer.startServerTcp();
 }
 //===============================================
 void GTest::runThread(int _argc, char** _argv) {
