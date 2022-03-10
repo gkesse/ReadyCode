@@ -4,6 +4,7 @@
 #include "GXml.h"
 #include "GFormat.h"
 #include "GSocket.h"
+#include "GFile.h"
 //===============================================
 GTest::GTest() : GObject() {
 
@@ -19,6 +20,10 @@ void GTest::run(int _argc, char** _argv) {
 
 	if(lKey == "default") {
 		runTest(_argc, _argv);
+	}
+	// string
+	else if(lKey == "string") {
+		runString(_argc, _argv);
 	}
 	// path
 	else if(lKey == "path") {
@@ -47,6 +52,13 @@ void GTest::run(int _argc, char** _argv) {
 //===============================================
 void GTest::runTest(int _argc, char** _argv) {
 	printf("%s\n", __FUNCTION__);
+}
+//===============================================
+void GTest::runString(int _argc, char** _argv) {
+	printf("%s\n", __FUNCTION__);
+	std::string lFilename = GRES("file", "test.txt");
+	std::string lContent = GFile(lFilename).getData();
+	printf("%s\n", lContent.c_str());
 }
 //===============================================
 void GTest::runPath(int _argc, char** _argv) {

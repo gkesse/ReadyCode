@@ -9,6 +9,8 @@
 #include <map>
 #include <memory>
 #include <cstdarg>
+#include <fstream>
+#include <sstream>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>

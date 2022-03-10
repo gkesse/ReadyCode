@@ -1,0 +1,22 @@
+SOAP (anciennement un backronyme pour Simple Object Access Protocol ) est une spécification de protocole de messagerie pour l'échange d'informations structurées dans la mise en œuvre de services Web dans des réseaux informatiques . Il utilise XML Information Set pour son format de message et s'appuie sur des protocoles de couche application , le plus souvent le protocole de transfert hypertexte (HTTP), bien que certains systèmes hérités communiquent via le protocole SMTP ( Simple Mail Transfer Protocol ), pour la négociation et la transmission des messages.
+
+SOAP permet aux développeurs d'invoquer des processus s'exécutant sur des systèmes d'exploitation disparates (tels que Windows , macOS et Linux ) pour s'authentifier, autoriser et communiquer à l'aide du langage XML ( Extensible Markup Language ). Étant donné que les protocoles Web tels que HTTP sont installés et exécutés sur tous les systèmes d'exploitation, SOAP permet aux clients d'invoquer des services Web et de recevoir des réponses indépendamment de la langue et des plates-formes.
+SOAP fournit la couche de protocole de messagerie d'une pile de protocoles de services Web pour les services Web. Il s'agit d'un protocole basé sur XML composé de trois parties :
+
+une enveloppe, qui définit la structure du message [1] et comment la traiter
+un ensemble de règles de codage pour exprimer des instances de types de données définis par l'application
+une convention pour représenter les appels de procédure et les réponses
+SOAP a trois caractéristiques principales :
+
+extensibilité (la sécurité et WS-Addressing font partie des extensions en cours de développement)
+neutralité (SOAP peut fonctionner sur n'importe quel protocole tel que HTTP , SMTP , TCP , UDP )
+indépendance (SOAP permet n'importe quel modèle de programmation )
+À titre d'exemple de ce que les procédures SOAP peuvent faire, une application peut envoyer une demande SOAP à un serveur sur lequel des services Web sont activés, comme une base de données de prix immobiliers, avec les paramètres d'une recherche. Le serveur renvoie ensuite une réponse SOAP (un document au format XML avec les données résultantes), par exemple, les prix, l'emplacement, les caractéristiques. Étant donné que les données générées sont présentées dans un format standardisé analysable par la machine, l'application demandeuse peut alors les intégrer directement.
+
+SOAP a été conçu comme un protocole d'accès aux objets et publié en tant que XML-RPC en juin 1998 dans le cadre de Frontier 5.1 par Dave Winer , Don Box , Bob Atkinson et Mohsen Al-Ghosein pour Microsoft , où Atkinson et Al-Ghosein travaillaient. [3] La spécification n'a pas été rendue disponible jusqu'à ce qu'elle ait été soumise à l' IETF le 13 septembre 1999. [4] [5] Selon Don Box, cela était dû à la politique au sein de Microsoft. [6] En raison de l'hésitation de Microsoft, Dave Winer a livré XML-RPC en 1998. [7]
+
+Le brouillon Internet soumis n'a pas atteint le statut RFC et n'est donc pas considéré comme une "norme Web" en tant que telle. La version 1.1 de la spécification a été publiée en tant que note du W3C le 8 mai 2000. [8] Puisque la version 1.1 n'a pas atteint le statut de recommandation du W3C , elle ne peut pas non plus être considérée comme une "norme Web". La version 1.2 de la spécification est cependant devenue une recommandation du W3C le 24 juin 2003.
+
+La spécification SOAP [9] a été maintenue par le XML Protocol Working Group [10] du World Wide Web Consortium jusqu'à la fermeture du groupe le 10 juillet 2009. SOAP signifiait à l'origine "Simple Object Access Protocol" mais la version 1.2 de la norme a abandonné ce acronyme. [11]
+
+Après l'introduction de SOAP, il est devenu la couche sous-jacente d'un ensemble plus complexe de services Web , basés sur WSDL , XSD et UDDI . Ces différents services, notamment UDDI, se sont révélés beaucoup moins intéressants, mais leur appréciation permet de comprendre parfaitement le rôle attendu de SOAP par rapport à l'évolution réelle des services web.
