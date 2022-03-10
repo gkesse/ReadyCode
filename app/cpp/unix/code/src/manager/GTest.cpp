@@ -189,7 +189,9 @@ void GTest::runSocketServerFile(int _argc, char** _argv) {
     lServer.createAddress(lFamily, lClientIp, lPort);
     lServer.bindSocket();
     lServer.listenSocket(lBacklog);
+
     lServer.startMessage();
+
     lServer.acceptSocket(lClient);
 
     std::string lData;
