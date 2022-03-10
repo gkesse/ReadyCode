@@ -33,7 +33,7 @@ public:
     std::string readAddressIp() const;
     void closeSocket();
     void startServerTcp();
-    static void onServerTcp(GSocket* _client);
+    static void* onServerTcp(GSocket* _client);
     
 protected:
     static const int BUFFER_DATA_SIZE = 1024;
