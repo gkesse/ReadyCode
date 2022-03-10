@@ -44,6 +44,12 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "socket/client") {
         runSocketClient(_argc, _argv);
     }
+    else if(lKey == "socket/server/file") {
+        runSocketServerFile(_argc, _argv);
+    }
+    else if(lKey == "socket/client/file") {
+        runSocketClientFile(_argc, _argv);
+    }
     // end
     else {
         runTest(_argc, _argv);
