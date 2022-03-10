@@ -4,6 +4,7 @@
 #include "GLog.h"
 #include "GXml.h"
 #include "GFormat.h"
+#include "GThread.h"
 //===============================================
 GSocket::GSocket() : GObject() {
     createDoms();
@@ -195,10 +196,12 @@ void GSocket::startServerTcp() {
 
     startMessage();
 
+    GThread lThread;
+
     while(1) {
         GSocket* lClient = new GSocket;
         acceptSocket(*lClient);
-        std::thread lThread(onServerTcp, lClient);
+        lThread.createThread(onServerTcp, lClient);
     }
 
     closeSocket();
