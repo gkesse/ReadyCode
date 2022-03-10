@@ -3,6 +3,7 @@
 #include "GPath.h"
 #include "GXml.h"
 #include "GFormat.h"
+#include "GSocket.h"
 //===============================================
 GTest::GTest() : GObject() {
 
@@ -27,6 +28,9 @@ void GTest::run(int _argc, char** _argv) {
 	}
 	else if(lKey == "xml") {
 		runXml(_argc, _argv);
+	}
+	else if(lKey == "socket/server") {
+		runSocketServer(_argc, _argv);
 	}
 	else {
 		runTest(_argc, _argv);
@@ -62,5 +66,30 @@ std::string GTest::getPadItem(const std::string& _data) const {
     m_dom->getNodeXPath();
     std::string lData = m_dom->getNodeValue();
     return lData;
+}
+//===============================================
+void GTest::runSocketServer(int _argc, char** _argv) {
+	printf("%s\n", __FUNCTION__);
+	GSocket lServer;
+	GSocket lClient;
+
+	int lDomain = lServer.loadDomain();
+	int lType = lServer.loadType();
+	int lProtocol = lServer.loadProtocol();
+	int lFamily = lServer.loadFamily();
+	std::string lClientIp = lServer.getSocketItem("client_ip");
+	int lPort = std::stoi(lServer.getSocketItem("port"));
+	int lBacklog = std::stoi(lServer.getSocketItem("backlog"));
+
+	lServer.createSocket(lDomain, lType, lProtocol);
+	lServer.createAddress(lFamily, lClientIp, lPort);
+	lServer.bindSocket();
+	lServer.listenSocket(lBacklog);
+	lServer.start();
+	lServer.acceptSocket(lClient);
+
+	std::string lData;
+	lClient.recvData(lData);
+	printf("[server] : %s\n", lData.c_str());
 }
 //===============================================

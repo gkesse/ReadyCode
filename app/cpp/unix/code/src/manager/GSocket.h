@@ -8,12 +8,18 @@ class GSocket : public GObject {
 public:
     GSocket();
     ~GSocket();
-    void setAddressIp(const std::string& _ip);
-    void setPort(int _port);
-    void setBacklog(int _backlog);
-    void createSocket();
-    void createAddress();
-    void listenSocket();
+    //
+    void createDoms();
+    std::string getSocketItem(const std::string& _data) const;
+    //
+    int loadDomain() const;
+    int loadType() const;
+    int loadProtocol() const;
+    int loadFamily() const;
+    //
+    void createSocket(int _domain, int _type, int _protocol);
+    void createAddress(int _family, std::string _ip, int _port);
+    void listenSocket(int _backlog);
     void bindSocket();
     void connectSocket();
     void start();

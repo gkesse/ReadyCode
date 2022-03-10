@@ -10,6 +10,13 @@
 		<!-- socket -->
 		<data>
 			<code>socket</code>
+			<domain>AF_INET</domain>
+			<type>SOCK_STREAM</type>
+			<protocol>IPPROTO_TCP</protocol>
+			<family>AF_INET</family>
+			<port>8585</port>
+			<client_ip>0.0.0.0</client_ip>
+			<server_ip>127.0.0.1</server_ip>
 		</data>
 		<!-- end -->
     </datas>
