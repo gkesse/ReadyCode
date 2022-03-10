@@ -15,6 +15,6 @@ GThread::~GThread() {
 }
 //===============================================
 void GThread::createThread(void* _onThread, void* _params) {
-    m_thread.thread(_onThread, _params);
+
 }
 //===============================================
