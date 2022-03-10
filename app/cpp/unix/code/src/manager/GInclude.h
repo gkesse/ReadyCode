@@ -11,6 +11,7 @@
 #include <cstdarg>
 #include <fstream>
 #include <sstream>
+#include <cmath>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
