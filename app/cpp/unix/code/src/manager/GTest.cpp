@@ -53,6 +53,9 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "socket/server/start") {
         runSocketServerStart(_argc, _argv);
     }
+    else if(lKey == "socket/server/call") {
+        runSocketServerCall(_argc, _argv);
+    }
     // thread
     else if(lKey == "thread") {
         runThread(_argc, _argv);
