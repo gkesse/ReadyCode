@@ -196,12 +196,12 @@ void GSocket::startServerTcp() {
 
     startMessage();
 
-    GThread lThread;
+    std::thread lThread;
 
     while(1) {
         GSocket* lClient = new GSocket;
         acceptSocket(*lClient);
-        lThread.createThread(onServerTcp, lClient);
+        lThread.thread(onServerTcp, lClient);
     }
 
     closeSocket();
