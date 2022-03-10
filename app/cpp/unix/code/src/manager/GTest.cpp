@@ -58,7 +58,7 @@ void GTest::runXml(int _argc, char** _argv) {
 }
 //===============================================
 std::string GTest::getPadItem(const std::string& _data) const {
-    m_dom->queryXPath(GFORMAT->getFormat("/rdv/datas/data[code='pad']/%s", _data.c_str()));
+    m_dom->queryXPath(sformat("/rdv/datas/data[code='pad']/%s", _data.c_str()));
     m_dom->getNodeXPath();
     std::string lData = m_dom->getNodeValue();
     return lData;

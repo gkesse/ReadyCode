@@ -9,12 +9,10 @@
 #include <map>
 #include <memory>
 #include <cstdarg>
-#include <sys/types.h>
 #include <sys/socket.h>
-#include <arpa/inet.h>
 #include <netinet/in.h>
-#include <netinet/tcp.h>
-#include <netdb.h>
+#include <arpa/inet.h>
+#include <strings.h>
 #include <unistd.h>
 // libxml2
 #include <libxml/tree.h>
