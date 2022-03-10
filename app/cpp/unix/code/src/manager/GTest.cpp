@@ -5,6 +5,7 @@
 #include "GFormat.h"
 #include "GSocket.h"
 #include "GFile.h"
+#include "GString.h"
 //===============================================
 GTest::GTest() : GObject() {
 
@@ -61,10 +62,20 @@ void GTest::runString(int _argc, char** _argv) {
 	int lLength = lContent.size();
 	int BUFFER_DATA_SIZE = 1024;
 	int lSize = (int)ceil((double)lLength/BUFFER_DATA_SIZE);
+	int lIndex = 0;
+	GString lString(lContent);
+	std::string lData;
+
+	lIndex += lString.readData(lData, lIndex, BUFFER_DATA_SIZE);
+	lIndex += lString.readData(lData, lIndex, BUFFER_DATA_SIZE);
+	lIndex += lString.readData(lData, lIndex, BUFFER_DATA_SIZE);
+	lIndex += lString.readData(lData, lIndex, BUFFER_DATA_SIZE);
+	lIndex += lString.readData(lData, lIndex, BUFFER_DATA_SIZE);
 
 	printf("lLength.................: %d\n", lLength);
 	printf("BUFFER_DATA_SIZE........: %d\n", BUFFER_DATA_SIZE);
 	printf("lSize...................: %d\n", lSize);
+	printf("lData...................: %s\n", lData.c_str());
 }
 //===============================================
 void GTest::runPath(int _argc, char** _argv) {
