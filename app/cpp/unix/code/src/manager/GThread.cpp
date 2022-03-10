@@ -1,13 +1,8 @@
 //===============================================
 #include "GThread.h"
-#include "GPath.h"
-#include "GXml.h"
-#include "GFormat.h"
-#include "GSocket.h"
-#include "GFile.h"
 //===============================================
 GThread::GThread() : GObject() {
-
+    m_thread = 0;
 }
 //===============================================
 GThread::~GThread() {
@@ -15,6 +10,6 @@ GThread::~GThread() {
 }
 //===============================================
 void GThread::createThread(void* _onThread, void* _params) {
-
+    pthread_create(&m_thread, 0, (GTHREAD_CB)_onThread, _params);
 }
 //===============================================

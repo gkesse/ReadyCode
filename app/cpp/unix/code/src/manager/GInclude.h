@@ -13,6 +13,7 @@
 #include <sstream>
 #include <cmath>
 #include <thread>
+#include <pthread.h>
 #include <strings.h>
 #include <unistd.h>
 #include <sys/socket.h>
