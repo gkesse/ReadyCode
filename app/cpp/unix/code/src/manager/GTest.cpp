@@ -20,18 +20,26 @@ void GTest::run(int _argc, char** _argv) {
 	if(lKey == "default") {
 		runTest(_argc, _argv);
 	}
+	// path
 	else if(lKey == "path") {
 		runPath(_argc, _argv);
 	}
+	// format
 	else if(lKey == "format") {
 		runFormat(_argc, _argv);
 	}
+	// xml
 	else if(lKey == "xml") {
 		runXml(_argc, _argv);
 	}
+	// socket
 	else if(lKey == "socket/server") {
 		runSocketServer(_argc, _argv);
 	}
+	else if(lKey == "socket/client") {
+		runSocketClient(_argc, _argv);
+	}
+	// end
 	else {
 		runTest(_argc, _argv);
 	}
@@ -91,5 +99,26 @@ void GTest::runSocketServer(int _argc, char** _argv) {
 	std::string lData;
 	lClient.recvData(lData);
 	printf("[server] : %s\n", lData.c_str());
+
+	lClient.closeSocket();
+	lServer.closeSocket();
+}
+//===============================================
+void GTest::runSocketClient(int _argc, char** _argv) {
+	printf("%s\n", __FUNCTION__);
+	GSocket lClient;
+
+	int lDomain = lClient.loadDomain();
+	int lType = lClient.loadType();
+	int lProtocol = lClient.loadProtocol();
+	int lFamily = lClient.loadFamily();
+	std::string lServerIp = lClient.getSocketItem("server_ip");
+	int lPort = std::stoi(lClient.getSocketItem("port"));
+
+	lClient.createSocket(lDomain, lType, lProtocol);
+	lClient.createAddress(lFamily, lServerIp, lPort);
+	lClient.connectSocket();
+	lClient.sendData("Bonjour tout le monde");
+	lClient.closeSocket();
 }
 //===============================================
