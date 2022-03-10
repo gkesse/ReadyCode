@@ -34,22 +34,14 @@ public:
     void closeSocket();
     void startServerTcp();
     static void* onServerTcp(GSocket* _client);
-    
+    std::string callServerTcp(const std::string& _dataIn);
+
 protected:
     static const int BUFFER_DATA_SIZE = 1024;
     static const int BUFFER_IP_SIZE = 32;
     //
     int m_socket;
     struct sockaddr_in m_address;
-    //
-    std::string m_ip;
-    int m_port;
-    int m_backlog;
-    int m_domain;
-    int m_type;
-    int m_protocol;
-    sa_family_t m_family;
-    int m_familyIp;
 };
 //==============================================
 #endif

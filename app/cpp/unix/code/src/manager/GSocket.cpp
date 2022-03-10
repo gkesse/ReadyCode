@@ -9,15 +9,6 @@
 GSocket::GSocket() : GObject() {
     createDoms();
     //
-    m_ip = "0.0.0.0";
-    m_port = 8585;
-    m_backlog = 5;
-    m_domain = AF_INET;
-    m_type = SOCK_STREAM;
-    m_protocol = IPPROTO_TCP;
-    m_family = AF_INET;
-    m_familyIp = AF_INET;
-    //
     m_socket = -1;
 }
 //===============================================
@@ -212,12 +203,33 @@ void* GSocket::onServerTcp(GSocket* _client) {
 
     std::string lData;
     lClient->readData(lData);
-    printf("[server] : %s\n", lData.c_str());
+    printf("=====>\n");
+    printf("%s\n", lData.c_str());
 
-    lClient->writeData("Ok bien recu");
+    lClient->writeData("<result>ok</result>");
 
     lClient->closeSocket();
     delete lClient;
     return 0;
+}
+//===============================================
+std::string GSocket::callServerTcp(const std::string& _dataIn) {
+    int lDomain = loadDomain();
+    int lType = loadType();
+    int lProtocol = loadProtocol();
+    int lFamily = loadFamily();
+    std::string lServerIp = getSocketItem("server_ip");
+    int lPort = std::stoi(getSocketItem("port"));
+
+    createSocket(lDomain, lType, lProtocol);
+    createAddress(lFamily, lServerIp, lPort);
+    connectSocket();
+
+    std::string lDataOut;
+    writeData(_dataIn);
+    readData(lDataOut);
+
+    closeSocket();
+    return lDataOut;
 }
 //===============================================
