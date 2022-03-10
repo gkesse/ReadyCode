@@ -225,7 +225,7 @@ void GTest::runSocketClientFile(int _argc, char** _argv) {
 //===============================================
 void GTest::runThread(int _argc, char** _argv) {
     printf("%s\n", __FUNCTION__);
-    std::thread lThread(&GTest::onThread, "Bonjour tout le monde");
+    std::thread lThread(onThread, "Bonjour tout le monde");
     lThread.join();
 }
 //===============================================
