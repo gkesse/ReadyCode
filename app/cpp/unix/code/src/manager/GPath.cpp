@@ -20,31 +20,31 @@ GPath* GPath::Instance() {
 }
 //===============================================
 std::string GPath::getDataPath() const {
-	std::string lPath = getenv("GPROJECT_DATA");
-	return lPath;
+    std::string lPath = getenv("GPROJECT_DATA");
+    return lPath;
 }
 //===============================================
 std::string GPath::getResourcePath(const std::string& _res, const std::string& _filename) const {
-	std::string lPath = "";
-	if(getDataPath() != "") {
-		lPath += sformat("%s", getDataPath().c_str());
-	}
-	if(_res != "") {
-		if(lPath != "") {
-			lPath += sformat("/%s", _res.c_str());
-		}
-		else {
-			lPath += sformat("%s", _res.c_str());
-		}
-	}
-	if(_filename != "") {
-		if(lPath != "") {
-			lPath += sformat("/%s", _filename.c_str());
-		}
-		else {
-			lPath += sformat("%s", _filename.c_str());
-		}
-	}
-	return lPath;
+    std::string lPath = "";
+    if(getDataPath() != "") {
+        lPath += sformat("%s", getDataPath().c_str());
+    }
+    if(_res != "") {
+        if(lPath != "") {
+            lPath += sformat("/%s", _res.c_str());
+        }
+        else {
+            lPath += sformat("%s", _res.c_str());
+        }
+    }
+    if(_filename != "") {
+        if(lPath != "") {
+            lPath += sformat("/%s", _filename.c_str());
+        }
+        else {
+            lPath += sformat("%s", _filename.c_str());
+        }
+    }
+    return lPath;
 }
 //===============================================

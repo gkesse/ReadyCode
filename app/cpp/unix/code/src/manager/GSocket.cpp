@@ -7,8 +7,8 @@
 #include "GFormat.h"
 //===============================================
 GSocket::GSocket() : GObject() {
-	createDoms();
-	//
+    createDoms();
+    //
     m_ip = "0.0.0.0";
     m_port = 8585;
     m_backlog = 5;
@@ -26,9 +26,9 @@ GSocket::~GSocket() {
 }
 //===============================================
 void GSocket::createDoms() {
-	m_dom.reset(new GXml);
-	m_dom->loadXmlFile(GRES("xml", "pad.xml"));
-	m_dom->createXPath();
+    m_dom.reset(new GXml);
+    m_dom->loadXmlFile(GRES("xml", "pad.xml"));
+    m_dom->createXPath();
 }
 //===============================================
 std::string GSocket::getSocketItem(const std::string& _data) const {
@@ -39,39 +39,39 @@ std::string GSocket::getSocketItem(const std::string& _data) const {
 }
 //===============================================
 int GSocket::loadDomain() const {
-	std::string lName = getSocketItem("domain");
-	int lDomain = AF_INET;
-	if(lName == "AF_INET") {
-		lDomain = AF_INET;
-	}
-	return lDomain;
+    std::string lName = getSocketItem("domain");
+    int lDomain = AF_INET;
+    if(lName == "AF_INET") {
+        lDomain = AF_INET;
+    }
+    return lDomain;
 }
 //===============================================
 int GSocket::loadType() const {
-	std::string lName = getSocketItem("type");
-	int lType = SOCK_STREAM;
-	if(lName == "SOCK_STREAM") {
-		lType = SOCK_STREAM;
-	}
-	return lType;
+    std::string lName = getSocketItem("type");
+    int lType = SOCK_STREAM;
+    if(lName == "SOCK_STREAM") {
+        lType = SOCK_STREAM;
+    }
+    return lType;
 }
 //===============================================
 int GSocket::loadProtocol() const {
-	std::string lName = getSocketItem("protocol");
-	int lProtocol = IPPROTO_TCP;
-	if(lName == "IPPROTO_TCP") {
-		lProtocol = IPPROTO_TCP;
-	}
-	return lProtocol;
+    std::string lName = getSocketItem("protocol");
+    int lProtocol = IPPROTO_TCP;
+    if(lName == "IPPROTO_TCP") {
+        lProtocol = IPPROTO_TCP;
+    }
+    return lProtocol;
 }
 //===============================================
 int GSocket::loadFamily() const {
-	std::string lName = getSocketItem("family");
-	int lFamily = AF_INET;
-	if(lName == "AF_INET") {
-		lFamily = AF_INET;
-	}
-	return lFamily;
+    std::string lName = getSocketItem("family");
+    int lFamily = AF_INET;
+    if(lName == "AF_INET") {
+        lFamily = AF_INET;
+    }
+    return lFamily;
 }
 //===============================================
 void GSocket::createSocket(int _domain, int _type, int _protocol) {
@@ -128,7 +128,7 @@ int GSocket::recvData(GSocket& _socket, std::string& _data) {
 }
 //===============================================
 int GSocket::readData(std::string& _data) {
-	std::string lBuffer;
+    std::string lBuffer;
     _data.clear();
     while(1) {
         int lBytes = recvData(lBuffer);
@@ -145,14 +145,14 @@ int GSocket::sendData(const std::string& _data) {
 }
 //===============================================
 int GSocket::sendData(GSocket& _socket, const std::string& _data) {
-	int lSize = sizeof(_socket.m_address);
+    int lSize = sizeof(_socket.m_address);
     int lBytes = sendto(m_socket, _data.c_str(), _data.size(), 0, (struct sockaddr*)&_socket.m_address, lSize);
     if(lBytes <= 0) lBytes = 0;
     return lBytes;
 }
 //===============================================
 int GSocket::writeData(const std::string& _data) {
-	std::string lBuffer;
+    std::string lBuffer;
     int lIndex = 0;
     while(1) {
         int lBytes = GString(_data).readData(lBuffer, lIndex, BUFFER_DATA_SIZE);
@@ -164,7 +164,7 @@ int GSocket::writeData(const std::string& _data) {
 }
 //===============================================
 std::string GSocket::readAddressIp() const {
-	char lBuffer[BUFFER_IP_SIZE + 1];
+    char lBuffer[BUFFER_IP_SIZE + 1];
     inet_ntop(m_familyIp, &(m_address.sin_addr), lBuffer, BUFFER_IP_SIZE);
     return lBuffer;
 }

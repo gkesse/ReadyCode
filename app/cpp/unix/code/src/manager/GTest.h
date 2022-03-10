@@ -6,17 +6,17 @@
 //===============================================
 class GTest : public GObject {
 public:
-	GTest();
-	~GTest();
-	void run(int _argc, char** _argv);
-	void runTest(int _argc, char** _argv);
-	void runString(int _argc, char** _argv);
-	void runPath(int _argc, char** _argv);
-	void runFormat(int _argc, char** _argv);
-	void runXml(int _argc, char** _argv);
-	std::string getPadItem(const std::string& _data) const;
-	void runSocketServer(int _argc, char** _argv);
-	void runSocketClient(int _argc, char** _argv);
+    GTest();
+    ~GTest();
+    void run(int _argc, char** _argv);
+    void runTest(int _argc, char** _argv);
+    void runString(int _argc, char** _argv);
+    void runPath(int _argc, char** _argv);
+    void runFormat(int _argc, char** _argv);
+    void runXml(int _argc, char** _argv);
+    std::string getPadItem(const std::string& _data) const;
+    void runSocketServer(int _argc, char** _argv);
+    void runSocketClient(int _argc, char** _argv);
 };
 //===============================================
 #endif

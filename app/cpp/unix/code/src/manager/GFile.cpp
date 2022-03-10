@@ -14,9 +14,9 @@ GFile::~GFile() {
 }
 //===============================================
 std::string GFile::getData() const {
-	std::ifstream lFile(m_filename);
-	std::stringstream lBuffer;
-	lBuffer << lFile.rdbuf();
-	return lBuffer.str();
+    std::ifstream lFile(m_filename);
+    std::stringstream lBuffer;
+    lBuffer << lFile.rdbuf();
+    return lBuffer.str();
 }
 //===============================================

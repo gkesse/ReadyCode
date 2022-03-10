@@ -34,7 +34,7 @@ int GString::getSize() const {
 }
 //===============================================
 void GString::addData(const std::string& _data) {
-	m_data += _data;
+    m_data += _data;
 }
 //===============================================
 void GString::clearData() {
@@ -42,7 +42,7 @@ void GString::clearData() {
 }
 //===============================================
 int GString::readData(std::string& _data, int _index, int _size) const {
-	_data.clear();
+    _data.clear();
     if(_index >= _size) return 0;
     _data = m_data.substr(_index, _size);
     return _data.size();
@@ -53,7 +53,7 @@ void GString::printData() const {
 }
 //===============================================
 std::ostream& operator<<(std::ostream& _os, const GString& _data) {
-	_data.printData();
+    _data.printData();
     return _os;
 }
 //===============================================

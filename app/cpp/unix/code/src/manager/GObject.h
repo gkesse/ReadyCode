@@ -8,11 +8,11 @@ class GXml;
 //===============================================
 class GObject {
 public:
-	GObject();
-	~GObject();
+    GObject();
+    ~GObject();
 
 protected:
-	std::shared_ptr<GXml> m_dom;
+    std::shared_ptr<GXml> m_dom;
 };
 //===============================================
 #endif

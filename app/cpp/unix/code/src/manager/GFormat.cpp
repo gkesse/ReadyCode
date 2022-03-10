@@ -12,17 +12,17 @@ GFormat::~GFormat() {
 }
 //===============================================
 GFormat* GFormat::Instance() {
-	if(m_instance == 0) {
-		m_instance = new GFormat;
-	}
-	return m_instance;
+    if(m_instance == 0) {
+        m_instance = new GFormat;
+    }
+    return m_instance;
 }
 //===============================================
 std::string GFormat::getFormat(const char* _format, ...) {
-	va_list lArgs;
-	va_start (lArgs, _format);
-	vsprintf(m_buffer, _format, lArgs);
-	va_end (lArgs);
-	return m_buffer;
+    va_list lArgs;
+    va_start (lArgs, _format);
+    vsprintf(m_buffer, _format, lArgs);
+    va_end (lArgs);
+    return m_buffer;
 }
 //===============================================
