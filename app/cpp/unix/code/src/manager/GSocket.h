@@ -16,6 +16,7 @@ public:
     int loadType() const;
     int loadProtocol() const;
     int loadFamily() const;
+    int loadFamilyIp() const;
     //
     void createSocket(int _domain, int _type, int _protocol);
     void createAddress(int _family, std::string _ip, int _port);
@@ -30,7 +31,7 @@ public:
     int sendData(const std::string& _data);
     int sendData(GSocket& _socket, const std::string& _data);
     int writeData(const std::string& _data);
-    std::string readAddressIp() const;
+    std::string readAddressIp(int _familyIp) const;
     void closeSocket();
     void startServerTcp();
     static void* onServerTcp(GSocket* _client);

@@ -65,6 +65,15 @@ int GSocket::loadFamily() const {
     return lFamily;
 }
 //===============================================
+int GSocket::loadFamilyIp() const {
+    std::string lName = getSocketItem("family_ip");
+    int lFamilyIp = AF_INET;
+    if(lName == "AF_INET") {
+        lFamilyIp = AF_INET;
+    }
+    return lFamilyIp;
+}
+//===============================================
 void GSocket::createSocket(int _domain, int _type, int _protocol) {
     m_socket = socket(_domain, _type, _protocol);
 }
@@ -161,9 +170,9 @@ int GSocket::writeData(const std::string& _data) {
     return lIndex;
 }
 //===============================================
-std::string GSocket::readAddressIp() const {
+std::string GSocket::readAddressIp(int _familyIp) const {
     char lBuffer[BUFFER_IP_SIZE + 1];
-    inet_ntop(m_familyIp, &(m_address.sin_addr), lBuffer, BUFFER_IP_SIZE);
+    inet_ntop(_familyIp, &(m_address.sin_addr), lBuffer, BUFFER_IP_SIZE);
     return lBuffer;
 }
 //===============================================
