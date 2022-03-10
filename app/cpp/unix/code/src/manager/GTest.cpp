@@ -50,6 +50,10 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "socket/client/file") {
         runSocketClientFile(_argc, _argv);
     }
+    // thread
+    else if(lKey == "thread") {
+        runThread(_argc, _argv);
+    }
     // end
     else {
         runTest(_argc, _argv);
@@ -217,5 +221,18 @@ void GTest::runSocketClientFile(int _argc, char** _argv) {
     lClient.readData(lData);
     printf("[client] : %s\n", lData.c_str());
     lClient.closeSocket();
+}
+//===============================================
+void GTest::runThread(int _argc, char** _argv) {
+    printf("%s\n", __FUNCTION__);
+    std::thread lThread(onThread, "Bonjour tout le monde");
+    lThread.join();
+}
+//===============================================
+void GTest::onThread(const std::string& _message) {
+    printf("%s\n", __FUNCTION__);
+    for(int i = 0; i < 10; i++) {
+        printf("%s\n", _message.c_str());
+    }
 }
 //===============================================
