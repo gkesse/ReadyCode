@@ -201,7 +201,7 @@ void GSocket::startServerTcp() {
     while(1) {
         GSocket* lClient = new GSocket;
         acceptSocket(*lClient);
-        lThread.createThread(onServerTcp, lClient);
+        lThread.createThread((void*)onServerTcp, lClient);
     }
 
     closeSocket();
