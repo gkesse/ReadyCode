@@ -186,7 +186,7 @@ void GTest::runSocketServerFile(int _argc, char** _argv) {
     lClient.readData(lData);
     printf("[server] : %s\n", lData.c_str());
 
-    lClient.sendData("Ok bien recu");
+    lClient.writeData("Ok bien recu");
 
     lClient.closeSocket();
     lServer.closeSocket();
@@ -207,7 +207,7 @@ void GTest::runSocketClientFile(int _argc, char** _argv) {
     std::string lData = GFile(lFilename).getData();
     lClient.writeData(lData);
 
-    lClient.recvData(lData);
+    lClient.readData(lData);
     printf("[client] : %s\n", lData.c_str());
     lClient.closeSocket();
 }
