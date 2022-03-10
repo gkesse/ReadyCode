@@ -99,6 +99,9 @@ void GTest::runSocketServer(int _argc, char** _argv) {
 	std::string lData;
 	lClient.recvData(lData);
 	printf("[server] : %s\n", lData.c_str());
+	lClient.recvData(lData);
+	printf("[server] : %s\n", lData.c_str());
+	lClient.sendData("Ok bien recu");
 
 	lClient.closeSocket();
 	lServer.closeSocket();
@@ -119,6 +122,10 @@ void GTest::runSocketClient(int _argc, char** _argv) {
 	lClient.createAddress(lFamily, lServerIp, lPort);
 	lClient.connectSocket();
 	lClient.sendData("Bonjour tout le monde");
+	lClient.sendData("Voici mon premier test");
+	std::string lData;
+	lClient.recvData(lData);
+	printf("[client] : %s\n", lData.c_str());
 	lClient.closeSocket();
 }
 //===============================================
