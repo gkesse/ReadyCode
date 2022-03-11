@@ -25,6 +25,7 @@ public:
     void connectSocket();
     void startMessage();
     void acceptSocket(GSocket& _socket);
+    void acceptSocket(GSocket* _socket);
     int recvData(std::string& _data);
     int recvData(GSocket& _socket, std::string& _data);
     int readData(std::string& _data);

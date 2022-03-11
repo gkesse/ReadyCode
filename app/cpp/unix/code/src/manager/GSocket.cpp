@@ -107,6 +107,11 @@ void GSocket::acceptSocket(GSocket& _socket) {
     _socket.m_socket = accept(m_socket, (struct sockaddr*)&_socket.m_address, (socklen_t*)&lSize);
 }
 //===============================================
+void GSocket::acceptSocket(GSocket* _socket) {
+    int lSize = sizeof(_socket->m_address);
+    _socket->m_socket = accept(m_socket, (struct sockaddr*)&_socket->m_address, (socklen_t*)&lSize);
+}
+//===============================================
 int GSocket::recvData(std::string& _data) {
     char lBuffer[BUFFER_DATA_SIZE + 1];
     _data.clear();
@@ -201,7 +206,7 @@ void GSocket::startServerTcp() {
 
     while(1) {
         GSocket* lClient = new GSocket;
-        acceptSocket(*lClient);
+        acceptSocket(lClient);
         lThread.createThread((void*)onServerTcp, lClient);
     }
 
