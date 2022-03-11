@@ -113,6 +113,7 @@ void GSocket::acceptSocket(GSocket* _socket) {
 }
 //===============================================
 int GSocket::recvData(std::string& _data) {
+    printf("%s\n", __FUNCTION__);
     char lBuffer[BUFFER_DATA_SIZE + 1];
     _data.clear();
     int lBytes = read(m_socket, lBuffer, BUFFER_DATA_SIZE);
@@ -150,6 +151,7 @@ int GSocket::readData(std::string& _data) {
 }
 //===============================================
 int GSocket::sendData(const std::string& _data) {
+    printf("%s\n", __FUNCTION__);
     int lBytes = write(m_socket, _data.c_str(), _data.size());
     if(lBytes <= 0) lBytes = 0;
     printf("=====>\n");
