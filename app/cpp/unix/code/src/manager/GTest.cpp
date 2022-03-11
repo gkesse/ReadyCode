@@ -253,6 +253,7 @@ void GTest::runThread(int _argc, char** _argv) {
     printf("%s\n", __FUNCTION__);
     GThread lThread;
     lThread.createThread((void*)onThread, (void*)"Bonjour tout le monde");
+    pause();
 }
 //===============================================
 void* GTest::onThread(void* _params) {
