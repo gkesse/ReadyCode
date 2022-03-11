@@ -105,9 +105,14 @@ void GTest::runIntString(int _argc, char** _argv) {
     char lBuffer[BUFFER_SIZE + 1];
 
     sprintf(lBuffer, "%*d", BUFFER_SIZE, lInt);
+    std::string lString = lBuffer;
+    int lNumber = std::stoi(lString);
+    int lSize = lString.size();
 
     printf("int.....: [%d]\n", lInt);
     printf("string..: [%s]\n", lBuffer);
+    printf("number..: [%d]\n", lNumber);
+    printf("size....: [%d]\n", lSize);
 }
 //===============================================
 void GTest::runString(int _argc, char** _argv) {

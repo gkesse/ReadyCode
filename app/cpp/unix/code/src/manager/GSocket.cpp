@@ -163,7 +163,7 @@ void GSocket::acceptSocket(GSocket* _socket) {
 //===============================================
 int GSocket::recvData(std::string& _data) {
     _data.clear();
-    if(GLOGI->hasError()) return 0;
+    if(GLOGI->hasError()) return -1;
 
     char lBuffer[BUFFER_DATA_SIZE + 1];
     int lBytes = read(m_socket, lBuffer, BUFFER_DATA_SIZE);
@@ -180,7 +180,7 @@ int GSocket::recvData(std::string& _data) {
 //===============================================
 int GSocket::recvData(GSocket& _socket, std::string& _data) {
     _data.clear();
-    if(GLOGI->hasError()) return 0;
+    if(GLOGI->hasError()) return -1;
 
     char lBuffer[BUFFER_DATA_SIZE + 1];
     int lSize = sizeof(_socket.m_address);
@@ -221,7 +221,7 @@ int GSocket::readData(std::string& _data) {
 }
 //===============================================
 int GSocket::sendData(const std::string& _data) {
-    if(GLOGI->hasError()) return 0;
+    if(GLOGI->hasError()) return -1;
 
     int lBytes = write(m_socket, _data.c_str(), _data.size());
     if(lBytes == -1) {
@@ -234,7 +234,7 @@ int GSocket::sendData(const std::string& _data) {
 }
 //===============================================
 int GSocket::sendData(GSocket& _socket, const std::string& _data) {
-    if(GLOGI->hasError()) return 0;
+    if(GLOGI->hasError()) return -1;
 
     int lSize = sizeof(_socket.m_address);
     int lBytes = sendto(m_socket, _data.c_str(), _data.size(), 0, (struct sockaddr*)&_socket.m_address, lSize);
