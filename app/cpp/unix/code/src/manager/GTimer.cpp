@@ -16,8 +16,7 @@ void GTimer::setCallback(void* _onTimer, int _ms) {
     m_sigaction.sa_handler = (GSIGNAL_CB)_onTimer;
     sigemptyset(&m_sigaction.sa_mask);
     m_sigaction.sa_flags = 0;
-    sigaction(SIGALRM, &m_sigaction, NULL);
-    if (sigaction(SIGALRM, &sa, NULL) == -1) {
+    if (sigaction(SIGALRM, &m_sigaction, NULL) == -1) {
         GLOG("Erreur la methode (GTimer::setCallbac) a echoue (2).");
         return;
     }
