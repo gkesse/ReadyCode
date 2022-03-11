@@ -157,10 +157,12 @@ void GTest::runSocketServer(int _argc, char** _argv) {
 
     std::string lData;
     lClient.recvData(lData);
-    printf("[server] : %s\n", lData.c_str());
+    printf("=====>\n");
+    printf("%s\n", lData.c_str());
     lClient.recvData(lData);
-    printf("[server] : %s\n", lData.c_str());
-    lClient.sendData("Ok bien recu");
+    printf("=====>\n");
+    printf("%s\n", lData.c_str());
+    lClient.sendData("<result>ok</result>");
 
     lClient.closeSocket();
     lServer.closeSocket();
@@ -186,7 +188,8 @@ void GTest::runSocketClient(int _argc, char** _argv) {
 
     std::string lData;
     lClient.recvData(lData);
-    printf("[client] : %s\n", lData.c_str());
+    printf("=====>\n");
+    printf("%s\n", lData.c_str());
 
     lClient.closeSocket();
 }
@@ -218,7 +221,7 @@ void GTest::runSocketServerFile(int _argc, char** _argv) {
     printf("=====>\n");
     printf("%s\n", lData.c_str());
 
-    lClient.writeData("Ok bien recu");
+    lClient.writeData("<result>ok</result>");
 
     lClient.closeSocket();
     lServer.closeSocket();
