@@ -198,7 +198,7 @@ int GSocket::recvData(GSocket& _socket, std::string& _data) {
 //===============================================
 int GSocket::readData(std::string& _data) {
     _data.clear();
-    if(GLOGI->hasError()) return 0;
+    if(GLOGI->hasError()) return -1;
 
     std::string lBuffer;
     recvData(lBuffer);
@@ -248,7 +248,7 @@ int GSocket::sendData(GSocket& _socket, const std::string& _data) {
 }
 //===============================================
 int GSocket::writeData(const std::string& _data) {
-    if(GLOGI->hasError()) return 0;
+    if(GLOGI->hasError()) return -1;
 
     int lBytes = 0;
     int lLength = _data.size();
@@ -259,7 +259,7 @@ int GSocket::writeData(const std::string& _data) {
     for(int i = 0; i < lSize; i++) {
         std::string lBuffer = _data.substr(lBytes, BUFFER_DATA_SIZE);
         int iBytes = sendData(lBuffer);
-        if(iBytes <= 0) {
+        if(iBytes == -1) {
             GLOG("Erreur la methode (GSocket::sendData) a echoue\n"
                     "- erreur....: (%s).\n"
                     "- bytes.....: (%d).\n"

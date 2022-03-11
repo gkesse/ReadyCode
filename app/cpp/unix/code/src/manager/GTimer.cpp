@@ -13,11 +13,13 @@ GTimer::~GTimer() {
 //===============================================
 void GTimer::setCallback(void* _onTimer, int _ms) {
     if(GLOGI->hasError()) return;
+
     m_sigaction.sa_handler = (GSIGNAL_CB)_onTimer;
     sigemptyset(&m_sigaction.sa_mask);
     m_sigaction.sa_flags = 0;
     if (sigaction(SIGALRM, &m_sigaction, NULL) == -1) {
-        GLOG("Erreur la methode (GTimer::setCallbac) a echoue (2).");
+        GLOG("Erreur la methode (GTimer::setCallback) a echoue (1)\n"
+                "- ms.....: (%d).", _ms);
         return;
     }
     //
@@ -27,13 +29,15 @@ void GTimer::setCallback(void* _onTimer, int _ms) {
     m_timer.it_value.tv_usec = 0;
 
     if (setitimer(ITIMER_REAL, &m_timer, NULL) == -1) {
-        GLOG("Erreur la methode (GTimer::setCallbac) a echoue (2).");
+        GLOG("Erreur la methode (GTimer::setCallback) a echoue (2)\n"
+                "- ms.....: (%d).", _ms);
         return;
     }
 }
 //===============================================
 void GTimer::onTimer(int _signo) {
     if(GLOGI->hasError()) return;
+
     printf("=====>\n");
     printf("timer du programme...\n");
 }
