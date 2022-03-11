@@ -4,7 +4,7 @@
 //===============================================
 #include "GObject.h"
 //===============================================
-#define GLOG GLog::Instance()
+#define GLOGI GLog::Instance()
 //===============================================
 class GLog : public GObject {
 	Q_OBJECT

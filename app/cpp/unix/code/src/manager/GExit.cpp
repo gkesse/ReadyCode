@@ -15,6 +15,6 @@ void GExit::setCallback(void* _onExit) {
 //===============================================
 void GExit::onExit() {
     printf("=====>\n");
-    printf("fin du programme...\n");
+    printf("sortie du programme...\n");
 }
 //===============================================

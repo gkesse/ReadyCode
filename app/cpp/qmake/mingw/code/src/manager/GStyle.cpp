@@ -23,7 +23,7 @@ GStyle* GStyle::Instance() {
 void GStyle::loadStyle(const QString& _filename) {
     QFile lFile(_filename);
     if(!lFile.open(QFile::ReadOnly)) {
-        GLOG->addError(QString("Erreur la methode (loadStyle) a echoue "
+        GLOGI->addError(QString("Erreur la methode (loadStyle) a echoue "
                 "sur le fichier (%1).").arg(_filename));
         return;
     }

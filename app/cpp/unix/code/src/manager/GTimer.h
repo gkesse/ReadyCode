@@ -1,22 +1,23 @@
 //===============================================
-#ifndef _GInterrupt_
-#define _GInterrupt_
+#ifndef _GTimer_
+#define _GTimer_
 //===============================================
 #include "GObject.h"
 //===============================================
-class GInterrupt : public GObject {
+class GTimer : public GObject {
 public:
     typedef void (*GSIGNAL_CB)(int _signo);
 
 public:
-    GInterrupt();
-    ~GInterrupt();
-    void setCallback(void* _onInterrupt);
+    GTimer();
+    ~GTimer();
+    void setCallback(void* _onTimer, int _ms);
     //
-    static void onInterrupt(int _signo);
+    static void onTimer(int _signo);
 
 private:
     struct sigaction m_sigaction;
+    struct itimerval m_timer;
 };
 //==============================================
 #endif

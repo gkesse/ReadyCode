@@ -103,9 +103,9 @@ void GPad::createPad() {
 			lItemLayout = lHeaderLayout;
 		}
 		else {
-	        GLOG->addError(QString("Erreur la methode (createPad) a echoue\n"
+	        GLOGI->addError(QString("Erreur la methode (createPad) a echoue\n"
 	                "sur la categorie (%1).").arg(lCategory));
-	        GLOG->showError(this);
+	        GLOGI->showError(this);
 	        continue;
 	    }
 
@@ -211,9 +211,9 @@ QDialog* GPad::createLogin(QWidget* _parent) {
 			lItemLayout = lAccountLayout;
 		}
 		else {
-	        GLOG->addError(QString("Erreur la methode (createLogin) a echoue\n"
+	        GLOGI->addError(QString("Erreur la methode (createLogin) a echoue\n"
 	                "sur la categorie (%1).").arg(lCategory));
-	        GLOG->showError(this);
+	        GLOGI->showError(this);
 	        continue;
 	    }
 
@@ -406,10 +406,10 @@ void GPad::onEvent() {
     }
     // end
     else {
-    	GLOG->addError(QString("Erreur la methode (onEvent) a échoué\n"
+    	GLOGI->addError(QString("Erreur la methode (onEvent) a échoué\n"
     			"sur la clé (%1)").arg(lKey));
     }
-    GLOG->showError(this);
+    GLOGI->showError(this);
 }
 //===============================================
 void GPad::onEvent(const QString& _text) {

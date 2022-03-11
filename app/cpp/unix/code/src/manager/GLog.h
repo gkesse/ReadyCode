@@ -4,7 +4,8 @@
 //===============================================
 #include "GObject.h"
 //===============================================
-#define GLOG GLog::Instance()
+#define GLOGI GLog::Instance()
+#define GLOG(...) GLOGI->addError(sformat(__VA_ARGS__))
 //===============================================
 class GLog : public GObject {
 public:

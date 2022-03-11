@@ -8,7 +8,7 @@ int main(int _argc, char** _argv) {
     lXml->initModule();
     std::shared_ptr<GProcess> lProcess(new GProcess);
     lProcess->run(_argc, _argv);
-    GLOG->showError();
+    GLOGI->showError();
     lXml->cleanModule();
     return 0;
 }

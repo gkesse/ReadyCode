@@ -8,6 +8,7 @@
 #include "GThread.h"
 #include "GExit.h"
 #include "GInterrupt.h"
+#include "GTimer.h"
 //===============================================
 GTest::GTest() : GObject() {
 
@@ -70,6 +71,10 @@ void GTest::run(int _argc, char** _argv) {
     // interrupt
     else if(lKey == "interrupt") {
         runInterrupt(_argc, _argv);
+    }
+    // timer
+    else if(lKey == "timer") {
+        runTimer(_argc, _argv);
     }
     // end
     else {
@@ -286,6 +291,13 @@ void GTest::runInterrupt(int _argc, char** _argv) {
     printf("%s\n", __FUNCTION__);
     GInterrupt lInterrupt;
     lInterrupt.setCallback((void*)GInterrupt::onInterrupt);
+    pause();
+}
+//===============================================
+void GTest::runTimer(int _argc, char** _argv) {
+    printf("%s\n", __FUNCTION__);
+    GTimer lTimer;
+    lTimer.setCallback((void*)GTimer::onTimer, 1000);
     pause();
 }
 //===============================================
