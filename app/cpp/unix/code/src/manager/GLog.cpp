@@ -26,8 +26,8 @@ void GLog::showError() {
     if(!hasError()) return;
     std::string lErrors = "";
     for(int i = 0; i < m_errors.size(); i++) {
-        if(i != 0) lErrors += "\n";
         lErrors += m_errors.at(i);
+        lErrors += "\n";
     }
     printf("%s", lErrors.c_str());
     m_errors.clear();
