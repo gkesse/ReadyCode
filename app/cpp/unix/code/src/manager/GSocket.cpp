@@ -213,13 +213,13 @@ void* GSocket::onServerTcp(GSocket* _client) {
 
     std::string lData;
     lClient->readData(lData);
+    lClient->writeData("<result>ok</result>");
+    lClient->closeSocket();
+    delete lClient;
+
     printf("=====>\n");
     printf("%s\n", lData.c_str());
 
-    lClient->writeData("<result>ok</result>");
-
-    lClient->closeSocket();
-    delete lClient;
     return 0;
 }
 //===============================================
@@ -238,8 +238,8 @@ std::string GSocket::callServerTcp(const std::string& _dataIn) {
     std::string lDataOut;
     writeData(_dataIn);
     readData(lDataOut);
-
     closeSocket();
+
     return lDataOut;
 }
 //===============================================
