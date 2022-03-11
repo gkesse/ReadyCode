@@ -136,6 +136,8 @@ int GSocket::recvData(GSocket& _socket, std::string& _data) {
 int GSocket::readData(std::string& _data) {
     std::string lBuffer;
     recvData(lBuffer);
+    printf("=====>\n");
+    printf("%s\n", lBuffer.c_str());
     int lSize = std::stoi(lBuffer);
     int lBytes = 0;
     _data.clear();
