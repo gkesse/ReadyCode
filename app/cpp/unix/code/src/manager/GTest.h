@@ -24,6 +24,7 @@ public:
     void runThread(int _argc, char** _argv);
     static void* onThread(void* _params);
     void runExit(int _argc, char** _argv);
+    void runInterrupt(int _argc, char** _argv);
 };
 //===============================================
 #endif

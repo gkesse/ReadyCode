@@ -7,6 +7,7 @@
 #include "GFile.h"
 #include "GThread.h"
 #include "GExit.h"
+#include "GInterrupt.h"
 //===============================================
 GTest::GTest() : GObject() {
 
@@ -65,6 +66,10 @@ void GTest::run(int _argc, char** _argv) {
     // exit
     else if(lKey == "exit") {
         runExit(_argc, _argv);
+    }
+    // interrupt
+    else if(lKey == "interrupt") {
+        runInterrupt(_argc, _argv);
     }
     // end
     else {
@@ -275,5 +280,12 @@ void GTest::runExit(int _argc, char** _argv) {
     GExit lExit;
     lExit.setCallback((void*)GExit::onExit);
     exit(0);
+}
+//===============================================
+void GTest::runInterrupt(int _argc, char** _argv) {
+    printf("%s\n", __FUNCTION__);
+    GInterrupt lInterrupt;
+    lInterrupt.setCallback((void*)GInterrupt::onInterrupt);
+    pause();
 }
 //===============================================
