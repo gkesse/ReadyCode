@@ -147,7 +147,7 @@ int GSocket::readData(std::string& _data) {
         int iBytes = recvData(lBuffer);
         _data += lBuffer;
         lBytes += iBytes;
-        printf("=> %d : %d\n", iBytes, lBuffer.size());
+        printf("=> %d : %d\n", iBytes, (int)lBuffer.size());
     }
     return lBytes;
 }
