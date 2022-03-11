@@ -20,7 +20,7 @@ public:
     void runSocketServerFile(int _argc, char** _argv);
     void runSocketClientFile(int _argc, char** _argv);
     void runSocketServerStart(int _argc, char** _argv);
-    void runSocketServerCall(int _argc, char** _argv);
+    void runSocketClientStart(int _argc, char** _argv);
     void runThread(int _argc, char** _argv);
     static void* onThread(void* _params);
     void runExit(int _argc, char** _argv);

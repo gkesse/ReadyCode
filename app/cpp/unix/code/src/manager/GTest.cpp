@@ -57,8 +57,8 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "socket/server/start") {
         runSocketServerStart(_argc, _argv);
     }
-    else if(lKey == "socket/server/call") {
-        runSocketServerCall(_argc, _argv);
+    else if(lKey == "socket/client/start") {
+        runSocketClientStart(_argc, _argv);
     }
     // thread
     else if(lKey == "thread") {
@@ -260,7 +260,7 @@ void GTest::runSocketServerStart(int _argc, char** _argv) {
     lServer.startServerTcp();
 }
 //===============================================
-void GTest::runSocketServerCall(int _argc, char** _argv) {
+void GTest::runSocketClientStart(int _argc, char** _argv) {
     printf("%s\n", __FUNCTION__);
 
     std::string lFilename = GRES("file", "test.txt");
