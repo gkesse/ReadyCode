@@ -153,7 +153,7 @@ void GSocket::acceptSocket(GSocket& _socket) {
 
     int lSize = sizeof(_socket.m_address);
     _socket.m_socket = accept(m_socket, (struct sockaddr*)&_socket.m_address, (socklen_t*)&lSize);
-    if(socket->m_socket == -1) {
+    if(_socket.m_socket == -1) {
         GLOG("Erreur la methode (GSocket::acceptSocket) a echoue\n"
                 "- erreur...: (%s).", errno);
         return;
@@ -165,7 +165,7 @@ void GSocket::acceptSocket(GSocket* _socket) {
 
     int lSize = sizeof(_socket->m_address);
     _socket->m_socket = accept(m_socket, (struct sockaddr*)&_socket->m_address, (socklen_t*)&lSize);
-    if(socket->m_socket == -1) {
+    if(_socket->m_socket == -1) {
         GLOG("Erreur la methode (GSocket::acceptSocket) a echoue\n"
                 "- erreur...: (%s).", errno);
         return;
@@ -285,7 +285,7 @@ std::string GSocket::readAddressIp(int _familyIp) const {
     if(GLOGI->hasError()) return "";
 
     char lBuffer[BUFFER_IP_SIZE + 1];
-    char* lAns = inet_ntop(_familyIp, &(m_address.sin_addr), lBuffer, BUFFER_IP_SIZE);
+    const char* lAns = inet_ntop(_familyIp, &(m_address.sin_addr), lBuffer, BUFFER_IP_SIZE);
     if(!lAns) {
         GLOG("Erreur la methode (GSocket::readAddressIp) a echoue\n"
                 "- erreur........: (%s).\n"
