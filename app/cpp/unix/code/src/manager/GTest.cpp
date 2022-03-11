@@ -25,6 +25,10 @@ void GTest::run(int _argc, char** _argv) {
     if(lKey == "default") {
         runTest(_argc, _argv);
     }
+    // int
+    else if(lKey == "int/string") {
+        runIntString(_argc, _argv);
+    }
     // string
     else if(lKey == "string") {
         runString(_argc, _argv);
@@ -84,6 +88,26 @@ void GTest::run(int _argc, char** _argv) {
 //===============================================
 void GTest::runTest(int _argc, char** _argv) {
     printf("%s\n", __FUNCTION__);
+    int lInt = 123;
+    const int BUFFER_SIZE = 10;
+    char lBuffer[BUFFER_SIZE + 1];
+
+    sprintf(lBuffer, "%*d", BUFFER_SIZE, lInt);
+
+    printf("int.....: [%d]\n", lInt);
+    printf("string..: [%s]\n", lBuffer);
+}
+//===============================================
+void GTest::runIntString(int _argc, char** _argv) {
+    printf("%s\n", __FUNCTION__);
+    int lInt = 123;
+    const int BUFFER_SIZE = 10;
+    char lBuffer[BUFFER_SIZE + 1];
+
+    sprintf(lBuffer, "%*d", BUFFER_SIZE, lInt);
+
+    printf("int.....: [%d]\n", lInt);
+    printf("string..: [%s]\n", lBuffer);
 }
 //===============================================
 void GTest::runString(int _argc, char** _argv) {

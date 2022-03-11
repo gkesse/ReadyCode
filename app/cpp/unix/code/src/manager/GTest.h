@@ -10,6 +10,7 @@ public:
     ~GTest();
     void run(int _argc, char** _argv);
     void runTest(int _argc, char** _argv);
+    void runIntString(int _argc, char** _argv);
     void runString(int _argc, char** _argv);
     void runPath(int _argc, char** _argv);
     void runFormat(int _argc, char** _argv);
