@@ -141,6 +141,7 @@ int GSocket::readData(std::string& _data) {
     int lSize = std::stoi(lBuffer);
     int lBytes = 0;
     _data.clear();
+    printf("=> %d\n", lSize);
 
     for(int i = 0; i < lSize; i++) {
         lBytes += recvData(lBuffer);
@@ -168,6 +169,7 @@ int GSocket::writeData(const std::string& _data) {
     int lIndex = 0;
     int lLength = _data.size();
     int lSize = (int)ceil((double)lLength/BUFFER_DATA_SIZE);
+    printf("=> %d\n", lSize);
 
     sendData(std::to_string(lSize));
 
