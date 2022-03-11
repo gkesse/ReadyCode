@@ -298,6 +298,8 @@ void GTest::runTimer(int _argc, char** _argv) {
     printf("%s\n", __FUNCTION__);
     GTimer lTimer;
     lTimer.setCallback((void*)GTimer::onTimer, 1000);
-    pause();
+    while(1) {
+        pause();
+    }
 }
 //===============================================
