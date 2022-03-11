@@ -110,7 +110,7 @@ void GSocket::acceptSocket(GSocket& _socket) {
 int GSocket::recvData(std::string& _data) {
     char lBuffer[BUFFER_DATA_SIZE + 1];
     _data.clear();
-    int lBytes = read(m_socket, lBuffer, BUFFER_DATA_SIZE);
+    int lBytes = recv(m_socket, lBuffer, BUFFER_DATA_SIZE, 0);
     if(lBytes <= 0) lBytes = 0;
     lBuffer[lBytes] = 0;
     _data = lBuffer;
