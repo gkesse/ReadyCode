@@ -232,10 +232,6 @@ void* GSocket::onServerTcp(GSocket* _client) {
     lClient->writeData("<result>ok</result>");
     lClient->closeSocket();
     delete lClient;
-
-    printf("=====>\n");
-    printf("%s\n", lData.c_str());
-
     return 0;
 }
 //===============================================
