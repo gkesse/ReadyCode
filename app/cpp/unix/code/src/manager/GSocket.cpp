@@ -98,6 +98,7 @@ void GSocket::connectSocket() {
 }
 //===============================================
 void GSocket::startMessage() {
+    printf("=====>\n");
     printf("demarrage du serveur...\n");
 }
 //===============================================

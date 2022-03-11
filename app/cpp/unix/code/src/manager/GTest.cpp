@@ -6,6 +6,7 @@
 #include "GSocket.h"
 #include "GFile.h"
 #include "GThread.h"
+#include "GExit.h"
 //===============================================
 GTest::GTest() : GObject() {
 
@@ -60,6 +61,10 @@ void GTest::run(int _argc, char** _argv) {
     // thread
     else if(lKey == "thread") {
         runThread(_argc, _argv);
+    }
+    // exit
+    else if(lKey == "exit") {
+        runExit(_argc, _argv);
     }
     // end
     else {
@@ -263,5 +268,12 @@ void* GTest::onThread(void* _params) {
         printf("%s\n", lMessage.c_str());
     }
     return 0;
+}
+//===============================================
+void GTest::runExit(int _argc, char** _argv) {
+    printf("%s\n", __FUNCTION__);
+    GExit lExit;
+    lExit.setCallback((void*)GExit::onExit);
+    exit(0);
 }
 //===============================================

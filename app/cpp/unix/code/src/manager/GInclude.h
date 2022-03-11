@@ -12,8 +12,8 @@
 #include <fstream>
 #include <sstream>
 #include <cmath>
-#include <thread>
 #include <pthread.h>
+#include <signal.h>
 #include <strings.h>
 #include <unistd.h>
 #include <sys/socket.h>

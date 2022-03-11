@@ -1,19 +1,19 @@
 //===============================================
-#ifndef _GFile_
-#define _GFile_
+#ifndef _GExit_
+#define _GExit_
 //===============================================
 #include "GObject.h"
 //===============================================
-class GFile : public GObject {
+class GExit : public GObject {
 public:
-    GFile();
-    GFile(const std::string& _filename);
-    ~GFile();
-    //
-    std::string getData() const;
+    typedef void (*GEXIT_CB)();
 
-private:
-    std::string m_filename;
+public:
+    GExit();
+    ~GExit();
+    void setCallback(void* _onExit);
+    //
+    static void onExit();
 };
 //==============================================
 #endif
