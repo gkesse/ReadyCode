@@ -5,6 +5,7 @@
 #include "GFormat.h"
 #include "GSocket.h"
 #include "GFile.h"
+#include "GThread.h"
 //===============================================
 GTest::GTest() : GObject() {
 
@@ -250,14 +251,16 @@ void GTest::runSocketServerCall(int _argc, char** _argv) {
 //===============================================
 void GTest::runThread(int _argc, char** _argv) {
     printf("%s\n", __FUNCTION__);
-    std::thread lThread(onThread, "Bonjour tout le monde");
-    lThread.join();
+    GThread lThread;
+    lThread.createThread((void*)onThread, "Bonjour tout le monde");
 }
 //===============================================
-void GTest::onThread(const std::string& _message) {
+void* GTest::onThread(void* _params) {
+    std::string lMessage = (char*)_params;
     printf("%s\n", __FUNCTION__);
     for(int i = 0; i < 10; i++) {
-        printf("%s\n", _message.c_str());
+        printf("%s\n", lMessage.c_str());
     }
+    return 0;
 }
 //===============================================

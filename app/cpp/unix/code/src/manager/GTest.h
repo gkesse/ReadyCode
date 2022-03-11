@@ -22,7 +22,7 @@ public:
     void runSocketServerStart(int _argc, char** _argv);
     void runSocketServerCall(int _argc, char** _argv);
     void runThread(int _argc, char** _argv);
-    static void onThread(const std::string& _message);
+    static void* onThread(void* _params);
 };
 //===============================================
 #endif
