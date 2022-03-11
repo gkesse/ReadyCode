@@ -252,7 +252,7 @@ void GTest::runSocketServerCall(int _argc, char** _argv) {
 void GTest::runThread(int _argc, char** _argv) {
     printf("%s\n", __FUNCTION__);
     GThread lThread;
-    lThread.createThread((void*)onThread, "Bonjour tout le monde");
+    lThread.createThread((void*)onThread, (void*)"Bonjour tout le monde");
 }
 //===============================================
 void* GTest::onThread(void* _params) {
