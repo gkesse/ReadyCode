@@ -178,7 +178,8 @@ int GSocket::writeData(const std::string& _data) {
     for(int i = 0; i < lSize; i++) {
         std::string lBuffer = _data.substr(lIndex, BUFFER_DATA_SIZE);
         lIndex += lBuffer.size();
-        sendData(lBuffer);
+        int lBytes = sendData(lBuffer);
+        printf("=> %d : %d\n", lBytes, (int)lBuffer.size());
     }
 
     return lIndex;
