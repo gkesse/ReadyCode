@@ -143,7 +143,7 @@ int GSocket::readData(std::string& _data) {
 }
 //===============================================
 int GSocket::sendData(const std::string& _data) {
-    int lBytes = write(m_socket, _data.c_str(), _data.size());
+    int lBytes = send(m_socket, _data.c_str(), _data.size(), 0);
     if(lBytes <= 0) lBytes = 0;
     return lBytes;
 }
