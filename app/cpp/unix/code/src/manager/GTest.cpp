@@ -244,12 +244,13 @@ void GTest::runSocketClientFile(int _argc, char** _argv) {
 
     std::string lFilename = GRES("file", "test.txt");
     std::string lData = GFile(lFilename).getData();
-    lClient.writeData(lData);
 
+    lClient.writeData(lData);
     lClient.readData(lData);
+    lClient.closeSocket();
+
     printf("=====>\n");
     printf("%s\n", lData.c_str());
-    lClient.closeSocket();
 }
 //===============================================
 void GTest::runSocketServerStart(int _argc, char** _argv) {
@@ -266,6 +267,8 @@ void GTest::runSocketServerCall(int _argc, char** _argv) {
 
     GSocket lClient;
     lData = lClient.callServerTcp(lData);
+
+    printf("=====>\n");
     printf("%s\n", lData.c_str());
 }
 //===============================================

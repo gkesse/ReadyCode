@@ -209,6 +209,8 @@ void GSocket::startServerTcp() {
 }
 //===============================================
 void* GSocket::onServerTcp(GSocket* _client) {
+    printf("%s\n", __FUNCTION__);
+
     GSocket* lClient = _client;
 
     std::string lData;
