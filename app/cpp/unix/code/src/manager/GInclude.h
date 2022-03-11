@@ -5,6 +5,7 @@
 // system
 #include <iostream>
 #include <cstring>
+#include <cstdio>
 #include <vector>
 #include <map>
 #include <memory>

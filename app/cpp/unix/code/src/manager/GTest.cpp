@@ -29,6 +29,9 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "int/string") {
         runIntString(_argc, _argv);
     }
+    else if(lKey == "int/string/vector") {
+        runIntStringVector(_argc, _argv);
+    }
     // string
     else if(lKey == "string") {
         runString(_argc, _argv);
@@ -112,6 +115,17 @@ void GTest::runIntString(int _argc, char** _argv) {
     printf("int.....: [%d]\n", lInt);
     printf("string..: [%s]\n", lBuffer);
     printf("number..: [%d]\n", lNumber);
+    printf("size....: [%d]\n", lSize);
+}
+//===============================================
+void GTest::runIntStringVector(int _argc, char** _argv) {
+    printf("%s\n", __FUNCTION__);
+    int lInt = 123;
+    const int BUFFER_SIZE = 10;
+    char lBuffer[BUFFER_SIZE + 1];
+
+    int lSize = sprintf(lBuffer, "%*d", BUFFER_SIZE, lInt);
+
     printf("size....: [%d]\n", lSize);
 }
 //===============================================

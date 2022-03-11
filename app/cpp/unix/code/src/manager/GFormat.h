@@ -14,13 +14,10 @@ public:
     ~GFormat();
     static GFormat* Instance();
     std::string getFormat(const char* _format, ...);
+    std::string getFormatInt(int _data, char* _buffer, int _size);
 
 private:
     static GFormat* m_instance;
-    //
-    static const int BUFFER_SIZE = 1024;
-    //
-    char m_buffer[BUFFER_SIZE + 1];
 };
 //==============================================
 #endif
