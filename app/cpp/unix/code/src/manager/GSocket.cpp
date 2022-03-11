@@ -77,17 +77,6 @@ int GSocket::loadFamily() const {
     return lFamily;
 }
 //===============================================
-int GSocket::loadFamilyIp() const {
-    int lFamilyIp = AF_INET;
-    if(GLOGI->hasError()) return AF_INET;
-
-    std::string lName = getSocketItem("family_ip");
-    if(lName == "AF_INET") {
-        lFamilyIp = AF_INET;
-    }
-    return lFamilyIp;
-}
-//===============================================
 void GSocket::createSocket(int _domain, int _type, int _protocol) {
     if(GLOGI->hasError()) return;
 
@@ -173,7 +162,6 @@ void GSocket::acceptSocket(GSocket* _socket) {
 }
 //===============================================
 int GSocket::recvData(std::string& _data) {
-    printf("%s\n", __FUNCTION__);
     _data.clear();
     if(GLOGI->hasError()) return 0;
 
@@ -209,7 +197,6 @@ int GSocket::recvData(GSocket& _socket, std::string& _data) {
 }
 //===============================================
 int GSocket::readData(std::string& _data) {
-    printf("%s\n", __FUNCTION__);
     _data.clear();
     if(GLOGI->hasError()) return 0;
 
@@ -217,7 +204,6 @@ int GSocket::readData(std::string& _data) {
     recvData(lBuffer);
     int lSize = std::stoi(lBuffer);
     int lBytes = 0;
-    printf("=> %d\n", lSize);
 
     for(int i = 0; i < lSize; i++) {
         int iBytes = recvData(lBuffer);
@@ -230,13 +216,11 @@ int GSocket::readData(std::string& _data) {
         }
         _data += lBuffer;
         lBytes += iBytes;
-        printf("=> %d : %d\n", iBytes, (int)lBuffer.size());
     }
     return lBytes;
 }
 //===============================================
 int GSocket::sendData(const std::string& _data) {
-    printf("%s\n", __FUNCTION__);
     if(GLOGI->hasError()) return 0;
 
     int lBytes = send(m_socket, _data.c_str(), _data.size(), 0);
@@ -264,13 +248,11 @@ int GSocket::sendData(GSocket& _socket, const std::string& _data) {
 }
 //===============================================
 int GSocket::writeData(const std::string& _data) {
-    printf("%s\n", __FUNCTION__);
     if(GLOGI->hasError()) return 0;
 
     int lBytes = 0;
     int lLength = _data.size();
     int lSize = (int)ceil((double)lLength/BUFFER_DATA_SIZE);
-    printf("=> %d\n", lSize);
 
     sendData(std::to_string(lSize));
 
@@ -285,24 +267,9 @@ int GSocket::writeData(const std::string& _data) {
             return -1;
         }
         lBytes += iBytes;
-        printf("=> %d : %d\n", iBytes, (int)lBuffer.size());
     }
 
     return lBytes;
-}
-//===============================================
-std::string GSocket::readAddressIp(int _familyIp) const {
-    if(GLOGI->hasError()) return "";
-
-    char lBuffer[BUFFER_IP_SIZE + 1];
-    const char* lAns = inet_ntop(_familyIp, &(m_address.sin_addr), lBuffer, BUFFER_IP_SIZE);
-    if(!lAns) {
-        GLOG("Erreur la methode (GSocket::readAddressIp) a echoue\n"
-                "- erreur........: (%s).\n"
-                "- famille_ip....: (%d)", _familyIp);
-        return "";
-    }
-    return lBuffer;
 }
 //===============================================
 void GSocket::closeSocket() {
@@ -347,8 +314,7 @@ void GSocket::startServerTcp() {
 }
 //===============================================
 void* GSocket::onServerTcp(GSocket* _client) {
-    printf("%s\n", __FUNCTION__);
-
+    if(GLOGI->hasError()) return 0;
     GSocket* lClient = _client;
 
     std::string lData;
@@ -356,6 +322,10 @@ void* GSocket::onServerTcp(GSocket* _client) {
     lClient->writeData("<result>ok</result>");
     lClient->closeSocket();
     delete lClient;
+
+    printf("=====>\n");
+    printf("%s\n", lData.c_str());
+
     return 0;
 }
 //===============================================
