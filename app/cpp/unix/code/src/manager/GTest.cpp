@@ -124,7 +124,7 @@ void GTest::runIntStringVector(int _argc, char** _argv) {
     const int BUFFER_SIZE = 10;
     char lBuffer[BUFFER_SIZE + 1];
 
-    int lSize = sprintf(0, "%*d", BUFFER_SIZE, lInt);
+    int lSize = snprintf(0, 0, "hello : %*d", BUFFER_SIZE, lInt);
 
     printf("size....: [%d]\n", lSize);
 }
