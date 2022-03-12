@@ -41,6 +41,16 @@ GXml& GXml::loadXmlFile(const std::string& _filename) {
     return *this;
 }
 //===============================================
+GXml& GXml::loadXmlData(const std::string& _data) {
+    if(GLOGI->hasError()) return *this;
+    m_doc = xmlParseDoc(BAD_CAST(_data.c_str()));
+    if(!m_doc) {
+        GLOG("Erreur la methode (GXml::loadXmlData) a echoue (1)\n"
+                "- source.....: (%s).", _data.c_str());
+    }
+    return *this;
+}
+//===============================================
 bool GXml::saveXmlFile(const std::string& _filename, const std::string& _encoding, int _format) {
     if(GLOGI->hasError()) return false;
     std::string lFilename = "";
@@ -52,7 +62,7 @@ bool GXml::saveXmlFile(const std::string& _filename, const std::string& _encodin
         lFilename = m_filename;
     }
     else {
-        GLOG("Erreur la methode (saveXmlFile) a echoue (1)\n"
+        GLOG("Erreur la methode (GXml::saveXmlFile) a echoue (1)\n"
                 "- fichier.....: (%s).", lFilename.c_str());
         return false;
     }

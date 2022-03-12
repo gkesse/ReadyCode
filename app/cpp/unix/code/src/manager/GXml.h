@@ -13,6 +13,7 @@ public:
     void cleanModule();
     //
     GXml& loadXmlFile(const std::string& _filename);
+    GXml& loadXmlData(const std::string& _data);
     bool saveXmlFile(const std::string& _filename = "", const std::string& _encoding = "UTF-8", int _format = 4);
     //
     GXml& createDoc(const std::string& _version);

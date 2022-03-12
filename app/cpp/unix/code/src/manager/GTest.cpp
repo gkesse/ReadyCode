@@ -340,12 +340,16 @@ void GTest::onSocketServerStartTimer(int _signo) {
     std::queue<GSocket*>& lClientIns = lServer->getClientIns();
 
     if(!lDataIns.empty()) {
-        std::string lRequest = lDataIns.front();
+        std::string lDataIn = lDataIns.front();
         GSocket* lClient = lClientIns.front();
         lDataIns.pop();
         lClientIns.pop();
+
+        GXml lReq;
+        lReq.loadXmlData(lDataIn);
+
         printf("=====>\n");
-        printf("%s\n", lRequest.c_str());
+        printf("%s\n", lReq.c_str());
     }
 }
 //===============================================
