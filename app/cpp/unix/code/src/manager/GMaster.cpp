@@ -5,7 +5,11 @@
 #include "GXml.h"
 #include "GHostname.h"
 //===============================================
-GMaster::GMaster() : GObject() {
+GMaster::GMaster() : GModule() {
+
+}
+//===============================================
+GMaster::GMaster(const std::string& _req) : GModule(_req) {
 
 }
 //===============================================
@@ -14,9 +18,8 @@ GMaster::~GMaster() {
 }
 //===============================================
 void GMaster::onModule(std::string _req, GSocket* _client) {
-    GXml lReq;
-    lReq.createXPath(_req);
-    std::string lModule = lReq.getModule();
+    if(GLOGI->hasError()) return;
+    std::string lModule = getModule();
 
     // hostname
     if(lModule == "hostname") {
@@ -24,15 +27,12 @@ void GMaster::onModule(std::string _req, GSocket* _client) {
     }
     // unknown
     else {
-        onUnknown(_req, _client);
+        onModuleUnknown(_req, _client);
     }
 }
 //===============================================
-void GMaster::onUnknown(std::string _req, GSocket* _client) {
-
-}
-//===============================================
 void GMaster::onModuleHostname(std::string _req, GSocket* _client) {
+    if(GLOGI->hasError()) return;
     GHostname lModule;
     lModule.onModule(_req, _client);
 }

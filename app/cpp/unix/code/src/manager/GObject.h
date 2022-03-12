@@ -9,7 +9,7 @@ class GXml;
 class GObject {
 public:
     GObject();
-    ~GObject();
+    virtual ~GObject();
 
 protected:
     std::shared_ptr<GXml> m_dom;
