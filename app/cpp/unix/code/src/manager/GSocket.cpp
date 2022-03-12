@@ -10,7 +10,6 @@ GSocket::GSocket() : GObject() {
     createDoms();
     //
     m_socket = -1;
-    m_lock = true;
 }
 //===============================================
 GSocket::~GSocket() {
@@ -297,22 +296,16 @@ void* GSocket::onServerTcp(GSocket* _client) {
     if(GLOGI->hasError()) return 0;
     GSocket* lClient = _client;
     GSocket* lServer = lClient->m_server;
+    std::queue<std::string>& lDataIns = lServer->m_dataIns;
+    std::queue<GSocket*>& lClientIns = lServer->m_clientIns;
 
-    bool& lLock = lServer->getLock();
-    if(lLock) {
-        lLock = false;
-        std::queue<std::string>& lDataIns = lServer->m_dataIns;
-        std::queue<GSocket*>& lClientIns = lServer->m_clientIns;
-
-        std::string lData;
-        lClient->readData(lData);
-        lDataIns.push(lData);
-        lClientIns.push(lClient);
-        lClient->writeData("<result>ok</result>");
-        lClient->closeSocket();
-        delete lClient;
-        lLock = true;
-    }
+    std::string lData;
+    lClient->readData(lData);
+    lDataIns.push(lData);
+    lClientIns.push(lClient);
+    lClient->writeData("<result>ok</result>");
+    lClient->closeSocket();
+    delete lClient;
     return 0;
 }
 //===============================================

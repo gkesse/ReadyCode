@@ -337,22 +337,16 @@ void* GTest::onSocketServerStartThread(void* _params) {
 //===============================================
 void GTest::onSocketServerStartTimer(int _signo) {
     GSocket* lServer = m_test->m_server;
-    bool& lLock = lServer->getLock();
+    std::queue<std::string>& lDataIns = lServer->getDataIns();
+    std::queue<GSocket*>& lClientIns = lServer->getClientIns();
 
-    if(lLock) {
-        lLock = false;
-        std::queue<std::string>& lDataIns = lServer->getDataIns();
-        std::queue<GSocket*>& lClientIns = lServer->getClientIns();
-
-        if(!lDataIns.empty()) {
-            std::string lDataIn = lDataIns.front();
-            GSocket* lClient = lClientIns.front();
-            lDataIns.pop();
-            lClientIns.pop();
-            GMaster lMaster(lDataIn);
-            lMaster.onModule(lDataIn, lClient);
-        }
-        lLock = true;
+    if(!lDataIns.empty()) {
+        std::string lDataIn = lDataIns.front();
+        GSocket* lClient = lClientIns.front();
+        lDataIns.pop();
+        lClientIns.pop();
+        GMaster lMaster(lDataIn);
+        lMaster.onModule(lDataIn, lClient);
     }
 }
 //===============================================
