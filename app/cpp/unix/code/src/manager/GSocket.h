@@ -49,7 +49,7 @@ protected:
     GSocket* m_server;
     std::queue<std::string> m_dataIns;
     std::queue<GSocket*> m_clientIns;
-    pthread_mutex_t m_mutex;
+    static pthread_mutex_t m_mutex;
 };
 //==============================================
 #endif
