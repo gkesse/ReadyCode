@@ -123,7 +123,7 @@ void GTest::runIntStringVector(int _argc, char** _argv) {
     int lInt = 123;
     const int BUFFER_SIZE = 10;
 
-    std::vector<char> lBuffer(BUFFER_SIZE + 1);
+    std::vector<char> lBuffer(BUFFER_SIZE + 3);
     snprintf(lBuffer.data(), BUFFER_SIZE, "%*d", BUFFER_SIZE, lInt);
     std::string lData = lBuffer.data();
     int lNumber = std::stoi(lData);
