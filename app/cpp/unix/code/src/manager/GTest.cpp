@@ -122,10 +122,16 @@ void GTest::runIntStringVector(int _argc, char** _argv) {
     printf("%s\n", __FUNCTION__);
     int lInt = 123;
     const int BUFFER_SIZE = 10;
-    char lBuffer[BUFFER_SIZE + 1];
 
-    int lSize = snprintf(0, 0, "hello : %*d", BUFFER_SIZE, lInt);
+    std::vector<char> lBuffer(BUFFER_SIZE + 1);
+    snprintf(lBuffer.data(), BUFFER_SIZE, "%*d", BUFFER_SIZE, lInt);
+    std::string lData = lBuffer.data();
+    int lNumber = std::stoi(lData);
+    int lSize = lData.size();
 
+    printf("int.....: [%d]\n", lInt);
+    printf("data....: [%s]\n", lData.c_str());
+    printf("number..: [%d]\n", lNumber);
     printf("size....: [%d]\n", lSize);
 }
 //===============================================
