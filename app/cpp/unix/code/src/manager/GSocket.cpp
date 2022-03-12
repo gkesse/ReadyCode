@@ -254,7 +254,7 @@ int GSocket::writeData(const std::string& _data) {
     int lLength = _data.size();
     int lSize = (int)ceil((double)lLength/BUFFER_DATA_SIZE);
 
-    sendData(std::to_string(lSize));
+    sendData(iformat(lSize, BUFFER_DATA_SIZE));
 
     for(int i = 0; i < lSize; i++) {
         std::string lBuffer = _data.substr(lBytes, BUFFER_DATA_SIZE);
