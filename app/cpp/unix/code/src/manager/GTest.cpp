@@ -328,8 +328,9 @@ void GTest::runSocketServerStart(int _argc, char** _argv) {
 //===============================================
 void* GTest::onSocketServerStartThread(void* _params) {
     printf("%s\n", __FUNCTION__);
-    GSocket& lServer = m_test->m_server;
-    lServer.startServerTcp((void*)GSocket::onServerTcp);
+    GSocket* lServer = new GSocket;
+    m_test->m_server = lServer;
+    lServer->startServerTcp((void*)GSocket::onServerTcp);
     return 0;
 }
 //===============================================

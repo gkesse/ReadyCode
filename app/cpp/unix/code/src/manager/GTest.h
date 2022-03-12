@@ -37,7 +37,7 @@ public:
 
 private:
     static GTest* m_test;
-    GSocket m_server;
+    GSocket* m_server;
 };
 //===============================================
 #endif
