@@ -138,7 +138,6 @@ GXml& GXml::createNodePath(const std::string& _path) {
     }
     std::vector<std::string> lPaths = GString(_path).splitData('/');
     std::string lName = "";
-    m_node = xmlDocGetRootElement(m_doc);
     for(size_t i = 0; i < lPaths.size(); i++) {
         std::string lPath = GString(lPaths.at(i)).trimData();
         if(lPath == "") continue;
