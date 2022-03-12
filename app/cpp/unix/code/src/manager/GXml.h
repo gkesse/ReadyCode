@@ -23,6 +23,8 @@ public:
     std::string getNodeValue() const;
     //
     GXml& createNode(const std::string& _nodename);
+    GXml& createNodePath(const std::string& _path);
+    GXml& createNodeFromString(const std::string& _value);
     GXml& createNodeValue(const std::string& _nodename, const std::string& _value);
     GXml& setNodeValue(const std::string& _value);
     GXml& appendNode(GXml& _xml);

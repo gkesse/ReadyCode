@@ -372,6 +372,8 @@ void GTest::runRequest(int _argc, char** _argv) {
     lReq.createDoc("1.0");
     lReq.createRoot("rdv");
     lReq.createXPath();
+    lReq.createNodePath("/rdv/module");
+    lReq.createNodePath("/rdv/method");
     printf("%s\n", lReq.toString().c_str());
 }
 //===============================================

@@ -130,6 +130,46 @@ GXml& GXml::createNode(const std::string& _nodename) {
     return *this;
 }
 //===============================================
+GXml& GXml::createNodePath(const std::string& _path) {
+    if(GLOGI->hasError()) return *this;
+    if(!m_doc) {
+        return *this;
+    }
+    std::vector<std::string> lPaths = GString(_path).splitData('/');
+    std::string lName = "";
+    m_node = xmlDocGetRootElement(m_doc);
+    for(size_t i = 0; i < lPaths.size(); i++) {
+        std::string lPath = GString(lPaths.at(i)).trimData();
+        if(lPath == "") continue;
+        lName += "/" + lPath;
+        int lCount = queryXPath(lName).countXPath();
+        if(!lCount) {
+            GXml lDom;
+            lDom.createNode(lPath);
+            appendNode(lDom);
+        }
+        getNode(lPath);
+    }
+    return *this;
+}
+//===============================================
+GXml& GXml::createNodeFromString(const std::string& _value) {
+    if(GLOGI->hasError()) return *this;
+    if(!m_node) {
+        return *this;
+    }
+    xmlNodePtr lNewNode;
+    std::string lData = "<rdv>" + _value + "</rdv>";
+    xmlParseInNodeContext(m_node, lData.c_str(), lData.length(), 0, &lNewNode);
+    xmlNodePtr lNode = lNewNode->children;
+     while(lNode) {
+         xmlAddChild(m_node, xmlCopyNode(lNode, 1));
+         lNode = lNode->next;
+     }
+     xmlFreeNode(lNewNode);
+    return *this;
+}
+//===============================================
 GXml& GXml::createNodeValue(const std::string& _nodename, const std::string& _value) {
     if(GLOGI->hasError()) return *this;
     createNode(_nodename);
