@@ -51,7 +51,7 @@ private:
     std::queue<GSocket*> m_clientIns;
 
 public:
-    pthread_mutex_t m_mutex;
+    static pthread_mutex_t m_mutex;
 };
 //==============================================
 #endif

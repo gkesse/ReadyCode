@@ -336,8 +336,8 @@ void* GTest::onSocketServerStartThread(void* _params) {
 }
 //===============================================
 void GTest::onSocketServerStartTimer(int _signo) {
+    pthread_mutex_lock(&GSocket::m_mutex);
     GSocket* lServer = m_test->m_server;
-    pthread_mutex_lock(&lServer->m_mutex);
     std::queue<std::string>& lDataIns = lServer->getDataIns();
     std::queue<GSocket*>& lClientIns = lServer->getClientIns();
 
@@ -349,7 +349,7 @@ void GTest::onSocketServerStartTimer(int _signo) {
         GMaster lMaster(lDataIn);
         lMaster.onModule(lDataIn, lClient);
     }
-    pthread_mutex_unlock(&lServer->m_mutex);
+    pthread_mutex_unlock(&GSocket::m_mutex);
 }
 //===============================================
 void GTest::runSocketClientStart(int _argc, char** _argv) {
