@@ -22,6 +22,8 @@ public:
     void runSocketServerFile(int _argc, char** _argv);
     void runSocketClientFile(int _argc, char** _argv);
     void runSocketServerStart(int _argc, char** _argv);
+    static void* onSocketServerStartThread(void* _params);
+    static void onSocketServerStartTimer(int _signo);
     void runSocketClientStart(int _argc, char** _argv);
     void runThread(int _argc, char** _argv);
     static void* onThread(void* _params);
