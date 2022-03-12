@@ -133,7 +133,7 @@ void GTest::runIntStringVector(int _argc, char** _argv) {
     printf("data....: [%s]\n", lData.c_str());
     printf("number..: [%d]\n", lNumber);
     printf("size....: [%d]\n", lSize);
-    printf("iformat.: [%s]\n", iformat(lInt, BUFFER_SIZE));
+    printf("iformat.: [%s]\n", iformat(lInt, BUFFER_SIZE).c_str());
 }
 //===============================================
 void GTest::runString(int _argc, char** _argv) {
