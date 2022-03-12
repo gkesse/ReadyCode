@@ -252,6 +252,13 @@ GXml& GXml::createXPath() {
     return *this;
 }
 //===============================================
+GXml& GXml::createXPath(const std::string& _data) {
+    if(GLOGI->hasError()) return *this;
+    loadXmlData(_data);
+    createXPath();
+    return *this;
+}
+//===============================================
 GXml& GXml::queryXPath(const std::string& _query) {
     if(GLOGI->hasError()) return *this;
     if(!m_xpath) {
@@ -368,6 +375,18 @@ std::string GXml::toString(const std::string& _encoding, int _format) const {
     xmlDocDumpFormatMemoryEnc(m_doc, &lBuffer, &lSize, _encoding.c_str(), _format);
     std::string lData = (char*)lBuffer;
     xmlFree(lBuffer);
+    return lData;
+}
+//===============================================
+std::string GXml::getModule() {
+    if(GLOGI->hasError()) return "";
+    std::string lData = getNodeValue("/rdv/module");
+    return lData;
+}
+//===============================================
+std::string GXml::getMethod() {
+    if(GLOGI->hasError()) return "";
+    std::string lData = getNodeValue("/rdv/method");
     return lData;
 }
 //===============================================

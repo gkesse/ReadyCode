@@ -1,16 +1,19 @@
 //===============================================
-#ifndef _GHostname_
-#define _GHostname_
+#ifndef _GModule_
+#define _GModule_
 //===============================================
 #include "GObject.h"
 //===============================================
 class GSocket;
 //===============================================
-class GHostname : public GObject {
+class GModule : public GObject {
 public:
-    GHostname();
-    ~GHostname();
+    GModule();
+    ~GModule();
     void onModule(std::string _req, GSocket* _client);
+    void onUnknown(std::string _req, GSocket* _client);
+    //
+    void onModuleHostname(std::string _req, GSocket* _client);
 };
 //==============================================
 #endif

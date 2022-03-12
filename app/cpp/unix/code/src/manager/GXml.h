@@ -34,6 +34,7 @@ public:
     GXml& replaceNode(GXml& _xml);
     //
     GXml& createXPath();
+    GXml& createXPath(const std::string& _data);
     GXml& queryXPath(const std::string& _query);
     int countXPath() const;
     GXml& getNodeXPath();
@@ -46,6 +47,9 @@ public:
     std::string getNodeCData() const;
     //
     std::string toString(const std::string& _encoding = "UTF8", int _format = 4) const;
+    //
+    std::string getModule();
+    std::string getMethod();
 
 private:
     xmlNodePtr m_node;

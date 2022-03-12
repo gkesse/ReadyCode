@@ -1,19 +1,19 @@
 //===============================================
-#include "GMaster.h"
+#include "GModule.h"
 #include "GLog.h"
 #include "GFormat.h"
 #include "GXml.h"
 #include "GHostname.h"
 //===============================================
-GMaster::GMaster() : GObject() {
+GModule::GModule() : GObject() {
 
 }
 //===============================================
-GMaster::~GMaster() {
+GModule::~GModule() {
 
 }
 //===============================================
-void GMaster::onModule(std::string _req, GSocket* _client) {
+void GModule::onModule(std::string _req, GSocket* _client) {
     GXml lReq;
     lReq.createXPath(_req);
     std::string lModule = lReq.getModule();
@@ -28,11 +28,11 @@ void GMaster::onModule(std::string _req, GSocket* _client) {
     }
 }
 //===============================================
-void GMaster::onUnknown(std::string _req, GSocket* _client) {
+void GModule::onUnknown(std::string _req, GSocket* _client) {
 
 }
 //===============================================
-void GMaster::onModuleHostname(std::string _req, GSocket* _client) {
+void GModule::onModuleHostname(std::string _req, GSocket* _client) {
     GHostname lModule;
     lModule.onModule(_req, _client);
 }

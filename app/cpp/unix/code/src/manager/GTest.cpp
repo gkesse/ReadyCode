@@ -346,7 +346,7 @@ void GTest::onSocketServerStartTimer(int _signo) {
         lDataIns.pop();
         lClientIns.pop();
         GMaster lMaster;
-        lMaster.onModuleMaster(lDataIn, lClient);
+        lMaster.onModule(lDataIn, lClient);
     }
 }
 //===============================================

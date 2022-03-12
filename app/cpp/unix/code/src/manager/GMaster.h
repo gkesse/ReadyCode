@@ -10,7 +10,10 @@ class GMaster : public GObject {
 public:
     GMaster();
     ~GMaster();
-    void onModuleMaster(std::string _req, GSocket* _client);
+    void onModule(std::string _req, GSocket* _client);
+    void onUnknown(std::string _req, GSocket* _client);
+    //
+    void onModuleHostname(std::string _req, GSocket* _client);
 };
 //==============================================
 #endif
