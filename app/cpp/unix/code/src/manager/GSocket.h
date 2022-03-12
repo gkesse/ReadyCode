@@ -39,7 +39,7 @@ public:
     std::queue<std::string>& getDataIns();
     std::queue<GSocket*>& getClientIns();
 
-protected:
+private:
     static const int BUFFER_DATA_SIZE = 1024;
     static const int BUFFER_HOSTNAME_SIZE = 256;
     //
@@ -49,7 +49,9 @@ protected:
     GSocket* m_server;
     std::queue<std::string> m_dataIns;
     std::queue<GSocket*> m_clientIns;
-    static pthread_mutex_t m_mutex;
+
+public:
+    pthread_mutex_t m_mutex;
 };
 //==============================================
 #endif
