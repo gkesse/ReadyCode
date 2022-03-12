@@ -131,7 +131,7 @@ GXml& GXml::createNode(const std::string& _nodename) {
     return *this;
 }
 //===============================================
-GXml& GXml::createNodePath(const std::string& _path) {
+GXml& GXml::createNodePath(const std::string& _path, const std::string& _value) {
     if(GLOGI->hasError()) return *this;
     if(!m_doc) {
         return *this;
@@ -150,6 +150,7 @@ GXml& GXml::createNodePath(const std::string& _path) {
         }
         queryXPath(lName).getNodeXPath();
     }
+    setNodeValue(_value);
     return *this;
 }
 //===============================================
