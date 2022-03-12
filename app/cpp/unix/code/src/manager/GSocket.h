@@ -32,7 +32,7 @@ public:
     int sendData(GSocket& _socket, const std::string& _data);
     int writeData(const std::string& _data);
     void closeSocket();
-    void startServerTcp();
+    void startServerTcp(void* _onServerTcp);
     static void* onServerTcp(GSocket* _client);
     std::string callServerTcp(const std::string& _dataIn);
 
@@ -42,6 +42,10 @@ protected:
     //
     int m_socket;
     struct sockaddr_in m_address;
+    //
+    GSocket* m_server;
+    std::queue<std::string> m_dataIns;
+    std::queue<GSocket*> m_clientIns;
 };
 //==============================================
 #endif

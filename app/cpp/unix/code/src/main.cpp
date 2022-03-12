@@ -4,12 +4,12 @@
 #include "GXml.h"
 //===============================================
 int main(int _argc, char** _argv) {
-    std::shared_ptr<GXml> lXml(new GXml);
-    lXml->initModule();
-    std::shared_ptr<GProcess> lProcess(new GProcess);
-    lProcess->run(_argc, _argv);
+    GXml lXml;
+    lXml.initModule();
+    GProcess lProcess;
+    lProcess.run(_argc, _argv);
     GLOGI->showError();
-    lXml->cleanModule();
+    lXml.cleanModule();
     return 0;
 }
 //===============================================

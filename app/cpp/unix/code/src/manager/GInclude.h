@@ -7,6 +7,7 @@
 #include <cstring>
 #include <vector>
 #include <map>
+#include <queue>
 #include <memory>
 #include <cstdarg>
 #include <fstream>

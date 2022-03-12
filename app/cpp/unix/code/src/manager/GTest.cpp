@@ -9,6 +9,7 @@
 #include "GExit.h"
 #include "GInterrupt.h"
 #include "GTimer.h"
+#include "GLog.h"
 //===============================================
 GTest::GTest() : GObject() {
 
@@ -314,7 +315,8 @@ void GTest::runSocketClientFile(int _argc, char** _argv) {
 void GTest::runSocketServerStart(int _argc, char** _argv) {
     printf("%s\n", __FUNCTION__);
     GSocket lServer;
-    lServer.startServerTcp();
+    lServer.startServerTcp((void*)GSocket::onServerTcp);
+    printf("ooooooooooooooooooo\n");
 }
 //===============================================
 void GTest::runSocketClientStart(int _argc, char** _argv) {
