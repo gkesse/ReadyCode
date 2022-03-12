@@ -317,10 +317,11 @@ void GTest::runSocketClientFile(int _argc, char** _argv) {
 void GTest::runSocketServerStart(int _argc, char** _argv) {
     printf("%s\n", __FUNCTION__);
     m_test = new GTest;
+    m_test->m_server = new GSocket;
     GThread lThread;
     GTimer lTimer;
     lThread.createThread((void*)onSocketServerStartThread, this);
-    lTimer.setCallback((void*)onSocketServerStartTimer, 1000);
+    lTimer.setCallback((void*)onSocketServerStartTimer, 100);
     while(lTimer.isRunning()) {
         pause();
     }
@@ -328,15 +329,13 @@ void GTest::runSocketServerStart(int _argc, char** _argv) {
 //===============================================
 void* GTest::onSocketServerStartThread(void* _params) {
     printf("%s\n", __FUNCTION__);
-    GSocket* lServer = new GSocket;
-    m_test->m_server = lServer;
+    GSocket* lServer = m_test->m_server;
     lServer->startServerTcp((void*)GSocket::onServerTcp);
     return 0;
 }
 //===============================================
 void GTest::onSocketServerStartTimer(int _signo) {
     GSocket* lServer = m_test->m_server;
-    if(!lServer) return;
     std::queue<std::string>& lDataIns = lServer->getDataIns();
     std::queue<GSocket*>& lClientIns = lServer->getClientIns();
 
