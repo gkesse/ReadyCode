@@ -149,7 +149,7 @@ GXml& GXml::createNodePath(const std::string& _path) {
             lDom.createNode(lPath);
             appendNode(lDom);
         }
-        getNode(lPath);
+        queryXPath(lName).getNodeXPath();
     }
     return *this;
 }
