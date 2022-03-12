@@ -15,6 +15,9 @@ public:
     GXml& loadXmlFile(const std::string& _filename);
     bool saveXmlFile(const std::string& _filename = "", const std::string& _encoding = "UTF-8", int _format = 4);
     //
+    GXml& createDoc(const std::string& _version);
+    GXml& createRoot(const std::string& _nodename);
+    //
     GXml& getRoot(const std::string& _nodename);
     GXml& getNode(const std::string& _nodename);
     std::string getNodeValue() const;
@@ -36,12 +39,15 @@ public:
     GXml& createNodeCData(const std::string& _nodename, const std::string& _value);
     GXml& setNodeCData(const std::string& _value);
     std::string getNodeCData() const;
+    //
+    std::string toString(const std::string& _encoding = "UTF8", int _format = 4) const;
 
 private:
     xmlNodePtr m_node;
     xmlDocPtr m_doc;
     xmlXPathContextPtr m_xpath;
     xmlXPathObjectPtr m_xpathObj;
+    //
     std::string m_filename;
 };
 //==============================================

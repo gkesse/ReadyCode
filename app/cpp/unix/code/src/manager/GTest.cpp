@@ -83,6 +83,10 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "timer") {
         runTimer(_argc, _argv);
     }
+    // request
+    else if(lKey == "request") {
+        runRequest(_argc, _argv);
+    }
     // end
     else {
         runTest(_argc, _argv);
@@ -360,5 +364,14 @@ void GTest::runTimer(int _argc, char** _argv) {
     while(1) {
         pause();
     }
+}
+//===============================================
+void GTest::runRequest(int _argc, char** _argv) {
+    printf("%s\n", __FUNCTION__);
+    GXml lReq;
+    lReq.createDoc("1.0");
+    lReq.createRoot("rdv");
+    lReq.createXPath();
+    printf("%s\n", lReq.toString());
 }
 //===============================================

@@ -28,6 +28,7 @@ public:
     void runExit(int _argc, char** _argv);
     void runInterrupt(int _argc, char** _argv);
     void runTimer(int _argc, char** _argv);
+    void runRequest(int _argc, char** _argv);
 };
 //===============================================
 #endif
