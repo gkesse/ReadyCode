@@ -336,9 +336,9 @@ void* GTest::onSocketServerStartThread(void* _params) {
 //===============================================
 void GTest::onSocketServerStartTimer(int _signo) {
     printf("%s\n", __FUNCTION__);
-    GSocket& lServer = m_test->m_server;
-    std::queue<std::string>& lDataIns = lServer.getDataIns();
-    std::queue<GSocket*>& lClientIns = lServer.getClientIns();
+    GSocket* lServer = m_test->m_server;
+    std::queue<std::string>& lDataIns = lServer->getDataIns();
+    std::queue<GSocket*>& lClientIns = lServer->getClientIns();
 
     if(!lDataIns.empty()) {
         std::string lRequest = lDataIns.front();
