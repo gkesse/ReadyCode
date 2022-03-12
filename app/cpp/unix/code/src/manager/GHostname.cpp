@@ -28,7 +28,8 @@ void GHostname::onModule(const std::string& _req, GSocket* _client) {
 }
 //===============================================
 void GHostname::onSaveHostname(const std::string& _req, GSocket* _client) {
-    if(GLOGI->hasError()) return;
     printf("%s\n", __FUNCTION__);
+    if(GLOGI->hasError()) return;
+    printf("adresse_ip.....;%d\n", _client->readPort());
 }
 //===============================================

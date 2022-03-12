@@ -338,7 +338,8 @@ std::queue<GSocket*>& GSocket::getClientIns() {
     return m_clientIns;
 }
 //===============================================
-bool& GSocket::getLock() {
-    return m_lock;
+int GSocket::readPort() const {
+    int lPort = ntohs(m_address.sin_port);
+    return lPort;
 }
 //===============================================
