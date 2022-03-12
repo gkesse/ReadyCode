@@ -336,20 +336,24 @@ void* GTest::onSocketServerStartThread(void* _params) {
 }
 //===============================================
 void GTest::onSocketServerStartTimer(int _signo) {
-    pthread_mutex_lock(&GSocket::m_mutex);
     GSocket* lServer = m_test->m_server;
-    std::queue<std::string>& lDataIns = lServer->getDataIns();
-    std::queue<GSocket*>& lClientIns = lServer->getClientIns();
+    bool& lLock = lServer->getLock();
 
-    if(!lDataIns.empty()) {
-        std::string lDataIn = lDataIns.front();
-        GSocket* lClient = lClientIns.front();
-        lDataIns.pop();
-        lClientIns.pop();
-        GMaster lMaster(lDataIn);
-        lMaster.onModule(lDataIn, lClient);
+    if(lLock) {
+        lLock = false;
+        std::queue<std::string>& lDataIns = lServer->getDataIns();
+        std::queue<GSocket*>& lClientIns = lServer->getClientIns();
+
+        if(!lDataIns.empty()) {
+            std::string lDataIn = lDataIns.front();
+            GSocket* lClient = lClientIns.front();
+            lDataIns.pop();
+            lClientIns.pop();
+            GMaster lMaster(lDataIn);
+            lMaster.onModule(lDataIn, lClient);
+        }
+        lLock = true;
     }
-    pthread_mutex_unlock(&GSocket::m_mutex);
 }
 //===============================================
 void GTest::runSocketClientStart(int _argc, char** _argv) {

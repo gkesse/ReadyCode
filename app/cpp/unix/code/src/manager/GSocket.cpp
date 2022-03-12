@@ -6,12 +6,11 @@
 #include "GFormat.h"
 #include "GThread.h"
 //===============================================
-pthread_mutex_t GSocket::m_mutex = PTHREAD_MUTEX_INITIALIZER;
-//===============================================
 GSocket::GSocket() : GObject() {
     createDoms();
     //
     m_socket = -1;
+    m_lock = true;
 }
 //===============================================
 GSocket::~GSocket() {
@@ -295,21 +294,25 @@ void GSocket::startServerTcp(void* _onServerTcp) {
 }
 //===============================================
 void* GSocket::onServerTcp(GSocket* _client) {
-    pthread_mutex_lock(&m_mutex);
     if(GLOGI->hasError()) return 0;
     GSocket* lClient = _client;
     GSocket* lServer = lClient->m_server;
-    std::queue<std::string>& lDataIns = lServer->m_dataIns;
-    std::queue<GSocket*>& lClientIns = lServer->m_clientIns;
 
-    std::string lData;
-    lClient->readData(lData);
-    lDataIns.push(lData);
-    lClientIns.push(lClient);
-    lClient->writeData("<result>ok</result>");
-    lClient->closeSocket();
-    delete lClient;
-    pthread_mutex_unlock(&m_mutex);
+    bool& lLock = lServer->getLock();
+    if(lLock) {
+        lLock = false;
+        std::queue<std::string>& lDataIns = lServer->m_dataIns;
+        std::queue<GSocket*>& lClientIns = lServer->m_clientIns;
+
+        std::string lData;
+        lClient->readData(lData);
+        lDataIns.push(lData);
+        lClientIns.push(lClient);
+        lClient->writeData("<result>ok</result>");
+        lClient->closeSocket();
+        delete lClient;
+        lLock = true;
+    }
     return 0;
 }
 //===============================================
@@ -340,5 +343,9 @@ std::queue<std::string>& GSocket::getDataIns() {
 //===============================================
 std::queue<GSocket*>& GSocket::getClientIns() {
     return m_clientIns;
+}
+//===============================================
+bool& GSocket::getLock() {
+    return m_lock;
 }
 //===============================================

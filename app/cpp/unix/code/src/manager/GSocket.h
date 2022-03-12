@@ -38,6 +38,7 @@ public:
     //
     std::queue<std::string>& getDataIns();
     std::queue<GSocket*>& getClientIns();
+    bool& getLock();
 
 private:
     static const int BUFFER_DATA_SIZE = 1024;
@@ -49,9 +50,7 @@ private:
     GSocket* m_server;
     std::queue<std::string> m_dataIns;
     std::queue<GSocket*> m_clientIns;
-
-public:
-    static pthread_mutex_t m_mutex;
+    bool m_lock;
 };
 //==============================================
 #endif
