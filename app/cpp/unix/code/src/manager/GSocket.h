@@ -37,7 +37,7 @@ public:
     std::string callServerTcp(const std::string& _dataIn);
 
 protected:
-    static const int BUFFER_DATA_SIZE = 64;
+    static const int BUFFER_DATA_SIZE = 1024;
     static const int BUFFER_HOSTNAME_SIZE = 256;
     //
     int m_socket;
