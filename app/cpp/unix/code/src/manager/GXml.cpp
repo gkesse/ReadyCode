@@ -140,6 +140,12 @@ std::string GXml::getNodeValue() const {
     return lData;
 }
 //===============================================
+std::string GXml::getNodeValue(const std::string& _xpath) {
+    if(GLOGI->hasError()) return "";
+    std::string lData = queryXPath(_xpath).getNodeXPath().getNodeValue();
+    return lData;
+}
+//===============================================
 GXml& GXml::createNode(const std::string& _nodename) {
     if(GLOGI->hasError()) return *this;
     m_node = xmlNewNode(NULL, BAD_CAST(_nodename.c_str()));

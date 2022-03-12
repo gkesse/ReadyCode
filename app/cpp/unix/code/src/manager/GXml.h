@@ -23,6 +23,7 @@ public:
     GXml& getRoot(const std::string& _nodename);
     GXml& getNode(const std::string& _nodename);
     std::string getNodeValue() const;
+    std::string getNodeValue(const std::string& _xpath);
     //
     GXml& createNode(const std::string& _nodename);
     GXml& createNodePath(const std::string& _path, const std::string& _value = "");

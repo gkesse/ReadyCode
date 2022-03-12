@@ -347,9 +347,13 @@ void GTest::onSocketServerStartTimer(int _signo) {
 
         GXml lReq;
         lReq.loadXmlData(lDataIn);
+        lReq.createXPath();
+        std::string lModule = lReq.getNodeValue("/rdv/module");
+        std::string lMethod = lReq.getNodeValue("/rdv/method");
 
         printf("=====>\n");
-        printf("%s\n", lReq.toString().c_str());
+        printf("%s\n", lModule.c_str());
+        printf("%s\n", lMethod.c_str());
     }
 }
 //===============================================
