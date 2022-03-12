@@ -9,6 +9,7 @@
 #include "GExit.h"
 #include "GInterrupt.h"
 #include "GTimer.h"
+#include "GMaster.h"
 #include "GLog.h"
 //===============================================
 GTest* GTest::m_test = 0;
@@ -344,16 +345,8 @@ void GTest::onSocketServerStartTimer(int _signo) {
         GSocket* lClient = lClientIns.front();
         lDataIns.pop();
         lClientIns.pop();
-
-        GXml lReq;
-        lReq.loadXmlData(lDataIn);
-        lReq.createXPath();
-        std::string lModule = lReq.getNodeValue("/rdv/module");
-        std::string lMethod = lReq.getNodeValue("/rdv/method");
-
-        printf("=====>\n");
-        printf("%s\n", lModule.c_str());
-        printf("%s\n", lMethod.c_str());
+        GMaster lMaster;
+        lMaster.onModuleMaster(lDataIn, lClient);
     }
 }
 //===============================================
