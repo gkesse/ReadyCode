@@ -315,7 +315,7 @@ void GTest::runSocketClientFile(int _argc, char** _argv) {
 void GTest::runSocketServerStart(int _argc, char** _argv) {
     printf("%s\n", __FUNCTION__);
     GThread lThread;
-    lThread.createThread((void*)onThread, this);
+    lThread.createThread((void*)onSocketServerStartThread, this);
     printf("ooooooooooooooooooo\n");
     pause();
 }
