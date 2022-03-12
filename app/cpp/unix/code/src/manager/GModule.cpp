@@ -18,7 +18,6 @@ GModule::~GModule() {
 //===============================================
 void GModule::onModuleUnknown(const std::string& _req, GSocket* _client) {
     if(GLOGI->hasError()) return;
-
 }
 //===============================================
 void GModule::onMethodUnknown(const std::string& _req, GSocket* _client) {

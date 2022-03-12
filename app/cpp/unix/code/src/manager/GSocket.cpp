@@ -6,10 +6,13 @@
 #include "GFormat.h"
 #include "GThread.h"
 //===============================================
+//pthread_mutex_t GSocket::m_mutex = PTHREAD_MUTEX_INITIALIZER;
+//===============================================
 GSocket::GSocket() : GObject() {
     createDoms();
     //
     m_socket = -1;
+    m_mutex = PTHREAD_MUTEX_INITIALIZER;
 }
 //===============================================
 GSocket::~GSocket() {
@@ -296,6 +299,7 @@ void* GSocket::onServerTcp(GSocket* _client) {
     if(GLOGI->hasError()) return 0;
     GSocket* lClient = _client;
     GSocket* lServer = lClient->m_server;
+    pthread_mutex_lock(&lServer->m_mutex);
     std::queue<std::string>& lDataIns = lServer->m_dataIns;
     std::queue<GSocket*>& lClientIns = lServer->m_clientIns;
 
@@ -306,6 +310,7 @@ void* GSocket::onServerTcp(GSocket* _client) {
     lClient->writeData("<result>ok</result>");
     lClient->closeSocket();
     delete lClient;
+    pthread_mutex_unlock(&lServer->m_mutex);
     return 0;
 }
 //===============================================
