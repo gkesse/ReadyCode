@@ -2,6 +2,7 @@
 #include "GXml.h"
 #include "GLog.h"
 #include "GFormat.h"
+#include "GString.h"
 //===============================================
 GXml::GXml() : GObject() {
     m_node = 0;
