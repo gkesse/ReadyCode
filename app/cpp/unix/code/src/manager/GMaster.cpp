@@ -33,7 +33,7 @@ void GMaster::onModule(std::string _req, GSocket* _client) {
 //===============================================
 void GMaster::onModuleHostname(std::string _req, GSocket* _client) {
     if(GLOGI->hasError()) return;
-    GHostname lModule;
+    GHostname lModule(_req);
     lModule.onModule(_req, _client);
 }
 //===============================================

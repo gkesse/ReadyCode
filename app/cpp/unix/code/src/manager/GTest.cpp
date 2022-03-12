@@ -345,7 +345,7 @@ void GTest::onSocketServerStartTimer(int _signo) {
         GSocket* lClient = lClientIns.front();
         lDataIns.pop();
         lClientIns.pop();
-        GMaster lMaster;
+        GMaster lMaster(lDataIn);
         lMaster.onModule(lDataIn, lClient);
     }
 }
