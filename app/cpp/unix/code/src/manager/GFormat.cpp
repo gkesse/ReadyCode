@@ -28,8 +28,10 @@ std::string GFormat::getFormat(const char* _format, ...) {
     return lData.data();
 }
 //===============================================
-std::string GFormat::getFormatInt(int _data, char* _buffer, int _size) {
-    sprintf(_buffer, "%*d", _size, _data);
-    return _buffer;
+std::string GFormat::getFormatInt(int _data, int _size) {
+    std::vector<char> lBuffer(_size + 1);
+    snprintf(lBuffer.data(), lBuffer.size(), "%*d", _size, _data);
+    std::string lData = lBuffer.data();
+    return lData;
 }
 //===============================================
