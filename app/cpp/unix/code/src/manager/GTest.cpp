@@ -320,7 +320,7 @@ void GTest::runSocketServerStart(int _argc, char** _argv) {
     GThread lThread;
     GTimer lTimer;
     lThread.createThread((void*)onSocketServerStartThread, this);
-    lTimer.setCallback((void*)onSocketServerStartTimer, 1000);
+    lTimer.setCallback((void*)onSocketServerStartTimer, 100);
     while(lTimer.isRunning()) {
         pause();
     }
