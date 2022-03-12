@@ -87,6 +87,9 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "request") {
         runRequest(_argc, _argv);
     }
+    else if(lKey == "request/send") {
+        runRequestSend(_argc, _argv);
+    }
     // end
     else {
         runTest(_argc, _argv);
@@ -375,5 +378,13 @@ void GTest::runRequest(int _argc, char** _argv) {
     lReq.createNodePath("/rdv/module", "hostname");
     lReq.createNodePath("/rdv/method", "save_hostname");
     printf("%s\n", lReq.toString().c_str());
+}
+//===============================================
+void GTest::runRequestSend(int _argc, char** _argv) {
+    printf("%s\n", __FUNCTION__);
+    GXml lReq;
+    GSocket lClient;
+    lReq.createRequest("hostname", "save_hostname");
+    lClient.callServerTcp(lReq.toString());
 }
 //===============================================

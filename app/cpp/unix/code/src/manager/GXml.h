@@ -17,6 +17,7 @@ public:
     //
     GXml& createDoc(const std::string& _version);
     GXml& createRoot(const std::string& _nodename);
+    GXml& createRequest(const std::string& _module, const std::string& _method);
     //
     GXml& getRoot(const std::string& _nodename);
     GXml& getNode(const std::string& _nodename);
