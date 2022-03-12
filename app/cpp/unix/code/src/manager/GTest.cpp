@@ -349,7 +349,7 @@ void GTest::onSocketServerStartTimer(int _signo) {
         lReq.loadXmlData(lDataIn);
 
         printf("=====>\n");
-        printf("%s\n", lReq.c_str());
+        printf("%s\n", lReq.toString().c_str());
     }
 }
 //===============================================
