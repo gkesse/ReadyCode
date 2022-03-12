@@ -8,11 +8,10 @@
 //===============================================
 //pthread_mutex_t GSocket::m_mutex = PTHREAD_MUTEX_INITIALIZER;
 //===============================================
-GSocket::GSocket() : GObject() {
+GSocket::GSocket() : GObject(), m_mutex(PTHREAD_MUTEX_INITIALIZER) {
     createDoms();
     //
     m_socket = -1;
-    m_mutex = PTHREAD_MUTEX_INITIALIZER;
 }
 //===============================================
 GSocket::~GSocket() {
