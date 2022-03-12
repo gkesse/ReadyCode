@@ -12,12 +12,16 @@ public:
     GTimer();
     ~GTimer();
     void setCallback(void* _onTimer, int _ms);
+    bool isRunning() const;
+    void setRunning(bool _running);
     //
     static void onTimer(int _signo);
 
 private:
     struct sigaction m_sigaction;
     struct itimerval m_timer;
+    //
+    bool m_running;
 };
 //==============================================
 #endif

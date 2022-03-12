@@ -316,18 +316,23 @@ void GTest::runSocketServerStart(int _argc, char** _argv) {
     printf("%s\n", __FUNCTION__);
     GThread lThread;
     lThread.createThread((void*)onSocketServerStartThread, this);
-    printf("ooooooooooooooooooo\n");
-    pause();
+    GTimer lTimer;
+    lTimer.setCallback(onSocketServerStartTimer, 1000);
+    while(lTimer.isRunning()) {
+        pause();
+    }
+
 }
 //===============================================
 void* GTest::onSocketServerStartThread(void* _params) {
+    printf("%s\n", __FUNCTION__);
     GSocket lServer;
     lServer.startServerTcp((void*)GSocket::onServerTcp);
     return 0;
 }
 //===============================================
 void GTest::onSocketServerStartTimer(int _signo) {
-
+    printf("%s\n", __FUNCTION__);
 }
 //===============================================
 void GTest::runSocketClientStart(int _argc, char** _argv) {

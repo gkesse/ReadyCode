@@ -4,7 +4,7 @@
 #include "GFormat.h"
 //===============================================
 GTimer::GTimer() : GObject() {
-
+    m_running = true;
 }
 //===============================================
 GTimer::~GTimer() {
@@ -33,6 +33,14 @@ void GTimer::setCallback(void* _onTimer, int _ms) {
                 "- ms.....: (%d).", _ms);
         return;
     }
+}
+//===============================================
+bool GTimer::isRunning() const {
+    return m_running;
+}
+//===============================================
+void GTimer::setRunning(bool _running) {
+    m_running = _running;
 }
 //===============================================
 void GTimer::onTimer(int _signo) {
