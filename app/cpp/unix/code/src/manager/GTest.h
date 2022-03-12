@@ -4,6 +4,8 @@
 //===============================================
 #include "GObject.h"
 //===============================================
+class GSocket;
+//===============================================
 class GTest : public GObject {
 public:
     GTest();
@@ -32,6 +34,10 @@ public:
     void runTimer(int _argc, char** _argv);
     void runRequest(int _argc, char** _argv);
     void runRequestSend(int _argc, char** _argv);
+
+private:
+    static GTest* m_test;
+    GSocket m_server;
 };
 //===============================================
 #endif

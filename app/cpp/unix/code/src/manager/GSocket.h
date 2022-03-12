@@ -35,6 +35,9 @@ public:
     void startServerTcp(void* _onServerTcp);
     static void* onServerTcp(GSocket* _client);
     std::string callServerTcp(const std::string& _dataIn);
+    //
+    std::queue<std::string>& getDataIns();
+    std::queue<GSocket*>& getClientIns();
 
 protected:
     static const int BUFFER_DATA_SIZE = 1024;

@@ -11,6 +11,8 @@
 #include "GTimer.h"
 #include "GLog.h"
 //===============================================
+GTest* GTest::m_test = 0;
+//===============================================
 GTest::GTest() : GObject() {
 
 }
@@ -314,25 +316,36 @@ void GTest::runSocketClientFile(int _argc, char** _argv) {
 //===============================================
 void GTest::runSocketServerStart(int _argc, char** _argv) {
     printf("%s\n", __FUNCTION__);
+    m_test = new GTest;
     GThread lThread;
-    lThread.createThread((void*)onSocketServerStartThread, this);
     GTimer lTimer;
+    lThread.createThread((void*)onSocketServerStartThread, this);
     lTimer.setCallback((void*)onSocketServerStartTimer, 1000);
     while(lTimer.isRunning()) {
         pause();
     }
-
 }
 //===============================================
 void* GTest::onSocketServerStartThread(void* _params) {
     printf("%s\n", __FUNCTION__);
-    GSocket lServer;
+    GSocket& lServer = m_test->m_server;
     lServer.startServerTcp((void*)GSocket::onServerTcp);
     return 0;
 }
 //===============================================
 void GTest::onSocketServerStartTimer(int _signo) {
     printf("%s\n", __FUNCTION__);
+    GSocket& lServer = m_test->m_server;
+    std::queue<std::string>& lDataIns = lServer.getDataIns();
+    std::queue<GSocket*>& lClientIns = lServer.getClientIns();
+
+    if(!lDataIns.empty()) {
+        std::string lRequest = lDataIns.front();
+        GSocket* lClient = lClientIns.front();
+        lDataIns.pop();
+        lClientIns.pop();
+        printf("=====> (timer)\n%s\n", lRequest.c_str());
+    }
 }
 //===============================================
 void GTest::runSocketClientStart(int _argc, char** _argv) {

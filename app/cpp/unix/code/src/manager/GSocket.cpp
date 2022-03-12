@@ -334,3 +334,11 @@ std::string GSocket::callServerTcp(const std::string& _dataIn) {
     return lDataOut;
 }
 //===============================================
+std::queue<std::string>& GSocket::getDataIns() {
+    return m_dataIns;
+}
+//===============================================
+std::queue<GSocket*>& GSocket::getClientIns() {
+    return m_clientIns;
+}
+//===============================================
