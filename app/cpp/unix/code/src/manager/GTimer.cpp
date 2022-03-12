@@ -23,10 +23,10 @@ void GTimer::setCallback(void* _onTimer, int _ms) {
         return;
     }
     //
-    m_timer.it_interval.tv_sec = _ms / 1000;
-    m_timer.it_interval.tv_usec = 0;
-    m_timer.it_value.tv_sec = _ms / 1000;
-    m_timer.it_value.tv_usec = 0;
+    m_timer.it_interval.tv_sec = 0;
+    m_timer.it_interval.tv_usec = _ms * 1000;
+    m_timer.it_value.tv_sec = 0;
+    m_timer.it_value.tv_usec = _ms * 1000;
 
     if (setitimer(ITIMER_REAL, &m_timer, NULL) == -1) {
         GLOG("Erreur la methode (GTimer::setCallback) a echoue (2)\n"
