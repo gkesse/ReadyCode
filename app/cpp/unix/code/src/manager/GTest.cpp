@@ -14,7 +14,7 @@
 GTest* GTest::m_test = 0;
 //===============================================
 GTest::GTest() : GObject() {
-
+    m_server = 0;
 }
 //===============================================
 GTest::~GTest() {
@@ -336,6 +336,7 @@ void* GTest::onSocketServerStartThread(void* _params) {
 //===============================================
 void GTest::onSocketServerStartTimer(int _signo) {
     GSocket* lServer = m_test->m_server;
+    if(!lServer) return;
     std::queue<std::string>& lDataIns = lServer->getDataIns();
     std::queue<GSocket*>& lClientIns = lServer->getClientIns();
 
