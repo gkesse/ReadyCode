@@ -9,7 +9,7 @@ GINCS = \
 	-I/usr/include/libxml2 \
 	
 GLIBS = \
-    -lxml2 \
+    -lxml2 -lmysqlcppconn \
 	
 GOBJS = \
     $(patsubst $(GSRC)/%.cpp, $(GBUILD)/%.o, $(wildcard $(GSRC)/*.cpp)) \
