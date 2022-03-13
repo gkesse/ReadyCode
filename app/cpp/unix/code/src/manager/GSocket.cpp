@@ -301,7 +301,7 @@ void* GSocket::onServerTcp(GSocket* _client) {
     std::queue<GSocket*>& lClientIns = lServer->m_clientIns;
 
     GHostname lHostname;
-    lHostname.onSaveHostname("", lClient);
+    lHostname.saveHostname("", lClient);
 
     std::string lData;
     lClient->readData(lData);

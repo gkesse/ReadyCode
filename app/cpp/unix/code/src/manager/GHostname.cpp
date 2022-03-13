@@ -15,20 +15,7 @@ GHostname::~GHostname() {
 
 }
 //===============================================
-void GHostname::onModule(const std::string& _req, GSocket* _client) {
-    if(GLOGI->hasError()) return;
-    std::string lMethod = getMethod();
-
-    if(lMethod == "save_hostname") {
-        onSaveHostname(_req, _client);
-    }
-    else {
-        onMethodUnknown(_req, _client);
-    }
-}
-//===============================================
-void GHostname::onSaveHostname(const std::string& _req, GSocket* _client) {
-    printf("%s\n", __FUNCTION__);
+void GHostname::saveHostname(GSocket* _client) {
     if(GLOGI->hasError()) return;
     printf("adresse_ip.....: %s\n", _client->readAddressIp().c_str());
 }

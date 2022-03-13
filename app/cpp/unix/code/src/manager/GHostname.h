@@ -12,8 +12,7 @@ public:
     GHostname(const std::string& _req);
     ~GHostname();
     //
-    void onModule(const std::string& _req, GSocket* _client);
-    void onSaveHostname(const std::string& _req, GSocket* _client);
+    void saveHostname(GSocket* _client);
 };
 //==============================================
 #endif
