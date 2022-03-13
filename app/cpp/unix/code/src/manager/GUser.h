@@ -1,20 +1,19 @@
 //===============================================
-#ifndef _GMaster_
-#define _GMaster_
+#ifndef _GUser_
+#define _GUser_
 //===============================================
 #include "GModule.h"
 //===============================================
 class GSocket;
 //===============================================
-class GMaster : public GModule {
+class GUser : public GModule {
 public:
-    GMaster();
-    GMaster(const std::string& _req);
-    ~GMaster();
+    GUser();
+    GUser(const std::string& _req);
+    ~GUser();
     //
     void onModule(std::string _req, GSocket* _client);
-    //
-    void onModuleUser(std::string _req, GSocket* _client);
+    void onSaveUser(std::string _req, GSocket* _client);
 };
 //==============================================
 #endif

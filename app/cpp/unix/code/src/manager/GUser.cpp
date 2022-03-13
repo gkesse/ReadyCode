@@ -1,29 +1,28 @@
 //===============================================
-#include "GMaster.h"
+#include "GUser.h"
 #include "GLog.h"
 #include "GFormat.h"
 #include "GXml.h"
-#include "GUser.h"
 //===============================================
-GMaster::GMaster() : GModule() {
+GUser::GUser() : GModule() {
 
 }
 //===============================================
-GMaster::GMaster(const std::string& _req) : GModule(_req) {
+GUser::GUser(const std::string& _req) : GModule(_req) {
 
 }
 //===============================================
-GMaster::~GMaster() {
+GUser::~GUser() {
 
 }
 //===============================================
-void GMaster::onModule(std::string _req, GSocket* _client) {
+void GUser::onModule(std::string _req, GSocket* _client) {
     if(GLOGI->hasError()) return;
-    std::string lModule = getModule();
+    std::string lMethod = getMethod();
 
     // hostname
-    if(lModule == "user") {
-        onModuleUser(_req, _client);
+    if(lMethod == "save_user") {
+        onSaveUser(_req, _client);
     }
     // unknown
     else {
@@ -31,9 +30,8 @@ void GMaster::onModule(std::string _req, GSocket* _client) {
     }
 }
 //===============================================
-void GMaster::onModuleUser(std::string _req, GSocket* _client) {
+void GUser::onSaveUser(std::string _req, GSocket* _client) {
     if(GLOGI->hasError()) return;
-    GUser lModule(_req);
-    lModule.onModule(_req, _client);
+    printf("%s\n", __FUNCTION__);
 }
 //===============================================
