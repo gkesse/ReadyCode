@@ -429,6 +429,6 @@ void GTest::runRequestSend(int _argc, char** _argv) {
 void GTest::runMysql(int _argc, char** _argv) {
     printf("%s\n", __FUNCTION__);
     GMySQL lMySQL;
-    lMySQL.openDatabase("127.0.0.1", 3306, "root", "root");
+    lMySQL.openDatabase();
 }
 //===============================================

@@ -10,8 +10,10 @@ class GMySQL : public GObject {
 public:
     GMySQL();
     ~GMySQL();
+    void createDoms();
+    //
     GMySQL& openDatabase();
-    GMySQL& openDatabase(const std::string& _hostname, int _port, const std::string& _username, const std::string& _password);
+    GMySQL& openDatabase(const std::string& _hostname, const std::string& _port, const std::string& _username, const std::string& _password);
 
 private:
     sql::Driver* m_driver;

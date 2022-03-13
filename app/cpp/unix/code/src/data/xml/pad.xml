@@ -19,6 +19,15 @@
             <client_ip>0.0.0.0</client_ip>
             <server_ip>127.0.0.1</server_ip>
         </data>
+        <!-- mysql -->
+        <data>
+            <code>mysql</code>
+            <hostname>127.0.0.1</hostname>
+            <port>3306</port>
+            <username>admin</username>
+            <password>xKCQY7GiGTVJ4l334QxN87@TKg</password>
+            <database>pad</database>
+        </data>
         <!-- end -->
     </datas>
 </rdv>
