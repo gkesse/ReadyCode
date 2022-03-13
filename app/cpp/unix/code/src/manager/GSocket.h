@@ -40,6 +40,7 @@ public:
     std::queue<GSocket*>& getClientIns();
     //
     int readPort() const;
+    std::string readAddressIp() const;
 
 private:
     static const int BUFFER_DATA_SIZE = 1024;

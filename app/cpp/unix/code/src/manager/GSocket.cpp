@@ -343,3 +343,8 @@ int GSocket::readPort() const {
     return lPort;
 }
 //===============================================
+std::string GSocket::readAddressIp() const {
+    std::string lAddressIp = inet_ntoa(m_address.sin_addr);
+    return lAddressIp;
+}
+//===============================================
