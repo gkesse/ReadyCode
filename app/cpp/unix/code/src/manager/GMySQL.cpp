@@ -17,7 +17,7 @@ GMySQL::~GMySQL() {
 GMySQL& GMySQL::openDatabase(const std::string& _hostname, int _port, const std::string& _username, const std::string& _password) {
     if(GLOGI->hasError()) return *this;
     m_driver = get_driver_instance();
-    std::string lHostname = sformat("tpc://%s:%d", _hostname.c_str(), _port);
+    std::string lHostname = sformat("tcp://%s:%d", _hostname.c_str(), _port);
     m_con = m_driver->connect(lHostname, _username, _password);
     if(!m_con) {
         GLOG("Erreur la methode (GMySQL::openDatabase) a echoue (1)\n"
