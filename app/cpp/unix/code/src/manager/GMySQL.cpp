@@ -49,10 +49,9 @@ GMySQL& GMySQL::execQuery(const std::string& _sql) {
     return *this;
 }
 //===============================================
-int GMySQL::getColumnCount() {
+int GMySQL::getColumnCount() const {
     if(GLOGI->hasError()) return 0;
-    m_resMeta.reset(m_res->getMetaData());
-    int lColumns = m_resMeta->getColumnCount();
+    int lColumns = m_res->getMetaData()->getColumnCount();
     return lColumns;
 }
 //===============================================
