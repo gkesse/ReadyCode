@@ -50,7 +50,7 @@ GMySQL& GMySQL::execQuery(const std::string& _sql) {
 }
 //===============================================
 std::string GMySQL::readData(const std::string& _sql) {
-    if(GLOGI->hasError()) return *this;
+    if(GLOGI->hasError()) return "";
     execQuery(_sql);
     std::string lData = "";
     while(m_res->next()) {
