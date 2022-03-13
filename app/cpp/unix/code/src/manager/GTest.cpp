@@ -11,6 +11,7 @@
 #include "GTimer.h"
 #include "GMaster.h"
 #include "GMySQL.h"
+#include "GConsole.h"
 #include "GLog.h"
 //===============================================
 GTest* GTest::m_test = 0;
@@ -431,6 +432,6 @@ void GTest::runMysql(int _argc, char** _argv) {
     GMySQL lMySQL;
     std::string lData;
     lData = lMySQL.readData("select user from mysql.user");
-    printf("%s\n", lData.c_str());
+    console(lData);
 }
 //===============================================

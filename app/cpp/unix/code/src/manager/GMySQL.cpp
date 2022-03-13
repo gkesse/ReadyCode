@@ -49,6 +49,13 @@ GMySQL& GMySQL::execQuery(const std::string& _sql) {
     return *this;
 }
 //===============================================
+int GMySQL::getColumnCount() {
+    if(GLOGI->hasError()) return 0;
+    m_resMeta.reset(m_res->getMetaData());
+    int lColumns = m_resMeta->getColumnCount();
+    return lColumns;
+}
+//===============================================
 std::string GMySQL::readData(const std::string& _sql) {
     if(GLOGI->hasError()) return "";
     execQuery(_sql);
@@ -58,5 +65,43 @@ std::string GMySQL::readData(const std::string& _sql) {
         break;
     }
     return lData;
+}
+//===============================================
+std::vector<std::string> GMySQL::readCol(const std::string& _sql) {
+    std::vector<std::string> lDataMap;
+    if(GLOGI->hasError()) return lDataMap;
+    execQuery(_sql);
+    while(m_res->next()) {
+        std::string lData = m_res->getString(1);
+        lDataMap.push_back(lData);
+    }
+    return lDataMap;
+}
+//===============================================
+std::vector<std::string> GMySQL::readRow(const std::string& _sql) {
+    std::vector<std::string> lDataMap;
+    if(GLOGI->hasError()) return lDataMap;
+    execQuery(_sql);
+    while(m_res->next()) {
+        std::string lData = m_res->getString(1);
+        lDataMap.push_back(lData);
+    }
+    return lDataMap;
+}
+//===============================================
+std::vector<std::vector<std::string>> GMySQL::readMap(const std::string& _sql) {
+    std::vector<std::vector<std::string>> lDataMap;
+    if(GLOGI->hasError()) return lDataMap;
+    execQuery(_sql);
+    int lColumns = getColumnCount();
+    while(m_res->next()) {
+        std::vector<std::string> lDataRow;
+        for(int i = 1; i <= lColumns; i++) {
+            std::string lData = m_res->getString(i);
+            lDataRow.push_back(lData);
+        }
+        lDataMap.push_back(lDataRow);
+    }
+    return lDataMap;
 }
 //===============================================
