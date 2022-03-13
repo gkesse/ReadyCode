@@ -27,18 +27,20 @@ void GMySQL::createDoms() {
 //===============================================
 GMySQL& GMySQL::openDatabase() {
     if(GLOGI->hasError()) return *this;
+    std::string lProtocol = getItem("mysql", "protocol");
     std::string lHostname = getItem("mysql", "hostname");
     std::string lPort = getItem("mysql", "port");
     std::string lUsername = getItem("mysql", "username");
     std::string lPassword = getItem("mysql", "password");
-    openDatabase(lHostname, lPort, lUsername, lPassword);
+    std::string lDatabase = getItem("mysql", "database");
+    openDatabase(lProtocol, lHostname, lPort, lUsername, lPassword, lDatabase);
     return *this;
 }
 //===============================================
-GMySQL& GMySQL::openDatabase(const std::string& _hostname, const std::string& _port, const std::string& _username, const std::string& _password) {
+GMySQL& GMySQL::openDatabase(const std::string& _protocol, const std::string& _hostname, const std::string& _port, const std::string& _username, const std::string& _password, const std::string& _database) {
     if(GLOGI->hasError()) return *this;
     m_driver = get_driver_instance();
-    std::string lHostname = sformat("tcp://%s:%s", _hostname.c_str(), _port.c_str());
+    std::string lHostname = sformat("%s://%s:%s/%s", _protocol.c_str(), _hostname.c_str(), _port.c_str(), _database.c_str());
     m_con = m_driver->connect(lHostname, _username, _password);
     if(!m_con) {
         GLOG("Erreur la methode (GMySQL::openDatabase) a echoue (1)\n"
