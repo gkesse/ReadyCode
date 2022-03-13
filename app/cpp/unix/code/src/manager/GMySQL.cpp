@@ -7,15 +7,11 @@
 //===============================================
 GMySQL::GMySQL() : GObject() {
     createDoms();
-    //
     m_driver = 0;
-    m_con = 0;
-    m_stmt = 0;
-    m_res = 0;
 }
 //===============================================
 GMySQL::~GMySQL() {
-    delete m_con;
+
 }
 //===============================================
 void GMySQL::createDoms() {
@@ -41,14 +37,26 @@ GMySQL& GMySQL::openDatabase(const std::string& _protocol, const std::string& _h
     if(GLOGI->hasError()) return *this;
     m_driver = get_driver_instance();
     std::string lHostname = sformat("%s://%s:%s/%s", _protocol.c_str(), _hostname.c_str(), _port.c_str(), _database.c_str());
-    m_con = m_driver->connect(lHostname, _username, _password);
-    if(!m_con) {
-        GLOG("Erreur la methode (GMySQL::openDatabase) a echoue (1)\n"
-                "- hostname......: (%s)\n"
-                "- username......: (%s)\n"
-                "- password......: (%s)", lHostname.c_str(), _username.c_str(), _password.c_str());
-        return *this;
-    }
+    m_con.reset(m_driver->connect(lHostname, _username, _password));
     return *this;
+}
+//===============================================
+GMySQL& GMySQL::execQuery(const std::string& _sql) {
+    if(GLOGI->hasError()) return *this;
+    openDatabase();
+    m_stmt.reset(m_con->createStatement());
+    m_res.reset(m_stmt->executeQuery(_sql));
+    return *this;
+}
+//===============================================
+std::string GMySQL::readData(const std::string& _sql) {
+    if(GLOGI->hasError()) return *this;
+    execQuery(_sql);
+    std::string lData = "";
+    while(m_res->next()) {
+        lData = m_res->getString(1);
+        break;
+    }
+    return lData;
 }
 //===============================================
