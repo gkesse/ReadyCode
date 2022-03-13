@@ -11,6 +11,7 @@ public:
     GMySQL();
     ~GMySQL();
     GMySQL& openDatabase();
+    GMySQL& openDatabase(const std::string& _hostname, int _port, const std::string& _username, const std::string& _password);
 
 private:
     sql::Driver* m_driver;
