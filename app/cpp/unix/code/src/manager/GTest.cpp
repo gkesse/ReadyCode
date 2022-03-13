@@ -10,6 +10,7 @@
 #include "GInterrupt.h"
 #include "GTimer.h"
 #include "GMaster.h"
+#include "GMySQL.h"
 #include "GLog.h"
 //===============================================
 GTest* GTest::m_test = 0;
@@ -93,6 +94,10 @@ void GTest::run(int _argc, char** _argv) {
     }
     else if(lKey == "request/send") {
         runRequestSend(_argc, _argv);
+    }
+    // mysql
+    else if(lKey == "mysql") {
+        runMysql(_argc, _argv);
     }
     // end
     else {
@@ -419,5 +424,10 @@ void GTest::runRequestSend(int _argc, char** _argv) {
     GSocket lClient;
     lReq.createRequest("user", "save_user");
     lClient.callServerTcp(lReq.toString());
+}
+//===============================================
+void GTest::runMysql(int _argc, char** _argv) {
+    printf("%s\n", __FUNCTION__);
+    GMySQL lMySQL;
 }
 //===============================================

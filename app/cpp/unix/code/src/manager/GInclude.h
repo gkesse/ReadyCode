@@ -24,6 +24,11 @@
 // libxml2
 #include <libxml/tree.h>
 #include <libxml/xpath.h>
+// mysql
+#include <cppconn/driver.h>
+#include <cppconn/exception.h>
+#include <cppconn/resultset.h>
+#include <cppconn/statement.h>
 //===============================================
 #endif
 //===============================================
