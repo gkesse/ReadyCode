@@ -12,7 +12,8 @@ public:
     GConsole();
     ~GConsole();
     static GConsole* Instance();
-    void print(const std::string& _data);
+    GConsole& print(const std::string& _data);
+    GConsole& print(const std::vector<std::string>& _data);
 
 private:
     static GConsole* m_instance;

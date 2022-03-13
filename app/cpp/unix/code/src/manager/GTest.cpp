@@ -430,8 +430,8 @@ void GTest::runRequestSend(int _argc, char** _argv) {
 void GTest::runMysql(int _argc, char** _argv) {
     printf("%s\n", __FUNCTION__);
     GMySQL lMySQL;
-    std::string lData;
-    lData = lMySQL.readData("select user from mysql.user");
-    console(lData);
+    std::string lSql = "select user from mysql.user";
+    console(lMySQL.readData(lSql));
+    console(lMySQL.readCol(lSql));
 }
 //===============================================
