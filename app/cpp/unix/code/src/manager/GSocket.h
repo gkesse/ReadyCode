@@ -39,7 +39,6 @@ public:
     std::queue<std::string>& getDataIns();
     std::queue<GSocket*>& getClientIns();
     //
-    int readPort() const;
     std::string readAddressIp() const;
 
 private:

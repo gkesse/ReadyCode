@@ -5,6 +5,7 @@
 #include "GXml.h"
 #include "GFormat.h"
 #include "GThread.h"
+#include "GHostname.h"
 //===============================================
 GSocket::GSocket() : GObject() {
     createDoms();
@@ -299,6 +300,9 @@ void* GSocket::onServerTcp(GSocket* _client) {
     std::queue<std::string>& lDataIns = lServer->m_dataIns;
     std::queue<GSocket*>& lClientIns = lServer->m_clientIns;
 
+    GHostname lHostname;
+    lHostname.onSaveHostname("", lClient);
+
     std::string lData;
     lClient->readData(lData);
     lDataIns.push(lData);
@@ -336,11 +340,6 @@ std::queue<std::string>& GSocket::getDataIns() {
 //===============================================
 std::queue<GSocket*>& GSocket::getClientIns() {
     return m_clientIns;
-}
-//===============================================
-int GSocket::readPort() const {
-    int lPort = ntohs(m_address.sin_port);
-    return lPort;
 }
 //===============================================
 std::string GSocket::readAddressIp() const {
