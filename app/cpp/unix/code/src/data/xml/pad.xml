@@ -17,7 +17,7 @@
             <port>8585</port>
             <backlog>5</backlog>
             <client_ip>0.0.0.0</client_ip>
-            <server_ip>192.168.1.45</server_ip>
+            <server_ip>readydev.ovh</server_ip>
         </data>
         <!-- mysql -->
         <data>
