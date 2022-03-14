@@ -17,16 +17,18 @@ void GProcess::run(int _argc, char** _argv) {
     if(lKey == "default") {
         runTest(_argc, _argv);
     }
+    // test
     else if(lKey == "test") {
         runTest(_argc, _argv);
     }
+    // end
     else {
         runTest(_argc, _argv);
     }
 }
 //===============================================
 void GProcess::runTest(int _argc, char** _argv) {
-    std::shared_ptr<GTest> lObj(new GTest);
-    lObj->run(_argc, _argv);
+    GTest lTest;
+    lTest.run(_argc, _argv);
 }
 //===============================================

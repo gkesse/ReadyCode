@@ -178,6 +178,10 @@ int GXml::countXPath() const {
 }
 //===============================================
 GXml& GXml::getNodeXPath() {
+    if(!m_xpathObj) {
+        m_node = 0;
+        return *this;
+    }
     if(!m_xpathObj->nodesetval) {
         m_node = 0;
         return *this;

@@ -6,8 +6,7 @@ GTARGET = bin\rdcpp.exe
 #================================================
 # cpp
 all: clean_exe qmake compile run
-all_r: run
-all_g: run_g
+all_g: clean_exe qmake compile run_g
 
 qmake:
 	@qmake 

@@ -3,8 +3,7 @@
 #include "GTest.h"
 #include "GPad.h"
 //===============================================
-GProcess::GProcess(QObject* _parent) :
-GObject(_parent) {
+GProcess::GProcess(QObject* _parent) : GObject(_parent) {
 
 }
 //===============================================
@@ -19,18 +18,23 @@ void GProcess::run(int _argc, char** _argv) {
 	if(lKey == "default") {
 		runTest(_argc, _argv);
 	}
-	else if(lKey == "pad") {
-		runPad(_argc, _argv);
-	}
+	// test
+    else if(lKey == "test") {
+        runTest(_argc, _argv);
+    }
+	// pad
+    else if(lKey == "pad") {
+        runPad(_argc, _argv);
+    }
+	// end
 	else {
 		runTest(_argc, _argv);
 	}
 }
 //===============================================
 void GProcess::runTest(int _argc, char** _argv) {
-	GTest* lObj = new GTest;
-	lObj->run(_argc, _argv);
-	delete lObj;
+	GTest lTest;
+	lTest.run(_argc, _argv);
 }
 //===============================================
 void GProcess::runPad(int _argc, char** _argv) {

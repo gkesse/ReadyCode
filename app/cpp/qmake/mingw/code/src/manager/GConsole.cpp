@@ -1,25 +1,24 @@
 //===============================================
-#include "GClass.h"
+#include "GConsole.h"
 //===============================================
-GClass::GClass() {
+GConsole* GConsole::m_instance = 0;
+//===============================================
+GConsole::GConsole(QObject* _parent) : GObject(_parent) {
 
 }
 //===============================================
-GClass::~GClass() {
+GConsole::~GConsole() {
 
 }
 //===============================================
-void GClass::addObserver(GClass* _obs) {
-    m_obs.push_back(_obs);
-}
-//===============================================
-void GClass::notify() {
-    for(size_t i = 0; i < m_obs.size(); i++) {
-        GClass* lObs = m_obs.at(i);
-        lObs->update();
+GConsole* GConsole::Instance() {
+    if(m_instance == 0) {
+        m_instance = new GConsole;
     }
+    return m_instance;
 }
 //===============================================
-void GClass::on() {}
-void GClass::update() {}
+void GConsole::printData(const QString& _data) {
+    printf("%s\n", _data.toStdString().c_str());
+}
 //===============================================
