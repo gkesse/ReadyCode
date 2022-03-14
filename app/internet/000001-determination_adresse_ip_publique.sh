@@ -1,6 +1,5 @@
 #================================================
-# recherche_chemin_fichier
+# determination_adresse_ip_publique
 #================================================
 
-find /usr/include/ -name socket.h
-
+https://mon-ip.io/
