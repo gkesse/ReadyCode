@@ -4,6 +4,8 @@
 //===============================================
 // system
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include <winsock2.h>
 // qt
 #include <QtWidgets>

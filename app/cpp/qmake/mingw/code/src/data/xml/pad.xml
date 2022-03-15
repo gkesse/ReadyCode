@@ -121,9 +121,9 @@
 			<type>SOCK_STREAM</type>
 			<protocol>IPPROTO_TCP</protocol>
 			<family>AF_INET</family>
-			<server_ip>192.168.1.45</server_ip>
+			<server_ip>127.0.0.1</server_ip>
 			<client_ip>0.0.0.0</client_ip>
-			<port>8555</port>
+			<port>9001</port>
 			<backlog>5</backlog>
 		</data>
 		<!-- end -->
