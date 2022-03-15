@@ -3,6 +3,7 @@
 #include "GPath.h"
 #include "GXml.h"
 #include "GConsole.h"
+#include "GSocket.h"
 //===============================================
 GTest::GTest(QObject* _parent) :
 GObject(_parent) {
@@ -64,6 +65,20 @@ void GTest::runXml(int _argc, char** _argv) {
 //===============================================
 void GTest::runSocketServer(int _argc, char** _argv) {
     printf("%s\n", __FUNCTION__);
+    GSocket lServer;
+
+    int lMajor = lServer.getItem("socket", "major").toInt();
+    int lMinor = lServer.getItem("socket", "minor").toInt();
+    int lDomain = lServer.loadDomain();
+    int lType = lServer.loadType();
+    int lProtocol = lServer.loadProtocol();
+    int lFamily = lServer.loadFamily();
+    QString lClientIp = lServer.getItem("socket", "client_ip");
+    int lPort = lServer.getItem("socket", "port").toInt();
+
+    lServer.initSocket(lMajor, lMinor);
+    lServer.createSocket(lDomain, lType, lProtocol);
+    lServer.createAddress(lFamily, lClientIp, lPort);
 }
 //===============================================
 void GTest::runSocketClient(int _argc, char** _argv) {

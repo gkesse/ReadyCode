@@ -35,15 +35,15 @@ public:
     void createAddress(const std::string& _ip, int _port);
     bool listenSocket(int _backlog);
     bool bindSocket();
-    bool connectToServer();
-    bool acceptConnection(GSocket& _socket);
+    bool connectSocket();
+    bool acceptSocket(GSocket& _socket);
     int recvData(std::string& _data);
     int readData(std::string& _data);
     int recvData(GSocket& _socket, std::string& _data);
     void sendData(const std::string& _data);
     void writeData(const std::string& _data);
     void sendData(GSocket& _socket, const std::string& _data);
-    std::string getAddressIp() const;
+    std::string loadAddressIp() const;
     std::string getHostname() const;
     void shutdownWR();
     void shutdownRD();
@@ -106,8 +106,8 @@ public:
     void removeClient();
 
 private:
-    static const int BUFFER_SIZE = 1024;
-    static const int HOSTNAME_SIZE = 256;
+    static const int BUFFER_DATA_SIZE = 1024;
+    static const int BUFFER_HOSTNAME_SIZE = 256;
     //
     static GSocket* m_instance;
     static GSocket* m_socketObj;

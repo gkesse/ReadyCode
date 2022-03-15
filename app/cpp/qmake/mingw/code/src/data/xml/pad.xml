@@ -112,6 +112,19 @@
 				<!-- end -->
 			</map>
 		</data>
+		<!-- socket -->
+		<data>
+			<code>socket</code>
+			<major>2</major>
+			<minor>2</minor>
+			<domain>AF_INET</domain>
+			<type>SOCK_STREAM</type>
+			<protocol>IPPROTO_TCP</protocol>
+			<family>AF_INET</family>
+			<server_ip>192.168.1.45</server_ip>
+			<client_ip>0.0.0.0</client_ip>
+			<port>8555</port>
+		</data>
 		<!-- end -->
     </datas>
 </rdv>

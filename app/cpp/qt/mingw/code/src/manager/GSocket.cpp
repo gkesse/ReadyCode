@@ -165,7 +165,7 @@ bool GSocket::bindSocket() {
     return true;
 }
 //===============================================
-bool GSocket::connectToServer() {
+bool GSocket::connectSocket() {
     int lAnswer = connect(m_socket, (SOCKADDR*)(&m_address), sizeof(m_address));
     if(lAnswer == SOCKET_ERROR) {
         GLOG->addError("Erreur la methode (connectToServer) a echoue.");
@@ -174,7 +174,7 @@ bool GSocket::connectToServer() {
     return true;
 }
 //===============================================
-bool GSocket::acceptConnection(GSocket& _socket) {
+bool GSocket::acceptSocket(GSocket& _socket) {
     int lSize = sizeof(_socket.m_address);
     _socket.m_socket = accept(m_socket, (SOCKADDR*)&_socket.m_address, &lSize);
     if(_socket.m_socket == INVALID_SOCKET) {
@@ -185,8 +185,8 @@ bool GSocket::acceptConnection(GSocket& _socket) {
 }
 //===============================================
 int GSocket::recvData(std::string& _data) {
-    char lBuffer[BUFFER_SIZE + 1];
-    int lBytes = recv(m_socket, lBuffer, BUFFER_SIZE, 0);
+    char lBuffer[BUFFER_DATA_SIZE + 1];
+    int lBytes = recv(m_socket, lBuffer, BUFFER_DATA_SIZE, 0);
     if(lBytes > 0) {
         lBuffer[lBytes] = 0;
         _data = lBuffer;
@@ -209,9 +209,9 @@ int GSocket::readData(std::string& _data) {
 }
 //===============================================
 int GSocket::recvData(GSocket& _socket, std::string& _data) {
-    char lBuffer[BUFFER_SIZE + 1];
+    char lBuffer[BUFFER_DATA_SIZE + 1];
     int lSize = sizeof(_socket.m_address);
-    int lBytes = recvfrom(m_socket, lBuffer, BUFFER_SIZE, 0, (SOCKADDR*)&_socket.m_address, &lSize);
+    int lBytes = recvfrom(m_socket, lBuffer, BUFFER_DATA_SIZE, 0, (SOCKADDR*)&_socket.m_address, &lSize);
     if(lBytes > 0) {
         lBuffer[lBytes] = 0;
         _data = lBuffer;
@@ -230,10 +230,10 @@ void GSocket::sendData(const std::string& _data) {
 //===============================================
 void GSocket::writeData(const std::string& _data) {
     int lIndex = 0;
-    char lBuffer[BUFFER_SIZE + 1];
+    char lBuffer[BUFFER_DATA_SIZE + 1];
     GString lData(_data);
     for(int i = 0; i < 1; i++) {
-        int lBytes = lData.toChar(lBuffer, lIndex, BUFFER_SIZE);
+        int lBytes = lData.toChar(lBuffer, lIndex, BUFFER_DATA_SIZE);
         if(lBytes <= 0) break;
         lIndex += lBytes;
         sendData(lBuffer);
@@ -245,14 +245,14 @@ void GSocket::sendData(GSocket& _socket, const std::string& _data) {
     sendto(m_socket, _data.c_str(), _data.size(), 0, (SOCKADDR*)&_socket.m_address, lSize);
 }
 //===============================================
-std::string GSocket::getAddressIp() const {
+std::string GSocket::loadAddressIp() const {
     std::string lAddressIp = inet_ntoa(m_address.sin_addr);
     return lAddressIp;
 }
 //===============================================
 std::string GSocket::getHostname() const {
-    char lBuffer[HOSTNAME_SIZE + 1];
-    gethostname(lBuffer, HOSTNAME_SIZE);
+    char lBuffer[BUFFER_HOSTNAME_SIZE + 1];
+    gethostname(lBuffer, BUFFER_HOSTNAME_SIZE);
     std::string lHostname = lBuffer;
     return lHostname;
 }
@@ -304,11 +304,11 @@ void GSocket::startServerTcp() {
 
     while(1) {
         GSocket* lClient = new GSocket;
-        acceptConnection(*lClient);
+        acceptSocket(*lClient);
         lClient->m_server = this;
 
         if(getAddressIpShow()) {
-            printf("adresse ip client : %s\n", lClient->getAddressIp().c_str());
+            printf("adresse ip client : %s\n", lClient->loadAddressIp().c_str());
         }
 
         lThread.createThread(m_onServerTcp, lClient);
@@ -330,7 +330,7 @@ void GSocket::callServerTcp(const std::string& _dataIn, std::string& _dataOut) {
 
     createSocketTcp();
     createAddress(getAddressServer(), getPort());
-    connectToServer();
+    connectSocket();
 
     writeData(_dataIn);
     readData(_dataOut);
@@ -373,7 +373,7 @@ void GSocket::startClientTcp() {
 
     createSocketTcp();
     createAddress(getAddressServer(), getPort());
-    connectToServer();
+    connectSocket();
 
     GThread lThread;
     lThread.createThread(m_onClientTcp, this);

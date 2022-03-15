@@ -239,9 +239,9 @@ void GProcess::runSocketServerTest(int _argc, char** _argv) {
     printf("Demarrage su derveur...\n");
 
     GSocket lClient;
-    lServer.acceptConnection(lClient);
+    lServer.acceptSocket(lClient);
 
-    printf("adresse ip client : %s\n", lClient.getAddressIp().c_str());
+    printf("adresse ip client : %s\n", lClient.loadAddressIp().c_str());
 
     std::string lData;
 
@@ -263,7 +263,7 @@ void GProcess::runSocketClientTest(int _argc, char** _argv) {
     lClient.initSocket(lClient.getMajor(), lClient.getMinor());
     lClient.createSocketTcp();
     lClient.createAddress(lClient.getAddressServer(), lClient.getPort());
-    lClient.connectToServer();
+    lClient.connectSocket();
 
     std::string lData;
 

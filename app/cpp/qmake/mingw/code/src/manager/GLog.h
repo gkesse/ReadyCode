@@ -5,6 +5,7 @@
 #include "GObject.h"
 //===============================================
 #define GLOGI GLog::Instance()
+#define GLOG(x) GLOGI->addError(x)
 //===============================================
 class GLog : public GObject {
 	Q_OBJECT
@@ -14,6 +15,7 @@ public:
     ~GLog();
     static GLog* Instance();
     void addError(const QString& _error);
+    void showError();
     void showError(QWidget* _parent);
     bool hasError();
 

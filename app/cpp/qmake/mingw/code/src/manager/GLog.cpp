@@ -23,6 +23,17 @@ void GLog::addError(const QString& _error) {
     m_errors.push_back(_error);
 }
 //===============================================
+void GLog::showError() {
+    if(!hasError()) return;
+    QString lErrors = "";
+    for(int i = 0; i < m_errors.size(); i++) {
+        lErrors += m_errors.at(i);
+        lErrors += "\n";
+    }
+    printf("%s\n", lErrors.toStdString().c_str());
+    m_errors.clear();
+}
+//===============================================
 void GLog::showError(QWidget* _parent) {
     if(!hasError()) return;
     QString lErrors = "";
