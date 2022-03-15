@@ -4,6 +4,7 @@
 #include "GXml.h"
 #include "GConsole.h"
 #include "GSocket.h"
+#include "GFile.h"
 //===============================================
 GTest::GTest(QObject* _parent) :
 GObject(_parent) {
@@ -187,7 +188,7 @@ void GTest::runSocketClientWrite(int _argc, char** _argv) {
     lClient.connectSocket();
 
     QString lData;
-    lClient.writeData("Bonjour tout le monde");
+    lClient.writeData(GFile(GRES("xml", "pad.xml")).getData());
     lClient.readData(lData);
 
     console("=====>");
