@@ -48,3 +48,4 @@
 /**/*.docx
 /**/*.pdsprj
 /**/*.bak
+/**/Makefile

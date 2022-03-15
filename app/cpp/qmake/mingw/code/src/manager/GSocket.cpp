@@ -5,7 +5,7 @@
 #include "GPath.h"
 #include "GFormat.h"
 //===============================================
-GSocket::GSocket(QObject* _parent) : GObject(_parent) {
+GSocket::GSocket() {
     createDoms();
 }
 //===============================================
@@ -18,6 +18,13 @@ void GSocket::createDoms() {
     m_dom.reset(new GXml);
     m_dom->loadXmlFile(GRES("xml", "pad.xml"));
     m_dom->createXPath();
+}
+//===============================================
+QString GSocket::getItem(const QString& _key, const QString& _data) const {
+    m_dom->queryXPath(QString("/rdv/datas/data[code='%1']/%2").arg(_key).arg(_data));
+    m_dom->getNodeXPath();
+    QString lData = m_dom->getNodeValue();
+    return lData;
 }
 //===============================================
 int GSocket::loadDomain() const {
@@ -113,6 +120,12 @@ GSocket& GSocket::connectSocket() {
         return *this;
     }
     return *this;
+}
+//===============================================
+void GSocket::startMessage() {
+    if(GLOGI->hasError()) return;
+    printf("=====>\n");
+    printf("demarrage du serveur...\n");
 }
 //===============================================
 GSocket& GSocket::acceptSocket(GSocket& _socket) {

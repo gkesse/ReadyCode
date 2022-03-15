@@ -2,17 +2,18 @@
 #ifndef _GSocket_
 #define _GSocket_
 //===============================================
-#include "GObject.h"
+#include "GInclude.h"
 //===============================================
-class GSocket : public GObject {
-    Q_OBJECT
-
+class GXml;
+//===============================================
+class GSocket {
 public:
-    GSocket(QObject* _parent = 0);
+    GSocket();
     ~GSocket();
     static GSocket* Instance();
     //
     void createDoms();
+    QString getItem(const QString& _key, const QString& _data) const;
     int loadDomain() const;
     int loadType() const;
     int loadProtocol() const;
@@ -24,6 +25,7 @@ public:
     GSocket& listenSocket(int _backlog);
     GSocket& bindSocket();
     GSocket& connectSocket();
+    void startMessage();
     GSocket& acceptSocket(GSocket& _socket);
     int recvData(QString& _data);
     int recvData(GSocket& _socket, QString& _data);
@@ -37,6 +39,8 @@ public:
     void cleanSocket();
 
 private:
+    QSharedPointer<GXml> m_dom;
+    //
     static const int BUFFER_DATA_SIZE = 1024;
     static const int BUFFER_HOSTNAME_SIZE = 256;
     //

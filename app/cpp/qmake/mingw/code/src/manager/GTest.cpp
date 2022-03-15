@@ -66,6 +66,7 @@ void GTest::runXml(int _argc, char** _argv) {
 void GTest::runSocketServer(int _argc, char** _argv) {
     printf("%s\n", __FUNCTION__);
     GSocket lServer;
+    GSocket lClient;
 
     int lMajor = lServer.getItem("socket", "major").toInt();
     int lMinor = lServer.getItem("socket", "minor").toInt();
@@ -75,13 +76,58 @@ void GTest::runSocketServer(int _argc, char** _argv) {
     int lFamily = lServer.loadFamily();
     QString lClientIp = lServer.getItem("socket", "client_ip");
     int lPort = lServer.getItem("socket", "port").toInt();
+    int lBacklog = lServer.getItem("socket", "backlog").toInt();
 
     lServer.initSocket(lMajor, lMinor);
     lServer.createSocket(lDomain, lType, lProtocol);
     lServer.createAddress(lFamily, lClientIp, lPort);
+    lServer.bindSocket();
+    lServer.listenSocket(lBacklog);
+    lServer.startMessage();
+    lServer.acceptSocket(lClient);
+
+    QString lData;
+    lClient.sendData("<result>ok</result>");
+    lClient.recvData(lData);
+    console("=====>");
+    console(lData);
+    lClient.recvData(lData);
+    console("=====>");
+    console(lData);
+
+    lClient.closeSocket();
+    lServer.closeSocket();
+    lServer.cleanSocket();
 }
 //===============================================
 void GTest::runSocketClient(int _argc, char** _argv) {
     printf("%s\n", __FUNCTION__);
+    GSocket lClient;
+
+    int lMajor = lClient.getItem("socket", "major").toInt();
+    int lMinor = lClient.getItem("socket", "minor").toInt();
+    int lDomain = lClient.loadDomain();
+    int lType = lClient.loadType();
+    int lProtocol = lClient.loadProtocol();
+    int lFamily = lClient.loadFamily();
+    QString lServerIp = lClient.getItem("socket", "server_ip");
+    int lPort = lClient.getItem("socket", "port").toInt();
+
+    lClient.initSocket(lMajor, lMinor);
+    lClient.createSocket(lDomain, lType, lProtocol);
+    lClient.createAddress(lFamily, lServerIp, lPort);
+    lClient.connectSocket();
+
+    QString lData;
+    lClient.recvData(lData);
+
+    lClient.sendData("Bonjour tout le monde");
+    lClient.sendData("Voici mon premier test");
+
+    console("=====>");
+    console(lData);
+
+    lClient.closeSocket();
+    lClient.cleanSocket();
 }
 //===============================================
