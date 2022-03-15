@@ -87,13 +87,13 @@ void GTest::runSocketServer(int _argc, char** _argv) {
     lServer.acceptSocket(lClient);
 
     QString lData;
+    lClient.recvData(lData);
+    console("=====>");
+    console(lData);
+    lClient.recvData(lData);
+    console("=====>");
+    console(lData);
     lClient.sendData("<result>ok</result>");
-    lClient.recvData(lData);
-    console("=====>");
-    console(lData);
-    lClient.recvData(lData);
-    console("=====>");
-    console(lData);
 
     lClient.closeSocket();
     lServer.closeSocket();
@@ -119,10 +119,9 @@ void GTest::runSocketClient(int _argc, char** _argv) {
     lClient.connectSocket();
 
     QString lData;
-    lClient.recvData(lData);
-
     lClient.sendData("Bonjour tout le monde");
     lClient.sendData("Voici mon premier test");
+    lClient.recvData(lData);
 
     console("=====>");
     console(lData);

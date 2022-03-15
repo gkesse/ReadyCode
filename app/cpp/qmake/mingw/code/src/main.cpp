@@ -8,7 +8,7 @@ int main(int _argc, char** _argv) {
 	lXml.initModule();
 	GProcess lProcess;
 	lProcess.run(_argc, _argv);
-	GLOGI->showError(0);
+	GLOGI->showError();
 	lXml.cleanModule();
 	return 0;
 }

@@ -116,7 +116,15 @@ GSocket& GSocket::connectSocket() {
     if(GLOGI->hasError()) return *this;
     int lAnswer = connect(m_socket, (SOCKADDR*)(&m_address), sizeof(m_address));
     if(lAnswer == SOCKET_ERROR) {
-        GLOG(QString("Erreur la methode (GSocket::connectSocket) a echoue (1)"));
+        GLOG(QString("Erreur la methode (GSocket::connectSocket) a echoue (1)\n"
+                "- erreur.........: (%1)").arg(WSAGetLastError()));
+        wchar_t *s = NULL;
+        FormatMessageW(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+                       NULL, WSAGetLastError(),
+                       MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+                       (LPWSTR)&s, 0, NULL);
+        fprintf(stdout, "%s\n", s);
+        LocalFree(s);
         return *this;
     }
     return *this;
