@@ -14,7 +14,7 @@
             <type>SOCK_STREAM</type>
             <protocol>IPPROTO_TCP</protocol>
             <family>AF_INET</family>
-            <port>8555</port>
+            <port>8585</port>
             <backlog>5</backlog>
             <client_ip>0.0.0.0</client_ip>
             <server_ip>readydev.ovh</server_ip>
