@@ -44,6 +44,9 @@ public:
     void startServer(void* _onServerThread);
     static DWORD WINAPI onServerThread(LPVOID _params);
     QString callServer(const QString& _dataIn);
+    //
+    QStack<QString>& getDataIns();
+    QStack<GSocket*>& getClientIns();
 
 private:
     QSharedPointer<GXml> m_dom;

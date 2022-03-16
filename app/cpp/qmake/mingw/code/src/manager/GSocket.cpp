@@ -386,3 +386,11 @@ QString GSocket::callServer(const QString& _dataIn) {
     return lDataOut;
 }
 //===============================================
+QStack<QString>& GSocket::getDataIns() {
+    return m_dataIns;
+}
+//===============================================
+QStack<GSocket*>& GSocket::getClientIns() {
+    return m_clientIns;
+}
+//===============================================

@@ -236,8 +236,8 @@ DWORD WINAPI GTest::onSocketServerStartThread(LPVOID _params) {
 //===============================================
 VOID CALLBACK GTest::onSocketServerStartTimer(HWND, UINT, UINT_PTR, DWORD) {
     GSocket* lServer = m_test->m_server;
-    QStack<QString>& lDataIns = lServer->m_dataIns;
-    QStack<GSocket*>& lClientIns = lServer->m_clientIns;
+    QStack<QString>& lDataIns = lServer->getDataIns();
+    QStack<GSocket*>& lClientIns = lServer->getClientIns();
 
     if(!lDataIns.empty()) {
         QString lDataIn = lDataIns.front();
