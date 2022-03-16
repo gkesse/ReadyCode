@@ -8,9 +8,11 @@
 #include "GThread.h"
 #include "GTimer.h"
 //===============================================
+GTest* GTest::m_test = 0;
+//===============================================
 GTest::GTest(QObject* _parent) :
 GObject(_parent) {
-
+    m_server = 0;
 }
 //===============================================
 GTest::~GTest() {
@@ -44,6 +46,12 @@ void GTest::run(int _argc, char** _argv) {
     }
     else if(lKey == "socket/client/write") {
         runSocketClientWrite(_argc, _argv);
+    }
+    else if(lKey == "socket/server/start") {
+        runSocketServerStart(_argc, _argv);
+    }
+    else if(lKey == "socket/client/start") {
+        runSocketClientStart(_argc, _argv);
     }
     // thread
     else if(lKey == "thread") {
@@ -200,6 +208,59 @@ void GTest::runSocketClientWrite(int _argc, char** _argv) {
     QString lData;
     lClient.writeData(GFile(GRES("xml", "pad.xml")).getData());
     lClient.readData(lData);
+
+    console("=====>");
+    console(lData);
+
+    lClient.closeSocket();
+    lClient.cleanSocket();
+}
+//===============================================
+void GTest::runSocketServerStart(int _argc, char** _argv) {
+    printf("%s\n", __FUNCTION__);
+    m_test = new GTest;
+    m_test->m_server = new GSocket;
+    GThread lThread;
+    GTimer lTimer;
+    lThread.createThread((void*)onSocketServerStartThread, this);
+    lTimer.setTimer((void*)onSocketServerStartTimer, 100);
+    lTimer.pauseTimer();
+}
+//===============================================
+DWORD WINAPI GTest::onSocketServerStartThread(LPVOID _params) {
+    printf("%s\n", __FUNCTION__);
+    GSocket* lServer = m_test->m_server;
+    lServer->startServer((void*)GSocket::onServerThread);
+    return 0;
+}
+//===============================================
+VOID CALLBACK GTest::onSocketServerStartTimer(HWND, UINT, UINT_PTR, DWORD) {
+    GSocket* lServer = m_test->m_server;
+    QStack<QString>& lDataIns = lServer->m_dataIns;
+    QStack<GSocket*>& lClientIns = lServer->m_clientIns;
+
+    if(!lDataIns.empty()) {
+        QString lDataIn = lDataIns.front();
+        GSocket* lClient = lClientIns.front();
+        lDataIns.pop();
+        lClientIns.pop();
+
+        console("=====>");
+        console(lDataIn);
+
+        lClient->writeData("<result>ok</result>");
+
+        lClient->closeSocket();
+        delete lClient;
+    }
+}
+//===============================================
+void GTest::runSocketClientStart(int _argc, char** _argv) {
+    printf("%s\n", __FUNCTION__);
+    GSocket lClient;
+
+    QString lData = GFile(GRES("xml", "pad.xml")).getData();
+    lData = lClient.callServer(lData);
 
     console("=====>");
     console(lData);

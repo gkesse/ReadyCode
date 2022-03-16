@@ -41,7 +41,8 @@ public:
     QString getHostname() const;
     void closeSocket();
     void cleanSocket();
-    void startServer();
+    void startServer(void* _onServerThread);
+    static DWORD WINAPI onServerThread(LPVOID _params);
     QString callServer(const QString& _dataIn);
 
 private:
@@ -53,6 +54,10 @@ private:
     //
     SOCKET m_socket;
     SOCKADDR_IN m_address;
+    //
+    GSocket* m_server;
+    QStack<QString> m_dataIns;
+    QStack<GSocket*> m_clientIns;
 };
 //==============================================
 #endif

@@ -12,11 +12,23 @@
 			<fr>Permission refusée.</fr>
 			<en>Permission denied.</en>
         </data>
+        <!-- 10054 -->
+        <data>
+			<code>10054</code>
+			<fr>Réinitialisation de la connexion par paire.</fr>
+			<en>Connection reset by peer.</en>
+        </data>
         <!-- 10061 -->
         <data>
 			<code>10061</code>
 			<fr>Connexion refusée.</fr>
 			<en>Connection refused.</en>
+        </data>
+        <!-- 10093 -->
+        <data>
+			<code>10093</code>
+			<fr>WSAStartup réussi n'a pas encore été exécuté.</fr>
+			<en>Successful WSAStartup not yet performed.</en>
         </data>
         <!-- end -->
     </datas>

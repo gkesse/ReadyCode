@@ -4,9 +4,12 @@
 #include "GLog.h"
 #include "GPath.h"
 #include "GFormat.h"
+#include "GThread.h"
+#include "GConsole.h"
 //===============================================
 GSocket::GSocket() {
     createDoms();
+    m_server = 0;
 }
 //===============================================
 GSocket::~GSocket() {
@@ -312,7 +315,8 @@ void GSocket::cleanSocket() {
     WSACleanup();
 }
 //===============================================
-void GSocket::startServer() {
+void GSocket::startServer(void* _onServerThread) {
+    if(GLOGI->hasError()) return;
     int lMajor = getItem("socket", "major").toInt();
     int lMinor = getItem("socket", "minor").toInt();
     int lDomain = loadDomain();
@@ -330,15 +334,35 @@ void GSocket::startServer() {
     listenSocket(lBacklog);
     startMessage();
 
+    GThread lThread;
+
     while(1) {
         GSocket* lClient = new GSocket;
+        lClient->m_server = this;
         acceptSocket(lClient);
+        lThread.createThread(_onServerThread, lClient);
     }
 
+    closeSocket();
     cleanSocket();
 }
 //===============================================
+DWORD WINAPI GSocket::onServerThread(LPVOID _params) {
+    if(GLOGI->hasError()) return 0;
+    GSocket* lClient = (GSocket*)_params;
+    GSocket* lServer = lClient->m_server;
+    QStack<QString>& lDataIns = lServer->m_dataIns;
+    QStack<GSocket*>& lClientIns = lServer->m_clientIns;
+
+    QString lDataIn;
+    lClient->readData(lDataIn);
+    lDataIns.push(lDataIn);
+    lClientIns.push(lClient);
+    return 0;
+}
+//===============================================
 QString GSocket::callServer(const QString& _dataIn) {
+    if(GLOGI->hasError()) return "";
     int lMajor = getItem("socket", "major").toInt();
     int lMinor = getItem("socket", "minor").toInt();
     int lDomain = loadDomain();
