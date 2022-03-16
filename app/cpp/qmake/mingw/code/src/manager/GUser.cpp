@@ -26,7 +26,7 @@ void GUser::onModule(QString _req, GSocket* _client) {
     }
     // unknown
     else {
-        onModuleUnknown(_req, _client);
+        onMethodUnknown(_req, _client);
     }
 }
 //===============================================

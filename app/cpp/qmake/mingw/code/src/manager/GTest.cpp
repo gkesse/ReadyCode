@@ -7,6 +7,7 @@
 #include "GFile.h"
 #include "GThread.h"
 #include "GTimer.h"
+#include "GMaster.h"
 //===============================================
 GTest* GTest::m_test = 0;
 //===============================================
@@ -251,14 +252,8 @@ VOID CALLBACK GTest::onSocketServerStartTimer(HWND, UINT, UINT_PTR, DWORD) {
         GSocket* lClient = lClientIns.front();
         lDataIns.pop();
         lClientIns.pop();
-
-        console("=====>");
-        console(lDataIn);
-
-        lClient->writeData("<result>ok</result>");
-
-        lClient->closeSocket();
-        delete lClient;
+        GMaster lMaster(lDataIn);
+        lMaster.onModule(lDataIn, lClient);
     }
 }
 //===============================================
@@ -309,8 +304,10 @@ void GTest::runRequest(int _argc, char** _argv) {
     lReq.createDoc("1.0");
     lReq.createRoot("rdv");
     lReq.createXPath();
-    lReq.createNodePath("/rdv/module", "hostname");
-    lReq.createNodePath("/rdv/method", "save_hostname");
+    lReq.createNodePath("/rdv/module", "user");
+    lReq.createNodePath("/rdv/method", "save_user");
+    lReq.createNodePath("/rdv/data/firstname", "Gerard");
+    lReq.createNodePath("/rdv/data/lastname", "KESSE");
     console(lReq.toString());
 }
 //===============================================

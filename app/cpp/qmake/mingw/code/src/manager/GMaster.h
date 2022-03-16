@@ -7,9 +7,11 @@
 class GSocket;
 //===============================================
 class GMaster : public GModule {
+    Q_OBJECT
+
 public:
-    GMaster();
-    GMaster(const QString& _req);
+    GMaster(QObject* _parent = 0);
+    GMaster(const QString& _req, QObject* _parent = 0);
     ~GMaster();
     //
     void onModule(QString _req, GSocket* _client);

@@ -5,11 +5,11 @@
 #include "GXml.h"
 #include "GUser.h"
 //===============================================
-GMaster::GMaster() : GModule() {
+GMaster::GMaster(QObject* _parent) : GModule(_parent) {
 
 }
 //===============================================
-GMaster::GMaster(const QString& _req) : GModule(_req) {
+GMaster::GMaster(const QString& _req, QObject* _parent) : GModule(_req, _parent) {
 
 }
 //===============================================
@@ -21,7 +21,7 @@ void GMaster::onModule(QString _req, GSocket* _client) {
     if(GLOGI->hasError()) return;
     QString lModule = getModule();
 
-    // hostname
+    // user
     if(lModule == "user") {
         onModuleUser(_req, _client);
     }
