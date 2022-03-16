@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<rdv>
+    <datas>
+        <!-- lang -->
+        <data>
+			<code>lang</code>
+			<lang>en</lang>
+        </data>
+        <!-- 10013 -->
+        <data>
+			<code>10013</code>
+			<fr>Permission refusée.</fr>
+			<en>Permission denied.</en>
+        </data>
+        <!-- 10061 -->
+        <data>
+			<code>10061</code>
+			<fr>Connexion refusée.</fr>
+			<en>Connection refused.</en>
+        </data>
+        <!-- end -->
+    </datas>
+</rdv>

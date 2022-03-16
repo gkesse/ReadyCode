@@ -398,11 +398,11 @@ DWORD WINAPI GSocket::onClientTcp(LPVOID _params) {
     return 0;
 }
 //===============================================
-void GSocket::setOnServerTcp(GThread::onThreadCB _onServerTcp) {
+void GSocket::setOnServerTcp(GThread::GTHREAD_CB _onServerTcp) {
     m_onServerTcp = _onServerTcp;
 }
 //===============================================
-void GSocket::setOnClientTcp(GThread::onThreadCB _onClientTcp) {
+void GSocket::setOnClientTcp(GThread::GTHREAD_CB _onClientTcp) {
     m_onClientTcp = _onClientTcp;
 }
 //===============================================

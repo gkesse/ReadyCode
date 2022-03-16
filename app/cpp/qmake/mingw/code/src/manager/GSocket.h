@@ -14,10 +14,13 @@ public:
     //
     void createDoms();
     QString getItem(const QString& _key, const QString& _data) const;
+    QString getErrorMsg(const QString& _code, const QString& _lang) const;
+    //
     int loadDomain() const;
     int loadType() const;
     int loadProtocol() const;
     int loadFamily() const;
+    QString loadErrorMsg() const;
     //
     GSocket& initSocket(int _major, int _minor);
     GSocket& createSocket(int _domain, int _type, int _protocol);
@@ -27,6 +30,7 @@ public:
     GSocket& connectSocket();
     void startMessage();
     GSocket& acceptSocket(GSocket& _socket);
+    GSocket& acceptSocket(GSocket* _socket);
     int recvData(QString& _data);
     int recvData(GSocket& _socket, QString& _data);
     int readData(QString& _data);
@@ -37,9 +41,12 @@ public:
     QString getHostname() const;
     void closeSocket();
     void cleanSocket();
+    void startServer();
+    QString callServer(const QString& _dataIn);
 
 private:
     QSharedPointer<GXml> m_dom;
+    QSharedPointer<GXml> m_domWsaError;
     //
     static const int BUFFER_DATA_SIZE = 1024;
     static const int BUFFER_HOSTNAME_SIZE = 256;

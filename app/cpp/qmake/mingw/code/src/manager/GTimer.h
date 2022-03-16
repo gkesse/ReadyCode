@@ -4,26 +4,22 @@
 //===============================================
 #include "GObject.h"
 //===============================================
-#define GTIMER GTimer::Instance()
-//===============================================
 class GTimer : public GObject {
+    Q_OBJECT
+
 public:
     typedef TIMERPROC GTIMER_CB;
 
 public:
-    GTimer();
+    GTimer(GObject* _parent = 0);
     ~GTimer();
-    static GTimer* Instance();
     //
-    void setTimer(GTIMER_CB _onTimer, int _ms);
+    void setTimer(void* _onTimer, int _ms);
     void pauseTimer();
-    //
-    void stopTimer();
-    bool isRunning() const;
-    
+    bool& getRunning();
+    static VOID CALLBACK onTimer(HWND, UINT, UINT_PTR, DWORD);
+
 private:
-    static GTimer* m_instance;
-    //
     bool m_running;
 };
 //==============================================

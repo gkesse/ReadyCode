@@ -4,20 +4,19 @@
 //===============================================
 #include "GObject.h"
 //===============================================
-#define GTHREAD GThread::Instance()
-//===============================================
 class GThread : public GObject {
+    Q_OBJECT
+
 public:
     typedef LPTHREAD_START_ROUTINE GTHREAD_CB;
 
 public:
-    GThread();
+    GThread(QObject* _parent = 0);
     ~GThread();
-    static GThread* Instance();
-    void createThread(GTHREAD_CB _onThread, void* _params);
-    
+    void createThread(void* _onThread, void* _params);
+    static DWORD WINAPI onThread(LPVOID _params);
+
 private:
-    static GThread* m_instance;
     HANDLE m_handleID;
     DWORD m_threadID;
 };

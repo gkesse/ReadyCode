@@ -5,6 +5,8 @@
 #include "GConsole.h"
 #include "GSocket.h"
 #include "GFile.h"
+#include "GThread.h"
+#include "GTimer.h"
 //===============================================
 GTest::GTest(QObject* _parent) :
 GObject(_parent) {
@@ -43,7 +45,15 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "socket/client/write") {
         runSocketClientWrite(_argc, _argv);
     }
-	// end
+    // thread
+    else if(lKey == "thread") {
+        runThread(_argc, _argv);
+    }
+    // timer
+    else if(lKey == "timer") {
+        runTimer(_argc, _argv);
+    }
+    // end
 	else {
 		runTest(_argc, _argv);
 	}
@@ -196,5 +206,32 @@ void GTest::runSocketClientWrite(int _argc, char** _argv) {
 
     lClient.closeSocket();
     lClient.cleanSocket();
+}
+//===============================================
+void GTest::runThread(int _argc, char** _argv) {
+    printf("%s\n", __FUNCTION__);
+    GThread lThread;
+    lThread.createThread((void*)onThread, 0);
+    system("pause");
+}
+//===============================================
+DWORD WINAPI GTest::onThread(LPVOID _params) {
+    printf("%s\n", __FUNCTION__);
+    int lCount = 10;
+    for(int i = 0; i < lCount; i++) {
+        console(QString("[%1] : Bonjour tout le monde").arg(i));
+    }
+    return 0;
+}
+//===============================================
+void GTest::runTimer(int _argc, char** _argv) {
+    printf("%s\n", __FUNCTION__);
+    GTimer lTimer;
+    lTimer.setTimer((void*)onTimer, 1000);
+    lTimer.pauseTimer();
+}
+//===============================================
+VOID CALLBACK GTest::onTimer(HWND, UINT, UINT_PTR, DWORD) {
+    printf("%s\n", __FUNCTION__);
 }
 //===============================================

@@ -56,11 +56,11 @@ public:
     void startServerTcp();
     void callServerTcp(const std::string& _dataIn, std::string& _dataOut);
     void callServerTcp(const GObject& _request, std::string& _dataOut);
-    void setOnServerTcp(GThread::onThreadCB _onServerTcp);
+    void setOnServerTcp(GThread::GTHREAD_CB _onServerTcp);
     static DWORD WINAPI onServerTcp(LPVOID _params);
     //
     void startClientTcp();
-    void setOnClientTcp(GThread::onThreadCB _onClientTcp);
+    void setOnClientTcp(GThread::GTHREAD_CB _onClientTcp);
     static DWORD WINAPI onClientTcp(LPVOID _params);
     //
     std::queue<GSocket*>& getClientIn();
@@ -128,8 +128,8 @@ private:
     bool m_serverOn;
     bool m_readOn;
     //
-    GThread::onThreadCB m_onServerTcp;
-    GThread::onThreadCB m_onClientTcp;
+    GThread::GTHREAD_CB m_onServerTcp;
+    GThread::GTHREAD_CB m_onClientTcp;
     //
     std::shared_ptr<GDescriptor> m_fdRead;
     //

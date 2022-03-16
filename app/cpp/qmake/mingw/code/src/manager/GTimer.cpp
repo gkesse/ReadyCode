@@ -1,9 +1,7 @@
 //===============================================
 #include "GTimer.h"
 //===============================================
-GTimer* GTimer::m_instance = 0;
-//===============================================
-GTimer::GTimer() : GObject() {
+GTimer::GTimer(GObject* _parent) : GObject(_parent) {
     m_running = true;
 }
 //===============================================
@@ -11,15 +9,8 @@ GTimer::~GTimer() {
 
 }
 //===============================================
-GTimer* GTimer::Instance() {
-    if(m_instance == 0) {
-        m_instance = new GTimer;
-    }
-    return m_instance;
-}
-//===============================================
-void GTimer::setTimer(GTIMER_CB _onTimer, int _ms) {
-    SetTimer(0, 0, _ms, _onTimer);
+void GTimer::setTimer(void* _onTimer, int _ms) {
+    SetTimer(0, 0, _ms, (GTIMER_CB)_onTimer);
 }
 //===============================================
 void GTimer::pauseTimer() {
@@ -30,11 +21,11 @@ void GTimer::pauseTimer() {
     }
 }
 //===============================================
-void GTimer::stopTimer() {
-    m_running = false;
+bool& GTimer::getRunning() {
+    return m_running;
 }
 //===============================================
-bool GTimer::isRunning() const {
-    return m_running;
+VOID CALLBACK GTimer::onTimer(HWND, UINT, UINT_PTR, DWORD) {
+    // code source
 }
 //===============================================

@@ -1,10 +1,10 @@
 //===============================================
 #include "GLog.h"
+#include "GConsole.h"
 //===============================================
 GLog* GLog::m_instance = 0;
 //===============================================
-GLog::GLog(QObject* _parent) :
-GObject(_parent) {
+GLog::GLog(QObject* _parent) : GObject(_parent) {
 
 }
 //===============================================
@@ -27,10 +27,10 @@ void GLog::showError() {
     if(!hasError()) return;
     QString lErrors = "";
     for(int i = 0; i < m_errors.size(); i++) {
+        if(i != 0) lErrors += "\n";
         lErrors += m_errors.at(i);
-        lErrors += "\n";
     }
-    printf("%s\n", lErrors.toStdString().c_str());
+    console(lErrors);
     m_errors.clear();
 }
 //===============================================

@@ -18,6 +18,10 @@ public:
     void runSocketClient(int _argc, char** _argv);
     void runSocketServerWrite(int _argc, char** _argv);
     void runSocketClientWrite(int _argc, char** _argv);
+    void runThread(int _argc, char** _argv);
+    static DWORD WINAPI onThread(LPVOID _params);
+    void runTimer(int _argc, char** _argv);
+    static VOID CALLBACK onTimer(HWND, UINT, UINT_PTR, DWORD);
 };
 //===============================================
 #endif

@@ -2,8 +2,7 @@
 #include "GObject.h"
 #include "GXml.h"
 //===============================================
-GObject::GObject(QObject* _parent) :
-QObject(_parent) {
+GObject::GObject(QObject* _parent) : QObject(_parent) {
 
 }
 //===============================================
