@@ -77,6 +77,13 @@ GXml& GXml::createDoc(const std::string& _version) {
     return *this;
 }
 //===============================================
+GXml& GXml::createRoot(const std::string& _nodename) {
+    if(GLOGI->hasError()) return *this;
+    m_node = xmlNewNode(0, BAD_CAST(_nodename.c_str()));
+    xmlDocSetRootElement(m_doc, m_node);
+    return *this;
+}
+//===============================================
 GXml& GXml::createRequest(const std::string& _module, const std::string& _method) {
     if(GLOGI->hasError()) return *this;
     createDoc("1.0");
@@ -84,13 +91,6 @@ GXml& GXml::createRequest(const std::string& _module, const std::string& _method
     createXPath();
     createNodePath("/rdv/module", _module);
     createNodePath("/rdv/method", _method);
-    return *this;
-}
-//===============================================
-GXml& GXml::createRoot(const std::string& _nodename) {
-    if(GLOGI->hasError()) return *this;
-    m_node = xmlNewNode(0, BAD_CAST(_nodename.c_str()));
-    xmlDocSetRootElement(m_doc, m_node);
     return *this;
 }
 //===============================================
