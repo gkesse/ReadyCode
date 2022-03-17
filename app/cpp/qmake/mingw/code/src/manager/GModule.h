@@ -4,7 +4,6 @@
 //===============================================
 #include "GObject.h"
 //===============================================
-class GRequest;
 class GCode;
 class GSocket;
 //===============================================
@@ -23,7 +22,7 @@ public:
     void sendResponse(GSocket* _client);
 
 protected:
-    QSharedPointer<GRequest> m_req;
+    QSharedPointer<GCode> m_req;
 };
 //==============================================
 #endif

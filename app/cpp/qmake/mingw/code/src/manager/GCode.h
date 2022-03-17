@@ -12,6 +12,10 @@ public:
     GCode(const QString& _code, QObject* _parent = 0);
     ~GCode();
     //
+    void createRequest(const QString& _module, const QString& _method);
+    QString getModule();
+    QString getMethod();
+    //
     void setCode(const QString& _code);
     bool hasCode(const QString& _code);
     bool hasCode(const QString& _code, const QString& _key);

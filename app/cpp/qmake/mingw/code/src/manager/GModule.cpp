@@ -1,7 +1,6 @@
 //===============================================
 #include "GModule.h"
 #include "GLog.h"
-#include "GRequest.h"
 #include "GCode.h"
 #include "GSocket.h"
 //===============================================
@@ -26,7 +25,7 @@ void GModule::onMethodUnknown(const QString& _req, GSocket* _client) {
 }
 //===============================================
 void GModule::setRequest(const QString& _req) {
-    m_req.reset(new GRequest);
+    m_req.reset(new GCode);
     m_req->loadXmlData(_req);
     m_req->createXPath();
 }

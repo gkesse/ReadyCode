@@ -18,7 +18,7 @@ GUser::~GUser() {
 
 }
 //===============================================
-void GUser::onModule(QString _req, GSocket* _client) {
+void GUser::onModule(const QString& _req, GSocket* _client) {
     QString lMethod = m_req->getMethod();
 
     // method
@@ -31,7 +31,7 @@ void GUser::onModule(QString _req, GSocket* _client) {
     }
 }
 //===============================================
-void GUser::onSaveUser(QString _req, GSocket* _client) {
+void GUser::onSaveUser(const QString& _req, GSocket* _client) {
     GSocket* lClient = _client;
     QSharedPointer<GCode>& lRes = lClient->getResponse();
     lRes->createCode("user", "firstname", "Gerard");

@@ -14,10 +14,10 @@ public:
     GMaster(const QString& _req, QObject* _parent = 0);
     ~GMaster();
     //
-    void onModule(QString _req, GSocket* _client);
+    void onModule(const QString& _req, GSocket* _client);
     //
-    void onModuleTest(QString _req, GSocket* _client);
-    void onModuleUser(QString _req, GSocket* _client);
+    void onModuleTest(const QString& _req, GSocket* _client);
+    void onModuleUser(const QString& _req, GSocket* _client);
 };
 //==============================================
 #endif

@@ -14,6 +14,22 @@ GCode::~GCode() {
 
 }
 //===============================================
+void GCode::createRequest(const QString& _module, const QString& _method) {
+    createDoc("1.0", "rdv");
+    createCode("request", "module", _module);
+    createCode("request", "method", _method);
+}
+//===============================================
+QString GCode::getModule() {
+    QString lData = getItem("request", "module");
+    return lData;
+}
+//===============================================
+QString GCode::getMethod() {
+    QString lData = getItem("request", "method");
+    return lData;
+}
+//===============================================
 void GCode::setCode(const QString& _code) {
     loadXmlData(_code);
     createXPath();

@@ -19,7 +19,7 @@ GMaster::~GMaster() {
 
 }
 //===============================================
-void GMaster::onModule(QString _req, GSocket* _client) {
+void GMaster::onModule(const QString& _req, GSocket* _client) {
     QString lModule = m_req->getModule();
 
     // module
@@ -35,12 +35,12 @@ void GMaster::onModule(QString _req, GSocket* _client) {
     }
 }
 //===============================================
-void GMaster::onModuleTest(QString _req, GSocket* _client) {
+void GMaster::onModuleTest(const QString& _req, GSocket* _client) {
     GTest lModule(_req);
     lModule.onModule(_req, _client);
 }
 //===============================================
-void GMaster::onModuleUser(QString _req, GSocket* _client) {
+void GMaster::onModuleUser(const QString& _req, GSocket* _client) {
     GUser lModule(_req);
     lModule.onModule(_req, _client);
 }

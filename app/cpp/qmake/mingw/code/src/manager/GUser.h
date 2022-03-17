@@ -12,8 +12,8 @@ public:
     GUser(const QString& _req);
     ~GUser();
     //
-    void onModule(QString _req, GSocket* _client);
-    void onSaveUser(QString _req, GSocket* _client);
+    void onModule(const QString& _req, GSocket* _client);
+    void onSaveUser(const QString& _req, GSocket* _client);
 };
 //==============================================
 #endif
