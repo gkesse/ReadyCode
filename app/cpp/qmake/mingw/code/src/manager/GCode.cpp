@@ -22,6 +22,10 @@ bool GCode::hasCode(const QString& _code, const QString& _key) {
     return (lCount != 0);
 }
 //===============================================
+void GCode::createCode() {
+    createDoc("1.0", "rdv");
+}
+//===============================================
 void GCode::createCode(const QString& _code) {
     createNodePath("/rdv/datas");
     if(!hasCode(_code)) {

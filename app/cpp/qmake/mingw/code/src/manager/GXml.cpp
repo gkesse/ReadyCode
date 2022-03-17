@@ -18,18 +18,15 @@ GXml::~GXml() {
 }
 //===============================================
 void GXml::initModule() {
-    if(GLOGI->hasError()) return;
     xmlInitParser();
 }
 //===============================================
 void GXml::cleanModule() {
-    if(GLOGI->hasError()) return;
     xmlCleanupParser();
     xmlMemoryDump();
 }
 //===============================================
 GXml& GXml::loadXmlFile(const QString& _filename) {
-    if(GLOGI->hasError()) return *this;
     m_doc = xmlParseFile(_filename.toStdString().c_str());
     if(!m_doc) {
         GLOG(QString("Erreur la methode (GXml::loadXmlFile) a echoue (1)\n"
@@ -40,7 +37,6 @@ GXml& GXml::loadXmlFile(const QString& _filename) {
 }
 //===============================================
 GXml& GXml::loadXmlData(const QString& _data) {
-    if(GLOGI->hasError()) return *this;
     m_doc = xmlParseDoc(BAD_CAST(_data.toStdString().c_str()));
     if(!m_doc) {
         GLOG(QString("Erreur la methode (GXml::loadXmlData) a echoue (1)\n"
@@ -50,7 +46,6 @@ GXml& GXml::loadXmlData(const QString& _data) {
 }
 //===============================================
 GXml& GXml::saveXmlFile(const QString& _filename, const QString& _encoding, int _format) {
-    if(GLOGI->hasError()) return *this;
     QString lFilename = "";
 
     if(_filename != "") {
@@ -70,13 +65,11 @@ GXml& GXml::saveXmlFile(const QString& _filename, const QString& _encoding, int 
 }
 //===============================================
 GXml& GXml::createDoc(const QString& _version) {
-    if(GLOGI->hasError()) return *this;
     m_doc = xmlNewDoc(BAD_CAST(_version.toStdString().c_str()));
     return *this;
 }
 //===============================================
 GXml& GXml::createDoc(const QString& _version, const QString& _rootNode) {
-    if(GLOGI->hasError()) return *this;
     createDoc(_version);
     createRoot(_rootNode);
     createXPath();
@@ -84,14 +77,12 @@ GXml& GXml::createDoc(const QString& _version, const QString& _rootNode) {
 }
 //===============================================
 GXml& GXml::createRoot(const QString& _nodename) {
-    if(GLOGI->hasError()) return *this;
     m_node = xmlNewNode(0, BAD_CAST(_nodename.toStdString().c_str()));
     xmlDocSetRootElement(m_doc, m_node);
     return *this;
 }
 //===============================================
 GXml& GXml::getRoot(const QString& _nodename) {
-    if(GLOGI->hasError()) return *this;
     m_node = xmlDocGetRootElement(m_doc);
     if(!m_node) {
         GLOG(QString("Erreur la methode (GXml::getRoot) a echoue (1)\n"
@@ -107,7 +98,6 @@ GXml& GXml::getRoot(const QString& _nodename) {
 }
 //===============================================
 GXml& GXml::getNode(const QString& _nodename) {
-    if(GLOGI->hasError()) return *this;
     if(!m_node) {
         GLOG(QString("Erreur la methode (GXml::getNode) a echoue (1)\n"
                 "- noeud......: (%1)").arg(_nodename));
@@ -128,7 +118,6 @@ GXml& GXml::getNode(const QString& _nodename) {
 }
 //===============================================
 QString GXml::getNodeValue() const {
-    if(GLOGI->hasError()) return "";
     if(!m_node) {
         return "";
     }
@@ -137,13 +126,11 @@ QString GXml::getNodeValue() const {
 }
 //===============================================
 QString GXml::getNodeValue(const QString& _xpath) {
-    if(GLOGI->hasError()) return "";
     QString lData = queryXPath(_xpath).getNodeXPath().getNodeValue();
     return lData;
 }
 //===============================================
 GXml& GXml::createNode(const QString& _nodename) {
-    if(GLOGI->hasError()) return *this;
     m_node = xmlNewNode(NULL, BAD_CAST(_nodename.toStdString().c_str()));
     if(!m_node) {
         GLOG(QString("Erreur la methode (GXml::createNode) a echoue (1)\n"
@@ -154,7 +141,6 @@ GXml& GXml::createNode(const QString& _nodename) {
 }
 //===============================================
 GXml& GXml::createNodeValue(const QString& _nodename, const QString& _value) {
-    if(GLOGI->hasError()) return *this;
     createNode(_nodename);
     setNodeValue(_value);
     if(!m_node) {
@@ -167,7 +153,6 @@ GXml& GXml::createNodeValue(const QString& _nodename, const QString& _value) {
 }
 //===============================================
 GXml& GXml::createNodePath(const QString& _path, const QString& _value) {
-    if(GLOGI->hasError()) return *this;
     if(!m_doc) {
         return *this;
     }
@@ -200,7 +185,6 @@ GXml& GXml::createCData(GXml& _xml, const QString& _value) {
 }
 //===============================================
 GXml& GXml::setNodeValue(const QString& _value) {
-    if(GLOGI->hasError()) return *this;
     if(!m_node) {
         GLOG(QString("Erreur la methode (GXml::setNodeValue) a echoue (1)"
                 "- noeud......: (%1)").arg(_value));
@@ -211,14 +195,12 @@ GXml& GXml::setNodeValue(const QString& _value) {
 }
 //===============================================
 GXml& GXml::setNodeValue(const QString& _key, const QString& _value) {
-    if(GLOGI->hasError()) return *this;
     getNode(_key);
     setNodeValue(_value);
     return *this;
 }
 //===============================================
 GXml& GXml::appendNode(GXml& _xml) {
-    if(GLOGI->hasError()) return *this;
     if(!m_node) {
         GLOG(QString("Erreur la methode (GXml::appendNode) a echoue (1)"));
         return *this;
@@ -291,7 +273,6 @@ GXml& GXml::appendCData(const QString& _nodename, const QString& _value) {
 }
 //===============================================
 GXml& GXml::replaceNode(GXml& _xml) {
-    if(GLOGI->hasError()) return *this;
     if(!m_node || !_xml.m_node) {
         GLOG(QString("Erreur la methode (GXml::replaceNode) a echoue (1)"));
         return *this;
@@ -302,7 +283,6 @@ GXml& GXml::replaceNode(GXml& _xml) {
 }
 //===============================================
 GXml& GXml::createXPath() {
-    if(GLOGI->hasError()) return *this;
     if(!m_doc) {
         GLOG(QString("Erreur la methode (GXml::createXPath) a echoue (1)"));
         return *this;
@@ -312,7 +292,6 @@ GXml& GXml::createXPath() {
 }
 //===============================================
 GXml& GXml::queryXPath(const QString& _query) {
-    if(GLOGI->hasError()) return *this;
     if(!m_xpath) {
         return *this;
     }
@@ -321,7 +300,6 @@ GXml& GXml::queryXPath(const QString& _query) {
 }
 //===============================================
 int GXml::countXPath() const {
-    if(GLOGI->hasError()) return 0;
     if(!m_xpathObj->nodesetval) {
         return 0;
     }
@@ -333,7 +311,6 @@ int GXml::countXPath() const {
 }
 //===============================================
 GXml& GXml::getNodeXPath() {
-    if(GLOGI->hasError()) return *this;
     if(!m_xpathObj) {
         m_node = 0;
         return *this;
@@ -351,7 +328,6 @@ GXml& GXml::getNodeXPath() {
 }
 //===============================================
 GXml& GXml::getNodeItem(int _index) {
-    if(GLOGI->hasError()) return *this;
     if(!m_xpathObj->nodesetval) {
         m_node = 0;
         return *this;
@@ -365,7 +341,6 @@ GXml& GXml::getNodeItem(int _index) {
 }
 //===============================================
 GXml& GXml::clearNodeXPath() {
-    if(GLOGI->hasError()) return *this;
     for(int i = 0; i < countXPath(); i++) {
         xmlNodePtr lNode = m_xpathObj->nodesetval->nodeTab[i];
         xmlUnlinkNode(lNode);
@@ -375,7 +350,6 @@ GXml& GXml::clearNodeXPath() {
 }
 //===============================================
 GXml& GXml::createNodeCData(GXml& _xml, const QString& _value) {
-    if(GLOGI->hasError()) return *this;
     if(!_xml.m_node) {
         GLOG(QString("Erreur la methode (GXml::createNodeCData) a echoue (1)\n"
                 "- noeud......: (%1)").arg(_value));
@@ -391,7 +365,6 @@ GXml& GXml::createNodeCData(GXml& _xml, const QString& _value) {
 }
 //===============================================
 GXml& GXml::createNodeCData(const QString& _nodename, const QString& _value) {
-    if(GLOGI->hasError()) return *this;
     createNode(_nodename);
     GXml lNode;
     lNode.createNodeCData(*this, _value);
@@ -400,7 +373,6 @@ GXml& GXml::createNodeCData(const QString& _nodename, const QString& _value) {
 }
 //===============================================
 GXml& GXml::setNodeCData(const QString& _value) {
-    if(GLOGI->hasError()) return *this;
     if(!m_node) {
         GLOG(QString("Erreur la methode (GXml::setNodeCData) a echoue (1)\n"
                 "- noeud......: (%1).").arg(_value));
@@ -413,7 +385,6 @@ GXml& GXml::setNodeCData(const QString& _value) {
 }
 //===============================================
 QString GXml::getNodeCData() const {
-    if(GLOGI->hasError()) return "";
     if(!m_node) {
         return "";
     }
@@ -422,7 +393,6 @@ QString GXml::getNodeCData() const {
 }
 //===============================================
 QString GXml::toString(const QString& _encoding, int _format) const {
-    if(GLOGI->hasError()) return "";
     if(!m_doc) {
         return "";
     }

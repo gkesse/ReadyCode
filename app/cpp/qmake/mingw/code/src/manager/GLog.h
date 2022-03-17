@@ -18,6 +18,7 @@ public:
     void showError();
     void showError(QWidget* _parent);
     bool hasError();
+    QVector<QString>& getErrors();
 
 private:
     static GLog* m_instance;

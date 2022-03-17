@@ -12,6 +12,8 @@ public:
     ~GRequest();
     //
     GRequest& createRequest(const QString& _module, const QString& _method);
+    QString getModule();
+    QString getMethod();
 };
 //==============================================
 #endif

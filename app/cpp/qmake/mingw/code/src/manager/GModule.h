@@ -4,7 +4,8 @@
 //===============================================
 #include "GObject.h"
 //===============================================
-class GXml;
+class GRequest;
+class GCode;
 class GSocket;
 //===============================================
 class GModule : public GObject {
@@ -19,12 +20,11 @@ public:
     virtual void onMethodUnknown(const QString& _req, GSocket* _client);
     //
     void setRequest(const QString& _req);
-    QString getModule();
-    QString getMethod();
     void sendResponse(GSocket* _client);
 
 protected:
-    QSharedPointer<GXml> m_req;
+    QSharedPointer<GRequest> m_req;
+    QSharedPointer<GCode> m_res;
 };
 //==============================================
 #endif

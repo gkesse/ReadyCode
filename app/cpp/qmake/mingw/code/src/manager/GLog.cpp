@@ -50,3 +50,7 @@ bool GLog::hasError() {
     return lError;
 }
 //===============================================
+QVector<QString>& GLog::getErrors() {
+    return m_errors;
+}
+//===============================================

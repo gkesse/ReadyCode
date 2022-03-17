@@ -13,6 +13,7 @@ public:
     //
     bool hasCode(const QString& _code);
     bool hasCode(const QString& _code, const QString& _key);
+    void createCode();
     void createCode(const QString& _code);
     void createCode(const QString& _code, const QString& _key, const QString& _value);
     void createMap(const QString& _code, const QString& _key);

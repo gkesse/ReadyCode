@@ -2,7 +2,7 @@
 #include "GMaster.h"
 #include "GLog.h"
 #include "GFormat.h"
-#include "GXml.h"
+#include "GRequest.h"
 #include "GUser.h"
 //===============================================
 GMaster::GMaster(QObject* _parent) : GModule(_parent) {
@@ -18,8 +18,7 @@ GMaster::~GMaster() {
 }
 //===============================================
 void GMaster::onModule(QString _req, GSocket* _client) {
-    if(GLOGI->hasError()) return;
-    QString lModule = getModule();
+    QString lModule = m_req->getModule();
 
     // user
     if(lModule == "user") {
@@ -32,7 +31,6 @@ void GMaster::onModule(QString _req, GSocket* _client) {
 }
 //===============================================
 void GMaster::onModuleUser(QString _req, GSocket* _client) {
-    if(GLOGI->hasError()) return;
     GUser lModule(_req);
     lModule.onModule(_req, _client);
 }
