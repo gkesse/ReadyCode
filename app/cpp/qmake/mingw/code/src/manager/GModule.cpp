@@ -22,7 +22,7 @@ void GModule::onModuleUnknown(const QString& _req, GSocket* _client) {
 }
 //===============================================
 void GModule::onMethodUnknown(const QString& _req, GSocket* _client) {
-    GLOG(QString("Erreur la methode (%1) n'existe pas").arg(m_req->getMethod()));
+    GLOG(QString("Erreur la methode (%1 : %2) n'existe pas").arg(m_req->getModule()).arg(m_req->getMethod()));
 }
 //===============================================
 void GModule::setRequest(const QString& _req) {
@@ -44,6 +44,7 @@ void GModule::sendResponse(GSocket* _client) {
             QString lError = lErrors.at(i);
             m_res->createMap("error", "map", "msg", lError);
         }
+        GLOGI->clearErrors();
     }
     lClient->writeData(m_res->toString());
     delete lClient;

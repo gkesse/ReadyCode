@@ -322,7 +322,7 @@ void GTest::runRequestSend(int _argc, char** _argv) {
     printf("%s\n", __FUNCTION__);
     GRequest lReq;
     GSocket lClient;
-    lReq.createRequest("usero", "save_user");
+    lReq.createRequest("user", "save_usero");
     QString lResponse = lClient.callServer(lReq.toString());
     console(lResponse);
 }

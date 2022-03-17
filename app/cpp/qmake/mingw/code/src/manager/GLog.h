@@ -18,6 +18,7 @@ public:
     void showError();
     void showError(QWidget* _parent);
     bool hasError();
+    void clearErrors();
     QVector<QString>& getErrors();
 
 private:
