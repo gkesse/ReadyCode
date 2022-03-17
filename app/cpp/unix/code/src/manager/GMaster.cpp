@@ -18,7 +18,6 @@ GMaster::~GMaster() {
 }
 //===============================================
 void GMaster::onModule(std::string _req, GSocket* _client) {
-    if(GLOGI->hasError()) return;
     std::string lModule = getModule();
 
     // hostname
@@ -32,7 +31,6 @@ void GMaster::onModule(std::string _req, GSocket* _client) {
 }
 //===============================================
 void GMaster::onModuleUser(std::string _req, GSocket* _client) {
-    if(GLOGI->hasError()) return;
     GUser lModule(_req);
     lModule.onModule(_req, _client);
 }

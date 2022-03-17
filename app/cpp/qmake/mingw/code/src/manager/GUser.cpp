@@ -2,7 +2,6 @@
 #include "GUser.h"
 #include "GLog.h"
 #include "GFormat.h"
-#include "GRequest.h"
 #include "GCode.h"
 #include "GSocket.h"
 //===============================================

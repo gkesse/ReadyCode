@@ -20,13 +20,11 @@ GConsole* GConsole::Instance() {
 }
 //===============================================
 GConsole& GConsole::print(const std::string& _data) {
-    if(GLOGI->hasError()) return *this;
     printf("%s\n", _data.c_str());
     return *this;
 }
 //===============================================
 GConsole& GConsole::print(const std::vector<std::string>& _data) {
-    if(GLOGI->hasError()) return *this;
     for(size_t i = 0; i < _data.size(); i++) {
         std::string lData = _data.at(i);
         printf("%s\n", lData.c_str());

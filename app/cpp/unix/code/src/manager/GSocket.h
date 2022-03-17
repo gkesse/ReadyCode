@@ -36,7 +36,8 @@ public:
     static void* onServerTcp(GSocket* _client);
     std::string callServerTcp(const std::string& _dataIn);
     //
-    std::queue<std::string>& getDataIns();
+    void setRequest(const std::string& _request);
+    std::string getRequest() const;
     std::queue<GSocket*>& getClientIns();
     //
     std::string readAddressIp() const;
@@ -49,8 +50,8 @@ private:
     struct sockaddr_in m_address;
     //
     GSocket* m_server;
-    std::queue<std::string> m_dataIns;
     std::queue<GSocket*> m_clientIns;
+    std::string m_request;
 };
 //==============================================
 #endif

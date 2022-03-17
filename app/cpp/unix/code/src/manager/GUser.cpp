@@ -17,7 +17,6 @@ GUser::~GUser() {
 }
 //===============================================
 void GUser::onModule(std::string _req, GSocket* _client) {
-    if(GLOGI->hasError()) return;
     std::string lMethod = getMethod();
 
     // hostname
@@ -31,7 +30,6 @@ void GUser::onModule(std::string _req, GSocket* _client) {
 }
 //===============================================
 void GUser::onSaveUser(std::string _req, GSocket* _client) {
-    if(GLOGI->hasError()) return;
     printf("%s\n", __FUNCTION__);
 }
 //===============================================

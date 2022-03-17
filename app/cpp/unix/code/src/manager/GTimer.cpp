@@ -12,8 +12,6 @@ GTimer::~GTimer() {
 }
 //===============================================
 void GTimer::setCallback(void* _onTimer, int _ms) {
-    if(GLOGI->hasError()) return;
-
     m_sigaction.sa_handler = (GSIGNAL_CB)_onTimer;
     sigemptyset(&m_sigaction.sa_mask);
     m_sigaction.sa_flags = 0;
@@ -44,8 +42,6 @@ void GTimer::setRunning(bool _running) {
 }
 //===============================================
 void GTimer::onTimer(int _signo) {
-    if(GLOGI->hasError()) return;
-
     printf("=====>\n");
     printf("timer du programme...\n");
 }
