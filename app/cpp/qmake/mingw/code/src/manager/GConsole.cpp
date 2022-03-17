@@ -18,6 +18,19 @@ GConsole* GConsole::Instance() {
     return m_instance;
 }
 //===============================================
+void GConsole::printData(bool _data) {
+    if(_data) {
+        printf("true\n");
+    }
+    else {
+        printf("false\n");
+    }
+}
+//===============================================
+void GConsole::printData(const char* _data) {
+    printf("%s\n", _data);
+}
+//===============================================
 void GConsole::printData(const QString& _data) {
     printf("%s\n", _data.toStdString().c_str());
 }

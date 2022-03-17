@@ -30,6 +30,7 @@ public:
     static VOID CALLBACK onTimer(HWND, UINT, UINT_PTR, DWORD);
     void runRequest(int _argc, char** _argv);
     void runRequestSend(int _argc, char** _argv);
+    void runResponse(int _argc, char** _argv);
 
 private:
     static GTest* m_test;

@@ -9,7 +9,7 @@ class GXml : public GObject {
 
 public:
     GXml(QObject* _parent = 0);
-    ~GXml();
+    virtual ~GXml();
     //
     void initModule();
     void cleanModule();
@@ -19,8 +19,8 @@ public:
     GXml& saveXmlFile(const QString& _filename = "", const QString& _encoding = "UTF-8", int _format = 4);
     //
     GXml& createDoc(const QString& _version);
+    GXml& createDoc(const QString& _version, const QString& _rootNode);
     GXml& createRoot(const QString& _nodename);
-    GXml& createRequest(const QString& _module, const QString& _method);
     //
     GXml& getRoot(const QString& _nodename);
     GXml& getNode(const QString& _nodename);
@@ -30,12 +30,19 @@ public:
     GXml& createNode(const QString& _nodename);
     GXml& createNodeValue(const QString& _nodename, const QString& _value);
     GXml& createNodePath(const QString& _path, const QString& _value = "");
+    GXml& createCData(GXml& _xml, const QString& _value);
     GXml& setNodeValue(const QString& _value);
+    GXml& setNodeValue(const QString& _key, const QString& _value);
     GXml& appendNode(GXml& _xml);
+    GXml& appendNode(const QString& _nodename);
+    GXml& appendNode(const QString& _nodename, const QString& _value);
+    GXml& appendNodeGet(const QString& _nodename);
+    GXml& appendNodeGet(const QString& _nodename, const QString& _value);
+    GXml& appendCData(const QString& _value);
+    GXml& appendCData(const QString& _nodename, const QString& _value);
     GXml& replaceNode(GXml& _xml);
     //
     GXml& createXPath();
-    GXml& createXPath(const QString& _data);
     GXml& queryXPath(const QString& _query);
     int countXPath() const;
     GXml& getNodeXPath();

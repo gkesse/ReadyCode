@@ -2,8 +2,7 @@
 #include "GXml.h"
 #include "GLog.h"
 //===============================================
-GXml::GXml(QObject* _parent) :
-GObject(_parent) {
+GXml::GXml(QObject* _parent) : GObject(_parent) {
     m_node = 0;
     m_doc = 0;
     m_xpath = 0;
@@ -76,20 +75,18 @@ GXml& GXml::createDoc(const QString& _version) {
     return *this;
 }
 //===============================================
+GXml& GXml::createDoc(const QString& _version, const QString& _rootNode) {
+    if(GLOGI->hasError()) return *this;
+    createDoc(_version);
+    createRoot(_rootNode);
+    createXPath();
+    return *this;
+}
+//===============================================
 GXml& GXml::createRoot(const QString& _nodename) {
     if(GLOGI->hasError()) return *this;
     m_node = xmlNewNode(0, BAD_CAST(_nodename.toStdString().c_str()));
     xmlDocSetRootElement(m_doc, m_node);
-    return *this;
-}
-//===============================================
-GXml& GXml::createRequest(const QString& _module, const QString& _method) {
-    if(GLOGI->hasError()) return *this;
-    createDoc("1.0");
-    createRoot("rdv");
-    createXPath();
-    createNodePath("/rdv/module", _module);
-    createNodePath("/rdv/method", _method);
     return *this;
 }
 //===============================================
@@ -176,7 +173,7 @@ GXml& GXml::createNodePath(const QString& _path, const QString& _value) {
     }
     QStringList lPaths = QString(_path).split('/');
     QString lName = "";
-    for(size_t i = 0; i < lPaths.size(); i++) {
+    for(int i = 0; i < lPaths.size(); i++) {
         QString lPath = QString(lPaths.at(i)).trimmed();
         if(lPath == "") continue;
         lName += "/" + lPath;
@@ -188,7 +185,17 @@ GXml& GXml::createNodePath(const QString& _path, const QString& _value) {
         }
         queryXPath(lName).getNodeXPath();
     }
-    setNodeValue(_value);
+    if(!_value.isEmpty()) {
+        setNodeValue(_value);
+    }
+    return *this;
+}
+//===============================================
+GXml& GXml::createCData(GXml& _xml, const QString& _value) {
+    if(!_xml.m_node) {
+        return *this;
+    }
+    m_node = xmlNewCDataBlock(_xml.m_node->doc, BAD_CAST(_value.toStdString().c_str()), _value.size());
     return *this;
 }
 //===============================================
@@ -203,6 +210,13 @@ GXml& GXml::setNodeValue(const QString& _value) {
     return *this;
 }
 //===============================================
+GXml& GXml::setNodeValue(const QString& _key, const QString& _value) {
+    if(GLOGI->hasError()) return *this;
+    getNode(_key);
+    setNodeValue(_value);
+    return *this;
+}
+//===============================================
 GXml& GXml::appendNode(GXml& _xml) {
     if(GLOGI->hasError()) return *this;
     if(!m_node) {
@@ -210,6 +224,69 @@ GXml& GXml::appendNode(GXml& _xml) {
         return *this;
     }
     xmlAddChild(m_node, _xml.m_node);
+    return *this;
+}
+//===============================================
+GXml& GXml::appendNode(const QString& _nodename) {
+    if(!m_node) {
+        return *this;
+    }
+    GXml lNode;
+    lNode.createNode(_nodename);
+    appendNode(lNode);
+    return *this;
+}
+//===============================================
+GXml& GXml::appendNode(const QString& _nodename, const QString& _value) {
+    if(!m_node) {
+        return *this;
+    }
+    GXml lNode;
+    lNode.createNodeValue(_nodename, _value);
+    appendNode(lNode);
+    return *this;
+}
+//===============================================
+GXml& GXml::appendNodeGet(const QString& _nodename) {
+    if(!m_node) {
+        return *this;
+    }
+    GXml lNode;
+    lNode.createNode(_nodename);
+    appendNode(lNode);
+    m_node = lNode.m_node;
+    return *this;
+}
+//===============================================
+GXml& GXml::appendNodeGet(const QString& _nodename, const QString& _value) {
+    if(!m_node) {
+        return *this;
+    }
+    GXml lNode;
+    lNode.createNodeValue(_nodename, _value);
+    appendNode(lNode);
+    m_node = lNode.m_node;
+    return *this;
+}
+//===============================================
+GXml& GXml::appendCData(const QString& _value) {
+    if(!m_node) {
+        return *this;
+    }
+    GXml lCData;
+    lCData.createCData(*this, _value);
+    appendNode(lCData);
+    return *this;
+}
+//===============================================
+GXml& GXml::appendCData(const QString& _nodename, const QString& _value) {
+    if(!m_node) {
+        return *this;
+    }
+    GXml lNode;
+    lNode.createNode(_nodename);
+    lNode.appendCData(_value);
+    appendNode(lNode);
     return *this;
 }
 //===============================================
@@ -231,13 +308,6 @@ GXml& GXml::createXPath() {
         return *this;
     }
     m_xpath = xmlXPathNewContext(m_doc);
-    return *this;
-}
-//===============================================
-GXml& GXml::createXPath(const QString& _data) {
-    if(GLOGI->hasError()) return *this;
-    loadXmlData(_data);
-    createXPath();
     return *this;
 }
 //===============================================

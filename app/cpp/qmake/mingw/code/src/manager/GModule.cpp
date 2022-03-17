@@ -27,7 +27,8 @@ void GModule::onMethodUnknown(const QString& _req, GSocket* _client) {
 void GModule::setRequest(const QString& _req) {
     if(GLOGI->hasError()) return;
     m_req.reset(new GXml);
-    m_req->createXPath(_req);
+    m_req->loadXmlData(_req);
+    m_req->createXPath();
 }
 //===============================================
 QString GModule::getModule() {
@@ -40,5 +41,20 @@ QString GModule::getMethod() {
     if(GLOGI->hasError()) return "";
     QString lData = m_req->getNodeValue("/rdv/method");
     return lData;
+}
+//===============================================
+void GModule::sendResponse(GSocket* _client) {
+    GSocket* lClient = _client;
+    GXml lRes;
+    lRes.createDoc("1.0", "rdv");
+    lRes.createNodePath("/rdv/datas/data/code", "result");
+    if(!GLOGI->hasError()) {
+        lRes.createNodePath("/rdv/datas/data/msg", "ok");
+    }
+    else {
+        lRes.createNodePath("/rdv/datas/data/msg", "error");
+    }
+    lClient->writeData(lRes.toString());
+    delete lClient;
 }
 //===============================================

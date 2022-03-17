@@ -21,6 +21,7 @@ public:
     void setRequest(const QString& _req);
     QString getModule();
     QString getMethod();
+    void sendResponse(GSocket* _client);
 
 protected:
     QSharedPointer<GXml> m_req;

@@ -2,6 +2,8 @@
 #include "GTest.h"
 #include "GPath.h"
 #include "GXml.h"
+#include "GRequest.h"
+#include "GCode.h"
 #include "GConsole.h"
 #include "GSocket.h"
 #include "GFile.h"
@@ -68,6 +70,10 @@ void GTest::run(int _argc, char** _argv) {
     }
     else if(lKey == "request/send") {
         runRequestSend(_argc, _argv);
+    }
+    // response
+    else if(lKey == "response") {
+        runResponse(_argc, _argv);
     }
     // end
 	else {
@@ -254,6 +260,7 @@ VOID CALLBACK GTest::onSocketServerStartTimer(HWND, UINT, UINT_PTR, DWORD) {
         lClientIns.pop();
         GMaster lMaster(lDataIn);
         lMaster.onModule(lDataIn, lClient);
+        lMaster.sendResponse(lClient);
     }
 }
 //===============================================
@@ -313,9 +320,32 @@ void GTest::runRequest(int _argc, char** _argv) {
 //===============================================
 void GTest::runRequestSend(int _argc, char** _argv) {
     printf("%s\n", __FUNCTION__);
-    GXml lReq;
+    GRequest lReq;
     GSocket lClient;
     lReq.createRequest("user", "save_user");
-    lClient.callServer(lReq.toString());
+    QString lResponse = lClient.callServer(lReq.toString());
+    console(lResponse);
+}
+//===============================================
+void GTest::runResponse(int _argc, char** _argv) {
+    printf("%s\n", __FUNCTION__);
+    GCode lRes;
+    lRes.createDoc("1.0", "rdv");
+    lRes.createCode("result", "msg", "ok");
+    lRes.createCode("opencv", "version", "4.0");
+    lRes.createMap("error", "map", "msg", "le chemin est incorrect");
+    lRes.createMap("error", "map", "msg", "la donnee est incorrect");
+    console("=====>");
+    console(lRes.hasCode("result"));        // true
+    console("=====>");
+    console(lRes.hasCode("resulto"));       // false
+    console("=====>");
+    console(lRes.hasCode("error"));         // true
+    console("=====>");
+    console(lRes.hasCode("error", "msg"));  // true
+    console("=====>");
+    console(lRes.hasCode("error", "msgo")); // false
+    console("=====>");
+    console(lRes.toString());
 }
 //===============================================

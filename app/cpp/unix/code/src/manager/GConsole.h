@@ -4,8 +4,8 @@
 //===============================================
 #include "GObject.h"
 //===============================================
-#define GCONSOLEI GConsole::Instance()
-#define console GCONSOLEI->print
+#define GCONSOLE GConsole::Instance()
+#define console GCONSOLE->print
 //===============================================
 class GConsole : public GObject {
 public:
