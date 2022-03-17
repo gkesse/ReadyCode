@@ -2,15 +2,16 @@
 #ifndef _GTest_
 #define _GTest_
 //===============================================
-#include "GObject.h"
+#include "GModule.h"
 //===============================================
 class GSocket;
 //===============================================
-class GTest : public GObject {
+class GTest : public GModule {
 	Q_OBJECT
 
 public:
 	GTest(QObject* _parent = 0);
+	GTest(const QString& _req, QObject* _parent = 0);
 	~GTest();
 	void run(int _argc, char** _argv);
 	void runTest(int _argc, char** _argv);
@@ -30,7 +31,15 @@ public:
     static VOID CALLBACK onTimer(HWND, UINT, UINT_PTR, DWORD);
     void runRequest(int _argc, char** _argv);
     void runRequestSend(int _argc, char** _argv);
+    void runRequestSaveUser(int _argc, char** _argv);
+    void runRequestGetUser(int _argc, char** _argv);
+    void runRequestError(int _argc, char** _argv);
     void runResponse(int _argc, char** _argv);
+    //
+    void onModule(QString _req, GSocket* _client);
+    void onRequestSaveUser(QString _req, GSocket* _client);
+    void onRequestGetUser(QString _req, GSocket* _client);
+    void onRequestError(QString _req, GSocket* _client);
 
 private:
     static GTest* m_test;

@@ -6,8 +6,17 @@ GCode::GCode(QObject* _parent) : GXml(_parent) {
 
 }
 //===============================================
+GCode::GCode(const QString& _code, QObject* _parent) : GXml(_parent) {
+    setCode(_code);
+}
+//===============================================
 GCode::~GCode() {
 
+}
+//===============================================
+void GCode::setCode(const QString& _code) {
+    loadXmlData(_code);
+    createXPath();
 }
 //===============================================
 bool GCode::hasCode(const QString& _code) {
@@ -17,7 +26,7 @@ bool GCode::hasCode(const QString& _code) {
 }
 //===============================================
 bool GCode::hasCode(const QString& _code, const QString& _key) {
-    queryXPath(QString("/rdv/datas/data[code='%1']/%2").arg(_code).arg(_key));
+    queryXPath(QString("/rdv/datas/data[code='%1']/map/data/%2").arg(_code).arg(_key));
     int lCount = countXPath();
     return (lCount != 0);
 }
@@ -47,15 +56,37 @@ void GCode::createCode(const QString& _code, const QString& _key, const QString&
     }
 }
 //===============================================
-void GCode::createMap(const QString& _code, const QString& _key, const QString& _name, const QString& _value) {
+void GCode::createMap(const QString& _code, const QString& _key, const QString& _value) {
     createCode(_code);
     if(!hasCode(_code, _key)) {
-        appendNodeGet(_key);
-        appendNode(_name, _value);
+        appendNodeGet("map");
+        appendNodeGet("data");
+        appendNode(_key, _value);
     }
     else {
-        getNode(_key);
-        appendNode(_name, _value);
+        getNode("map");
+        appendNodeGet("data");
+        appendNode(_key, _value);
     }
+}
+//===============================================
+QString GCode::getItem(const QString& _code, const QString& _key) {
+    queryXPath(QString("/rdv/datas/data[code='%1']/%2").arg(_code).arg(_key));
+    getNodeXPath();
+    QString lData = getNodeValue();
+    return lData;
+}
+//===============================================
+QString GCode::getItem(const QString& _code, int _index, const QString& _key) {
+    queryXPath(QString("/rdv/datas/data[code='%1']/map/data[position()=%2]/%3").arg(_code).arg(_index + 1).arg(_key));
+    getNodeXPath();
+    QString lData = getNodeValue();
+    return lData;
+}
+//===============================================
+int GCode::countItem(const QString& _code, const QString& _key) {
+    queryXPath(QString("/rdv/datas/data[code='%1']/map/data/%2").arg(_code).arg(_key));
+    int lData = countXPath();
+    return lData;
 }
 //===============================================

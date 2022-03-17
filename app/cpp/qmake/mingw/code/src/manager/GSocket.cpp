@@ -6,6 +6,7 @@
 #include "GFormat.h"
 #include "GThread.h"
 #include "GConsole.h"
+#include "GCode.h"
 //===============================================
 GSocket::GSocket() {
     createDoms();
@@ -24,6 +25,9 @@ void GSocket::createDoms() {
     m_domWsaError.reset(new GXml);
     m_domWsaError->loadXmlFile(GRES("xml", "wsa_error.xml"));
     m_domWsaError->createXPath();
+    //
+    m_res.reset(new GCode);
+    m_res->createCode();
 }
 //===============================================
 QString GSocket::getItem(const QString& _key, const QString& _data) const {
@@ -365,5 +369,9 @@ QStack<QString>& GSocket::getDataIns() {
 //===============================================
 QStack<GSocket*>& GSocket::getClientIns() {
     return m_clientIns;
+}
+//===============================================
+QSharedPointer<GCode>& GSocket::getResponse(){
+    return m_res;
 }
 //===============================================

@@ -5,6 +5,7 @@
 #include "GInclude.h"
 //===============================================
 class GXml;
+class GCode;
 //===============================================
 class GSocket {
 public:
@@ -47,10 +48,12 @@ public:
     //
     QStack<QString>& getDataIns();
     QStack<GSocket*>& getClientIns();
+    QSharedPointer<GCode>& getResponse();
 
 private:
     QSharedPointer<GXml> m_dom;
     QSharedPointer<GXml> m_domWsaError;
+    QSharedPointer<GCode> m_res;
     //
     static const int BUFFER_DATA_SIZE = 1024;
     static const int BUFFER_HOSTNAME_SIZE = 256;

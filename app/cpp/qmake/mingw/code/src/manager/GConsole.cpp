@@ -31,6 +31,10 @@ void GConsole::printData(const char* _data) {
     printf("%s\n", _data);
 }
 //===============================================
+void GConsole::printData(int _data) {
+    printf("%d\n", _data);
+}
+//===============================================
 void GConsole::printData(const QString& _data) {
     printf("%s\n", _data.toStdString().c_str());
 }

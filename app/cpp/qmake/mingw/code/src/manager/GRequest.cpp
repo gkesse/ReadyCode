@@ -2,7 +2,11 @@
 #include "GRequest.h"
 #include "GLog.h"
 //===============================================
-GRequest::GRequest(QObject* _parent) : GXml(_parent) {
+GRequest::GRequest(QObject* _parent) : GCode(_parent) {
+
+}
+//===============================================
+GRequest::GRequest(const QString& _code, QObject* _parent) : GCode(_code, _parent) {
 
 }
 //===============================================

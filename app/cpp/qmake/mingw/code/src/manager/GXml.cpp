@@ -1,6 +1,7 @@
 //===============================================
 #include "GXml.h"
 #include "GLog.h"
+#include "GConsole.h"
 //===============================================
 GXml::GXml(QObject* _parent) : GObject(_parent) {
     m_node = 0;

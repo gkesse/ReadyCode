@@ -29,24 +29,26 @@ void GModule::setRequest(const QString& _req) {
     m_req.reset(new GRequest);
     m_req->loadXmlData(_req);
     m_req->createXPath();
-    m_res.reset(new GCode);
-    m_res->createCode();
 }
 //===============================================
 void GModule::sendResponse(GSocket* _client) {
     GSocket* lClient = _client;
-    if(!GLOGI->hasError()) {
-        m_res->createCode("result", "msg", "ok");
-    }
-    else {
+    QSharedPointer<GCode>& lRes = lClient->getResponse();
+
+    if(GLOGI->hasError()) {
         QVector<QString>& lErrors = GLOGI->getErrors();
         for(int i = 0; i < lErrors.size(); i++) {
             QString lError = lErrors.at(i);
-            m_res->createMap("error", "map", "msg", lError);
+            lRes->createMap("error", "msg", lError);
         }
         GLOGI->clearErrors();
     }
-    lClient->writeData(m_res->toString());
+    else {
+        lRes->createCode("result", "msg", "ok");
+    }
+
+    lClient->writeData(lRes->toString());
+
     delete lClient;
 }
 //===============================================

@@ -3,6 +3,8 @@
 #include "GLog.h"
 #include "GFormat.h"
 #include "GRequest.h"
+#include "GCode.h"
+#include "GSocket.h"
 //===============================================
 GUser::GUser() : GModule() {
 
@@ -19,7 +21,7 @@ GUser::~GUser() {
 void GUser::onModule(QString _req, GSocket* _client) {
     QString lMethod = m_req->getMethod();
 
-    // hostname
+    // method
     if(lMethod == "save_user") {
         onSaveUser(_req, _client);
     }
@@ -30,6 +32,11 @@ void GUser::onModule(QString _req, GSocket* _client) {
 }
 //===============================================
 void GUser::onSaveUser(QString _req, GSocket* _client) {
-    printf("%s\n", __FUNCTION__);
+    GSocket* lClient = _client;
+    QSharedPointer<GCode>& lRes = lClient->getResponse();
+    lRes->createCode("user", "firstname", "Gerard");
+    lRes->createCode("user", "lastname", "KESSE");
+    GLOG(QString("Erreur identifiant"));
+    GLOG(QString("Erreur mot de passe"));
 }
 //===============================================

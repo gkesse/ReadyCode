@@ -10,11 +10,15 @@
 #include "GThread.h"
 #include "GTimer.h"
 #include "GMaster.h"
+#include "GLog.h"
 //===============================================
 GTest* GTest::m_test = 0;
 //===============================================
-GTest::GTest(QObject* _parent) :
-GObject(_parent) {
+GTest::GTest(QObject* _parent) : GModule(_parent) {
+    m_server = 0;
+}
+//===============================================
+GTest::GTest(const QString& _req, QObject* _parent) : GModule(_req, _parent) {
     m_server = 0;
 }
 //===============================================
@@ -70,6 +74,15 @@ void GTest::run(int _argc, char** _argv) {
     }
     else if(lKey == "request/send") {
         runRequestSend(_argc, _argv);
+    }
+    else if(lKey == "request/save_user") {
+        runRequestSaveUser(_argc, _argv);
+    }
+    else if(lKey == "request/get_user") {
+        runRequestGetUser(_argc, _argv);
+    }
+    else if(lKey == "request/error") {
+        runRequestError(_argc, _argv);
     }
     // response
     else if(lKey == "response") {
@@ -322,19 +335,68 @@ void GTest::runRequestSend(int _argc, char** _argv) {
     printf("%s\n", __FUNCTION__);
     GRequest lReq;
     GSocket lClient;
-    lReq.createRequest("user", "save_usero");
+    lReq.createRequest("test", "request_send");
     QString lResponse = lClient.callServer(lReq.toString());
+    console("=====>");
+    console(lReq.toString());
+    console("=====>");
     console(lResponse);
+}
+//===============================================
+void GTest::runRequestSaveUser(int _argc, char** _argv) {
+    printf("%s\n", __FUNCTION__);
+    GRequest lReq;
+    GSocket lClient;
+    lReq.createRequest("test", "save_user");
+    QString lResponse = lClient.callServer(lReq.toString());
+    GLOGI->loadErrors(lResponse);
+    console("=====>");
+    console(lReq.toString());
+    console("=====>");
+    console(lResponse);
+}
+//===============================================
+void GTest::runRequestGetUser(int _argc, char** _argv) {
+    printf("%s\n", __FUNCTION__);
+    GRequest lReq;
+    GSocket lClient;
+    lReq.createRequest("test", "get_user");
+    QString lResponse = lClient.callServer(lReq.toString());
+    GLOGI->loadErrors(lResponse);
+    GCode lRes(lResponse);
+    console("=====>");
+    console(lReq.toString());
+    console("=====>");
+    console(lResponse);
+    console("=====>");
+    console(QString("firstname.....: %1").arg(lRes.getItem("user", "firstname")));
+    console(QString("lastname......: %1").arg(lRes.getItem("user", "lastname")));
+}
+//===============================================
+void GTest::runRequestError(int _argc, char** _argv) {
+    printf("%s\n", __FUNCTION__);
+    GRequest lReq;
+    GSocket lClient;
+    lReq.createRequest("test", "error");
+    QString lResponse = lClient.callServer(lReq.toString());
+    GLOGI->loadErrors(lResponse);
+    console("=====>");
+    console(lReq.toString());
+    console("=====>");
+    console(lResponse);
+    console("=====>");
 }
 //===============================================
 void GTest::runResponse(int _argc, char** _argv) {
     printf("%s\n", __FUNCTION__);
     GCode lRes;
     lRes.createDoc("1.0", "rdv");
+    lRes.createCode("request", "module", "test");
+    lRes.createCode("request", "method", "save_user");
     lRes.createCode("result", "msg", "ok");
     lRes.createCode("opencv", "version", "4.0");
-    lRes.createMap("error", "map", "msg", "le chemin est incorrect");
-    lRes.createMap("error", "map", "msg", "la donnee est incorrect");
+    lRes.createMap("error", "msg", "le chemin est incorrect");
+    lRes.createMap("error", "msg", "la donnee est incorrect");
     console("=====>");
     console(lRes.hasCode("result"));        // true
     console("=====>");
@@ -346,6 +408,44 @@ void GTest::runResponse(int _argc, char** _argv) {
     console("=====>");
     console(lRes.hasCode("error", "msgo")); // false
     console("=====>");
+    console(QString("module.....: %1").arg(lRes.getItem("request", "module")));
+    console(QString("method.....: %1").arg(lRes.getItem("request", "method")));
+    console("=====>");
     console(lRes.toString());
+}
+//===============================================
+void GTest::onModule(QString _req, GSocket* _client) {
+    QString lMethod = m_req->getMethod();
+
+    // method
+    if(lMethod == "save_user") {
+        onRequestSaveUser(_req, _client);
+    }
+    else if(lMethod == "get_user") {
+        onRequestGetUser(_req, _client);
+    }
+    else if(lMethod == "error") {
+        onRequestError(_req, _client);
+    }
+    // unknown
+    else {
+        onMethodUnknown(_req, _client);
+    }
+}
+//===============================================
+void GTest::onRequestSaveUser(QString _req, GSocket* _client) {
+
+}
+//===============================================
+void GTest::onRequestGetUser(QString _req, GSocket* _client) {
+    GSocket* lClient = _client;
+    QSharedPointer<GCode>& lRes = lClient->getResponse();
+    lRes->createCode("user", "firstname", "Gerard");
+    lRes->createCode("user", "lastname", "KESSE");
+}
+//===============================================
+void GTest::onRequestError(QString _req, GSocket* _client) {
+    GLOG("Erreur cet identifiant existe deja");
+    GLOG("Erreur le mot de passe est incorrect");
 }
 //===============================================

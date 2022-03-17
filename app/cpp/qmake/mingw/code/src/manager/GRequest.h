@@ -2,13 +2,14 @@
 #ifndef _GRequest_
 #define _GRequest_
 //===============================================
-#include "GXml.h"
+#include "GCode.h"
 //===============================================
-class GRequest : public GXml {
+class GRequest : public GCode {
     Q_OBJECT
 
 public:
     GRequest(QObject* _parent = 0);
+    GRequest(const QString& _code, QObject* _parent = 0);
     ~GRequest();
     //
     GRequest& createRequest(const QString& _module, const QString& _method);

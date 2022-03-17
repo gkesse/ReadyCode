@@ -24,7 +24,6 @@ public:
 
 protected:
     QSharedPointer<GRequest> m_req;
-    QSharedPointer<GCode> m_res;
 };
 //==============================================
 #endif

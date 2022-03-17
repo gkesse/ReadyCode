@@ -16,6 +16,7 @@ public:
     //
     void onModule(QString _req, GSocket* _client);
     //
+    void onModuleTest(QString _req, GSocket* _client);
     void onModuleUser(QString _req, GSocket* _client);
 };
 //==============================================

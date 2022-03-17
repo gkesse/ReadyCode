@@ -16,6 +16,7 @@ public:
     static GConsole* Instance();
     void printData(bool _data);
     void printData(const char* _data);
+    void printData(int _data);
     void printData(const QString& _data);
 
 private:
