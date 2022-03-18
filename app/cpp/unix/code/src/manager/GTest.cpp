@@ -423,7 +423,7 @@ void GTest::runRequest(int _argc, char** _argv) {
 //===============================================
 void GTest::runRequestSend(int _argc, char** _argv) {
     printf("%s\n", __FUNCTION__);
-    GXml lReq;
+    GCode lReq;
     GSocket lClient;
     lReq.createRequest("user", "save_user");
     lClient.callServer(lReq.toString());
