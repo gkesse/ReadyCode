@@ -2,13 +2,14 @@
 #ifndef _GTest_
 #define _GTest_
 //===============================================
-#include "GObject.h"
+#include "GModule.h"
 //===============================================
 class GSocket;
 //===============================================
-class GTest : public GObject {
+class GTest : public GModule {
 public:
     GTest();
+    GTest(const std::string& _req);
     ~GTest();
     void run(int _argc, char** _argv);
     void runTest(int _argc, char** _argv);
@@ -36,6 +37,11 @@ public:
     void runRequestSend(int _argc, char** _argv);
     void runResponse(int _argc, char** _argv);
     void runMysql(int _argc, char** _argv);
+    //
+    void onModule(GSocket* _client);
+    void onRequestSaveUser(GSocket* _client);
+    void onRequestGetUser(GSocket* _client);
+    void onRequestError(GSocket* _client);
 
 private:
     static GTest* m_test;

@@ -17,7 +17,11 @@
 //===============================================
 GTest* GTest::m_test = 0;
 //===============================================
-GTest::GTest() : GObject() {
+GTest::GTest() : GModule() {
+    m_server = 0;
+}
+//===============================================
+GTest::GTest(const std::string& _req) : GModule(_req) {
     m_server = 0;
 }
 //===============================================
@@ -352,9 +356,9 @@ void GTest::onSocketServerStartTimer(int _signo) {
     if(!lClientIns.empty()) {
         GSocket* lClient = lClientIns.front();
         lClientIns.pop();
-        std::string lRequest = lClient->getRequest();
-        GMaster lMaster(lRequest);
+        GMaster lMaster(lClient->getRequest());
         lMaster.onModule(lClient);
+        lMaster.sendResponse(lClient);
     }
 }
 //===============================================
@@ -467,5 +471,44 @@ void GTest::runMysql(int _argc, char** _argv) {
     console(lMySQL.readData(lSql));
     console("");
     console(lMySQL.readCol(lSql));
+}
+//===============================================
+void GTest::onModule(GSocket* _client) {
+    std::string lMethod = m_req->getMethod();
+
+    // method
+    if(lMethod == "save_user") {
+        onRequestSaveUser(_client);
+    }
+    else if(lMethod == "get_user") {
+        onRequestGetUser(_client);
+    }
+    else if(lMethod == "error") {
+        onRequestError(_client);
+    }
+    // unknown
+    else {
+        onMethodUnknown(_client);
+    }
+}
+//===============================================
+void GTest::onRequestSaveUser(GSocket* _client) {
+    std::string lFirstname = m_req->getItem("parameters", "firstname");
+    std::string lLastname = m_req->getItem("parameters", "lastname");
+    console("=====>");
+    consoles("firstname......: %s", lFirstname.c_str());
+    consoles("lastname.......: %s", lLastname.c_str());
+}
+//===============================================
+void GTest::onRequestGetUser(GSocket* _client) {
+    GSocket* lClient = _client;
+    std::shared_ptr<GCode>& lRes = lClient->getResponse();
+    lRes->createCode("user", "firstname", "Gerard");
+    lRes->createCode("user", "lastname", "KESSE");
+}
+//===============================================
+void GTest::onRequestError(GSocket* _client) {
+    GLOG("Erreur cet identifiant existe deja");
+    GLOG("Erreur le mot de passe est incorrect");
 }
 //===============================================
