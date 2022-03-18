@@ -26,7 +26,7 @@ GConsole& GConsole::print(const std::string& _data) {
 //===============================================
 GConsole& GConsole::print(const std::vector<std::string>& _data) {
     for(size_t i = 0; i < _data.size(); i++) {
-        std::string lData = _data.at(i);
+        std::string lData = _data.at((int)i);
         printf("%s\n", lData.c_str());
     }
     return *this;

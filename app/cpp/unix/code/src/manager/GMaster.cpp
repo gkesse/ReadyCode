@@ -18,7 +18,7 @@ GMaster::~GMaster() {
 }
 //===============================================
 void GMaster::onModule(GSocket* _client) {
-    std::string lModule = getModule();
+    std::string lModule = m_req->getModule();
 
     // module
     if(lModule == "user") {
@@ -30,8 +30,8 @@ void GMaster::onModule(GSocket* _client) {
     }
 }
 //===============================================
-void GMaster::onModuleUser(std::string _req, GSocket* _client) {
-    GUser lModule(_req);
-    lModule.onModule(_req, _client);
+void GMaster::onModuleUser(GSocket* _client) {
+    GUser lModule(_client->getRequest());
+    lModule.onModule(_client);
 }
 //===============================================
