@@ -5,21 +5,22 @@
 #include "GObject.h"
 //===============================================
 class GXml : public GObject {
+    Q_OBJECT
+
 public:
-    GXml();
-    ~GXml();
+    GXml(QObject* _parent = 0);
+    virtual ~GXml();
     //
     void initModule();
     void cleanModule();
     //
     GXml& loadXmlFile(const std::string& _filename);
     GXml& loadXmlData(const std::string& _data);
-    bool saveXmlFile(const std::string& _filename = "", const std::string& _encoding = "UTF-8", int _format = 4);
+    GXml& saveXmlFile(const std::string& _filename = "", const std::string& _encoding = "UTF-8", int _format = 4);
     //
     GXml& createDoc(const std::string& _version);
     GXml& createDoc(const std::string& _version, const std::string& _rootNode);
     GXml& createRoot(const std::string& _nodename);
-    GXml& createRequest(const std::string& _module, const std::string& _method);
     //
     GXml& getRoot(const std::string& _nodename);
     GXml& getNode(const std::string& _nodename);
@@ -42,7 +43,6 @@ public:
     GXml& replaceNode(GXml& _xml);
     //
     GXml& createXPath();
-    GXml& createXPath(const std::string& _data);
     GXml& queryXPath(const std::string& _query);
     int countXPath() const;
     GXml& getNodeXPath();
@@ -55,16 +55,12 @@ public:
     std::string getNodeCData() const;
     //
     std::string toString(const std::string& _encoding = "UTF8", int _format = 4) const;
-    //
-    std::string getModule();
-    std::string getMethod();
 
 private:
     xmlNodePtr m_node;
     xmlDocPtr m_doc;
     xmlXPathContextPtr m_xpath;
     xmlXPathObjectPtr m_xpathObj;
-    //
     std::string m_filename;
 };
 //==============================================

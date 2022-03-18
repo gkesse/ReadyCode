@@ -1,6 +1,7 @@
 //===============================================
 #include "GXml.h"
 #include "GLog.h"
+#include "GConsole.h"
 #include "GFormat.h"
 #include "GString.h"
 //===============================================
@@ -9,7 +10,7 @@ GXml::GXml() : GObject() {
     m_doc = 0;
     m_xpath = 0;
     m_xpathObj = 0;
-    //
+
     xmlKeepBlanksDefault(0);
 }
 //===============================================
@@ -32,7 +33,7 @@ GXml& GXml::loadXmlFile(const std::string& _filename) {
     m_doc = xmlParseFile(_filename.c_str());
     if(!m_doc) {
         GLOG("Erreur la methode (GXml::loadXmlFile) a echoue (1)\n"
-                "- fichier.....: (%s).", _filename.c_str());
+                "- fichier......: (%s)", _filename.c_str());
     }
     m_filename = _filename;
     return *this;
@@ -47,7 +48,7 @@ GXml& GXml::loadXmlData(const std::string& _data) {
     return *this;
 }
 //===============================================
-bool GXml::saveXmlFile(const std::string& _filename, const std::string& _encoding, int _format) {
+GXml& GXml::saveXmlFile(const std::string& _filename, const std::string& _encoding, int _format) {
     std::string lFilename = "";
 
     if(_filename != "") {
@@ -58,12 +59,12 @@ bool GXml::saveXmlFile(const std::string& _filename, const std::string& _encodin
     }
     else {
         GLOG("Erreur la methode (GXml::saveXmlFile) a echoue (1)\n"
-                "- fichier.....: (%s).", lFilename.c_str());
-        return false;
+                "- fichier......: (%s)", lFilename.c_str());
+        return *this;
     }
 
     xmlSaveFormatFileEnc(lFilename.c_str(), m_doc, _encoding.c_str(), _format);
-    return true;
+    return *this;
 }
 //===============================================
 GXml& GXml::createDoc(const std::string& _version) {
@@ -84,26 +85,17 @@ GXml& GXml::createRoot(const std::string& _nodename) {
     return *this;
 }
 //===============================================
-GXml& GXml::createRequest(const std::string& _module, const std::string& _method) {
-    createDoc("1.0");
-    createRoot("rdv");
-    createXPath();
-    createNodePath("/rdv/module", _module);
-    createNodePath("/rdv/method", _method);
-    return *this;
-}
-//===============================================
 GXml& GXml::getRoot(const std::string& _nodename) {
     m_node = xmlDocGetRootElement(m_doc);
     if(!m_node) {
         GLOG("Erreur la methode (GXml::getRoot) a echoue (1)\n"
-                "- noeud.....: (%s).", _nodename.c_str());
+                "- noeud......: (%s)", _nodename.c_str());
         return *this;
     }
     std::string lNodeName = (char*)m_node->name;
     if(lNodeName != _nodename) {
         GLOG("Erreur la methode (GXml::getRoot) a echoue (2)\n"
-                "- noeud.....: (%s).", _nodename.c_str());
+                "- noeud......: (%s)", _nodename.c_str());
     }
     return *this;
 }
@@ -111,7 +103,7 @@ GXml& GXml::getRoot(const std::string& _nodename) {
 GXml& GXml::getNode(const std::string& _nodename) {
     if(!m_node) {
         GLOG("Erreur la methode (GXml::getNode) a echoue (1)\n"
-                "- noeud.....: (%s).", _nodename.c_str());
+                "- noeud......: (%s)", _nodename.c_str());
         return *this;
     }
     xmlNodePtr lNode  = xmlFirstElementChild(m_node);
@@ -124,7 +116,7 @@ GXml& GXml::getNode(const std::string& _nodename) {
         lNode = xmlNextElementSibling(lNode);
     }
     GLOG("Erreur la methode (GXml::getNode) a echoue (2)\n"
-            "- noeud.....: (%s).", _nodename.c_str());
+            "- noeud......: (%s)", _nodename.c_str());
     return *this;
 }
 //===============================================
@@ -169,8 +161,8 @@ GXml& GXml::createNodePath(const std::string& _path, const std::string& _value) 
     }
     std::vector<std::string> lPaths = GString(_path).splitData('/');
     std::string lName = "";
-    for(size_t i = 0; i < lPaths.size(); i++) {
-        std::string lPath = GString(lPaths.at((int)i)).trimData();
+    for(int i = 0; i < lPaths.size(); i++) {
+        std::string lPath = GString(lPaths.at(i)).trimData();
         if(lPath == "") continue;
         lName += "/" + lPath;
         int lCount = queryXPath(lName).countXPath();
@@ -198,7 +190,7 @@ GXml& GXml::createCData(GXml& _xml, const std::string& _value) {
 GXml& GXml::setNodeValue(const std::string& _value) {
     if(!m_node) {
         GLOG("Erreur la methode (GXml::setNodeValue) a echoue (1)"
-                "- noeud......: (%s)", _value.c_str());
+                "- noeud......: (%1)", _value.c_str());
         return *this;
     }
     xmlNodeSetContent(m_node, BAD_CAST(_value.c_str()));
@@ -295,16 +287,10 @@ GXml& GXml::replaceNode(GXml& _xml) {
 //===============================================
 GXml& GXml::createXPath() {
     if(!m_doc) {
-        GLOG("Erreur la methode (GXml::createXPath) a echoue (1)\n");
+        GLOG("Erreur la methode (GXml::createXPath) a echoue (1)");
         return *this;
     }
     m_xpath = xmlXPathNewContext(m_doc);
-    return *this;
-}
-//===============================================
-GXml& GXml::createXPath(const std::string& _data) {
-    loadXmlData(_data);
-    createXPath();
     return *this;
 }
 //===============================================
@@ -328,6 +314,10 @@ int GXml::countXPath() const {
 }
 //===============================================
 GXml& GXml::getNodeXPath() {
+    if(!m_xpathObj) {
+        m_node = 0;
+        return *this;
+    }
     if(!m_xpathObj->nodesetval) {
         m_node = 0;
         return *this;
@@ -365,13 +355,13 @@ GXml& GXml::clearNodeXPath() {
 GXml& GXml::createNodeCData(GXml& _xml, const std::string& _value) {
     if(!_xml.m_node) {
         GLOG("Erreur la methode (GXml::createNodeCData) a echoue (1)\n"
-                "- valeur.....: (%s).", _value.c_str());
+                "- noeud......: (%s)", _value.c_str());
         return *this;
     }
     m_node = xmlNewCDataBlock(_xml.m_node->doc, BAD_CAST(_value.c_str()), _value.size());
     if(!m_node) {
         GLOG("Erreur la methode (GXml::createNodeCData) a echoue (2)\n"
-                "- valeur.....: (%s).", _value.c_str());
+                "- noeud......: (%s)", _value.c_str());
         return *this;
     }
     return *this;
@@ -387,8 +377,8 @@ GXml& GXml::createNodeCData(const std::string& _nodename, const std::string& _va
 //===============================================
 GXml& GXml::setNodeCData(const std::string& _value) {
     if(!m_node) {
-        GLOG("Erreur la methode (GXml::setNodeCData) a echoue (2)\n"
-                "- valeur.....: (%s).", _value.c_str());
+        GLOG("Erreur la methode (GXml::setNodeCData) a echoue (1)\n"
+                "- noeud......: (%s).", _value.c_str());
         return *this;
     }
     GXml lNode;
@@ -414,16 +404,6 @@ std::string GXml::toString(const std::string& _encoding, int _format) const {
     xmlDocDumpFormatMemoryEnc(m_doc, &lBuffer, &lSize, _encoding.c_str(), _format);
     std::string lData = (char*)lBuffer;
     xmlFree(lBuffer);
-    return lData;
-}
-//===============================================
-std::string GXml::getModule() {
-    std::string lData = getNodeValue("/rdv/module");
-    return lData;
-}
-//===============================================
-std::string GXml::getMethod() {
-    std::string lData = getNodeValue("/rdv/method");
     return lData;
 }
 //===============================================
