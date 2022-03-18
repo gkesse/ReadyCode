@@ -15,6 +15,7 @@ public:
     static GConsole* Instance();
     GConsole& printData(bool _data);
     GConsole& printData(int _data);
+    GConsole& printData(const char* _data);
     GConsole& printData(const std::string& _data);
     GConsole& printData(const std::vector<std::string>& _data);
 

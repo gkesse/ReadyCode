@@ -34,6 +34,11 @@ GConsole& GConsole::printData(int _data) {
     return *this;
 }
 //===============================================
+GConsole& GConsole::printData(const char* _data) {
+    printf("%s\n", _data);
+    return *this;
+}
+//===============================================
 GConsole& GConsole::printData(const std::string& _data) {
     printf("%s\n", _data.c_str());
     return *this;
