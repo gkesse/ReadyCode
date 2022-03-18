@@ -360,7 +360,7 @@ void GTest::onSocketServerStartTimer(int _signo) {
         lDataIns.pop();
         lClientIns.pop();
         GMaster lMaster(lDataIn);
-        lMaster.onModule(lClient);
+        lMaster.onModule(lDataIn, lClient);
         lMaster.sendResponse(lClient);
     }
 }
