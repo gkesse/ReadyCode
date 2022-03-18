@@ -95,7 +95,7 @@ std::string GCode::getItem(const std::string& _code, const std::string& _key) {
 }
 //===============================================
 std::string GCode::getItem(const std::string& _code, int _index, const std::string& _key) {
-    queryXPath(sformat("/rdv/datas/data[code='%s']/map/data[position()=%d]/%d", _code.c_str(), _index + 1, _key.c_str()));
+    queryXPath(sformat("/rdv/datas/data[code='%s']/map/data[position()=%d]/%s", _code.c_str(), _index + 1, _key.c_str()));
     getNodeXPath();
     std::string lData = getNodeValue();
     return lData;
