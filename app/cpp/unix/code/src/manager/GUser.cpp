@@ -2,7 +2,7 @@
 #include "GUser.h"
 #include "GLog.h"
 #include "GFormat.h"
-#include "GXml.h"
+#include "GCode.h"
 //===============================================
 GUser::GUser() : GModule() {
 
