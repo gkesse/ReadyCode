@@ -5,7 +5,7 @@
 #include "GXml.h"
 #include "GFormat.h"
 #include "GThread.h"
-#include "GHostname.h"
+#include "GCode.h"
 //===============================================
 GSocket::GSocket() : GObject() {
     createDoms();
@@ -21,6 +21,10 @@ void GSocket::createDoms() {
     m_dom.reset(new GXml);
     m_dom->loadXmlFile(GRES("xml", "pad.xml"));
     m_dom->createXPath();
+    //
+    m_res.reset(new GCode);
+    m_res->createCode();
+
 }
 //===============================================
 std::string GSocket::getSocketItem(const std::string& _data) const {
