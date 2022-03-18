@@ -352,18 +352,15 @@ void* GTest::onSocketServerStartThread(void* _params) {
 //===============================================
 void GTest::onSocketServerStartTimer(int _signo) {
     GSocket* lServer = m_test->m_server;
-    std::queue<std::string>& lDataIns = lServer->getDataIns();
     std::queue<GSocket*>& lClientIns = lServer->getClientIns();
 
     if(!lClientIns.empty()) {
-        std::string lDataIn = lDataIns.front();
         GSocket* lClient = lClientIns.front();
-        lDataIns.pop();
         lClientIns.pop();
-        GMaster lMaster(lDataIn);
-        lMaster.onModule(lDataIn, lClient);
+        GMaster lMaster(lClient->getRequest());
+        lMaster.onModule(lClient->getRequest(), lClient);
         GHostname lHostname;
-        lHostname.saveHostname(lDataIn, lClient);
+        lHostname.saveHostname(lClient->getRequest(), lClient);
         lMaster.sendResponse(lClient);
     }
 }

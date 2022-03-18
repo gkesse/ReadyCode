@@ -277,12 +277,11 @@ void GSocket::startServer(void* _onServerTcp) {
 void* GSocket::onServerThread(GSocket* _client) {
     GSocket* lClient = _client;
     GSocket* lServer = lClient->m_server;
-    std::queue<std::string>& lDataIns = lServer->m_dataIns;
     std::queue<GSocket*>& lClientIns = lServer->m_clientIns;
 
     std::string lData;
     lClient->readData(lData);
-    lDataIns.push(lData);
+    lClient->setRequest(lData);
     lClientIns.push(lClient);
     return 0;
 }
@@ -305,6 +304,14 @@ std::string GSocket::callServer(const std::string& _dataIn) {
     closeSocket();
 
     return lDataOut;
+}
+//===============================================
+void GSocket::setRequest(const std::string& _req) {
+    m_request = _req;
+}
+//===============================================
+std::string GSocket::getRequest() const {
+    return m_request;
 }
 //===============================================
 std::queue<std::string>& GSocket::getDataIns() {
