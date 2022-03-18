@@ -15,6 +15,9 @@ public:
     void addError(const std::string& _error);
     void showError();
     bool hasError();
+    void clearErrors();
+    void loadErrors(const std::string& _res);
+    std::vector<std::string>& getErrors();
 
 private:
     static GLog* m_instance;

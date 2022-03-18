@@ -336,22 +336,20 @@ void GTest::runSocketServerStart(int _argc, char** _argv) {
 void* GTest::onSocketServerStartThread(void* _params) {
     printf("%s\n", __FUNCTION__);
     GSocket* lServer = m_test->m_server;
-    lServer->startServerTcp((void*)GSocket::onServerTcp);
+    lServer->startServer((void*)GSocket::onServerThread);
     return 0;
 }
 //===============================================
 void GTest::onSocketServerStartTimer(int _signo) {
     GSocket* lServer = m_test->m_server;
-    std::queue<std::string>& lDataIns = lServer->getDataIns();
     std::queue<GSocket*>& lClientIns = lServer->getClientIns();
 
-    if(!lDataIns.empty()) {
-        std::string lDataIn = lDataIns.front();
+    if(!lClientIns.empty()) {
         GSocket* lClient = lClientIns.front();
-        lDataIns.pop();
         lClientIns.pop();
-        GMaster lMaster(lDataIn);
-        lMaster.onModule(lDataIn, lClient);
+        std::string lRequest = lClient->getRequest();
+        GMaster lMaster(lRequest);
+        lMaster.onModule(lClient);
     }
 }
 //===============================================
@@ -362,7 +360,7 @@ void GTest::runSocketClientStart(int _argc, char** _argv) {
     std::string lData = GFile(lFilename).getData();
 
     GSocket lClient;
-    lData = lClient.callServerTcp(lData);
+    lData = lClient.callServer(lData);
 
     printf("=====>\n");
     printf("%s\n", lData.c_str());
@@ -423,7 +421,7 @@ void GTest::runRequestSend(int _argc, char** _argv) {
     GXml lReq;
     GSocket lClient;
     lReq.createRequest("user", "save_user");
-    lClient.callServerTcp(lReq.toString());
+    lClient.callServer(lReq.toString());
 }
 //===============================================
 void GTest::runMysql(int _argc, char** _argv) {

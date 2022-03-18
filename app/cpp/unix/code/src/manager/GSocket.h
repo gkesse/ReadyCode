@@ -32,13 +32,14 @@ public:
     int sendData(GSocket& _socket, const std::string& _data);
     int writeData(const std::string& _data);
     void closeSocket();
-    void startServerTcp(void* _onServerTcp);
-    static void* onServerTcp(GSocket* _client);
-    std::string callServerTcp(const std::string& _dataIn);
+    void startServer(void* _onServerTcp);
+    static void* onServerThread(GSocket* _client);
+    std::string callServer(const std::string& _dataIn);
     //
     void setRequest(const std::string& _request);
     std::string getRequest() const;
     std::queue<GSocket*>& getClientIns();
+    std::shared_ptr<GCode>& getResponse();
     //
     std::string readAddressIp() const;
 

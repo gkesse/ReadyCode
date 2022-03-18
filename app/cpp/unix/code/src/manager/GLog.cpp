@@ -1,5 +1,7 @@
 //===============================================
 #include "GLog.h"
+#include "GCode.h"
+#include "GFormat.h"
 //===============================================
 GLog* GLog::m_instance = 0;
 //===============================================
@@ -36,5 +38,24 @@ void GLog::showError() {
 bool GLog::hasError() {
     bool lError = !m_errors.empty();
     return lError;
+}
+//===============================================
+void GLog::clearErrors() {
+    m_errors.clear();
+}
+//===============================================
+void GLog::loadErrors(const std::string& _res) {
+    GCode lRes;
+    lRes.loadXmlData(_res);
+    lRes.createXPath();
+    int lCount = lRes.countItem("error", "msg");
+    for(int i = 0; i < lCount; i++) {
+        std::string lError = lRes.getItem("error", i, "msg");
+        GLOG("%s", lError.c_str());
+    }
+}
+//===============================================
+std::vector<std::string>& GLog::getErrors() {
+    return m_errors;
 }
 //===============================================

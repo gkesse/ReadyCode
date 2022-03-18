@@ -17,6 +17,7 @@ public:
     bool saveXmlFile(const std::string& _filename = "", const std::string& _encoding = "UTF-8", int _format = 4);
     //
     GXml& createDoc(const std::string& _version);
+    GXml& createDoc(const std::string& _version, const std::string& _rootNode);
     GXml& createRoot(const std::string& _nodename);
     GXml& createRequest(const std::string& _module, const std::string& _method);
     //
@@ -26,11 +27,18 @@ public:
     std::string getNodeValue(const std::string& _xpath);
     //
     GXml& createNode(const std::string& _nodename);
-    GXml& createNodePath(const std::string& _path, const std::string& _value = "");
-    GXml& createNodeFromString(const std::string& _value);
     GXml& createNodeValue(const std::string& _nodename, const std::string& _value);
+    GXml& createNodePath(const std::string& _path, const std::string& _value = "");
+    GXml& createCData(GXml& _xml, const std::string& _value);
     GXml& setNodeValue(const std::string& _value);
+    GXml& setNodeValue(const std::string& _key, const std::string& _value);
     GXml& appendNode(GXml& _xml);
+    GXml& appendNode(const std::string& _nodename);
+    GXml& appendNode(const std::string& _nodename, const std::string& _value);
+    GXml& appendNodeGet(const std::string& _nodename);
+    GXml& appendNodeGet(const std::string& _nodename, const std::string& _value);
+    GXml& appendCData(const std::string& _value);
+    GXml& appendCData(const std::string& _nodename, const std::string& _value);
     GXml& replaceNode(GXml& _xml);
     //
     GXml& createXPath();

@@ -4,7 +4,7 @@
 //===============================================
 #include "GObject.h"
 //===============================================
-class GXml;
+class GCode;
 class GSocket;
 //===============================================
 class GModule : public GObject {
@@ -13,15 +13,14 @@ public:
     GModule(const std::string& _req);
     virtual ~GModule();
     //
-    virtual void onModuleUnknown(const std::string& _req, GSocket* _client);
-    virtual void onMethodUnknown(const std::string& _req, GSocket* _client);
+    virtual void onModuleUnknown(GSocket* _client);
+    virtual void onMethodUnknown(GSocket* _client);
     //
     void setRequest(const std::string& _req);
-    std::string getModule();
-    std::string getMethod();
+    void sendResponse(GSocket* _client);
 
 protected:
-    std::shared_ptr<GXml> m_req;
+    std::shared_ptr<GCode> m_req;
 };
 //==============================================
 #endif

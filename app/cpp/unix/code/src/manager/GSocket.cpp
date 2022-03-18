@@ -242,7 +242,7 @@ void GSocket::closeSocket() {
     }
 }
 //===============================================
-void GSocket::startServerTcp(void* _onServerTcp) {
+void GSocket::startServer(void* _onServerTcp) {
     int lDomain = loadDomain();
     int lType = loadType();
     int lProtocol = loadProtocol();
@@ -261,7 +261,6 @@ void GSocket::startServerTcp(void* _onServerTcp) {
     GThread lThread;
 
     while(1) {
-        if(GLOGI->hasError()) break;
         GSocket* lClient = new GSocket;
         lClient->m_server = this;
         acceptSocket(lClient);
@@ -271,10 +270,9 @@ void GSocket::startServerTcp(void* _onServerTcp) {
     closeSocket();
 }
 //===============================================
-void* GSocket::onServerTcp(GSocket* _client) {
+void* GSocket::onServerThread(GSocket* _client) {
     GSocket* lClient = _client;
     GSocket* lServer = lClient->m_server;
-    std::queue<std::string>& lDataIns = lServer->m_dataIns;
     std::queue<GSocket*>& lClientIns = lServer->m_clientIns;
 
     GHostname lHostname;
@@ -282,15 +280,12 @@ void* GSocket::onServerTcp(GSocket* _client) {
 
     std::string lData;
     lClient->readData(lData);
-    lDataIns.push(lData);
+    lClient->setRequest(lData);
     lClientIns.push(lClient);
-    lClient->writeData("<result>ok</result>");
-    lClient->closeSocket();
-    delete lClient;
     return 0;
 }
 //===============================================
-std::string GSocket::callServerTcp(const std::string& _dataIn) {
+std::string GSocket::callServer(const std::string& _dataIn) {
     int lDomain = loadDomain();
     int lType = loadType();
     int lProtocol = loadProtocol();
@@ -320,6 +315,10 @@ std::string GSocket::getRequest() const {
 //===============================================
 std::queue<GSocket*>& GSocket::getClientIns() {
     return m_clientIns;
+}
+//===============================================
+std::shared_ptr<GCode>& GSocket::getResponse(){
+    return m_res;
 }
 //===============================================
 std::string GSocket::readAddressIp() const {

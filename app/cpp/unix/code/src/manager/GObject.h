@@ -5,6 +5,7 @@
 #include "GInclude.h"
 //===============================================
 class GXml;
+class GCode;
 //===============================================
 class GObject {
 public:
@@ -14,6 +15,7 @@ public:
 
 protected:
     std::shared_ptr<GXml> m_dom;
+    std::shared_ptr<GCode> m_res;
 };
 //===============================================
 #endif

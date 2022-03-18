@@ -17,16 +17,16 @@ GMaster::~GMaster() {
 
 }
 //===============================================
-void GMaster::onModule(std::string _req, GSocket* _client) {
+void GMaster::onModule(GSocket* _client) {
     std::string lModule = getModule();
 
-    // hostname
+    // module
     if(lModule == "user") {
-        onModuleUser(_req, _client);
+        onModuleUser(_client);
     }
     // unknown
     else {
-        onModuleUnknown(_req, _client);
+        onModuleUnknown(_client);
     }
 }
 //===============================================
