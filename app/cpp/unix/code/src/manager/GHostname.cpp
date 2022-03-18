@@ -19,6 +19,6 @@ GHostname::~GHostname() {
 //===============================================
 void GHostname::saveHostname(GSocket* _client) {
     console("=====>");
-    consoles("adresse_ip.....: %s\n", _client->readAddressIp().c_str());
+    consoles("adresse_ip.....: %s", _client->readAddressIp().c_str());
 }
 //===============================================
