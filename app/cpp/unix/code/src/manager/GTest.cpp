@@ -477,8 +477,8 @@ void GTest::runRequestGetUser(int _argc, char** _argv) {
     console("=====>");
     console(lResponse);
     console("=====>");
-    console(std::string("firstname.....: %1").arg(lRes.getItem("user", "firstname")));
-    console(std::string("lastname......: %1").arg(lRes.getItem("user", "lastname")));
+    consoles("firstname.....: %s", lRes.getItem("user", "firstname").c_str());
+    consoles("lastname......: %s", lRes.getItem("user", "lastname").c_str());
 }
 //===============================================
 void GTest::runRequestError(int _argc, char** _argv) {
