@@ -34,6 +34,7 @@ public:
     void runTimer(int _argc, char** _argv);
     void runRequest(int _argc, char** _argv);
     void runRequestSend(int _argc, char** _argv);
+    void runResponse(int _argc, char** _argv);
     void runMysql(int _argc, char** _argv);
 
 private:

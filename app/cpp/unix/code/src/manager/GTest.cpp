@@ -2,6 +2,7 @@
 #include "GTest.h"
 #include "GPath.h"
 #include "GXml.h"
+#include "GCode.h"
 #include "GFormat.h"
 #include "GSocket.h"
 #include "GFile.h"
@@ -95,6 +96,10 @@ void GTest::run(int _argc, char** _argv) {
     }
     else if(lKey == "request/send") {
         runRequestSend(_argc, _argv);
+    }
+    // response
+    else if(lKey == "response") {
+        runResponse(_argc, _argv);
     }
     // mysql
     else if(lKey == "mysql") {
@@ -422,6 +427,33 @@ void GTest::runRequestSend(int _argc, char** _argv) {
     GSocket lClient;
     lReq.createRequest("user", "save_user");
     lClient.callServer(lReq.toString());
+}
+//===============================================
+void GTest::runResponse(int _argc, char** _argv) {
+    printf("%s\n", __FUNCTION__);
+    GCode lRes;
+    lRes.createDoc("1.0", "rdv");
+    lRes.createCode("request", "module", "test");
+    lRes.createCode("request", "method", "save_user");
+    lRes.createCode("result", "msg", "ok");
+    lRes.createCode("opencv", "version", "4.0");
+    lRes.createMap("error", "msg", "le chemin est incorrect");
+    lRes.createMap("error", "msg", "la donnee est incorrect");
+    console("=====>");
+    console(lRes.hasCode("result"));        // true
+    console("=====>");
+    console(lRes.hasCode("resulto"));       // false
+    console("=====>");
+    console(lRes.hasCode("error"));         // true
+    console("=====>");
+    console(lRes.hasCode("error", "msg"));  // true
+    console("=====>");
+    console(lRes.hasCode("error", "msgo")); // false
+    console("=====>");
+    consoles("module.....: %s", lRes.getItem("request", "module").c_str());
+    consoles("method.....: %s", lRes.getItem("request", "method").c_str());
+    console("=====>");
+    console(lRes.toString());
 }
 //===============================================
 void GTest::runMysql(int _argc, char** _argv) {

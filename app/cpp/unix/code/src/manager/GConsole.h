@@ -5,15 +5,18 @@
 #include "GObject.h"
 //===============================================
 #define GCONSOLE GConsole::Instance()
-#define console GCONSOLE->print
+#define console GCONSOLE->printData
+#define consoles(...) GCONSOLE->printData(sformat(__VA_ARGS__))
 //===============================================
 class GConsole : public GObject {
 public:
     GConsole();
     ~GConsole();
     static GConsole* Instance();
-    GConsole& print(const std::string& _data);
-    GConsole& print(const std::vector<std::string>& _data);
+    GConsole& printData(bool _data);
+    GConsole& printData(int _data);
+    GConsole& printData(const std::string& _data);
+    GConsole& printData(const std::vector<std::string>& _data);
 
 private:
     static GConsole* m_instance;
