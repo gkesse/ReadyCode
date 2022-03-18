@@ -59,7 +59,7 @@ void GCode::createCode(const std::string& _code) {
         appendNode("code", _code);
     }
     else {
-        queryXPath(sformat("/rdv/datas/data[code='%1']").arg(_code)).getNodeXPath();
+        queryXPath(sformat("/rdv/datas/data[code='%s']", _code)).getNodeXPath();
     }
 }
 //===============================================
