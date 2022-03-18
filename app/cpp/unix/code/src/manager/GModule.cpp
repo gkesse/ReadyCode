@@ -17,12 +17,12 @@ GModule::~GModule() {
 
 }
 //===============================================
-void GModule::onModuleUnknown(const std::string& _req, GSocket* _client) {
+void GModule::onModuleUnknown(GSocket* _client) {
     GLOG("Erreur le module (%s) n'existe pas",
             m_req->getModule().c_str());
 }
 //===============================================
-void GModule::onMethodUnknown(const std::string& _req, GSocket* _client) {
+void GModule::onMethodUnknown(GSocket* _client) {
     GLOG("Erreur la methode (%s : %s) n'existe pas",
             m_req->getModule().c_str(), m_req->getMethod().c_str());
 }

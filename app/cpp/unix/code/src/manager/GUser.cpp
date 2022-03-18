@@ -16,20 +16,20 @@ GUser::~GUser() {
 
 }
 //===============================================
-void GUser::onModule(const std::string& _req, GSocket* _client) {
+void GUser::onModule(GSocket* _client) {
     std::string lMethod = m_req->getMethod();
 
     // method
     if(lMethod == "save_user") {
-        onSaveUser(_req, _client);
+        onSaveUser(_client);
     }
     // unknown
     else {
-        onModuleUnknown(_req, _client);
+        onModuleUnknown(_client);
     }
 }
 //===============================================
-void GUser::onSaveUser(const std::string& _req, GSocket* _client) {
+void GUser::onSaveUser(GSocket* _client) {
     printf("%s\n", __FUNCTION__);
 }
 //===============================================

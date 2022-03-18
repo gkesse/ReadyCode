@@ -13,8 +13,8 @@ public:
     GModule(const std::string& _req);
     virtual ~GModule();
     //
-    virtual void onModuleUnknown(const std::string& _req, GSocket* _client);
-    virtual void onMethodUnknown(const std::string& _req, GSocket* _client);
+    virtual void onModuleUnknown(GSocket* _client);
+    virtual void onMethodUnknown(GSocket* _client);
     //
     void setRequest(const std::string& _req);
     void sendResponse(GSocket* _client);

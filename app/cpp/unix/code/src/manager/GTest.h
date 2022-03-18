@@ -38,10 +38,10 @@ public:
     void runResponse(int _argc, char** _argv);
     void runMysql(int _argc, char** _argv);
     //
-    void onModule(const std::string& _req, GSocket* _client);
-    void onRequestSaveUser(const std::string& _req, GSocket* _client);
-    void onRequestGetUser(const std::string& _req, GSocket* _client);
-    void onRequestError(const std::string& _req, GSocket* _client);
+    void onModule(GSocket* _client);
+    void onRequestSaveUser(GSocket* _client);
+    void onRequestGetUser(GSocket* _client);
+    void onRequestError(GSocket* _client);
 
 private:
     static GTest* m_test;

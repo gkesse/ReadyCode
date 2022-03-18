@@ -12,10 +12,10 @@ public:
     GMaster(const std::string& _req);
     ~GMaster();
     //
-    void onModule(const std::string& _req, GSocket* _client);
+    void onModule(GSocket* _client);
     //
-    void onModuleTest(const std::string& _req, GSocket* _client);
-    void onModuleUser(const std::string& _req, GSocket* _client);
+    void onModuleTest(GSocket* _client);
+    void onModuleUser(GSocket* _client);
 };
 //==============================================
 #endif

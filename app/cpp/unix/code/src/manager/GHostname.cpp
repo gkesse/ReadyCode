@@ -15,7 +15,7 @@ GHostname::~GHostname() {
 
 }
 //===============================================
-void GHostname::saveHostname(const std::string& _req, GSocket* _client) {
+void GHostname::saveHostname(GSocket* _client) {
     printf("adresse_ip.....: %s\n", _client->readAddressIp().c_str());
 }
 //===============================================

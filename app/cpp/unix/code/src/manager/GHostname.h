@@ -12,7 +12,7 @@ public:
     GHostname(const std::string& _req);
     ~GHostname();
     //
-    void saveHostname(const std::string& _req, GSocket* _client);
+    void saveHostname(GSocket* _client);
 };
 //==============================================
 #endif
