@@ -20,29 +20,29 @@ GMaster::~GMaster() {
 
 }
 //===============================================
-void GMaster::onModule(GSocket* _client) {
+void GMaster::onModule(const std::string& _req, GSocket* _client) {
     std::string lModule = m_req->getModule();
 
     // module
     if(lModule == "test") {
-        onModuleTest(_client);
+        onModuleTest(_req, _client);
     }
     else if(lModule == "user") {
-        onModuleUser(_client);
+        onModuleUser(_req, _client);
     }
     // unknown
     else {
-        onModuleUnknown(_client);
+        onModuleUnknown(_req, _client);
     }
 }
 //===============================================
-void GMaster::onModuleTest(GSocket* _client) {
-    GTest lModule(_client->getRequest());
-    lModule.onModule(_client);
+void GMaster::onModuleTest(const std::string& _req, GSocket* _client) {
+    GTest lModule(_req);
+    lModule.onModule(_req, _client);
 }
 //===============================================
-void GMaster::onModuleUser(GSocket* _client) {
-    GUser lModule(_client->getRequest());
-    lModule.onModule(_client);
+void GMaster::onModuleUser(const std::string& _req, GSocket* _client) {
+    GUser lModule(_req);
+    lModule.onModule(_req, _client);
 }
 //===============================================

@@ -36,8 +36,7 @@ public:
     static void* onServerThread(GSocket* _client);
     std::string callServer(const std::string& _dataIn);
     //
-    void setRequest(const std::string& _request);
-    std::string getRequest() const;
+    std::queue<std::string>& getDataIns();
     std::queue<GSocket*>& getClientIns();
     std::shared_ptr<GCode>& getResponse();
     //
@@ -51,8 +50,8 @@ private:
     struct sockaddr_in m_address;
     //
     GSocket* m_server;
+    std::queue<std::string> m_dataIns;
     std::queue<GSocket*> m_clientIns;
-    std::string m_request;
 };
 //==============================================
 #endif
