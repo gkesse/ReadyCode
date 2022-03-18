@@ -102,6 +102,15 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "request/send") {
         runRequestSend(_argc, _argv);
     }
+    else if(lKey == "request/save_user") {
+        runRequestSaveUser(_argc, _argv);
+    }
+    else if(lKey == "request/get_user") {
+        runRequestGetUser(_argc, _argv);
+    }
+    else if(lKey == "request/error") {
+        runRequestError(_argc, _argv);
+    }
     // response
     else if(lKey == "response") {
         runResponse(_argc, _argv);
@@ -438,6 +447,52 @@ void GTest::runRequestSend(int _argc, char** _argv) {
     console(lReq.toString());
     console("=====>");
     console(lResponse);
+}
+//===============================================
+void GTest::runRequestSaveUser(int _argc, char** _argv) {
+    printf("%s\n", __FUNCTION__);
+    GCode lReq;
+    GSocket lClient;
+    lReq.createRequest("test", "save_user");
+    lReq.createCode("parameters", "firstname", "Gerard");
+    lReq.createCode("parameters", "lastname", "KESSE");
+    std::string lResponse = lClient.callServer(lReq.toString());
+    GLOGI->loadErrors(lResponse);
+    console("=====>");
+    console(lReq.toString());
+    console("=====>");
+    console(lResponse);
+}
+//===============================================
+void GTest::runRequestGetUser(int _argc, char** _argv) {
+    printf("%s\n", __FUNCTION__);
+    GCode lReq;
+    GSocket lClient;
+    lReq.createRequest("test", "get_user");
+    std::string lResponse = lClient.callServer(lReq.toString());
+    GLOGI->loadErrors(lResponse);
+    GCode lRes(lResponse);
+    console("=====>");
+    console(lReq.toString());
+    console("=====>");
+    console(lResponse);
+    console("=====>");
+    console(std::string("firstname.....: %1").arg(lRes.getItem("user", "firstname")));
+    console(std::string("lastname......: %1").arg(lRes.getItem("user", "lastname")));
+}
+//===============================================
+void GTest::runRequestError(int _argc, char** _argv) {
+    printf("%s\n", __FUNCTION__);
+    GCode lReq;
+    GSocket lClient;
+    lReq.createRequest("test", "error");
+    std::string lResponse = lClient.callServer(lReq.toString());
+    GLOGI->loadErrors(lResponse);
+    console("=====>");
+    console(lReq.toString());
+    console("=====>");
+    console(lResponse);
+    console("=====>");
 }
 //===============================================
 void GTest::runResponse(int _argc, char** _argv) {
