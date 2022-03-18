@@ -4,6 +4,7 @@
 #include "GFormat.h"
 #include "GXml.h"
 #include "GUser.h"
+#include "GSocket.h"
 //===============================================
 GMaster::GMaster() : GModule() {
 
