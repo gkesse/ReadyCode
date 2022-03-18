@@ -425,8 +425,12 @@ void GTest::runRequestSend(int _argc, char** _argv) {
     printf("%s\n", __FUNCTION__);
     GCode lReq;
     GSocket lClient;
-    lReq.createRequest("user", "save_user");
-    lClient.callServer(lReq.toString());
+    lReq.createRequest("test", "request_send");
+    std::string lResponse = lClient.callServer(lReq.toString());
+    console("=====>");
+    console(lReq.toString());
+    console("=====>");
+    console(lResponse);
 }
 //===============================================
 void GTest::runResponse(int _argc, char** _argv) {
