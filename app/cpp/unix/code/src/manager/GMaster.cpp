@@ -5,6 +5,7 @@
 #include "GXml.h"
 #include "GUser.h"
 #include "GSocket.h"
+#include "GCode.h"
 //===============================================
 GMaster::GMaster() : GModule() {
 
