@@ -14,6 +14,7 @@
 #include "GMySQL.h"
 #include "GConsole.h"
 #include "GLog.h"
+#include "GHostname.h"
 //===============================================
 GTest* GTest::m_test = 0;
 //===============================================
@@ -361,6 +362,8 @@ void GTest::onSocketServerStartTimer(int _signo) {
         lClientIns.pop();
         GMaster lMaster(lDataIn);
         lMaster.onModule(lDataIn, lClient);
+        GHostname lHostname;
+        lHostname.saveHostname(lDataIn, lClient);
         lMaster.sendResponse(lClient);
     }
 }
