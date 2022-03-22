@@ -243,7 +243,7 @@ void GTest::runSocketServer(int _argc, char** _argv) {
 
     std::string lData;
     lClient.recvData(lData);
-    lClient.sendData("<result>ok</result>\r\n");
+    lClient.sendData("<result>ok</result>\0");
 
     printf("=====>\n");
     printf("%s\n", lData.c_str());
