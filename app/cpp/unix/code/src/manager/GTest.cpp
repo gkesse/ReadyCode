@@ -243,12 +243,10 @@ void GTest::runSocketServer(int _argc, char** _argv) {
 
     std::string lData;
     lClient.recvData(lData);
-    printf("=====>\n");
-    printf("%s\n", lData.c_str());
-    lClient.recvData(lData);
-    printf("=====>\n");
-    printf("%s\n", lData.c_str());
     lClient.sendData("<result>ok</result>");
+
+    printf("=====>\n");
+    printf("%s\n", lData.c_str());
 
     lClient.closeSocket();
     lServer.closeSocket();

@@ -46,7 +46,8 @@ public:
     static DWORD WINAPI onServerThread(LPVOID _params);
     QString callServer(const QString& _dataIn);
     //
-    QStack<QString>& getDataIns();
+    void setRequest(const QString& _req);
+    QString getRequest() const;
     QStack<GSocket*>& getClientIns();
     QSharedPointer<GCode>& getResponse();
 
@@ -62,8 +63,8 @@ private:
     SOCKADDR_IN m_address;
     //
     GSocket* m_server;
-    QStack<QString> m_dataIns;
     QStack<GSocket*> m_clientIns;
+    QString m_request;
 };
 //==============================================
 #endif

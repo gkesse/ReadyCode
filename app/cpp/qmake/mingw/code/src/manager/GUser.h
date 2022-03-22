@@ -8,12 +8,12 @@ class GSocket;
 //===============================================
 class GUser : public GModule {
 public:
-    GUser();
-    GUser(const QString& _req);
+    GUser(QObject* _parent = 0);
+    GUser(const QString& _req, QObject* _parent = 0);
     ~GUser();
     //
-    void onModule(const QString& _req, GSocket* _client);
-    void onSaveUser(const QString& _req, GSocket* _client);
+    void onModule(GSocket* _client);
+    void onSaveUser(GSocket* _client);
 };
 //==============================================
 #endif

@@ -15,8 +15,8 @@ public:
     GModule(const QString& _req, QObject* _parent = 0);
     virtual ~GModule();
     //
-    virtual void onModuleUnknown(const QString& _req, GSocket* _client);
-    virtual void onMethodUnknown(const QString& _req, GSocket* _client);
+    virtual void onModuleUnknown(GSocket* _client);
+    virtual void onMethodUnknown(GSocket* _client);
     //
     void setRequest(const QString& _req);
     void sendResponse(GSocket* _client);

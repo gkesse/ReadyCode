@@ -329,12 +329,11 @@ void GSocket::startServer(void* _onServerThread) {
 DWORD WINAPI GSocket::onServerThread(LPVOID _params) {
     GSocket* lClient = (GSocket*)_params;
     GSocket* lServer = lClient->m_server;
-    QStack<QString>& lDataIns = lServer->m_dataIns;
     QStack<GSocket*>& lClientIns = lServer->m_clientIns;
 
     QString lDataIn;
     lClient->readData(lDataIn);
-    lDataIns.push(lDataIn);
+    lClient->setRequest(lDataIn);
     lClientIns.push(lClient);
     return 0;
 }
@@ -363,8 +362,12 @@ QString GSocket::callServer(const QString& _dataIn) {
     return lDataOut;
 }
 //===============================================
-QStack<QString>& GSocket::getDataIns() {
-    return m_dataIns;
+void GSocket::setRequest(const QString& _req) {
+    m_request = _req;
+}
+//===============================================
+QString GSocket::getRequest() const {
+    return m_request;
 }
 //===============================================
 QStack<GSocket*>& GSocket::getClientIns() {

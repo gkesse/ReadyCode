@@ -36,10 +36,10 @@ public:
     void runRequestError(int _argc, char** _argv);
     void runResponse(int _argc, char** _argv);
     //
-    void onModule(const QString& _req, GSocket* _client);
-    void onRequestSaveUser(const QString& _req, GSocket* _client);
-    void onRequestGetUser(const QString& _req, GSocket* _client);
-    void onRequestError(const QString& _req, GSocket* _client);
+    void onModule(GSocket* _client);
+    void onRequestSaveUser(GSocket* _client);
+    void onRequestGetUser(GSocket* _client);
+    void onRequestError(GSocket* _client);
 
 private:
     static GTest* m_test;

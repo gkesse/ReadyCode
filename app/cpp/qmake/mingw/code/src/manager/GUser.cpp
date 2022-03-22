@@ -5,11 +5,11 @@
 #include "GCode.h"
 #include "GSocket.h"
 //===============================================
-GUser::GUser() : GModule() {
+GUser::GUser(QObject* _parent) : GModule(_parent) {
 
 }
 //===============================================
-GUser::GUser(const QString& _req) : GModule(_req) {
+GUser::GUser(const QString& _req, QObject* _parent) : GModule(_req, _parent) {
 
 }
 //===============================================
@@ -17,20 +17,20 @@ GUser::~GUser() {
 
 }
 //===============================================
-void GUser::onModule(const QString& _req, GSocket* _client) {
+void GUser::onModule(GSocket* _client) {
     QString lMethod = m_req->getMethod();
 
     // method
     if(lMethod == "save_user") {
-        onSaveUser(_req, _client);
+        onSaveUser(_client);
     }
     // unknown
     else {
-        onMethodUnknown(_req, _client);
+        onMethodUnknown(_client);
     }
 }
 //===============================================
-void GUser::onSaveUser(const QString& _req, GSocket* _client) {
+void GUser::onSaveUser(GSocket* _client) {
     GSocket* lClient = _client;
     QSharedPointer<GCode>& lRes = lClient->getResponse();
     lRes->createCode("user", "firstname", "Gerard");

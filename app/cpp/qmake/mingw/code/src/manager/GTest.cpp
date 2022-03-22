@@ -262,16 +262,13 @@ DWORD WINAPI GTest::onSocketServerStartThread(LPVOID _params) {
 //===============================================
 VOID CALLBACK GTest::onSocketServerStartTimer(HWND, UINT, UINT_PTR, DWORD) {
     GSocket* lServer = m_test->m_server;
-    QStack<QString>& lDataIns = lServer->getDataIns();
     QStack<GSocket*>& lClientIns = lServer->getClientIns();
 
-    if(!lDataIns.empty()) {
-        QString lDataIn = lDataIns.front();
+    if(!lClientIns.empty()) {
         GSocket* lClient = lClientIns.front();
-        lDataIns.pop();
         lClientIns.pop();
-        GMaster lMaster(lDataIn);
-        lMaster.onModule(lDataIn, lClient);
+        GMaster lMaster(lClient->getRequest());
+        lMaster.onModule(lClient);
         lMaster.sendResponse(lClient);
     }
 }
@@ -415,26 +412,26 @@ void GTest::runResponse(int _argc, char** _argv) {
     console(lRes.toString());
 }
 //===============================================
-void GTest::onModule(const QString& _req, GSocket* _client) {
+void GTest::onModule(GSocket* _client) {
     QString lMethod = m_req->getMethod();
 
     // method
     if(lMethod == "save_user") {
-        onRequestSaveUser(_req, _client);
+        onRequestSaveUser(_client);
     }
     else if(lMethod == "get_user") {
-        onRequestGetUser(_req, _client);
+        onRequestGetUser(_client);
     }
     else if(lMethod == "error") {
-        onRequestError(_req, _client);
+        onRequestError(_client);
     }
     // unknown
     else {
-        onMethodUnknown(_req, _client);
+        onMethodUnknown(_client);
     }
 }
 //===============================================
-void GTest::onRequestSaveUser(const QString& _req, GSocket* _client) {
+void GTest::onRequestSaveUser(GSocket* _client) {
     QString lFirstname = m_req->getItem("parameters", "firstname");
     QString lLastname = m_req->getItem("parameters", "lastname");
     console("=====>");
@@ -442,14 +439,14 @@ void GTest::onRequestSaveUser(const QString& _req, GSocket* _client) {
     console(QString("lastname.......: %1").arg(lLastname));
 }
 //===============================================
-void GTest::onRequestGetUser(const QString& _req, GSocket* _client) {
+void GTest::onRequestGetUser(GSocket* _client) {
     GSocket* lClient = _client;
     QSharedPointer<GCode>& lRes = lClient->getResponse();
     lRes->createCode("user", "firstname", "Gerard");
     lRes->createCode("user", "lastname", "KESSE");
 }
 //===============================================
-void GTest::onRequestError(const QString& _req, GSocket* _client) {
+void GTest::onRequestError(GSocket* _client) {
     GLOG("Erreur cet identifiant existe deja");
     GLOG("Erreur le mot de passe est incorrect");
 }
