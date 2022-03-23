@@ -73,7 +73,7 @@ int GSocket::loadFamily() const {
 void GSocket::createSocket(int _domain, int _type, int _protocol) {
     m_socket = socket(_domain, _type, _protocol);
     if(m_socket == -1) {
-        GLOG("Erreur la methode (GSocket::createSocket) a echoue\n"
+        GERROR("Erreur la methode (GSocket::createSocket) a echoue\n"
                 "- erreur...: (%s).", strerror(errno));
         return;
     }
@@ -89,7 +89,7 @@ void GSocket::createAddress(int _family, std::string _ip, int _port) {
 void GSocket::listenSocket(int _backlog) {
     int lAns = listen(m_socket, _backlog);
     if(lAns == -1) {
-        GLOG("Erreur la methode (GSocket::listenSocket) a echoue\n"
+        GERROR("Erreur la methode (GSocket::listenSocket) a echoue\n"
                 "- erreur...: (%s).", strerror(errno));
         return;
     }
@@ -98,7 +98,7 @@ void GSocket::listenSocket(int _backlog) {
 void GSocket::bindSocket() {
     int lAns = bind(m_socket, (struct sockaddr*)&m_address, sizeof(m_address));
     if(lAns == -1) {
-        GLOG("Erreur la methode (GSocket::bindSocket) a echoue\n"
+        GERROR("Erreur la methode (GSocket::bindSocket) a echoue\n"
                 "- erreur...: (%s).", strerror(errno));
         return;
     }
@@ -107,7 +107,7 @@ void GSocket::bindSocket() {
 void GSocket::connectSocket() {
     int lAns = connect(m_socket, (struct sockaddr*)&m_address, sizeof(m_address));
     if(lAns == -1) {
-        GLOG("Erreur la methode (GSocket::connectSocket) a echoue\n"
+        GERROR("Erreur la methode (GSocket::connectSocket) a echoue\n"
                 "- erreur...: (%s).", strerror(errno));
         return;
     }
@@ -122,7 +122,7 @@ void GSocket::acceptSocket(GSocket& _socket) {
     int lSize = sizeof(_socket.m_address);
     _socket.m_socket = accept(m_socket, (struct sockaddr*)&_socket.m_address, (socklen_t*)&lSize);
     if(_socket.m_socket == -1) {
-        GLOG("Erreur la methode (GSocket::acceptSocket) a echoue\n"
+        GERROR("Erreur la methode (GSocket::acceptSocket) a echoue\n"
                 "- erreur...: (%s).", strerror(errno));
         return;
     }
@@ -132,7 +132,7 @@ void GSocket::acceptSocket(GSocket* _socket) {
     int lSize = sizeof(_socket->m_address);
     _socket->m_socket = accept(m_socket, (struct sockaddr*)&_socket->m_address, (socklen_t*)&lSize);
     if(_socket->m_socket == -1) {
-        GLOG("Erreur la methode (GSocket::acceptSocket) a echoue\n"
+        GERROR("Erreur la methode (GSocket::acceptSocket) a echoue\n"
                 "- erreur...: (%s).", strerror(errno));
         return;
     }
@@ -143,7 +143,7 @@ int GSocket::recvData(std::string& _data) {
     char lBuffer[BUFFER_DATA_SIZE + 1];
     int lBytes = recv(m_socket, lBuffer, BUFFER_DATA_SIZE, 0);
     if(lBytes == -1) {
-        GLOG("Erreur la methode (GSocket::recvData) a echoue (1)\n"
+        GERROR("Erreur la methode (GSocket::recvData) a echoue (1)\n"
                 "- erreur...: (%s).\n"
                 "- bytes....: (%d).", strerror(errno), lBytes);
         return -1;
@@ -159,7 +159,7 @@ int GSocket::recvData(GSocket& _socket, std::string& _data) {
     int lSize = sizeof(_socket.m_address);
     int lBytes = recvfrom(m_socket, lBuffer, BUFFER_DATA_SIZE, 0, (struct sockaddr*)&_socket.m_address, (socklen_t*)&lSize);
     if(lBytes == -1) {
-        GLOG("Erreur la methode (GSocket::recvData) a echoue (2)\n"
+        GERROR("Erreur la methode (GSocket::recvData) a echoue (2)\n"
                 "- erreur...: (%s).\n"
                 "- bytes....: (%d).", strerror(errno), lBytes);
         return -1;
@@ -179,7 +179,7 @@ int GSocket::readData(std::string& _data) {
     for(int i = 0; i < lSize; i++) {
         int iBytes = recvData(lBuffer);
         if(iBytes == -1) {
-            GLOG("Erreur la methode (GSocket::readData) a echoue\n"
+            GERROR("Erreur la methode (GSocket::readData) a echoue\n"
                     "- erreur....: (%s).\n"
                     "- bytes.....: (%d).\n"
                     "- ibytes....: (%d).", strerror(errno), lBytes, iBytes);
@@ -194,7 +194,7 @@ int GSocket::readData(std::string& _data) {
 int GSocket::sendData(const std::string& _data) {
     int lBytes = send(m_socket, _data.c_str(), _data.size(), 0);
     if(lBytes == -1) {
-        GLOG("Erreur la methode (GSocket::sendData) a echoue (1)\n"
+        GERROR("Erreur la methode (GSocket::sendData) a echoue (1)\n"
                 "- erreur...: (%s).\n"
                 "- bytes....: (%d).", strerror(errno), lBytes);
         return -1;
@@ -206,7 +206,7 @@ int GSocket::sendData(GSocket& _socket, const std::string& _data) {
     int lSize = sizeof(_socket.m_address);
     int lBytes = sendto(m_socket, _data.c_str(), _data.size(), 0, (struct sockaddr*)&_socket.m_address, lSize);
     if(lBytes == -1) {
-        GLOG("Erreur la methode (GSocket::sendData) a echoue (2)\n"
+        GERROR("Erreur la methode (GSocket::sendData) a echoue (2)\n"
                 "- erreur...: (%s).\n"
                 "- bytes....: (%d).", strerror(errno), lBytes);
         return -1;
@@ -225,7 +225,7 @@ int GSocket::writeData(const std::string& _data) {
         std::string lBuffer = _data.substr(lBytes, BUFFER_DATA_SIZE);
         int iBytes = sendData(lBuffer);
         if(iBytes == -1) {
-            GLOG("Erreur la methode (GSocket::sendData) a echoue\n"
+            GERROR("Erreur la methode (GSocket::sendData) a echoue\n"
                     "- erreur....: (%s).\n"
                     "- bytes.....: (%d).\n"
                     "- ibytes....: (%d).", strerror(errno), lBytes, iBytes);
@@ -240,7 +240,7 @@ int GSocket::writeData(const std::string& _data) {
 void GSocket::closeSocket() {
     int lAns = close(m_socket);
     if(lAns == -1) {
-        GLOG("Erreur la methode (GSocket::closeSocket) a echoue\n"
+        GERROR("Erreur la methode (GSocket::closeSocket) a echoue\n"
                 "- erreur........: (%s).", strerror(errno));
         return;
     }

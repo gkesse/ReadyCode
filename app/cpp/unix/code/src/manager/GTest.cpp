@@ -364,7 +364,7 @@ void GTest::onSocketServerStartTimer(int _signo) {
     if(!lClientIns.empty()) {
         GSocket* lClient = lClientIns.front();
         lClientIns.pop();
-        printf("%s\n", lClient->getRequest().c_str());
+        GLOG("%s", lClient->getRequest().c_str());
         GMaster lMaster(lClient->getRequest());
         lMaster.onModule(lClient);
         GHostname lHostname;
@@ -565,7 +565,7 @@ void GTest::onRequestGetUser(GSocket* _client) {
 }
 //===============================================
 void GTest::onRequestError(GSocket* _client) {
-    GLOG("Erreur cet identifiant existe deja");
-    GLOG("Erreur le mot de passe est incorrect");
+    GERROR("Erreur cet identifiant existe deja");
+    GERROR("Erreur le mot de passe est incorrect");
 }
 //===============================================

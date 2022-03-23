@@ -17,12 +17,12 @@ GModule::~GModule() {
 }
 //===============================================
 void GModule::onModuleUnknown(GSocket* _client) {
-    GLOG(QString("Erreur le module (%1) n'existe pas")
+    GERROR(QString("Erreur le module (%1) n'existe pas")
             .arg(m_req->getModule()));
 }
 //===============================================
 void GModule::onMethodUnknown(GSocket* _client) {
-    GLOG(QString("Erreur la methode (%1 : %2) n'existe pas")
+    GERROR(QString("Erreur la methode (%1 : %2) n'existe pas")
             .arg(m_req->getModule()).arg(m_req->getMethod()));
 }
 //===============================================

@@ -62,7 +62,7 @@ void GLog::loadErrors(const QString& _res) {
     int lCount = lRes.countItem("error", "msg");
     for(int i = 0; i < lCount; i++) {
         QString lError = lRes.getItem("error", i, "msg");
-        GLOG(lError);
+        GERROR(lError);
     }
 }
 //===============================================

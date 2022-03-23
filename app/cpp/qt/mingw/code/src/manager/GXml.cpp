@@ -39,7 +39,7 @@ void GXml::cleanModule() {
 GXml& GXml::loadXmlFile(const std::string& _filename) {
     m_doc = xmlReadFile(_filename.c_str(), 0, 0);
     if(!m_doc) {
-        GLOG->addError(sformat("Erreur la methode (loadXmlFile) a echoue "
+        GERROR->addError(sformat("Erreur la methode (loadXmlFile) a echoue "
                 "sur le fichier (%s).", _filename.c_str()));
     }
     m_filename = _filename;
@@ -49,7 +49,7 @@ GXml& GXml::loadXmlFile(const std::string& _filename) {
 GXml& GXml::loadXmlData(const std::string& _data) {
     m_doc = xmlParseDoc(BAD_CAST(_data.c_str()));
     if(!m_doc) {
-        GLOG->addError(sformat("Erreur la methode (loadXmlData) a echoue "
+        GERROR->addError(sformat("Erreur la methode (loadXmlData) a echoue "
                 "sur la source (%s).", _data.c_str()));
     }
     return *this;
@@ -86,13 +86,13 @@ GXml& GXml::createRoot(const std::string& _nodename) {
 GXml& GXml::getRoot(const std::string& _nodename) {
     m_node = xmlDocGetRootElement(m_doc);
     if(!m_node) {
-        GLOG->addError(sformat("Erreur la methode (getRoot) a echoue "
+        GERROR->addError(sformat("Erreur la methode (getRoot) a echoue "
                 "sur le noeud (%s) (1).", _nodename.c_str()));
         return *this;
     }
     std::string lNodeName = (char*)m_node->name;
     if(lNodeName != _nodename) {
-        GLOG->addError(sformat("Erreur la methode (getRoot) a echoue "
+        GERROR->addError(sformat("Erreur la methode (getRoot) a echoue "
                 "sur le noeud (%s) (2).", _nodename.c_str()));
     }
     return *this;
@@ -276,7 +276,7 @@ GXml& GXml::getNode(const std::string& _nodename) {
 //===============================================
 std::string GXml::getNodeValue() const {
     if(!m_node) {
-        GLOG->addError("Erreur la methode (getNodeValue) a echoue.");
+        GERROR->addError("Erreur la methode (getNodeValue) a echoue.");
         return "";
     }
     std::string lData = (char*)xmlNodeGetContent(m_node);

@@ -51,11 +51,16 @@ void GLog::loadErrors(const std::string& _res) {
     int lCount = lRes.countItem("error", "msg");
     for(int i = 0; i < lCount; i++) {
         std::string lError = lRes.getItem("error", i, "msg");
-        GLOG("%s", lError.c_str());
+        GERROR("%s", lError.c_str());
     }
 }
 //===============================================
 std::vector<std::string>& GLog::getErrors() {
     return m_errors;
+}
+//===============================================
+void GLog::writeLog(const std::string _log) {
+    printf("=====>\n");
+    printf("%s\n", _log.c_str());
 }
 //===============================================
