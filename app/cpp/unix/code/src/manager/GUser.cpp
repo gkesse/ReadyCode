@@ -25,7 +25,7 @@ void GUser::onModule(GSocket* _client) {
     }
     // unknown
     else {
-        onModuleUnknown(_client);
+        onMethodUnknown(_client);
     }
 }
 //===============================================
