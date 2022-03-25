@@ -35,7 +35,7 @@ void GModule::setRequest(const std::string& _req) {
 //===============================================
 void GModule::sendResponse(GSocket* _client) {
     GSocket* lClient = _client;
-    std::shared_ptr< GCode>& lRes = lClient->getResponse();
+    std::shared_ptr<GCode>& lRes = lClient->getResponse();
 
     if(GLOGI->hasError()) {
         std::vector<std::string>& lErrors = GLOGI->getErrors();
@@ -49,9 +49,11 @@ void GModule::sendResponse(GSocket* _client) {
         lRes->createCode("result", "msg", "ok");
     }
 
-    lClient->writeData(lRes->toString());
-    delete lClient;
-
     GLOG("%s", lRes->toString().c_str());
+
+    lClient->writeData(lRes->toString());
+
+    lClient->closeSocket();
+    delete lClient;
 }
 //===============================================
