@@ -50,7 +50,8 @@ void GModule::sendResponse(GSocket* _client) {
     }
 
     lClient->writeData(lRes->toString());
-
     delete lClient;
+
+    GLOG("%s", lRes->toString().c_str());
 }
 //===============================================
