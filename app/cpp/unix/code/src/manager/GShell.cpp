@@ -47,6 +47,8 @@ void GShell::runSystem(const std::string& _command) {
 void GShell::runSystem(const std::string& _command, const std::string& _tmpDir, const std::string& _tmpFile) {
     createDir(_tmpDir);
     std::string lCommand = sformat("%s > %s/%s", _command.c_str(), _tmpDir.c_str(), _tmpFile.c_str());
+    std::string lCommandEcho = sformat("cat %s/%s", _tmpDir.c_str(), _tmpFile.c_str());
     runSystem(lCommand);
+    runSystem(lCommandEcho);
 }
 //===============================================
