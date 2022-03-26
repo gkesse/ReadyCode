@@ -12,7 +12,7 @@ GDate::~GDate() {
 }
 //===============================================
 std::string GDate::getLogFormat() const {
-    return "%Y_%m_%d-%H_%M_%S";
+    return "%Y_%m_%d_%H_%M_%S";
 }
 //===============================================
 std::string GDate::getDate(const std::string& _format) {
