@@ -54,5 +54,5 @@ git_status:
 #================================================    
 # server
 server_install: git_pull
-	@cd $(GPROJECT_SERVER) && ./000001-installation_serveur.sh
+	@cd $(GPROJECT_SCRIPTS) && ./000001-installation_serveur.sh
 #================================================    
