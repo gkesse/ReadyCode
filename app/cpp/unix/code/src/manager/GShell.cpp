@@ -30,10 +30,6 @@ std::string GShell::getTmpFile() const {
     return lTmpFile;
 }
 //===============================================
-void GShell::cleanTmpDir() {
-    std::string lTmpDir = getTmpDir();
-}
-//===============================================
 std::string GShell::getLogFile(const std::string& _key, const std::string& _date, const std::string& _ext) const {
     std::string lFilename = sformat("%s_%s.%s", _key.c_str(), _date.c_str(), _ext.c_str());
     return lFilename;
