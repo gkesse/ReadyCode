@@ -41,6 +41,7 @@ public:
     void runResponse(int _argc, char** _argv);
     void runMysql(int _argc, char** _argv);
     void runShellSystem(int _argc, char** _argv);
+    void runEnv(int _argc, char** _argv);
     //
     void onModule(GSocket* _client);
     void onRequestSaveUser(GSocket* _client);

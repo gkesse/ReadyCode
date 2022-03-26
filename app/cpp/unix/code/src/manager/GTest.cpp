@@ -15,6 +15,8 @@
 #include "GConsole.h"
 #include "GLog.h"
 #include "GHostname.h"
+#include "GShell.h"
+#include "GEnv.h"
 //===============================================
 GTest* GTest::m_test = 0;
 //===============================================
@@ -122,6 +124,10 @@ void GTest::run(int _argc, char** _argv) {
     // shell
     else if(lKey == "shell/system") {
         runShellSystem(_argc, _argv);
+    }
+    // env
+    else if(lKey == "env") {
+        runEnv(_argc, _argv);
     }
     // end
     else {
@@ -536,6 +542,13 @@ void GTest::runMysql(int _argc, char** _argv) {
 //===============================================
 void GTest::runShellSystem(int _argc, char** _argv) {
     printf("%s\n", __FUNCTION__);
+
+}
+//===============================================
+void GTest::runEnv(int _argc, char** _argv) {
+    printf("%s\n", __FUNCTION__);
+    GEnv lEnv;
+    console(lEnv.getEnv("GPROJECT_DATA"));
 }
 //===============================================
 void GTest::onModule(GSocket* _client) {
