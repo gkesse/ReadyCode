@@ -52,3 +52,7 @@ git_pull:
 git_status:
 	@cd $(GPROJECT_PATH) && git status -u
 #================================================    
+# server
+server_install: git_pull
+	@cd $(GPROJECT_SERVER) && pwd
+#================================================    
