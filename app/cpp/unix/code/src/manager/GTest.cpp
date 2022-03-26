@@ -119,6 +119,10 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "mysql") {
         runMysql(_argc, _argv);
     }
+    // shell
+    else if(lKey == "shell/system") {
+        runShellSystem(_argc, _argv);
+    }
     // end
     else {
         runTest(_argc, _argv);
@@ -528,6 +532,10 @@ void GTest::runMysql(int _argc, char** _argv) {
     console(lMySQL.readData(lSql));
     console("");
     console(lMySQL.readCol(lSql));
+}
+//===============================================
+void GTest::runShellSystem(int _argc, char** _argv) {
+    printf("%s\n", __FUNCTION__);
 }
 //===============================================
 void GTest::onModule(GSocket* _client) {
