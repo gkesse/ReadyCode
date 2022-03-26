@@ -548,7 +548,9 @@ void GTest::runShellSystem(int _argc, char** _argv) {
 void GTest::runEnv(int _argc, char** _argv) {
     printf("%s\n", __FUNCTION__);
     GEnv lEnv;
-    console(lEnv.getEnv("GPROJECT_DATA"));
+    std::string lTmp = lEnv.getEnv("GPROJECT_TMP");
+    std::string lCommand = sformat("if ! [ -d %s ] ; then mkdir - p %s ; fi", lTmp.c_str(), lTmp.c_str());
+    console(lCommand);
 }
 //===============================================
 void GTest::onModule(GSocket* _client) {
