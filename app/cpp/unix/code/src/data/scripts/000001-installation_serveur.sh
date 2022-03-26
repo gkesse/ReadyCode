@@ -1,7 +1,8 @@
 #================================================
 # installation_serveur
 #================================================
-echo "Affichage des parametres..."
-echo ${GPROJECT_SCRIPTS}
-echo ${GPROJECT_SERVER}
-echo "Installation du serveur..."
+echo "demarrage de l'installation du serveur..."
+GSRC_FILE=${GPROJECT_BUILD}/bin/rdcpp.exe
+GDST_FILE=${GPROJECT_SERVER}/server
+cp -p ${GSRC_FILE} ${GDST_FILE}
+echo "fin de l'installation du serveur..."
