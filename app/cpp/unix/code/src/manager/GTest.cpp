@@ -17,6 +17,7 @@
 #include "GHostname.h"
 #include "GShell.h"
 #include "GEnv.h"
+#include "GDate.h"
 //===============================================
 GTest* GTest::m_test = 0;
 //===============================================
@@ -128,6 +129,10 @@ void GTest::run(int _argc, char** _argv) {
     // env
     else if(lKey == "env") {
         runEnv(_argc, _argv);
+    }
+    // env
+    else if(lKey == "date") {
+        runDate(_argc, _argv);
     }
     // end
     else {
@@ -542,6 +547,10 @@ void GTest::runMysql(int _argc, char** _argv) {
 //===============================================
 void GTest::runShellSystem(int _argc, char** _argv) {
     printf("%s\n", __FUNCTION__);
+    GShell lShell;
+    GEnv lEnv;
+    std::string lTmp = lEnv.getEnv("GPROJECT_TMP");
+    std::string lCommand = sformat("if ! [ -d %s ] ; then mkdir -p %s ; fi", lTmp.c_str(), lTmp.c_str());
 
 }
 //===============================================
@@ -549,8 +558,15 @@ void GTest::runEnv(int _argc, char** _argv) {
     printf("%s\n", __FUNCTION__);
     GEnv lEnv;
     std::string lTmp = lEnv.getEnv("GPROJECT_TMP");
-    std::string lCommand = sformat("if ! [ -d %s ] ; then mkdir - p %s ; fi", lTmp.c_str(), lTmp.c_str());
+    std::string lCommand = sformat("if ! [ -d %s ] ; then mkdir -p %s ; fi", lTmp.c_str(), lTmp.c_str());
     console(lCommand);
+}
+//===============================================
+void GTest::runDate(int _argc, char** _argv) {
+    printf("%s\n", __FUNCTION__);
+    GDate lDateObj;
+    std::string lDate = lDateObj.getDate(lDateObj.getLogFormat());
+    console(lDate);
 }
 //===============================================
 void GTest::onModule(GSocket* _client) {

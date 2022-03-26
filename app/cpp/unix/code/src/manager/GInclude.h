@@ -14,6 +14,7 @@
 #include <sstream>
 #include <cmath>
 #include <pthread.h>
+#include <time.h>
 #include <signal.h>
 #include <strings.h>
 #include <unistd.h>

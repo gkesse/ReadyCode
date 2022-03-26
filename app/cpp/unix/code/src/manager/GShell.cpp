@@ -2,6 +2,7 @@
 #include "GShell.h"
 #include "GLog.h"
 #include "GFormat.h"
+#include "GEnv.h"
 //===============================================
 GShell::GShell() : GObject() {
 
@@ -11,8 +12,28 @@ GShell::~GShell() {
 
 }
 //===============================================
+std::string GShell::getTmpDir() const {
+    GEnv lEnv;
+    std::string lTmpDir = lEnv.getEnv("GPROJECT_TMP");
+    if(lTmpDir == "") {
+        GERROR("Erreur la methode (GShell::getTmpDir) a echoue.");
+        return "";
+    }
+    return lTmpDir;
+}
+//===============================================
+void GShell::createDir(const std::string& _dir) {
+    std::string lCommand = sformat("if ! [ -d %s ] ; then mkdir -p %s ; fi", _dir.c_str(), _dir.c_str());
+    runSystem(lCommand);
+}
+//===============================================
 void GShell::runSystem(const std::string& _command) {
-    std::string lCommand = sformat("%s > %s", _command.c_str());
-    system(lCommand.c_str());
+    system(_command.c_str());
+}
+//===============================================
+void GShell::runSystem(const std::string& _command, const std::string& _tmpDir, const std::string& _tmpFile) {
+    createDir(_tmpDir);
+    std::string lCommand = sformat("%s > %s/%s", _command.c_str(), _tmpDir.c_str(), _tmpFile.c_str());
+    runSystem(lCommand);
 }
 //===============================================
