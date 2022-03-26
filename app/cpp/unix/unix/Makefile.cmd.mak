@@ -54,5 +54,6 @@ git_status:
 #================================================    
 # server
 server_install: git_pull
+	@if ! [ -d $(GPROJECT_SERVER) ] ; then mkdir -p $(GPROJECT_SERVER) ; fi
 	@cd $(GPROJECT_SERVER) && pwd
 #================================================    
