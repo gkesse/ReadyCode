@@ -24,15 +24,15 @@ std::string GShell::getTmpDir() const {
 }
 //===============================================
 std::string GShell::getTmpFile() const {
-    std::string lTmpFile = getLogFile("script", "txt");
+    GDate lDateObj;
+    std::string lDate = lDateObj.getDate("%Y_%m_%d");
+    std::string lTmpFile = getLogFile("script", lDate.c_str(), "txt");
     return lTmpFile;
 }
 //===============================================
-std::string GShell::getLogFile(const std::string& _key, const std::string& _ext) const {
-    GDate lDateObj;
-    std::string lDate = lDateObj.getDate(lDateObj.getLogFormat());
-    std::string lTmpFile = sformat("%s_%s.%s", _key.c_str(), lDate.c_str(), _ext.c_str());
-    return lTmpFile;
+std::string GShell::getLogFile(const std::string& _key, const std::string& _date, const std::string& _ext) const {
+    std::string lFilename = sformat("%s_%s.%s", _key.c_str(), _date.c_str(), _ext.c_str());
+    return lFilename;
 }
 //===============================================
 void GShell::createDir(const std::string& _dir) {
@@ -46,9 +46,16 @@ void GShell::runSystem(const std::string& _command) {
 //===============================================
 void GShell::runSystem(const std::string& _command, const std::string& _tmpDir, const std::string& _tmpFile) {
     createDir(_tmpDir);
-    std::string lCommand = sformat("%s > %s/%s", _command.c_str(), _tmpDir.c_str(), _tmpFile.c_str());
-    std::string lCommandEcho = sformat("cat %s/%s", _tmpDir.c_str(), _tmpFile.c_str());
+    GDate lDateObj;
+    //
+    std::string lDate = lDateObj.getDate("%d/%m/%Y - %H:%M:%S");
+    std::string lFilename = sformat("%s/%s", _tmpDir.c_str(), _tmpFile.c_str());
+    std::string lCommand = sformat("%s >> %s", _command.c_str(), lFilename.c_str());
+    std::string lCommandDate = sformat("echo \"=====> %s\" >> %s", lDate.c_str(), lFilename.c_str());
+    std::string lCommandCat = sformat("cat %s/%s", _tmpDir.c_str(), _tmpFile.c_str());
+    //
+    runSystem(lCommandDate);
     runSystem(lCommand);
-    runSystem(lCommandEcho);
+    runSystem(lCommandCat);
 }
 //===============================================
