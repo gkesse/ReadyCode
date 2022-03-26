@@ -30,6 +30,10 @@ std::string GShell::getTmpFile() const {
     return lTmpFile;
 }
 //===============================================
+void GShell::cleanTmpDir() {
+    std::string lTmpDir = getTmpDir();
+}
+//===============================================
 std::string GShell::getLogFile(const std::string& _key, const std::string& _date, const std::string& _ext) const {
     std::string lFilename = sformat("%s_%s.%s", _key.c_str(), _date.c_str(), _ext.c_str());
     return lFilename;
@@ -37,6 +41,11 @@ std::string GShell::getLogFile(const std::string& _key, const std::string& _date
 //===============================================
 void GShell::createDir(const std::string& _dir) {
     std::string lCommand = sformat("if ! [ -d %s ] ; then mkdir -p %s ; fi", _dir.c_str(), _dir.c_str());
+    runSystem(lCommand);
+}
+//===============================================
+void GShell::cleanDir(const std::string& _dir) {
+    std::string lCommand = sformat("if [ -d %s ] ; then rm -rf %s/* ; fi", _dir.c_str(), _dir.c_str());
     runSystem(lCommand);
 }
 //===============================================

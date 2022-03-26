@@ -134,6 +134,10 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "date") {
         runDate(_argc, _argv);
     }
+    // tmp
+    else if(lKey == "tmp/clean") {
+        runTmpClean(_argc, _argv);
+    }
     // end
     else {
         runTest(_argc, _argv);
@@ -565,6 +569,12 @@ void GTest::runDate(int _argc, char** _argv) {
     GDate lDateObj;
     std::string lDate = lDateObj.getDate(lDateObj.getLogFormat());
     console(lDate);
+}
+//===============================================
+void GTest::runTmpClean(int _argc, char** _argv) {
+    printf("%s\n", __FUNCTION__);
+    GShell lShell;
+    lShell.cleanDir(lShell.getTmpDir());
 }
 //===============================================
 void GTest::onModule(GSocket* _client) {
