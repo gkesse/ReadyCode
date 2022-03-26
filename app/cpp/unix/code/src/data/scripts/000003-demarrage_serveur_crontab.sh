@@ -3,9 +3,10 @@
 #================================================
 echo "debut du demarrage du serveur.............: OK"
 #
-GSERVER=/home/gkesse/Programs/ReadyCode/app/cpp/unix/code/src/data/server
+GPROJECT_PATH=/home/gkesse/Programs/ReadyCode/app/cpp/unix/code/src/data
+GPROJECT_SERVER=${GPROJECT_PATH}/server
 #
-cd ${GSERVER}
+cd ${GPROJECT_SERVER}
 ./server test socket/server/start
 #
 echo "fin du demarrage du serveur...............: OK"
