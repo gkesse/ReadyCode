@@ -1,6 +1,8 @@
 //===============================================
 #include "GPath.h"
+#include "GLog.h"
 #include "GFormat.h"
+#include "GEnv.h"
 //===============================================
 GPath* GPath::m_instance = 0;
 //===============================================
@@ -20,7 +22,12 @@ GPath* GPath::Instance() {
 }
 //===============================================
 std::string GPath::getDataPath() const {
-    std::string lPath = getenv("GPROJECT_DATA");
+    GEnv lEnv;
+    std::string lPath = lEnv.getEnv("GPROJECT_DATA");
+    if(lPath == "") {
+        GERROR("Erreur la methode (GPath::getDataPath) a echoue.");
+        return "";
+    }
     return lPath;
 }
 //===============================================

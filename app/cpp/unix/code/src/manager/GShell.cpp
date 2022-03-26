@@ -3,6 +3,7 @@
 #include "GLog.h"
 #include "GFormat.h"
 #include "GEnv.h"
+#include "GDate.h"
 //===============================================
 GShell::GShell() : GObject() {
 
@@ -20,6 +21,18 @@ std::string GShell::getTmpDir() const {
         return "";
     }
     return lTmpDir;
+}
+//===============================================
+std::string GShell::getTmpFile() const {
+    std::string lTmpFile = getLogFile("script", "txt");
+    return lTmpFile;
+}
+//===============================================
+std::string GShell::getLogFile(const std::string& _key, const std::string& _ext) const {
+    GDate lDateObj;
+    std::string lDate = lDateObj.getDate(lDateObj.getLogFormat());
+    std::string lTmpFile = sformat("%s_%s.%s", _key.c_str(), lDate.c_str(), _ext.c_str());
+    return lTmpFile;
 }
 //===============================================
 void GShell::createDir(const std::string& _dir) {
