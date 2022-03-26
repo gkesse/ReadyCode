@@ -54,5 +54,6 @@ git_status:
 #================================================    
 # server
 server_install: git_pull
+	@if ! [ -d $(GPROJECT_SCRIPTS) ] ; then mkdir -p $(GPROJECT_SCRIPTS) ; fi
 	@cd $(GPROJECT_SCRIPTS) && ./000001-installation_serveur.sh
 #================================================    
