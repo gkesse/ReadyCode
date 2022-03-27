@@ -28,8 +28,11 @@ echo "=====>"
 cat /etc/systemd/system/pad.service
 #
 echo "=====>"
-sudo systemctl start pad
+sudo systemctl restart pad
 #
 echo "=====>"
 sudo systemctl enable pad
+#
+echo "=====>"
+sudo systemctl status pad
 #
