@@ -6,7 +6,7 @@ echo "=====>"
 cat /etc/systemd/system/pad.service
 #
 echo "=====>"
-sudo cat << _EOF_ > /etc/systemd/system/pad.service
+cat << _EOF_ > /etc/systemd/system/pad.service
 [Unit]
 Description=pad service
 After=network.target
