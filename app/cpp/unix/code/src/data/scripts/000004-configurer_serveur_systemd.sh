@@ -2,9 +2,6 @@
 # configurer_serveur_systemd
 #================================================
 #
-sudo -i
-cd /home/gkesse/Programs/ReadyCode/app/cpp/unix/unix
-#
 echo "=====>"
 cat /etc/systemd/system/pad.service
 #
