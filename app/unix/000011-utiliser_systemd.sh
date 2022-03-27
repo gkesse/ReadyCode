@@ -16,11 +16,12 @@ After=network.target
 StartLimitIntervalSec=0
 
 [Service]
+EnvironmentFile=/home/gkesse/Programs/ReadyCode/app/cpp/unix/code/src/data/systemd/server.conf
 Type=simple
 Restart=always
 RestartSec=1
 User=gkesse
-ExecStart=/home/gkesse/Programs/ReadyCode/app/cpp/unix/code/src/data/scripts/000003-demarrage_serveur_crontab.sh
+ExecStart=/home/gkesse/Programs/ReadyCode/app/cpp/unix/code/src/data/server/server test socket/server/start
 
 [Install]
 WantedBy=multi-user.target
