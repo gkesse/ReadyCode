@@ -13,6 +13,7 @@ After=network.target
 StartLimitIntervalSec=0
 
 [Service]
+Environment="GPROJECT_DATA=/home/gkesse/Programs/ReadyCode/app/cpp/unix/code/src/data"
 Type=simple
 Restart=always
 RestartSec=1
@@ -27,16 +28,10 @@ echo "=====>"
 cat /etc/systemd/system/pad.service
 #
 echo "=====>"
-sudo systemctl edit pad
-#
-echo "=====>"
 sudo systemctl restart pad
 #
 echo "=====>"
 sudo systemctl enable pad
-#
-echo "=====>"
-systemctl daemon-reload
 #
 echo "=====>"
 sudo systemctl status pad
