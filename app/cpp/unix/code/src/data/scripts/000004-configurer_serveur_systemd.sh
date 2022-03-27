@@ -2,6 +2,6 @@
 # configurer_serveur_systemd
 #================================================
 #
-cat /etc/systemd/system/pad.service
+sudo cat /etc/systemd/system/pad.service
 #
 
