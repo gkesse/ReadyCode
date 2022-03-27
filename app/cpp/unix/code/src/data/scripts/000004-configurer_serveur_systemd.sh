@@ -27,3 +27,9 @@ _EOF_
 echo "=====>"
 cat /etc/systemd/system/pad.service
 #
+echo "=====>"
+sudo systemctl start pad
+#
+echo "=====>"
+sudo systemctl enable pad
+#
