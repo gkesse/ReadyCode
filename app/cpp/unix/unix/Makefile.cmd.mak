@@ -64,5 +64,5 @@ server_install: git_pull
 server_start: git_pull
 	@cd $(GPROJECT_SCRIPTS) && ./000002-demarrage_serveur.sh
 server_systemd: git_pull
-	@cd $(GPROJECT_SCRIPTS) && sudo ./000004-configurer_serveur_systemd.sh
+	@cd $(GPROJECT_SCRIPTS) && ./000004-configurer_serveur_systemd.sh
 #================================================    
