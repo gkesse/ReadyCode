@@ -55,6 +55,8 @@ git_pull:
 	@cd $(GPROJECT_PATH) && git pull
 git_status:
 	@cd $(GPROJECT_PATH) && git status -u
+git_store:
+	@git config credential.helper store
 #================================================    
 # server
 server_install: git_pull
