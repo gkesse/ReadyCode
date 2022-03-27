@@ -4,6 +4,7 @@
 
 # ressources
 https://medium.com/@benmorel/creating-a-linux-service-with-systemd-611b5c8b91d6
+https://serverfault.com/questions/413397/how-to-set-environment-variable-in-systemd-service
 
 # configurer un service
 ===> ouvrir le service
@@ -34,6 +35,12 @@ sudo systemctl enable pad
 
 ===> verifier l etat du service
 sudo systemctl status pad
+
+===> verifier l etat du service
+sudo systemctl status pad
+
+===> editer le service
+sudo systemctl edit pad
 
 
 

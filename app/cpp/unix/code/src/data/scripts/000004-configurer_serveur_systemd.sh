@@ -13,7 +13,6 @@ After=network.target
 StartLimitIntervalSec=0
 
 [Service]
-EnvironmentFile=/home/gkesse/Programs/ReadyCode/app/cpp/unix/code/src/data/systemd/server.conf
 Type=simple
 Restart=always
 RestartSec=1
@@ -28,13 +27,16 @@ echo "=====>"
 cat /etc/systemd/system/pad.service
 #
 echo "=====>"
-systemctl daemon-reload
+sudo systemctl edit pad
 #
 echo "=====>"
 sudo systemctl restart pad
 #
 echo "=====>"
 sudo systemctl enable pad
+#
+echo "=====>"
+systemctl daemon-reload
 #
 echo "=====>"
 sudo systemctl status pad
