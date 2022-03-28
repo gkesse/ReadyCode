@@ -41,11 +41,3 @@ sudo systemctl status pad
 
 ===> editer le service
 sudo systemctl edit pad
-
-
-
-
-
-
-
-

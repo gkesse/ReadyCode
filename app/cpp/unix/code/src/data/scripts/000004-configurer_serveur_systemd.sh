@@ -34,5 +34,8 @@ echo "=====>"
 sudo systemctl enable pad
 #
 echo "=====>"
+systemctl daemon-reload
+#
+echo "=====>"
 sudo systemctl status pad
 #
