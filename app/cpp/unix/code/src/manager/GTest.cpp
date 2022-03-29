@@ -130,7 +130,10 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "env") {
         runEnv(_argc, _argv);
     }
-    // env
+    else if(lKey == "env/type") {
+        runEnvType(_argc, _argv);
+    }
+    // date
     else if(lKey == "date") {
         runDate(_argc, _argv);
     }
@@ -562,6 +565,13 @@ void GTest::runEnv(int _argc, char** _argv) {
     std::string lTmp = lEnv.getEnv("GPROJECT_TMP");
     std::string lCommand = sformat("if ! [ -d %s ] ; then mkdir -p %s ; fi", lTmp.c_str(), lTmp.c_str());
     console(lCommand);
+}
+//===============================================
+void GTest::runEnvType(int _argc, char** _argv) {
+    printf("%s\n", __FUNCTION__);
+    GEnv lEnv;
+    std::string lEnvType = lEnv.getEnv("GPROJECT_ENV");
+    console(lEnvType);
 }
 //===============================================
 void GTest::runDate(int _argc, char** _argv) {

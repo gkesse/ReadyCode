@@ -42,6 +42,7 @@ public:
     void runMysql(int _argc, char** _argv);
     void runShellSystem(int _argc, char** _argv);
     void runEnv(int _argc, char** _argv);
+    void runEnvType(int _argc, char** _argv);
     void runDate(int _argc, char** _argv);
     void runTmpClean(int _argc, char** _argv);
     //
