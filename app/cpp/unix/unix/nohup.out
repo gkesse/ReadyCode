@@ -1,0 +1,231 @@
+debut demarrage du serveur................: OK
+runSocketServerStart
+onSocketServerStartThread
+=====>
+demarrage du serveur...
+=====>
+<?xml version="1.0" encoding="UTF-8"?>
+<rdv>
+  <datas>
+    <data>
+      <code>request</code>
+      <module>user</module>
+      <method>count_user</method>
+    </data>
+    <data>
+      <code>parameters</code>
+      <pseudo>admin@rdv.com</pseudo>
+      <password>adm87@TKg</password>
+    </data>
+  </datas>
+</rdv>
+
+=====>
+client_ip.....: 192.168.1.254
+=====>
+<?xml version="1.0" encoding="UTF8"?>
+<rdv>
+  <datas>
+    <data>
+      <code>error</code>
+      <map>
+        <data>
+          <msg>Erreur la methode (user : count_user) n'existe pas</msg>
+        </data>
+      </map>
+    </data>
+  </datas>
+</rdv>
+
+=====>
+<?xml version="1.0" encoding="UTF-8"?>
+<rdv>
+  <datas>
+    <data>
+      <code>request</code>
+      <module>user</module>
+      <method>count_user</method>
+    </data>
+    <data>
+      <code>parameters</code>
+      <pseudo>admin@rdv.com</pseudo>
+      <password>adm87@TKg</password>
+    </data>
+  </datas>
+</rdv>
+
+=====>
+client_ip.....: 192.168.1.254
+=====>
+<?xml version="1.0" encoding="UTF8"?>
+<rdv>
+  <datas>
+    <data>
+      <code>error</code>
+      <map>
+        <data>
+          <msg>Erreur la methode (user : count_user) n'existe pas</msg>
+        </data>
+      </map>
+    </data>
+  </datas>
+</rdv>
+
+=====>
+<?xml version="1.0" encoding="UTF-8"?>
+<rdv>
+  <datas>
+    <data>
+      <code>request</code>
+      <module>user</module>
+      <method>count_user</method>
+    </data>
+    <data>
+      <code>parameters</code>
+      <pseudo>root</pseudo>
+      <password>super</password>
+    </data>
+  </datas>
+</rdv>
+
+=====>
+client_ip.....: 192.168.1.254
+=====>
+<?xml version="1.0" encoding="UTF8"?>
+<rdv>
+  <datas>
+    <data>
+      <code>error</code>
+      <map>
+        <data>
+          <msg>Erreur la methode (user : count_user) n'existe pas</msg>
+        </data>
+      </map>
+    </data>
+  </datas>
+</rdv>
+
+=====>
+<?xml version="1.0" encoding="UTF-8"?>
+<rdv>
+  <datas>
+    <data>
+      <code>request</code>
+      <module>user</module>
+      <method>count_user</method>
+    </data>
+    <data>
+      <code>parameters</code>
+      <pseudo>root</pseudo>
+      <password>super</password>
+    </data>
+  </datas>
+</rdv>
+
+=====>
+client_ip.....: 192.168.1.254
+=====>
+<?xml version="1.0" encoding="UTF8"?>
+<rdv>
+  <datas>
+    <data>
+      <code>error</code>
+      <map>
+        <data>
+          <msg>Erreur la methode (user : count_user) n'existe pas</msg>
+        </data>
+      </map>
+    </data>
+  </datas>
+</rdv>
+
+=====>
+<?xml version="1.0" encoding="UTF-8"?>
+<rdv>
+  <datas>
+    <data>
+      <code>request</code>
+      <module>user</module>
+      <method>count_user</method>
+    </data>
+    <data>
+      <code>parameters</code>
+      <pseudo>Reghhh</pseudo>
+      <password>ffgg</password>
+    </data>
+  </datas>
+</rdv>
+
+=====>
+client_ip.....: 192.168.1.254
+=====>
+<?xml version="1.0" encoding="UTF8"?>
+<rdv>
+  <datas>
+    <data>
+      <code>error</code>
+      <map>
+        <data>
+          <msg>Erreur la methode (user : count_user) n'existe pas</msg>
+        </data>
+      </map>
+    </data>
+  </datas>
+</rdv>
+
+=====>
+<?xml version="1.0" encoding="UTF-8"?>
+<rdv>
+  <datas>
+    <data>
+      <code>request</code>
+      <module>user</module>
+      <method>count_user</method>
+    </data>
+    <data>
+      <code>parameters</code>
+      <pseudo>admin@rdv.com</pseudo>
+      <password>adm87@TKg</password>
+    </data>
+  </datas>
+</rdv>
+
+=====>
+client_ip.....: 192.168.1.254
+=====>
+<?xml version="1.0" encoding="UTF8"?>
+<rdv>
+  <datas>
+    <data>
+      <code>error</code>
+      <map>
+        <data>
+          <msg>Erreur la methode (user : count_user) n'existe pas</msg>
+        </data>
+      </map>
+    </data>
+  </datas>
+</rdv>
+
+=====>
+<?xml version="1.0" encoding="UTF-8"?>
+<rdv>
+  <datas>
+    <data>
+      <code>request</code>
+      <module>user</module>
+      <method>count_user</method>
+    </data>
+    <data>
+      <code>parameters</code>
+      <pseudo>admin@rdv.com</pseudo>
+      <password>adm87@TKg</password>
+    </data>
+  </datas>
+</rdv>
+
+=====>
+client_ip.....: 192.168.1.254
+=====>
+<?xml version=Killed
+fin demarrage du serveur..................: OK
