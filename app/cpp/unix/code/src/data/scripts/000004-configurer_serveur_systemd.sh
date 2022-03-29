@@ -15,6 +15,7 @@ StartLimitIntervalSec=0
 [Service]
 Environment="GPROJECT_DATA=/home/gkesse/Programs/ReadyCode/app/cpp/unix/code/src/data"
 Environment="GPROJECT_TMP=${GPROJECT_DATA}/tmp"
+Environment="GPROJECT_ENV=PROD"
 Type=simple
 Restart=always
 RestartSec=1
