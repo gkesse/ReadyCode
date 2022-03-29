@@ -28,13 +28,13 @@ echo "=====>"
 cat /etc/systemd/system/pad.service
 #
 echo "=====>"
+systemctl daemon-reload
+#
+echo "=====>"
 sudo systemctl restart pad
 #
 echo "=====>"
 sudo systemctl enable pad
-#
-echo "=====>"
-systemctl daemon-reload
 #
 echo "=====>"
 sudo systemctl status pad
