@@ -594,14 +594,14 @@ void GTest::runTmpClean(int _argc, char** _argv) {
 void GTest::runLog(int _argc, char** _argv) {
     printf("%s\n", __FUNCTION__);
     GDate lDateObj;
-    std::string lDate = lDateObj.getDate(lDateObj.getLogFormat());
+    std::string lDate = lDateObj.getDate(lDateObj.getDateTimeFormat());
     std::string lLog = "";
     lLog += sformat("__FILE__.............: %s\n", __FILE__);
     lLog += sformat("__LINE__.............: %d\n", __LINE__);
     lLog += sformat("__FUNCTION__.........: %s\n", __FUNCTION__);
     lLog += sformat("__PRETTY_FUNCTION__..: %s\n", __PRETTY_FUNCTION__);
     lLog += sformat("__func__.............: %s\n", __func__);
-    lLog += sformat("=====> [%s] : %s : %s [%d] %s\n%s", "INFO", lDate.c_str(), __FILE__, __LINE__, __PRETTY_FUNCTION__, "Bonjour tout le monde");
+    lLog += sformat("=====> [%s] : %s : %s : [%d] : %s :\n%s", "INFO", lDate.c_str(), __FILE__, __LINE__, __PRETTY_FUNCTION__, "Bonjour tout le monde");
     console(lLog);
 }
 //===============================================

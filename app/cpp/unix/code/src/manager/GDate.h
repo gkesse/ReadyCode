@@ -8,6 +8,7 @@ class GDate : public GObject {
 public:
     GDate();
     ~GDate();
+    std::string getDateTimeFormat() const;
     std::string getLogFormat() const;
     std::string getDate(const std::string& _format);
 };

@@ -11,6 +11,10 @@ GDate::~GDate() {
 
 }
 //===============================================
+std::string GDate::getDateTimeFormat() const {
+    return "%d/%m/%Y %H:%M:%S";
+}
+//===============================================
 std::string GDate::getLogFormat() const {
     return "%Y_%m_%d_%H_%M_%S";
 }
