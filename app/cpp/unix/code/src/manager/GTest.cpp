@@ -141,6 +141,10 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "tmp/clean") {
         runTmpClean(_argc, _argv);
     }
+    // log
+    else if(lKey == "log") {
+        runLog(_argc, _argv);
+    }
     // end
     else {
         runTest(_argc, _argv);
@@ -570,7 +574,7 @@ void GTest::runEnv(int _argc, char** _argv) {
 void GTest::runEnvType(int _argc, char** _argv) {
     printf("%s\n", __FUNCTION__);
     GEnv lEnv;
-    std::string lEnvType = lEnv.getEnv("GPROJECT_ENV");
+    std::string lEnvType = lEnv.getEnvType();
     console(lEnvType);
 }
 //===============================================
@@ -585,6 +589,17 @@ void GTest::runTmpClean(int _argc, char** _argv) {
     printf("%s\n", __FUNCTION__);
     GShell lShell;
     lShell.cleanDir(lShell.getTmpDir());
+}
+//===============================================
+void GTest::runLog(int _argc, char** _argv) {
+    printf("%s\n", __FUNCTION__);
+    std::string lLog = "";
+    lLog += sformat("__FILE__.............: %s\n", __FILE__);
+    lLog += sformat("__LINE__.............: %d\n", __LINE__);
+    lLog += sformat("__FUNCTION__.........: %s\n", __FUNCTION__);
+    lLog += sformat("__PRETTY_FUNCTION__..: %s\n", __PRETTY_FUNCTION__);
+    lLog += sformat("__func__.............: %s\n", __func__);
+    console(lLog);
 }
 //===============================================
 void GTest::onModule(GSocket* _client) {

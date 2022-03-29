@@ -8,7 +8,10 @@ class GEnv : public GObject {
 public:
     GEnv();
     ~GEnv();
-    std::string getEnv(const std::string& _env, const std::string& _defaultValue = "");
+    std::string getEnvType() const;
+    std::string getDataPath() const;
+    std::string getTmpDir() const;
+    std::string getEnv(const std::string& _env, const std::string& _defaultValue = "") const;
 };
 //==============================================
 #endif

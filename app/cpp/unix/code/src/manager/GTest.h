@@ -45,6 +45,7 @@ public:
     void runEnvType(int _argc, char** _argv);
     void runDate(int _argc, char** _argv);
     void runTmpClean(int _argc, char** _argv);
+    void runLog(int _argc, char** _argv);
     //
     void onModule(GSocket* _client);
     void onRequestSaveUser(GSocket* _client);

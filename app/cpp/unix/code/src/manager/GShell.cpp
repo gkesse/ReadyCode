@@ -15,7 +15,7 @@ GShell::~GShell() {
 //===============================================
 std::string GShell::getTmpDir() const {
     GEnv lEnv;
-    std::string lTmpDir = lEnv.getEnv("GPROJECT_TMP");
+    std::string lTmpDir = lEnv.getTmpDir();
     if(lTmpDir == "") {
         GERROR("Erreur la methode (GShell::getTmpDir) a echoue.");
         return "";
