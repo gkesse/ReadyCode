@@ -60,9 +60,9 @@ git_store:
 #================================================    
 # server
 server_install: git_pull
-	@cd $(GPROJECT_SCRIPTS) && ./000001-installation_serveur.sh
+	@cd $(GPROJECT_SCRIPTS) && ./000001-installer_serveur.sh
 server_start: git_pull
-	@cd $(GPROJECT_SCRIPTS) && ./000002-demarrage_serveur.sh
+	@cd $(GPROJECT_SCRIPTS) && ./000002-demarrer_serveur.sh
 server_systemd: git_pull
 	@cd $(GPROJECT_SCRIPTS) && sudo ./000004-configurer_serveur_systemd.sh
 #================================================    

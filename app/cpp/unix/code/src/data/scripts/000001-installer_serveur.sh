@@ -1,5 +1,5 @@
 #================================================
-# installation_serveur
+# installer_serveur
 #================================================
 echo "debut installation du serveur...........: OK"
 #
@@ -12,6 +12,7 @@ export "GPROJECT_DATA=${GPROJECT_SRC}/data"
 export "GPROJECT_TMP=${GPROJECT_DATA}/tmp"
 export "GPROJECT_SCRIPTS=${GPROJECT_DATA}/scripts"
 export "GPROJECT_SERVER=${GPROJECT_DATA}/server"
+export "GPROJECT_ENV=PROD"
 #
 GSRC_FILE=${GPROJECT_BUILD}/bin/rdcpp.exe
 GDST_FILE=${GPROJECT_SERVER}/server

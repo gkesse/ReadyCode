@@ -13,7 +13,7 @@ After=network.target
 StartLimitIntervalSec=0
 
 [Service]
-Environment="GPROJECT_DATA=/home/gkesse/Programs/ReadyCode/app/cpp/unix/code/src/data"
+EnvironmentFile=-/home/gkesse/Programs/ReadyCode/app/cpp/unix/code/src/data/systemd/server.conf
 Type=simple
 Restart=always
 RestartSec=1

@@ -49,3 +49,4 @@
 /**/*.pdsprj
 /**/*.bak
 /**/Makefile
+/**/nohup.out

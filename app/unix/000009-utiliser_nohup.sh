@@ -16,12 +16,10 @@ nohup --help
 nohup --version
 
 # executer un programme
-GPROGRAM=/home/gkesse/Programs/ReadyCode/app/cpp/unix/code/src/data/scripts/000002-demarrer_serveur.sh
-nohup ${GPROGRAM}
+nohup /home/gkesse/Programs/ReadyCode/app/cpp/unix/code/src/data/scripts/000002-demarrer_serveur.sh
 
 # executer un programme en tache de fond
-GPROGRAM=/home/gkesse/Programs/ReadyCode/app/cpp/unix/code/src/data/scripts/000002-demarrer_serveur.sh
-nohup ${GPROGRAM} &
+nohup /home/gkesse/Programs/ReadyCode/app/cpp/unix/code/src/data/scripts/000002-demarrer_serveur.sh &
 
 # afficher les programmes
 top
