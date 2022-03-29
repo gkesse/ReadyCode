@@ -33,9 +33,9 @@ $(GBUILD)/%.o: $(GSRC)/manager/%.cpp
 	@if ! [ -d $(GBUILD) ] ; then mkdir -p $(GBUILD) ; fi
 	g++ $(GCFLAGS) -c $< -o $@ $(GINCS)
 run:
-	@. envs.sh && $(GTARGET) $(argv)
+	@source envs.sh && $(GTARGET) $(argv)
 run_g:
-	@. envs.sh && gdb --args $(GTARGET) $(argv)
+	@source envs.sh && gdb --args $(GTARGET) $(argv)
 clean_exe: 
 	@if ! [ -d $(GBIN) ] ; then mkdir -p $(GBIN) ; fi
 	rm -f $(GTARGET)
