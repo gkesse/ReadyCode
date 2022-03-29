@@ -2,6 +2,7 @@
 #include "GLog.h"
 #include "GCode.h"
 #include "GFormat.h"
+#include "GDate.h"
 //===============================================
 GLog* GLog::m_instance = 0;
 //===============================================
@@ -62,5 +63,16 @@ std::vector<std::string>& GLog::getErrors() {
 void GLog::writeLog(const std::string _log) {
     printf("=====>\n");
     printf("%s\n", _log.c_str());
+}
+//===============================================
+void GLog::writeLog2(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _data) {
+    GDate lDateObj;
+    const char* lDate = lDateObj.getDate(lDateObj.getDateTimeFormat()).c_str();
+    if(_data == "") {
+        fprintf(stdout, "=====> [%s] : %d : %s : %d : %s :\n", _name, _level, _file, _line, _func);
+    }
+    else {
+        fprintf(stdout, "=====> [%s] : %d : %s : %d : %s :\n%s\n", _name, _level, _file, _line, _func, _data.c_str());
+    }
 }
 //===============================================
