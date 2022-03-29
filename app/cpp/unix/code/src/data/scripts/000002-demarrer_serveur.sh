@@ -1,5 +1,5 @@
 #================================================
-# demarrage_serveur
+# demarrer_serveur
 #================================================
 echo "debut demarrage du serveur................: OK"
 #

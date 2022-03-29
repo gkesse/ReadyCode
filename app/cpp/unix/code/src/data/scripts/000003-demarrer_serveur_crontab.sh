@@ -1,5 +1,5 @@
 #================================================
-# demarrage_serveur_crontab
+# demarrer_serveur_crontab
 #================================================
 echo "debut du demarrage du serveur.............: OK"
 #
