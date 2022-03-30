@@ -67,12 +67,12 @@ void GLog::writeLog(const std::string _log) {
 //===============================================
 void GLog::writeLog2(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _data) {
     GDate lDateObj;
-    const char* lDate = lDateObj.getDate(lDateObj.getDateTimeFormat()).c_str();
+    std::string lDate = lDateObj.getDate(lDateObj.getDateTimeFormat());
     if(_data == "") {
-        fprintf(stdout, "=====> [%-10s] : %d : %s : %s : %d : %s :\n", _name, _level, lDate, _file, _line, _func);
+        fprintf(stdout, "=====> [%-10s] : %d : %s : %s : %d : %s :\n", _name, _level, lDate.c_str(), _file, _line, _func);
     }
     else {
-        fprintf(stdout, "=====> [%-10s] : %d : %s : %s : %d : %s :\n%s\n", _name, _level, lDate, _file, _line, _func, _data.c_str());
+        fprintf(stdout, "=====> [%-10s] : %d : %s : %s : %d : %s :\n%s\n", _name, _level, lDate.c_str(), _file, _line, _func, _data.c_str());
     }
 }
 //===============================================
