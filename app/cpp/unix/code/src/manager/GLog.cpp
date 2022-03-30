@@ -5,11 +5,12 @@
 #include "GDate.h"
 #include "GEnv.h"
 #include "GFile.h"
+#include "GPath.h"
 //===============================================
 GLog* GLog::m_instance = 0;
 //===============================================
 GLog::GLog() : GObject() {
-
+    createDoms();
 }
 //===============================================
 GLog::~GLog() {
@@ -23,17 +24,44 @@ GLog* GLog::Instance() {
     return m_instance;
 }
 //===============================================
+void GLog::createDoms() {
+    m_dom.reset(new GXml);
+    m_dom->loadXmlFile(GRES("xml", "pad.xml"));
+    m_dom->createXPath();
+}
+//===============================================
 bool GLog::isDebug() const {
-    GEnv lEnvObj;
-    if(!lEnvObj.isTestEnv()) return false;
-    return true;
+    if(GEnv().isProdEnv()) {
+        if(isProdLog()) return true;
+    }
+    else {
+        if(isTestLog()) return true;
+    }
+    return false;
+}
+//===============================================
+bool GLog::isFileLog() const {
+    bool lFileOn = (getItem("log", "file_on") == "1");
+    return lFileOn;
+}
+//===============================================
+bool GLog::isTestLog() const {
+    bool lLogOn = (getItem("log", "test_on") == "1");
+    return lLogOn;
+}
+//===============================================
+bool GLog::isProdLog() const {
+    bool lLogOn = (getItem("log", "prod_on") == "1");
+    return lLogOn;
 }
 //===============================================
 FILE* GLog::getOutput() const {
-    return stdout;
+    FILE* lFile = stdout;
+    if(isTestLog()) lFile = getOutputFile();
+    return lFile;
 }
 //===============================================
-FILE* GLog::getFileOutput() const {
+FILE* GLog::getOutputFile() const {
     FILE* lFile = GFile().openLogFile();
     return lFile;
 }
@@ -85,9 +113,8 @@ void GLog::writeLog(const std::string _log) {
 }
 //===============================================
 void GLog::writeLog2(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _data) {
-    GDate lDateObj;
     if(!isDebug()) return;
-    std::string lDate = lDateObj.getDate(lDateObj.getDateTimeLogFormat());
+    std::string lDate = GDate().getDate(GDate().getDateTimeLogFormat());
     if(_data == "") {
         fprintf(getOutput(), "===> [%-10s] : %d : %s : %s : %d : %s :\n", _name, _level, lDate.c_str(), _file, _line, _func);
     }

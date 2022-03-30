@@ -21,10 +21,14 @@ public:
     GLog();
     ~GLog();
     static GLog* Instance();
+    void createDoms();
     //
     bool isDebug() const;
+    bool isFileLog() const;
+    bool isTestLog() const;
+    bool isProdLog() const;
     FILE* getOutput() const;
-    FILE* getFileOutput() const;
+    FILE* getOutputFile() const;
     //
     void addError(const std::string& _error);
     void showError();

@@ -596,8 +596,7 @@ void GTest::runTmpClean(int _argc, char** _argv) {
 //===============================================
 void GTest::runLog(int _argc, char** _argv) {
     printf("%s\n", __FUNCTION__);
-    GDate lDateObj;
-    std::string lDate = lDateObj.getDate(lDateObj.getDateTimeLogFormat());
+    std::string lDate = GDate().getDate(GDate().getDateTimeLogFormat());
     std::string lLog = "";
     lLog += sformat("__FILE__.............: %s\n", __FILE__);
     lLog += sformat("__LINE__.............: %d\n", __LINE__);
