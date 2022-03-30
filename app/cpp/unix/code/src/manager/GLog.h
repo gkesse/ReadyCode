@@ -22,6 +22,10 @@ public:
     ~GLog();
     static GLog* Instance();
     //
+    bool isDebug() const;
+    FILE* getOutput() const;
+    FILE* getFileOutput() const;
+    //
     void addError(const std::string& _error);
     void showError();
     bool hasError();

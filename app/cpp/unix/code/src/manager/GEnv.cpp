@@ -11,6 +11,17 @@ GEnv::~GEnv() {
 
 }
 //===============================================
+bool GEnv::isProdEnv() const {
+    std::string lType = getEnvType();
+    if(lType == "PROD") return true;
+    return false;
+}
+//===============================================
+bool GEnv::isTestEnv() const {
+    if(isProdEnv()) return false;
+    return true;
+}
+//===============================================
 std::string GEnv::getEnvType() const {
     std::string lData = getEnv("GPROJECT_ENV");
     return lData;
