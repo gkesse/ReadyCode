@@ -9,7 +9,7 @@ public:
     GEnv();
     ~GEnv();
     bool isProdEnv() const;
-    bool GEnv::isTestEnv() const;
+    bool isTestEnv() const;
     std::string getEnvType() const;
     std::string getDataPath() const;
     std::string getTmpDir() const;
