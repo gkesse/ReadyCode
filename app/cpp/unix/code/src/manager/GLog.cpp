@@ -4,6 +4,7 @@
 #include "GFormat.h"
 #include "GDate.h"
 #include "GEnv.h"
+#include "GFile.h"
 //===============================================
 GLog* GLog::m_instance = 0;
 //===============================================
@@ -33,9 +34,8 @@ FILE* GLog::getOutput() const {
 }
 //===============================================
 FILE* GLog::getFileOutput() const {
-    char* lFilename =
-    FILE* lFile = fopen()
-    return stdout;
+    FILE* lFile = GFile().openLogFile();
+    return lFile;
 }
 //===============================================
 void GLog::addError(const std::string& _error) {
