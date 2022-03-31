@@ -618,6 +618,7 @@ void GTest::runLogMacro(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runLogShow(int _argc, char** _argv) {
+    GFUNC_LOG;
     GLOGI->showLogFile();
 }
 //===============================================

@@ -32,17 +32,30 @@ void GLog::createDoms() {
 }
 //===============================================
 bool GLog::isDebug() const {
-    if(GEnv().isProdEnv()) {
-        if(isProdLog()) return true;
-    }
-    else {
-        if(isTestLog()) return true;
-    }
-    return false;
+    return isDebug(GEnv().isTestEnv());
+}
+//===============================================
+bool GLog::isDebug(bool _isTestEnv) const {
+    if(_isTestEnv) return isTestLog();
+    return isProdLog();
 }
 //===============================================
 bool GLog::isFileLog() const {
-    bool lFileOn = (getItem("log", "file_on") == "1");
+    return isFileLog(GEnv().isTestEnv());
+}
+//===============================================
+bool GLog::isFileLog(bool _isTestEnv) const {
+    if(_isTestEnv) return isTestFileLog();
+    return isProdFileLog();
+}
+//===============================================
+bool GLog::isTestFileLog() const {
+    bool lFileOn = (getItem("log", "test_file_on") == "1");
+    return lFileOn;
+}
+//===============================================
+bool GLog::isProdFileLog() const {
+    bool lFileOn = (getItem("log", "prod_file_on") == "1");
     return lFileOn;
 }
 //===============================================

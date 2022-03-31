@@ -26,7 +26,11 @@ public:
     void createDoms();
     //
     bool isDebug() const;
+    bool isDebug(bool _isTestEnv) const;
     bool isFileLog() const;
+    bool isFileLog(bool _isTestEnv) const;
+    bool isTestFileLog() const;
+    bool isProdFileLog() const;
     bool isTestLog() const;
     bool isProdLog() const;
     FILE* getOutput(bool _isFileLog);
