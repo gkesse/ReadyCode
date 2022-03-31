@@ -13,7 +13,6 @@
 #include "GTimer.h"
 #include "GMaster.h"
 #include "GMySQL.h"
-#include "GConsole.h"
 #include "GHostname.h"
 #include "GShell.h"
 #include "GEnv.h"
