@@ -149,7 +149,6 @@ int GSocket::recvData(std::string& _data) {
     }
     lBuffer[lBytes] = 0;
     _data = lBuffer;
-    GLOGT(eGMSG, "%s", _data.c_str());
     return lBytes;
 }
 //===============================================
@@ -166,7 +165,6 @@ int GSocket::recvData(GSocket& _socket, std::string& _data) {
     }
     lBuffer[lBytes] = 0;
     _data = lBuffer;
-    GLOGT(eGMSG, "%s", _data.c_str());
     return lBytes;
 }
 //===============================================
@@ -174,6 +172,7 @@ int GSocket::readData(std::string& _data) {
     _data.clear();
     std::string lBuffer;
     recvData(lBuffer);
+    GLOGT(eGMSG, "%s", lBuffer.c_str());
     int lSize = std::stoi(lBuffer);
     int lBytes = 0;
 
@@ -201,7 +200,6 @@ int GSocket::sendData(const std::string& _data) {
                 "- bytes....: (%d).", strerror(errno), lBytes);
         return -1;
     }
-    GLOGT(eGMSG, "%s", _data.c_str());
     return lBytes;
 }
 //===============================================
@@ -214,7 +212,6 @@ int GSocket::sendData(GSocket& _socket, const std::string& _data) {
                 "- bytes....: (%d).", strerror(errno), lBytes);
         return -1;
     }
-    GLOGT(eGMSG, "%s", _data.c_str());
     return lBytes;
 }
 //===============================================
@@ -222,9 +219,11 @@ int GSocket::writeData(const std::string& _data) {
     int lBytes = 0;
     int lLength = _data.size();
     int lSize = (int)ceil((double)lLength/BUFFER_DATA_SIZE);
+    std::string lBuffer = iformat(lSize, BUFFER_DATA_SIZE);
+    GLOGT(eGMSG, "%s", lBuffer.c_str());
+    sendData(lBuffer);
 
-    sendData(iformat(lSize, BUFFER_DATA_SIZE));
-
+    GLOGT(eGMSG, "%s", lBuffer.c_str());
     for(int i = 0; i < lSize; i++) {
         std::string lBuffer = _data.substr(lBytes, BUFFER_DATA_SIZE);
         int iBytes = sendData(lBuffer);
