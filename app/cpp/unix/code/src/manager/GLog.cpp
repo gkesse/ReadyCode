@@ -11,6 +11,7 @@ GLog* GLog::m_instance = 0;
 //===============================================
 GLog::GLog() : GObject() {
     createDoms();
+    m_file = 0;
 }
 //===============================================
 GLog::~GLog() {
@@ -57,13 +58,18 @@ bool GLog::isProdLog() const {
 //===============================================
 FILE* GLog::getOutput() const {
     FILE* lFile = stdout;
-    if(isTestLog()) lFile = getOutputFile();
+    if(isFileLog()) lFile = getOutputFile();
     return lFile;
 }
 //===============================================
 FILE* GLog::getOutputFile() const {
     FILE* lFile = GFile().openLogFile();
+    m_file = lFile;
     return lFile;
+}
+//===============================================
+void GLog::closeLogFile() {
+    GFile().closeFile(m_file);
 }
 //===============================================
 void GLog::addError(const std::string& _error) {
@@ -80,6 +86,7 @@ void GLog::showError() {
     }
     fprintf(getOutput(), "%s", lErrors.c_str());
     m_errors.clear();
+    closeLogFile();
 }
 //===============================================
 bool GLog::hasError() {
@@ -110,6 +117,7 @@ void GLog::writeLog(const std::string _log) {
     if(!isDebug()) return;
     fprintf(getOutput(), "===>\n");
     fprintf(getOutput(), "%s\n", _log.c_str());
+    closeLogFile();
 }
 //===============================================
 void GLog::writeLog2(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _data) {
@@ -121,5 +129,6 @@ void GLog::writeLog2(const char* _name, int _level, const char* _file, int _line
     else {
         fprintf(getOutput(), "===> [%-10s] : %d : %s : %s : %d : %s :\n%s\n", _name, _level, lDate.c_str(), _file, _line, _func, _data.c_str());
     }
+    closeLogFile();
 }
 //===============================================

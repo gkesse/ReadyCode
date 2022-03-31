@@ -23,6 +23,7 @@ public:
     FILE* openFile();
     FILE* openFile(const std::string& _openType);
     FILE* openFile(const std::string& _filename, const std::string& _openType);
+    void closeFile(FILE* _file);
 
 private:
     std::string m_filename;

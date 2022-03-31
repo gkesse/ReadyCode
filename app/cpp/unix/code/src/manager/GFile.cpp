@@ -89,3 +89,8 @@ FILE* GFile::openFile(const std::string& _filename, const std::string& _openType
     return lFile;
 }
 //===============================================
+void GFile::closeFile(FILE* _file) {
+    if(!_file) return;
+    fclose(_file);
+}
+//===============================================

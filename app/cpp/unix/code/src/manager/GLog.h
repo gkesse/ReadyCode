@@ -29,6 +29,7 @@ public:
     bool isProdLog() const;
     FILE* getOutput() const;
     FILE* getOutputFile() const;
+    void closeLogFile();
     //
     void addError(const std::string& _error);
     void showError();
@@ -42,8 +43,8 @@ public:
 
 private:
     static GLog* m_instance;
-    //
     std::vector<std::string> m_errors;
+    FILE* m_file;
 };
 //==============================================
 #endif
