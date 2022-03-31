@@ -79,7 +79,7 @@ void GLog::showLogFile() {
     std::string lData = sformat("Erreur le fichier log n'existe pas.\n"
             "- fichier.....: %s", lLogFile.c_str());
     if(lFileObj.existFile()) {
-        std::string lData = lFileObj.getContent();
+        lData = lFileObj.getContent();
     }
     printf("%s\n", lData.c_str());
 }
