@@ -1,7 +1,6 @@
 //===============================================
 #include "GXml.h"
 #include "GLog.h"
-#include "GConsole.h"
 #include "GFormat.h"
 #include "GString.h"
 //===============================================
