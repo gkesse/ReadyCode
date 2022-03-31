@@ -559,15 +559,13 @@ void GTest::runMysql(int _argc, char** _argv) {
 //===============================================
 void GTest::runShellSystem(int _argc, char** _argv) {
     GLOGT(eGFUNC, "");
-    GShell lShell;
     std::string lCommand = sformat("echo \"Bonjour tout le monde\"");
-    lShell.runSystem(lCommand, lShell.getTmpDir(), lShell.getTmpFile());
+    GShell().runSystem(lCommand);
 }
 //===============================================
 void GTest::runEnv(int _argc, char** _argv) {
     GLOGT(eGFUNC, "");
-    GEnv lEnv;
-    std::string lTmp = lEnv.getEnv("GPROJECT_TMP");
+    std::string lTmp = GEnv().getEnv("GPROJECT_TMP");
     std::string lCommand = sformat("if ! [ -d %s ] ; then mkdir -p %s ; fi", lTmp.c_str(), lTmp.c_str());
     GLOGW("%s", lCommand.c_str());
 }
