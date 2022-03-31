@@ -42,14 +42,13 @@ void GShell::runSystem(const std::string& _command) {
 //===============================================
 void GShell::runSystem(const std::string& _command, const std::string& _tmpDir, const std::string& _tmpFile) {
     createDir(_tmpDir);
-    GDate lDateObj;
     //
-    std::string lDate = lDateObj.getDate("%d/%m/%Y - %H:%M:%S");
+    std::string lDate = GDate().getDate("%d/%m/%Y - %H:%M:%S");
     std::string lFilename = sformat("%s/%s", _tmpDir.c_str(), _tmpFile.c_str());
     std::string lCommand = sformat("%s >> %s", _command.c_str(), lFilename.c_str());
-    std::string lCommandSep = sformat("echo \"----->\" >> %s", lFilename.c_str());
+    std::string lCommandSep = sformat("echo \"--->\" >> %s", lFilename.c_str());
     std::string lCommandEcho = sformat("echo \"%s\" >> %s", _command.c_str(), lFilename.c_str());
-    std::string lCommandDate = sformat("echo \"=====> %s\" >> %s", lDate.c_str(), lFilename.c_str());
+    std::string lCommandDate = sformat("echo \"===> %s\" >> %s", lDate.c_str(), lFilename.c_str());
     std::string lCommandCat = sformat("cat %s/%s", _tmpDir.c_str(), _tmpFile.c_str());
     //
     runCommand(lCommandDate);
