@@ -501,7 +501,7 @@ void GTest::runRequestGetUser(int _argc, char** _argv) {
     GLOGT(eGMSG, "");
     GLOGW("%s", lReq.toString().c_str());
     GLOGT(eGMSG, "");
-    GLOGW("%s", lResponse);
+    GLOGW("%s", lResponse.c_str());
     GLOGT(eGMSG, "");
     GLOGW("firstname.....: %s", lRes.getItem("user", "firstname").c_str());
     GLOGW("lastname......: %s", lRes.getItem("user", "lastname").c_str());
