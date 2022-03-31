@@ -487,6 +487,7 @@ void GTest::runRequestSaveUser(int _argc, char** _argv) {
     std::string lResponse = lClient.callServer(lReq.toString());
     GLOGI->loadErrors(lResponse);
     GLOGW("%s", lReq.toString().c_str());
+    GLOGT(eGMSG, "");
     GLOGW("%s", lResponse.c_str());
 }
 //===============================================
