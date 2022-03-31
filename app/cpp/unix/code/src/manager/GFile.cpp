@@ -46,10 +46,10 @@ std::string GFile::getScriptFile() const {
 }
 //===============================================
 std::string GFile::getDateFile(const std::string& _key, const std::string& _ext) const {
-    std::string lDataPath = GEnv().getDataPath();
+    std::string lTmpDir = GEnv().getTmpDir();
     std::string lDate = GDate().getDate(GDate().getDateFileFormat());
     std::string lFilename = getFilename(_key, lDate, _ext);
-    lFilename = getFilename(lDataPath, lFilename);
+    lFilename = getFilename(lTmpDir, lFilename);
     return lFilename;
 }
 //===============================================
