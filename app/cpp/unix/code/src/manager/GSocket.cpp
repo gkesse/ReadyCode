@@ -223,7 +223,7 @@ int GSocket::writeData(const std::string& _data) {
     GLOGT(eGMSG, "%s", lBuffer.c_str());
     sendData(lBuffer);
 
-    GLOGT(eGMSG, "%s", lBuffer.c_str());
+    GLOGT(eGMSG, "%s", _data.c_str());
     for(int i = 0; i < lSize; i++) {
         std::string lBuffer = _data.substr(lBytes, BUFFER_DATA_SIZE);
         int iBytes = sendData(lBuffer);
