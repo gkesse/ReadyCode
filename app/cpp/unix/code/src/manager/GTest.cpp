@@ -560,7 +560,8 @@ void GTest::runMysql(int _argc, char** _argv) {
 void GTest::runShellSystem(int _argc, char** _argv) {
     GLOGT(eGFUNC, "");
     std::string lCommand = sformat("echo \"Bonjour tout le monde\"");
-    GShell().runSystem(lCommand);
+    std::string lData = GShell().runSystem(lCommand);
+    GLOGT(eGMSG, "%s", lData.c_str());
 }
 //===============================================
 void GTest::runEnv(int _argc, char** _argv) {

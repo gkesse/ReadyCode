@@ -31,6 +31,8 @@ bool GFile::existFile() const {
 }
 //===============================================
 std::string GFile::getContent() const {
+    if(m_filename == "") return "";
+    if(!existFile()) return "";
     std::ifstream lFile(m_filename);
     std::stringstream lBuffer;
     lBuffer << lFile.rdbuf();
