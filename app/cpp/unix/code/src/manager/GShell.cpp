@@ -19,7 +19,7 @@ std::string GShell::getTmpDir() const {
 }
 //===============================================
 std::string GShell::getTmpFile() const {
-    return GFile().getDateFile("script", "txt");
+    return GFile().getDateFilename("script", "txt");
 }
 //===============================================
 void GShell::createDir(const std::string& _dir) {

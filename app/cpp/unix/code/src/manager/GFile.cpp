@@ -42,21 +42,25 @@ std::string GFile::getAppendType() const {
 }
 //===============================================
 std::string GFile::getLogFile() const {
-    std::string lFilename = getDateFile("log", "txt");
+    std::string lFilename = getDateFullname("log", "txt");
     return lFilename;
 }
 //===============================================
 std::string GFile::getScriptFile() const {
-    std::string lFilename = getDateFile("script", "txt");
+    std::string lFilename = getDateFullname("script", "txt");
     return lFilename;
 }
 //===============================================
-std::string GFile::getDateFile(const std::string& _key, const std::string& _ext) const {
+std::string GFile::getDateFullname(const std::string& _key, const std::string& _ext) const {
     std::string lTmpDir = GEnv().getTmpDir();
-    std::string lDate = GDate().getDate(GDate().getDateFileFormat());
-    std::string lFilename = getFilename(_key, lDate, _ext);
-    lFilename = getFilename(lTmpDir, lFilename);
+    std::string lFilename = getDateFilename(_key, _ext);
+    lFilename = getFullname(lTmpDir, lFilename);
     return lFilename;
+}
+//===============================================
+std::string GFile::getDateFilename(const std::string& _key, const std::string& _ext) const {
+    std::string lDate = GDate().getDate(GDate().getDateFileFormat());
+    return getFilename(_key, lDate, _ext);
 }
 //===============================================
 std::string GFile::getFilename(const std::string& _key, const std::string& _date, const std::string& _ext) const {
@@ -64,7 +68,7 @@ std::string GFile::getFilename(const std::string& _key, const std::string& _date
     return lFilename;
 }
 //===============================================
-std::string GFile::getFilename(const std::string& _path, const std::string& _filename) const {
+std::string GFile::getFullname(const std::string& _path, const std::string& _filename) const {
     GShell().createDir(_path);
     std::string lFilename = sformat("%s/%s", _path.c_str(), _filename.c_str());
     return lFilename;
