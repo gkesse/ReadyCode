@@ -83,6 +83,10 @@ void GLog::showLogFile() {
     printf("%s\n", lData.c_str());
 }
 //===============================================
+void GLog::addError(const std::string& _error) {
+    m_errors.push_back(_error);
+}
+//===============================================
 void GLog::showError() {
     if(!isDebug()) return;
     if(!hasError()) return;
