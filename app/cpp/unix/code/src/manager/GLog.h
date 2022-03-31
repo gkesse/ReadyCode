@@ -14,12 +14,8 @@
 //===============================================
 #define GLOGI GLog::Instance()
 #define GERROR(...) GLOGI->addError(sformat(__VA_ARGS__))
-#define GLOG(...) GLOGI->writeLog(sformat(__VA_ARGS__))
-#define GLOG2(x) GLOGI->traceLog(#x, x)
-#define GLOG3(x, ...) GLOGI->traceLog(#x, x, sformat(__VA_ARGS__))
-//===============================================
-#define GFUNC_LOG       GLOG2(eGFUNC)
-#define GMSG_LOG(...)   GLOGI->traceLog("eGMSG", eGMSG, sformat(__VA_ARGS__))
+#define GLOGT(x, ...) GLOGI->traceLog(#x, x, sformat(__VA_ARGS__))
+#define GLOGW(...) GLOGI->writeLog(sformat(__VA_ARGS__))
 //===============================================
 class GLog : public GObject {
 public:
@@ -52,7 +48,7 @@ public:
     void writeLog(const std::string _log);
     void writeLog(bool _isDebug, bool _isFileLog, const std::string _log);
     void traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _data = "");
-    void traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const std::string& _data);
+    void traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const std::string& _data = "");
 
 private:
     static GLog* m_instance;

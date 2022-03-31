@@ -114,9 +114,8 @@ void GLog::showError(bool _isDebug, bool _isFileLog) {
         lErrors += m_errors.at(i);
         lErrors += "\n";
     }
-    fprintf(getOutput(_isFileLog), "%s", lErrors.c_str());
+    GLOGT(eGERROR, "%s", lErrors.c_str());
     m_errors.clear();
-    closeLogFile();
 }
 //===============================================
 bool GLog::hasError() {
@@ -149,7 +148,6 @@ void GLog::writeLog(const std::string _log) {
 //===============================================
 void GLog::writeLog(bool _isDebug, bool _isFileLog, const std::string _log) {
     if(!_isDebug) return;
-    fprintf(getOutput(_isFileLog), "===>\n");
     fprintf(getOutput(_isFileLog), "%s\n", _log.c_str());
     closeLogFile();
 }

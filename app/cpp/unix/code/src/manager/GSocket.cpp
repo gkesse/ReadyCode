@@ -114,8 +114,7 @@ void GSocket::connectSocket() {
 }
 //===============================================
 void GSocket::startMessage() {
-    printf("=====>\n");
-    printf("demarrage du serveur...\n");
+    GLOGT(eGMSG, "demarrage du serveur...");
 }
 //===============================================
 void GSocket::acceptSocket(GSocket& _socket) {
