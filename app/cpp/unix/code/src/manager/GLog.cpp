@@ -56,7 +56,7 @@ bool GLog::isProdLog() const {
     return lLogOn;
 }
 //===============================================
-FILE* GLog::getOutput() const {
+FILE* GLog::getOutput() {
     FILE* lFile = stdout;
     if(isFileLog()) lFile = getOutputFile();
     return lFile;

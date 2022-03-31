@@ -27,7 +27,7 @@ public:
     bool isFileLog() const;
     bool isTestLog() const;
     bool isProdLog() const;
-    FILE* getOutput() const;
+    FILE* getOutput();
     FILE* getOutputFile();
     void closeLogFile();
     //
