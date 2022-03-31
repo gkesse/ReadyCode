@@ -1,5 +1,7 @@
 //===============================================
 #include "GInterrupt.h"
+#include "GLog.h"
+#include "GFormat.h"
 //===============================================
 GInterrupt::GInterrupt() : GObject() {
 
@@ -17,7 +19,6 @@ void GInterrupt::setCallback(void* _onInterrupt) {
 }
 //===============================================
 void GInterrupt::onInterrupt(int _signo) {
-    printf("=====>\n");
-    printf("interruption du programme...\n");
+    GLOGT(eGINFO, "interruption du programme...\n");
 }
 //===============================================

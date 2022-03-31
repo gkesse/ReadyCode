@@ -87,7 +87,7 @@ void GLog::closeLogFile() {
     m_file = 0;
 }
 //===============================================
-void GLog::showLogFile() {
+void GLog::catLogFile() {
     std::string lLogFile = GFile().getLogFile();
     GFile lFileObj(lLogFile);
     std::string lData = sformat("Erreur le fichier log n'existe pas.\n"
@@ -166,5 +166,32 @@ void GLog::traceLog(const char* _name, int _level, const char* _file, int _line,
         fprintf(getOutput(_isFileLog), "===> [%-10s] : %d : %s : %s : %d : %s :\n%s\n", _name, _level, lDate.c_str(), _file, _line, _func, _data.c_str());
     }
     closeLogFile();
+}
+//===============================================
+std::string GLog::toString(bool _data) const {
+    if(_data) return "true";
+    return "false";
+}
+//===============================================
+std::string GLog::toString(const std::vector<std::string>& _data) const {
+    std::string lData = "";
+    for(size_t i = 0; i < _data.size(); i++) {
+        if(i != 0) lData += "\n";
+        lData += _data.at((int)i);
+    }
+    return lData;
+}
+//===============================================
+std::string GLog::toString(const std::vector<std::vector<std::string>>& _data) const {
+    std::string lData = "";
+    for(size_t i = 0; i < _data.size(); i++) {
+        if(i != 0) lData += "\n";
+        std::vector<std::string> lDataRow = _data.at((int)i);
+        for(size_t j = 0; j < lDataRow.size(); j++) {
+            if(j != 0) lData += "\n";
+            lData += lDataRow.at((int)j);
+        }
+    }
+    return lData;
 }
 //===============================================

@@ -1,5 +1,7 @@
 //===============================================
 #include "GExit.h"
+#include "GLog.h"
+#include "GFormat.h"
 //===============================================
 GExit::GExit() : GObject() {
 
@@ -14,7 +16,6 @@ void GExit::setCallback(void* _onExit) {
 }
 //===============================================
 void GExit::onExit() {
-    printf("=====>\n");
-    printf("sortie du programme...\n");
+    GLOGT(eGINFO, "sortie du programme...\n");
 }
 //===============================================

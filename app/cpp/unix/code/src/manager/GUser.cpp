@@ -30,6 +30,6 @@ void GUser::onModule(GSocket* _client) {
 }
 //===============================================
 void GUser::onSaveUser(GSocket* _client) {
-    printf("%s\n", __FUNCTION__);
+
 }
 //===============================================

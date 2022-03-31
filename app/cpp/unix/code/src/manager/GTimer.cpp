@@ -42,7 +42,6 @@ void GTimer::setRunning(bool _running) {
 }
 //===============================================
 void GTimer::onTimer(int _signo) {
-    printf("=====>\n");
-    printf("timer du programme...\n");
+    GLOGT(eGINFO, "timer du programme...\n");
 }
 //===============================================
