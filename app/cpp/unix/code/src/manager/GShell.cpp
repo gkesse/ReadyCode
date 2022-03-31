@@ -45,6 +45,7 @@ std::string GShell::runSystem(const std::string& _command, const std::string& _t
     createDir(_tmpDir);
     std::string lFilename = sformat("%s/%s", _tmpDir.c_str(), _tmpFile.c_str());
     std::string lCommand = sformat("%s > %s", _command.c_str(), lFilename.c_str());
+    GLOGT(eGMSG, "%s", lCommand.c_str());
     runCommand(lCommand);
     std::string lData = "GFile(lFilename).getContent()";
     return lData;
