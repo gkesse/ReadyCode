@@ -72,10 +72,6 @@ void GLog::closeLogFile() {
     GFile().closeFile(m_file);
 }
 //===============================================
-void GLog::closeLogFile() {
-    GFile().closeFile(m_file);
-}
-//===============================================
 void GLog::showLogFile() {
     std::string lLogFile = GFile().getLogFile();
     GFile lFileObj(lLogFile);
