@@ -28,7 +28,7 @@ public:
     bool isTestLog() const;
     bool isProdLog() const;
     FILE* getOutput() const;
-    FILE* getOutputFile() const;
+    FILE* getOutputFile();
     void closeLogFile();
     //
     void addError(const std::string& _error);

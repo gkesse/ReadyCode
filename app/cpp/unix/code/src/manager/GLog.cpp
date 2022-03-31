@@ -62,7 +62,7 @@ FILE* GLog::getOutput() const {
     return lFile;
 }
 //===============================================
-FILE* GLog::getOutputFile() const {
+FILE* GLog::getOutputFile() {
     FILE* lFile = GFile().openLogFile();
     m_file = lFile;
     return lFile;
