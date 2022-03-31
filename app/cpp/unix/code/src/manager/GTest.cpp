@@ -611,6 +611,7 @@ void GTest::runLog(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runLogMacro(int _argc, char** _argv) {
+    GFUNC_LOG;
     GLOG2(eGINFO);
     GLOG3(eGINFO, "Bonjour tout le monde");
     GLOG3(eGERROR, "Erreur la methode a echoue");

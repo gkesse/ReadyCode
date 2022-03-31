@@ -16,6 +16,8 @@
 #define GLOG2(x) GLOGI->traceLog(#x, x)
 #define GLOG3(x, ...) GLOGI->traceLog(#x, x, sformat(__VA_ARGS__))
 //===============================================
+#define GFUNC_LOG GLOG2(eGINFO)
+//===============================================
 class GLog : public GObject {
 public:
     GLog();
