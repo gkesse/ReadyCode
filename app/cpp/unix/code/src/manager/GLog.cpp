@@ -84,6 +84,7 @@ FILE* GLog::getOutputFile() {
 void GLog::closeLogFile() {
     if(!m_file) return;
     GFile().closeFile(m_file);
+    m_file = 0;
 }
 //===============================================
 void GLog::showLogFile() {

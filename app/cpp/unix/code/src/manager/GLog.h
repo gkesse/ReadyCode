@@ -4,11 +4,13 @@
 //===============================================
 #include "GObject.h"
 //===============================================
-#define eGINFO       0, __FILE__, __LINE__, __PRETTY_FUNCTION__
-#define eGWARNING    1, __FILE__, __LINE__, __PRETTY_FUNCTION__
-#define eGERROR      2, __FILE__, __LINE__, __PRETTY_FUNCTION__
-#define eGCRITICAL   3, __FILE__, __LINE__, __PRETTY_FUNCTION__
-#define eGFATAL      4, __FILE__, __LINE__, __PRETTY_FUNCTION__
+#define eGFUNC      1, __FILE__, __LINE__, __PRETTY_FUNCTION__
+#define eGINFO      2, __FILE__, __LINE__, __PRETTY_FUNCTION__
+#define eGMSG       3, __FILE__, __LINE__, __PRETTY_FUNCTION__
+#define eGWARNING   4, __FILE__, __LINE__, __PRETTY_FUNCTION__
+#define eGERROR     5, __FILE__, __LINE__, __PRETTY_FUNCTION__
+#define eGCRITICAL  6, __FILE__, __LINE__, __PRETTY_FUNCTION__
+#define eGFATAL     7, __FILE__, __LINE__, __PRETTY_FUNCTION__
 //===============================================
 #define GLOGI GLog::Instance()
 #define GERROR(...) GLOGI->addError(sformat(__VA_ARGS__))
@@ -16,7 +18,8 @@
 #define GLOG2(x) GLOGI->traceLog(#x, x)
 #define GLOG3(x, ...) GLOGI->traceLog(#x, x, sformat(__VA_ARGS__))
 //===============================================
-#define GFUNC_LOG GLOG2(eGINFO)
+#define GFUNC_LOG       GLOG2(eGFUNC)
+#define GMSG_LOG(...)   GLOGI->traceLog("eGMSG", eGMSG, sformat(__VA_ARGS__))
 //===============================================
 class GLog : public GObject {
 public:

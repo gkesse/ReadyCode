@@ -3,6 +3,7 @@
 #include "GPath.h"
 #include "GXml.h"
 #include "GCode.h"
+#include "GLog.h"
 #include "GFormat.h"
 #include "GSocket.h"
 #include "GFile.h"
@@ -13,7 +14,6 @@
 #include "GMaster.h"
 #include "GMySQL.h"
 #include "GConsole.h"
-#include "GLog.h"
 #include "GHostname.h"
 #include "GShell.h"
 #include "GEnv.h"
@@ -396,7 +396,7 @@ void GTest::onSocketServerStartTimer(int _signo) {
     if(!lClientIns.empty()) {
         GSocket* lClient = lClientIns.front();
         lClientIns.pop();
-        GLOG("%s", lClient->getRequest().c_str());
+        GMSG_LOG("%s", lClient->getRequest().c_str());
         GMaster lMaster(lClient->getRequest());
         lMaster.onModule(lClient);
         GHostname lHostname;
