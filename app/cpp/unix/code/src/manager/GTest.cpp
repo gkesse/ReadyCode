@@ -158,7 +158,7 @@ void GTest::run(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runTest(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GFUNC_LOG;
     int lInt = 123;
     const int BUFFER_SIZE = 10;
     char lBuffer[BUFFER_SIZE + 1];
@@ -170,7 +170,7 @@ void GTest::runTest(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runIntString(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GFUNC_LOG;
     int lInt = 123;
     const int BUFFER_SIZE = 10;
     char lBuffer[BUFFER_SIZE + 1];
@@ -187,7 +187,7 @@ void GTest::runIntString(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runIntStringVector(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GFUNC_LOG;
     int lInt = 123;
     const int BUFFER_SIZE = 10;
 
@@ -205,7 +205,7 @@ void GTest::runIntStringVector(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runString(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GFUNC_LOG;
     std::string lFilename = GRES("file", "test.txt");
     std::string lContent = GFile(lFilename).getContent();
     int lLength = lContent.size();
@@ -227,18 +227,18 @@ void GTest::runString(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runPath(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GFUNC_LOG;
     std::string lPath = GRES("xml", "pad.xml");
     printf("%s\n", lPath.c_str());
 }
 //===============================================
 void GTest::runFormat(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GFUNC_LOG;
     printf("%s\n", sformat("app : %s - v%s", "ReadyPad", "1.0").c_str());
 }
 //===============================================
 void GTest::runXml(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GFUNC_LOG;
     m_dom.reset(new GXml);
     m_dom->loadXmlFile(GRES("xml", "pad.xml"));
     m_dom->createXPath();
@@ -254,7 +254,7 @@ std::string GTest::getPadItem(const std::string& _data) const {
 }
 //===============================================
 void GTest::runSocketServer(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GFUNC_LOG;
     GSocket lServer;
     GSocket lClient;
 
@@ -285,7 +285,7 @@ void GTest::runSocketServer(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runSocketClient(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GFUNC_LOG;
     GSocket lClient;
 
     int lDomain = lClient.loadDomain();
@@ -311,7 +311,7 @@ void GTest::runSocketClient(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runSocketServerFile(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GFUNC_LOG;
     GSocket lServer;
     GSocket lClient;
 
@@ -344,7 +344,7 @@ void GTest::runSocketServerFile(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runSocketClientFile(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GFUNC_LOG;
     GSocket lClient;
 
     int lDomain = lClient.loadDomain();
@@ -370,7 +370,7 @@ void GTest::runSocketClientFile(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runSocketServerStart(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GFUNC_LOG;
     m_test = new GTest;
     m_test->m_server = new GSocket;
     GThread lThread;
@@ -383,7 +383,7 @@ void GTest::runSocketServerStart(int _argc, char** _argv) {
 }
 //===============================================
 void* GTest::onSocketServerStartThread(void* _params) {
-    printf("%s\n", __FUNCTION__);
+    GFUNC_LOG;
     GSocket* lServer = m_test->m_server;
     lServer->startServer((void*)GSocket::onServerThread);
     return 0;
@@ -406,7 +406,7 @@ void GTest::onSocketServerStartTimer(int _signo) {
 }
 //===============================================
 void GTest::runSocketClientStart(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GFUNC_LOG;
 
     std::string lFilename = GRES("file", "test.txt");
     std::string lData = GFile(lFilename).getContent();
@@ -419,7 +419,7 @@ void GTest::runSocketClientStart(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runThread(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GFUNC_LOG;
     GThread lThread;
     lThread.createThread((void*)onThread, (void*)"Bonjour tout le monde");
     pause();
@@ -427,7 +427,7 @@ void GTest::runThread(int _argc, char** _argv) {
 //===============================================
 void* GTest::onThread(void* _params) {
     std::string lMessage = (char*)_params;
-    printf("%s\n", __FUNCTION__);
+    GFUNC_LOG;
     for(int i = 0; i < 10; i++) {
         printf("%s\n", lMessage.c_str());
     }
@@ -435,21 +435,21 @@ void* GTest::onThread(void* _params) {
 }
 //===============================================
 void GTest::runExit(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GFUNC_LOG;
     GExit lExit;
     lExit.setCallback((void*)GExit::onExit);
     exit(0);
 }
 //===============================================
 void GTest::runInterrupt(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GFUNC_LOG;
     GInterrupt lInterrupt;
     lInterrupt.setCallback((void*)GInterrupt::onInterrupt);
     pause();
 }
 //===============================================
 void GTest::runTimer(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GFUNC_LOG;
     GTimer lTimer;
     lTimer.setCallback((void*)GTimer::onTimer, 1000);
     while(1) {
@@ -458,7 +458,7 @@ void GTest::runTimer(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runRequest(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GFUNC_LOG;
     GXml lReq;
     lReq.createDoc("1.0");
     lReq.createRoot("rdv");
@@ -469,7 +469,7 @@ void GTest::runRequest(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runRequestSend(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GFUNC_LOG;
     GCode lReq;
     GSocket lClient;
     lReq.createRequest("test", "request_send");
@@ -481,7 +481,7 @@ void GTest::runRequestSend(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runRequestSaveUser(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GFUNC_LOG;
     GCode lReq;
     GSocket lClient;
     lReq.createRequest("test", "save_user");
@@ -496,7 +496,7 @@ void GTest::runRequestSaveUser(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runRequestGetUser(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GFUNC_LOG;
     GCode lReq;
     GSocket lClient;
     lReq.createRequest("test", "get_user");
@@ -513,7 +513,7 @@ void GTest::runRequestGetUser(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runRequestError(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GFUNC_LOG;
     GCode lReq;
     GSocket lClient;
     lReq.createRequest("test", "error");
@@ -527,7 +527,7 @@ void GTest::runRequestError(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runResponse(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GFUNC_LOG;
     GCode lRes;
     lRes.createDoc("1.0", "rdv");
     lRes.createCode("request", "module", "test");
@@ -554,7 +554,7 @@ void GTest::runResponse(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runMysql(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GFUNC_LOG;
     GMySQL lMySQL;
     std::string lSql = "select user from mysql.user";
     console(lMySQL.readData(lSql));
@@ -563,14 +563,14 @@ void GTest::runMysql(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runShellSystem(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GFUNC_LOG;
     GShell lShell;
     std::string lCommand = sformat("echo \"Bonjour tout le monde\"");
     lShell.runSystem(lCommand, lShell.getTmpDir(), lShell.getTmpFile());
 }
 //===============================================
 void GTest::runEnv(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GFUNC_LOG;
     GEnv lEnv;
     std::string lTmp = lEnv.getEnv("GPROJECT_TMP");
     std::string lCommand = sformat("if ! [ -d %s ] ; then mkdir -p %s ; fi", lTmp.c_str(), lTmp.c_str());
@@ -578,27 +578,27 @@ void GTest::runEnv(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runEnvType(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GFUNC_LOG;
     GEnv lEnv;
     std::string lEnvType = lEnv.getEnvType();
     console(lEnvType);
 }
 //===============================================
 void GTest::runDate(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GFUNC_LOG;
     GDate lDateObj;
     std::string lDate = lDateObj.getDate(lDateObj.getDateTimeFileFormat());
     console(lDate);
 }
 //===============================================
 void GTest::runTmpClean(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GFUNC_LOG;
     GShell lShell;
     lShell.cleanDir(lShell.getTmpDir());
 }
 //===============================================
 void GTest::runLog(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GFUNC_LOG;
     std::string lDate = GDate().getDate(GDate().getDateTimeLogFormat());
     std::string lLog = "";
     lLog += sformat("__FILE__.............: %s\n", __FILE__);
