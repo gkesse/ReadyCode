@@ -37,11 +37,11 @@ void GShell::runCommand(const std::string& _command) {
 }
 //===============================================
 std::string GShell::runSystem(const std::string& _command) {
+    GLOGT(eGMSG, "%s", _command.c_str());
     return runSystem(_command, getTmpDir(), getTmpFile());
 }
 //===============================================
 std::string GShell::runSystem(const std::string& _command, const std::string& _tmpDir, const std::string& _tmpFile) {
-    GLOGT(eGMSG, "%s", _command.c_str());
     createDir(_tmpDir);
     std::string lFilename = sformat("%s/%s", _tmpDir.c_str(), _tmpFile.c_str());
     std::string lCommand = sformat("%s > %s", _command.c_str(), lFilename.c_str());
