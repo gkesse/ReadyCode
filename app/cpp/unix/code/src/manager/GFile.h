@@ -11,7 +11,8 @@ public:
     GFile(const std::string& _filename, const std::string& _openType);
     ~GFile();
     //
-    std::string getData() const;
+    bool existFile() const;
+    std::string getContent() const;
     //
     std::string getAppendType() const;
     std::string getLogFile() const;

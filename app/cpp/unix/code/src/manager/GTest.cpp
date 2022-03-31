@@ -148,6 +148,9 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "log/macro") {
         runLogMacro(_argc, _argv);
     }
+    else if(lKey == "log/show") {
+        runLogShow(_argc, _argv);
+    }
     // end
     else {
         runTest(_argc, _argv);
@@ -204,7 +207,7 @@ void GTest::runIntStringVector(int _argc, char** _argv) {
 void GTest::runString(int _argc, char** _argv) {
     printf("%s\n", __FUNCTION__);
     std::string lFilename = GRES("file", "test.txt");
-    std::string lContent = GFile(lFilename).getData();
+    std::string lContent = GFile(lFilename).getContent();
     int lLength = lContent.size();
     int BUFFER_DATA_SIZE = 1024;
     int lSize = (int)ceil((double)lLength/BUFFER_DATA_SIZE);
@@ -356,7 +359,7 @@ void GTest::runSocketClientFile(int _argc, char** _argv) {
     lClient.connectSocket();
 
     std::string lFilename = GRES("file", "test.txt");
-    std::string lData = GFile(lFilename).getData();
+    std::string lData = GFile(lFilename).getContent();
 
     lClient.writeData(lData);
     lClient.readData(lData);
@@ -406,7 +409,7 @@ void GTest::runSocketClientStart(int _argc, char** _argv) {
     printf("%s\n", __FUNCTION__);
 
     std::string lFilename = GRES("file", "test.txt");
-    std::string lData = GFile(lFilename).getData();
+    std::string lData = GFile(lFilename).getContent();
 
     GSocket lClient;
     lData = lClient.callServer(lData);
@@ -611,6 +614,10 @@ void GTest::runLogMacro(int _argc, char** _argv) {
     GLOG2(eGINFO);
     GLOG3(eGINFO, "Bonjour tout le monde");
     GLOG3(eGERROR, "Erreur la methode a echoue");
+}
+//===============================================
+void GTest::runLogShow(int _argc, char** _argv) {
+    GLOGI->showLogFile();
 }
 //===============================================
 void GTest::onModule(GSocket* _client) {

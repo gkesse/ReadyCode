@@ -30,6 +30,7 @@ public:
     FILE* getOutput();
     FILE* getOutputFile();
     void closeLogFile();
+    void showLogFile();
     //
     void addError(const std::string& _error);
     void showError();

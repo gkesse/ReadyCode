@@ -232,7 +232,7 @@ void GTest::runSocketClientWrite(int _argc, char** _argv) {
     lClient.connectSocket();
 
     QString lData;
-    lClient.writeData(GFile(GRES("xml", "pad.xml")).getData());
+    lClient.writeData(GFile(GRES("xml", "pad.xml")).getContent());
     lClient.readData(lData);
 
     console("=====>");
@@ -277,7 +277,7 @@ void GTest::runSocketClientStart(int _argc, char** _argv) {
     printf("%s\n", __FUNCTION__);
     GSocket lClient;
 
-    QString lData = GFile(GRES("xml", "pad.xml")).getData();
+    QString lData = GFile(GRES("xml", "pad.xml")).getContent();
     lData = lClient.callServer(lData);
 
     console("=====>");

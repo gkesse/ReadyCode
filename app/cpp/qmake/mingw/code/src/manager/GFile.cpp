@@ -13,7 +13,7 @@ GFile::~GFile() {
 
 }
 //===============================================
-QString GFile::getData() const {
+QString GFile::getContent() const {
     std::ifstream lFile(m_filename.toStdString());
     std::stringstream lBuffer;
     lBuffer << lFile.rdbuf();

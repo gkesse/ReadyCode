@@ -47,6 +47,7 @@ public:
     void runTmpClean(int _argc, char** _argv);
     void runLog(int _argc, char** _argv);
     void runLogMacro(int _argc, char** _argv);
+    void runLogShow(int _argc, char** _argv);
     //
     void onModule(GSocket* _client);
     void onRequestSaveUser(GSocket* _client);

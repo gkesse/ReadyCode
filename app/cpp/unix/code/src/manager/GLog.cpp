@@ -72,8 +72,19 @@ void GLog::closeLogFile() {
     GFile().closeFile(m_file);
 }
 //===============================================
-void GLog::addError(const std::string& _error) {
-    m_errors.push_back(_error);
+void GLog::closeLogFile() {
+    GFile().closeFile(m_file);
+}
+//===============================================
+void GLog::showLogFile() {
+    std::string lLogFile = GFile().getLogFile();
+    GFile lFileObj(lLogFile);
+    std::string lData = sformat("Erreur le fichier log n'existe pas.\n"
+            "- fichier.....: %s", lLogFile.c_str());
+    if(lFileObj.existFile()) {
+        std::string lData = lFileObj.getContent();
+    }
+    printf("%s\n", lData.c_str());
 }
 //===============================================
 void GLog::showError() {

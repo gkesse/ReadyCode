@@ -12,7 +12,7 @@ public:
     GFile(const QString& _filename);
     ~GFile();
     //
-    QString getData() const;
+    QString getContent() const;
 
 private:
     QString m_filename;

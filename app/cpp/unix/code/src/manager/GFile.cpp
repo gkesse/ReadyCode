@@ -24,7 +24,14 @@ GFile::~GFile() {
 
 }
 //===============================================
-std::string GFile::getData() const {
+bool GFile::existFile() const {
+    if(m_filename == "") return false;
+    struct stat lBuffer;
+    return (stat(m_filename.c_str(), &lBuffer) == 0);
+}
+//===============================================
+std::string GFile::getContent() const {
+    if(m_filename == "") return "";
     std::ifstream lFile(m_filename);
     std::stringstream lBuffer;
     lBuffer << lFile.rdbuf();
