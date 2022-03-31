@@ -16,6 +16,6 @@ void GExit::setCallback(void* _onExit) {
 }
 //===============================================
 void GExit::onExit() {
-    GLOGT(eGINFO, "sortie du programme...\n");
+    GLOGT(eGINF, "sortie du programme...\n");
 }
 //===============================================

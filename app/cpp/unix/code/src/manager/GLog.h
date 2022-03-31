@@ -4,19 +4,19 @@
 //===============================================
 #include "GObject.h"
 //===============================================
-#define eGFUNC      1, __FILE__, __LINE__, __PRETTY_FUNCTION__
-#define eGINFO      2, __FILE__, __LINE__, __PRETTY_FUNCTION__
-#define eGMSG       3, __FILE__, __LINE__, __PRETTY_FUNCTION__
-#define eGWARNING   4, __FILE__, __LINE__, __PRETTY_FUNCTION__
-#define eGERROR     5, __FILE__, __LINE__, __PRETTY_FUNCTION__
-#define eGCRITICAL  6, __FILE__, __LINE__, __PRETTY_FUNCTION__
-#define eGFATAL     7, __FILE__, __LINE__, __PRETTY_FUNCTION__
+#define eGFUN   1, __FILE__, __LINE__, __PRETTY_FUNCTION__
+#define eGINF   2, __FILE__, __LINE__, __PRETTY_FUNCTION__
+#define eGMSG   3, __FILE__, __LINE__, __PRETTY_FUNCTION__
+#define eGWAR   4, __FILE__, __LINE__, __PRETTY_FUNCTION__
+#define eGERR   5, __FILE__, __LINE__, __PRETTY_FUNCTION__
+#define eGCRI   6, __FILE__, __LINE__, __PRETTY_FUNCTION__
+#define eGFAT   7, __FILE__, __LINE__, __PRETTY_FUNCTION__
 //===============================================
 #define GLOGI GLog::Instance()
 #define GERROR(...)     GLOGI->addError(sformat(__VA_ARGS__))
 #define GLOGT(x, ...)   GLOGI->traceLog(#x, x, sformat(__VA_ARGS__))
 #define GLOGW(...)      GLOGI->writeLog(sformat(__VA_ARGS__))
-#define GSTR            GLOGI->toString
+#define GSTRC           GLOGI->toString
 //===============================================
 class GLog : public GObject {
 public:

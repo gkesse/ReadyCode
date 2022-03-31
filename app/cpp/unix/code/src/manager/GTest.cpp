@@ -157,7 +157,7 @@ void GTest::run(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runTest(int _argc, char** _argv) {
-    GLOGT(eGFUNC, "");
+    GLOGT(eGFUN, "");
     int lInt = 123;
     const int BUFFER_SIZE = 10;
     char lBuffer[BUFFER_SIZE + 1];
@@ -169,7 +169,7 @@ void GTest::runTest(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runIntString(int _argc, char** _argv) {
-    GLOGT(eGFUNC, "");
+    GLOGT(eGFUN, "");
     int lInt = 123;
     const int BUFFER_SIZE = 10;
     char lBuffer[BUFFER_SIZE + 1];
@@ -186,7 +186,7 @@ void GTest::runIntString(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runIntStringVector(int _argc, char** _argv) {
-    GLOGT(eGFUNC, "");
+    GLOGT(eGFUN, "");
     int lInt = 123;
     const int BUFFER_SIZE = 10;
 
@@ -204,7 +204,7 @@ void GTest::runIntStringVector(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runString(int _argc, char** _argv) {
-    GLOGT(eGFUNC, "");
+    GLOGT(eGFUN, "");
     std::string lFilename = GRES("file", "test.txt");
     std::string lContent = GFile(lFilename).getContent();
     int lLength = lContent.size();
@@ -226,18 +226,18 @@ void GTest::runString(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runPath(int _argc, char** _argv) {
-    GLOGT(eGFUNC, "");
+    GLOGT(eGFUN, "");
     std::string lPath = GRES("xml", "pad.xml");
     GLOGW("%s\n", lPath.c_str());
 }
 //===============================================
 void GTest::runFormat(int _argc, char** _argv) {
-    GLOGT(eGFUNC, "");
+    GLOGT(eGFUN, "");
     GLOGW("%s\n", sformat("app : %s - v%s", "ReadyPad", "1.0").c_str());
 }
 //===============================================
 void GTest::runXml(int _argc, char** _argv) {
-    GLOGT(eGFUNC, "");
+    GLOGT(eGFUN, "");
     m_dom.reset(new GXml);
     m_dom->loadXmlFile(GRES("xml", "pad.xml"));
     m_dom->createXPath();
@@ -253,7 +253,7 @@ std::string GTest::getPadItem(const std::string& _data) const {
 }
 //===============================================
 void GTest::runSocketServer(int _argc, char** _argv) {
-    GLOGT(eGFUNC, "");
+    GLOGT(eGFUN, "");
     GSocket lServer;
     GSocket lClient;
 
@@ -284,7 +284,7 @@ void GTest::runSocketServer(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runSocketClient(int _argc, char** _argv) {
-    GLOGT(eGFUNC, "");
+    GLOGT(eGFUN, "");
     GSocket lClient;
 
     int lDomain = lClient.loadDomain();
@@ -310,7 +310,7 @@ void GTest::runSocketClient(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runSocketServerFile(int _argc, char** _argv) {
-    GLOGT(eGFUNC, "");
+    GLOGT(eGFUN, "");
     GSocket lServer;
     GSocket lClient;
 
@@ -343,7 +343,7 @@ void GTest::runSocketServerFile(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runSocketClientFile(int _argc, char** _argv) {
-    GLOGT(eGFUNC, "");
+    GLOGT(eGFUN, "");
     GSocket lClient;
 
     int lDomain = lClient.loadDomain();
@@ -369,7 +369,7 @@ void GTest::runSocketClientFile(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runSocketServerStart(int _argc, char** _argv) {
-    GLOGT(eGFUNC, "");
+    GLOGT(eGFUN, "");
     m_test = new GTest;
     m_test->m_server = new GSocket;
     GThread lThread;
@@ -382,7 +382,7 @@ void GTest::runSocketServerStart(int _argc, char** _argv) {
 }
 //===============================================
 void* GTest::onSocketServerStartThread(void* _params) {
-    GLOGT(eGFUNC, "");
+    GLOGT(eGFUN, "");
     GSocket* lServer = m_test->m_server;
     lServer->startServer((void*)GSocket::onServerThread);
     return 0;
@@ -405,7 +405,7 @@ void GTest::onSocketServerStartTimer(int _signo) {
 }
 //===============================================
 void GTest::runSocketClientStart(int _argc, char** _argv) {
-    GLOGT(eGFUNC, "");
+    GLOGT(eGFUN, "");
 
     std::string lFilename = GRES("file", "test.txt");
     std::string lData = GFile(lFilename).getContent();
@@ -418,14 +418,14 @@ void GTest::runSocketClientStart(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runThread(int _argc, char** _argv) {
-    GLOGT(eGFUNC, "");
+    GLOGT(eGFUN, "");
     GThread lThread;
     lThread.createThread((void*)onThread, (void*)"Bonjour tout le monde");
     pause();
 }
 //===============================================
 void* GTest::onThread(void* _params) {
-    GLOGT(eGFUNC, "");
+    GLOGT(eGFUN, "");
     std::string lMessage = (char*)_params;
     for(int i = 0; i < 10; i++) {
         GLOGW("%s\n", lMessage.c_str());
@@ -434,21 +434,21 @@ void* GTest::onThread(void* _params) {
 }
 //===============================================
 void GTest::runExit(int _argc, char** _argv) {
-    GLOGT(eGFUNC, "");
+    GLOGT(eGFUN, "");
     GExit lExit;
     lExit.setCallback((void*)GExit::onExit);
     exit(0);
 }
 //===============================================
 void GTest::runInterrupt(int _argc, char** _argv) {
-    GLOGT(eGFUNC, "");
+    GLOGT(eGFUN, "");
     GInterrupt lInterrupt;
     lInterrupt.setCallback((void*)GInterrupt::onInterrupt);
     pause();
 }
 //===============================================
 void GTest::runTimer(int _argc, char** _argv) {
-    GLOGT(eGFUNC, "");
+    GLOGT(eGFUN, "");
     GTimer lTimer;
     lTimer.setCallback((void*)GTimer::onTimer, 1000);
     while(1) {
@@ -457,7 +457,7 @@ void GTest::runTimer(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runRequest(int _argc, char** _argv) {
-    GLOGT(eGFUNC, "");
+    GLOGT(eGFUN, "");
     GXml lReq;
     lReq.createDoc("1.0");
     lReq.createRoot("rdv");
@@ -522,7 +522,7 @@ void GTest::runRequestError(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runResponse(int _argc, char** _argv) {
-    GLOGT(eGFUNC, "");
+    GLOGT(eGFUN, "");
     GCode lRes;
     lRes.createDoc("1.0", "rdv");
     lRes.createCode("request", "module", "test");
@@ -531,67 +531,67 @@ void GTest::runResponse(int _argc, char** _argv) {
     lRes.createCode("opencv", "version", "4.0");
     lRes.createMap("error", "msg", "le chemin est incorrect");
     lRes.createMap("error", "msg", "la donnee est incorrect");
-    GLOGT(eGFUNC, "");
-    GLOGW("%s", GSTR(lRes.hasCode("result")).c_str());        // true
-    GLOGT(eGFUNC, "");
-    GLOGW("%s", GSTR(lRes.hasCode("resulto")).c_str());       // false
-    GLOGT(eGFUNC, "");
-    GLOGW("%s", GSTR(lRes.hasCode("error")).c_str());         // true
-    GLOGT(eGFUNC, "");
-    GLOGW("%s", GSTR(lRes.hasCode("error", "msg")).c_str());  // true
-    GLOGT(eGFUNC, "");
-    GLOGW("%s", GSTR(lRes.hasCode("error", "msgo")).c_str()); // false
-    GLOGT(eGFUNC, "");
+    GLOGT(eGFUN, "");
+    GLOGW("%s", GSTRC(lRes.hasCode("result")).c_str());        // true
+    GLOGT(eGFUN, "");
+    GLOGW("%s", GSTRC(lRes.hasCode("resulto")).c_str());       // false
+    GLOGT(eGFUN, "");
+    GLOGW("%s", GSTRC(lRes.hasCode("error")).c_str());         // true
+    GLOGT(eGFUN, "");
+    GLOGW("%s", GSTRC(lRes.hasCode("error", "msg")).c_str());  // true
+    GLOGT(eGFUN, "");
+    GLOGW("%s", GSTRC(lRes.hasCode("error", "msgo")).c_str()); // false
+    GLOGT(eGFUN, "");
     GLOGW("module.....: %s", lRes.getItem("request", "module").c_str());
     GLOGW("method.....: %s", lRes.getItem("request", "method").c_str());
-    GLOGT(eGFUNC, "");
+    GLOGT(eGFUN, "");
     GLOGW("%s", lRes.toString().c_str());
 }
 //===============================================
 void GTest::runMysql(int _argc, char** _argv) {
-    GLOGT(eGFUNC, "");
+    GLOGT(eGFUN, "");
     GMySQL lMySQL;
     std::string lSql = "select user from mysql.user";
     GLOGW("%s", lMySQL.readData(lSql).c_str());
-    GLOGT(eGFUNC, "");
-    GLOGW("%s", GSTR(lMySQL.readCol(lSql)).c_str());
+    GLOGT(eGFUN, "");
+    GLOGW("%s", GSTRC(lMySQL.readCol(lSql)).c_str());
 }
 //===============================================
 void GTest::runShellSystem(int _argc, char** _argv) {
-    GLOGT(eGFUNC, "");
+    GLOGT(eGFUN, "");
     std::string lCommand = sformat("echo \"Bonjour tout le monde\"");
     std::string lData = GShell().runSystem(lCommand);
     GLOGT(eGMSG, "%s", lData.c_str());
 }
 //===============================================
 void GTest::runEnv(int _argc, char** _argv) {
-    GLOGT(eGFUNC, "");
+    GLOGT(eGFUN, "");
     std::string lTmp = GEnv().getEnv("GPROJECT_TMP");
     std::string lCommand = sformat("if ! [ -d %s ] ; then mkdir -p %s ; fi", lTmp.c_str(), lTmp.c_str());
     GLOGW("%s", lCommand.c_str());
 }
 //===============================================
 void GTest::runEnvType(int _argc, char** _argv) {
-    GLOGT(eGFUNC, "");
+    GLOGT(eGFUN, "");
     GEnv lEnv;
     std::string lEnvType = lEnv.getEnvType();
     GLOGW("%s", lEnvType.c_str());
 }
 //===============================================
 void GTest::runDate(int _argc, char** _argv) {
-    GLOGT(eGFUNC, "");
+    GLOGT(eGFUN, "");
     std::string lDate = GDate().getDate(GDate().getDateTimeFileFormat());
     GLOGW("%s", lDate.c_str());
 }
 //===============================================
 void GTest::runTmpClean(int _argc, char** _argv) {
-    GLOGT(eGFUNC, "");
+    GLOGT(eGFUN, "");
     GShell lShell;
     lShell.cleanDir(lShell.getTmpDir());
 }
 //===============================================
 void GTest::runLog(int _argc, char** _argv) {
-    GLOGT(eGFUNC, "");
+    GLOGT(eGFUN, "");
     std::string lDate = GDate().getDate(GDate().getDateTimeLogFormat());
     std::string lLog = "";
     lLog += sformat("__FILE__.............: %s\n", __FILE__);
@@ -604,14 +604,14 @@ void GTest::runLog(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runLogMacro(int _argc, char** _argv) {
-    GLOGT(eGFUNC, "");
-    GLOGT(eGINFO, "");
-    GLOGT(eGINFO, "Bonjour tout le monde");
-    GLOGT(eGERROR, "Erreur la methode a echoue");
+    GLOGT(eGFUN, "");
+    GLOGT(eGINF, "");
+    GLOGT(eGINF, "Bonjour tout le monde");
+    GLOGT(eGERR, "Erreur la methode a echoue");
 }
 //===============================================
 void GTest::runLogShow(int _argc, char** _argv) {
-    GLOGT(eGFUNC, "");
+    GLOGT(eGFUN, "");
     GLOGI->catLogFile();
 }
 //===============================================
@@ -637,7 +637,7 @@ void GTest::onModule(GSocket* _client) {
 void GTest::onRequestSaveUser(GSocket* _client) {
     std::string lFirstname = m_req->getItem("parameters", "firstname");
     std::string lLastname = m_req->getItem("parameters", "lastname");
-    GLOGT(eGFUNC, "");
+    GLOGT(eGFUN, "");
     GLOGW("firstname......: %s", lFirstname.c_str());
     GLOGW("lastname.......: %s", lLastname.c_str());
 }

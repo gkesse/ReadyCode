@@ -114,7 +114,7 @@ void GLog::showError(bool _isDebug, bool _isFileLog) {
         lErrors += m_errors.at(i);
         lErrors += "\n";
     }
-    GLOGT(eGERROR, "%s", lErrors.c_str());
+    GLOGT(eGERR, "%s", lErrors.c_str());
     m_errors.clear();
 }
 //===============================================

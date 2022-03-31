@@ -19,6 +19,6 @@ void GInterrupt::setCallback(void* _onInterrupt) {
 }
 //===============================================
 void GInterrupt::onInterrupt(int _signo) {
-    GLOGT(eGINFO, "interruption du programme...\n");
+    GLOGT(eGINF, "interruption du programme...\n");
 }
 //===============================================
