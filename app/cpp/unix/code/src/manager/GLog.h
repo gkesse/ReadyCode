@@ -13,8 +13,8 @@
 #define GLOGI GLog::Instance()
 #define GERROR(...) GLOGI->addError(sformat(__VA_ARGS__))
 #define GLOG(...) GLOGI->writeLog(sformat(__VA_ARGS__))
-#define GLOG2(x) GLOGI->writeLog2(#x, x)
-#define GLOG3(x, ...) GLOGI->writeLog2(#x, x, sformat(__VA_ARGS__))
+#define GLOG2(x) GLOGI->traceLog(#x, x)
+#define GLOG3(x, ...) GLOGI->traceLog(#x, x, sformat(__VA_ARGS__))
 //===============================================
 class GLog : public GObject {
 public:
