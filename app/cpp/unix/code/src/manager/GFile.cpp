@@ -31,7 +31,6 @@ bool GFile::existFile() const {
 }
 //===============================================
 std::string GFile::getContent() const {
-    if(m_filename == "") return "";
     std::ifstream lFile(m_filename);
     std::stringstream lBuffer;
     lBuffer << lFile.rdbuf();
@@ -97,7 +96,6 @@ FILE* GFile::openFile(const std::string& _filename, const std::string& _openType
 }
 //===============================================
 void GFile::closeFile(FILE* _file) {
-    if(!_file) return;
     fclose(_file);
 }
 //===============================================

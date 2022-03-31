@@ -56,9 +56,9 @@ bool GLog::isProdLog() const {
     return lLogOn;
 }
 //===============================================
-FILE* GLog::getOutput() {
+FILE* GLog::getOutput(bool _isFileLog) {
     FILE* lFile = stdout;
-    if(isFileLog()) lFile = getOutputFile();
+    if(_isFileLog) lFile = getOutputFile();
     return lFile;
 }
 //===============================================
@@ -69,6 +69,7 @@ FILE* GLog::getOutputFile() {
 }
 //===============================================
 void GLog::closeLogFile() {
+    if(!m_file) return;
     GFile().closeFile(m_file);
 }
 //===============================================
@@ -88,14 +89,18 @@ void GLog::addError(const std::string& _error) {
 }
 //===============================================
 void GLog::showError() {
-    if(!isDebug()) return;
+    showError(isDebug(), isFileLog());
+}
+//===============================================
+void GLog::showError(bool _isDebug, bool _isFileLog) {
+    if(!_isDebug) return;
     if(!hasError()) return;
     std::string lErrors = "";
     for(int i = 0; i < m_errors.size(); i++) {
         lErrors += m_errors.at(i);
         lErrors += "\n";
     }
-    fprintf(getOutput(), "%s", lErrors.c_str());
+    fprintf(getOutput(_isFileLog), "%s", lErrors.c_str());
     m_errors.clear();
     closeLogFile();
 }
@@ -125,20 +130,28 @@ std::vector<std::string>& GLog::getErrors() {
 }
 //===============================================
 void GLog::writeLog(const std::string _log) {
-    if(!isDebug()) return;
-    fprintf(getOutput(), "===>\n");
-    fprintf(getOutput(), "%s\n", _log.c_str());
+    writeLog(isDebug(), isFileLog(), _log);
+}
+//===============================================
+void GLog::writeLog(bool _isDebug, bool _isFileLog, const std::string _log) {
+    if(!_isDebug) return;
+    fprintf(getOutput(_isFileLog), "===>\n");
+    fprintf(getOutput(_isFileLog), "%s\n", _log.c_str());
     closeLogFile();
 }
 //===============================================
-void GLog::writeLog2(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _data) {
-    if(!isDebug()) return;
+void GLog::traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _data) {
+    traceLog(_name, _level, _file, _line, _func, isDebug(), isFileLog(), _data);
+}
+//===============================================
+void GLog::traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const std::string& _data) {
+    if(!_isDebug) return;
     std::string lDate = GDate().getDate(GDate().getDateTimeLogFormat());
     if(_data == "") {
-        fprintf(getOutput(), "===> [%-10s] : %d : %s : %s : %d : %s :\n", _name, _level, lDate.c_str(), _file, _line, _func);
+        fprintf(getOutput(_isFileLog), "===> [%-10s] : %d : %s : %s : %d : %s :\n", _name, _level, lDate.c_str(), _file, _line, _func);
     }
     else {
-        fprintf(getOutput(), "===> [%-10s] : %d : %s : %s : %d : %s :\n%s\n", _name, _level, lDate.c_str(), _file, _line, _func, _data.c_str());
+        fprintf(getOutput(_isFileLog), "===> [%-10s] : %d : %s : %s : %d : %s :\n%s\n", _name, _level, lDate.c_str(), _file, _line, _func, _data.c_str());
     }
     closeLogFile();
 }

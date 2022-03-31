@@ -27,20 +27,23 @@ public:
     bool isFileLog() const;
     bool isTestLog() const;
     bool isProdLog() const;
-    FILE* getOutput();
+    FILE* getOutput(bool _isFileLog);
     FILE* getOutputFile();
     void closeLogFile();
     void showLogFile();
     //
     void addError(const std::string& _error);
     void showError();
+    void showError(bool _isDebug, bool _isFileLog);
     bool hasError();
     void clearErrors();
     void loadErrors(const std::string& _res);
     std::vector<std::string>& getErrors();
     //
     void writeLog(const std::string _log);
-    void writeLog2(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _data = "");
+    void writeLog(bool _isDebug, bool _isFileLog, const std::string _log);
+    void traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _data = "");
+    void traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const std::string& _data);
 
 private:
     static GLog* m_instance;
