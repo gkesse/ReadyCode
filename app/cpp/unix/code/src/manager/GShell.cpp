@@ -41,7 +41,7 @@ void GShell::runCommand(const std::string& _command) {
 }
 //===============================================
 std::string GShell::runSystem(const std::string& _command) {
-    GLOGT(eGMSG, "%s", _command.c_str());
+    GLOGT(eGINF, "%s", _command.c_str());
     return runSystem(_command, getTmpDir(), getTmpInFilename(), getTmpOutFilename());
 }
 //===============================================
