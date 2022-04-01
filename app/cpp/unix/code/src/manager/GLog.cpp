@@ -147,7 +147,7 @@ void GLog::writeLog(const char* _name, int _level, const char* _file, int _line,
 }
 //===============================================
 void GLog::writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const std::string& _log) {
-    //if(_level == eGOFF) return;
+    if(_level == 0) return;
     if(!_isDebug) return;
     fprintf(getOutput(_isFileLog), "%s\n", _log.c_str());
     closeLogFile();
@@ -158,7 +158,7 @@ void GLog::traceLog(const char* _name, int _level, const char* _file, int _line,
 }
 //===============================================
 void GLog::traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const std::string& _data) {
-    //if(_level == eGOFF) return;
+    if(_level == 0) return;
     if(!_isDebug) return;
     std::string lDate = GDate().getDate(GDate().getDateTimeLogFormat());
     if(_data == "") {
