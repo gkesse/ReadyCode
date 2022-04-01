@@ -567,7 +567,7 @@ void GTest::runShellSystem(int _argc, char** _argv) {
     lCommand += sformat("echo \"Bonjour tout le monde\"\n");
     lCommand += sformat("ls -l $HOME\n");
     std::string lData = GShell().runSystem(lCommand);
-    GLOGT(eGMSG, "%s", lData.c_str());
+    GLOGT(eGINF, "%s", lData.c_str());
 }
 //===============================================
 void GTest::runEnv(int _argc, char** _argv) {

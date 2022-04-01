@@ -26,6 +26,7 @@ public:
     void acceptSocket(GSocket& _socket);
     void acceptSocket(GSocket* _socket);
     int recvData(std::string& _data);
+    int recvData(std::string& _data, int _size);
     int recvData(GSocket& _socket, std::string& _data);
     int readData(std::string& _data);
     int sendData(const std::string& _data);
@@ -46,6 +47,7 @@ public:
 
 private:
     static const int BUFFER_DATA_SIZE = 1024;
+    static const int BUFFER_NDATA_SIZE = 8;
     static const int BUFFER_HOSTNAME_SIZE = 256;
     //
     int m_socket;

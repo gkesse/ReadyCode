@@ -2,10 +2,11 @@
 #include "GSocket.h"
 #include "GPath.h"
 #include "GLog.h"
-#include "GXml.h"
 #include "GFormat.h"
+#include "GXml.h"
 #include "GThread.h"
 #include "GCode.h"
+#include "GString.h"
 //===============================================
 GSocket::GSocket() : GObject() {
     createDoms();
@@ -138,9 +139,13 @@ void GSocket::acceptSocket(GSocket* _socket) {
 }
 //===============================================
 int GSocket::recvData(std::string& _data) {
+    return recvData(_data, BUFFER_DATA_SIZE);
+}
+//===============================================
+int GSocket::recvData(std::string& _data, int _size) {
     _data.clear();
     char lBuffer[BUFFER_DATA_SIZE + 1];
-    int lBytes = recv(m_socket, lBuffer, BUFFER_DATA_SIZE, 0);
+    int lBytes = recv(m_socket, lBuffer, _size, 0);
     if(lBytes == -1) {
         GERROR("Erreur la methode (GSocket::recvData) a echoue (1)\n"
                 "- erreur...: (%s).\n"
@@ -173,7 +178,7 @@ int GSocket::readData(std::string& _data) {
     std::string lBuffer;
     recvData(lBuffer);
     GLOGT(eGMSG, "%s", lBuffer.c_str());
-    int lSize = std::stoi(lBuffer);
+    int lSize = std::stoi(GString(lBuffer).trimData());
     int lBytes = 0;
 
     for(int i = 0; i < lSize; i++) {
