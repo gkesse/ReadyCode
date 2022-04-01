@@ -142,11 +142,11 @@ std::vector<std::string>& GLog::getErrors() {
     return m_errors;
 }
 //===============================================
-void GLog::writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string _log) {
+void GLog::writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _log) {
     writeLog(_name, _level, _file, _line, _func, isDebug(), isFileLog(), _log);
 }
 //===============================================
-void GLog::writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const std::string _log) {
+void GLog::writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const std::string& _log) {
     if(_level == eGOFF) return;
     if(!_isDebug) return;
     fprintf(getOutput(_isFileLog), "%s\n", _log.c_str());
