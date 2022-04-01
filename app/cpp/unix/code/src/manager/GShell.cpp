@@ -50,9 +50,7 @@ std::string GShell::runSystem(const std::string& _command, const std::string& _t
     std::string lFilenameIn = sformat("%s/%s", _tmpDir.c_str(), _tmpInFile.c_str());
     std::string lFilenameOut = sformat("%s/%s", _tmpDir.c_str(), _tmpOutFile.c_str());
     GFile(lFilenameIn).setContent(_command);
-    std::string lCommand = sformat(". %s > %s", _command.c_str(), lFilenameIn.c_str(), lFilenameOut.c_str());
-    GLOGT(eGMSG, "%s", lCommand.c_str());
-    GLOGT(eGMSG, "%s", _command.c_str());
+    std::string lCommand = sformat(". %s > %s", lFilenameIn.c_str(), lFilenameOut.c_str());
     runCommand(lCommand);
     std::string lData = GFile(lFilenameOut).getContent();
     return lData;
