@@ -12,6 +12,7 @@ public:
     std::string getTmpInFilename() const;
     std::string getTmpOutFilename() const;
     void createDir(const std::string& _dir);
+    void tailFile(const std::string& _file);
     void cleanDir(const std::string& _dir);
     void runCommand(const std::string& _command);
     std::string runSystem(const std::string& _command);

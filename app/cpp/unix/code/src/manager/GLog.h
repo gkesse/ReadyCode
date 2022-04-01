@@ -38,6 +38,7 @@ public:
     FILE* getOutputFile();
     void closeLogFile();
     void catLogFile();
+    void tailLogFile(bool _isTestEnv);
     //
     void addError(const std::string& _error);
     void showError();

@@ -6,6 +6,7 @@
 #include "GEnv.h"
 #include "GFile.h"
 #include "GPath.h"
+#include "GShell.h"
 //===============================================
 GLog* GLog::m_instance = 0;
 //===============================================
@@ -96,6 +97,19 @@ void GLog::catLogFile() {
         lData = lFileObj.getContent();
     }
     printf("%s\n", lData.c_str());
+}
+//===============================================
+void GLog::tailLogFile(bool _isTestEnv) {
+    std::string lLogFile = GFile().getLogFullname(_isTestEnv);
+    GFile lFileObj(lLogFile);
+    std::string lData = sformat("Erreur le fichier log n'existe pas.\n"
+            "- fichier.....: %s", lLogFile.c_str());
+    if(lFileObj.existFile()) {
+        GShell().tailFile(lLogFile);
+    }
+    else {
+        printf("%s\n", lData.c_str());
+    }
 }
 //===============================================
 void GLog::addError(const std::string& _error) {

@@ -47,7 +47,9 @@ public:
     void runTmpClean(int _argc, char** _argv);
     void runLog(int _argc, char** _argv);
     void runLogMacro(int _argc, char** _argv);
-    void runLogShow(int _argc, char** _argv);
+    void runLogCat(int _argc, char** _argv);
+    void runLogTail(int _argc, char** _argv);
+    void runLogTailProd(int _argc, char** _argv);
     void runFile(int _argc, char** _argv);
     //
     void onModule(GSocket* _client);

@@ -31,6 +31,11 @@ void GShell::createDir(const std::string& _dir) {
     runCommand(lCommand);
 }
 //===============================================
+void GShell::tailFile(const std::string& _file) {
+    std::string lCommand = sformat("if [ -e %s ] ; then tail -f %s ; fi", _file.c_str());
+    runCommand(lCommand);
+}
+//===============================================
 void GShell::cleanDir(const std::string& _dir) {
     std::string lCommand = sformat("if [ -d %s ] ; then rm -rf %s/* ; fi", _dir.c_str(), _dir.c_str());
     runCommand(lCommand);

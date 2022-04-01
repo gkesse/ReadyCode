@@ -147,8 +147,14 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "log/macro") {
         runLogMacro(_argc, _argv);
     }
-    else if(lKey == "log/show") {
-        runLogShow(_argc, _argv);
+    else if(lKey == "log/cat") {
+        runLogCat(_argc, _argv);
+    }
+    else if(lKey == "log/tail") {
+        runLogTail(_argc, _argv);
+    }
+    else if(lKey == "log/tail/prod") {
+        runLogTailProd(_argc, _argv);
     }
     // file
     else if(lKey == "file") {
@@ -610,9 +616,19 @@ void GTest::runLogMacro(int _argc, char** _argv) {
     GLOGT(eGERR, "Erreur la methode a echoue");
 }
 //===============================================
-void GTest::runLogShow(int _argc, char** _argv) {
+void GTest::runLogCat(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GLOGI->catLogFile();
+}
+//===============================================
+void GTest::runLogTail(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    GLOGI->tailLogFile(GEnv().isTestEnv());
+}
+//===============================================
+void GTest::runLogTailProd(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    GLOGI->tailLogFile(0);
 }
 //===============================================
 void GTest::runFile(int _argc, char** _argv) {
