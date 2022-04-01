@@ -17,6 +17,7 @@ public:
     //
     std::string getAppendType() const;
     std::string getLogFullname() const;
+    std::string getLogFullname(bool _isTestEnv) const;
     std::string getScriptInFilename() const;
     std::string getScriptOutFilename() const;
     std::string getDateFullname(const std::string& _key, const std::string& _ext) const;

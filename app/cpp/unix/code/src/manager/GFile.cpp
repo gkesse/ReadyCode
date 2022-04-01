@@ -50,7 +50,12 @@ std::string GFile::getAppendType() const {
 }
 //===============================================
 std::string GFile::getLogFullname() const {
-    std::string lFilename = getDateFullname("log_", ".txt");
+    return getLogFullname(GEnv().isTestEnv());
+}
+//===============================================
+std::string GFile::getLogFullname(bool _isTestEnv) const {
+    std::string lFilename = getDateFullname("log_prod_", ".txt");
+    if(_isTestEnv) lFilename = getDateFullname("log_test_", ".txt");
     return lFilename;
 }
 //===============================================
