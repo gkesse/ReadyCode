@@ -4,6 +4,7 @@
 //===============================================
 #include "GObject.h"
 //===============================================
+#define eGOFF   0, __FILE__, __LINE__, __PRETTY_FUNCTION__
 #define eGFUN   1, __FILE__, __LINE__, __PRETTY_FUNCTION__
 #define eGINF   2, __FILE__, __LINE__, __PRETTY_FUNCTION__
 #define eGMSG   3, __FILE__, __LINE__, __PRETTY_FUNCTION__
