@@ -265,9 +265,9 @@ void GTest::runSocketServer(int _argc, char** _argv) {
     int lType = lServer.loadType();
     int lProtocol = lServer.loadProtocol();
     int lFamily = lServer.loadFamily();
-    std::string lClientIp = lServer.getSocketItem("client_ip");
-    int lPort = std::stoi(lServer.getSocketItem("port"));
-    int lBacklog = std::stoi(lServer.getSocketItem("backlog"));
+    std::string lClientIp = lServer.getItem("client_ip");
+    int lPort = std::stoi(lServer.getItem("port"));
+    int lBacklog = std::stoi(lServer.getItem("backlog"));
 
     lServer.createSocket(lDomain, lType, lProtocol);
     lServer.createAddress(lFamily, lClientIp, lPort);
@@ -294,8 +294,8 @@ void GTest::runSocketClient(int _argc, char** _argv) {
     int lType = lClient.loadType();
     int lProtocol = lClient.loadProtocol();
     int lFamily = lClient.loadFamily();
-    std::string lServerIp = lClient.getSocketItem("server_ip");
-    int lPort = std::stoi(lClient.getSocketItem("port"));
+    std::string lServerIp = lClient.getItem("server_ip");
+    int lPort = std::stoi(lClient.getItem("port"));
 
     lClient.createSocket(lDomain, lType, lProtocol);
     lClient.createAddress(lFamily, lServerIp, lPort);
@@ -320,9 +320,9 @@ void GTest::runSocketServerFile(int _argc, char** _argv) {
     int lType = lServer.loadType();
     int lProtocol = lServer.loadProtocol();
     int lFamily = lServer.loadFamily();
-    std::string lClientIp = lServer.getSocketItem("client_ip");
-    int lPort = std::stoi(lServer.getSocketItem("port"));
-    int lBacklog = std::stoi(lServer.getSocketItem("backlog"));
+    std::string lClientIp = lServer.getItem("client_ip");
+    int lPort = std::stoi(lServer.getItem("port"));
+    int lBacklog = std::stoi(lServer.getItem("backlog"));
 
     lServer.createSocket(lDomain, lType, lProtocol);
     lServer.createAddress(lFamily, lClientIp, lPort);
@@ -351,8 +351,8 @@ void GTest::runSocketClientFile(int _argc, char** _argv) {
     int lType = lClient.loadType();
     int lProtocol = lClient.loadProtocol();
     int lFamily = lClient.loadFamily();
-    std::string lServerIp = lClient.getSocketItem("server_ip");
-    int lPort = std::stoi(lClient.getSocketItem("port"));
+    std::string lServerIp = lClient.getItem("socket", "server_ip");
+    int lPort = lClient.loadPort();
 
     lClient.createSocket(lDomain, lType, lProtocol);
     lClient.createAddress(lFamily, lServerIp, lPort);
