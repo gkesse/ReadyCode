@@ -32,7 +32,7 @@ void GShell::createDir(const std::string& _dir) {
 }
 //===============================================
 void GShell::tailFile(const std::string& _file) {
-    std::string lCommand = sformat("if [ -e %s ] ; then tail -f %s ; fi", _file.c_str());
+    std::string lCommand = sformat("if [ -e %s ] ; then tail -f %s ; fi", _file.c_str(), _file.c_str());
     runCommand(lCommand);
 }
 //===============================================
