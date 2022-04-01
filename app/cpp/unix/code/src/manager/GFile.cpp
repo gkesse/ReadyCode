@@ -43,7 +43,6 @@ void GFile::setContent(const std::string& _data) {
     if(m_filename == "") return;
     std::ofstream lFile(m_filename);
     lFile << _data;
-    lFile.close();
 }
 //===============================================
 std::string GFile::getAppendType() const {
