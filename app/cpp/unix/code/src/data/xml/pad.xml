@@ -28,7 +28,8 @@
             <type>SOCK_STREAM</type>
             <protocol>IPPROTO_TCP</protocol>
             <family>AF_INET</family>
-            <port>9090</port>
+            <prod_port>9090</prod_port>
+            <test_port>9091</test_port>
             <backlog>5</backlog>
             <client_ip>0.0.0.0</client_ip>
             <server_ip>127.0.0.1</server_ip>

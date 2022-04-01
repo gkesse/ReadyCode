@@ -10,12 +10,13 @@ public:
     ~GSocket();
     //
     void createDoms();
-    std::string getSocketItem(const std::string& _data) const;
     //
     int loadDomain() const;
     int loadType() const;
     int loadProtocol() const;
     int loadFamily() const;
+    int loadPort() const;
+    int loadPort(int _isTestEnv) const;
     //
     void createSocket(int _domain, int _type, int _protocol);
     void createAddress(int _family, std::string _ip, int _port);

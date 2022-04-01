@@ -7,6 +7,7 @@
 #include "GThread.h"
 #include "GCode.h"
 #include "GString.h"
+#include "GEnv.h"
 //===============================================
 GSocket::GSocket() : GObject() {
     createDoms();
@@ -28,16 +29,9 @@ void GSocket::createDoms() {
 
 }
 //===============================================
-std::string GSocket::getSocketItem(const std::string& _data) const {
-    m_dom->queryXPath(sformat("/rdv/datas/data[code='socket']/%s", _data.c_str()));
-    m_dom->getNodeXPath();
-    std::string lData = m_dom->getNodeValue();
-    return lData;
-}
-//===============================================
 int GSocket::loadDomain() const {
     int lDomain = AF_INET;
-    std::string lName = getSocketItem("domain");
+    std::string lName = getItem("socket", "domain");
     if(lName == "AF_INET") {
         lDomain = AF_INET;
     }
@@ -46,7 +40,7 @@ int GSocket::loadDomain() const {
 //===============================================
 int GSocket::loadType() const {
     int lType = SOCK_STREAM;
-    std::string lName = getSocketItem("type");
+    std::string lName = getItem("socket", "type");
     if(lName == "SOCK_STREAM") {
         lType = SOCK_STREAM;
     }
@@ -55,7 +49,7 @@ int GSocket::loadType() const {
 //===============================================
 int GSocket::loadProtocol() const {
     int lProtocol = IPPROTO_TCP;
-    std::string lName = getSocketItem("protocol");
+    std::string lName = getItem("socket", "protocol");
     if(lName == "IPPROTO_TCP") {
         lProtocol = IPPROTO_TCP;
     }
@@ -64,11 +58,21 @@ int GSocket::loadProtocol() const {
 //===============================================
 int GSocket::loadFamily() const {
     int lFamily = AF_INET;
-    std::string lName = getSocketItem("family");
+    std::string lName = getItem("socket", "family");
     if(lName == "AF_INET") {
         lFamily = AF_INET;
     }
     return lFamily;
+}
+//===============================================
+int GSocket::loadPort() const {
+    return loadPort(GEnv().isTestEnv());
+}
+//===============================================
+int GSocket::loadPort(int _isTestEnv) const {
+    int lPort = std::stoi(getItem("socket", "prod_port"));
+    if(_isTestEnv) lPort = std::stoi(getItem("socket", "test_port"));
+    return lPort;
 }
 //===============================================
 void GSocket::createSocket(int _domain, int _type, int _protocol) {
@@ -259,9 +263,17 @@ void GSocket::startServer(void* _onServerTcp) {
     int lType = loadType();
     int lProtocol = loadProtocol();
     int lFamily = loadFamily();
-    std::string lClientIp = getSocketItem("client_ip");
-    int lPort = std::stoi(getSocketItem("port"));
-    int lBacklog = std::stoi(getSocketItem("backlog"));
+    std::string lClientIp = getItem("socket", "client_ip");
+    int lPort = loadPort();
+    int lBacklog = std::stoi(getItem("socket", "backlog"));
+
+    GLOGT(eGMSG, "");
+    GLOGW(eGMSG, "domain......: %d", lDomain);
+    GLOGW(eGMSG, "type........: %d", lType);
+    GLOGW(eGMSG, "protocol....: %d", lProtocol);
+    GLOGW(eGMSG, "family......: %d", lFamily);
+    GLOGW(eGMSG, "port........: %d", lPort);
+    GLOGW(eGMSG, "backlog.....: %d", lBacklog);
 
     createSocket(lDomain, lType, lProtocol);
     createAddress(lFamily, lClientIp, lPort);
