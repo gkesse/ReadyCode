@@ -48,6 +48,7 @@ public:
     void runLog(int _argc, char** _argv);
     void runLogMacro(int _argc, char** _argv);
     void runLogShow(int _argc, char** _argv);
+    void runFile(int _argc, char** _argv);
     //
     void onModule(GSocket* _client);
     void onRequestSaveUser(GSocket* _client);

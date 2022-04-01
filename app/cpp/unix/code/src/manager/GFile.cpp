@@ -39,17 +39,29 @@ std::string GFile::getContent() const {
     return lBuffer.str();
 }
 //===============================================
+void GFile::setContent(const std::string& _data) {
+    if(m_filename == "") return;
+    std::ofstream lFile(m_filename);
+    lFile << _data;
+    lFile.close();
+}
+//===============================================
 std::string GFile::getAppendType() const {
     return "a+";
 }
 //===============================================
-std::string GFile::getLogFile() const {
-    std::string lFilename = getDateFullname("log", "txt");
+std::string GFile::getLogFullname() const {
+    std::string lFilename = getDateFullname("log_", ".txt");
     return lFilename;
 }
 //===============================================
-std::string GFile::getScriptFile() const {
-    std::string lFilename = getDateFullname("script", "txt");
+std::string GFile::getScriptInFilename() const {
+    std::string lFilename = getDateFilename("script_", "_in.txt");
+    return lFilename;
+}
+//===============================================
+std::string GFile::getScriptOutFilename() const {
+    std::string lFilename = getDateFilename("script_", "_out.txt");
     return lFilename;
 }
 //===============================================
@@ -66,7 +78,7 @@ std::string GFile::getDateFilename(const std::string& _key, const std::string& _
 }
 //===============================================
 std::string GFile::getFilename(const std::string& _key, const std::string& _date, const std::string& _ext) const {
-    std::string lFilename = sformat("%s_%s.%s", _key.c_str(), _date.c_str(), _ext.c_str());
+    std::string lFilename = sformat("%s%s%s", _key.c_str(), _date.c_str(), _ext.c_str());
     return lFilename;
 }
 //===============================================
@@ -77,7 +89,7 @@ std::string GFile::getFullname(const std::string& _path, const std::string& _fil
 }
 //===============================================
 FILE* GFile::openLogFile() {
-    FILE* lFile = openFile(getLogFile(), getAppendType());
+    FILE* lFile = openFile(getLogFullname(), getAppendType());
     return lFile;
 }
 //===============================================

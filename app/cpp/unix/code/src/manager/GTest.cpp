@@ -150,6 +150,10 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "log/show") {
         runLogShow(_argc, _argv);
     }
+    // file
+    else if(lKey == "file") {
+        runFile(_argc, _argv);
+    }
     // end
     else {
         runTest(_argc, _argv);
@@ -614,6 +618,15 @@ void GTest::runLogMacro(int _argc, char** _argv) {
 void GTest::runLogShow(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GLOGI->catLogFile();
+}
+//===============================================
+void GTest::runFile(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    std::string lData = "";
+    lData += "Bonjour tout le monde\n";
+    lData += "Bonjour tout le monde\n";
+    lData += "Bonjour tout le monde\n";
+    GFile(GFile().getLogFullname()).setContent(lData);
 }
 //===============================================
 void GTest::onModule(GSocket* _client) {

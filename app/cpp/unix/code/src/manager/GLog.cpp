@@ -88,7 +88,7 @@ void GLog::closeLogFile() {
 }
 //===============================================
 void GLog::catLogFile() {
-    std::string lLogFile = GFile().getLogFile();
+    std::string lLogFile = GFile().getLogFullname();
     GFile lFileObj(lLogFile);
     std::string lData = sformat("Erreur le fichier log n'existe pas.\n"
             "- fichier.....: %s", lLogFile.c_str());

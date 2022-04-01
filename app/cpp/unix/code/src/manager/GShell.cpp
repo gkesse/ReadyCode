@@ -18,8 +18,12 @@ std::string GShell::getTmpDir() const {
     return GEnv().getTmpDir();
 }
 //===============================================
-std::string GShell::getTmpFile() const {
-    return GFile().getDateFilename("script", "txt");
+std::string GShell::getTmpInFilename() const {
+    return GFile().getScriptInFilename();
+}
+//===============================================
+std::string GShell::getTmpOutFilename() const {
+    return GFile().getScriptOutFilename();
 }
 //===============================================
 void GShell::createDir(const std::string& _dir) {
@@ -36,18 +40,23 @@ void GShell::runCommand(const std::string& _command) {
     system(_command.c_str());
 }
 //===============================================
-std::string GShell::runSystem(const std::string& _command) {
-    GLOGT(eGMSG, "%s", _command.c_str());
-    return runSystem(_command, getTmpDir(), getTmpFile());
+void GShell::runCommand(const std::string& _command) {
+    system(_command.c_str());
 }
 //===============================================
-std::string GShell::runSystem(const std::string& _command, const std::string& _tmpDir, const std::string& _tmpFile) {
+std::string GShell::runSystem(const std::string& _command, const std::string& _tmpDir, const std::string& _tmpInFile) {
+    GLOGT(eGMSG, "%s", _command.c_str());
+    return runSystem(_command, getTmpDir(), getTmpInFilename());
+}
+//===============================================
+std::string GShell::runSystem(const std::string& _command, const std::string& _tmpDir, const std::string& _tmpInFile, const std::string& _tmpOutFile) {
     createDir(_tmpDir);
-    std::string lFilename = sformat("%s/%s", _tmpDir.c_str(), _tmpFile.c_str());
-    std::string lCommand = sformat("%s > %s", _command.c_str(), lFilename.c_str());
-    GLOGT(eGMSG, "%s", lCommand.c_str());
+    std::string lFilenameIn = sformat("%s/%s", _tmpDir.c_str(), _tmpInFile.c_str());
+    std::string lFilenameOut = sformat("%s/%s", _tmpDir.c_str(), _tmpOutFile.c_str());
+    std::string lCommand = sformat(". %s > %s", _command.c_str(), lFilenameIn.c_str(), lFilenameOut.c_str());
+    GLOGT(eGMSG, "%s", _command.c_str());
     runCommand(lCommand);
-    std::string lData = "GFile(lFilename).getContent()";
+    std::string lData = GFile(lFilenameOut).getContent();
     return lData;
 }
 //===============================================

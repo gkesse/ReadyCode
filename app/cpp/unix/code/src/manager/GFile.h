@@ -13,10 +13,12 @@ public:
     //
     bool existFile() const;
     std::string getContent() const;
+    void setContent(const std::string& _data);
     //
     std::string getAppendType() const;
-    std::string getLogFile() const;
-    std::string getScriptFile() const;
+    std::string getLogFullname() const;
+    std::string getScriptInFilename() const;
+    std::string getScriptOutFilename() const;
     std::string getDateFullname(const std::string& _key, const std::string& _ext) const;
     std::string getDateFilename(const std::string& _key, const std::string& _ext) const;
     std::string getFilename(const std::string& _key, const std::string& _date, const std::string& _ext) const;
