@@ -30,7 +30,7 @@ std::string GFormat::getFormat(const char* _format, ...) {
 //===============================================
 std::string GFormat::getFormatInt(int _data, int _size) {
     std::vector<char> lBuffer(_size + 1);
-    snprintf(lBuffer.data(), lBuffer.size(), "%*d", _size, _data);
+    snprintf(lBuffer.data(), lBuffer.size(), "%-*d", _size, _data);
     std::string lData = lBuffer.data();
     return lData;
 }
