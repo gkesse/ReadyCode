@@ -312,8 +312,8 @@ std::string GSocket::callServer(const std::string& _dataIn) {
     int lType = loadType();
     int lProtocol = loadProtocol();
     int lFamily = loadFamily();
-    std::string lServerIp = getSocketItem("server_ip");
-    int lPort = std::stoi(getSocketItem("port"));
+    std::string lServerIp = getItem("socket", "server_ip");
+    int lPort = loadPort();
 
     createSocket(lDomain, lType, lProtocol);
     createAddress(lFamily, lServerIp, lPort);
