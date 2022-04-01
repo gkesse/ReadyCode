@@ -157,6 +157,7 @@ void GLog::traceLog(const char* _name, int _level, const char* _file, int _line,
 }
 //===============================================
 void GLog::traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const std::string& _data) {
+    if(_level == 0) return;
     if(!_isDebug) return;
     std::string lDate = GDate().getDate(GDate().getDateTimeLogFormat());
     if(_data == "") {
