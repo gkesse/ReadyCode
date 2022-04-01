@@ -1,22 +1,22 @@
 //===============================================
-#include "GHostname.h"
+#include "GHost.h"
 #include "GLog.h"
 #include "GFormat.h"
 #include "GSocket.h"
 //===============================================
-GHostname::GHostname() : GModule() {
+GHost::GHost() : GModule() {
 
 }
 //===============================================
-GHostname::GHostname(const std::string& _req) : GModule(_req) {
+GHost::GHost(const std::string& _req) : GModule(_req) {
 
 }
 //===============================================
-GHostname::~GHostname() {
+GHost::~GHost() {
 
 }
 //===============================================
-void GHostname::saveHostname(GSocket* _client) {
+void GHost::saveHostname(GSocket* _client) {
     GLOGT(eGMSG, "client_ip.....: %s", _client->readAddressIp().c_str());
 }
 //===============================================

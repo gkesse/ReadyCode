@@ -1,16 +1,16 @@
 //===============================================
-#ifndef _GHostname_
-#define _GHostname_
+#ifndef _GHost_
+#define _GHost_
 //===============================================
 #include "GModule.h"
 //===============================================
 class GSocket;
 //===============================================
-class GHostname : public GModule {
+class GHost : public GModule {
 public:
-    GHostname();
-    GHostname(const std::string& _req);
-    ~GHostname();
+    GHost();
+    GHost(const std::string& _req);
+    ~GHost();
     //
     void saveHostname(GSocket* _client);
 };

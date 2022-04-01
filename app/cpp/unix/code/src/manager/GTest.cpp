@@ -13,10 +13,10 @@
 #include "GTimer.h"
 #include "GMaster.h"
 #include "GMySQL.h"
-#include "GHostname.h"
 #include "GShell.h"
 #include "GEnv.h"
 #include "GDate.h"
+#include "GHost.h"
 //===============================================
 GTest* GTest::m_test = 0;
 //===============================================
@@ -404,8 +404,6 @@ void GTest::onSocketServerStartTimer(int _signo) {
         GLOGT(eGOFF, "%s", lClient->getRequest().c_str());
         GMaster lMaster(lClient->getRequest());
         lMaster.onModule(lClient);
-        GHostname lHostname;
-        lHostname.saveHostname(lClient);
         lMaster.sendResponse(lClient);
     }
 }

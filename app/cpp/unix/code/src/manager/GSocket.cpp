@@ -8,6 +8,7 @@
 #include "GCode.h"
 #include "GString.h"
 #include "GEnv.h"
+#include "GHost.h"
 //===============================================
 GSocket::GSocket() : GObject() {
     createDoms();
@@ -299,6 +300,8 @@ void* GSocket::onServerThread(GSocket* _client) {
     GSocket* lClient = _client;
     GSocket* lServer = lClient->m_server;
     std::queue<GSocket*>& lClientIns = lServer->m_clientIns;
+
+    GHost().saveHostname(lClient);
 
     std::string lData;
     lClient->readData(lData);
