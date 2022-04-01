@@ -274,6 +274,7 @@ void GSocket::startServer(void* _onServerTcp) {
     GLOGW(eGMSG, "family......: %d", lFamily);
     GLOGW(eGMSG, "port........: %d", lPort);
     GLOGW(eGMSG, "backlog.....: %d", lBacklog);
+    GLOGW(eGMSG, "env.........: %s", GEnv().getEnvType().c_str());
 
     createSocket(lDomain, lType, lProtocol);
     createAddress(lFamily, lClientIp, lPort);
