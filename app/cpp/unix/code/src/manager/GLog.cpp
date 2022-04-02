@@ -52,22 +52,22 @@ bool GLog::isFileLog(bool _isTestEnv) const {
 }
 //===============================================
 bool GLog::isTestFileLog() const {
-    bool lFileOn = (getItem("log", "test_file_on") == "1");
+    bool lFileOn = (m_dom->getItem("log", "test_file_on") == "1");
     return lFileOn;
 }
 //===============================================
 bool GLog::isProdFileLog() const {
-    bool lFileOn = (getItem("log", "prod_file_on") == "1");
+    bool lFileOn = (m_dom->getItem("log", "prod_file_on") == "1");
     return lFileOn;
 }
 //===============================================
 bool GLog::isTestLog() const {
-    bool lLogOn = (getItem("log", "test_on") == "1");
+    bool lLogOn = (m_dom->getItem("log", "test_on") == "1");
     return lLogOn;
 }
 //===============================================
 bool GLog::isProdLog() const {
-    bool lLogOn = (getItem("log", "prod_on") == "1");
+    bool lLogOn = (m_dom->getItem("log", "prod_on") == "1");
     return lLogOn;
 }
 //===============================================
