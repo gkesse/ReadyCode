@@ -242,6 +242,7 @@ void GTest::runStringInt(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GLOGW(eGINF, "%d", std::stoi("  123  "));
     GLOGW(eGINF, "%d", std::stoi("  123  abc  "));
+    GLOGW(eGINF, "%d", std::stoi("  abc 123  "));
 }
 //===============================================
 void GTest::runPath(int _argc, char** _argv) {
