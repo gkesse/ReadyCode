@@ -1,5 +1,7 @@
 //===============================================
 #include "GString.h"
+#include "GError.h"
+#include "GFormat.h"
 //===============================================
 GString::GString() : GObject() {
     m_data = "";
@@ -44,10 +46,13 @@ bool GString::toInt(int& _number) const {
         _number = std::stoi(m_data);
     }
     catch(const std::invalid_argument& e) {
-        add
+        GOBJ_ERR_ADD("La chaine est invalide.\n"
+                "- erreur......: %s", e.what());
         return false;
     }
     catch(const std::out_of_range& e) {
+        GOBJ_ERR_ADD("Le nombre depasse les limites de conversion.\n"
+                "- erreur......: %s", e.what());
         return false;
     }
     return 0;

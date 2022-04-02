@@ -18,6 +18,7 @@
 #include "GDate.h"
 #include "GHost.h"
 #include "GString.h"
+#include "GError.h"
 //===============================================
 GTest* GTest::m_test = 0;
 //===============================================
@@ -246,8 +247,9 @@ void GTest::runStringInt(int _argc, char** _argv) {
 
     int lInt = 0;
     std::string lData = "  abc 123  ";
-    bool lOk = GString(lData).toInt(lInt);
-    GLOGW(eGINF, "%s", GSTRC(lOk).c_str());
+    GString lStringInt(lData);
+    bool lOk = lStringInt.toInt(lInt);
+    GLOGW(eGINF, "%s : %s", GSTRC(lOk).c_str(), GOBJ_ERR_GET(lStringInt));
 }
 //===============================================
 void GTest::runPath(int _argc, char** _argv) {

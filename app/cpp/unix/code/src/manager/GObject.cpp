@@ -13,3 +13,7 @@ GObject::~GObject() {
 
 }
 //===============================================
+std::shared_ptr<GError>& GObject::getErrors() {
+    return m_errors;
+}
+//===============================================
