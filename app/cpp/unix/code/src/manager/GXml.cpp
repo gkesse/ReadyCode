@@ -406,10 +406,3 @@ std::string GXml::toString(const std::string& _encoding, int _format) const {
     return lData;
 }
 //===============================================
-std::string GXml::getItem(const std::string& _code, const std::string& _data) {
-    queryXPath(sformat("/rdv/datas/data[code='%s']/%s", _code.c_str(), _data.c_str()));
-    getNodeXPath();
-    std::string lData = getNodeValue();
-    return lData;
-}
-//===============================================

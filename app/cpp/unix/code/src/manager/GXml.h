@@ -53,8 +53,6 @@ public:
     std::string getNodeCData() const;
     //
     std::string toString(const std::string& _encoding = "UTF8", int _format = 4) const;
-    //
-    std::string getItem(const std::string& _code, const std::string& _data);
 
 private:
     xmlNodePtr m_node;
