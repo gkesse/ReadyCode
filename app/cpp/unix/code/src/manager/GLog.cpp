@@ -141,7 +141,7 @@ void GLog::loadErrors(const std::string& _res) {
 }
 //===============================================
 std::vector<std::string>& GLog::getErrors() {
-    return m_errors;
+    return &m_errors;
 }
 //===============================================
 void GLog::writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _log) {
