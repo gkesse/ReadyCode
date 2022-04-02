@@ -50,6 +50,9 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "string") {
         runString(_argc, _argv);
     }
+    else if(lKey == "string/int") {
+        runStringInt(_argc, _argv);
+    }
     // path
     else if(lKey == "path") {
         runPath(_argc, _argv);
@@ -233,6 +236,12 @@ void GTest::runString(int _argc, char** _argv) {
         GLOGW(eGINF, "lData...................: %s\n", lData.c_str());
         GLOGW(eGINF, "lIndex...................: %d\n", lIndex);
     }
+}
+//===============================================
+void GTest::runStringInt(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    GLOGW(eGINF, "%d", std::stoi("  123  "));
+    GLOGW(eGINF, "%d", std::stoi("  123  abc  "));
 }
 //===============================================
 void GTest::runPath(int _argc, char** _argv) {

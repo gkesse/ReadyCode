@@ -16,6 +16,7 @@ public:
     void runIntString(int _argc, char** _argv);
     void runIntStringVector(int _argc, char** _argv);
     void runString(int _argc, char** _argv);
+    void runStringInt(int _argc, char** _argv);
     void runPath(int _argc, char** _argv);
     void runFormat(int _argc, char** _argv);
     void runXml(int _argc, char** _argv);
