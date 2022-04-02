@@ -675,8 +675,8 @@ void GTest::onModule(GSocket* _client) {
 }
 //===============================================
 void GTest::onRequestSaveUser(GSocket* _client) {
-    std::string lFirstname = m_req.getItem("parameters", "firstname");
-    std::string lLastname = m_req.getItem("parameters", "lastname");
+    std::string lFirstname = m_req->getItem("parameters", "firstname");
+    std::string lLastname = m_req->getItem("parameters", "lastname");
     GLOGT(eGFUN, "");
     GLOGW(eGINF, "firstname......: %s", lFirstname.c_str());
     GLOGW(eGINF, "lastname.......: %s", lLastname.c_str());
