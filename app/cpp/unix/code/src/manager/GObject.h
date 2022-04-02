@@ -15,6 +15,7 @@ class GObject {
 public:
     GObject();
     virtual ~GObject();
+    std::shared_ptr<GXml>& getDom();
     std::shared_ptr<GError>& getErrors();
 
 protected:

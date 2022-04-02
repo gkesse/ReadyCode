@@ -13,6 +13,10 @@ GObject::~GObject() {
 
 }
 //===============================================
+std::shared_ptr<GXml>& GObject::getDom() {
+    return m_dom;
+}
+//===============================================
 std::shared_ptr<GError>& GObject::getErrors() {
     return m_errors;
 }

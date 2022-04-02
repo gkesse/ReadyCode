@@ -288,9 +288,9 @@ void GTest::runSocketServer(int _argc, char** _argv) {
     int lType = lServer.loadType();
     int lProtocol = lServer.loadProtocol();
     int lFamily = lServer.loadFamily();
-    std::string lClientIp = lServer.m_dom->getItem("socket", "client_ip");
+    std::string lClientIp = lServer.getDom()->getItem("socket", "client_ip");
     int lPort = lServer.loadPort();
-    int lBacklog = std::stoi(lServer.m_dom->getItem("socket", "backlog"));
+    int lBacklog = std::stoi(lServer.getDom()->getItem("socket", "backlog"));
 
     lServer.createSocket(lDomain, lType, lProtocol);
     lServer.createAddress(lFamily, lClientIp, lPort);
@@ -317,7 +317,7 @@ void GTest::runSocketClient(int _argc, char** _argv) {
     int lType = lClient.loadType();
     int lProtocol = lClient.loadProtocol();
     int lFamily = lClient.loadFamily();
-    std::string lServerIp = lClient.m_dom->getItem("socket", "server_ip");
+    std::string lServerIp = lClient.getDom()->getItem("socket", "server_ip");
     int lPort = lClient.loadPort();
 
     lClient.createSocket(lDomain, lType, lProtocol);
@@ -343,9 +343,9 @@ void GTest::runSocketServerFile(int _argc, char** _argv) {
     int lType = lServer.loadType();
     int lProtocol = lServer.loadProtocol();
     int lFamily = lServer.loadFamily();
-    std::string lClientIp = lServer.m_dom->getItem("socket", "client_ip");
+    std::string lClientIp = lServer.getDom()->getItem("socket", "client_ip");
     int lPort = lServer.loadPort();
-    int lBacklog = std::stoi(lServer.m_dom->getItem("socket", "backlog"));
+    int lBacklog = std::stoi(lServer.getDom()->getItem("socket", "backlog"));
 
     lServer.createSocket(lDomain, lType, lProtocol);
     lServer.createAddress(lFamily, lClientIp, lPort);
@@ -374,7 +374,7 @@ void GTest::runSocketClientFile(int _argc, char** _argv) {
     int lType = lClient.loadType();
     int lProtocol = lClient.loadProtocol();
     int lFamily = lClient.loadFamily();
-    std::string lServerIp = lClient.m_dom->getItem("socket", "server_ip");
+    std::string lServerIp = lClient.getDom()->getItem("socket", "server_ip");
     int lPort = lClient.loadPort();
 
     lClient.createSocket(lDomain, lType, lProtocol);
@@ -523,8 +523,8 @@ void GTest::runRequestGetUser(int _argc, char** _argv) {
     GLOGT(eGMSG, "");
     GLOGW(eGINF, "%s", lResponse.c_str());
     GLOGT(eGMSG, "");
-    GLOGW(eGINF, "firstname.....: %s", lRes.m_dom->getItem("user", "firstname").c_str());
-    GLOGW(eGINF, "lastname......: %s", lRes.m_dom->getItem("user", "lastname").c_str());
+    GLOGW(eGINF, "firstname.....: %s", lRes.getDom()->getItem("user", "firstname").c_str());
+    GLOGW(eGINF, "lastname......: %s", lRes.getDom()->getItem("user", "lastname").c_str());
 }
 //===============================================
 void GTest::runRequestError(int _argc, char** _argv) {
@@ -561,8 +561,8 @@ void GTest::runResponse(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GLOGW(eGINF, "%s", GSTRC(lRes.hasCode("error", "msgo")).c_str()); // false
     GLOGT(eGFUN, "");
-    GLOGW(eGINF, "module.....: %s", lRes.m_dom->getItem("request", "module").c_str());
-    GLOGW(eGINF, "method.....: %s", lRes.m_dom->getItem("request", "method").c_str());
+    GLOGW(eGINF, "module.....: %s", lRes.getDom()->getItem("request", "module").c_str());
+    GLOGW(eGINF, "method.....: %s", lRes.getDom()->getItem("request", "method").c_str());
     GLOGT(eGFUN, "");
     GLOGW(eGINF, "%s", lRes.toString().c_str());
 }
