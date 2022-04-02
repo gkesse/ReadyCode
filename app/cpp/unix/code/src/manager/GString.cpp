@@ -38,6 +38,20 @@ std::string GString::trimData() const {
     return lData;
 }
 //===============================================
+bool GString::toInt(int& _number) const {
+    if(m_data == "") return false;
+    try {
+        _number = std::stoi(m_data);
+    }
+    catch(const std::invalid_argument& e) {
+        return false;
+    }
+    catch(const std::out_of_range& e) {
+        return false;
+    }
+    return 0;
+}
+//===============================================
 GString& GString::operator+=(const GString& _data) {
     m_data += _data.m_data;
     return *this;

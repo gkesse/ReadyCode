@@ -14,6 +14,7 @@ public:
     //
     std::vector<std::string> splitData(char _sep) const;
     std::string trimData() const;
+    bool toInt(int& _number) const;
     //
     GString& operator+=(const GString& _data);
     friend GString operator+(const GString& _data1, const GString& _data2);

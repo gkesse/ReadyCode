@@ -13,6 +13,7 @@
 #include <fstream>
 #include <sstream>
 #include <cmath>
+#include <stdexcept>
 #include <pthread.h>
 #include <time.h>
 #include <signal.h>
