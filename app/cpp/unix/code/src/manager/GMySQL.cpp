@@ -21,12 +21,12 @@ void GMySQL::createDoms() {
 }
 //===============================================
 GMySQL& GMySQL::openDatabase() {
-    std::string lProtocol = m_dom->getItem("mysql", "protocol");
-    std::string lHostname = m_dom->getItem("mysql", "hostname");
-    std::string lPort = m_dom->getItem("mysql", "port");
-    std::string lUsername = m_dom->getItem("mysql", "username");
-    std::string lPassword = m_dom->getItem("mysql", "password");
-    std::string lDatabase = m_dom->getItem("mysql", "database");
+    std::string lProtocol = getItem("mysql", "protocol");
+    std::string lHostname = getItem("mysql", "hostname");
+    std::string lPort = getItem("mysql", "port");
+    std::string lUsername = getItem("mysql", "username");
+    std::string lPassword = getItem("mysql", "password");
+    std::string lDatabase = getItem("mysql", "database");
     openDatabase(lProtocol, lHostname, lPort, lUsername, lPassword, lDatabase);
     return *this;
 }

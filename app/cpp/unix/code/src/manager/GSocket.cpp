@@ -32,7 +32,7 @@ void GSocket::createDoms() {
 //===============================================
 int GSocket::loadDomain() const {
     int lDomain = AF_INET;
-    std::string lName = m_dom->getItem("socket", "domain");
+    std::string lName = getItem("socket", "domain");
     if(lName == "AF_INET") {
         lDomain = AF_INET;
     }
@@ -41,7 +41,7 @@ int GSocket::loadDomain() const {
 //===============================================
 int GSocket::loadType() const {
     int lType = SOCK_STREAM;
-    std::string lName = m_dom->getItem("socket", "type");
+    std::string lName = getItem("socket", "type");
     if(lName == "SOCK_STREAM") {
         lType = SOCK_STREAM;
     }
@@ -50,7 +50,7 @@ int GSocket::loadType() const {
 //===============================================
 int GSocket::loadProtocol() const {
     int lProtocol = IPPROTO_TCP;
-    std::string lName = m_dom->getItem("socket", "protocol");
+    std::string lName = getItem("socket", "protocol");
     if(lName == "IPPROTO_TCP") {
         lProtocol = IPPROTO_TCP;
     }
@@ -59,7 +59,7 @@ int GSocket::loadProtocol() const {
 //===============================================
 int GSocket::loadFamily() const {
     int lFamily = AF_INET;
-    std::string lName = m_dom->getItem("socket", "family");
+    std::string lName = getItem("socket", "family");
     if(lName == "AF_INET") {
         lFamily = AF_INET;
     }
@@ -71,8 +71,8 @@ int GSocket::loadPort() const {
 }
 //===============================================
 int GSocket::loadPort(int _isTestEnv) const {
-    int lPort = std::stoi(m_dom->getItem("socket", "prod_port"));
-    if(_isTestEnv) lPort = std::stoi(m_dom->getItem("socket", "test_port"));
+    int lPort = std::stoi(getItem("socket", "prod_port"));
+    if(_isTestEnv) lPort = std::stoi(getItem("socket", "test_port"));
     return lPort;
 }
 //===============================================
@@ -264,9 +264,9 @@ void GSocket::startServer(void* _onServerTcp) {
     int lType = loadType();
     int lProtocol = loadProtocol();
     int lFamily = loadFamily();
-    std::string lClientIp = m_dom->getItem("socket", "client_ip");
+    std::string lClientIp = getItem("socket", "client_ip");
     int lPort = loadPort();
-    int lBacklog = std::stoi(m_dom->getItem("socket", "backlog"));
+    int lBacklog = std::stoi(getItem("socket", "backlog"));
 
     GLOGT(eGMSG, "");
     GLOGW(eGMSG, "domain......: %d", lDomain);
@@ -315,7 +315,7 @@ std::string GSocket::callServer(const std::string& _dataIn) {
     int lType = loadType();
     int lProtocol = loadProtocol();
     int lFamily = loadFamily();
-    std::string lServerIp = m_dom->getItem("socket", "server_ip");
+    std::string lServerIp = getItem("socket", "server_ip");
     int lPort = loadPort();
 
     createSocket(lDomain, lType, lProtocol);
