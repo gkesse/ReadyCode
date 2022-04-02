@@ -44,6 +44,7 @@ bool GString::toInt(int& _number) const {
         _number = std::stoi(m_data);
     }
     catch(const std::invalid_argument& e) {
+        add
         return false;
     }
     catch(const std::out_of_range& e) {

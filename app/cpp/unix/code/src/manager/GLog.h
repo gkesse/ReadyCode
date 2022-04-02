@@ -59,7 +59,6 @@ public:
 
 private:
     static GLog* m_instance;
-    std::vector<std::string> m_errors;
     FILE* m_file;
 };
 //==============================================

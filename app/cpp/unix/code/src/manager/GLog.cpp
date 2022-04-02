@@ -7,6 +7,7 @@
 #include "GFile.h"
 #include "GPath.h"
 #include "GShell.h"
+#include "GError.h"
 //===============================================
 GLog* GLog::m_instance = 0;
 //===============================================
@@ -113,7 +114,7 @@ void GLog::tailLogFile(bool _isTestEnv) {
 }
 //===============================================
 void GLog::addError(const std::string& _error) {
-    m_errors.push_back(_error);
+    m_errors.addError(_error);
 }
 //===============================================
 void GLog::showError() {
@@ -123,33 +124,20 @@ void GLog::showError() {
 void GLog::showError(bool _isDebug, bool _isFileLog) {
     if(!_isDebug) return;
     if(!hasError()) return;
-    std::string lErrors = "";
-    for(int i = 0; i < m_errors.size(); i++) {
-        lErrors += m_errors.at(i);
-        lErrors += "\n";
-    }
-    GLOGT(eGERR, "%s", lErrors.c_str());
-    m_errors.clear();
+    GLOGT(eGERR, "%s", m_errors.toString().c_str());
+    m_errors.clearErrors();
 }
 //===============================================
 bool GLog::hasError() {
-    bool lError = !m_errors.empty();
-    return lError;
+    return m_errors.hasErrors();
 }
 //===============================================
 void GLog::clearErrors() {
-    m_errors.clear();
+    m_errors.clearErrors();
 }
 //===============================================
 void GLog::loadErrors(const std::string& _res) {
-    GCode lRes;
-    lRes.loadXmlData(_res);
-    lRes.createXPath();
-    int lCount = lRes.countItem("error", "msg");
-    for(int i = 0; i < lCount; i++) {
-        std::string lError = lRes.getItem("error", i, "msg");
-        GERROR("%s", lError.c_str());
-    }
+    m_errors.loadErrors(_res);
 }
 //===============================================
 std::vector<std::string>& GLog::getErrors() {
