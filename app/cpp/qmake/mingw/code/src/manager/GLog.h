@@ -4,28 +4,63 @@
 //===============================================
 #include "GObject.h"
 //===============================================
+#define eGOFF   0, __FILE__, __LINE__, __PRETTY_FUNCTION__
+#define eGFUN   1, __FILE__, __LINE__, __PRETTY_FUNCTION__
+#define eGINF   2, __FILE__, __LINE__, __PRETTY_FUNCTION__
+#define eGMSG   3, __FILE__, __LINE__, __PRETTY_FUNCTION__
+#define eGWAR   4, __FILE__, __LINE__, __PRETTY_FUNCTION__
+#define eGERR   5, __FILE__, __LINE__, __PRETTY_FUNCTION__
+#define eGCRI   6, __FILE__, __LINE__, __PRETTY_FUNCTION__
+#define eGFAT   7, __FILE__, __LINE__, __PRETTY_FUNCTION__
+//===============================================
 #define GLOGI GLog::Instance()
-#define GERROR(x) GLOGI->addError(x)
+#define GERROR(x)       GLOGI->addError(x)
+#define GLOGT(x, y)     GLOGI->traceLog(#x, x, y)
+#define GLOGW(x, y)     GLOGI->writeLog(#x, x, y)
+#define GSTRC           GLOGI->toString
 //===============================================
 class GLog : public GObject {
-	Q_OBJECT
-
 public:
-    GLog(QObject* _parent = 0);
+    GLog();
     ~GLog();
     static GLog* Instance();
+    void createDoms();
+    //
+    bool isDebug() const;
+    bool isDebug(bool _isTestEnv) const;
+    bool isFileLog() const;
+    bool isFileLog(bool _isTestEnv) const;
+    bool isTestFileLog() const;
+    bool isProdFileLog() const;
+    bool isTestLog() const;
+    bool isProdLog() const;
+    FILE* getOutput(bool _isFileLog);
+    FILE* getOutputFile();
+    void closeLogFile();
+    void catLogFile();
+    void tailLogFile(bool _isTestEnv);
+    //
     void addError(const QString& _error);
     void showError();
     void showError(QWidget* _parent);
+    void showError(bool _isDebug, bool _isFileLog);
     bool hasError();
     void clearErrors();
     void loadErrors(const QString& _res);
     QVector<QString>& getErrors();
+    //
+    void writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _log);
+    void writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const QString& _log);
+    void traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _data = "");
+    void traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const QString& _data = "");
+    //
+    QString toString(bool _data) const;
+    QString toString(const QVector<QString>& _data) const;
+    QString toString(const QVector<QVector<QString>>& _data) const;
 
 private:
     static GLog* m_instance;
-    //
-    QVector<QString> m_errors;
+    FILE* m_file;
 };
 //==============================================
 #endif

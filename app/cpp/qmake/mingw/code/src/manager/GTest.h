@@ -14,7 +14,8 @@ public:
 	GTest(const QString& _req, QObject* _parent = 0);
 	~GTest();
 	void run(int _argc, char** _argv);
-	void runTest(int _argc, char** _argv);
+    void runDefault(int _argc, char** _argv);
+    void runTest(int _argc, char** _argv);
     void runPath(int _argc, char** _argv);
     void runXml(int _argc, char** _argv);
     void runSocketServer(int _argc, char** _argv);
@@ -35,6 +36,7 @@ public:
     void runRequestGetUser(int _argc, char** _argv);
     void runRequestError(int _argc, char** _argv);
     void runResponse(int _argc, char** _argv);
+    void runStringPad(int _argc, char** _argv);
     //
     void onModule(GSocket* _client);
     void onRequestSaveUser(GSocket* _client);

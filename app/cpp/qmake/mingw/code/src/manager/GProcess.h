@@ -11,7 +11,8 @@ public:
 	GProcess(QObject* _parent = 0);
 	~GProcess();
 	void run(int _argc, char** _argv);
-	void runTest(int _argc, char** _argv);
+    void runDefault(int _argc, char** _argv);
+    void runTest(int _argc, char** _argv);
 	void runPad(int _argc, char** _argv);
 };
 //===============================================

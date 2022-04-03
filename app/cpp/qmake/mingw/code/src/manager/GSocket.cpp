@@ -3,7 +3,6 @@
 #include "GXml.h"
 #include "GLog.h"
 #include "GPath.h"
-#include "GFormat.h"
 #include "GThread.h"
 #include "GConsole.h"
 #include "GCode.h"
@@ -255,8 +254,9 @@ int GSocket::writeData(const QString& _data) {
     int lBytes = 0;
     int lLength = _data.size();
     int lSize = (int)ceil((double)lLength/BUFFER_DATA_SIZE);
+    QString lBuffer = QString("%d").arg(lSize);
 
-    sendData(iformat(lSize, BUFFER_DATA_SIZE));
+    sendData(lBuffer.leftJustified(BUFFER_DATA_SIZE));
 
     for(int i = 0; i < lSize; i++) {
         QString lBuffer = _data.toStdString().substr(lBytes, BUFFER_DATA_SIZE).c_str();

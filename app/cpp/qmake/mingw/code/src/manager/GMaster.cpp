@@ -1,7 +1,6 @@
 //===============================================
 #include "GMaster.h"
 #include "GLog.h"
-#include "GFormat.h"
 #include "GCode.h"
 #include "GUser.h"
 #include "GConsole.h"

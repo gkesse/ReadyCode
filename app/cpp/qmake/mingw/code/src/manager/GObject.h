@@ -5,6 +5,7 @@
 #include "GInclude.h"
 //===============================================
 class GXml;
+class GError;
 //===============================================
 class GObject : public QObject {
 	Q_OBJECT
@@ -16,6 +17,7 @@ public:
 
 protected:
 	QSharedPointer<GXml> m_dom;
+    QSharedPointer<GError> m_errors;
 };
 //===============================================
 #endif

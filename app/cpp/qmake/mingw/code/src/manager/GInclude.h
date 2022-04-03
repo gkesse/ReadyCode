@@ -4,6 +4,7 @@
 //===============================================
 // system
 #include <iostream>
+#include <cstdlib>
 #include <fstream>
 #include <sstream>
 #include <winsock2.h>

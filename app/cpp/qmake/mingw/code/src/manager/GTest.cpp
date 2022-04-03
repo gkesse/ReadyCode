@@ -29,7 +29,7 @@ void GTest::run(int _argc, char** _argv) {
 	QString lKey = "default";
 	if(_argc > 2) lKey = _argv[2];
 
-	if(lKey == "default") {
+	if(lKey == "test") {
 		runTest(_argc, _argv);
 	}
     // path
@@ -87,24 +87,32 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "response") {
         runResponse(_argc, _argv);
     }
+    // string
+    else if(lKey == "string/pad") {
+        runStringPad(_argc, _argv);
+    }
     // end
-	else {
-		runTest(_argc, _argv);
-	}
+    else {
+        runDefault(_argc, _argv);
+    }
+}
+//===============================================
+void GTest::runDefault(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
 }
 //===============================================
 void GTest::runTest(int _argc, char** _argv) {
-	printf("%s\n", __FUNCTION__);
+    GLOGT(eGFUN, "");
 }
 //===============================================
 void GTest::runPath(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GLOGT(eGFUN, "");
     QString lPath = GRES("xml", "app.xml");
     console(lPath);
 }
 //===============================================
 void GTest::runXml(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GLOGT(eGFUN, "");
     GXml lXml;
     lXml.loadXmlFile(GRES("xml", "pad.xml"));
     lXml.createXPath();
@@ -115,7 +123,7 @@ void GTest::runXml(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runSocketServer(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GLOGT(eGFUN, "");
     GSocket lServer;
     GSocket lClient;
 
@@ -150,7 +158,7 @@ void GTest::runSocketServer(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runSocketClient(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GLOGT(eGFUN, "");
     GSocket lClient;
 
     int lMajor = lClient.getItem("socket", "major").toInt();
@@ -179,7 +187,7 @@ void GTest::runSocketClient(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runSocketServerWrite(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GLOGT(eGFUN, "");
     GSocket lServer;
     GSocket lClient;
 
@@ -214,7 +222,7 @@ void GTest::runSocketServerWrite(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runSocketClientWrite(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GLOGT(eGFUN, "");
     GSocket lClient;
 
     int lMajor = lClient.getItem("socket", "major").toInt();
@@ -243,7 +251,7 @@ void GTest::runSocketClientWrite(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runSocketServerStart(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GLOGT(eGFUN, "");
     m_test = new GTest;
     m_test->m_server = new GSocket;
     GThread lThread;
@@ -254,7 +262,7 @@ void GTest::runSocketServerStart(int _argc, char** _argv) {
 }
 //===============================================
 DWORD WINAPI GTest::onSocketServerStartThread(LPVOID _params) {
-    printf("%s\n", __FUNCTION__);
+    GLOGT(eGFUN, "");
     GSocket* lServer = m_test->m_server;
     lServer->startServer((void*)GSocket::onServerThread);
     return 0;
@@ -274,7 +282,7 @@ VOID CALLBACK GTest::onSocketServerStartTimer(HWND, UINT, UINT_PTR, DWORD) {
 }
 //===============================================
 void GTest::runSocketClientStart(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GLOGT(eGFUN, "");
     GSocket lClient;
 
     QString lData = GFile(GRES("xml", "pad.xml")).getContent();
@@ -288,14 +296,14 @@ void GTest::runSocketClientStart(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runThread(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GLOGT(eGFUN, "");
     GThread lThread;
     lThread.createThread((void*)onThread, 0);
     system("pause");
 }
 //===============================================
 DWORD WINAPI GTest::onThread(LPVOID _params) {
-    printf("%s\n", __FUNCTION__);
+    GLOGT(eGFUN, "");
     int lCount = 10;
     for(int i = 0; i < lCount; i++) {
         console(QString("[%1] : Bonjour tout le monde").arg(i));
@@ -304,18 +312,18 @@ DWORD WINAPI GTest::onThread(LPVOID _params) {
 }
 //===============================================
 void GTest::runTimer(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GLOGT(eGFUN, "");
     GTimer lTimer;
     lTimer.setTimer((void*)onTimer, 1000);
     lTimer.pauseTimer();
 }
 //===============================================
 VOID CALLBACK GTest::onTimer(HWND, UINT, UINT_PTR, DWORD) {
-    printf("%s\n", __FUNCTION__);
+    GLOGT(eGFUN, "");
 }
 //===============================================
 void GTest::runRequest(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GLOGT(eGFUN, "");
     GXml lReq;
     lReq.createDoc("1.0");
     lReq.createRoot("rdv");
@@ -328,7 +336,7 @@ void GTest::runRequest(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runRequestSend(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GLOGT(eGFUN, "");
     GCode lReq;
     GSocket lClient;
     lReq.createRequest("test", "request_send");
@@ -340,7 +348,7 @@ void GTest::runRequestSend(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runRequestSaveUser(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GLOGT(eGFUN, "");
     GCode lReq;
     GSocket lClient;
     lReq.createRequest("test", "save_user");
@@ -355,7 +363,7 @@ void GTest::runRequestSaveUser(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runRequestGetUser(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GLOGT(eGFUN, "");
     GCode lReq;
     GSocket lClient;
     lReq.createRequest("test", "get_user");
@@ -372,7 +380,7 @@ void GTest::runRequestGetUser(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runRequestError(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GLOGT(eGFUN, "");
     GCode lReq;
     GSocket lClient;
     lReq.createRequest("test", "error");
@@ -386,7 +394,7 @@ void GTest::runRequestError(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runResponse(int _argc, char** _argv) {
-    printf("%s\n", __FUNCTION__);
+    GLOGT(eGFUN, "");
     GCode lRes;
     lRes.createDoc("1.0", "rdv");
     lRes.createCode("request", "module", "test");
@@ -410,6 +418,18 @@ void GTest::runResponse(int _argc, char** _argv) {
     console(QString("method.....: %1").arg(lRes.getItem("request", "method")));
     console("=====>");
     console(lRes.toString());
+}
+//===============================================
+void GTest::runStringPad(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    QString lData = "123";
+    QString lPad = lData.leftJustified(10);
+    QString lLeft = lData.leftJustified(10, '.');
+    QString lRight = lData.rightJustified(10, '.');
+    GLOGW(eGINF, QString("[%1]").arg(lData));
+    GLOGW(eGINF, QString("[%1]").arg(lPad));
+    GLOGW(eGINF, QString("[%1]").arg(lLeft));
+    GLOGW(eGINF, QString("[%1]").arg(lRight));
 }
 //===============================================
 void GTest::onModule(GSocket* _client) {
