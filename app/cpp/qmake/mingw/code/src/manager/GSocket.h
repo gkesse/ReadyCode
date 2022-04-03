@@ -21,6 +21,8 @@ public:
     int loadType() const;
     int loadProtocol() const;
     int loadFamily() const;
+    int loadPort() const;
+    int loadPort(int _isTestEnv) const;
     QString loadErrorMsg() const;
     //
     GSocket& initSocket(int _major, int _minor);
@@ -57,6 +59,7 @@ private:
     QSharedPointer<GCode> m_res;
     //
     static const int BUFFER_DATA_SIZE = 1024;
+    static const int BUFFER_NDATA_SIZE = 1024;
     static const int BUFFER_HOSTNAME_SIZE = 256;
     //
     SOCKET m_socket;

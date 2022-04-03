@@ -15,7 +15,7 @@
         <data>
             <code>log</code>
             <test_on>1</test_on>
-            <test_file_on>1</test_file_on>
+            <test_file_on>0</test_file_on>
             <prod_on>1</prod_on>
             <prod_file_on>1</prod_file_on>
         </data>

@@ -6,6 +6,7 @@
 #include "GThread.h"
 #include "GConsole.h"
 #include "GCode.h"
+#include "GEnv.h"
 //===============================================
 GSocket::GSocket() {
     createDoms();
@@ -77,6 +78,16 @@ int GSocket::loadFamily() const {
         lFamily = AF_INET;
     }
     return lFamily;
+}
+//===============================================
+int GSocket::loadPort() const {
+    return loadPort(GEnv().isTestEnv());
+}
+//===============================================
+int GSocket::loadPort(int _isTestEnv) const {
+    int lPort = getItem("socket", "prod_port").toInt();
+    if(_isTestEnv) lPort = getItem("socket", "test_port").toInt();
+    return lPort;
 }
 //===============================================
 QString GSocket::loadErrorMsg() const {
@@ -254,9 +265,9 @@ int GSocket::writeData(const QString& _data) {
     int lBytes = 0;
     int lLength = _data.size();
     int lSize = (int)ceil((double)lLength/BUFFER_DATA_SIZE);
-    QString lBuffer = QString("%d").arg(lSize);
+    QString lBuffer = QString("%1").arg(lSize);
 
-    sendData(lBuffer.leftJustified(BUFFER_DATA_SIZE));
+    sendData(lBuffer.leftJustified(BUFFER_NDATA_SIZE));
 
     for(int i = 0; i < lSize; i++) {
         QString lBuffer = _data.toStdString().substr(lBytes, BUFFER_DATA_SIZE).c_str();

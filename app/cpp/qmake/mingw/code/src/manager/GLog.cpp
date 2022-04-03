@@ -11,11 +11,12 @@
 GLog* GLog::m_instance = 0;
 //===============================================
 GLog::GLog() : GObject() {
+    // errors
+    m_errors.reset(new GError);
+    // dom
     createDoms();
     // file
     m_file = 0;
-    // errors
-    m_errors.reset(new GError);
 }
 //===============================================
 GLog::~GLog() {
