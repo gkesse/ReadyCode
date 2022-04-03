@@ -250,6 +250,11 @@ void GTest::runStringInt(int _argc, char** _argv) {
     GString lStringInt(lData);
     bool lOk = lStringInt.toInt(lInt);
     GLOGW(eGINF, "%s : %s", GSTRC(lOk).c_str(), GOBJ_ERR_GET(lStringInt));
+
+    char lBuffer[1024 + 1];
+    sprintf(lBuffer, "%*d", 1024, 123);
+    GLOGT(eGINF, "%s", lBuffer);
+    GLOGT(eGINF, "%d", std::stoi(lBuffer));
 }
 //===============================================
 void GTest::runPath(int _argc, char** _argv) {
