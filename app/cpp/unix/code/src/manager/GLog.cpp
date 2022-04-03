@@ -114,7 +114,7 @@ void GLog::tailLogFile(bool _isTestEnv) {
 }
 //===============================================
 void GLog::addError(const std::string& _error) {
-    m_errors->addError(_error);
+    m_errors.addError(_error);
 }
 //===============================================
 void GLog::showError() {
@@ -124,24 +124,24 @@ void GLog::showError() {
 void GLog::showError(bool _isDebug, bool _isFileLog) {
     if(!_isDebug) return;
     if(!hasError()) return;
-    GLOGT(eGERR, "%s", m_errors->toString().c_str());
-    m_errors->clearErrors();
+    GLOGT(eGERR, "%s", m_errors.toString().c_str());
+    m_errors.clearErrors();
 }
 //===============================================
 bool GLog::hasError() {
-    return m_errors->hasErrors();
+    return m_errors.hasErrors();
 }
 //===============================================
 void GLog::clearErrors() {
-    m_errors->clearErrors();
+    m_errors.clearErrors();
 }
 //===============================================
 void GLog::loadErrors(const std::string& _res) {
-    m_errors->loadErrors(_res);
+    m_errors.loadErrors(_res);
 }
 //===============================================
 std::vector<std::string>& GLog::getErrors() {
-    return m_errors->getErrors();
+    return m_errors.getErrors();
 }
 //===============================================
 void GLog::writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _log) {

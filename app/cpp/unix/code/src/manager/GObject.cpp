@@ -3,10 +3,9 @@
 #include "GLog.h"
 #include "GFormat.h"
 #include "GXml.h"
-#include "GError.h"
 //===============================================
 GObject::GObject() {
-    m_errors.reset(new GError);
+
 }
 //===============================================
 GObject::~GObject() {
@@ -20,7 +19,7 @@ std::string GObject::getItem(const std::string& _code, const std::string& _data)
     return lData;
 }
 //===============================================
-std::shared_ptr<GError>& GObject::getErrors() {
+GError& GObject::getErrors() {
     return m_errors;
 }
 //===============================================
