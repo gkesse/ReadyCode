@@ -61,14 +61,14 @@ git_store:
 	@git config credential.helper store
 #================================================    
 # server
-server_install: server_systemd_stop
+server_install: 
 	@cd $(GPROJECT_SCRIPTS) && ./000001-installer_serveur.sh
-server_start: git_pull
+server_start:
 	@cd $(GPROJECT_SCRIPTS) && ./000002-demarrer_serveur.sh
-server_nohup: git_pull
+server_nohup:
 	@cd $(GPROJECT_SCRIPTS) && nohup ./000002-demarrer_serveur.sh &
-server_systemd: git_pull
+server_systemd: server_systemd_stop server_install
 	@cd $(GPROJECT_SCRIPTS) && sudo ./000004-configurer_serveur_systemd.sh
-server_systemd_stop: git_pull
+server_systemd_stop:
 	@cd $(GPROJECT_SCRIPTS) && sudo systemctl stop pad
 #================================================    
