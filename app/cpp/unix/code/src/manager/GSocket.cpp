@@ -307,7 +307,10 @@ void* GSocket::onServerThread(GSocket* _client) {
     GHost().saveHostname(lClient);
 
     std::string lData;
-    if(lClient->readData(lData) == -1) return 0;
+    if(lClient->readData(lData) == -1) {
+        delete lClient;
+        return 0;
+    }
     lClient->setRequest(lData);
     lClientIns.push(lClient);
     return 0;
@@ -328,6 +331,11 @@ std::string GSocket::callServer(const std::string& _dataIn) {
     std::string lDataOut;
     writeData(_dataIn);
     readData(lDataOut);
+
+    if(lDataOut == "") {
+        GERROR("Erreur la connexion au serveur a echoue.");
+    }
+
     closeSocket();
 
     return lDataOut;
