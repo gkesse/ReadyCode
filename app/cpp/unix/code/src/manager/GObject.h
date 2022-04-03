@@ -16,7 +16,7 @@ public:
     GObject();
     virtual ~GObject();
     virtual std::string getItem(const std::string& _code, const std::string& _data) const;
-    std::shared_ptr<GCode>& getErrors();
+    std::shared_ptr<GError>& getErrors();
 
 protected:
     std::shared_ptr<GXml> m_dom;
