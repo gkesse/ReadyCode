@@ -1,21 +1,30 @@
 //===============================================
 #include "GString.h"
 #include "GFormat.h"
+#include "GError.h"
 //===============================================
 GString::GString() : GObject() {
     m_data = "";
+    // errors
+    m_errors.reset(new GError);
 }
 //===============================================
 GString::GString(const std::string& _data) : GObject() {
     m_data = _data;
+    // errors
+    m_errors.reset(new GError);
 }
 //===============================================
 GString::GString(int _data) : GObject(){
     m_data = std::to_string(_data);
+    // errors
+    m_errors.reset(new GError);
 }
 //===============================================
 GString::GString(const GString& _data) : GObject() {
     m_data = _data.m_data;
+    // errors
+    m_errors.reset(new GError);
 }
 //===============================================
 GString::~GString() {

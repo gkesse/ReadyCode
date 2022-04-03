@@ -19,7 +19,7 @@ std::string GObject::getItem(const std::string& _code, const std::string& _data)
     return lData;
 }
 //===============================================
-GError& GObject::getErrors() {
+std::shared_ptr<GCode>& GObject::getErrors() {
     return m_errors;
 }
 //===============================================
