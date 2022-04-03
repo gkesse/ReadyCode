@@ -183,7 +183,10 @@ int GSocket::readData(std::string& _data) {
     std::string lBuffer;
     recvData(lBuffer, BUFFER_NDATA_SIZE);
     GLOGT(eGMSG, "[%s]", lBuffer.c_str());
-    int lSize = std::stoi(GString(lBuffer).trimData());
+    int lSize;
+    if(GString(lBuffer).toInt(lSize)) {
+        return -1;
+    }
     int lBytes = 0;
 
     for(int i = 0; i < lSize; i++) {
@@ -304,7 +307,7 @@ void* GSocket::onServerThread(GSocket* _client) {
     GHost().saveHostname(lClient);
 
     std::string lData;
-    lClient->readData(lData);
+    if(lClient->readData(lData) == -1) return 0;
     lClient->setRequest(lData);
     lClientIns.push(lClient);
     return 0;
