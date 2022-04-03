@@ -61,7 +61,7 @@ git_store:
 	@git config credential.helper store
 #================================================    
 # server
-server_install: git_pull
+server_install: server_systemd_stop
 	@cd $(GPROJECT_SCRIPTS) && ./000001-installer_serveur.sh
 server_start: git_pull
 	@cd $(GPROJECT_SCRIPTS) && ./000002-demarrer_serveur.sh
