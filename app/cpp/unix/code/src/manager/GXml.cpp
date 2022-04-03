@@ -302,6 +302,9 @@ GXml& GXml::queryXPath(const std::string& _query) {
 }
 //===============================================
 int GXml::countXPath() const {
+    if(!m_xpathObj) {
+        return 0;
+    }
     if(!m_xpathObj->nodesetval) {
         return 0;
     }

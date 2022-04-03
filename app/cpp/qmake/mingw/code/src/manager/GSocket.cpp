@@ -266,11 +266,13 @@ int GSocket::writeData(const QString& _data) {
     int lLength = _data.size();
     int lSize = (int)ceil((double)lLength/BUFFER_DATA_SIZE);
     QString lBuffer = QString("%1").arg(lSize);
+    lBuffer = lBuffer.leftJustified(BUFFER_NDATA_SIZE);
+    GLOGT(eGMSG, QString("[%1]").arg(lBuffer));
+    sendData(lBuffer);
 
-    sendData(lBuffer.leftJustified(BUFFER_NDATA_SIZE));
-
+    GLOGT(eGMSG, _data);
     for(int i = 0; i < lSize; i++) {
-        QString lBuffer = _data.toStdString().substr(lBytes, BUFFER_DATA_SIZE).c_str();
+        QString lBuffer = _data.mid(lBytes, BUFFER_DATA_SIZE);
         int iBytes = sendData(lBuffer);
         if(iBytes == -1) {
             GERROR(QString("Erreur la methode (GSocket::sendData) a echoue (1)\n"
@@ -350,6 +352,7 @@ DWORD WINAPI GSocket::onServerThread(LPVOID _params) {
 }
 //===============================================
 QString GSocket::callServer(const QString& _dataIn) {
+    GLOGT(eGINF, _dataIn);
     int lMajor = getItem("socket", "major").toInt();
     int lMinor = getItem("socket", "minor").toInt();
     int lDomain = loadDomain();
@@ -357,7 +360,7 @@ QString GSocket::callServer(const QString& _dataIn) {
     int lProtocol = loadProtocol();
     int lFamily = loadFamily();
     QString lServerIp = getItem("socket", "server_ip");
-    int lPort = getItem("socket", "port").toInt();
+    int lPort = loadPort();
 
     initSocket(lMajor, lMinor);
     createSocket(lDomain, lType, lProtocol);

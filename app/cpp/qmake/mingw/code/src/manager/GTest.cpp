@@ -91,6 +91,9 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "string/pad") {
         runStringPad(_argc, _argv);
     }
+    else if(lKey == "string/sub") {
+        runStringSub(_argc, _argv);
+    }
     // end
     else {
         runDefault(_argc, _argv);
@@ -430,6 +433,14 @@ void GTest::runStringPad(int _argc, char** _argv) {
     GLOGW(eGINF, QString("[%1]").arg(lPad));
     GLOGW(eGINF, QString("[%1]").arg(lLeft));
     GLOGW(eGINF, QString("[%1]").arg(lRight));
+}
+//===============================================
+void GTest::runStringSub(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    QString lData = "Bonjour tout le monde";
+    QString lSub = lData.mid(1, 5);
+    GLOGW(eGINF, lData);
+    GLOGW(eGINF, lSub);
 }
 //===============================================
 void GTest::onModule(GSocket* _client) {

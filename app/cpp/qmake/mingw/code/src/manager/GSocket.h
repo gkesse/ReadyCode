@@ -59,7 +59,7 @@ private:
     QSharedPointer<GCode> m_res;
     //
     static const int BUFFER_DATA_SIZE = 1024;
-    static const int BUFFER_NDATA_SIZE = 1024;
+    static const int BUFFER_NDATA_SIZE = 256;
     static const int BUFFER_HOSTNAME_SIZE = 256;
     //
     SOCKET m_socket;
