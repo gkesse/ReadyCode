@@ -69,4 +69,6 @@ server_nohup: git_pull
 	@cd $(GPROJECT_SCRIPTS) && nohup ./000002-demarrer_serveur.sh &
 server_systemd: git_pull
 	@cd $(GPROJECT_SCRIPTS) && sudo ./000004-configurer_serveur_systemd.sh
+server_systemd_stop: git_pull
+	@cd $(GPROJECT_SCRIPTS) && sudo systemctl stop pad
 #================================================    
