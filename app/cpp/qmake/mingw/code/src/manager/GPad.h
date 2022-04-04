@@ -11,13 +11,8 @@ public:
 	GPad(QWidget* _parent = 0);
 	~GPad();
 	void createDoms();
-	int countPadItem() const;
-	QString getPadItem(const QString& _data) const;
-	QString getPadItem(int _i, const QString& _data) const;
-	int countLoginItem() const;
-	QString getLoginItem(const QString& _data) const;
-	QString getLoginItem(int _i, const QString& _data) const;
-	void createPad();
+    void createPad();
+    QWidget* createHeader();
 	QDialog* createLogin(QWidget* _parent = 0);
 	bool hasErrors() const;
 	void addErrors(const QString& _errors);
