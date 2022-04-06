@@ -17,7 +17,8 @@ public:
 	virtual QString getItem(const QString& _code, const QString& _data, int _i) const;
 	virtual int countItem(const QString& _code) const;
 	void addObject(QObject* _object, const QString& _key);
-	QObject* getObject(const QString& _key);
+    QObject* getObject(const QString& _key);
+    QString getObject(QObject* _key, const QString& _defaultValue = "");
 
 protected:
 	QSharedPointer<GXml> m_dom;

@@ -43,7 +43,7 @@ public:
     void addError(const std::string& _error);
     void showError();
     void showError(bool _isDebug, bool _isFileLog);
-    bool hasError();
+    bool hasErrors();
     void clearErrors();
     void loadErrors(const std::string& _res);
     std::vector<std::string>& getErrors();

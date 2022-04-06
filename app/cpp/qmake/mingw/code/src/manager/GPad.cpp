@@ -20,6 +20,8 @@ GWidget(_parent) {
 	setWindowTitle(lTitle);
     setWindowIcon(QIcon(GRES("img", lLogo)));
 	resize(lWidth, lHeight);
+
+    m_loginDialog = createLogin(this);
 }
 //===============================================
 GPad::~GPad() {
@@ -33,61 +35,13 @@ void GPad::createDoms() {
 }
 //===============================================
 void GPad::createPad() {
-    QHBoxLayout* lHeaderLayout = new QHBoxLayout;
-    lHeaderLayout->setMargin(0);
-    lHeaderLayout->setSpacing(10);
-
     QVBoxLayout* lMainLayout = new QVBoxLayout;
-    lMainLayout->addLayout(lHeaderLayout);
+    lMainLayout->addWidget(createHeader());
     lMainLayout->addStretch();
     lMainLayout->setMargin(10);
     lMainLayout->setSpacing(10);
 
-    int lCount = countItem("pad");
     QString lStyle = getItem("pad", "style");
-
-    m_loginDialog = createLogin(this);
-
-    for(int i = 0; i < lCount; i++) {
-        QString lCategory = getItem("pad", "category", i);
-        QString lType = getItem("pad", "type", i);
-        QString lKey = getItem("pad", "key", i);
-        QString lText = getItem("pad", "text", i);
-        QString lStyle = getItem("pad", "style", i);
-        QString lPicto = getItem("pad", "picto", i);
-        QString lPictoColor = getItem("pad", "picto_color", i);
-        int lPictoSize = getItem("pad", "picto_size", i).toInt();
-
-        QBoxLayout* lItemLayout = 0;
-        if(lCategory == "header") {
-            lItemLayout = lHeaderLayout;
-        }
-        else {
-            GLOGI->addError(QString("Erreur la methode (createPad) a echoue\n"
-                    "sur la categorie (%1).").arg(lCategory));
-            GLOGI->showError(this);
-            continue;
-        }
-
-        if(lType == "spacer") {
-            lItemLayout->addStretch();
-        }
-        else if(lType == "button") {
-            QPushButton* lButton = new QPushButton;
-            addObject(lButton, lKey);
-            lButton->setObjectName(lStyle);
-            lButton->setText(lText);
-            lButton->setCursor(Qt::PointingHandCursor);
-            if(lPicto != "" && lPictoColor != "") {
-                lButton->setIcon(GPICTO(lPicto, lPictoColor));
-            }
-            if(lPictoSize != 0) {
-                lButton->setIconSize(QSize(lPictoSize, lPictoSize));
-            }
-            connect(lButton, SIGNAL(clicked()), this, SLOT(onEvent()));
-            lItemLayout->addWidget(lButton);
-        }
-    }
 
     setLayout(lMainLayout);
     setObjectName(lStyle);
@@ -98,36 +52,22 @@ QWidget* GPad::createHeader() {
 
     QHBoxLayout* lMainLayout = new QHBoxLayout;
     lMainLayout->setMargin(0);
-    lMainLayout->setSpacing(0);
+    lMainLayout->setSpacing(10);
 
-    int lCount = countItem("pad");
-    QString lStyle = getItem("pad", "style");
-
-    m_loginDialog = createLogin(this);
+    int lCount = countItem("header");
+    QString lStyle = getItem("header", "style");
 
     for(int i = 0; i < lCount; i++) {
-        QString lCategory = getItem("pad", "category", i);
-        QString lType = getItem("pad", "type", i);
-        QString lKey = getItem("pad", "key", i);
-        QString lText = getItem("pad", "text", i);
-        QString lStyle = getItem("pad", "style", i);
-        QString lPicto = getItem("pad", "picto", i);
-        QString lPictoColor = getItem("pad", "picto_color", i);
-        int lPictoSize = getItem("pad", "picto_size", i).toInt();
-
-        QBoxLayout* lItemLayout = 0;
-        if(lCategory == "header") {
-            lItemLayout = lHeaderLayout;
-        }
-        else {
-            GLOGI->addError(QString("Erreur la methode (createPad) a echoue\n"
-                    "sur la categorie (%1).").arg(lCategory));
-            GLOGI->showError(this);
-            continue;
-        }
+        QString lType = getItem("header", "type", i);
+        QString lKey = getItem("header", "key", i);
+        QString lText = getItem("header", "text", i);
+        QString lStyle = getItem("header", "style", i);
+        QString lPicto = getItem("header", "picto", i);
+        QString lPictoColor = getItem("header", "picto_color", i);
+        int lPictoSize = getItem("header", "picto_size", i).toInt();
 
         if(lType == "spacer") {
-            lItemLayout->addStretch();
+            lMainLayout->addStretch();
         }
         else if(lType == "button") {
             QPushButton* lButton = new QPushButton;
@@ -142,7 +82,7 @@ QWidget* GPad::createHeader() {
                 lButton->setIconSize(QSize(lPictoSize, lPictoSize));
             }
             connect(lButton, SIGNAL(clicked()), this, SLOT(onEvent()));
-            lItemLayout->addWidget(lButton);
+            lMainLayout->addWidget(lButton);
         }
     }
 
@@ -229,9 +169,9 @@ QDialog* GPad::createLogin(QWidget* _parent) {
 			lItemLayout = lAccountLayout;
 		}
 		else {
-	        GLOGI->addError(QString("Erreur la methode (createLogin) a echoue\n"
-	                "sur la categorie (%1).").arg(lCategory));
-	        GLOGI->showError(this);
+	        GERROR(eGERR, QString("Erreur la categorie n'existe pas.\n"
+	                "- categorie : (%1)").arg(lCategory));
+	        GERROR_SHOWG(eGERR);
 	        continue;
 	    }
 
@@ -370,7 +310,9 @@ QDialog* GPad::createLogin(QWidget* _parent) {
 //===============================================
 void GPad::onEvent() {
     QString lKey = m_objectMap[sender()];
-    // pad/header
+    //===============================================
+    // header
+    //===============================================
     if(lKey == "header/connect") {
     	QDialog* lDialog = qobject_cast<QDialog*>(getObject("login/dialog"));
     	QLabel* lErrorLabel = qobject_cast<QLabel*>(getObject("login/error"));
@@ -378,7 +320,9 @@ void GPad::onEvent() {
 		lDialog->setFixedHeight(lDialog->sizeHint().height());
     	lDialog->exec();
     }
-    // login/connect
+    //===============================================
+    // login
+    //===============================================
     else if(lKey == "login/connect") {
     	QDialog* lDialog = qobject_cast<QDialog*>(getObject("login/dialog"));
     	QLineEdit* lUsernameEdit = qobject_cast<QLineEdit*>(getObject("login/username"));
@@ -422,12 +366,14 @@ void GPad::onEvent() {
     	QLineEdit* lPasswordEdit = qobject_cast<QLineEdit*>(getObject("login/password"));
     	lPasswordEdit->clear();
     }
+    //===============================================
     // end
+    //===============================================
     else {
-    	GLOGI->addError(QString("Erreur la methode (onEvent) a échoué\n"
-    			"sur la clé (%1)").arg(lKey));
+    	GERROR(eGERR, QString("Erreur la cle n'existe pas.\n"
+    			"- cle : (%1)").arg(lKey));
     }
-    GLOGI->showError(this);
+    GERROR_SHOWG(eGERR);
 }
 //===============================================
 void GPad::onEvent(const QString& _text) {

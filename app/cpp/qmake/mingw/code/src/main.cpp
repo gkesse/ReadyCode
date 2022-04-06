@@ -4,12 +4,10 @@
 #include "GLog.h"
 //===============================================
 int main(int _argc, char** _argv) {
-    GXml lXml;
-	lXml.initModule();
-	GProcess lProcess;
-	lProcess.run(_argc, _argv);
-	GLOGI->showError();
-	lXml.cleanModule();
+    GXml().initModule();
+	GProcess().run(_argc, _argv);
+	GERROR_SHOW(eGERR);
+	GXml().cleanModule();
 	return 0;
 }
 //===============================================

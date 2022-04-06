@@ -34,7 +34,7 @@ void GUser::onSaveUser(GSocket* _client) {
     QSharedPointer<GCode>& lRes = lClient->getResponse();
     lRes->createCode("user", "firstname", "Gerard");
     lRes->createCode("user", "lastname", "KESSE");
-    GERROR(QString("Erreur identifiant"));
-    GERROR(QString("Erreur mot de passe"));
+    GERROR(eGERR, QString("Erreur identifiant"));
+    GERROR(eGERR, QString("Erreur mot de passe"));
 }
 //===============================================

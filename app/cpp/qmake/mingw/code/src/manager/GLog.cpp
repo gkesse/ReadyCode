@@ -116,29 +116,30 @@ void GLog::tailLogFile(bool _isTestEnv) {
     }
 }
 //===============================================
-void GLog::addError(const QString& _error) {
+void GLog::addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _error) {
+    traceLog(_name, _level, _file, _line, _func, isDebug(), isFileLog(), _error);
     m_errors->addError(_error);
 }
 //===============================================
-void GLog::showError() {
-    showError(isDebug(), isFileLog());
+void GLog::showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func) {
+    showErrors(_name, _level, _file, _line, _func, isDebug(), isFileLog());
 }
 //===============================================
-void GLog::showError(QWidget* _parent) {
-    if(!hasError()) return;
+void GLog::showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, QWidget* _parent) {
+    if(!hasErrors()) return;
     QString lErrors = m_errors->toString();
     QMessageBox::critical(_parent, "Messages d'erreurs", lErrors);
-    m_errors.clear();
+    m_errors->clearErrors();
 }
 //===============================================
-void GLog::showError(bool _isDebug, bool _isFileLog) {
+void GLog::showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog) {
     if(!_isDebug) return;
-    if(!hasError()) return;
+    if(!hasErrors()) return;
     GLOGT(eGERR, m_errors->toString());
     m_errors->clearErrors();
 }
 //===============================================
-bool GLog::hasError() {
+bool GLog::hasErrors() {
     return m_errors->hasErrors();
 }
 //===============================================

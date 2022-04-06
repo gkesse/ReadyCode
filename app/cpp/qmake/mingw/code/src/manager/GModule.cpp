@@ -17,12 +17,12 @@ GModule::~GModule() {
 }
 //===============================================
 void GModule::onModuleUnknown(GSocket* _client) {
-    GERROR(QString("Erreur le module (%1) n'existe pas")
+    GERROR(eGERR, QString("Erreur le module (%1) n'existe pas")
             .arg(m_req->getModule()));
 }
 //===============================================
 void GModule::onMethodUnknown(GSocket* _client) {
-    GERROR(QString("Erreur la methode (%1 : %2) n'existe pas")
+    GERROR(eGERR, QString("Erreur la methode (%1 : %2) n'existe pas")
             .arg(m_req->getModule()).arg(m_req->getMethod()));
 }
 //===============================================
@@ -36,7 +36,7 @@ void GModule::sendResponse(GSocket* _client) {
     GSocket* lClient = _client;
     QSharedPointer<GCode>& lRes = lClient->getResponse();
 
-    if(GLOGI->hasError()) {
+    if(GLOGI->hasErrors()) {
         QVector<QString>& lErrors = GLOGI->getErrors();
         for(int i = 0; i < lErrors.size(); i++) {
             QString lError = lErrors.at(i);

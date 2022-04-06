@@ -37,7 +37,7 @@ void GModule::sendResponse(GSocket* _client) {
     GSocket* lClient = _client;
     std::shared_ptr<GCode>& lRes = lClient->getResponse();
 
-    if(GLOGI->hasError()) {
+    if(GLOGI->hasErrors()) {
         std::vector<std::string>& lErrors = GLOGI->getErrors();
         for(int i = 0; i < lErrors.size(); i++) {
             std::string lError = lErrors.at(i);

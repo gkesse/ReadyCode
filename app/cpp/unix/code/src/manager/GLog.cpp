@@ -126,12 +126,12 @@ void GLog::showError() {
 //===============================================
 void GLog::showError(bool _isDebug, bool _isFileLog) {
     if(!_isDebug) return;
-    if(!hasError()) return;
+    if(!hasErrors()) return;
     GLOGT(eGERR, "%s", m_errors->toString().c_str());
     m_errors->clearErrors();
 }
 //===============================================
-bool GLog::hasError() {
+bool GLog::hasErrors() {
     return m_errors->hasErrors();
 }
 //===============================================

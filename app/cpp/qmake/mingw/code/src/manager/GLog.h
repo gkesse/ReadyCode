@@ -14,7 +14,9 @@
 #define eGFAT   7, __FILE__, __LINE__, __PRETTY_FUNCTION__
 //===============================================
 #define GLOGI GLog::Instance()
-#define GERROR(x)       GLOGI->addError(x)
+#define GERROR(x, y)    GLOGI->addError(#x, x, y)
+#define GERROR_SHOW(x)  GLOGI->showErrors(#x, x)
+#define GERROR_SHOWG(x) GLOGI->showErrors(#x, x, this)
 #define GLOGT(x, y)     GLOGI->traceLog(#x, x, y)
 #define GLOGW(x, y)     GLOGI->writeLog(#x, x, y)
 #define GSTRC           GLOGI->toString
@@ -40,11 +42,11 @@ public:
     void catLogFile();
     void tailLogFile(bool _isTestEnv);
     //
-    void addError(const QString& _error);
-    void showError();
-    void showError(QWidget* _parent);
-    void showError(bool _isDebug, bool _isFileLog);
-    bool hasError();
+    void addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _error);
+    void showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func);
+    void showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, QWidget* _parent);
+    void showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog);
+    bool hasErrors();
     void clearErrors();
     void loadErrors(const QString& _res);
     QVector<QString>& getErrors();

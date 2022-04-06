@@ -23,7 +23,7 @@ void GLog::addError(const std::string& _error) {
 }
 //===============================================
 void GLog::showError() {
-    if(!hasError()) return;
+    if(!hasErrors()) return;
     std::string lErrors = "";
     for(size_t i = 0; i < m_errors.size(); i++) {
         if(i != 0) lErrors += "\n";
@@ -32,7 +32,7 @@ void GLog::showError() {
     fprintf(stdout, "%s\n", lErrors.c_str());
 }
 //===============================================
-bool GLog::hasError() {
+bool GLog::hasErrors() {
     bool lError = !m_errors.empty();
     return lError;
 }
