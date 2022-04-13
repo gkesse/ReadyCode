@@ -3,7 +3,6 @@
 #include "GLog.h"
 #include "GCode.h"
 #include "GUser.h"
-#include "GConsole.h"
 #include "GTest.h"
 #include "GSocket.h"
 //===============================================
@@ -26,9 +25,6 @@ void GMaster::onModule(GSocket* _client) {
     if(lModule == "test") {
         onModuleTest(_client);
     }
-    else if(lModule == "user") {
-        onModuleUser(_client);
-    }
     // unknown
     else {
         onModuleUnknown(_client);
@@ -37,11 +33,6 @@ void GMaster::onModule(GSocket* _client) {
 //===============================================
 void GMaster::onModuleTest(GSocket* _client) {
     GTest lModule(_client->getRequest());
-    lModule.onModule(_client);
-}
-//===============================================
-void GMaster::onModuleUser(GSocket* _client) {
-    GUser lModule(_client->getRequest());
     lModule.onModule(_client);
 }
 //===============================================

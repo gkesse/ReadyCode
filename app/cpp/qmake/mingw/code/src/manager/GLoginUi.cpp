@@ -4,6 +4,7 @@
 #include "GXml.h"
 #include "GPicto.h"
 #include "GLog.h"
+#include "GUser.h"
 //===============================================
 GLoginUi::GLoginUi(QWidget* _parent) :
 GDialog(_parent) {
@@ -261,7 +262,7 @@ void GLoginUi::onEvent() {
             setFixedHeight(sizeHint().height());
         }
         else {
-            bool lUsernameOn = false;
+            bool lUsernameOn = GUser().existUsername(lUsername);
             bool lPasswordOn = false;
 
             if(!lUsernameOn) {

@@ -2,18 +2,14 @@
 #ifndef _GUser_
 #define _GUser_
 //===============================================
-#include "GModule.h"
+#include "GObject.h"
 //===============================================
-class GSocket;
-//===============================================
-class GUser : public GModule {
+class GUser : public GObject {
 public:
     GUser(QObject* _parent = 0);
-    GUser(const QString& _req, QObject* _parent = 0);
     ~GUser();
     //
-    void onModule(GSocket* _client);
-    void onSaveUser(GSocket* _client);
+    bool existUsername(const QString& _username) const;
 };
 //==============================================
 #endif

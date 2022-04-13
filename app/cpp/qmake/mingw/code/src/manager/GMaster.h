@@ -15,9 +15,7 @@ public:
     ~GMaster();
     //
     void onModule(GSocket* _client);
-    //
     void onModuleTest(GSocket* _client);
-    void onModuleUser(GSocket* _client);
 };
 //==============================================
 #endif

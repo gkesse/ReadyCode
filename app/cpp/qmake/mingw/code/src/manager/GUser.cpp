@@ -1,14 +1,10 @@
 //===============================================
 #include "GUser.h"
-#include "GLog.h"
 #include "GCode.h"
 #include "GSocket.h"
+#include "GLog.h"
 //===============================================
-GUser::GUser(QObject* _parent) : GModule(_parent) {
-
-}
-//===============================================
-GUser::GUser(const QString& _req, QObject* _parent) : GModule(_req, _parent) {
+GUser::GUser(QObject* _parent) : GObject(_parent) {
 
 }
 //===============================================
@@ -16,25 +12,13 @@ GUser::~GUser() {
 
 }
 //===============================================
-void GUser::onModule(GSocket* _client) {
-    QString lMethod = m_req->getMethod();
-
-    // method
-    if(lMethod == "save_user") {
-        onSaveUser(_client);
-    }
-    // unknown
-    else {
-        onMethodUnknown(_client);
-    }
-}
-//===============================================
-void GUser::onSaveUser(GSocket* _client) {
-    GSocket* lClient = _client;
-    QSharedPointer<GCode>& lRes = lClient->getResponse();
-    lRes->createCode("user", "firstname", "Gerard");
-    lRes->createCode("user", "lastname", "KESSE");
-    GERROR(eGERR, QString("Erreur identifiant"));
-    GERROR(eGERR, QString("Erreur mot de passe"));
+bool GUser::existUsername(const QString& _username) const {
+    GCode lReq;
+    GSocket lClient;
+    lReq.createRequest("user", "exist_username");
+    GLOGT(eGMSG, lReq.toString());
+    QString lResponse = lClient.callServer(lReq.toString());
+    GLOGI->loadErrors(lResponse);
+    return GLOGI->hasErrors();
 }
 //===============================================
