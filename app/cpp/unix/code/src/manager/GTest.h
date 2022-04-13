@@ -41,6 +41,7 @@ public:
     void runRequestError(int _argc, char** _argv);
     void runResponse(int _argc, char** _argv);
     void runMysql(int _argc, char** _argv);
+    void runMysqlShell(int _argc, char** _argv);
     void runShellSystem(int _argc, char** _argv);
     void runEnv(int _argc, char** _argv);
     void runEnvType(int _argc, char** _argv);

@@ -126,6 +126,9 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "mysql") {
         runMysql(_argc, _argv);
     }
+    else if(lKey == "mysql/shell") {
+        runMysqlShell(_argc, _argv);
+    }
     // shell
     else if(lKey == "shell/system") {
         runShellSystem(_argc, _argv);
@@ -579,6 +582,11 @@ void GTest::runMysql(int _argc, char** _argv) {
     GLOGW(eGINF, "%s", lMySQL.readData(lSql).c_str());
     GLOGT(eGFUN, "");
     GLOGW(eGINF, "%s", GSTRC(lMySQL.readCol(lSql)).c_str());
+}
+//===============================================
+void GTest::runMysqlShell(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+
 }
 //===============================================
 void GTest::runShellSystem(int _argc, char** _argv) {
