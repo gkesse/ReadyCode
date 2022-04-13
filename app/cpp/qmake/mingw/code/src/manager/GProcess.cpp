@@ -1,7 +1,7 @@
 //===============================================
 #include "GProcess.h"
 #include "GTest.h"
-#include "GPad.h"
+#include "GPadUi.h"
 //===============================================
 GProcess::GProcess(QObject* _parent) : GObject(_parent) {
 
@@ -44,7 +44,7 @@ void GProcess::runTest(int _argc, char** _argv) {
 //===============================================
 void GProcess::runPad(int _argc, char** _argv) {
 	QApplication lApp(_argc, _argv);
-	GPad* lPad = new GPad;
+	GPadUi* lPad = new GPadUi;
 	lPad->show();
 	lApp.exec();
 }

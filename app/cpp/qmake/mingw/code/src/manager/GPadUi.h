@@ -1,17 +1,25 @@
 //===============================================
-#ifndef _GLogin_
-#define _GLogin_
+#ifndef _GPad_
+#define _GPad_
 //===============================================
 #include "GWidget.h"
 //===============================================
-class GLogin : public GWidget {
+class GPadUi : public GWidget {
 	Q_OBJECT
 
 public:
-	GLogin(QWidget* _parent = 0);
-	~GLogin();
+	GPadUi(QWidget* _parent = 0);
+	~GPadUi();
 	void createDoms();
-	QString getItem(const QString& _data) const;
+    void createLayout();
+    QWidget* createHeader();
+
+public slots:
+	void onEvent();
+	void onEvent(const QString& _text);
+
+protected:
+	bool eventFilter(QObject* _obj, QEvent* _event);
 };
 //===============================================
 #endif
