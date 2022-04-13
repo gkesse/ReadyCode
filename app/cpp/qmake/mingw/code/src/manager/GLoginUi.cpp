@@ -262,7 +262,7 @@ void GLoginUi::onEvent() {
             setFixedHeight(sizeHint().height());
         }
         else {
-            bool lUsernameOn = true;//GUser().hasUser(lUsername);
+            bool lUsernameOn = GUser().hasUser(lUsername);
             bool lPasswordOn = GUser().hasUser(lUsername, lPassword);
 
             if(!lUsernameOn) {
