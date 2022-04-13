@@ -626,9 +626,8 @@ void GTest::runMysqlShellFile(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     std::string lCommand = sformat(""
             " . $GPROJECT_DATA/mysql/pkg/pkg_var.sh \n"
-            " echo $GPKG \n"
-            " echo $GMAJ \n"
-            " echo $GCONF \n"
+            " . $GPKG/pkg_mysql.sh \n"
+            " ps_sql \"show databases;\" \n"
             "");
     std::string lOutput = GShell().runSystem(lCommand);
     GLOGT(eGINF, "%s", lOutput.c_str());

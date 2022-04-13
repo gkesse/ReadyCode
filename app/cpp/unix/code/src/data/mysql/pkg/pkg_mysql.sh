@@ -1,12 +1,9 @@
 #================================================
 # pkg_mysql
 #================================================
-GUSER=admin
-GPASSWORD=xKCQY7GiGTVJ4l334QxN87@TKg
+GCONFIG=$GCONF/pkg_config.cnf
 #================================================
-sql_query() {
-mysql -u$GUSER -p$GPASSWORD << _EOF_
-select "Bonjour tout le monde";
-select "Bonjour tout le monde";
-_EOF_
+ps_sql() {
+    mysql --defaults-extra-file=$GCONFIG -Bse "$1"
 }
+#================================================
