@@ -587,15 +587,14 @@ void GTest::runMysql(int _argc, char** _argv) {
 void GTest::runMysqlShell(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     std::string lCommand = sformat(""
-            " echo $GPROJECT_DATA \n"
             " GUSER=admin \n"
             " GPASSWORD=xKCQY7GiGTVJ4l334QxN87@TKg \n"
             " ps_sql() { \n"
-            "    mysql -u$GUSER -p$GPASSWORD -Bse \" \n"
-            "       select 'Bonjour tout le monde'; \n"
-            "    \" \n"
+            "    mysql -u$GUSER -p$GPASSWORD -Bse \"$1\" \n"
             " } \n"
-            " ps_sql \n"
+            " ps_sql \" \n"
+            "    show databases; \n"
+            " \" \n"
             "");
     std::string lOutput = GShell().runSystem(lCommand);
     GLOGT(eGINF, "%s", lOutput.c_str());
