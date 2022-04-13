@@ -587,6 +587,7 @@ void GTest::runMysql(int _argc, char** _argv) {
 void GTest::runMysqlShell(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     std::string lCommand = sformat(""
+            " echo $GPROJECT_DATA \n"
             " GUSER=admin \n"
             " GPASSWORD=xKCQY7GiGTVJ4l334QxN87@TKg \n"
             " ps_sql() { \n"
