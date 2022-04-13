@@ -4,7 +4,6 @@
 #include "GLog.h"
 #include "GPath.h"
 #include "GThread.h"
-#include "GConsole.h"
 #include "GCode.h"
 #include "GEnv.h"
 //===============================================

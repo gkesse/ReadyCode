@@ -262,8 +262,8 @@ void GLoginUi::onEvent() {
             setFixedHeight(sizeHint().height());
         }
         else {
-            bool lUsernameOn = GUser().existUsername(lUsername);
-            bool lPasswordOn = false;
+            bool lUsernameOn = true;//GUser().hasUser(lUsername);
+            bool lPasswordOn = GUser().hasUser(lUsername, lPassword);
 
             if(!lUsernameOn) {
                 lErrorLabel->setText("Le nom d'utilisateur n'existe pas.");

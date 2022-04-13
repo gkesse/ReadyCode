@@ -12,13 +12,26 @@ GUser::~GUser() {
 
 }
 //===============================================
-bool GUser::existUsername(const QString& _username) const {
+bool GUser::hasUser(const QString& _username) const {
     GCode lReq;
     GSocket lClient;
-    lReq.createRequest("user", "exist_username");
+    lReq.createRequest("user", "has_user");
+    lReq.addParameter("username", _username);
     GLOGT(eGMSG, lReq.toString());
     QString lResponse = lClient.callServer(lReq.toString());
     GLOGI->loadErrors(lResponse);
-    return GLOGI->hasErrors();
+    return !GLOGI->hasErrors();
+}
+//===============================================
+bool GUser::hasUser(const QString& _username, const QString& _password) const {
+    GCode lReq;
+    GSocket lClient;
+    lReq.createRequest("user", "has_user_password");
+    lReq.addParameter("username", _username);
+    lReq.addParameter("password", _password);
+    GLOGT(eGMSG, lReq.toString());
+    QString lResponse = lClient.callServer(lReq.toString());
+    GLOGI->loadErrors(lResponse);
+    return !GLOGI->hasErrors();
 }
 //===============================================

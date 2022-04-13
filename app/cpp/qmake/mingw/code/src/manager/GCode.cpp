@@ -20,6 +20,10 @@ void GCode::createRequest(const QString& _module, const QString& _method) {
     createCode("request", "method", _method);
 }
 //===============================================
+void GCode::addParameter(const QString& _key, const QString& _value) {
+    createCode("parameters", _key, _value);
+}
+//===============================================
 QString GCode::getModule() {
     QString lData = getItem("request", "module");
     return lData;

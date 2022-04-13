@@ -13,6 +13,7 @@ public:
     ~GCode();
     //
     void createRequest(const QString& _module, const QString& _method);
+    void addParameter(const QString& _key, const QString& _value);
     QString getModule();
     QString getMethod();
     //
