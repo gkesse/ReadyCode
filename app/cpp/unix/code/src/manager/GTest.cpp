@@ -595,6 +595,7 @@ void GTest::runMysqlShell(int _argc, char** _argv) {
             " }                     "
             " ps_sql                "
             "");
+    GShell().runSystem(lCommand);
 }
 //===============================================
 void GTest::runShellSystem(int _argc, char** _argv) {
