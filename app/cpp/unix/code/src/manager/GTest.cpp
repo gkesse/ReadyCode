@@ -586,7 +586,15 @@ void GTest::runMysql(int _argc, char** _argv) {
 //===============================================
 void GTest::runMysqlShell(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
-
+    std::string lCommand = sformat(""
+            " GUSER=admin           "
+            " GPASSWORD=password    "
+            " ps_sql() {            "
+            "   echo $GUSER         "
+            "   echo $GPASSWORD     "
+            " }                     "
+            " ps_sql                "
+            "");
 }
 //===============================================
 void GTest::runShellSystem(int _argc, char** _argv) {
