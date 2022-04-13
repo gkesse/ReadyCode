@@ -129,6 +129,9 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "mysql/shell") {
         runMysqlShell(_argc, _argv);
     }
+    else if(lKey == "mysql/shell/config") {
+        runMysqlShellConfig(_argc, _argv);
+    }
     // shell
     else if(lKey == "shell/system") {
         runShellSystem(_argc, _argv);
@@ -591,6 +594,22 @@ void GTest::runMysqlShell(int _argc, char** _argv) {
             " GPASSWORD=xKCQY7GiGTVJ4l334QxN87@TKg \n"
             " ps_sql() { \n"
             "    mysql -u$GUSER -p$GPASSWORD -Bse \"$1\" \n"
+            " } \n"
+            " ps_sql \" \n"
+            "    show databases; \n"
+            " \" \n"
+            "");
+    std::string lOutput = GShell().runSystem(lCommand);
+    GLOGT(eGINF, "%s", lOutput.c_str());
+}
+//===============================================
+void GTest::runMysqlShellConfig(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    std::string lCommand = sformat(""
+            " GCONFIG=mysql/conf/pkg_config.cnf \n"
+            " GCONFIG=$GPROJECT_DATA/$GCONFIG \n"
+            " ps_sql() { \n"
+            "    mysql --defaults-extra-file=$GCONFIG -Bse \"$1\" \n"
             " } \n"
             " ps_sql \" \n"
             "    show databases; \n"
