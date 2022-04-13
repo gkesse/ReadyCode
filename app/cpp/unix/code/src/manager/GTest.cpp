@@ -590,9 +590,9 @@ void GTest::runMysqlShell(int _argc, char** _argv) {
             " GUSER=admin \n"
             " GPASSWORD=xKCQY7GiGTVJ4l334QxN87@TKg \n"
             " ps_sql() { \n"
-            "   mysql -u$GUSER -p$GPASSWORD << _EOF_ \n"
-            "   select 'Bonjour tout le monde'; \n"
-            "   _EOF_ \n"
+            "    mysql -u$GUSER -p$GPASSWORD -Bse \" \n"
+            "       select 'Bonjour tout le monde'; \n"
+            "    \" \n"
             " } \n"
             " ps_sql \n"
             "");
