@@ -132,6 +132,9 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "mysql/shell/config") {
         runMysqlShellConfig(_argc, _argv);
     }
+    else if(lKey == "mysql/shell/file") {
+        runMysqlShellFile(_argc, _argv);
+    }
     // shell
     else if(lKey == "shell/system") {
         runShellSystem(_argc, _argv);
@@ -614,6 +617,18 @@ void GTest::runMysqlShellConfig(int _argc, char** _argv) {
             " ps_sql \" \n"
             "    show databases; \n"
             " \" \n"
+            "");
+    std::string lOutput = GShell().runSystem(lCommand);
+    GLOGT(eGINF, "%s", lOutput.c_str());
+}
+//===============================================
+void GTest::runMysqlShellFile(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    std::string lCommand = sformat(""
+            " . $GPROJECT_DATA/mysql/pkg/pkg_var.sh \n"
+            " echo $GPKG \n"
+            " echo $GMAJ \n"
+            " echo $GCONF \n"
             "");
     std::string lOutput = GShell().runSystem(lCommand);
     GLOGT(eGINF, "%s", lOutput.c_str());
