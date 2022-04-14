@@ -731,7 +731,7 @@ void GTest::runFile(int _argc, char** _argv) {
 //===============================================
 void GTest::runDir(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
-    GLOGT(eGINF, "%s", GSTRC(GDir().openDir(GRES("mysql", "maj"))).c_str());
+    GLOGT(eGINF, "%s", GSTRC(GDir().openDir(GRES("mysql", "maj"), true)).c_str());
 }
 //===============================================
 void GTest::onModule(GSocket* _client) {
