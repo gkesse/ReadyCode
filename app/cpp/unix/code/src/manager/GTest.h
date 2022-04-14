@@ -45,6 +45,7 @@ public:
     void runMysqlShellConfig(int _argc, char** _argv);
     void runMysqlShellFile(int _argc, char** _argv);
     void runMysqlShellScript(int _argc, char** _argv);
+    void runMysqlDB(int _argc, char** _argv);
     void runMysqlMaj(int _argc, char** _argv);
     void runShellSystem(int _argc, char** _argv);
     void runEnv(int _argc, char** _argv);

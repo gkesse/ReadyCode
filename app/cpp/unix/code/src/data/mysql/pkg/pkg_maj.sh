@@ -4,7 +4,7 @@
 . $GPROJECT_DATA/mysql/pkg/pkg_var.sh
 . $GPKG/pkg_mysql.sh
 #================================================
-ps_sql $1 "
+ps_sql_db $1 "
 --
 create table if not exists maj (
     _id int not null,
