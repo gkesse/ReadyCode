@@ -143,7 +143,7 @@ void GTest::run(int _argc, char** _argv) {
         runMysqlDB(_argc, _argv);
     }
     else if(lKey == "mysql/maj") {
-        (_argc, _argv);
+        runMysqlMaj(_argc, _argv);
     }
     // shell
     else if(lKey == "shell/system") {
@@ -664,7 +664,7 @@ void GTest::runMysqlDB(int _argc, char** _argv) {
     std::string lOutput = GShell().runSystem(lCommand);
 }
 //===============================================
-void GTest::(int _argc, char** _argv) {
+void GTest::runMysqlMaj(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     std::string lCommand = sformat(""
             " . $GPROJECT_DATA/mysql/pkg/pkg_maj.sh %s \n"
