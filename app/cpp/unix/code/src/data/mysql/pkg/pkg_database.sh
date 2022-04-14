@@ -10,7 +10,11 @@ create database if not exists pad;
 create database if not exists dev;
 create database if not exists dev01;
 create database if not exists dev02;
+--
 create database if not exists dev03;
+grant all privileges on dev03.* to 'admin'@'%' with grant option;
+--
+flush privileges;
 --
 "
 #================================================
