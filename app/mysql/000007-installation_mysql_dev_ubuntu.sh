@@ -1,7 +1,3 @@
-#================================================
-# installation_mysql_dev_ubuntu
-#================================================
-
 # installation
 sudo apt update
 sudo apt upgrade -y

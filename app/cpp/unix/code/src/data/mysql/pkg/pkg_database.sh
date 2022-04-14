@@ -10,6 +10,7 @@ create database if not exists pad;
 create database if not exists dev;
 create database if not exists dev01;
 create database if not exists dev02;
+create database if not exists dev03;
 --
 "
 #================================================
