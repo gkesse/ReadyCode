@@ -6,7 +6,7 @@
 #================================================
 ps_sql_db $1 "
 --
-create table if not exists maj (
+create table if not exists maj2 (
     _id int not null,
     _code varchar(6) not null,
     _filename varchar(255) not null,
