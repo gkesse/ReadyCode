@@ -4,6 +4,6 @@
 GCONFIG=$GCONF/pkg_config.cnf
 #================================================
 ps_sql() {
-    mysql --defaults-extra-file=$GCONFIG -Bse "$1"
+    mysql --defaults-extra-file=$GCONFIG pad -Bse "$1"
 }
 #================================================
