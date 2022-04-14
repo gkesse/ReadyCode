@@ -609,10 +609,10 @@ void GTest::runMysqlShell(int _argc, char** _argv) {
             " ps_sql() { \n"
             "    mysql -u$GUSER -p$GPASSWORD -Bse \"$1\" \n"
             " } \n"
-            " ps_sql \" \n"
+            " ps_sql %s \" \n"
             "    show databases; \n"
             " \" \n"
-            "");
+            "", "pad");
     std::string lOutput = GShell().runSystem(lCommand);
     GLOGT(eGINF, "%s", lOutput.c_str());
 }
@@ -625,10 +625,10 @@ void GTest::runMysqlShellConfig(int _argc, char** _argv) {
             " ps_sql() { \n"
             "    mysql --defaults-extra-file=$GCONFIG -Bse \"$1\" \n"
             " } \n"
-            " ps_sql \" \n"
+            " ps_sql %s \" \n"
             "    show databases; \n"
             " \" \n"
-            "");
+            "", "pad");
     std::string lOutput = GShell().runSystem(lCommand);
     GLOGT(eGINF, "%s", lOutput.c_str());
 }
@@ -638,8 +638,8 @@ void GTest::runMysqlShellFile(int _argc, char** _argv) {
     std::string lCommand = sformat(""
             " . $GPROJECT_DATA/mysql/pkg/pkg_var.sh \n"
             " . $GPKG/pkg_mysql.sh \n"
-            " ps_sql \"show databases;\" \n"
-            "");
+            " ps_sql %s \"show databases;\" \n"
+            "", "pad");
     std::string lOutput = GShell().runSystem(lCommand);
     GLOGT(eGINF, "%s", lOutput.c_str());
 }
@@ -647,8 +647,8 @@ void GTest::runMysqlShellFile(int _argc, char** _argv) {
 void GTest::runMysqlShellScript(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     std::string lCommand = sformat(""
-            " . $GPROJECT_DATA/mysql/pkg/pkg_maj.sh \n"
-            "");
+            " . $GPROJECT_DATA/mysql/pkg/pkg_maj.sh %s \n"
+            "", "pad");
     std::string lOutput = GShell().runSystem(lCommand);
     GLOGT(eGINF, "%s", lOutput.c_str());
 }
@@ -656,8 +656,8 @@ void GTest::runMysqlShellScript(int _argc, char** _argv) {
 void GTest::runMysqlMaj(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     std::string lCommand = sformat(""
-            " . $GPROJECT_DATA/mysql/pkg/pkg_maj.sh \n"
-            "");
+            " . $GPROJECT_DATA/mysql/pkg/pkg_maj.sh %s \n"
+            "", "pad");
     std::string lOutput = GShell().runSystem(lCommand);
 }
 //===============================================
