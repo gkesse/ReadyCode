@@ -11,7 +11,6 @@ create database if not exists dev;
 create database if not exists dev01;
 create database if not exists dev02;
 --
-create user 'admin'@'%' identified with mysql_native_password by 'xKCQY7GiGTVJ4l334QxN87@TKg';
 grant all privileges on *.* to 'admin'@'%' with grant option;
 flush privileges;
 --
