@@ -19,6 +19,7 @@
 #include "GHost.h"
 #include "GString.h"
 #include "GError.h"
+#include "GDir.h"
 //===============================================
 GTest* GTest::m_test = 0;
 //===============================================
@@ -176,6 +177,10 @@ void GTest::run(int _argc, char** _argv) {
     // file
     else if(lKey == "file") {
         runFile(_argc, _argv);
+    }
+    // dir
+    else if(lKey == "dir") {
+        runDir(_argc, _argv);
     }
     // end
     else {
@@ -722,6 +727,11 @@ void GTest::runFile(int _argc, char** _argv) {
     lData += "Bonjour tout le monde\n";
     lData += "Bonjour tout le monde\n";
     GFile(GFile().getLogFullname()).setContent(lData);
+}
+//===============================================
+void GTest::runDir(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    GLOGT(eGINF, "%s", GSTRC(GDir().openDir(GRES("mysql", "maj"))).c_str());
 }
 //===============================================
 void GTest::onModule(GSocket* _client) {

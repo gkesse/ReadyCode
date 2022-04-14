@@ -56,6 +56,7 @@ public:
     void runLogTail(int _argc, char** _argv);
     void runLogTailProd(int _argc, char** _argv);
     void runFile(int _argc, char** _argv);
+    void runDir(int _argc, char** _argv);
     //
     void onModule(GSocket* _client);
     void onRequestSaveUser(GSocket* _client);

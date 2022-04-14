@@ -19,6 +19,7 @@
 #include <signal.h>
 #include <strings.h>
 #include <unistd.h>
+#include <dirent.h>
 #include <sys/time.h>
 #include <sys/socket.h>
 #include <sys/stat.h>
