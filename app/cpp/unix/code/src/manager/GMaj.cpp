@@ -38,11 +38,12 @@ void GMaj::loadCode() {
 //===============================================
 void GMaj::loadId() {
     GLOGT(eGINF, "");
-    m_id = std::stoi(GMySQL().readData(sformat(""
+    std::string lId = GMySQL().readData(sformat(""
             " select _id "
             " from maj"
             " where _code = '%s' "
-            "", m_code.c_str())));
+            "", m_code.c_str()));
+    if(lId != "") m_id = std::stoi(lId);
     GLOGW(eGINF, "m_id........: %d", m_id);
 }
 //===============================================
