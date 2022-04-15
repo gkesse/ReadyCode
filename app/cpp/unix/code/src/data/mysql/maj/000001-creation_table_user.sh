@@ -9,9 +9,7 @@ create table if not exists user (
     _pseudo varchar(255) not null,
     _password varchar(255) not null,
     _c_date datetime default current_timestamp,
-    _u_date datetime on update current_timestamp,
-    primary key (_id),
-    unique (_pseudo)
+    _u_date datetime on update current_timestamp
 );
 --
 alter table user
