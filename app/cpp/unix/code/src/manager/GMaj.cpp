@@ -52,22 +52,20 @@ GMaj& GMaj::createDB() {
 }
 //===============================================
 GMaj& GMaj::loadCode() {
-    GLOGT(eGINF, "");
     m_code = GString(m_filename).splitData('-').at(0);
-    GLOGW(eGINF, "m_code.......: %s", m_code.c_str());
-    GLOGW(eGINF, "m_filename...: %s", m_filename.c_str());
+    GLOGT(eGINF, "m_code.......: %s", m_code.c_str());
+    GLOGT(eGINF, "m_filename...: %s", m_filename.c_str());
     return *this;
 }
 //===============================================
 GMaj& GMaj::loadId() {
-    GLOGT(eGINF, "");
     std::string lId = GMySQL().readData(sformat(""
             " select _id "
             " from maj"
             " where _code = '%s' "
             "", m_code.c_str()));
     if(lId != "") m_id = std::stoi(lId);
-    GLOGW(eGINF, "m_id.........: %d", m_id);
+    GLOGT(eGINF, "m_id.........: %d", m_id);
     return *this;
 }
 //===============================================
@@ -98,14 +96,13 @@ GMaj& GMaj::updateData() {
 }
 //===============================================
 GMaj& GMaj::runMaj(const std::string& _filename) {
-    GLOGT(eGFUN, "");
     std::string lDatabase = GMySQL().loadDatabase();
     std::string lCommand = sformat(""
             " %s %s \n"
             "", _filename.c_str()
             , lDatabase.c_str());
     GShell().runSystem(lCommand);
-    GLOGW(eGINF, "command......:%s", lCommand.c_str());
+    GLOGT(eGINF, "command......:%s", lCommand.c_str());
     return *this;
 }
 //===============================================
