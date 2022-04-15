@@ -9,6 +9,7 @@ public:
     GMaj();
     GMaj(const std::string& _filename);
     ~GMaj();
+    GMaj& createObj();
     GMaj& loadObj();
     GMaj& saveObj();
     GMaj& createDB();

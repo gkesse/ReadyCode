@@ -12,7 +12,6 @@ GMaj::GMaj() : GObject() {
     m_code = "";
     m_filename = "";
     m_errors.reset(new GError);
-    createDB();
 }
 //===============================================
 GMaj::GMaj(const std::string& _filename) : GObject() {
@@ -20,11 +19,15 @@ GMaj::GMaj(const std::string& _filename) : GObject() {
     m_code = "";
     m_filename = _filename;
     m_errors.reset(new GError);
-    createDB();
 }
 //===============================================
 GMaj::~GMaj() {
 
+}
+//===============================================
+GMaj& GMaj::createObj() {
+    createDB();
+    return *this;
 }
 //===============================================
 GMaj& GMaj::loadObj() {
@@ -87,10 +90,10 @@ GMaj& GMaj::updateData() {
             " update maj "
             " set _code = '%s' "
             " , _filename = '%s' "
-            " where _id = %d"
-            "", m_id
-            , m_code.c_str(),
-            m_filename.c_str()));
+            " where _id = %d "
+            "", m_code.c_str()
+            , m_filename.c_str()
+            , m_id));
     return *this;
 }
 //===============================================
@@ -102,7 +105,7 @@ GMaj& GMaj::runMaj(const std::string& _filename) {
             "", _filename.c_str()
             , lDatabase.c_str());
     GShell().runSystem(lCommand);
-    GLOGT(eGINF, "command......:%s", lCommand.c_str());
+    GLOGW(eGINF, "command......:%s", lCommand.c_str());
     return *this;
 }
 //===============================================
