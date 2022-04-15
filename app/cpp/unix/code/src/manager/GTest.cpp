@@ -668,7 +668,7 @@ void GTest::runMysqlDB(int _argc, char** _argv) {
 void GTest::runMysqlMaj(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     std::string lPath = GRES("mysql", "maj");
-    std::vector<std::string> lFiles = GDir().openDir(lPath, true, false);
+    std::vector<std::string> lFiles = GDir().openDir(lPath, false, false);
     for(int i = 0; i < (int)lFiles.size(); i++) {
         std::string lFile = lFiles.at(i);
         GMaj lMaj(lFile);
