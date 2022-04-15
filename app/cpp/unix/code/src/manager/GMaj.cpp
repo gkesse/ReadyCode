@@ -10,13 +10,15 @@
 GMaj::GMaj() : GObject() {
     m_id = 0;
     m_code = "";
+    m_path = "";
     m_filename = "";
     m_errors.reset(new GError);
 }
 //===============================================
-GMaj::GMaj(const std::string& _filename) : GObject() {
+GMaj::GMaj(const std::string& _path, const std::string& _filename) : GObject() {
     m_id = 0;
     m_code = "";
+    m_path = _path;
     m_filename = _filename;
     m_errors.reset(new GError);
 }
@@ -25,40 +27,17 @@ GMaj::~GMaj() {
 
 }
 //===============================================
-GMaj& GMaj::createObj() {
-    createDB();
-    return *this;
-}
-//===============================================
-GMaj& GMaj::loadObj() {
-    loadCode();
-    loadId();
-    return *this;
-}
-//===============================================
-GMaj& GMaj::saveObj() {
-    if(!hasData()) {
-        insertData();
-    }
-    else {
-        updateData();
-    }
-    return *this;
-}
-//===============================================
-GMaj& GMaj::createDB() {
+void GMaj::createDB() {
     runMaj("$GPROJECT_DATA/mysql/pkg/pkg_maj.sh");
-    return *this;
 }
 //===============================================
-GMaj& GMaj::loadCode() {
+void GMaj::loadCode() {
     m_code = GString(m_filename).splitData('-').at(0);
     GLOGT(eGINF, "m_code.......: %s", m_code.c_str());
     GLOGT(eGINF, "m_filename...: %s", m_filename.c_str());
-    return *this;
 }
 //===============================================
-GMaj& GMaj::loadId() {
+void GMaj::loadId() {
     std::string lId = GMySQL().readData(sformat(""
             " select _id "
             " from maj"
@@ -66,24 +45,28 @@ GMaj& GMaj::loadId() {
             "", m_code.c_str()));
     if(lId != "") m_id = std::stoi(lId);
     GLOGT(eGINF, "m_id.........: %d", m_id);
-    return *this;
 }
 //===============================================
 bool GMaj::hasData() const {
     return (m_id != 0);
 }
 //===============================================
-GMaj& GMaj::insertData() {
+void GMaj::saveData() {
+    if(!hasData()) {
+        insertData();
+    }
+}
+//===============================================
+void GMaj::insertData() {
     GMySQL().execQuery(sformat(""
             " insert into maj"
             " ( _code, _filename ) "
             " values ( '%s', '%s' ) "
             "", m_code.c_str()
             , m_filename.c_str()));
-    return *this;
 }
 //===============================================
-GMaj& GMaj::updateData() {
+void GMaj::updateData() {
     GMySQL().execQuery(sformat(""
             " update maj "
             " set _code = '%s' "
@@ -92,17 +75,23 @@ GMaj& GMaj::updateData() {
             "", m_code.c_str()
             , m_filename.c_str()
             , m_id));
-    return *this;
 }
 //===============================================
-GMaj& GMaj::runMaj(const std::string& _filename) {
+void GMaj::runMaj() {
+    if(!hasData()) {
+        std::string lFilename = sformat("%s/%s"
+                , m_path.c_str()
+                , m_filename.c_str());
+        runMaj(lFilename);
+    }
+}
+//===============================================
+void GMaj::runMaj(const std::string& _filename) {
     std::string lDatabase = GMySQL().loadDatabase();
     std::string lCommand = sformat(""
             " %s %s \n"
             "", _filename.c_str()
             , lDatabase.c_str());
     GShell().runSystem(lCommand);
-    GLOGT(eGINF, "command......:%s", lCommand.c_str());
-    return *this;
 }
 //===============================================

@@ -671,7 +671,12 @@ void GTest::runMysqlMaj(int _argc, char** _argv) {
     std::vector<std::string> lFiles = GDir().openDir(lPath, false, false);
     for(int i = 0; i < (int)lFiles.size(); i++) {
         std::string lFile = lFiles.at(i);
-        GMaj(lFile).createObj().loadObj().saveObj();
+        GMaj lMaj(lPath, lFile);
+        lMaj.createDB();
+        lMaj.loadCode();
+        lMaj.loadId();
+        lMaj.saveData();
+        lMaj.runMaj();
     }
 }
 //===============================================

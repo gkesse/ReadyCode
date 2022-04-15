@@ -7,22 +7,22 @@
 class GMaj : public GObject {
 public:
     GMaj();
-    GMaj(const std::string& _filename);
+    GMaj(const std::string& _path, const std::string& _filename);
     ~GMaj();
-    GMaj& createObj();
-    GMaj& loadObj();
-    GMaj& saveObj();
-    GMaj& createDB();
-    GMaj& loadCode();
-    GMaj& loadId();
+    void createDB();
+    void loadCode();
+    void loadId();
     bool hasData() const;
-    GMaj& insertData();
-    GMaj& updateData();
-    GMaj& runMaj(const std::string& _filename);
+    void saveData();
+    void insertData();
+    void updateData();
+    void runMaj();
+    void runMaj(const std::string& _filename);
 
 private:
     int m_id;
     std::string m_code;
+    std::string m_path;
     std::string m_filename;
 };
 //==============================================
