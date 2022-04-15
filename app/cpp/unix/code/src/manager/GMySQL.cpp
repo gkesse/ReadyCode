@@ -4,6 +4,7 @@
 #include "GFormat.h"
 #include "GPath.h"
 #include "GXml.h"
+#include "GEnv.h"
 //===============================================
 GMySQL::GMySQL() : GObject() {
     createDoms();
@@ -20,13 +21,23 @@ void GMySQL::createDoms() {
     m_dom->createXPath();
 }
 //===============================================
+std::string GMySQL::loadDatabase() const {
+    return loadDatabase(GEnv().isTestEnv());
+}
+//===============================================
+std::string GMySQL::loadDatabase(bool _isTestEnv) const {
+    std::string lDatabase = getItem("mysql", "prod_database");
+    if(_isTestEnv) lDatabase = getItem("mysql", "test_database");
+    return lDatabase;
+}
+//===============================================
 GMySQL& GMySQL::openDatabase() {
     std::string lProtocol = getItem("mysql", "protocol");
     std::string lHostname = getItem("mysql", "hostname");
     std::string lPort = getItem("mysql", "port");
     std::string lUsername = getItem("mysql", "username");
     std::string lPassword = getItem("mysql", "password");
-    std::string lDatabase = getItem("mysql", "database");
+    std::string lDatabase = loadDatabase();
     openDatabase(lProtocol, lHostname, lPort, lUsername, lPassword, lDatabase);
     return *this;
 }

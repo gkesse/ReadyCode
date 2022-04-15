@@ -44,7 +44,8 @@
             <port>3306</port>
             <username>admin</username>
             <password>xKCQY7GiGTVJ4l334QxN87@TKg</password>
-            <database>pad</database>
+            <prod_database>pad</prod_database>
+            <test_database>dev</test_database>
         </data>
         <!-- ============================================ -->
         <!-- end -->
