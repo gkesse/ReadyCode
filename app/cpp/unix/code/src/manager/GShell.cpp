@@ -42,7 +42,7 @@ void GShell::cleanDir(const std::string& _dir) {
 }
 //===============================================
 void GShell::runCommand(const std::string& _command) {
-    GLOGT(eGINF, "%s", _command.c_str());
+    GLOGT(eGOFF, "%s", _command.c_str());
     system(_command.c_str());
 }
 //===============================================
