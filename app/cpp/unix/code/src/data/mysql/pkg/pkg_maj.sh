@@ -7,7 +7,7 @@
 ps_sql_db $1 "
 --
 create table if not exists maj (
-    _id int not null,
+    _id int not null auto_increment,
     _code varchar(6) not null,
     _filename varchar(255) not null,
     _c_date datetime default current_timestamp,

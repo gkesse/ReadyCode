@@ -20,6 +20,7 @@
 #include "GString.h"
 #include "GError.h"
 #include "GDir.h"
+#include "GMaj.h"
 //===============================================
 GTest* GTest::m_test = 0;
 //===============================================
@@ -666,10 +667,12 @@ void GTest::runMysqlDB(int _argc, char** _argv) {
 //===============================================
 void GTest::runMysqlMaj(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
-    std::vector<std::string> lFiles = GDir().openDir(GRES("mysql", "maj"), true, false);
+    std::string lPath = GRES("mysql", "maj");
+    std::vector<std::string> lFiles = GDir().openDir(lPath, true, false);
     for(int i = 0; i < (int)lFiles.size(); i++) {
         std::string lFile = lFiles.at(i);
-        GLOGT(eGFUN, lFile.c_str());
+        GMaj lMaj(lFile);
+        lMaj.loadCode();
     }
 }
 //===============================================
