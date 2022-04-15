@@ -5,12 +5,14 @@
 #include "GString.h"
 #include "GError.h"
 #include "GLog.h"
+#include "GShell.h"
 //===============================================
 GMaj::GMaj() : GObject() {
     m_id = 0;
     m_code = "";
     m_filename = "";
     m_errors.reset(new GError);
+    createDB();
 }
 //===============================================
 GMaj::GMaj(const std::string& _filename) : GObject() {
@@ -18,6 +20,7 @@ GMaj::GMaj(const std::string& _filename) : GObject() {
     m_code = "";
     m_filename = _filename;
     m_errors.reset(new GError);
+    createDB();
 }
 //===============================================
 GMaj::~GMaj() {
@@ -37,6 +40,11 @@ GMaj& GMaj::saveObj() {
     else {
         updateData();
     }
+    return *this;
+}
+//===============================================
+GMaj& GMaj::createDB() {
+    runMaj("$GPROJECT_DATA/mysql/pkg/pkg_maj.sh");
     return *this;
 }
 //===============================================
@@ -83,6 +91,18 @@ GMaj& GMaj::updateData() {
             "", m_id
             , m_code.c_str(),
             m_filename.c_str()));
+    return *this;
+}
+//===============================================
+GMaj& GMaj::runMaj(const std::string& _filename) {
+    GLOGT(eGFUN, "");
+    std::string lDatabase = GMySQL().loadDatabase();
+    std::string lCommand = sformat(""
+            " %s %s \n"
+            "", _filename.c_str()
+            , lDatabase.c_str());
+    GShell().runSystem(lCommand);
+    GLOGT(eGINF, "command......:%s", lCommand.c_str());
     return *this;
 }
 //===============================================

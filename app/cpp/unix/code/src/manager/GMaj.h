@@ -11,11 +11,13 @@ public:
     ~GMaj();
     GMaj& loadObj();
     GMaj& saveObj();
+    GMaj& createDB();
     GMaj& loadCode();
     GMaj& loadId();
     bool hasData() const;
     GMaj& insertData();
     GMaj& updateData();
+    GMaj& runMaj(const std::string& _filename);
 
 private:
     int m_id;
