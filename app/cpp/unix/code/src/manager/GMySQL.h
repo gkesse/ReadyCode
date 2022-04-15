@@ -18,6 +18,7 @@ public:
     GMySQL& openDatabase();
     GMySQL& openDatabase(const std::string& _protocol, const std::string& _hostname, const std::string& _port, const std::string& _username, const std::string& _password, const std::string& _database);
     GMySQL& execQuery(const std::string& _sql);
+    GMySQL& readQuery(const std::string& _sql);
     int getColumnCount() const;
     std::string readData(const std::string& _sql);
     std::vector<std::string> readCol(const std::string& _sql);

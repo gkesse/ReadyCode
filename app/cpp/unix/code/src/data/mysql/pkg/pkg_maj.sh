@@ -1,7 +1,6 @@
 #!/bin/bash
 #================================================
 . $GPROJECT_DATA/mysql/pkg/pkg_var.sh
-. $GPKG/pkg_mysql.sh
 . $GPKG/pkg_database.sh
 #================================================
 ps_sql_db $1 "

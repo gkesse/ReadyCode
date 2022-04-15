@@ -52,6 +52,13 @@ GMySQL& GMySQL::openDatabase(const std::string& _protocol, const std::string& _h
 GMySQL& GMySQL::execQuery(const std::string& _sql) {
     openDatabase();
     m_stmt.reset(m_con->createStatement());
+    m_stmt->execute(_sql);
+    return *this;
+}
+//===============================================
+GMySQL& GMySQL::readQuery(const std::string& _sql) {
+    openDatabase();
+    m_stmt.reset(m_con->createStatement());
     m_res.reset(m_stmt->executeQuery(_sql));
     return *this;
 }
@@ -62,7 +69,7 @@ int GMySQL::getColumnCount() const {
 }
 //===============================================
 std::string GMySQL::readData(const std::string& _sql) {
-    execQuery(_sql);
+    readQuery(_sql);
     std::string lData = "";
     while(m_res->next()) {
         lData = m_res->getString(1);
@@ -73,7 +80,7 @@ std::string GMySQL::readData(const std::string& _sql) {
 //===============================================
 std::vector<std::string> GMySQL::readCol(const std::string& _sql) {
     std::vector<std::string> lDataMap;
-    execQuery(_sql);
+    readQuery(_sql);
     while(m_res->next()) {
         std::string lData = m_res->getString(1);
         lDataMap.push_back(lData);
@@ -83,7 +90,7 @@ std::vector<std::string> GMySQL::readCol(const std::string& _sql) {
 //===============================================
 std::vector<std::string> GMySQL::readRow(const std::string& _sql) {
     std::vector<std::string> lDataMap;
-    execQuery(_sql);
+    readQuery(_sql);
     while(m_res->next()) {
         std::string lData = m_res->getString(1);
         lDataMap.push_back(lData);
@@ -93,7 +100,7 @@ std::vector<std::string> GMySQL::readRow(const std::string& _sql) {
 //===============================================
 std::vector<std::vector<std::string>> GMySQL::readMap(const std::string& _sql) {
     std::vector<std::vector<std::string>> lDataMap;
-    execQuery(_sql);
+    readQuery(_sql);
     int lColumns = getColumnCount();
     while(m_res->next()) {
         std::vector<std::string> lDataRow;
