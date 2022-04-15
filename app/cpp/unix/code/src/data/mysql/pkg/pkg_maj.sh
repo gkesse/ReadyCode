@@ -10,7 +10,7 @@ create table if not exists maj (
     _code varchar(6) not null,
     _filename varchar(255) not null,
     _c_date datetime default current_timestamp,
-    _u_date datetime on update current_timestamp,
+    _u_date datetime default current_timestamp on update current_timestamp,
     primary key (_id),
     unique (_code)
 );
