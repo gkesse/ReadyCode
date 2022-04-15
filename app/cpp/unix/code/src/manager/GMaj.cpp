@@ -89,8 +89,10 @@ void GMaj::runMaj() {
 void GMaj::runMaj(const std::string& _filename) {
     std::string lDatabase = GMySQL().loadDatabase();
     std::string lCommand = sformat(""
+            " chmod a+x %s \n"
             " %s %s \n"
             "", _filename.c_str()
+            , _filename.c_str()
             , lDatabase.c_str());
     GShell().runSystem(lCommand);
 }
