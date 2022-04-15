@@ -12,8 +12,7 @@ public:
     void loadObj();
     void loadCode();
     void loadId();
-    int getId(const std::string& _code) const;
-    bool hasData(const std::string& _code) const;
+    bool hasData() const;
     void insertData(const GMaj& _data);
     void updateData(const GMaj& _data);
 

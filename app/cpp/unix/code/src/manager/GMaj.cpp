@@ -46,8 +46,8 @@ void GMaj::loadId() {
     GLOGW(eGINF, "m_id........: %d", m_id);
 }
 //===============================================
-bool GMaj::hasData(const std::string& _code) const {
-    return (getId(_code) > 0);
+bool GMaj::hasData() const {
+    return (m_id != 0);
 }
 //===============================================
 void GMaj::insertData(const GMaj& _data) {
