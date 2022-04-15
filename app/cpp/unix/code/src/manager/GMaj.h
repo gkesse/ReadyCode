@@ -9,12 +9,13 @@ public:
     GMaj();
     GMaj(const std::string& _filename);
     ~GMaj();
-    void loadObj();
-    void loadCode();
-    void loadId();
+    GMaj& loadObj();
+    GMaj& saveObj();
+    GMaj& loadCode();
+    GMaj& loadId();
     bool hasData() const;
-    void insertData(const GMaj& _data);
-    void updateData(const GMaj& _data);
+    GMaj& insertData();
+    GMaj& updateData();
 
 private:
     int m_id;
