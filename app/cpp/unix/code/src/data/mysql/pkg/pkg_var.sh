@@ -1,4 +1,3 @@
-#!/bin/bash
 #================================================
 GPKG=$GPROJECT_DATA/mysql/pkg
 GMAJ=$GPROJECT_DATA/mysql/maj
