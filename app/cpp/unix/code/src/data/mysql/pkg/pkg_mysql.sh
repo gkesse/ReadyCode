@@ -7,8 +7,6 @@ ps_sql() {
 }
 #================================================
 ps_sql_db() {
-    echo "==> 1 : $1"
-    echo "==> 2 : $2"
-    #mysql --defaults-extra-file=$GCONFIG "$1" -Bse "$2"
+    mysql --defaults-extra-file=$GCONFIG "$1" -Bse "$2"
 }
 #================================================
