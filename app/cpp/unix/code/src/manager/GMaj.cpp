@@ -24,21 +24,26 @@ GMaj::~GMaj() {
 
 }
 //===============================================
+void GMaj::loadObj() {
+    loadCode();
+    loadId();
+}
+//===============================================
 void GMaj::loadCode() {
     GLOGT(eGINF, "");
     m_code = GString(m_filename).splitData('-').at(0);
-    GLOGW(eGINF, "%s", m_code.c_str());
-    GLOGW(eGINF, "%s", m_filename.c_str());
+    GLOGW(eGINF, "m_code......: %s", m_code.c_str());
+    GLOGW(eGINF, "m_filename..: %s", m_filename.c_str());
 }
 //===============================================
-int GMaj::getId(const std::string& _code) const {
-    GMySQL lMySQL;
-    int lId = std::stoi(lMySQL.readData(sformat(""
+void GMaj::loadId() {
+    GLOGT(eGINF, "");
+    m_id = std::stoi(GMySQL().readData(sformat(""
             " select _id "
             " from maj"
             " where _code = '%s' "
-            "", _code.c_str())));
-    return lId;
+            "", m_code.c_str())));
+    GLOGW(eGINF, "m_id........: %d", m_id);
 }
 //===============================================
 bool GMaj::hasData(const std::string& _code) const {

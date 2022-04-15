@@ -9,7 +9,9 @@ public:
     GMaj();
     GMaj(const std::string& _filename);
     ~GMaj();
+    void loadObj();
     void loadCode();
+    void loadId();
     int getId(const std::string& _code) const;
     bool hasData(const std::string& _code) const;
     void insertData(const GMaj& _data);

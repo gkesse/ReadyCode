@@ -672,7 +672,7 @@ void GTest::runMysqlMaj(int _argc, char** _argv) {
     for(int i = 0; i < (int)lFiles.size(); i++) {
         std::string lFile = lFiles.at(i);
         GMaj lMaj(lFile);
-        lMaj.loadCode();
+        lMaj.loadObj();
     }
 }
 //===============================================
