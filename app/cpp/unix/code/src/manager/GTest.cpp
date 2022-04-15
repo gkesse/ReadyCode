@@ -666,11 +666,11 @@ void GTest::runMysqlDB(int _argc, char** _argv) {
 //===============================================
 void GTest::runMysqlMaj(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
-    std::string lCommand = sformat(""
-            " $GPROJECT_DATA/mysql/pkg/pkg_maj.sh %s \n"
-            "", "dev");
-    std::string lOutput = GShell().runSystem(lCommand);
-    GLOGT(eGINF, "%s", lOutput.c_str());
+    std::vector<std::string> lFiles = GDir().openDir(GRES("mysql", "maj"), true, false);
+    for(int i = 0; i < (int)lFiles.size(); i++) {
+        std::string lFile = lFiles.at(i);
+        GLOGT(eGFUN, lFile.c_str());
+    }
 }
 //===============================================
 void GTest::runShellSystem(int _argc, char** _argv) {
