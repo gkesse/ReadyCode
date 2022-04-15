@@ -667,8 +667,8 @@ void GTest::runMysqlDB(int _argc, char** _argv) {
 void GTest::runMysqlMaj(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     std::string lCommand = sformat(""
-            " . $GPROJECT_DATA/mysql/pkg/pkg_maj.sh %s \n"
-            "", "pad");
+            " . $GPROJECT_DATA/mysql/pkg/pkg_maj.sh pad \n"
+            "");
     std::string lOutput = GShell().runSystem(lCommand);
     GLOGT(eGINF, "%s", lOutput.c_str());
 }
