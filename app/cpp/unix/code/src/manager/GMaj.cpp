@@ -25,8 +25,10 @@ GMaj::~GMaj() {
 }
 //===============================================
 void GMaj::loadCode() {
+    GLOGT(eGINF, "");
     m_code = GString(m_filename).splitData('-').at(0);
-    GLOGT(eGINF, "%s", m_code.c_str());
+    GLOGW(eGINF, "%s", m_code.c_str());
+    GLOGW(eGINF, "%s", m_filename.c_str());
 }
 //===============================================
 int GMaj::getId(const std::string& _code) const {
