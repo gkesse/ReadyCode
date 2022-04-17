@@ -334,53 +334,32 @@ GXml& GXml::createXPath() {
 }
 //===============================================
 GXml& GXml::queryXPath(const std::string& _query) {
-    if(!m_xpath) {
-        return *this;
-    }
+    if(!m_xpath) return *this;
     m_xpathObj = xmlXPathEvalExpression((xmlChar*)_query.c_str(), m_xpath);
     return *this;
 }
 //===============================================
 int GXml::countXPath() const {
-    if(!m_xpathObj) {
-        return 0;
-    }
-    if(!m_xpathObj->nodesetval) {
-        return 0;
-    }
-    if(!m_xpathObj->nodesetval->nodeNr) {
-        return 0;
-    }
+    if(!m_xpathObj) return 0;
+    if(!m_xpathObj->nodesetval) return 0;
+    if(!m_xpathObj->nodesetval->nodeNr) return 0;
     int lCount = m_xpathObj->nodesetval->nodeNr;
     return lCount;
 }
 //===============================================
 GXml& GXml::getNodeXPath() {
-    if(!m_xpathObj) {
-        m_node = 0;
-        return *this;
-    }
-    if(!m_xpathObj->nodesetval) {
-        m_node = 0;
-        return *this;
-    }
-    if(!m_xpathObj->nodesetval->nodeNr) {
-        m_node = 0;
-        return *this;
-    }
+    m_node = 0;
+    if(!m_xpathObj) return *this;
+    if(!m_xpathObj->nodesetval) return *this;
+    if(!m_xpathObj->nodesetval->nodeNr) return *this;
     m_node = m_xpathObj->nodesetval->nodeTab[0];
     return *this;
 }
 //===============================================
 GXml& GXml::getNodeItem(int _index) {
-    if(!m_xpathObj->nodesetval) {
-        m_node = 0;
-        return *this;
-    }
-    if(!m_xpathObj->nodesetval->nodeNr) {
-        m_node = 0;
-        return *this;
-    }
+    m_node = 0;
+    if(!m_xpathObj->nodesetval) return *this;
+    if(!m_xpathObj->nodesetval->nodeNr) return *this;
     m_node = m_xpathObj->nodesetval->nodeTab[_index];
     return *this;
 }
@@ -395,14 +374,10 @@ GXml& GXml::clearNodeXPath() {
 }
 //===============================================
 GXml& GXml::createNodeCData(GXml& _xml, const std::string& _value) {
-    if(!_xml.m_node) {
-        GERROR_OBJ(eGERR, "Erreur la methode (GXml::createNodeCData) a echoue (1)\n"
-                "- noeud......: (%s)", _value.c_str());
-        return *this;
-    }
+    if(!_xml.m_node) return *this;
     m_node = xmlNewCDataBlock(_xml.m_node->doc, BAD_CAST(_value.c_str()), _value.size());
     if(!m_node) {
-        GERROR_OBJ(eGERR, "Erreur la methode (GXml::createNodeCData) a echoue (2)\n"
+        GERROR_OBJ(eGERR, "Erreur lors de la creation du block CDATA.\n"
                 "- noeud......: (%s)", _value.c_str());
         return *this;
     }
@@ -418,11 +393,7 @@ GXml& GXml::createNodeCData(const std::string& _nodename, const std::string& _va
 }
 //===============================================
 GXml& GXml::setNodeCData(const std::string& _value) {
-    if(!m_node) {
-        GERROR_OBJ(eGERR, "Erreur la methode (GXml::setNodeCData) a echoue (1)\n"
-                "- noeud......: (%s).", _value.c_str());
-        return *this;
-    }
+    if(!m_node) return *this;
     GXml lNode;
     lNode.createNodeCData((char*)m_node->name, _value);
     replaceNode(lNode);
@@ -430,17 +401,13 @@ GXml& GXml::setNodeCData(const std::string& _value) {
 }
 //===============================================
 std::string GXml::getNodeCData() const {
-    if(!m_node) {
-        return "";
-    }
+    if(!m_node) return "";
     std::string lData = (char*)xmlNodeGetContent(m_node);
     return lData;
 }
 //===============================================
 std::string GXml::toString(const std::string& _encoding, int _format) const {
-    if(!m_doc) {
-        return "";
-    }
+    if(!m_doc) return "";
     xmlChar* lBuffer = NULL;
     int lSize;
     xmlDocDumpFormatMemoryEnc(m_doc, &lBuffer, &lSize, _encoding.c_str(), _format);
