@@ -16,6 +16,7 @@
 #define GLOGI GLog::Instance()
 #define GERROR(x, ...)      GLOGI->addError(#x, x, sformat(__VA_ARGS__))
 #define GERROR_OBJ(x, ...)  m_errors->addError(#x, x, sformat(__VA_ARGS__))
+#define GERROR_LOAD(x, y) GLOGI->loadErrors(#x, x, y)
 #define GLOGT(x, ...)       GLOGI->traceLog(#x, x, sformat(__VA_ARGS__))
 #define GLOGW(x, ...)       GLOGI->writeLog(#x, x, sformat(__VA_ARGS__))
 #define GSTRC               GLOGI->toString
