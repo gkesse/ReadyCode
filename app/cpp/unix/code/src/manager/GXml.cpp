@@ -30,7 +30,7 @@ GXml::GXml(const std::string& _data, bool _isFile) : GObject() {
     loadXml();
 }
 //===============================================
-GXml::GXml(const std::string& _version, std::string& _nodeRoot) : GObject() {
+GXml::GXml(const std::string& _version, const std::string& _nodeRoot) : GObject() {
     m_node = 0;
     m_doc = 0;
     m_xpath = 0;
