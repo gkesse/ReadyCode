@@ -273,7 +273,7 @@ void GTest::runStringInt(int _argc, char** _argv) {
     std::string lData = "  abc 123  ";
     GString lStringInt(lData);
     bool lOk = lStringInt.toInt(lInt);
-    GLOGW(eGINF, "%s : %s", GSTRC(lOk).c_str(), GOBJ_ERR_GET(lStringInt));
+    GLOGW(eGINF, "%s : %s", GSTRC(lOk).c_str(), GERROR_GET(lStringInt));
 
     char lBuffer[1024 + 1];
     sprintf(lBuffer, "%*d", 1024, 123);
