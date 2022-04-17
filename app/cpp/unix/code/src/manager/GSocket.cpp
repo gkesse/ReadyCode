@@ -177,7 +177,7 @@ int GSocket::readData(std::string& _data) {
     _data.clear();
     std::string lBuffer;
     recvData(lBuffer, BUFFER_NDATA_SIZE);
-    GLOGT(eGMSG, "[%s]", lBuffer.c_str());
+    GLOGT(eGMSG, "[RECEPTION] :\n[%s]", lBuffer.c_str());
     int lSize;
     if(GString(lBuffer).toInt(lSize)) {
         return -1;
@@ -187,16 +187,17 @@ int GSocket::readData(std::string& _data) {
     for(int i = 0; i < lSize; i++) {
         int iBytes = recvData(lBuffer);
         if(iBytes == -1) {
-            GERROR(eGERR, "Erreur la methode (GSocket::readData) a echoue\n"
+            GERROR(eGERR, "Erreur lors de la lecture des donnees.\n"
                     "- erreur....: (%s).\n"
                     "- bytes.....: (%d).\n"
-                    "- ibytes....: (%d).", strerror(errno), lBytes, iBytes);
+                    "- ibytes....: (%d)."
+                    "", strerror(errno), lBytes, iBytes);
             return -1;
         }
         _data += lBuffer;
         lBytes += iBytes;
     }
-    GLOGT(eGMSG, "%s", _data.c_str());
+    GLOGT(eGMSG, "[RECEPTION] :\n%s", _data.c_str());
     return lBytes;
 }
 //===============================================
@@ -306,6 +307,7 @@ void* GSocket::onServerThread(GSocket* _client) {
         delete lClient;
         return 0;
     }
+    GLOGT(eGMSG, "[RECEPTION] :\n[%s]", lData.c_str());
     lClient->setRequest(lData);
     lClientIns.push(lClient);
     return 0;
@@ -328,7 +330,7 @@ std::string GSocket::callServer(const std::string& _dataIn) {
     readData(lDataOut);
 
     if(lDataOut == "") {
-        GERROR(eGERR, "Erreur la connexion au serveur a echoue.");
+        GERROR(eGERR, "Erreur lors de la connexion au serveur.");
     }
 
     closeSocket();
