@@ -7,18 +7,20 @@
 class GXml : public GObject {
 public:
     GXml();
+    GXml(const std::string& _data, bool _isFile);
+    GXml(const std::string& _version, const std::string& _nodeRoot);
     virtual ~GXml();
     //
     void initModule();
     void cleanModule();
     //
-    GXml& loadXmlFile(const std::string& _filename);
+    void loadXml();
     GXml& loadXmlData(const std::string& _data);
     GXml& saveXmlFile(const std::string& _filename = "", const std::string& _encoding = "UTF-8", int _format = 4);
+    bool isValidXml() const;
     //
-    GXml& createDoc(const std::string& _version);
-    GXml& createDoc(const std::string& _version, const std::string& _rootNode);
-    GXml& createRoot(const std::string& _nodename);
+    GXml& createDoc();
+    GXml& createRoot();
     //
     GXml& getRoot(const std::string& _nodename);
     GXml& getNode(const std::string& _nodename);
@@ -59,7 +61,10 @@ private:
     xmlDocPtr m_doc;
     xmlXPathContextPtr m_xpath;
     xmlXPathObjectPtr m_xpathObj;
-    std::string m_filename;
+    std::string m_data;
+    bool m_isFile;
+    std::string m_version;
+    std::string m_nodeRoot;
 };
 //==============================================
 #endif

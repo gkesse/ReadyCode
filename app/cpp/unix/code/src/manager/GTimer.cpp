@@ -16,7 +16,7 @@ void GTimer::setCallback(void* _onTimer, int _ms) {
     sigemptyset(&m_sigaction.sa_mask);
     m_sigaction.sa_flags = 0;
     if (sigaction(SIGALRM, &m_sigaction, NULL) == -1) {
-        GERROR("Erreur la methode (GTimer::setCallback) a echoue (1)\n"
+        GERROR(eGERR, "Erreur la methode (GTimer::setCallback) a echoue (1)\n"
                 "- ms.....: (%d).", _ms);
         return;
     }
@@ -27,7 +27,7 @@ void GTimer::setCallback(void* _onTimer, int _ms) {
     m_timer.it_value.tv_usec = _ms * 1000;
 
     if (setitimer(ITIMER_REAL, &m_timer, NULL) == -1) {
-        GERROR("Erreur la methode (GTimer::setCallback) a echoue (2)\n"
+        GERROR(eGERR, "Erreur la methode (GTimer::setCallback) a echoue (2)\n"
                 "- ms.....: (%d).", _ms);
         return;
     }

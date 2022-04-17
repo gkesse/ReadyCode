@@ -1,6 +1,7 @@
 //===============================================
 #include "GError.h"
 #include "GCode.h"
+#include "GLog.h"
 //===============================================
 GError::GError() : GObject() {
 
@@ -10,7 +11,8 @@ GError::~GError() {
 
 }
 //===============================================
-void GError::addError(const std::string& _error) {
+void GError::addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _error) {
+    GLOGI->traceLog(_name, _level, _file, _line, _func, _error);
     m_errors.push_back(_error);
 }
 //===============================================
@@ -32,14 +34,12 @@ void GError::clearErrors() {
     m_errors.clear();
 }
 //===============================================
-void GError::loadErrors(const std::string& _res) {
-    GCode lRes;
-    lRes.loadXmlData(_res);
-    lRes.createXPath();
+void GError::loadErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _res) {
+    GCode lRes(_res);
     int lCount = lRes.countItem("error", "msg");
     for(int i = 0; i < lCount; i++) {
         std::string lError = lRes.getItem("error", i, "msg");
-        addError(lError);
+        addError(_name, _level, _file, _line, _func, lError);
     }
 }
 //===============================================

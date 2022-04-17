@@ -40,9 +40,10 @@ void GMaj::loadCode() {
 void GMaj::loadId() {
     std::string lId = GMySQL().readData(sformat(""
             " select _id "
-            " from maj"
+            " from maj "
             " where _code = '%s' "
-            "", m_code.c_str()));
+            "", m_code.c_str()
+    ));
     if(lId != "") m_id = std::stoi(lId);
     GLOGT(eGINF, "m_id.........: %d", m_id);
 }
@@ -59,11 +60,12 @@ void GMaj::saveData() {
 //===============================================
 void GMaj::insertData() {
     GMySQL().execQuery(sformat(""
-            " insert into maj"
+            " insert into maj "
             " ( _code, _filename ) "
             " values ( '%s', '%s' ) "
             "", m_code.c_str()
-            , m_filename.c_str()));
+            , m_filename.c_str()
+    ));
 }
 //===============================================
 void GMaj::updateData() {
@@ -74,7 +76,8 @@ void GMaj::updateData() {
             " where _id = %d "
             "", m_code.c_str()
             , m_filename.c_str()
-            , m_id));
+            , m_id
+    ));
 }
 //===============================================
 void GMaj::runMaj() {

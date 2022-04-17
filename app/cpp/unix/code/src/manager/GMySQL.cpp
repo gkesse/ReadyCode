@@ -16,9 +16,7 @@ GMySQL::~GMySQL() {
 }
 //===============================================
 void GMySQL::createDoms() {
-    m_dom.reset(new GXml);
-    m_dom->loadXmlFile(GRES("xml", "pad.xml"));
-    m_dom->createXPath();
+    m_dom.reset(new GXml(GRES("xml", "pad.xml"), true));
 }
 //===============================================
 std::string GMySQL::loadDatabase() const {

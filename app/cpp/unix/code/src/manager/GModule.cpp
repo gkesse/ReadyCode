@@ -4,13 +4,15 @@
 #include "GFormat.h"
 #include "GCode.h"
 #include "GSocket.h"
+#include "GXml.h"
 //===============================================
 GModule::GModule() : GObject() {
-
+    m_xml = "";
 }
 //===============================================
 GModule::GModule(const std::string& _req) : GObject() {
-    setRequest(_req);
+    m_xml = _req;
+    loadReq();
 }
 //===============================================
 GModule::~GModule() {
@@ -18,19 +20,23 @@ GModule::~GModule() {
 }
 //===============================================
 void GModule::onModuleUnknown(GSocket* _client) {
-    GERROR("Erreur le module (%s) n'existe pas",
+    GERROR(eGERR, "Erreur le module (%s) n'existe pas",
             m_req->getModule().c_str());
 }
 //===============================================
 void GModule::onMethodUnknown(GSocket* _client) {
-    GERROR("Erreur la methode (%s : %s) n'existe pas",
+    GERROR(eGERR, "Erreur la methode (%s : %s) n'existe pas",
             m_req->getModule().c_str(), m_req->getMethod().c_str());
 }
 //===============================================
-void GModule::setRequest(const std::string& _req) {
-    m_req.reset(new GCode);
-    m_req->loadXmlData(_req);
-    m_req->createXPath();
+void GModule::loadReq() {
+    if(m_xml == "") return;
+    m_req.reset(new GCode(m_xml));
+}
+//===============================================
+bool GModule::isValidReq() const {
+    if(m_xml == "") return false;
+    return m_req->isValidXml();
 }
 //===============================================
 void GModule::sendResponse(GSocket* _client) {

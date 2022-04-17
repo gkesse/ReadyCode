@@ -9,11 +9,11 @@ public:
     GError();
     ~GError();
     //
-    void addError(const std::string& _error);
+    void addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _error);
     std::string toString() const;
     bool hasErrors() const;
     void clearErrors();
-    void loadErrors(const std::string& _res);
+    void loadErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _res);
     std::vector<std::string>& getErrors();
 
 private:

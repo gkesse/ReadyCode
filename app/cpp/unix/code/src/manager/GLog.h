@@ -14,10 +14,11 @@
 #define eGFAT   7, __FILE__, __LINE__, __PRETTY_FUNCTION__
 //===============================================
 #define GLOGI GLog::Instance()
-#define GERROR(...)     GLOGI->addError(sformat(__VA_ARGS__))
-#define GLOGT(x, ...)   GLOGI->traceLog(#x, x, sformat(__VA_ARGS__))
-#define GLOGW(x, ...)   GLOGI->writeLog(#x, x, sformat(__VA_ARGS__))
-#define GSTRC           GLOGI->toString
+#define GERROR(x, ...)      GLOGI->addError(#x, x, sformat(__VA_ARGS__))
+#define GERROR_OBJ(x, ...)  m_errors->addError(#x, x, sformat(__VA_ARGS__))
+#define GLOGT(x, ...)       GLOGI->traceLog(#x, x, sformat(__VA_ARGS__))
+#define GLOGW(x, ...)       GLOGI->writeLog(#x, x, sformat(__VA_ARGS__))
+#define GSTRC               GLOGI->toString
 //===============================================
 class GLog : public GObject {
 public:
@@ -40,7 +41,7 @@ public:
     void catLogFile();
     void tailLogFile(bool _isTestEnv);
     //
-    void addError(const std::string& _error);
+    void addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _error);
     void showError();
     void showError(bool _isDebug, bool _isFileLog);
     bool hasErrors();

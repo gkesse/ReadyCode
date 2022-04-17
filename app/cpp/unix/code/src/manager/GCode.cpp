@@ -4,11 +4,15 @@
 #include "GFormat.h"
 //===============================================
 GCode::GCode() : GXml() {
+    createDoc();
+}
+//===============================================
+GCode::GCode(const std::string& _code) : GXml(_code, false) {
 
 }
 //===============================================
-GCode::GCode(const std::string& _code) : GXml() {
-    setCode(_code);
+GCode::GCode(const std::string& _version, const std::string& _nodeRoot) : GXml(_version, _nodeRoot) {
+    createDoc();
 }
 //===============================================
 GCode::~GCode() {
@@ -16,7 +20,6 @@ GCode::~GCode() {
 }
 //===============================================
 void GCode::createRequest(const std::string& _module, const std::string& _method) {
-    createDoc("1.0", "rdv");
     createCode("request", "module", _module);
     createCode("request", "method", _method);
 }
@@ -31,11 +34,6 @@ std::string GCode::getMethod() {
     return lData;
 }
 //===============================================
-void GCode::setCode(const std::string& _code) {
-    loadXmlData(_code);
-    createXPath();
-}
-//===============================================
 bool GCode::hasCode(const std::string& _code) {
     queryXPath(sformat("/rdv/datas/data[code='%s']", _code.c_str()));
     int lCount = countXPath();
@@ -46,10 +44,6 @@ bool GCode::hasCode(const std::string& _code, const std::string& _key) {
     queryXPath(sformat("/rdv/datas/data[code='%s']/map/data/%s", _code.c_str(), _key.c_str()));
     int lCount = countXPath();
     return (lCount != 0);
-}
-//===============================================
-void GCode::createCode() {
-    createDoc("1.0", "rdv");
 }
 //===============================================
 void GCode::createCode(const std::string& _code) {

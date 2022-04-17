@@ -31,9 +31,7 @@ GLog* GLog::Instance() {
 }
 //===============================================
 void GLog::createDoms() {
-    m_dom.reset(new GXml);
-    m_dom->loadXmlFile(GRES("xml", "pad.xml"));
-    m_dom->createXPath();
+    m_dom.reset(new GXml(GRES("xml", "pad.xml"), true));
 }
 //===============================================
 bool GLog::isDebug() const {
@@ -116,7 +114,7 @@ void GLog::tailLogFile(bool _isTestEnv) {
     }
 }
 //===============================================
-void GLog::addError(const std::string& _error) {
+void GLog::addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _error) {
     m_errors->addError(_error);
 }
 //===============================================

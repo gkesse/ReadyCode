@@ -294,8 +294,7 @@ void GTest::runFormat(int _argc, char** _argv) {
 //===============================================
 void GTest::runXml(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
-    m_dom.reset(new GXml);
-    m_dom->loadXmlFile(GRES("xml", "pad.xml"));
+    m_dom.reset(new GXml(GRES("xml", "pad.xml"), true));
     m_dom->createXPath();
     GLOGW(eGINF, "app_name......: %s\n", getPadItem("app_name").c_str());
     GLOGW(eGINF, "app_version...: %s\n", getPadItem("app_version").c_str());
@@ -508,9 +507,7 @@ void GTest::runTimer(int _argc, char** _argv) {
 void GTest::runRequest(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GXml lReq;
-    lReq.createDoc("1.0");
-    lReq.createRoot("rdv");
-    lReq.createXPath();
+    lReq.createDoc();
     lReq.createNodePath("/rdv/module", "hostname");
     lReq.createNodePath("/rdv/method", "save_hostname");
     GLOGW(eGINF, "%s", lReq.toString().c_str());
@@ -572,7 +569,6 @@ void GTest::runRequestError(int _argc, char** _argv) {
 void GTest::runResponse(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GCode lRes;
-    lRes.createDoc("1.0", "rdv");
     lRes.createCode("request", "module", "test");
     lRes.createCode("request", "method", "save_user");
     lRes.createCode("result", "msg", "ok");
@@ -799,7 +795,7 @@ void GTest::onRequestGetUser(GSocket* _client) {
 }
 //===============================================
 void GTest::onRequestError(GSocket* _client) {
-    GERROR("Erreur cet identifiant existe deja");
-    GERROR("Erreur le mot de passe est incorrect");
+    GERROR(eGERR, "Erreur cet identifiant existe deja");
+    GERROR(eGERR, "Erreur le mot de passe est incorrect");
 }
 //===============================================

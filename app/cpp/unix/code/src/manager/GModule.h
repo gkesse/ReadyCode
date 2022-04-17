@@ -16,10 +16,12 @@ public:
     virtual void onModuleUnknown(GSocket* _client);
     virtual void onMethodUnknown(GSocket* _client);
     //
-    void setRequest(const std::string& _req);
+    bool isValidReq() const;
+    void loadReq();
     void sendResponse(GSocket* _client);
 
 protected:
+    std::string m_xml;
     std::shared_ptr<GCode> m_req;
 };
 //==============================================
