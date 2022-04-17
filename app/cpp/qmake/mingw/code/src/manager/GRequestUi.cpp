@@ -163,7 +163,7 @@ void GRequestUi::onEvent() {
             lXmlFormat.isValidXmlData(lEmissionText);
             lXmlValid &= !lXmlFormat.getErrors()->hasErrors();
 
-            if(!lXmlValid) {
+            if(0 && !lXmlValid) {
                 GERROR(eGERR, QString("Le format XML est invalide."));
             }
             else {
@@ -177,7 +177,7 @@ void GRequestUi::onEvent() {
                 lRequestValid &= (lModule != "");
                 lRequestValid &= (lMethod != "");
 
-                if(!lRequestValid) {
+                if(0 && !lRequestValid) {
                     GERROR(eGERR, QString("Le format de la requete est invalide."));
                 }
                 else {
