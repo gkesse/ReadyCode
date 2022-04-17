@@ -46,7 +46,7 @@ public:
     void showError(bool _isDebug, bool _isFileLog);
     bool hasErrors();
     void clearErrors();
-    void loadErrors(const std::string& _res);
+    void loadErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _res);
     std::vector<std::string>& getErrors();
     //
     void writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _log);

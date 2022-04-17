@@ -115,7 +115,7 @@ void GLog::tailLogFile(bool _isTestEnv) {
 }
 //===============================================
 void GLog::addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _error) {
-    m_errors->addError(_error);
+    m_errors->addError(_name, _level, _file, _line, _func, _error);
 }
 //===============================================
 void GLog::showError() {
@@ -137,8 +137,8 @@ void GLog::clearErrors() {
     m_errors->clearErrors();
 }
 //===============================================
-void GLog::loadErrors(const std::string& _res) {
-    m_errors->loadErrors(_res);
+void GLog::loadErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _res) {
+    m_errors->loadErrors(_name, _level, _file, _line, _func, _res);
 }
 //===============================================
 std::vector<std::string>& GLog::getErrors() {
