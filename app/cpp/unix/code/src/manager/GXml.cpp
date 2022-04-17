@@ -120,17 +120,20 @@ GXml& GXml::createRoot() {
     return *this;
 }
 //===============================================
-GXml& GXml::getRoot(const std::string& _nodename) {
+GXml& GXml::getRoot() {
+    if(!m_doc) return *this;
+    if(m_nodeRoot == "") return *this;
     m_node = xmlDocGetRootElement(m_doc);
     if(!m_node) {
-        GERROR_OBJ(eGERR, "Erreur la methode (GXml::getRoot) a echoue (1)\n"
-                "- noeud......: (%s)", _nodename.c_str());
+        GERROR_OBJ(eGERR, "Erreur le noeud racine n'existe pas.");
         return *this;
     }
     std::string lNodeName = (char*)m_node->name;
-    if(lNodeName != _nodename) {
-        GERROR_OBJ(eGERR, "Erreur la methode (GXml::getRoot) a echoue (2)\n"
-                "- noeud......: (%s)", _nodename.c_str());
+    if(lNodeName != m_nodeRoot) {
+        GERROR_OBJ(eGERR, "Erreur le noeud racine ne correspond pas.\n"
+                "- noeud doc....: (%s)"
+                "- noeud arg....: (%s)"
+                "", lNodeName.c_str(), m_nodeRoot.c_str());
     }
     return *this;
 }

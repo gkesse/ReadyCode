@@ -4,9 +4,6 @@
 //===============================================
 #include "GInclude.h"
 //===============================================
-#define GOBJ_ERR_ADD(...) m_errors->addError(sformat(__VA_ARGS__))
-#define GOBJ_ERR_GET(x) x.getErrors()->toString().c_str()
-//===============================================
 class GXml;
 class GCode;
 class GError;
