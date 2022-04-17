@@ -105,11 +105,6 @@ bool GXml::isValidXml() const {
     return true;
 }
 //===============================================
-GXml& GXml::createDoc(const std::string& _version) {
-    m_doc = xmlNewDoc(BAD_CAST(_version.c_str()));
-    return *this;
-}
-//===============================================
 GXml& GXml::createDoc() {
     if(m_version == "") return *this;
     m_doc = xmlNewDoc(BAD_CAST(m_version.c_str()));
