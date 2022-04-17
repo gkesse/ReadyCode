@@ -1,14 +1,15 @@
 //===============================================
 #include "GXml.h"
 #include "GLog.h"
+#include "GError.h"
 //===============================================
 GXml::GXml(QObject* _parent) : GObject(_parent) {
     m_node = 0;
     m_doc = 0;
     m_xpath = 0;
     m_xpathObj = 0;
-
     xmlKeepBlanksDefault(0);
+    m_errors.reset(new GError(_parent));
 }
 //===============================================
 GXml::~GXml() {
@@ -62,6 +63,16 @@ GXml& GXml::saveXmlFile(const QString& _filename, const QString& _encoding, int 
 
     xmlSaveFormatFileEnc(lFilename.toStdString().c_str(), m_doc, _encoding.toStdString().c_str(), _format);
     return *this;
+}
+//===============================================
+bool GXml::isValidXmlData(const QString& _data) {
+    m_doc = xmlParseDoc(BAD_CAST(_data.toStdString().c_str()));
+    if(!m_doc) {
+        GERROR_OBJ(eGERR, QString("Erreur la source a un format XML invalide.\n"
+                "- source.....: (%1).").arg(_data));
+        return false;
+    }
+    return true;
 }
 //===============================================
 GXml& GXml::createDoc(const QString& _version) {

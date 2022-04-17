@@ -76,3 +76,35 @@ QLabel#flat_message {
 	color: #ffaaaa;
 }
 /* ============================================== */
+QTextEdit#code {
+	font-family: courier;
+	padding: 5px;
+}
+/* ============================================== */
+QTabWidget#flat::pane {
+    border: 2px solid #aaaaff;
+}
+QTabWidget#flat::tab-bar {
+    left: 10px;
+}
+QTabWidget#flat QTabBar::tab {
+    background: transparent;
+    border: 2px solid transparent;
+    border-bottom-color: transparent;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    min-width: 8ex;
+    padding: 2px 10px;
+}
+QTabWidget#flat QTabBar::tab:selected, 
+QTabBar::tab:hover {
+    background: transparent;
+}
+QTabWidget#flat QTabBar::tab:selected {
+    border-color: #aaaaff;
+    border-bottom-color: transparent;
+}
+QTabWidget#flat QTabBar::tab:!selected {
+    margin-top: 2px;
+}
+/* ============================================== */

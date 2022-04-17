@@ -218,6 +218,12 @@ void GLoginUi::createLayout() {
             connect(lLineEdit, SIGNAL(textChanged(QString)), this, SLOT(onEvent(QString)));
             lItemLayout->addWidget(lLineEdit);
         }
+        else {
+            GERROR(eGERR, QString("Erreur le type n'existe pas.\n"
+                    "- type : (%1 : %2)").arg(lCategory).arg(lType));
+            GERROR_SHOWG(eGERR);
+            continue;
+        }
     }
 
     setLayout(lMainLayout);

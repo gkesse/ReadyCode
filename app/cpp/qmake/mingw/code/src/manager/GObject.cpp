@@ -17,3 +17,7 @@ QString GObject::getItem(const QString& _key, const QString& _data) const {
     return lData;
 }
 //===============================================
+QSharedPointer<GError>& GObject::getErrors() {
+    return m_errors;
+}
+//===============================================

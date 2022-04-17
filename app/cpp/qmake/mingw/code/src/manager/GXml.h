@@ -17,6 +17,7 @@ public:
     GXml& loadXmlFile(const QString& _filename);
     GXml& loadXmlData(const QString& _data);
     GXml& saveXmlFile(const QString& _filename = "", const QString& _encoding = "UTF-8", int _format = 4);
+    bool isValidXmlData(const QString& _data);
     //
     GXml& createDoc(const QString& _version);
     GXml& createDoc(const QString& _version, const QString& _rootNode);

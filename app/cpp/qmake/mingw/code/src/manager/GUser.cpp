@@ -19,7 +19,7 @@ bool GUser::hasUser(const QString& _username) const {
     lReq.addParameter("username", _username);
     GLOGT(eGMSG, lReq.toString());
     QString lResponse = lClient.callServer(lReq.toString());
-    GLOGI->loadErrors(lResponse);
+    GERROR_LOAD(eGERR, lResponse);
     return !GLOGI->hasErrors();
 }
 //===============================================
@@ -31,7 +31,7 @@ bool GUser::hasUser(const QString& _username, const QString& _password) const {
     lReq.addParameter("password", _password);
     GLOGT(eGMSG, lReq.toString());
     QString lResponse = lClient.callServer(lReq.toString());
-    GLOGI->loadErrors(lResponse);
+    GERROR_LOAD(eGERR, lResponse);
     return !GLOGI->hasErrors();
 }
 //===============================================

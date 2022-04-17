@@ -1,15 +1,15 @@
 //===============================================
-#ifndef _GLoginUi_
-#define _GLoginUi_
+#ifndef _GRequestUi_
+#define _GRequestUi_
 //===============================================
 #include "GDialog.h"
 //===============================================
-class GLoginUi : public GDialog {
+class GRequestUi : public GDialog {
 	Q_OBJECT
 
 public:
-	GLoginUi(QWidget* _parent = 0);
-	~GLoginUi();
+	GRequestUi(QWidget* _parent = 0);
+	~GRequestUi();
 	void createDoms();
 	void createLayout();
 

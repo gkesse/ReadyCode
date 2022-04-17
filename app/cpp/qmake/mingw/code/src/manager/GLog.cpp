@@ -10,9 +10,9 @@
 //===============================================
 GLog* GLog::m_instance = 0;
 //===============================================
-GLog::GLog() : GObject() {
+GLog::GLog(QObject* _parent) : GObject(_parent) {
     // errors
-    m_errors.reset(new GError);
+    m_errors.reset(new GError(_parent));
     // dom
     createDoms();
     // file
@@ -117,8 +117,7 @@ void GLog::tailLogFile(bool _isTestEnv) {
 }
 //===============================================
 void GLog::addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _error) {
-    traceLog(_name, _level, _file, _line, _func, isDebug(), isFileLog(), _error);
-    m_errors->addError(_error);
+    m_errors->addError(_name, _level, _file, _line, _func, _error);
 }
 //===============================================
 void GLog::showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func) {
@@ -147,8 +146,8 @@ void GLog::clearErrors() {
     m_errors->clearErrors();
 }
 //===============================================
-void GLog::loadErrors(const QString& _res) {
-    m_errors->loadErrors(_res);
+void GLog::loadErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _res) {
+    m_errors->loadErrors(_name, _level, _file, _line, _func, _res);
 }
 //===============================================
 QVector<QString>& GLog::getErrors() {

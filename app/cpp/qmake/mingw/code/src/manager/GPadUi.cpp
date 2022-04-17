@@ -6,6 +6,7 @@
 #include "GPicto.h"
 #include "GLog.h"
 #include "GLoginUi.h"
+#include "GRequestUi.h"
 //===============================================
 GPadUi::GPadUi(QWidget* _parent) :
 GWidget(_parent) {
@@ -45,6 +46,7 @@ void GPadUi::createLayout() {
     resize(lWidth, lHeight);
 
     addObject(new GLoginUi(this), "login/ui");
+    addObject(new GRequestUi(this), "request/ui");
 }
 //===============================================
 QWidget* GPadUi::createHeader() {
@@ -98,8 +100,15 @@ void GPadUi::onEvent() {
     // header/connect
     //===============================================
     if(lKey == "header/connect") {
-    	QDialog* lLoginUi = qobject_cast<GLoginUi*>(getObject("login/ui"));
-    	lLoginUi->exec();
+        QDialog* lLoginUi = qobject_cast<GLoginUi*>(getObject("login/ui"));
+        lLoginUi->exec();
+    }
+    //===============================================
+    // header/request
+    //===============================================
+    else if(lKey == "header/request") {
+        QDialog* lRequestUi = qobject_cast<GRequestUi*>(getObject("request/ui"));
+        lRequestUi->exec();
     }
     //===============================================
     // else

@@ -140,6 +140,67 @@
             </map>
         </data>
 		<!-- ============================================ -->
+        <!-- request -->
+		<!-- ============================================ -->
+        <data>
+            <code>request</code>
+            <title>REQUEST</title>
+            <logo>readydev.png</logo>
+            <width>500</width>
+            <height>300</height>
+            <map>
+				<!-- ============================================ -->
+                <!-- emission -->
+				<!-- ============================================ -->
+                <data>
+                    <category>emission</category>
+                    <type>textedit</type>
+                    <key>request/emission/textedit</key>
+                    <style>code</style>
+                </data>
+				<!-- ============================================ -->
+                <!-- reception -->
+				<!-- ============================================ -->
+                <data>
+                    <category>reception</category>
+                    <type>textedit</type>
+                    <key>request/reception/textedit</key>
+                    <style>code</style>
+                    <readonly>1</readonly>
+                </data>
+				<!-- ============================================ -->
+                <!-- button -->
+				<!-- ============================================ -->
+                <data>
+                    <category>button</category>
+                    <type>button</type>
+                    <key>request/send</key>
+                    <style>flat</style>
+                    <text>Envoyer</text>
+                    <picto>paperplane</picto>
+                    <picto_color>#aaaaff</picto_color>
+                    <picto_size>20</picto_size>
+                </data>
+                <data>
+                    <category>button</category>
+                    <type>button</type>
+                    <key>request/clear</key>
+                    <style>flat</style>
+                    <text>Nettoyer</text>
+                    <picto>trash</picto>
+                    <picto_color>#aaaaff</picto_color>
+                    <picto_size>20</picto_size>
+                </data>
+                <data>
+                    <category>button</category>
+                    <type>spacer</type>
+                </data>
+				<!-- ============================================ -->
+                <!-- end -->
+				<!-- ============================================ -->
+          	</map>
+        </data>
+		<!-- ============================================ -->
         <!-- socket -->
 		<!-- ============================================ -->
         <data>

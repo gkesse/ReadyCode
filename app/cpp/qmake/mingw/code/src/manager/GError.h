@@ -11,11 +11,11 @@ public:
     GError(QObject* _parent = 0);
     ~GError();
     //
-    void addError(const QString& _error);
+    void addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _error);
     QString toString() const;
     bool hasErrors() const;
     void clearErrors();
-    void loadErrors(const QString& _res);
+    void loadErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _res);
     QVector<QString>& getErrors();
 
 private:

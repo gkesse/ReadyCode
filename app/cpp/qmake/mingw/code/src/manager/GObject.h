@@ -14,6 +14,7 @@ public:
 	GObject(QObject* _parent = 0);
 	virtual ~GObject();
 	virtual QString getItem(const QString& _key, const QString& _data) const;
+	QSharedPointer<GError>& getErrors();
 
 protected:
 	QSharedPointer<GXml> m_dom;

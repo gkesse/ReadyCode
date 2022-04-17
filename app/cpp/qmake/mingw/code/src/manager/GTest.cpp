@@ -350,7 +350,7 @@ void GTest::runRequestSaveUser(int _argc, char** _argv) {
     lReq.createCode("parameters", "firstname", "Gerard");
     lReq.createCode("parameters", "lastname", "KESSE");
     QString lResponse = lClient.callServer(lReq.toString());
-    GLOGI->loadErrors(lResponse);
+    GERROR_LOAD(eGERR, lResponse);
     GLOGW(eGINF, lReq.toString());
     GLOGW(eGINF, lResponse);
 }
@@ -361,7 +361,7 @@ void GTest::runRequestGetUser(int _argc, char** _argv) {
     GSocket lClient;
     lReq.createRequest("test", "get_user");
     QString lResponse = lClient.callServer(lReq.toString());
-    GLOGI->loadErrors(lResponse);
+    GERROR_LOAD(eGERR, lResponse);
     GCode lRes(lResponse);
     GLOGT(eGINF, "");
     GLOGW(eGINF, lReq.toString());
@@ -378,7 +378,7 @@ void GTest::runRequestError(int _argc, char** _argv) {
     GSocket lClient;
     lReq.createRequest("test", "error");
     QString lResponse = lClient.callServer(lReq.toString());
-    GLOGI->loadErrors(lResponse);
+    GERROR_LOAD(eGERR, lResponse);
     GLOGT(eGINF, "");
     GLOGW(eGINF, lReq.toString());
     GLOGT(eGINF, "");
