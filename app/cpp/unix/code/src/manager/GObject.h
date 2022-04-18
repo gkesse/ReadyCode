@@ -19,7 +19,6 @@ public:
 
 protected:
     std::shared_ptr<GXml> m_dom;
-    std::shared_ptr<GCode> m_res;
     std::shared_ptr<GError> m_errors;
 };
 //===============================================

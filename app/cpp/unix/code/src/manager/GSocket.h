@@ -60,6 +60,7 @@ private:
     std::queue<std::string> m_dataIns;
     std::queue<GSocket*> m_clientIns;
     std::shared_ptr<GCode> m_req;
+    std::shared_ptr<GCode> m_res;
 };
 //==============================================
 #endif
