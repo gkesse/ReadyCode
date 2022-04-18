@@ -4,15 +4,14 @@
 #================================================
 ps_sql_db $1 "
 --
-create table if not exists request (
+create table if not exists user (
     _id int not null auto_increment,
-    _module varchar(255) not null,
-    _method varchar(255) not null,
-    _msg varchar(32767) not null,
+    _pseudo varchar(255) not null,
+    _password varchar(255) not null,
     _c_date datetime default current_timestamp,
     _u_date datetime on update current_timestamp,
     primary key (_id),
-    unique (_module, _method)
+    unique (_pseudo)
 );
 --
 "
