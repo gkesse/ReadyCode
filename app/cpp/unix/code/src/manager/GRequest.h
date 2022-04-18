@@ -17,6 +17,7 @@ public:
 
 private:
     int m_id;
+    int m_uid;
     std::string m_module;
     std::string m_method;
     std::string m_msg;

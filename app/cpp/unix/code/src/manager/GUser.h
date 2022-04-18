@@ -9,12 +9,14 @@ class GSocket;
 class GUser : public GModule {
 public:
     GUser();
+    GUser(const std::string& _pseudo);
     ~GUser();
     //
     void onModule(GSocket* _client);
     void onCreateUser(GSocket* _client);
     void onSaveUser(GSocket* _client);
     //
+    int getId() const;
     void loadId();
     void saveData();
     void insertData();

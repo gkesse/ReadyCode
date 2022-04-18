@@ -4,9 +4,11 @@
 #include "GFormat.h"
 #include "GMySQL.h"
 #include "GCode.h"
+#include "GUser.h"
 //===============================================
 GRequest::GRequest() : GObject() {
     m_id = 0;
+    m_uid = 0;
     m_module = "";
     m_method = "";
     m_msg = "";
@@ -14,6 +16,7 @@ GRequest::GRequest() : GObject() {
 //===============================================
 GRequest::GRequest(const std::string& _msg) : GObject() {
     m_id = 0;
+    m_uid = 0;
     m_module = "";
     m_method = "";
     m_msg = _msg;
@@ -29,22 +32,28 @@ void GRequest::loadObj() {
     GCode lMsg(m_msg);
     m_module = lMsg.getModule();
     m_method = lMsg.getMethod();
+    std::string lPseudo = lMsg.getParam("pseudo");
+    m_uid = GUser(lPseudo).getId();
     loadId();
 }
 //===============================================
 void GRequest::loadId() {
     if(m_module == "") return;
     if(m_method == "") return;
+    if(!m_uid) return;
     std::string lId = GMySQL().readData(sformat(""
             " select _id "
-            " from request "
-            " where _module = '%s' "
-            " and _method = '%s' "
+            " from request r, user u "
+            " where r._u_id = u._id "
+            " and r._module = '%s' "
+            " and r._method = '%s' "
+            " and r._u_id = %d "
             "", m_module.c_str()
             , m_method.c_str()
+            , m_uid
     ));
     if(lId != "") m_id = std::stoi(lId);
-    GLOGT(eGINF, "m_id : %d", m_id);
+    GLOGT(eGINF, "m_id : %d\nm_uid : %d", m_id, m_uid);
 }
 //===============================================
 void GRequest::saveData() {
@@ -59,9 +68,10 @@ void GRequest::saveData() {
 void GRequest::insertData() {
     GMySQL().execQuery(sformat(""
             " insert into request "
-            " ( _module, _method, _msg ) "
-            " values ( '%s', '%s', '%s' ) "
-            "", m_module.c_str()
+            " ( _u_id, _module, _method, _msg ) "
+            " values ( %d, '%s', '%s', '%s' ) "
+            "", m_uid
+            , m_module.c_str()
             , m_method.c_str()
             , m_msg.c_str()
     ));
@@ -70,11 +80,13 @@ void GRequest::insertData() {
 void GRequest::updateData() {
     GMySQL().execQuery(sformat(""
             " update request "
-            " set _module = '%s' "
+            " set _u_id = %d "
+            " _module = '%s' "
             " , _method = '%s' "
             " , _msg = '%s' "
             " where _id = %d "
-            "", m_module.c_str()
+            "", m_uid
+            , m_module.c_str()
             , m_method.c_str()
             , m_msg.c_str()
             , m_id

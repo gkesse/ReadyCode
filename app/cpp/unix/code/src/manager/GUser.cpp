@@ -12,6 +12,13 @@ GUser::GUser() : GModule() {
     m_password = "";
 }
 //===============================================
+GUser::GUser(const std::string& _pseudo) : GModule() {
+    m_id = 0;
+    m_pseudo = _pseudo;
+    m_password = "";
+    loadId();
+}
+//===============================================
 GUser::~GUser() {
 
 }
@@ -49,7 +56,12 @@ void GUser::onSaveUser(GSocket* _client) {
 
 }
 //===============================================
+int GUser::getId() const {
+    return m_id;
+}
+//===============================================
 void GUser::loadId() {
+    if(m_pseudo == "") return;
     std::string lId = GMySQL().readData(sformat(""
             " select _id "
             " from user "
