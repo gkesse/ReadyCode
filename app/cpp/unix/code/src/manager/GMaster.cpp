@@ -7,6 +7,7 @@
 #include "GSocket.h"
 #include "GCode.h"
 #include "GTest.h"
+#include "GRequest.h"
 //===============================================
 GMaster::GMaster() : GModule() {
 
@@ -31,20 +32,23 @@ void GMaster::onModule(GSocket* _client) {
     else if(!lValidReq) {
         onReqInvalid(_client);
     }
-    //===============================================
-    // module
-    //===============================================
-    else if(lModule == "test") {
-        onModuleTest(_client);
-    }
-    else if(lModule == "user") {
-        onModuleUser(_client);
-    }
-    //===============================================
-    // unknown
-    //===============================================
     else {
-        onModuleUnknown(_client);
+        GRequest().saveData();
+        //===============================================
+        // module
+        //===============================================
+        if(lModule == "test") {
+            onModuleTest(_client);
+        }
+        else if(lModule == "user") {
+            onModuleUser(_client);
+        }
+        //===============================================
+        // unknown
+        //===============================================
+        else {
+            onModuleUnknown(_client);
+        }
     }
 }
 //===============================================

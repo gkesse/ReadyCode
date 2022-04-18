@@ -48,7 +48,7 @@ void GRequest::loadId() {
 }
 //===============================================
 void GRequest::saveData() {
-    if(m_id == 0) {
+    if(!m_id) {
         insertData();
     }
     else {
