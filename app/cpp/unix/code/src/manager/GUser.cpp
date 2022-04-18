@@ -52,7 +52,7 @@ void GUser::onSaveUser(GSocket* _client) {
 void GUser::loadId() {
     std::string lId = GMySQL().readData(sformat(""
             " select _id "
-            " from request "
+            " from user "
             " where _pseudo = '%s' "
             "", m_pseudo.c_str()
     ));
