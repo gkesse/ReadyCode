@@ -68,6 +68,7 @@ void GRequest::saveData() {
 }
 //===============================================
 void GRequest::insertData() {
+    if(m_uid) return;
     GMySQL().execQuery(sformat(""
             " insert into request "
             " ( _u_id, _module, _method, _msg ) "
@@ -80,6 +81,7 @@ void GRequest::insertData() {
 }
 //===============================================
 void GRequest::updateData() {
+    if(m_uid) return;
     GMySQL().execQuery(sformat(""
             " update request "
             " set _u_id = %d "
