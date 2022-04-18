@@ -229,10 +229,10 @@ int GSocket::writeData(const std::string& _data) {
     int lLength = _data.size();
     int lSize = (int)ceil((double)lLength/BUFFER_DATA_SIZE);
     std::string lBuffer = iformat(lSize, BUFFER_NDATA_SIZE);
-    GLOGT(eGMSG, "[%s]", lBuffer.c_str());
+    GLOGT(eGMSG, "[EMISSION] :\n%s", lBuffer.c_str());
     sendData(lBuffer);
 
-    GLOGT(eGMSG, "%s", _data.c_str());
+    GLOGT(eGMSG, "[EMISSION] :\n%s", _data.c_str());
     for(int i = 0; i < lSize; i++) {
         std::string lBuffer = _data.substr(lBytes, BUFFER_DATA_SIZE);
         int iBytes = sendData(lBuffer);
