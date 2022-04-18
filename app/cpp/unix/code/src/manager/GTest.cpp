@@ -305,7 +305,8 @@ void GTest::runXml(int _argc, char** _argv) {
 //===============================================
 void GTest::runXmlCheck(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
-    m_dom.reset(new GXml("Bonjour tout le monde", false));
+    m_dom.reset(new GXml);
+    m_dom->loadXml("Bonjour tout le monde", false);
     GLOGW(eGINF, "isValid : %s\n", GSTRC(m_dom->isValidXml()).c_str());
 }
 //===============================================

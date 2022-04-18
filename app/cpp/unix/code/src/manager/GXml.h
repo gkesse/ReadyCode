@@ -15,6 +15,7 @@ public:
     void cleanModule();
     //
     void loadXml();
+    void loadXml(const std::string& _data, bool _isFile);
     GXml& loadXmlData(const std::string& _data);
     GXml& saveXmlFile(const std::string& _filename = "", const std::string& _encoding = "UTF-8", int _format = 4);
     bool isValidXml() const;
