@@ -21,16 +21,32 @@ GMaster::~GMaster() {
 }
 //===============================================
 void GMaster::onModule(GSocket* _client) {
+    bool lValidXml = m_req->isValidXml();
+    bool lValidReq = m_req->isValidReq();
     std::string lModule = m_req->getModule();
+    std::string lMethod = m_req->getMethod();
 
+    //===============================================
+    // valid
+    //===============================================
+    if(!lValidXml) {
+        onXmlInvalid(_client);
+    }
+    else if(!lValidReq) {
+        onReqInvalid(_client);
+    }
+    //===============================================
     // module
-    if(lModule == "test") {
+    //===============================================
+    else if(lModule == "test") {
         onModuleTest(_client);
     }
     else if(lModule == "user") {
         onModuleUser(_client);
     }
+    //===============================================
     // unknown
+    //===============================================
     else {
         onModuleUnknown(_client);
     }

@@ -34,6 +34,13 @@ std::string GCode::getMethod() {
     return lData;
 }
 //===============================================
+bool GCode::isValidReq() {
+    bool lValidReq = true;
+    lValidReq &= (getModule() != "");
+    lValidReq &= (getMethod() != "");
+    return lValidReq;
+}
+//===============================================
 bool GCode::hasCode(const std::string& _code) {
     queryXPath(sformat("/rdv/datas/data[code='%s']", _code.c_str()));
     int lCount = countXPath();

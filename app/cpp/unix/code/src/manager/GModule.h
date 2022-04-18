@@ -13,10 +13,11 @@ public:
     GModule(const std::string& _req);
     virtual ~GModule();
     //
+    virtual void onXmlInvalid(GSocket* _client);
+    virtual void onReqInvalid(GSocket* _client);
     virtual void onModuleUnknown(GSocket* _client);
     virtual void onMethodUnknown(GSocket* _client);
     //
-    bool isValidReq() const;
     void loadReq();
     void sendResponse(GSocket* _client);
 

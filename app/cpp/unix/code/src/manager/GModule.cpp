@@ -19,6 +19,16 @@ GModule::~GModule() {
 
 }
 //===============================================
+void GModule::onXmlInvalid(GSocket* _client) {
+    GERROR(eGERR, "Erreur le format XML est invalide.",
+            m_req->getModule().c_str());
+}
+//===============================================
+void GModule::onReqInvalid(GSocket* _client) {
+    GERROR(eGERR, "Erreur la requete XML est invalide.",
+            m_req->getModule().c_str());
+}
+//===============================================
 void GModule::onModuleUnknown(GSocket* _client) {
     GERROR(eGERR, "Erreur le module (%s) n'existe pas",
             m_req->getModule().c_str());
@@ -32,11 +42,6 @@ void GModule::onMethodUnknown(GSocket* _client) {
 void GModule::loadReq() {
     if(m_xml == "") return;
     m_req.reset(new GCode(m_xml));
-}
-//===============================================
-bool GModule::isValidReq() const {
-    if(m_xml == "") return false;
-    return m_req->isValidXml();
 }
 //===============================================
 void GModule::sendResponse(GSocket* _client) {

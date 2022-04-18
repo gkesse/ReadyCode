@@ -14,6 +14,7 @@ public:
     void createRequest(const std::string& _module, const std::string& _method);
     std::string getModule();
     std::string getMethod();
+    bool isValidReq();
     //
     bool hasCode(const std::string& _code);
     bool hasCode(const std::string& _code, const std::string& _key);
