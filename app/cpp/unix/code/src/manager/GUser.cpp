@@ -4,14 +4,9 @@
 #include "GFormat.h"
 #include "GCode.h"
 #include "GMySQL.h"
+#include "GSocket.h"
 //===============================================
 GUser::GUser() : GModule() {
-    m_id = 0;
-    m_pseudo = "";
-    m_password = "";
-}
-//===============================================
-GUser::GUser(const std::string& _req) : GModule(_req) {
     m_id = 0;
     m_pseudo = "";
     m_password = "";
@@ -22,7 +17,7 @@ GUser::~GUser() {
 }
 //===============================================
 void GUser::onModule(GSocket* _client) {
-    std::string lMethod = m_req->getMethod();
+    std::string lMethod = _client->getReq()->getMethod();
 
     //===============================================
     // method
