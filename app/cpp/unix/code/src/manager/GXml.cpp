@@ -68,10 +68,11 @@ void GXml::loadXml(const std::string& _data, bool _isFile) {
         try {
             m_doc = xmlParseFile(_data.c_str());
         }
-        catch (std::exception& e) {
+        catch (...) {
+            std::exception_ptr e = std::current_exception();
             GERROR_OBJ(eGERR, "Erreur le format XML est invalide.\n"
                     "- error : %s",
-                    e.what());
+                    e.__cxa_exception_type()->name());
             return;
         }
     }
@@ -79,10 +80,11 @@ void GXml::loadXml(const std::string& _data, bool _isFile) {
         try {
             m_doc = xmlParseDoc(BAD_CAST(_data.c_str()));
         }
-        catch (std::exception& e) {
+        catch (...) {
+            std::exception_ptr e = std::current_exception();
             GERROR_OBJ(eGERR, "Erreur le format XML est invalide.\n"
                     "- error : %s",
-                    e.what());
+                    e.__cxa_exception_type()->name());
             return;
         }
     }
