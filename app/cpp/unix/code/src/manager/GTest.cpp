@@ -305,8 +305,8 @@ void GTest::runXml(int _argc, char** _argv) {
 //===============================================
 void GTest::runXmlCheck(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
-    m_dom.reset(new GXml(GRES("xml", "pad.xml"), true));
-    GLOGW(eGINF, "isValid : %s\n", GSTRC(m_dom->isValidXml()));
+    m_dom.reset(new GXml("Bonjour tout le monde", false));
+    GLOGW(eGINF, "isValid : %s\n", GSTRC(m_dom->isValidXml()).c_str());
 }
 //===============================================
 void GTest::runSocketServer(int _argc, char** _argv) {
