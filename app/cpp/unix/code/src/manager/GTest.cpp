@@ -299,8 +299,8 @@ void GTest::runXml(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     m_dom.reset(new GXml(GRES("xml", "pad.xml"), true));
     m_dom->createXPath();
-    GLOGW(eGINF, "app_name......: %s\n", getItem("pad", "app_name").c_str());
-    GLOGW(eGINF, "app_version...: %s\n", getItem("pad", "app_version").c_str());
+    GLOGT(eGINF, "app_name.....: %s", getItem("pad", "app_name").c_str());
+    GLOGT(eGINF, "app_version..: %s", getItem("pad", "app_version").c_str());
 }
 //===============================================
 void GTest::runXmlCheck(int _argc, char** _argv) {
