@@ -8,10 +8,6 @@ GHost::GHost() : GModule() {
 
 }
 //===============================================
-GHost::GHost(const std::string& _req) : GModule(_req) {
-
-}
-//===============================================
 GHost::~GHost() {
 
 }
