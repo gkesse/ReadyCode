@@ -15,6 +15,7 @@ public:
     void onCreateUser(GSocket* _client);
     void onSaveUser(GSocket* _client);
     //
+    void loadId();
     void saveData();
     void insertData();
     void updateData();

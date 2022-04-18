@@ -177,7 +177,7 @@ int GSocket::readData(std::string& _data) {
     _data.clear();
     std::string lBuffer;
     recvData(lBuffer, BUFFER_NDATA_SIZE);
-    GLOGT(eGMSG, "[RECEPTION] :\n[%s]", lBuffer.c_str());
+    GLOGT(eGOFF, "[RECEPTION] :\n[%s]", lBuffer.c_str());
     int lSize;
     if(GString(lBuffer).toInt(lSize)) {
         return -1;
@@ -197,7 +197,7 @@ int GSocket::readData(std::string& _data) {
         _data += lBuffer;
         lBytes += iBytes;
     }
-    GLOGT(eGMSG, "[RECEPTION] :\n%s", _data.c_str());
+    GLOGT(eGOFF, "[RECEPTION] :\n%s", _data.c_str());
     return lBytes;
 }
 //===============================================
@@ -229,10 +229,10 @@ int GSocket::writeData(const std::string& _data) {
     int lLength = _data.size();
     int lSize = (int)ceil((double)lLength/BUFFER_DATA_SIZE);
     std::string lBuffer = iformat(lSize, BUFFER_NDATA_SIZE);
-    GLOGT(eGMSG, "[EMISSION] :\n%s", lBuffer.c_str());
+    GLOGT(eGOFF, "[EMISSION] :\n%s", lBuffer.c_str());
     sendData(lBuffer);
 
-    GLOGT(eGMSG, "[EMISSION] :\n%s", _data.c_str());
+    GLOGT(eGOFF, "[EMISSION] :\n%s", _data.c_str());
     for(int i = 0; i < lSize; i++) {
         std::string lBuffer = _data.substr(lBytes, BUFFER_DATA_SIZE);
         int iBytes = sendData(lBuffer);

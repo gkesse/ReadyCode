@@ -41,10 +41,23 @@ void GUser::onCreateUser(GSocket* _client) {
     m_pseudo = lReq->getParam("pseudo");
     m_password = lReq->getParam("password");
     GLOGT(eGMSG, "pseudo : %s\npassword : %s", m_pseudo.c_str() , m_password.c_str());
+    loadId();
+    saveData();
 }
 //===============================================
 void GUser::onSaveUser(GSocket* _client) {
 
+}
+//===============================================
+void GUser::loadId() {
+    std::string lId = GMySQL().readData(sformat(""
+            " select _id "
+            " from request "
+            " where _pseudo = '%s' "
+            "", m_pseudo.c_str()
+    ));
+    if(lId != "") m_id = std::stoi(lId);
+    GLOGT(eGINF, "m_id.........: %d", m_id);
 }
 //===============================================
 void GUser::saveData() {
