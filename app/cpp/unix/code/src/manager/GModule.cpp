@@ -25,7 +25,7 @@ void GModule::onXmlInvalid(GSocket* _client) {
 }
 //===============================================
 void GModule::onReqInvalid(GSocket* _client) {
-    GERROR(eGERR, "Erreur la requete XML est invalide.",
+    GERROR(eGERR, "Erreur le format de la requete est invalide.",
             m_req->getModule().c_str());
 }
 //===============================================
