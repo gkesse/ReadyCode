@@ -49,12 +49,10 @@ void GMaster::onModule(GSocket* _client) {
 }
 //===============================================
 void GMaster::onModuleTest(GSocket* _client) {
-    GTest lModule(_client->getReq());
-    lModule.onModule(_client);
+    GTest().onModule(_client);
 }
 //===============================================
 void GMaster::onModuleUser(GSocket* _client) {
-    GUser lModule(_client->getReq());
-    lModule.onModule(_client);
+    GUser().onModule(_client);
 }
 //===============================================

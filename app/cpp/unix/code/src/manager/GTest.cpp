@@ -446,9 +446,8 @@ void GTest::onSocketServerStartTimer(int _signo) {
         GSocket* lClient = lClientIns.front();
         lClientIns.pop();
         GLOGT(eGERR, "[RECEPTION] :\n%s", lClient->getReq()->toString().c_str());
-        GMaster lMaster;
-        lMaster.onModule(lClient);
-        lMaster.sendResponse(lClient);
+        GMaster().onModule(lClient);
+        GMaster().sendResponse(lClient);
     }
 }
 //===============================================
