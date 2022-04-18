@@ -211,22 +211,6 @@ void GRequestUi::onEvent() {
 }
 //===============================================
 void GRequestUi::onEvent(const QString& _text) {
-    QString lKey = m_objectMap[sender()];
-    //===============================================
-    // login/username
-    //===============================================
-    if(lKey == "login/username") {
-        QPushButton* lUsernameClear = qobject_cast<QPushButton*>(getObject("login/username/clear"));
-        bool lVisible = (_text != "");
-        lUsernameClear->setVisible(lVisible);
-    }
-    //===============================================
-    // login/password
-    //===============================================
-    else if(lKey == "login/password") {
-        QPushButton* lPasswordClear = qobject_cast<QPushButton*>(getObject("login/password/clear"));
-        bool lVisible = (_text != "");
-        lPasswordClear->setVisible(lVisible);
-    }
+
 }
 //===============================================
