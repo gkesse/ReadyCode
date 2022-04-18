@@ -69,6 +69,9 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "xml") {
         runXml(_argc, _argv);
     }
+    else if(lKey == "xml/check") {
+        runXmlCheck(_argc, _argv);
+    }
     // socket
     else if(lKey == "socket/server") {
         runSocketServer(_argc, _argv);
@@ -296,15 +299,14 @@ void GTest::runXml(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     m_dom.reset(new GXml(GRES("xml", "pad.xml"), true));
     m_dom->createXPath();
-    GLOGW(eGINF, "app_name......: %s\n", getPadItem("app_name").c_str());
-    GLOGW(eGINF, "app_version...: %s\n", getPadItem("app_version").c_str());
+    GLOGW(eGINF, "app_name......: %s\n", getItem("pad", "app_name").c_str());
+    GLOGW(eGINF, "app_version...: %s\n", getItem("pad", "app_version").c_str());
 }
 //===============================================
-std::string GTest::getPadItem(const std::string& _data) const {
-    m_dom->queryXPath(sformat("/rdv/datas/data[code='pad']/%s", _data.c_str()));
-    m_dom->getNodeXPath();
-    std::string lData = m_dom->getNodeValue();
-    return lData;
+void GTest::runXmlCheck(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    m_dom.reset(new GXml(GRES("xml", "pad.xml"), true));
+    GLOGW(eGINF, "isValid : %s\n", GSTRC(m_dom->isValidXml()));
 }
 //===============================================
 void GTest::runSocketServer(int _argc, char** _argv) {

@@ -20,7 +20,7 @@ public:
     void runPath(int _argc, char** _argv);
     void runFormat(int _argc, char** _argv);
     void runXml(int _argc, char** _argv);
-    std::string getPadItem(const std::string& _data) const;
+    void runXmlCheck(int _argc, char** _argv);
     void runSocketServer(int _argc, char** _argv);
     void runSocketClient(int _argc, char** _argv);
     void runSocketServerFile(int _argc, char** _argv);
