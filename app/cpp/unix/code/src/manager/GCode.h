@@ -11,9 +11,10 @@ public:
     GCode(const std::string& _version, const std::string& _nodeRoot);
     ~GCode();
     //
-    void createRequest(const std::string& _module, const std::string& _method);
+    void createReq(const std::string& _module, const std::string& _method);
     std::string getModule();
     std::string getMethod();
+    std::string getParam(const std::string& _param);
     bool isValidReq();
     //
     bool hasCode(const std::string& _code);

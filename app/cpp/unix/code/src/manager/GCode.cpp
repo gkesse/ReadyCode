@@ -19,7 +19,7 @@ GCode::~GCode() {
 
 }
 //===============================================
-void GCode::createRequest(const std::string& _module, const std::string& _method) {
+void GCode::createReq(const std::string& _module, const std::string& _method) {
     createCode("request", "module", _module);
     createCode("request", "method", _method);
 }
@@ -31,6 +31,11 @@ std::string GCode::getModule() {
 //===============================================
 std::string GCode::getMethod() {
     std::string lData = getItem("request", "method");
+    return lData;
+}
+//===============================================
+std::string GCode::getParam(const std::string& _param) {
+    std::string lData = getItem("params", _param);
     return lData;
 }
 //===============================================

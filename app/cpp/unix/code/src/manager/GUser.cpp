@@ -37,7 +37,11 @@ void GUser::onModule(GSocket* _client) {
 }
 //===============================================
 void GUser::onCreateUser(GSocket* _client) {
-
+    std::shared_ptr<GCode>& lReq = _client->getReq();
+    m_pseudo = lReq->getParam("pseudo");
+    m_password = lReq->getParam("pseudo");
+    GLOGT(eGMSG, "%s", m_pseudo.c_str());
+    GLOGT(eGMSG, "%s", m_password.c_str());
 }
 //===============================================
 void GUser::onSaveUser(GSocket* _client) {
