@@ -65,28 +65,14 @@ void GXml::loadXml() {
 void GXml::loadXml(const std::string& _data, bool _isFile) {
     if(_data == "") return;
     if(_isFile) {
-        try {
-            m_doc = xmlParseFile(_data.c_str());
-        }
-        catch (...) {
-            std::exception_ptr e = std::current_exception();
-            GERROR_OBJ(eGERR, "Erreur le format XML est invalide.\n"
-                    "- error : %s",
-                    e.__cxa_exception_type()->name());
-            return;
-        }
+        m_doc = xmlParseFile(_data.c_str());
     }
     else {
-        try {
-            m_doc = xmlParseDoc(BAD_CAST(_data.c_str()));
-        }
-        catch (...) {
-            std::exception_ptr e = std::current_exception();
-            GERROR_OBJ(eGERR, "Erreur le format XML est invalide.\n"
-                    "- error : %s",
-                    e.__cxa_exception_type()->name());
-            return;
-        }
+        m_doc = xmlParseDoc(BAD_CAST(_data.c_str()));
+    }
+    if(!m_doc) {
+        GERROR_OBJ(eGERR, "Erreur le format XML est invalide.");
+        return;
     }
     createXPath();
 }
