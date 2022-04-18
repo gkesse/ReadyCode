@@ -32,7 +32,7 @@ void GMaster::onModule(GSocket* _client) {
 }
 //===============================================
 void GMaster::onModuleTest(GSocket* _client) {
-    GTest lModule(_client->getRequest());
+    GTest lModule(_client->getReq());
     lModule.onModule(_client);
 }
 //===============================================

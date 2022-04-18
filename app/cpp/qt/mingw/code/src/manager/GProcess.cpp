@@ -398,7 +398,7 @@ void CALLBACK GProcess::onSocketServerTimer(HWND hwnd, UINT uMsg, UINT_PTR timer
         std::string lModule = lDom.getModule();
         std::string lMethod = lDom.getMethod();
 
-        lClient->setRequest(lRequest);
+        lClient->setReq(lRequest);
 
         if(lModule == "chat") {
             onModuleChat(lClient);

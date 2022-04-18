@@ -71,7 +71,7 @@ void GChat::setPseudo(const std::string& _pseudo) {
 //===============================================
 void GChat::onModule(GSocket* _client) {
     GChat lRequest;
-    lRequest.loadDom(_client->getRequest());
+    lRequest.loadDom(_client->getReq());
     std::string lMethod = lRequest.getMethod();
 
     GSocket* lServer = _client->getServer();
@@ -92,7 +92,7 @@ void GChat::onModule(GSocket* _client) {
 //===============================================
 void GChat::onConnectClient(GSocket* _client) {
     GChat lRequest;
-    lRequest.loadDom(_client->getRequest());
+    lRequest.loadDom(_client->getReq());
     std::string lId = lRequest.readId();
     std::string lPseudo = lRequest.readPseudo();
 }

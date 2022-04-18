@@ -13,6 +13,8 @@ public:
     GObject();
     virtual ~GObject();
     virtual std::string getItem(const std::string& _code, const std::string& _data) const;
+    virtual std::string getItem(const std::string& _code, const std::string& _key, int _index);
+    virtual int countItem(const std::string& _code, const std::string& _key);
     std::shared_ptr<GError>& getErrors();
 
 protected:

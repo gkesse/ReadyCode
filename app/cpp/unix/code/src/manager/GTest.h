@@ -9,7 +9,6 @@ class GSocket;
 class GTest : public GModule {
 public:
     GTest();
-    GTest(const std::string& _req);
     ~GTest();
     void run(int _argc, char** _argv);
     void runTest(int _argc, char** _argv);

@@ -9,7 +9,6 @@ class GSocket;
 class GMaster : public GModule {
 public:
     GMaster();
-    GMaster(const std::string& _req);
     ~GMaster();
     //
     void onModule(GSocket* _client);

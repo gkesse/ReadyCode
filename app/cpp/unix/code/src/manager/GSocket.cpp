@@ -308,7 +308,7 @@ void* GSocket::onServerThread(GSocket* _client) {
         return 0;
     }
     GLOGT(eGMSG, "[RECEPTION] :\n[%s]", lData.c_str());
-    lClient->setRequest(lData);
+    lClient->setReq(lData);
     lClientIns.push(lClient);
     return 0;
 }
@@ -338,12 +338,12 @@ std::string GSocket::callServer(const std::string& _dataIn) {
     return lDataOut;
 }
 //===============================================
-void GSocket::setRequest(const std::string& _req) {
-    m_request = _req;
+void GSocket::setReq(const std::string& _req) {
+    m_req.reset(new GCode(_req));
 }
 //===============================================
-std::string GSocket::getRequest() const {
-    return m_request;
+std::shared_ptr<GCode>& GSocket::getReq() {
+    return m_req;
 }
 //===============================================
 std::queue<std::string>& GSocket::getDataIns() {

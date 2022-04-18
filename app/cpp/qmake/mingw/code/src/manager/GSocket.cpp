@@ -379,7 +379,7 @@ void GSocket::setRequest(const QString& _req) {
     m_request = _req;
 }
 //===============================================
-QString GSocket::getRequest() const {
+QString GSocket::getReq() const {
     return m_request;
 }
 //===============================================

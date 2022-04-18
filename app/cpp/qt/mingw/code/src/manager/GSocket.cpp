@@ -434,11 +434,11 @@ GSocket* GSocket::getServer() const {
     return m_server;
 }
 //===============================================
-std::string GSocket::getRequest() const {
+std::string GSocket::getReq() const {
     return m_request;
 }
 //===============================================
-void GSocket::setRequest(const std::string& _request) {
+void GSocket::setReq(const std::string& _request) {
     m_request = _request;
 }
 //===============================================

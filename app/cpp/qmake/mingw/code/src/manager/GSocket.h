@@ -49,7 +49,7 @@ public:
     QString callServer(const QString& _dataIn);
     //
     void setRequest(const QString& _req);
-    QString getRequest() const;
+    QString getReq() const;
     QStack<GSocket*>& getClientIns();
     QSharedPointer<GCode>& getResponse();
 

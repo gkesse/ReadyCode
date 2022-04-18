@@ -273,7 +273,7 @@ VOID CALLBACK GTest::onSocketServerStartTimer(HWND, UINT, UINT_PTR, DWORD) {
     if(!lClientIns.empty()) {
         GSocket* lClient = lClientIns.front();
         lClientIns.pop();
-        GMaster lMaster(lClient->getRequest());
+        GMaster lMaster(lClient->getReq());
         lMaster.onModule(lClient);
         lMaster.sendResponse(lClient);
     }

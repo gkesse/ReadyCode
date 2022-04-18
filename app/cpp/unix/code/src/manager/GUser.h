@@ -13,7 +13,17 @@ public:
     ~GUser();
     //
     void onModule(GSocket* _client);
+    void onCreateUser(GSocket* _client);
     void onSaveUser(GSocket* _client);
+    //
+    void saveData();
+    void insertData();
+    void updateData();
+
+private:
+    int m_id;
+    std::string m_pseudo;
+    std::string m_password;
 };
 //==============================================
 #endif

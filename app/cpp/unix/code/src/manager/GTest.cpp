@@ -28,10 +28,6 @@ GTest::GTest() : GModule() {
     m_server = 0;
 }
 //===============================================
-GTest::GTest(const std::string& _req) : GModule(_req) {
-    m_server = 0;
-}
-//===============================================
 GTest::~GTest() {
 
 }
@@ -449,8 +445,8 @@ void GTest::onSocketServerStartTimer(int _signo) {
     if(!lClientIns.empty()) {
         GSocket* lClient = lClientIns.front();
         lClientIns.pop();
-        GLOGT(eGERR, "[RECEPTION] :\n%s", lClient->getRequest().c_str());
-        GMaster lMaster(lClient->getRequest());
+        GLOGT(eGERR, "[RECEPTION] :\n%s", lClient->getReq()->toString().c_str());
+        GMaster lMaster;
         lMaster.onModule(lClient);
         lMaster.sendResponse(lClient);
     }
@@ -764,7 +760,7 @@ void GTest::runDir(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::onModule(GSocket* _client) {
-    std::string lMethod = m_req->getMethod();
+    std::string lMethod = _client->getReq()->getMethod();
 
     // method
     if(lMethod == "save_user") {
@@ -783,8 +779,8 @@ void GTest::onModule(GSocket* _client) {
 }
 //===============================================
 void GTest::onRequestSaveUser(GSocket* _client) {
-    std::string lFirstname = m_req->getItem("parameters", "firstname");
-    std::string lLastname = m_req->getItem("parameters", "lastname");
+    std::string lFirstname = _client->getReq()->getItem("parameters", "firstname");
+    std::string lLastname = _client->getReq()->getItem("parameters", "lastname");
     GLOGT(eGFUN, "");
     GLOGW(eGINF, "firstname......: %s", lFirstname.c_str());
     GLOGW(eGINF, "lastname.......: %s", lLastname.c_str());

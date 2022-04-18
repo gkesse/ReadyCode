@@ -4,6 +4,8 @@
 //===============================================
 #include "GObject.h"
 //===============================================
+class GCode;
+//===============================================
 class GSocket : public GObject {
 public:
     GSocket();
@@ -38,8 +40,8 @@ public:
     static void* onServerThread(GSocket* _client);
     std::string callServer(const std::string& _dataIn);
     //
-    void setRequest(const std::string& _req);
-    std::string getRequest() const;
+    void setReq(const std::string& _req);
+    std::shared_ptr<GCode>& getReq();
     std::queue<std::string>& getDataIns();
     std::queue<GSocket*>& getClientIns();
     std::shared_ptr<GCode>& getResponse();
@@ -57,7 +59,7 @@ private:
     GSocket* m_server;
     std::queue<std::string> m_dataIns;
     std::queue<GSocket*> m_clientIns;
-    std::string m_request;
+    std::shared_ptr<GCode> m_req;
 };
 //==============================================
 #endif

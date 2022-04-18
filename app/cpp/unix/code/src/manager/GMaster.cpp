@@ -12,19 +12,15 @@ GMaster::GMaster() : GModule() {
 
 }
 //===============================================
-GMaster::GMaster(const std::string& _req) : GModule(_req) {
-
-}
-//===============================================
 GMaster::~GMaster() {
 
 }
 //===============================================
 void GMaster::onModule(GSocket* _client) {
-    bool lValidXml = m_req->isValidXml();
-    bool lValidReq = m_req->isValidReq();
-    std::string lModule = m_req->getModule();
-    std::string lMethod = m_req->getMethod();
+    bool lValidXml = _client->getReq()->isValidXml();
+    bool lValidReq = _client->getReq()->isValidReq();
+    std::string lModule = _client->getReq()->getModule();
+    std::string lMethod = _client->getReq()->getMethod();
 
     //===============================================
     // valid
@@ -53,12 +49,12 @@ void GMaster::onModule(GSocket* _client) {
 }
 //===============================================
 void GMaster::onModuleTest(GSocket* _client) {
-    GTest lModule(_client->getRequest());
+    GTest lModule(_client->getReq());
     lModule.onModule(_client);
 }
 //===============================================
 void GMaster::onModuleUser(GSocket* _client) {
-    GUser lModule(_client->getRequest());
+    GUser lModule(_client->getReq());
     lModule.onModule(_client);
 }
 //===============================================

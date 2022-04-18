@@ -7,12 +7,7 @@
 #include "GXml.h"
 //===============================================
 GModule::GModule() : GObject() {
-    m_xml = "";
-}
-//===============================================
-GModule::GModule(const std::string& _req) : GObject() {
-    m_xml = _req;
-    loadReq();
+
 }
 //===============================================
 GModule::~GModule() {
@@ -21,27 +16,22 @@ GModule::~GModule() {
 //===============================================
 void GModule::onXmlInvalid(GSocket* _client) {
     GERROR(eGERR, "Erreur le format XML est invalide.",
-            m_req->getModule().c_str());
+            _client->getReq()->getModule().c_str());
 }
 //===============================================
 void GModule::onReqInvalid(GSocket* _client) {
     GERROR(eGERR, "Erreur le format de la requete est invalide.",
-            m_req->getModule().c_str());
+            _client->getReq()->getModule().c_str());
 }
 //===============================================
 void GModule::onModuleUnknown(GSocket* _client) {
     GERROR(eGERR, "Erreur le module (%s) n'existe pas",
-            m_req->getModule().c_str());
+            _client->getReq()->getModule().c_str());
 }
 //===============================================
 void GModule::onMethodUnknown(GSocket* _client) {
     GERROR(eGERR, "Erreur la methode (%s : %s) n'existe pas",
-            m_req->getModule().c_str(), m_req->getMethod().c_str());
-}
-//===============================================
-void GModule::loadReq() {
-    if(m_xml == "") return;
-    m_req.reset(new GCode(m_xml));
+            _client->getReq()->getModule().c_str(), _client->getReq()->getMethod().c_str());
 }
 //===============================================
 void GModule::sendResponse(GSocket* _client) {

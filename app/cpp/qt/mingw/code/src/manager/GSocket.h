@@ -69,8 +69,8 @@ public:
     //
     GSocket* getServer() const;
     //
-    std::string getRequest() const;
-    void setRequest(const std::string& _request);
+    std::string getReq() const;
+    void setReq(const std::string& _request);
     //
     void showMessage(const std::string& _data) const;
     //
