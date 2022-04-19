@@ -6,7 +6,7 @@ GBIN = bin
 GBUILD = build
 GTARGET = $(GBIN)/rdcpp.exe
 
-GRLIB = ../../libs
+GRLIB = ../../incs
 
 GINCS =\
     -I$(GSRC)/manager \
