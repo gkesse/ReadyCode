@@ -84,7 +84,7 @@ void GRequest::insertData() {
             "", m_uid
             , m_module.c_str()
             , m_method.c_str()
-            , GBase64(m_msg).encodeData().c_str()
+            , "GBase64(m_msg).encodeData().c_str()"
     ));
 }
 //===============================================
@@ -100,7 +100,7 @@ void GRequest::updateData() {
             "", m_uid
             , m_module.c_str()
             , m_method.c_str()
-            , GBase64(m_msg).encodeData().c_str()
+            , "GBase64(m_msg).encodeData().c_str()"
             , m_id
     ));
 }
