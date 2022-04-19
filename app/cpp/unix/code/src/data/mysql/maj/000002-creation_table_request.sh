@@ -14,7 +14,7 @@ create table if not exists request (
     _c_date datetime default current_timestamp,
     _u_date datetime on update current_timestamp,
     primary key (_id),
-    unique (_module, _method),
+    unique (_u_id, _module, _method),
     foreign key (_u_id) references user (_id)
 );
 --
