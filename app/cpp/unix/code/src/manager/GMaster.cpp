@@ -51,7 +51,8 @@ void GMaster::onModule(GSocket* _client) {
         //===============================================
         // end
         //===============================================
-        GRequest(_client->getReq()->toString()).saveData();
+        GRequest lReq(_client->getReq()->toString());
+        lReq.saveData();
         //===============================================
     }
 }
