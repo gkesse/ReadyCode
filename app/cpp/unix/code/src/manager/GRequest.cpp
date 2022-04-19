@@ -79,7 +79,7 @@ void GRequest::insertData() {
     GMySQL().execQuery(sformat(""
             " insert into request "
             " ( _u_id, _module, _method, _msg ) "
-            " values ( %d, '%s', '%s', '%s' ) "
+            " values ( %d, '%s', '%s', to_base64('%s') ) "
             "", m_uid
             , m_module.c_str()
             , m_method.c_str()
@@ -94,7 +94,7 @@ void GRequest::updateData() {
             " set _u_id = %d "
             " , _module = '%s' "
             " , _method = '%s' "
-            " , _msg = '%s' "
+            " , _msg = to_base64('%s') "
             " where _id = %d "
             "", m_uid
             , m_module.c_str()

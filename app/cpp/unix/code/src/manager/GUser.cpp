@@ -69,7 +69,7 @@ void GUser::loadId() {
             "", m_pseudo.c_str()
     ));
     if(lId != "") m_id = std::stoi(lId);
-    GLOGT(eGINF, "m_id.........: %d", m_id);
+    GLOGT(eGINF, "id...........: %d", m_id);
 }
 //===============================================
 void GUser::saveData() {
