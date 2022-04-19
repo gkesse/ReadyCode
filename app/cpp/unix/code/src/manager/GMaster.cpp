@@ -33,7 +33,6 @@ void GMaster::onModule(GSocket* _client) {
         onReqInvalid(_client);
     }
     else {
-        GRequest().saveData();
         //===============================================
         // module
         //===============================================
@@ -49,6 +48,11 @@ void GMaster::onModule(GSocket* _client) {
         else {
             onModuleUnknown(_client);
         }
+        //===============================================
+        // end
+        //===============================================
+        GRequest(_client->getReq()->toString()).saveData();
+        //===============================================
     }
 }
 //===============================================
