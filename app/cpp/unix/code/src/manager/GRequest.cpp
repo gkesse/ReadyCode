@@ -34,7 +34,11 @@ void GRequest::loadObj() {
     m_method = lMsg.getMethod();
     std::string lPseudo = lMsg.getParam("pseudo");
     m_uid = GUser(lPseudo).getId();
-    GLOGT(eGMSG, "module : %s\nmethod : %s\npseudo : %s\nuid : %d"
+    GLOGT(eGMSG, ""
+            "module........: %s\n"
+            "method........: %s\n"
+            "pseudo........: %s\n"
+            "uid...........: %d"
             "", m_module.c_str(), m_method.c_str(), lPseudo.c_str(), m_uid);
     loadId();
 }
@@ -44,7 +48,7 @@ void GRequest::loadId() {
     if(m_method == "") return;
     if(!m_uid) return;
     std::string lId = GMySQL().readData(sformat(""
-            " select _id "
+            " select r._id "
             " from request r, user u "
             " where r._u_id = u._id "
             " and r._module = '%s' "
@@ -55,7 +59,10 @@ void GRequest::loadId() {
             , m_uid
     ));
     if(lId != "") m_id = std::stoi(lId);
-    GLOGT(eGINF, "m_id : %d\nm_uid : %d", m_id, m_uid);
+    GLOGT(eGINF, ""
+            "id............: %d\n"
+            "uid...........: %d"
+            "", m_id, m_uid);
 }
 //===============================================
 void GRequest::saveData() {
@@ -85,7 +92,7 @@ void GRequest::updateData() {
     GMySQL().execQuery(sformat(""
             " update request "
             " set _u_id = %d "
-            " _module = '%s' "
+            " , _module = '%s' "
             " , _method = '%s' "
             " , _msg = '%s' "
             " where _id = %d "
