@@ -47,7 +47,10 @@ void GUser::onCreateUser(GSocket* _client) {
     std::shared_ptr<GCode>& lReq = _client->getReq();
     m_pseudo = lReq->getParam("pseudo");
     m_password = lReq->getParam("password");
-    GLOGT(eGMSG, "pseudo : %s\npassword : %s", m_pseudo.c_str() , m_password.c_str());
+    GLOGT(eGMSG, ""
+            "pseudo.......: %s\n"
+            "password.....: %s"
+            "", m_pseudo.c_str() , m_password.c_str());
     loadId();
     saveData();
 }
