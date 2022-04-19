@@ -20,6 +20,7 @@
 #include <strings.h>
 #include <unistd.h>
 #include <dirent.h>
+#include <base64.hpp>
 #include <sys/time.h>
 #include <sys/socket.h>
 #include <sys/stat.h>

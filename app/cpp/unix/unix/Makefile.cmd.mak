@@ -6,18 +6,21 @@ GBIN = bin
 GBUILD = build
 GTARGET = $(GBIN)/rdcpp.exe
 
-GINCS = \
+GRLIB = ../../libs
+
+GINCS =\
     -I$(GSRC)/manager \
 	-I/usr/include/libxml2 \
+    -I$(GRLIB)/include \
 	
-GLIBS = \
+GLIBS =\
     -lxml2 -lmysqlcppconn \
 	
-GOBJS = \
+GOBJS =\
     $(patsubst $(GSRC)/%.cpp, $(GBUILD)/%.o, $(wildcard $(GSRC)/*.cpp)) \
     $(patsubst $(GSRC)/manager/%.cpp, $(GBUILD)/%.o, $(wildcard $(GSRC)/manager/*.cpp)) \
 
-GCFLAGS = \
+GCFLAGS =\
     -g \
     -std=gnu++11 \
 #================================================

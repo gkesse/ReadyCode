@@ -21,6 +21,7 @@
 #include "GError.h"
 #include "GDir.h"
 #include "GMaj.h"
+#include "GBase64.h"
 //===============================================
 GTest* GTest::m_test = 0;
 //===============================================
@@ -187,6 +188,10 @@ void GTest::run(int _argc, char** _argv) {
     // dir
     else if(lKey == "dir") {
         runDir(_argc, _argv);
+    }
+    // base64
+    else if(lKey == "base64") {
+        runBase64(_argc, _argv);
     }
     // end
     else {
@@ -756,6 +761,18 @@ void GTest::runFile(int _argc, char** _argv) {
 void GTest::runDir(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GLOGT(eGINF, "%s", GSTRC(GDir().openDir(GRES("mysql", "maj"), true, false)).c_str());
+}
+//===============================================
+void GTest::runBase64(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    std::string lData1 = "<xml>Bonjour tout le </xml>";
+    std::string lData2 = GBase64(lData1).encodeData();
+    std::string lData3 = GBase64(lData2).decodeData();
+    GLOGT(eGINF, ""
+            "1............: %s\n"
+            "2............: %s\n"
+            "3............: %s\n"
+            "", lData1.c_str(), lData2.c_str(), lData3.c_str());
 }
 //===============================================
 void GTest::onModule(GSocket* _client) {
