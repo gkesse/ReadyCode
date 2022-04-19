@@ -5,6 +5,7 @@
 #include "GMySQL.h"
 #include "GCode.h"
 #include "GUser.h"
+#include "GBase64.h"
 //===============================================
 GRequest::GRequest() : GObject() {
     m_id = 0;
@@ -79,11 +80,11 @@ void GRequest::insertData() {
     GMySQL().execQuery(sformat(""
             " insert into request "
             " ( _u_id, _module, _method, _msg ) "
-            " values ( %d, '%s', '%s', mysql_real_escape_string('%s') ) "
+            " values ( %d, '%s', '%s', '%s' ) "
             "", m_uid
             , m_module.c_str()
             , m_method.c_str()
-            , m_msg.c_str()
+            , GBase64(m_msg).encodeData().c_str()
     ));
 }
 //===============================================
@@ -94,12 +95,12 @@ void GRequest::updateData() {
             " set _u_id = %d "
             " , _module = '%s' "
             " , _method = '%s' "
-            " , _msg = mysql_real_escape_string('%s') "
+            " , _msg = '%s' "
             " where _id = %d "
             "", m_uid
             , m_module.c_str()
             , m_method.c_str()
-            , m_msg.c_str()
+            , GBase64(m_msg).encodeData().c_str()
             , m_id
     ));
 }
