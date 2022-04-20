@@ -31,10 +31,9 @@ GRequest::~GRequest() {
 void GRequest::loadObj() {
     if(m_msg == "") return;
     GCode lMsg(m_msg);
-    GCode lSession(m_msg);
     m_module = lMsg.getModule();
     m_method = lMsg.getMethod();
-    std::string lPseudo = lSession.getParam("pseudo");
+    std::string lPseudo = lMsg.getSession("pseudo");
     m_uid = GUser(lPseudo).getId();
     GLOGT(eGMSG, ""
             "module.......: %s\n"
