@@ -782,7 +782,7 @@ void GTest::runBase64(int _argc, char** _argv) {
 //===============================================
 void GTest::runMd5(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
-    std::string lData1 = "<xml>Bonjour tout le </xml>";
+    std::string lData1 = "root|admin";
     std::string lData2 = GMd5(lData1).encodeData();
     GLOGT(eGINF, ""
             "1............: %s\n"
