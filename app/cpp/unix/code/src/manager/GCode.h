@@ -15,6 +15,7 @@ public:
     std::string getModule();
     std::string getMethod();
     std::string getParam(const std::string& _param);
+    std::string getSession(const std::string& _param);
     bool isValidReq();
     //
     bool hasCode(const std::string& _code);

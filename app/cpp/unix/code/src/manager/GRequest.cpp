@@ -31,9 +31,10 @@ GRequest::~GRequest() {
 void GRequest::loadObj() {
     if(m_msg == "") return;
     GCode lMsg(m_msg);
+    GCode lSession(m_msg);
     m_module = lMsg.getModule();
     m_method = lMsg.getMethod();
-    std::string lPseudo = lMsg.getParam("pseudo");
+    std::string lPseudo = lSession.getParam("pseudo");
     m_uid = GUser(lPseudo).getId();
     GLOGT(eGMSG, ""
             "module.......: %s\n"
@@ -84,7 +85,7 @@ void GRequest::insertData() {
             "", m_uid
             , m_module.c_str()
             , m_method.c_str()
-            , GBase64(m_msg).encodeData().c_str()
+            , m_msg.c_str()
     ));
 }
 //===============================================

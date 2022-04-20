@@ -39,6 +39,11 @@ std::string GCode::getParam(const std::string& _param) {
     return lData;
 }
 //===============================================
+std::string GCode::getSession(const std::string& _param) {
+    std::string lData = getItem("session", _param);
+    return lData;
+}
+//===============================================
 bool GCode::isValidReq() {
     bool lValidReq = true;
     lValidReq &= (getModule() != "");
