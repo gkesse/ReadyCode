@@ -14,7 +14,7 @@ GTimer::~GTimer() {
 void GTimer::setCallback(void* _onTimer, int _ms) {
     m_sigaction.sa_handler = (GSIGNAL_CB)_onTimer;
     sigemptyset(&m_sigaction.sa_mask);
-    m_sigaction.sa_flags = 0;
+    m_sigaction.sa_flags = SA_RESTART;
     if (sigaction(SIGALRM, &m_sigaction, NULL) == -1) {
         GERROR(eGERR, "Erreur la methode (GTimer::setCallback) a echoue (1)\n"
                 "- ms.....: (%d).", _ms);
