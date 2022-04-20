@@ -1,16 +1,17 @@
 //===============================================
-#ifndef _GBase64_
-#define _GBase64_
+#ifndef _GMd5_
+#define _GMd5_
 //===============================================
 #include "GObject.h"
 //===============================================
-class GBase64 : public GObject {
+class GSocket;
+//===============================================
+class GMd5 : public GObject {
 public:
-    GBase64();
-    GBase64(const std::string& _data);
-    ~GBase64();
+    GMd5();
+    GMd5(const std::string& _data);
+    ~GMd5();
     std::string encodeData() const;
-    std::string decodeData() const;
 
 private:
     std::string m_data;

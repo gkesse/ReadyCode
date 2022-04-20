@@ -22,6 +22,7 @@
 #include "GDir.h"
 #include "GMaj.h"
 #include "GBase64.h"
+#include "GMd5.h"
 //===============================================
 GTest* GTest::m_test = 0;
 //===============================================
@@ -192,6 +193,10 @@ void GTest::run(int _argc, char** _argv) {
     // base64
     else if(lKey == "base64") {
         runBase64(_argc, _argv);
+    }
+    // md5
+    else if(lKey == "md5") {
+        runMd5(_argc, _argv);
     }
     // end
     else {
@@ -773,6 +778,16 @@ void GTest::runBase64(int _argc, char** _argv) {
             "2............: %s\n"
             "3............: %s\n"
             "", lData1.c_str(), lData2.c_str(), lData3.c_str());
+}
+//===============================================
+void GTest::runMd5(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    std::string lData1 = "<xml>Bonjour tout le </xml>";
+    std::string lData2 = GMd5(lData1).encodeData();
+    GLOGT(eGINF, ""
+            "1............: %s\n"
+            "2............: %s\n"
+            "", lData1.c_str(), lData2.c_str());
 }
 //===============================================
 void GTest::onModule(GSocket* _client) {

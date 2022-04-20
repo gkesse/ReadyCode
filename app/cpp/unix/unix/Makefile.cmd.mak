@@ -19,6 +19,7 @@ GLIBS =\
 GOBJS =\
     $(patsubst $(GSRC)/%.cpp, $(GBUILD)/%.o, $(wildcard $(GSRC)/*.cpp)) \
     $(patsubst $(GSRC)/manager/%.cpp, $(GBUILD)/%.o, $(wildcard $(GSRC)/manager/*.cpp)) \
+    $(patsubst $(GRLIB)/%.cpp, $(GBUILD)/%.o, $(wildcard $(GRLIB)/*.cpp)) \
 
 GCFLAGS =\
     -g \
@@ -35,6 +36,9 @@ $(GBUILD)/%.o: $(GSRC)/%.cpp
 	@if ! [ -d $(GBUILD) ] ; then mkdir -p $(GBUILD) ; fi
 	g++ $(GCFLAGS) -c $< -o $@ $(GINCS)
 $(GBUILD)/%.o: $(GSRC)/manager/%.cpp
+	@if ! [ -d $(GBUILD) ] ; then mkdir -p $(GBUILD) ; fi
+	g++ $(GCFLAGS) -c $< -o $@ $(GINCS)
+$(GBUILD)/%.o: $(GRLIB)/%.cpp
 	@if ! [ -d $(GBUILD) ] ; then mkdir -p $(GBUILD) ; fi
 	g++ $(GCFLAGS) -c $< -o $@ $(GINCS)
 run:
