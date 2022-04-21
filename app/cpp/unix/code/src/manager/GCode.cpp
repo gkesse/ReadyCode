@@ -75,6 +75,12 @@ bool GCode::hasCode(const std::string& _code, const std::string& _key, int _inde
     return (lCount != 0);
 }
 //===============================================
+bool GCode::hasMap(const std::string& _code) {
+    queryXPath(sformat("/rdv/datas/data[code='%s']/map", _code.c_str()));
+    int lCount = countXPath();
+    return (lCount != 0);
+}
+//===============================================
 void GCode::createCode(const std::string& _code) {
     createNodePath("/rdv/datas");
     if(!hasCode(_code)) {
@@ -98,8 +104,13 @@ void GCode::createCode(const std::string& _code, const std::string& _key, const 
 //===============================================
 void GCode::createMap(const std::string& _code, const std::string& _key, const std::string& _value, int _index) {
     createCode(_code);
-    if(!hasCode(_code, _index)) {
+    if(!hasMap(_code)) {
         appendNodeGet("map");
+        appendNodeGet("data");
+        appendNode(_key, _value);
+    }
+    else if(!hasCode(_code, _index)) {
+        queryXPath(sformat("/rdv/datas/data[code='%s']/map", _code.c_str())).getNodeXPath();
         appendNodeGet("data");
         appendNode(_key, _value);
     }
