@@ -105,9 +105,11 @@ GSocket& GSocket::initSocket(int _major, int _minor) {
 GSocket& GSocket::createSocket(int _domain, int _type, int _protocol) {
     m_socket = socket(_domain, _type, _protocol);
     if(m_socket == INVALID_SOCKET) {
-        GERROR(eGERR, QString("Erreur la methode (GSocket::createSocket) a echoue (1)\n"
-                "- erreur_code.....: (%1)\n"
-                "- error_msg.......: (%2)").arg(WSAGetLastError()).arg(loadErrorMsg()));
+        GERROR(eGERR, QString(""
+                "Erreur lors de la creation du socket.\n"
+                "erreur_code..: (%1)\n"
+                "error_msg....: (%2)\n")
+                .arg(WSAGetLastError()).arg(loadErrorMsg()));
         return *this;
     }
     return *this;
@@ -124,9 +126,11 @@ GSocket& GSocket::createAddress(int _family, const QString& _addressIp, int _por
 GSocket& GSocket::listenSocket(int _backlog) {
     int lAnswer = listen(m_socket, _backlog);
     if(lAnswer == SOCKET_ERROR) {
-        GERROR(eGERR, QString("Erreur la methode (GSocket::listenSocket) a echoue (1)\n"
-                "- erreur_code.....: (%1)\n"
-                "- error_msg.......: (%2)").arg(WSAGetLastError()).arg(loadErrorMsg()));
+        GERROR(eGERR, QString(""
+                "Erreur lors de l'init du nombre de connexion a ecouter.\n"
+                "erreur_code..: (%1)\n"
+                "error_msg....: (%2)\n")
+                .arg(WSAGetLastError()).arg(loadErrorMsg()));
         return *this;
     }
     return *this;
@@ -135,9 +139,11 @@ GSocket& GSocket::listenSocket(int _backlog) {
 GSocket& GSocket::bindSocket() {
     int lAnswer = bind(m_socket, (SOCKADDR*)&m_address, sizeof(m_address));
     if(lAnswer == SOCKET_ERROR) {
-        GERROR(eGERR, QString("Erreur la methode (GSocket::bindSocket) a echoue (1)\n"
-                "- erreur_code.....: (%1)\n"
-                "- error_msg.......: (%2)").arg(WSAGetLastError()).arg(loadErrorMsg()));
+        GERROR(eGERR, QString(""
+                "Erreur lors de la liaison du socket a l'adresse.\n"
+                "erreur_code..: (%1)\n"
+                "error_msg....: (%2)\n")
+                .arg(WSAGetLastError()).arg(loadErrorMsg()));
         return *this;
     }
     return *this;
@@ -146,26 +152,29 @@ GSocket& GSocket::bindSocket() {
 GSocket& GSocket::connectSocket() {
     int lAnswer = connect(m_socket, (SOCKADDR*)(&m_address), sizeof(m_address));
     if(lAnswer == SOCKET_ERROR) {
-        GERROR(eGERR, QString("Erreur la methode (GSocket::connectSocket) a echoue (1)\n"
-                "- erreur_code.....: (%1)\n"
-                "- error_msg.......: (%2)").arg(WSAGetLastError()).arg(loadErrorMsg()));
+        GERROR(eGERR, QString(""
+                "Erreur lors de la connexion au serveur.\n"
+                "erreur_code..: (%1)\n"
+                "error_msg....: (%2)\n")
+                .arg(WSAGetLastError()).arg(loadErrorMsg()));
         return *this;
     }
     return *this;
 }
 //===============================================
 void GSocket::startMessage() {
-    printf("=====>\n");
-    printf("demarrage du serveur...\n");
+    GLOGT(eGMSG, QString("demarrage du serveur..."));
 }
 //===============================================
 GSocket& GSocket::acceptSocket(GSocket& _socket) {
     int lSize = sizeof(_socket.m_address);
     _socket.m_socket = accept(m_socket, (SOCKADDR*)&_socket.m_address, &lSize);
     if(_socket.m_socket == INVALID_SOCKET) {
-        GERROR(eGERR, QString("Erreur la methode (GSocket::acceptSocket) a echoue (1)\n"
-                "- erreur_code.....: (%1)\n"
-                "- error_msg.......: (%2)").arg(WSAGetLastError()).arg(loadErrorMsg()));
+        GERROR(eGERR, QString(""
+                "Erreur lors de l'acceptation d'un client.\n"
+                "erreur_code..: (%1)\n"
+                "error_msg....: (%2)\n")
+                .arg(WSAGetLastError()).arg(loadErrorMsg()));
         return *this;
     }
     return *this;
@@ -175,9 +184,11 @@ GSocket& GSocket::acceptSocket(GSocket* _socket) {
     int lSize = sizeof(_socket->m_address);
     _socket->m_socket = accept(m_socket, (SOCKADDR*)&_socket->m_address, &lSize);
     if(_socket->m_socket == INVALID_SOCKET) {
-        GERROR(eGERR, QString("Erreur la methode (GSocket::acceptSocket) a echoue (1)\n"
-                "- erreur_code.....: (%1)\n"
-                "- error_msg.......: (%2)").arg(WSAGetLastError()).arg(loadErrorMsg()));
+        GERROR(eGERR, QString(""
+                "Erreur lors de l'acceptation d'un client.\n"
+                "erreur_code..: (%1)\n"
+                "error_msg....: (%2)\n")
+                .arg(WSAGetLastError()).arg(loadErrorMsg()));
         return *this;
     }
     return *this;
@@ -188,9 +199,11 @@ int GSocket::recvData(QString& _data) {
     char lBuffer[BUFFER_DATA_SIZE + 1];
     int lBytes = recv(m_socket, lBuffer, BUFFER_DATA_SIZE, 0);
     if(lBytes == -1) {
-        GERROR(eGERR, QString("Erreur la methode (GSocket::recvData) a echoue (1)\n"
-                "- erreur_code.....: (%1)\n"
-                "- error_msg.......: (%2)").arg(WSAGetLastError()).arg(loadErrorMsg()));
+        GERROR(eGERR, QString(""
+                "Erreur lors de la reception des donnees.\n"
+                "erreur_code..: (%1)\n"
+                "error_msg....: (%2)\n")
+                .arg(WSAGetLastError()).arg(loadErrorMsg()));
         return -1;
     }
     lBuffer[lBytes] = 0;
@@ -204,9 +217,11 @@ int GSocket::recvData(GSocket& _socket, QString& _data) {
     int lSize = sizeof(_socket.m_address);
     int lBytes = recvfrom(m_socket, lBuffer, BUFFER_DATA_SIZE, 0, (SOCKADDR*)&_socket.m_address, &lSize);
     if(lBytes == -1) {
-        GERROR(eGERR, QString("Erreur la methode (GSocket::recvData) a echoue (2)\n"
-                "- erreur_code.....: (%1)\n"
-                "- error_msg.......: (%2)").arg(WSAGetLastError()).arg(loadErrorMsg()));
+        GERROR(eGERR, QString(""
+                "Erreur lors de la reception des donnees.\n"
+                "erreur_code..: (%1)\n"
+                "error_msg....: (%2)\n")
+                .arg(WSAGetLastError()).arg(loadErrorMsg()));
         return -1;
     }
     return lBytes;
@@ -222,11 +237,13 @@ int GSocket::readData(QString& _data) {
     for(int i = 0; i < lSize; i++) {
         int iBytes = recvData(lBuffer);
         if(iBytes == -1) {
-            GERROR(eGERR, QString("Erreur la methode (GSocket::readData) a echoue (1)\n"
-                    "- bytes...........: (%1).\n"
-                    "- ibytes..........: (%2).\n"
-                    "- erreur_code.....: (%3)\n"
-                    "- error_msg.......: (%4)").arg(lBytes).arg(iBytes).arg(WSAGetLastError()).arg(loadErrorMsg()));
+            GERROR(eGERR, QString(""
+                    "Erreur lors de la reception des donnees.\n"
+                    "bytes........: (%1).\n"
+                    "ibytes.......: (%2).\n"
+                    "erreur_code..: (%3)\n"
+                    "error_msg....: (%4)\n")
+                    .arg(lBytes).arg(iBytes).arg(WSAGetLastError()).arg(loadErrorMsg()));
             return -1;
         }
         _data += lBuffer;
@@ -238,10 +255,12 @@ int GSocket::readData(QString& _data) {
 int GSocket::sendData(const QString& _data) {
     int lBytes = send(m_socket, _data.toStdString().c_str(), _data.size(), 0);
     if(lBytes == -1) {
-        GERROR(eGERR, QString("Erreur la methode (GSocket::sendData) a echoue (1)\n"
-                "- bytes...........: (%1)\n"
-                "- erreur_code.....: (%2)\n"
-                "- error_msg.......: (%3)").arg(lBytes).arg(WSAGetLastError()).arg(loadErrorMsg()));
+        GERROR(eGERR, QString(""
+                "Erreur lors de l'emission des donnees.\n"
+                "bytes........: (%1)\n"
+                "erreur_code..: (%2)\n"
+                "error_msg....: (%3)\n")
+                .arg(lBytes).arg(WSAGetLastError()).arg(loadErrorMsg()));
         return -1;
     }
     return lBytes;
@@ -251,10 +270,12 @@ int GSocket::sendData(GSocket& _socket, const QString& _data) {
     int lSize = sizeof(_socket.m_address);
     int lBytes = sendto(m_socket, _data.toStdString().c_str(), _data.size(), 0, (SOCKADDR*)&_socket.m_address, lSize);
     if(lBytes == -1) {
-        GERROR(eGERR, QString("Erreur la methode (GSocket::sendData) a echoue (2)\n"
-                "- bytes...........: (%1)\n"
-                "- erreur_code.....: (%2)\n"
-                "- error_msg.......: (%3)").arg(lBytes).arg(WSAGetLastError()).arg(loadErrorMsg()));
+        GERROR(eGERR, QString(""
+                "Erreur lors de l'emission des donnees.\n"
+                "bytes........: (%1)\n"
+                "erreur_code..: (%2)\n"
+                "error_msg....: (%3)\n")
+                .arg(lBytes).arg(WSAGetLastError()).arg(loadErrorMsg()));
         return -1;
     }
     return lBytes;
@@ -274,11 +295,13 @@ int GSocket::writeData(const QString& _data) {
         QString lBuffer = _data.mid(lBytes, BUFFER_DATA_SIZE);
         int iBytes = sendData(lBuffer);
         if(iBytes == -1) {
-            GERROR(eGERR, QString("Erreur la methode (GSocket::sendData) a echoue (1)\n"
-                    "- bytes...........: (%1).\n"
-                    "- ibytes..........: (%2).\n"
-                    "- erreur_code.....: (%3)\n"
-                    "- error_msg.......: (%4)").arg(lBytes).arg(iBytes).arg(WSAGetLastError()).arg(loadErrorMsg()));
+            GERROR(eGERR, QString(""
+                    "Erreur lors de l'emission des donnees.\n"
+                    "bytes........: (%1).\n"
+                    "ibytes.......: (%2).\n"
+                    "erreur_code..: (%3)\n"
+                    "error_msg....: (%4)\n")
+                    .arg(lBytes).arg(iBytes).arg(WSAGetLastError()).arg(loadErrorMsg()));
             return -1;
         }
         lBytes += iBytes;
@@ -351,7 +374,8 @@ DWORD WINAPI GSocket::onServerThread(LPVOID _params) {
 }
 //===============================================
 QString GSocket::callServer(const QString& _dataIn) {
-    GLOGT(eGINF, _dataIn);
+    GLOGT(eGINF, QString("[EMISSION] :\n%1").arg(_dataIn));
+
     int lMajor = getItem("socket", "major").toInt();
     int lMinor = getItem("socket", "minor").toInt();
     int lDomain = loadDomain();
