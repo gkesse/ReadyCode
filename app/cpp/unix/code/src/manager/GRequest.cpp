@@ -99,7 +99,7 @@ void GRequest::loadId() {
 void GRequest::loadRequest(GSocket* _client) {
     if(!m_uid) return;
     std::vector<std::vector<std::string>> lReq = GMySQL().readMap(sformat(""
-            " select r._msg "
+            " select r._module, r._method, r._msg "
             " from request r, user u "
             " where r._u_id = u._id "
             " and u._id = %d "
@@ -112,16 +112,24 @@ void GRequest::loadRequest(GSocket* _client) {
         std::vector<std::string> lDataRow = lReq.at(i);
         int j = 0;
         GRequest lReqObj;
+        lReqObj.m_module = lDataRow.at(j++);
+        lReqObj.m_method = lDataRow.at(j++);
         lReqObj.m_msg = lDataRow.at(j++);
+
         GLOGT(eGOFF, ""
                 "i............: %d\n"
+                "module.......: %s\n"
+                "method.......: %s\n"
                 "msg..........: %s\n"
                 "", i
+                , lReqObj.m_module.c_str()
+                , lReqObj.m_method.c_str()
                 , lReqObj.m_msg.c_str()
         );
-        lRes->createMap("req", "module", "module", i);
-        lRes->createMap("req", "method", "method", i);
-        lRes->createMap("req", "msg", "msg", i, true);
+
+        lRes->createMap("req", "module", lReqObj.m_module, i);
+        lRes->createMap("req", "method", lReqObj.m_method, i);
+        lRes->createMap("req", "msg", lReqObj.m_msg, i, true);
     }
 }
 //===============================================
