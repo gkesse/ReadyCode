@@ -10,7 +10,7 @@ public:
     ~GError();
     //
     void addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _error);
-    void addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const GError& _error);
+    void addError(const char* _name, int _level, const char* _file, int _line, const char* _func, GError& _error);
     std::string toString() const;
     bool hasErrors() const;
     void clearErrors();

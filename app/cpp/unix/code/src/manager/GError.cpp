@@ -16,9 +16,9 @@ void GError::addError(const char* _name, int _level, const char* _file, int _lin
     m_errors.push_back(_error);
 }
 //===============================================
-void GError::addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const GError& _error) {
+void GError::addError(const char* _name, int _level, const char* _file, int _line, const char* _func, GError& _error) {
     GLOGI->traceLog(_name, _level, _file, _line, _func, _error.toString());
-    std::vector<std::string>& lErrors = _error.m_errors;
+    std::vector<std::string>& lErrors = _error.getErrors();
     m_errors.insert(m_errors.end(), lErrors.begin(), lErrors.end());
 }
 //===============================================
