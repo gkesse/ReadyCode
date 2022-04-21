@@ -269,6 +269,7 @@ void GSocket::startServer(void* _onServerTcp) {
 
     GLOGT(eGMSG, ""
             "domain.......: %d\n"
+            "type.........: %d\n"
             "protocol.....: %d\n"
             "family.......: %d\n"
             "port.........: %d\n"
