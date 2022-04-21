@@ -146,11 +146,7 @@ GXml& GXml::getRoot() {
 }
 //===============================================
 GXml& GXml::getNode(const std::string& _nodename) {
-    if(!m_node) {
-        GERROR_OBJ(eGERR, "Erreur la methode (GXml::getNode) a echoue (1)\n"
-                "- noeud......: (%s)", _nodename.c_str());
-        return *this;
-    }
+    if(!m_node) return *this;
     xmlNodePtr lNode  = xmlFirstElementChild(m_node);
     while(lNode) {
         std::string lNodeName = (char*)lNode->name;
@@ -160,15 +156,15 @@ GXml& GXml::getNode(const std::string& _nodename) {
         }
         lNode = xmlNextElementSibling(lNode);
     }
-    GERROR_OBJ(eGERR, "Erreur la methode (GXml::getNode) a echoue (2)\n"
-            "- noeud......: (%s)", _nodename.c_str());
+    GERROR_OBJ(eGERR, ""
+            "Erreur lors de la lecture du noeud.\n"
+            "- noeud........: (%s)"
+            "", _nodename.c_str());
     return *this;
 }
 //===============================================
 std::string GXml::getNodeValue() const {
-    if(!m_node) {
-        return "";
-    }
+    if(!m_node) return "";
     std::string lData = (char*)xmlNodeGetContent(m_node);
     return lData;
 }
@@ -249,18 +245,12 @@ GXml& GXml::setNodeValue(const std::string& _key, const std::string& _value) {
 }
 //===============================================
 GXml& GXml::appendNode(GXml& _xml) {
-    if(!m_node) {
-        GERROR_OBJ(eGERR, "Erreur la methode (GXml::appendNode) a echoue (1)");
-        return *this;
-    }
+    if(!m_node) return *this;
     xmlAddChild(m_node, _xml.m_node);
     return *this;
 }
 //===============================================
 GXml& GXml::appendNode(const std::string& _nodename) {
-    if(!m_node) {
-        return *this;
-    }
     GXml lNode;
     lNode.createNode(_nodename);
     appendNode(lNode);

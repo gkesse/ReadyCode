@@ -58,7 +58,19 @@ bool GCode::hasCode(const std::string& _code) {
 }
 //===============================================
 bool GCode::hasCode(const std::string& _code, const std::string& _key) {
-    queryXPath(sformat("/rdv/datas/data[code='%s']/map/data/%s", _code.c_str(), _key.c_str()));
+    queryXPath(sformat("/rdv/datas/data[code='%s']/%s", _code.c_str(), _key.c_str()));
+    int lCount = countXPath();
+    return (lCount != 0);
+}
+//===============================================
+bool GCode::hasCode(const std::string& _code, int _index) {
+    queryXPath(sformat("/rdv/datas/data[code='%s']/map/data[position()=%d]", _code.c_str(), _index + 1));
+    int lCount = countXPath();
+    return (lCount != 0);
+}
+//===============================================
+bool GCode::hasCode(const std::string& _code, const std::string& _key, int _index) {
+    queryXPath(sformat("/rdv/datas/data[code='%s']/map/data[position()=%d]/%s", _code.c_str(), _index + 1, _key.c_str()));
     int lCount = countXPath();
     return (lCount != 0);
 }
@@ -84,17 +96,20 @@ void GCode::createCode(const std::string& _code, const std::string& _key, const 
     }
 }
 //===============================================
-void GCode::createMap(const std::string& _code, const std::string& _key, const std::string& _value) {
+void GCode::createMap(const std::string& _code, const std::string& _key, const std::string& _value, int _index) {
     createCode(_code);
-    if(!hasCode(_code, _key)) {
+    if(!hasCode(_code, _index)) {
         appendNodeGet("map");
         appendNodeGet("data");
         appendNode(_key, _value);
     }
-    else {
-        getNode("map");
-        appendNodeGet("data");
+    else if(!hasCode(_code, _key, _index)) {
+        queryXPath(sformat("/rdv/datas/data[code='%s']/map/data[position()=%d]", _code.c_str(), _index + 1)).getNodeXPath();
         appendNode(_key, _value);
+    }
+    else {
+        queryXPath(sformat("/rdv/datas/data[code='%s']/map/data[position()=%d]/%s", _code.c_str(), _index + 1, _key.c_str())).getNodeXPath();
+        setNodeValue(_key, _value);
     }
 }
 //===============================================
