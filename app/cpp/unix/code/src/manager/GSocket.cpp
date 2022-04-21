@@ -267,14 +267,21 @@ void GSocket::startServer(void* _onServerTcp) {
     int lPort = loadPort();
     int lBacklog = std::stoi(getItem("socket", "backlog"));
 
-    GLOGT(eGMSG, "");
-    GLOGW(eGMSG, "domain.......: %d", lDomain);
-    GLOGW(eGMSG, "type.........: %d", lType);
-    GLOGW(eGMSG, "protocol.....: %d", lProtocol);
-    GLOGW(eGMSG, "family.......: %d", lFamily);
-    GLOGW(eGMSG, "port.........: %d", lPort);
-    GLOGW(eGMSG, "backlog......: %d", lBacklog);
-    GLOGW(eGMSG, "env..........: %s", GEnv().getEnvType().c_str());
+    GLOGT(eGMSG, ""
+            "domain.......: %d\n"
+            "protocol.....: %d\n"
+            "family.......: %d\n"
+            "port.........: %d\n"
+            "backlog......: %d\n"
+            "env..........: %s\n"
+            "", lDomain
+            , lType
+            , lProtocol
+            , lFamily
+            , lPort
+            , lBacklog
+            , GEnv().getEnvType().c_str()
+    );
 
     createSocket(lDomain, lType, lProtocol);
     createAddress(lFamily, lClientIp, lPort);
