@@ -53,6 +53,7 @@ public:
     GXml& createNodeCData(GXml& _xml, const std::string& _value);
     GXml& createNodeCData(const std::string& _nodename, const std::string& _value);
     GXml& setNodeCData(const std::string& _value);
+    GXml& setNodeCData(const std::string& _key, const std::string& _value);
     std::string getNodeCData() const;
     //
     std::string toString(const std::string& _encoding = "UTF8", int _format = 4) const;

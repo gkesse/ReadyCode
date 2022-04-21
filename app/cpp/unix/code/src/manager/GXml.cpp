@@ -221,19 +221,13 @@ GXml& GXml::createNodePath(const std::string& _path, const std::string& _value) 
 }
 //===============================================
 GXml& GXml::createCData(GXml& _xml, const std::string& _value) {
-    if(!_xml.m_node) {
-        return *this;
-    }
+    if(!_xml.m_node) return *this;
     m_node = xmlNewCDataBlock(_xml.m_node->doc, BAD_CAST(_value.c_str()), _value.size());
     return *this;
 }
 //===============================================
 GXml& GXml::setNodeValue(const std::string& _value) {
-    if(!m_node) {
-        GERROR_OBJ(eGERR, "Erreur la methode (GXml::setNodeValue) a echoue (1)"
-                "- noeud......: (%1)", _value.c_str());
-        return *this;
-    }
+    if(!m_node) return *this;
     xmlNodeSetContent(m_node, BAD_CAST(_value.c_str()));
     return *this;
 }
@@ -384,6 +378,12 @@ GXml& GXml::setNodeCData(const std::string& _value) {
     GXml lNode;
     lNode.createNodeCData((char*)m_node->name, _value);
     replaceNode(lNode);
+    return *this;
+}
+//===============================================
+GXml& GXml::setNodeCData(const std::string& _key, const std::string& _value) {
+    getNode(_key);
+    setNodeCData(_value);
     return *this;
 }
 //===============================================

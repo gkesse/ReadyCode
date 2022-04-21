@@ -121,7 +121,7 @@ void GRequest::loadRequest(GSocket* _client) {
         );
         lRes->createMap("req", "module", "module", i);
         lRes->createMap("req", "method", "method", i);
-        lRes->createMap("req", "msg", "msg", i);
+        lRes->createMap("req", "msg", "msg", i, true);
     }
 }
 //===============================================
