@@ -55,7 +55,7 @@ void GRequest::onGetRequest(GSocket* _client) {
             "", lPseudo.c_str()
             , m_uid
     );
-    loadRequest();
+    loadRequest(_client);
 }
 //===============================================
 void GRequest::loadObj() {
@@ -96,7 +96,7 @@ void GRequest::loadId() {
             "", m_id, m_uid);
 }
 //===============================================
-void GRequest::loadRequest() {
+void GRequest::loadRequest(GSocket* _client) {
     if(!m_uid) return;
     std::vector<std::vector<std::string>> lReq = GMySQL().readMap(sformat(""
             " select r._msg "
@@ -106,17 +106,22 @@ void GRequest::loadRequest() {
             "", m_uid
     ));
 
+    std::shared_ptr<GCode>& lRes = _client->getResponse();
+
     for(int i = 0; i < (int)lReq.size(); i++) {
         std::vector<std::string> lDataRow = lReq.at(i);
         int j = 0;
         GRequest lReqObj;
         lReqObj.m_msg = lDataRow.at(j++);
-        GLOGT(eGINF, ""
+        GLOGT(eGOFF, ""
                 "i............: %d\n"
                 "msg..........: %s\n"
                 "", i
                 , lReqObj.m_msg.c_str()
         );
+        lRes->createMap("req", "module", "module", i);
+        lRes->createMap("req", "method", "method", i);
+        lRes->createMap("req", "msg", "msg", i);
     }
 }
 //===============================================
