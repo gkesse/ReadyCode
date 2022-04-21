@@ -540,8 +540,8 @@ void GTest::runRequestSaveUser(int _argc, char** _argv) {
     lReq.createCode("parameters", "lastname", "KESSE");
     std::string lResponse = lClient.callServer(lReq.toString());
     GERROR_LOAD(eGERR, lResponse);
-    GLOGT(eGMSG, "%s", lReq.toString().c_str());
-    GLOGT(eGMSG, "%s", lResponse.c_str());
+    GLOGT(eGINF, "[EMISSION] :\n%s", lReq.toString().c_str());
+    GLOGT(eGINF, "[RECEPTION] :\n%s", lResponse.c_str());
 }
 //===============================================
 void GTest::runRequestGetUser(int _argc, char** _argv) {
@@ -552,13 +552,14 @@ void GTest::runRequestGetUser(int _argc, char** _argv) {
     std::string lResponse = lClient.callServer(lReq.toString());
     GERROR_LOAD(eGERR, lResponse);
     GCode lRes(lResponse);
-    GLOGT(eGMSG, "");
-    GLOGW(eGINF, "%s", lReq.toString().c_str());
-    GLOGT(eGMSG, "");
-    GLOGW(eGINF, "%s", lResponse.c_str());
-    GLOGT(eGMSG, "");
-    GLOGW(eGINF, "firstname.....: %s", lRes.getItem("user", "firstname").c_str());
-    GLOGW(eGINF, "lastname......: %s", lRes.getItem("user", "lastname").c_str());
+    GLOGT(eGINF, "[EMISSION] :\n%s", lReq.toString().c_str());
+    GLOGT(eGINF, "[RECEPTION] :\n%s", lResponse.c_str());
+    GLOGT(eGINF, ""
+            "firstname.....: %s\n"
+            "lastname......: %s\n"
+            "", lRes.getItem("user", "firstname").c_str()
+            , lRes.getItem("user", "lastname").c_str()
+    );
 }
 //===============================================
 void GTest::runRequestError(int _argc, char** _argv) {
@@ -568,10 +569,8 @@ void GTest::runRequestError(int _argc, char** _argv) {
     lReq.createReq("test", "error");
     std::string lResponse = lClient.callServer(lReq.toString());
     GERROR_LOAD(eGERR, lResponse);
-    GLOGT(eGMSG, "");
-    GLOGW(eGINF, "%s", lReq.toString().c_str());
-    GLOGT(eGMSG, "");
-    GLOGW(eGINF, "%s", lResponse.c_str());
+    GLOGT(eGINF, "[EMISSION] :\n%s", lReq.toString().c_str());
+    GLOGT(eGINF, "[RECEPTION] :\n%s", lResponse.c_str());
 }
 //===============================================
 void GTest::runResponse(int _argc, char** _argv) {
@@ -792,8 +791,9 @@ void GTest::runMd5(int _argc, char** _argv) {
 //===============================================
 void GTest::onModule(GSocket* _client) {
     std::string lMethod = _client->getReq()->getMethod();
-
+    //===============================================
     // method
+    //===============================================
     if(lMethod == "save_user") {
         onRequestSaveUser(_client);
     }
@@ -803,7 +803,9 @@ void GTest::onModule(GSocket* _client) {
     else if(lMethod == "error") {
         onRequestError(_client);
     }
+    //===============================================
     // unknown
+    //===============================================
     else {
         onMethodUnknown(_client);
     }
@@ -813,13 +815,12 @@ void GTest::onRequestSaveUser(GSocket* _client) {
     std::string lFirstname = _client->getReq()->getItem("parameters", "firstname");
     std::string lLastname = _client->getReq()->getItem("parameters", "lastname");
     GLOGT(eGFUN, "");
-    GLOGW(eGINF, "firstname......: %s", lFirstname.c_str());
-    GLOGW(eGINF, "lastname.......: %s", lLastname.c_str());
+    GLOGW(eGINF, "firstname...: %s", lFirstname.c_str());
+    GLOGW(eGINF, "lastname....: %s", lLastname.c_str());
 }
 //===============================================
 void GTest::onRequestGetUser(GSocket* _client) {
-    GSocket* lClient = _client;
-    std::shared_ptr<GCode>& lRes = lClient->getResponse();
+    std::shared_ptr<GCode>& lRes = _client->getResponse();
     lRes->createCode("user", "firstname", "Gerard");
     lRes->createCode("user", "lastname", "KESSE");
 }
