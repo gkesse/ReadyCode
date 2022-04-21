@@ -582,21 +582,20 @@ void GTest::runResponse(int _argc, char** _argv) {
     lRes.createCode("opencv", "version", "4.0");
     lRes.createMap("error", "msg", "le chemin est incorrect");
     lRes.createMap("error", "msg", "la donnee est incorrect");
-    GLOGT(eGFUN, "");
-    GLOGW(eGINF, "%s", GSTRC(lRes.hasCode("result")).c_str());        // true
-    GLOGT(eGFUN, "");
-    GLOGW(eGINF, "%s", GSTRC(lRes.hasCode("resulto")).c_str());       // false
-    GLOGT(eGFUN, "");
-    GLOGW(eGINF, "%s", GSTRC(lRes.hasCode("error")).c_str());         // true
-    GLOGT(eGFUN, "");
-    GLOGW(eGINF, "%s", GSTRC(lRes.hasCode("error", "msg")).c_str());  // true
-    GLOGT(eGFUN, "");
-    GLOGW(eGINF, "%s", GSTRC(lRes.hasCode("error", "msgo")).c_str()); // false
-    GLOGT(eGFUN, "");
-    GLOGW(eGINF, "module.....: %s", lRes.getItem("request", "module").c_str());
-    GLOGW(eGINF, "method.....: %s", lRes.getItem("request", "method").c_str());
-    GLOGT(eGFUN, "");
-    GLOGW(eGINF, "%s", lRes.toString().c_str());
+
+    GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("result")).c_str());        // true
+    GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("resulto")).c_str());       // false
+    GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("error")).c_str());         // true
+    GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("error", "msg")).c_str());  // true
+    GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("error", "msgo")).c_str()); // false
+    GLOGT(eGINF, ""
+            "module.......: %s\n"
+            "method.......: %s\n"
+            "", lRes.getItem("request", "module").c_str()
+            , lRes.getItem("request", "method").c_str()
+    );
+
+    GLOGT(eGINF, "%s", lRes.toString().c_str());
 }
 //===============================================
 void GTest::runMysql(int _argc, char** _argv) {

@@ -268,9 +268,7 @@ GXml& GXml::appendNode(const std::string& _nodename) {
 }
 //===============================================
 GXml& GXml::appendNode(const std::string& _nodename, const std::string& _value) {
-    if(!m_node) {
-        return *this;
-    }
+    if(!m_node) return *this;
     GXml lNode;
     lNode.createNodeValue(_nodename, _value);
     appendNode(lNode);
@@ -278,9 +276,7 @@ GXml& GXml::appendNode(const std::string& _nodename, const std::string& _value) 
 }
 //===============================================
 GXml& GXml::appendNodeGet(const std::string& _nodename) {
-    if(!m_node) {
-        return *this;
-    }
+    if(!m_node) return *this;
     GXml lNode;
     lNode.createNode(_nodename);
     appendNode(lNode);
@@ -289,9 +285,7 @@ GXml& GXml::appendNodeGet(const std::string& _nodename) {
 }
 //===============================================
 GXml& GXml::appendNodeGet(const std::string& _nodename, const std::string& _value) {
-    if(!m_node) {
-        return *this;
-    }
+    if(!m_node) return *this;
     GXml lNode;
     lNode.createNodeValue(_nodename, _value);
     appendNode(lNode);
@@ -300,9 +294,7 @@ GXml& GXml::appendNodeGet(const std::string& _nodename, const std::string& _valu
 }
 //===============================================
 GXml& GXml::appendCData(const std::string& _value) {
-    if(!m_node) {
-        return *this;
-    }
+    if(!m_node) return *this;
     GXml lCData;
     lCData.createCData(*this, _value);
     appendNode(lCData);
@@ -310,9 +302,7 @@ GXml& GXml::appendCData(const std::string& _value) {
 }
 //===============================================
 GXml& GXml::appendCData(const std::string& _nodename, const std::string& _value) {
-    if(!m_node) {
-        return *this;
-    }
+    if(!m_node) return *this;
     GXml lNode;
     lNode.createNode(_nodename);
     lNode.appendCData(_value);
