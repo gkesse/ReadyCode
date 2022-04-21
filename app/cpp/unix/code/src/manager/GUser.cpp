@@ -25,7 +25,6 @@ GUser::~GUser() {
 //===============================================
 void GUser::onModule(GSocket* _client) {
     std::string lMethod = _client->getReq()->getMethod();
-
     //===============================================
     // method
     //===============================================

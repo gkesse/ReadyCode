@@ -6,8 +6,9 @@
 #include "GCode.h"
 #include "GUser.h"
 #include "GBase64.h"
+#include "GSocket.h"
 //===============================================
-GRequest::GRequest() : GObject() {
+GRequest::GRequest() : GModule() {
     m_id = 0;
     m_uid = 0;
     m_module = "";
@@ -15,7 +16,7 @@ GRequest::GRequest() : GObject() {
     m_msg = "";
 }
 //===============================================
-GRequest::GRequest(const std::string& _msg) : GObject() {
+GRequest::GRequest(const std::string& _msg) : GModule() {
     m_id = 0;
     m_uid = 0;
     m_module = "";
@@ -26,6 +27,35 @@ GRequest::GRequest(const std::string& _msg) : GObject() {
 //===============================================
 GRequest::~GRequest() {
 
+}
+//===============================================
+void GRequest::onModule(GSocket* _client) {
+    std::string lMethod = _client->getReq()->getMethod();
+    //===============================================
+    // method
+    //===============================================
+    if(lMethod == "get_request") {
+        onGetRequest(_client);
+    }
+    //===============================================
+    // unknown
+    //===============================================
+    else {
+        onMethodUnknown(_client);
+    }
+}
+//===============================================
+void GRequest::onGetRequest(GSocket* _client) {
+    std::shared_ptr<GCode>& lReq = _client->getReq();
+    std::string lPseudo = lReq->getParam("pseudo");
+    m_uid = GUser(lPseudo).getId();
+    GLOGT(eGMSG, ""
+            "pseudo.......: %s\n"
+            "uid..........: %d\n"
+            "", lPseudo.c_str()
+            , m_uid
+    );
+    loadRequest();
 }
 //===============================================
 void GRequest::loadObj() {
@@ -39,7 +69,7 @@ void GRequest::loadObj() {
             "module.......: %s\n"
             "method.......: %s\n"
             "pseudo.......: %s\n"
-            "uid..........: %d"
+            "uid..........: %d\n"
             "", m_module.c_str(), m_method.c_str(), lPseudo.c_str(), m_uid);
     loadId();
 }
@@ -62,8 +92,32 @@ void GRequest::loadId() {
     if(lId != "") m_id = std::stoi(lId);
     GLOGT(eGINF, ""
             "id...........: %d\n"
-            "uid..........: %d"
+            "uid..........: %d\n"
             "", m_id, m_uid);
+}
+//===============================================
+void GRequest::loadRequest() {
+    if(!m_uid) return;
+    std::vector<std::vector<std::string>> lReq = GMySQL().readMap(sformat(""
+            " select r._msg "
+            " from request r, user u "
+            " where r._u_id = u._id "
+            " and u._id = %d "
+            "", m_uid
+    ));
+
+    for(int i = 0; i < (int)lReq.size(); i++) {
+        std::vector<std::string> lDataRow = lReq.at(i);
+        int j = 0;
+        GRequest lReqObj;
+        lReqObj.m_msg = lDataRow.at(j++);
+        GLOGT(eGINF, ""
+                "i............: %d\n"
+                "msg..........: %s\n"
+                "", i
+                , lReqObj.m_msg.c_str()
+        );
+    }
 }
 //===============================================
 void GRequest::saveData() {

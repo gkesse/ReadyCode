@@ -2,15 +2,20 @@
 #ifndef _GRequest_
 #define _GRequest_
 //===============================================
-#include "GObject.h"
+#include "GModule.h"
 //===============================================
-class GRequest : public GObject {
+class GSocket;
+//===============================================
+class GRequest : public GModule {
 public:
     GRequest();
     GRequest(const std::string& _msg);
     ~GRequest();
+    void onModule(GSocket* _client);
+    void onGetRequest(GSocket* _client);
     void loadObj();
     void loadId();
+    void loadRequest();
     void saveData();
     void insertData();
     void updateData();
