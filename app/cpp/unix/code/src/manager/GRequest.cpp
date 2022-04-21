@@ -34,7 +34,7 @@ void GRequest::onModule(GSocket* _client) {
     //===============================================
     // method
     //===============================================
-    if(lMethod == "get_request") {
+    if(lMethod == "get_req") {
         onGetRequest(_client);
     }
     //===============================================

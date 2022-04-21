@@ -42,8 +42,8 @@ void GMaster::onModule(GSocket* _client) {
         else if(lModule == "user") {
             onModuleUser(_client);
         }
-        else if(lModule == "request") {
-            onModuleUser(_client);
+        else if(lModule == "req") {
+            onModuleReq(_client);
         }
         //===============================================
         // unknown
@@ -68,7 +68,7 @@ void GMaster::onModuleUser(GSocket* _client) {
     GUser().onModule(_client);
 }
 //===============================================
-void GMaster::onModuleUser(GSocket* _client) {
-    GUser().onModule(_client);
+void GMaster::onModuleReq(GSocket* _client) {
+    GRequest().onModule(_client);
 }
 //===============================================

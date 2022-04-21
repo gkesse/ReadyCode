@@ -15,7 +15,7 @@ public:
     //
     void onModuleTest(GSocket* _client);
     void onModuleUser(GSocket* _client);
-    void onModuleRequest(GSocket* _client);
+    void onModuleReq(GSocket* _client);
 };
 //==============================================
 #endif
