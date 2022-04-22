@@ -8,6 +8,10 @@ QWidget {
 	font-size: 16px;
 }
 /* ============================================== */
+QFrame {
+	background-color: #111133;
+}
+/* ============================================== */
 QDialog {
 	background-color: #111133;
 }
@@ -26,10 +30,6 @@ QMessageBox QPushButton:pressed {
 }
 /* ============================================== */
 /* custom */
-/* ============================================== */
-QFrame#flat {
-	background-color: #111111;
-}
 /* ============================================== */
 QPushButton#left {
 	text-align: left;
