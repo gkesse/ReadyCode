@@ -226,6 +226,7 @@
                 <data>
                     <category>list</category>
                     <type>tablewidget</type>
+                    <style>flat</style>
                 </data>
 				<!-- ============================================ -->
                 <!-- end -->

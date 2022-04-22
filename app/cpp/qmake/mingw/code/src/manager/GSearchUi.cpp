@@ -53,7 +53,6 @@ void GSearchUi::createLayout() {
         QString lText = getItem("search", "text", i);
         QString lEchoMode = getItem("search", "echo_mode", i);
         QString lMask = getItem("search", "mask", i);
-        bool lReadonly = (getItem("search", "readonly", i) == "1");
         QString lPicto = getItem("search", "picto", i);
         QString lPictoClear = getItem("search", "picto_clear", i);
         QString lPictoColor = getItem("search", "picto_color", i);
@@ -96,13 +95,13 @@ void GSearchUi::createLayout() {
         }
         else if(lType == "tablewidget") {
             QTableWidget* lTableWidget = new QTableWidget;
+            lTableWidget->setObjectName(lStyle);
             GTableWidget lTable(5, 3, lTableWidget);
-            lTable.addData("Hello");
-            lTable.addData("Hello");
-            lTable.addData("Hello");
-            lTable.addData("Hello");
-            lTable.addData("Hello");
-            lTable.addData("Hello");
+            for(int i = 0; i < 5; i++) {
+                for(int j = 0; j < 3; j++) {
+                    lTable.addData(QString("data[%1][%2]").arg(i).arg(j));
+                }
+            }
             lItemLayout->addWidget(lTableWidget);
         }
         else {

@@ -109,3 +109,23 @@ QTabWidget#flat QTabBar::tab:!selected {
     margin-top: 2px;
 }
 /* ============================================== */
+QTableWidget#flat {
+    gridline-color: #aaaaff;
+    border: none;
+    padding: 10px;
+    background-color: transparent;
+}
+QTableWidget#flat QHeaderView::section {
+    background-color: transparent;
+    border: 1px solid #aaaaff;
+}
+QTableWidget#flat QHeaderView::section:vertical {
+    padding: 0px 10px;
+}
+QTableWidget#flat QHeaderView::section:horizontal {
+    padding: 0px 10px;
+}
+QTableWidget#flat QTableCornerButton::section {
+    background-color: transparent;
+}
+/* ============================================== */
