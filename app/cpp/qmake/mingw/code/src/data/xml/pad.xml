@@ -193,12 +193,44 @@
                 </data>
                 <data>
                     <category>button</category>
+                    <type>button</type>
+                    <key>request/search</key>
+                    <style>flat</style>
+                    <text>Rechercher</text>
+                    <picto>search</picto>
+                    <picto_color>#aaaaff</picto_color>
+                    <picto_size>20</picto_size>
+                </data>
+                <data>
+                    <category>button</category>
                     <type>spacer</type>
                 </data>
 				<!-- ============================================ -->
                 <!-- end -->
 				<!-- ============================================ -->
           	</map>
+        </data>
+		<!-- ============================================ -->
+        <!-- search -->
+		<!-- ============================================ -->
+        <data>
+            <code>search</code>
+            <title>RECHERCHE</title>
+            <logo>readydev.png</logo>
+            <width>500</width>
+            <height>300</height>
+            <map>
+				<!-- ============================================ -->
+                <!-- list -->
+				<!-- ============================================ -->
+                <data>
+                    <category>list</category>
+                    <type>tablewidget</type>
+                </data>
+				<!-- ============================================ -->
+                <!-- end -->
+				<!-- ============================================ -->
+            </map>
         </data>
 		<!-- ============================================ -->
         <!-- socket -->

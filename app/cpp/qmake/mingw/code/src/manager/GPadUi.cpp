@@ -1,12 +1,12 @@
 //===============================================
 #include "GPadUi.h"
+#include "GLoginUi.h"
+#include "GRequestUi.h"
 #include "GPath.h"
 #include "GXml.h"
 #include "GStyle.h"
 #include "GPicto.h"
 #include "GLog.h"
-#include "GLoginUi.h"
-#include "GRequestUi.h"
 //===============================================
 GPadUi::GPadUi(QWidget* _parent) :
 GWidget(_parent) {

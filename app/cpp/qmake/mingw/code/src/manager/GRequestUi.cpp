@@ -1,5 +1,6 @@
 //===============================================
 #include "GRequestUi.h"
+#include "GSearchUi.h"
 #include "GPath.h"
 #include "GXml.h"
 #include "GPicto.h"
@@ -11,8 +12,8 @@
 //===============================================
 GRequestUi::GRequestUi(QWidget* _parent) :
 GDialog(_parent) {
-	createDoms();
-	createLayout();
+    createDoms();
+    createLayout();
 }
 //===============================================
 GRequestUi::~GRequestUi() {
@@ -20,7 +21,7 @@ GRequestUi::~GRequestUi() {
 }
 //===============================================
 void GRequestUi::createDoms() {
-	m_dom.reset(new GXml);
+    m_dom.reset(new GXml);
     m_dom->loadXmlFile(GRES("xml", "pad.xml"));
     m_dom->createXPath();
 }
@@ -95,8 +96,11 @@ void GRequestUi::createLayout() {
             lItemLayout = lButtonLayout;
         }
         else {
-            GERROR(eGERR, QString("Erreur la categorie n'existe pas.\n"
-                    "- categorie : (%1)").arg(lCategory));
+            GERROR(eGERR, QString(""
+                    "Erreur la categorie n'existe pas.\n"
+                    "categorie....: (%1)")
+                    .arg(lCategory)
+            );
             GERROR_SHOWG(eGERR);
             continue;
         }
@@ -130,8 +134,11 @@ void GRequestUi::createLayout() {
             lItemLayout->addWidget(lTextEdit);
         }
         else {
-            GERROR(eGERR, QString("Erreur le type n'existe pas.\n"
-                    "- type : (%1 : %2)").arg(lCategory).arg(lType));
+            GERROR(eGERR, QString(""
+                    "Erreur le type n'existe pas.\n"
+                    "type.......: (%1 : %2)")
+                    .arg(lCategory).arg(lType)
+            );
             GERROR_SHOWG(eGERR);
             continue;
         }
@@ -141,6 +148,8 @@ void GRequestUi::createLayout() {
     setWindowTitle(lTitle);
     setWindowIcon(QIcon(GRES("img", lLogo)));
     resize(lWidth, lHeight);
+
+    addObject(new GSearchUi(this), "search/ui");
 }
 //===============================================
 void GRequestUi::onEvent() {
@@ -156,7 +165,7 @@ void GRequestUi::onEvent() {
         bool lRequestValid = true;
 
         if(lEmissionText == "") {
-            GERROR(eGERR, QString("L'editeur de texte est vide."));
+            GERROR(eGERR, QString("Erreur l'editeur de texte est vide."));
         }
         else {
             GXml lXmlFormat;
@@ -164,7 +173,7 @@ void GRequestUi::onEvent() {
             lXmlValid &= !lXmlFormat.getErrors()->hasErrors();
 
             if(0 && !lXmlValid) {
-                GERROR(eGERR, QString("Le format XML est invalide."));
+                GERROR(eGERR, QString("Erreur le format XML est invalide."));
             }
             else {
                 GCode lRequestFormat(lEmissionText);
@@ -178,7 +187,7 @@ void GRequestUi::onEvent() {
                 lRequestValid &= (lMethod != "");
 
                 if(0 && !lRequestValid) {
-                    GERROR(eGERR, QString("Le format de la requete est invalide."));
+                    GERROR(eGERR, QString("Erreur le format de la requete est invalide."));
                 }
                 else {
                     GSocket lClient;
@@ -194,15 +203,25 @@ void GRequestUi::onEvent() {
     // request/clear
     //===============================================
     else if(lKey == "request/clear") {
-        QTextEdit* lTextEdit = qobject_cast<QTextEdit*>(getObject("request/textedit"));
+        QTextEdit* lTextEdit = qobject_cast<QTextEdit*>(getObject("request/emission/textedit"));
         lTextEdit->clear();
+    }
+    //===============================================
+    // request/search
+    //===============================================
+    else if(lKey == "request/search") {
+        GSearchUi* lSearchUi = qobject_cast<GSearchUi*>(getObject("search/ui"));
+        lSearchUi->exec();
     }
     //===============================================
     // else
     //===============================================
     else {
-        GERROR(eGERR, QString("Erreur la cle n'existe pas.\n"
-                "- cle : (%1)").arg(lKey));
+        GERROR(eGERR, QString(""
+                "Erreur la cle n'existe pas.\n"
+                "cle..........: (%1)")
+                .arg(lKey)
+        );
     }
     //===============================================
     // end

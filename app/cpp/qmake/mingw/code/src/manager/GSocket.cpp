@@ -374,8 +374,6 @@ DWORD WINAPI GSocket::onServerThread(LPVOID _params) {
 }
 //===============================================
 QString GSocket::callServer(const QString& _dataIn) {
-    GLOGT(eGINF, QString("[EMISSION] :\n%1").arg(_dataIn));
-
     int lMajor = getItem("socket", "major").toInt();
     int lMinor = getItem("socket", "minor").toInt();
     int lDomain = loadDomain();
@@ -393,6 +391,14 @@ QString GSocket::callServer(const QString& _dataIn) {
     QString lDataOut;
     writeData(_dataIn);
     readData(lDataOut);
+
+    if(lDataOut == "") {
+        GLOGI->clearErrors();
+        GERROR(eGERR, "Erreur lors de la connexion au serveur.\n");
+    }
+
+    GLOGT(eGINF, QString("[EMISSION] :\n%1").arg(_dataIn));
+    GLOGT(eGINF, QString("[RECEPTION] :\n%1").arg(lDataOut));
 
     closeSocket();
     cleanSocket();

@@ -40,6 +40,7 @@ QPushButton#flat {
 	border: 2px solid #aaaaff;
 	padding: 2px 5px;
 	border-radius: 5px;
+	text-align: left;
 }
 QPushButton#flat:hover {
 	background-color: rgba(255, 255, 255, 0.2);
