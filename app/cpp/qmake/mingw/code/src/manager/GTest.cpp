@@ -286,6 +286,14 @@ void GTest::runSocketClientStart(int _argc, char** _argv) {
     QString lData = GFile(GRES("xml", "pad.xml")).getContent();
     lData = lClient.callServer(lData);
 
+    if(lData == "") {
+        GLOGI->clearErrors();
+        GERROR(eGERR, "Erreur lors de la connexion au serveur.\n");
+    }
+    else {
+        GERROR_LOAD(eGMSG, lData);
+    }
+
     GLOGW(eGINF, lData);
 
     lClient.closeSocket();

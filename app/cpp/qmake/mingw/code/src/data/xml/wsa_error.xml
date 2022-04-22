@@ -23,6 +23,11 @@
 			<fr>Reinitialisation de la connexion par paire.</fr>
 			<en>Connection reset by peer.</en>
         </data>
+        <data>
+			<code>10057</code>
+			<fr>Socket non connecte.</fr>
+			<en>Socket is not connected.</en>
+        </data>
         <!-- 10061 -->
         <data>
 			<code>10061</code>
