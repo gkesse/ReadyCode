@@ -6,6 +6,8 @@ GTableWidget::GTableWidget(QObject* _parent) : GObject(_parent) {
     m_rows = 0;
     m_cols = 0;
     m_index = 0;
+    m_indexRow = 0;
+    m_indexCol = 0;
 }
 //===============================================
 GTableWidget::GTableWidget(int _rows, int _cols, QTableWidget* _tableWidget, QObject* _parent) : GObject(_parent) {
@@ -13,6 +15,8 @@ GTableWidget::GTableWidget(int _rows, int _cols, QTableWidget* _tableWidget, QOb
     m_rows = _rows;
     m_cols = _cols;
     m_index = 0;
+    m_indexRow = 0;
+    m_indexCol = 0;
     setSize();
 }
 //===============================================
@@ -35,5 +39,30 @@ void GTableWidget::addData(const QString& _data) {
     QTableWidgetItem* lItem = new QTableWidgetItem(_data);
     m_tableWidget->setItem(lRow, lCol, lItem);
     m_index++;
+}
+//===============================================
+void GTableWidget::addData(const QString& _data, const QVariant& _key) {
+    int lSize = m_rows * m_cols;
+    if(m_index >= lSize) return;
+    int lRow = m_index / m_cols;
+    int lCol = m_index % m_cols;
+    QTableWidgetItem* lItem = new QTableWidgetItem(_data);
+    lItem->setData(Qt::UserRole, _key);
+    m_tableWidget->setItem(lRow, lCol, lItem);
+    m_index++;
+}
+//===============================================
+void GTableWidget::addRowHeader(const QString& _data) {
+    if(m_indexRow >= m_rows) return;
+    QTableWidgetItem* lItem = new QTableWidgetItem(_data);
+    m_tableWidget->setVerticalHeaderItem(m_indexRow, lItem);
+    m_indexRow++;
+}
+//===============================================
+void GTableWidget::addColHeader(const QString& _data) {
+    if(m_indexCol >= m_cols) return;
+    QTableWidgetItem* lItem = new QTableWidgetItem(_data);
+    m_tableWidget->setHorizontalHeaderItem(m_indexCol, lItem);
+    m_indexCol++;
 }
 //===============================================

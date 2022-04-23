@@ -166,7 +166,7 @@
                     <type>textedit</type>
                     <key>request/reception/textedit</key>
                     <style>code</style>
-                    <readonly>1</readonly>
+                    <readonly_on>1</readonly_on>
                 </data>
 				<!-- ============================================ -->
                 <!-- button -->
@@ -221,12 +221,55 @@
             <height>300</height>
             <map>
 				<!-- ============================================ -->
-                <!-- list -->
+                <!-- table -->
 				<!-- ============================================ -->
                 <data>
-                    <category>list</category>
+                    <category>table</category>
                     <type>tablewidget</type>
                     <style>flat</style>
+                    <readonly_on>1</readonly_on>
+                    <selectrow_on>1</selectrow_on>
+                    <hor_header_on>1</hor_header_on>
+                    <ver_header_on>0</ver_header_on>
+					<hor_header_stretch_last_on>1</hor_header_stretch_last_on>
+                    <ver_header_stretch_last_on>0</ver_header_stretch_last_on>
+                </data>
+				<!-- ============================================ -->
+                <!-- button -->
+				<!-- ============================================ -->
+                <data>
+                    <category>button</category>
+                    <type>button</type>
+                    <key>search/select</key>
+                    <style>flat</style>
+                    <text>Sélectionner</text>
+                    <picto>paperplane</picto>
+                    <picto_color>#aaaaff</picto_color>
+                    <picto_size>20</picto_size>
+                </data>
+                <data>
+                    <category>button</category>
+                    <type>button</type>
+                    <key>search/next</key>
+                    <style>flat</style>
+                    <text>Suivant</text>
+                    <picto>paperplane</picto>
+                    <picto_color>#aaaaff</picto_color>
+                    <picto_size>20</picto_size>
+                </data>
+                <data>
+                    <category>button</category>
+                    <type>button</type>
+                    <key>search/previous</key>
+                    <style>flat</style>
+                    <text>Précédent</text>
+                    <picto>paperplane</picto>
+                    <picto_color>#aaaaff</picto_color>
+                    <picto_size>20</picto_size>
+                </data>
+                <data>
+                    <category>button</category>
+                    <type>spacer</type>
                 </data>
 				<!-- ============================================ -->
                 <!-- end -->

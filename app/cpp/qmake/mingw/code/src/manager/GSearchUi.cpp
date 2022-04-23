@@ -27,12 +27,17 @@ void GSearchUi::createDoms() {
 }
 //===============================================
 void GSearchUi::createLayout() {
-    QHBoxLayout* lListLayout = new QHBoxLayout;
-    lListLayout->setMargin(0);
-    lListLayout->setSpacing(10);
+    QHBoxLayout* lTableLayout = new QHBoxLayout;
+    lTableLayout->setMargin(0);
+    lTableLayout->setSpacing(10);
 
-    QVBoxLayout* lMainLayout = new QVBoxLayout;
-    lMainLayout->addLayout(lListLayout);
+    QVBoxLayout* lButtonLayout = new QVBoxLayout;
+    lButtonLayout->setMargin(0);
+    lButtonLayout->setSpacing(10);
+
+    QHBoxLayout* lMainLayout = new QHBoxLayout;
+    lMainLayout->addLayout(lTableLayout, 1);
+    lMainLayout->addLayout(lButtonLayout);
     lMainLayout->setMargin(10);
     lMainLayout->setSpacing(10);
 
@@ -53,6 +58,12 @@ void GSearchUi::createLayout() {
         QString lText = getItem("search", "text", i);
         QString lEchoMode = getItem("search", "echo_mode", i);
         QString lMask = getItem("search", "mask", i);
+        bool lReadonlyOn = (getItem("search", "readonly_on", i) == "1");
+        bool lSelectRowOn = (getItem("search", "selectrow_on", i) == "1");
+        bool lHorHeaderOn = (getItem("search", "hor_header_on", i) == "1");
+        bool lVerHeaderOn = (getItem("search", "ver_header_on", i) == "1");
+        bool lVerHeaderStretchLastOn = (getItem("search", "ver_header_stretch_last_on", i) == "1");
+        bool lHorHeaderStretchLastOn = (getItem("search", "hor_header_stretch_last_on", i) == "1");
         QString lPicto = getItem("search", "picto", i);
         QString lPictoClear = getItem("search", "picto_clear", i);
         QString lPictoColor = getItem("search", "picto_color", i);
@@ -60,8 +71,11 @@ void GSearchUi::createLayout() {
 
         QBoxLayout* lItemLayout = 0;
 
-        if(lCategory == "list") {
-            lItemLayout = lListLayout;
+        if(lCategory == "table") {
+            lItemLayout = lTableLayout;
+        }
+        else if(lCategory == "button") {
+            lItemLayout = lButtonLayout;
         }
         else {
             GERROR(eGERR, QString(""
@@ -96,12 +110,39 @@ void GSearchUi::createLayout() {
         else if(lType == "tablewidget") {
             QTableWidget* lTableWidget = new QTableWidget;
             lTableWidget->setObjectName(lStyle);
+
+            if(lReadonlyOn) {
+                lTableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+            }
+            if(lSelectRowOn) {
+                lTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+            }
+            if(!lHorHeaderOn) {
+                lTableWidget->horizontalHeader()->hide();
+            }
+            if(!lVerHeaderOn) {
+                lTableWidget->verticalHeader()->hide();
+            }
+            if(lHorHeaderStretchLastOn) {
+                lTableWidget->horizontalHeader()->setStretchLastSection(true);
+            }
+            if(lVerHeaderStretchLastOn) {
+                lTableWidget->verticalHeader()->setStretchLastSection(true);
+            }
+
             GTableWidget lTable(5, 3, lTableWidget);
+
+            for(int i = 0; i < 3; i++) {
+                lTable.addColHeader(QString("Col[%1]").arg(i));
+            }
+
             for(int i = 0; i < 5; i++) {
                 for(int j = 0; j < 3; j++) {
-                    lTable.addData(QString("data[%1][%2]").arg(i).arg(j));
+                    lTable.addData(QString("data[%1][%2]").arg(i).arg(j), i);
                 }
             }
+            connect(lTableWidget, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(onClick(QTableWidgetItem*)));
+            connect(lTableWidget, SIGNAL(itemDoubleClicked(QTableWidgetItem*)), this, SLOT(onDoubleClick(QTableWidgetItem*)));
             lItemLayout->addWidget(lTableWidget);
         }
         else {
@@ -134,7 +175,7 @@ void GSearchUi::onEvent() {
         bool lRequestValid = true;
 
         if(lEmissionText == "") {
-            GERROR(eGERR, QString("L'editeur de texte est vide."));
+            GERROR(eGERR, QString("Erreur l'editeur de texte est vide."));
         }
         else {
             GXml lXmlFormat;
@@ -142,7 +183,7 @@ void GSearchUi::onEvent() {
             lXmlValid &= !lXmlFormat.getErrors()->hasErrors();
 
             if(0 && !lXmlValid) {
-                GERROR(eGERR, QString("Le format XML est invalide."));
+                GERROR(eGERR, QString("Erreur le format XML est invalide."));
             }
             else {
                 GCode lRequestFormat(lEmissionText);
@@ -179,8 +220,11 @@ void GSearchUi::onEvent() {
     // else
     //===============================================
     else {
-        GERROR(eGERR, QString("Erreur la cle n'existe pas.\n"
-                "- cle : (%1)").arg(lKey));
+        GERROR(eGERR, QString(""
+                "Erreur la cle n'existe pas.\n"
+                "cle..........: (%1)")
+                .arg(lKey)
+        );
     }
     //===============================================
     // end
@@ -190,5 +234,25 @@ void GSearchUi::onEvent() {
 //===============================================
 void GSearchUi::onEvent(const QString& _text) {
 
+}
+//===============================================
+void GSearchUi::onClick(QTableWidgetItem* _item) {
+    QString lData = _item->data(Qt::DisplayRole).toString();
+    QString lKey = _item->data(Qt::UserRole).toString();
+    GLOGT(eGOFF, QString(""
+            "data.........: %1\n"
+            "key..........: %2\n"
+            "").arg(lData).arg(lKey)
+    );
+}
+//===============================================
+void GSearchUi::onDoubleClick(QTableWidgetItem* _item) {
+    QString lData = _item->data(Qt::DisplayRole).toString();
+    QString lKey = _item->data(Qt::UserRole).toString();
+    GLOGT(eGOFF, QString(""
+            "data.........: %1\n"
+            "key..........: %2\n"
+            "").arg(lData).arg(lKey)
+    );
 }
 //===============================================

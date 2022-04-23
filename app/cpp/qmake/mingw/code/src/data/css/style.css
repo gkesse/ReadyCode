@@ -110,20 +110,31 @@ QTabWidget#flat QTabBar::tab:!selected {
 }
 /* ============================================== */
 QTableWidget#flat {
-    gridline-color: #aaaaff;
+    gridline-color: transparent;
     border: none;
-    padding: 10px;
+    padding: 0px;
     background-color: transparent;
+}
+QTableWidget#flat::item {
+	background-color: transparent;
+	border: 1px solid #aaaaff;
+	padding: 0px 10px;
+}
+QTableWidget#flat::item:selected {
+	background-color: rgba(255, 255, 255, 0.2);
 }
 QTableWidget#flat QHeaderView::section {
     background-color: transparent;
-    border: 1px solid #aaaaff;
+	border: 1px solid #aaaaff;
 }
 QTableWidget#flat QHeaderView::section:vertical {
-    padding: 0px 10px;
+	padding: 0px 10px;
 }
 QTableWidget#flat QHeaderView::section:horizontal {
-    padding: 0px 10px;
+	padding: 0px 10px;
+}
+QTableWidget#flat QTableView {
+	border: 1px solid #aaaaff;
 }
 QTableWidget#flat QTableCornerButton::section {
     background-color: transparent;

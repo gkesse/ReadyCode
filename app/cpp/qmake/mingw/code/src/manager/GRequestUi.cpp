@@ -78,7 +78,7 @@ void GRequestUi::createLayout() {
         QString lText = getItem("request", "text", i);
         QString lEchoMode = getItem("request", "echo_mode", i);
         QString lMask = getItem("request", "mask", i);
-        bool lReadonly = (getItem("request", "readonly", i) == "1");
+        bool lReadonly = (getItem("request", "readonly_on", i) == "1");
         QString lPicto = getItem("request", "picto", i);
         QString lPictoClear = getItem("request", "picto_clear", i);
         QString lPictoColor = getItem("request", "picto_color", i);

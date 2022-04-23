@@ -16,6 +16,8 @@ public:
 public slots:
     void onEvent();
     void onEvent(const QString& _text);
+    void onClick(QTableWidgetItem* _item);
+    void onDoubleClick(QTableWidgetItem* _item);
 
 private:
     std::vector<std::vector<std::string>> m_dataMap;
