@@ -31,6 +31,14 @@ QMessageBox QPushButton:pressed {
 /* ============================================== */
 /* custom */
 /* ============================================== */
+QFrame#flat {
+	border: 2px solid #aaaaff;
+}
+/* ============================================== */
+QDialog#flat {
+	border: 2px solid #aaaaff;
+}
+/* ============================================== */
 QPushButton#left {
 	text-align: left;
 }

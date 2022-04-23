@@ -12,7 +12,6 @@ public:
 	~GPadUi();
 	void createDoms();
     void createLayout();
-    QWidget* createHeader();
 
 public slots:
 	void onEvent();

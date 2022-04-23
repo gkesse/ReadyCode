@@ -10,16 +10,15 @@
             <logo>readydev.png</logo>
             <width>400</width>
             <height>400</height>
+            <style>flat</style>
             <fullscreen_on>1</fullscreen_on>
             <maximize_on>1</maximize_on>
-        </data>
-		<!-- ============================================ -->
-        <!-- header -->
-		<!-- ============================================ -->
-        <data>
-            <code>header</code>
             <map>
+				<!-- ============================================ -->
+		        <!-- header -->
+				<!-- ============================================ -->
                 <data>
+                	<category>header</category>
                     <type>button</type>
                     <key>header/connect</key>
                     <style>flat</style>
@@ -29,6 +28,7 @@
                     <picto_size>20</picto_size>
                 </data>
                 <data>
+                	<category>header</category>
                     <type>button</type>
                     <key>header/request</key>
                     <style>flat</style>
@@ -38,8 +38,19 @@
                     <picto_size>20</picto_size>
                 </data>
                 <data>
+                	<category>header</category>
                     <type>spacer</type>
-                </data>
+                </data>            
+				<!-- ============================================ -->
+		        <!-- main -->
+				<!-- ============================================ -->
+                <data>
+                	<category>main</category>
+                    <type>spacer</type>
+                </data>            
+				<!-- ============================================ -->
+		        <!-- end -->
+				<!-- ============================================ -->
             </map>
         </data>
 		<!-- ============================================ -->
@@ -51,6 +62,7 @@
             <logo>readydev.png</logo>
             <width>380</width>
             <height>150</height>
+            <style>flat</style>
             <label_width>160</label_width>
             <width_fix_on>0</width_fix_on>
             <height_fix_on>1</height_fix_on>
@@ -148,6 +160,7 @@
             <logo>readydev.png</logo>
             <width>500</width>
             <height>300</height>
+            <style>flat</style>
             <map>
 				<!-- ============================================ -->
                 <!-- emission -->
@@ -219,6 +232,7 @@
             <logo>readydev.png</logo>
             <width>500</width>
             <height>300</height>
+            <style>flat</style>
             <map>
 				<!-- ============================================ -->
                 <!-- table -->

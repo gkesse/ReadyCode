@@ -10,9 +10,9 @@
 //===============================================
 GPadUi::GPadUi(QWidget* _parent) :
 GWidget(_parent) {
-	GSTYLE(GRES("css", "style.css"));
-	createDoms();
-	createLayout();
+    GSTYLE(GRES("css", "style.css"));
+    createDoms();
+    createLayout();
 }
 //===============================================
 GPadUi::~GPadUi() {
@@ -20,56 +20,65 @@ GPadUi::~GPadUi() {
 }
 //===============================================
 void GPadUi::createDoms() {
-	m_dom.reset(new GXml);
+    m_dom.reset(new GXml);
     m_dom->loadXmlFile(GRES("xml", "pad.xml"));
     m_dom->createXPath();
 }
 //===============================================
 void GPadUi::createLayout() {
+    QHBoxLayout* lHeaderLayout = new QHBoxLayout;
+    lHeaderLayout->setMargin(0);
+    lHeaderLayout->setSpacing(10);
+
     QVBoxLayout* lMainLayout = new QVBoxLayout;
-    lMainLayout->addWidget(createHeader());
-    lMainLayout->addStretch();
+    lMainLayout->addLayout(lHeaderLayout);
     lMainLayout->setMargin(10);
     lMainLayout->setSpacing(10);
 
+    int lCount = countItem("pad");
     QString lStyle = getItem("pad", "style");
     QString lTitle = getItem("pad", "title");
     QString lLogo = getItem("pad", "logo");
     int lWidth = getItem("pad", "width").toInt();
     int lHeight = getItem("pad", "height").toInt();
 
-    setLayout(lMainLayout);
-    setObjectName(lStyle);
-
-    setWindowTitle(lTitle);
-    setWindowIcon(QIcon(GRES("img", lLogo)));
-    resize(lWidth, lHeight);
-
-    addObject(new GLoginUi(this), "login/ui");
-    addObject(new GRequestUi(this), "request/ui");
-}
-//===============================================
-QWidget* GPadUi::createHeader() {
-    QFrame* lPage = new QFrame;
-
-    QHBoxLayout* lMainLayout = new QHBoxLayout;
-    lMainLayout->setMargin(0);
-    lMainLayout->setSpacing(10);
-
-    int lCount = countItem("header");
-    QString lStyle = getItem("header", "style");
-
     for(int i = 0; i < lCount; i++) {
-        QString lType = getItem("header", "type", i);
-        QString lKey = getItem("header", "key", i);
-        QString lText = getItem("header", "text", i);
-        QString lStyle = getItem("header", "style", i);
-        QString lPicto = getItem("header", "picto", i);
-        QString lPictoColor = getItem("header", "picto_color", i);
-        int lPictoSize = getItem("header", "picto_size", i).toInt();
+        QString lCategory = getItem("pad", "category", i);
+        QString lType = getItem("pad", "type", i);
+        QString lStyle = getItem("pad", "style", i);
+        QString lAlign = getItem("pad", "align", i);
+        QString lAction = getItem("pad", "action", i);
+        QString lKey = getItem("pad", "key", i);
+        QString lKeyClear = getItem("pad", "key_clear", i);
+        QString lText = getItem("pad", "text", i);
+        QString lEchoMode = getItem("pad", "echo_mode", i);
+        QString lMask = getItem("pad", "mask", i);
+        QString lPicto = getItem("pad", "picto", i);
+        QString lPictoClear = getItem("pad", "picto_clear", i);
+        QString lPictoColor = getItem("pad", "picto_color", i);
+        int lPictoSize = getItem("pad", "picto_size", i).toInt();
+        bool lLink = (getItem("pad", "link", i) == "1");
+
+        QBoxLayout* lItemLayout = 0;
+
+        if(lCategory == "main") {
+            lItemLayout = lMainLayout;
+        }
+        else if(lCategory == "header") {
+            lItemLayout = lHeaderLayout;
+        }
+        else {
+            GERROR(eGERR, QString(""
+                    "Erreur la categorie n'existe pas.\n"
+                    "categorie....: %1\n"
+                    "").arg(lCategory)
+            );
+            GERROR_SHOWG(eGERR);
+            continue;
+        }
 
         if(lType == "spacer") {
-            lMainLayout->addStretch();
+            lItemLayout->addStretch();
         }
         else if(lType == "button") {
             QPushButton* lButton = new QPushButton;
@@ -84,13 +93,24 @@ QWidget* GPadUi::createHeader() {
                 lButton->setIconSize(QSize(lPictoSize, lPictoSize));
             }
             connect(lButton, SIGNAL(clicked()), this, SLOT(onEvent()));
-            lMainLayout->addWidget(lButton);
+            lItemLayout->addWidget(lButton);
+        }
+        else {
+            GERROR(eGERR, QString("Erreur le type n'existe pas.\n"
+                    "- type : (%1 : %2)").arg(lCategory).arg(lType));
+            GERROR_SHOWG(eGERR);
+            continue;
         }
     }
 
-    lPage->setLayout(lMainLayout);
-    lPage->setObjectName(lStyle);
-    return lPage;
+    setLayout(lMainLayout);
+    setWindowTitle(lTitle);
+    setWindowIcon(QIcon(GRES("img", lLogo)));
+    resize(lWidth, lHeight);
+    setObjectName(lStyle);
+
+    addObject(new GLoginUi(this), "login/ui");
+    addObject(new GRequestUi(this), "request/ui");
 }
 //===============================================
 void GPadUi::onEvent() {
@@ -114,8 +134,8 @@ void GPadUi::onEvent() {
     // else
     //===============================================
     else {
-    	GERROR(eGERR, QString("Erreur la cle n'existe pas.\n"
-    			"- cle : (%1)").arg(lKey));
+        GERROR(eGERR, QString("Erreur la cle n'existe pas.\n"
+                "- cle : (%1)").arg(lKey));
     }
     //===============================================
     // end
