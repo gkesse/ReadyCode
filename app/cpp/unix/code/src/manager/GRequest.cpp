@@ -47,7 +47,7 @@ void GRequest::onModule(GSocket* _client) {
 //===============================================
 void GRequest::onGetRequestList(GSocket* _client) {
     std::shared_ptr<GCode>& lReq = _client->getReq();
-    std::string lPseudo = lReq->getParam("pseudo");
+    std::string lPseudo = lReq->getSession("pseudo");
     m_uid = GUser(lPseudo).getId();
     GLOGT(eGMSG, ""
             "pseudo.......: %s\n"
