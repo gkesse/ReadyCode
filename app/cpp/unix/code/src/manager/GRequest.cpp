@@ -34,8 +34,8 @@ void GRequest::onModule(GSocket* _client) {
     //===============================================
     // method
     //===============================================
-    if(lMethod == "get_req") {
-        onGetRequest(_client);
+    if(lMethod == "get_req_list") {
+        onGetRequestList(_client);
     }
     //===============================================
     // unknown
@@ -45,7 +45,7 @@ void GRequest::onModule(GSocket* _client) {
     }
 }
 //===============================================
-void GRequest::onGetRequest(GSocket* _client) {
+void GRequest::onGetRequestList(GSocket* _client) {
     std::shared_ptr<GCode>& lReq = _client->getReq();
     std::string lPseudo = lReq->getParam("pseudo");
     m_uid = GUser(lPseudo).getId();
@@ -55,7 +55,7 @@ void GRequest::onGetRequest(GSocket* _client) {
             "", lPseudo.c_str()
             , m_uid
     );
-    loadRequest(_client);
+    loadRequestList(_client);
 }
 //===============================================
 void GRequest::loadObj() {
@@ -96,7 +96,7 @@ void GRequest::loadId() {
             "", m_id, m_uid);
 }
 //===============================================
-void GRequest::loadRequest(GSocket* _client) {
+void GRequest::loadRequestList(GSocket* _client) {
     if(!m_uid) return;
     std::vector<std::vector<std::string>> lReq = GMySQL().readMap(sformat(""
             " select r._module, r._method, r._msg "

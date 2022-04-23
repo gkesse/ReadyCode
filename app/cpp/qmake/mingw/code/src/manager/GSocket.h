@@ -47,6 +47,7 @@ public:
     void startServer(void* _onServerThread);
     static DWORD WINAPI onServerThread(LPVOID _params);
     QString callServer(const QString& _dataIn);
+    QString callServer(const QString& _module, const QString& _method);
     //
     void setRequest(const QString& _req);
     QString getReq() const;

@@ -373,6 +373,14 @@ DWORD WINAPI GSocket::onServerThread(LPVOID _params) {
     return 0;
 }
 //===============================================
+QString GSocket::callServer(const QString& _module, const QString& _method) {
+    GCode lReq;
+    lReq.createRequest(_module, _method);
+    lReq.addPseudo();
+    QString lDataOut = callServer(lReq.toString());
+    return lDataOut;
+}
+//===============================================
 QString GSocket::callServer(const QString& _dataIn) {
     int lMajor = getItem("socket", "major").toInt();
     int lMinor = getItem("socket", "minor").toInt();

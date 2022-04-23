@@ -12,10 +12,10 @@ public:
     GRequest(const std::string& _msg);
     ~GRequest();
     void onModule(GSocket* _client);
-    void onGetRequest(GSocket* _client);
+    void onGetRequestList(GSocket* _client);
     void loadObj();
     void loadId();
-    void loadRequest(GSocket* _client);
+    void loadRequestList(GSocket* _client);
     void saveData();
     void insertData();
     void updateData();

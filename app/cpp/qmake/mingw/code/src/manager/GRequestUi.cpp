@@ -9,6 +9,7 @@
 #include "GError.h"
 #include "GCode.h"
 #include "GSocket.h"
+#include "GRequest.h"
 //===============================================
 GRequestUi::GRequestUi(QWidget* _parent) :
 GDialog(_parent) {
@@ -210,6 +211,8 @@ void GRequestUi::onEvent() {
     // request/search
     //===============================================
     else if(lKey == "request/search") {
+        GRequest lReq;
+        lReq.getRequestList();
         GSearchUi* lSearchUi = qobject_cast<GSearchUi*>(getObject("search/ui"));
         lSearchUi->exec();
     }

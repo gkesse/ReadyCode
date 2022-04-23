@@ -1,6 +1,7 @@
 //===============================================
 #include "GCode.h"
 #include "GLog.h"
+#include "GUser.h"
 //===============================================
 GCode::GCode(QObject* _parent) : GXml(_parent) {
 
@@ -20,8 +21,17 @@ void GCode::createRequest(const QString& _module, const QString& _method) {
     createCode("request", "method", _method);
 }
 //===============================================
-void GCode::addParameter(const QString& _key, const QString& _value) {
-    createCode("parameters", _key, _value);
+void GCode::addParam(const QString& _key, const QString& _value) {
+    createCode("params", _key, _value);
+}
+//===============================================
+void GCode::addSession(const QString& _key, const QString& _value) {
+    createCode("session", _key, _value);
+}
+//===============================================
+void GCode::addPseudo() {
+    QString lPseudo = GUSERI->getPseudo();
+    addSession("pseudo", lPseudo);
 }
 //===============================================
 QString GCode::getModule() {
