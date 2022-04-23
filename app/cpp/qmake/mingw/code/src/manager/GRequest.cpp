@@ -13,6 +13,7 @@ GRequest::~GRequest() {
 }
 //===============================================
 void GRequest::getRequestList() {
-    QString lDataOut = GSocket().callServer("req", "get_req_list");
+    GSocket lClient;
+    QString lDataOut = lClient.callServer("req", "get_req_list");
 }
 //===============================================

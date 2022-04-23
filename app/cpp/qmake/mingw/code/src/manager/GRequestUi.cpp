@@ -100,7 +100,7 @@ void GRequestUi::createLayout() {
         else {
             GERROR(eGERR, QString(""
                     "Erreur la categorie n'existe pas.\n"
-                    "categorie....: (%1)")
+                    "categorie....: %1\n")
                     .arg(lCategory)
             );
             GERROR_SHOWG(eGERR);
@@ -138,8 +138,8 @@ void GRequestUi::createLayout() {
         else {
             GERROR(eGERR, QString(""
                     "Erreur le type n'existe pas.\n"
-                    "type.......: (%1 : %2)")
-                    .arg(lCategory).arg(lType)
+                    "type.......: %1 : %2\n"
+                    "").arg(lCategory).arg(lType)
             );
             GERROR_SHOWG(eGERR);
             continue;

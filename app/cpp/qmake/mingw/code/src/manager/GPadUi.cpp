@@ -95,8 +95,11 @@ void GPadUi::createLayout() {
             lItemLayout->addWidget(lButton);
         }
         else {
-            GERROR(eGERR, QString("Erreur le type n'existe pas.\n"
-                    "- type : (%1 : %2)").arg(lCategory).arg(lType));
+            GERROR(eGERR, QString(""
+                    "Erreur le type n'existe pas.\n"
+                    "type.........: %1 : %2\n"
+                    "").arg(lCategory).arg(lType)
+            );
             GERROR_SHOWG(eGERR);
             continue;
         }

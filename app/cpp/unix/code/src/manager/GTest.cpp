@@ -213,7 +213,7 @@ void GTest::runTest(int _argc, char** _argv) {
     sprintf(lBuffer, "%*d", BUFFER_SIZE, lInt);
 
     GLOGW(eGINF, "int.....: [%d]", lInt);
-    GLOGW(eGINF, "string..: [%s]", lBuffer);
+    GLOGW(eGINF, "string..: %s", lBuffer);
 }
 //===============================================
 void GTest::runIntString(int _argc, char** _argv) {
