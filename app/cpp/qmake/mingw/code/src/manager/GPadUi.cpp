@@ -57,7 +57,6 @@ void GPadUi::createLayout() {
         QString lPictoClear = getItem("pad", "picto_clear", i);
         QString lPictoColor = getItem("pad", "picto_color", i);
         int lPictoSize = getItem("pad", "picto_size", i).toInt();
-        bool lLink = (getItem("pad", "link", i) == "1");
 
         QBoxLayout* lItemLayout = 0;
 

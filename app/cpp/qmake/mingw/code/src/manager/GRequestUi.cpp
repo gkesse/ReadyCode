@@ -67,6 +67,7 @@ void GRequestUi::createLayout() {
     QString lLogo = getItem("request", "logo");
     int lWidth = getItem("request", "width").toInt();
     int lHeight = getItem("request", "height").toInt();
+    QString lStyle = getItem("request", "style");
 
     for(int i = 0; i < lCount; i++) {
         QString lCategory = getItem("request", "category", i);
@@ -149,6 +150,7 @@ void GRequestUi::createLayout() {
     setWindowTitle(lTitle);
     setWindowIcon(QIcon(GRES("img", lLogo)));
     resize(lWidth, lHeight);
+    setObjectName(lStyle);
 
     addObject(new GSearchUi(this), "search/ui");
 }

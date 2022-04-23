@@ -8,8 +8,8 @@
 //===============================================
 GLoginUi::GLoginUi(QWidget* _parent) :
 GDialog(_parent) {
-	createDoms();
-	createLayout();
+    createDoms();
+    createLayout();
 }
 //===============================================
 GLoginUi::~GLoginUi() {
@@ -17,7 +17,7 @@ GLoginUi::~GLoginUi() {
 }
 //===============================================
 void GLoginUi::createDoms() {
-	m_dom.reset(new GXml);
+    m_dom.reset(new GXml);
     m_dom->loadXmlFile(GRES("xml", "pad.xml"));
     m_dom->createXPath();
 }
@@ -60,6 +60,7 @@ void GLoginUi::createLayout() {
     int lLabelWidth = getItem("login", "label_width").toInt();
     bool lWidthFix = (getItem("login", "width_fix_on") == "1");
     bool lHeightFix = (getItem("login", "height_fix_on") == "1");
+    QString lStyle = getItem("login", "style");
 
     for(int i = 0; i < lCount; i++) {
         QString lCategory = getItem("login", "category", i);
@@ -96,8 +97,11 @@ void GLoginUi::createLayout() {
             lItemLayout = lAccountLayout;
         }
         else {
-            GERROR(eGERR, QString("Erreur la categorie n'existe pas.\n"
-                    "- categorie : (%1)").arg(lCategory));
+            GERROR(eGERR, QString(""
+                    "Erreur la categorie n'existe pas.\n"
+                    "categorie....: %1\n"
+                    "").arg(lCategory)
+            );
             GERROR_SHOWG(eGERR);
             continue;
         }
@@ -219,8 +223,11 @@ void GLoginUi::createLayout() {
             lItemLayout->addWidget(lLineEdit);
         }
         else {
-            GERROR(eGERR, QString("Erreur le type n'existe pas.\n"
-                    "- type : (%1 : %2)").arg(lCategory).arg(lType));
+            GERROR(eGERR, QString(""
+                    "Erreur le type n'existe pas.\n"
+                    "type.........: (%1 : %2)\n"
+                    "").arg(lCategory).arg(lType)
+            );
             GERROR_SHOWG(eGERR);
             continue;
         }
@@ -230,6 +237,7 @@ void GLoginUi::createLayout() {
     setWindowTitle(lTitle);
     setWindowIcon(QIcon(GRES("img", lLogo)));
     resize(lWidth, lHeight);
+    setObjectName(lStyle);
 
     if(lWidthFix) {
         setFixedWidth(lWidth);
