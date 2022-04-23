@@ -404,6 +404,9 @@ QString GSocket::callServer(const QString& _dataIn) {
         GLOGI->clearErrors();
         GERROR(eGERR, "Erreur lors de la connexion au serveur.\n");
     }
+    else {
+        GERROR_LOAD(eGERR, lDataOut);
+    }
 
     GLOGT(eGINF, QString("[EMISSION] :\n%1").arg(_dataIn));
     GLOGT(eGINF, QString("[RECEPTION] :\n%1").arg(lDataOut));
