@@ -53,8 +53,11 @@ public:
     //
     GXml& createNodeCData(GXml& _xml, const QString& _value);
     GXml& createNodeCData(const QString& _nodename, const QString& _value);
+    GXml& setNodeCData(const QString& _key, const QString& _value);
     GXml& setNodeCData(const QString& _value);
     QString getNodeCData() const;
+    //
+    GXml& setAttribute(const QString& _key, const QString& _value);
     //
     QString toString(const QString& _encoding = "UTF8", int _format = 4) const;
     QString toStringNode(const QString& _encoding = "UTF8", int _format = 4) const;

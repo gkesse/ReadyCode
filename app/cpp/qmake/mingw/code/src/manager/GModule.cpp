@@ -32,7 +32,7 @@ void GModule::sendResponse(GSocket* _client) {
         QVector<QString>& lErrors = GLOGI->getErrors();
         for(int i = 0; i < lErrors.size(); i++) {
             QString lError = lErrors.at(i);
-            lRes->createMap("error", "msg", lError);
+            lRes->createMap("error", "msg", lError, i);
         }
         GLOGI->clearErrors();
     }

@@ -382,6 +382,7 @@ GXml& GXml::setNodeCData(const std::string& _value) {
 }
 //===============================================
 GXml& GXml::setNodeCData(const std::string& _key, const std::string& _value) {
+    if(!m_node) return *this;
     getNode(_key);
     setNodeCData(_value);
     return *this;

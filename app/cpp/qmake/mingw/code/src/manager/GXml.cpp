@@ -378,6 +378,13 @@ GXml& GXml::createNodeCData(const QString& _nodename, const QString& _value) {
     return *this;
 }
 //===============================================
+GXml& GXml::setNodeCData(const QString& _key, const QString& _value) {
+    if(!m_node) return *this;
+    getNode(_key);
+    setNodeCData(_value);
+    return *this;
+}
+//===============================================
 GXml& GXml::setNodeCData(const QString& _value) {
     if(!m_node) return *this;
     GXml lNode;
@@ -390,6 +397,12 @@ QString GXml::getNodeCData() const {
     if(!m_node) return "";
     QString lData = (char*)xmlNodeGetContent(m_node);
     return lData;
+}
+//===============================================
+GXml& GXml::setAttribute(const QString& _key, const QString& _value) {
+    if(!m_node) return *this;
+    xmlSetProp(m_node, BAD_CAST(_key.toStdString().c_str()), BAD_CAST(_value.toStdString().c_str()));
+    return *this;
 }
 //===============================================
 QString GXml::toString(const QString& _encoding, int _format) const {
