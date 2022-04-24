@@ -586,6 +586,7 @@ void GTest::runResponse(int _argc, char** _argv) {
     lRes.createMap("error", "code", "1111", 0);
     lRes.createMap("error", "msg", "la donnee est incorrect", 1);
     lRes.createMap("error", "code", "2222", 1);
+    lRes.createMap("error", "code", "3333", 1);
 
     GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("result")).c_str());        // true
     GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("resulto")).c_str());       // false
