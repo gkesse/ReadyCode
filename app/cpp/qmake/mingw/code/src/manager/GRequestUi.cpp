@@ -228,8 +228,9 @@ void GRequestUi::onEvent() {
 
         for(int i = 0; i < lRows; i++) {
             GRequest* lReq = lReqObj.getReqs().at(i);
-            QString lModule = lReq->getModule();
-            lTable.addData(QString("data[%1][%2]").arg(i).arg(j), i);
+            lTable.addData(lReq->getModule(), i);
+            lTable.addData(lReq->getMethod(), i);
+            lTable.addData(lReq->getMsg(), i);
         }
         lSearchUi->loadData();
         lSearchUi->exec();
