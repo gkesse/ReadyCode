@@ -240,6 +240,7 @@
                 <data>
                     <category>table</category>
                     <type>tablewidget</type>
+                    <key>search/tablewidget</key>
                     <style>flat</style>
                     <readonly_on>1</readonly_on>
                     <selectrow_on>1</selectrow_on>

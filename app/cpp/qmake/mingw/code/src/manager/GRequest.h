@@ -14,7 +14,13 @@ public:
     void getRequestList();
 
 private:
-    std::vector<GRequest> m_reqMap;
+    int m_id;
+    QString m_module;
+    QString m_method;
+    QString m_msg;
+    //
+    std::vector<GRequest> m_reqs;
+    std::vector<std::string> m_headers;
 };
 //==============================================
 #endif

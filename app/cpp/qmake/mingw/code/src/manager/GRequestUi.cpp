@@ -129,10 +129,10 @@ void GRequestUi::createLayout() {
         }
         else if(lType == "textedit") {
             QTextEdit* lTextEdit = new QTextEdit;
+            addObject(lTextEdit, lKey);
             lTextEdit->setObjectName(lStyle);
             lTextEdit->setLineWrapMode(QTextEdit::NoWrap);
             lTextEdit->setReadOnly(lReadonly);
-            addObject(lTextEdit, lKey);
             lItemLayout->addWidget(lTextEdit);
         }
         else {
@@ -216,6 +216,7 @@ void GRequestUi::onEvent() {
         GRequest lReq;
         lReq.getRequestList();
         GSearchUi* lSearchUi = qobject_cast<GSearchUi*>(getObject("search/ui"));
+        lSearchUi->loadData();
         lSearchUi->exec();
     }
     //===============================================

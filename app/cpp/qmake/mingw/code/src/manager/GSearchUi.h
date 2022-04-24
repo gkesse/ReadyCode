@@ -12,6 +12,17 @@ public:
 	~GSearchUi();
 	void createDoms();
 	void createLayout();
+	//
+    void setRows(int _rows);
+    void setCols(int _cols);
+    void setReadonlyOn(bool _isReadonlyOn);
+    void setSelectRowOn(bool _isSelectRowOn);
+    void setHorHeaderOn(bool _isHorHeaderOn);
+    void setVerHeaderOn(bool _isVerHeaderOn);
+    void setHorHeaderStretchLastOn(bool _isHorHeaderStretchLastOn);
+    void setVerHeaderStretchLastOn(bool _isVerHeaderStretchLastOn);
+    //
+	void loadData();
 
 public slots:
     void onEvent();
@@ -21,8 +32,16 @@ public slots:
 
 private:
     std::vector<std::vector<std::string>> m_dataMap;
+    //
     int m_rows;
     int m_cols;
+    //
+    bool m_readonlyOn;
+    bool m_selectRowOn;
+    bool m_horHeaderOn;
+    bool m_verHeaderOn;
+    bool m_horHeaderStretchLastOn;
+    bool m_verHeaderStretchLastOn;
 };
 //===============================================
 #endif

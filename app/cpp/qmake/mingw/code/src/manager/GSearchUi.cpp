@@ -12,6 +12,15 @@
 //===============================================
 GSearchUi::GSearchUi(QWidget* _parent) :
 GDialog(_parent) {
+    m_rows = 0;
+    m_cols = 0;
+    m_readonlyOn = false;
+    m_selectRowOn = false;
+    m_horHeaderOn = true;
+    m_verHeaderOn = false;
+    m_horHeaderStretchLastOn = false;
+    m_verHeaderStretchLastOn = false;
+    //
     createDoms();
     createLayout();
 }
@@ -109,38 +118,19 @@ void GSearchUi::createLayout() {
         }
         else if(lType == "tablewidget") {
             QTableWidget* lTableWidget = new QTableWidget;
+            addObject(lTableWidget, lKey);
             lTableWidget->setObjectName(lStyle);
-
-            if(lReadonlyOn) {
-                lTableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
-            }
-            if(lSelectRowOn) {
-                lTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
-            }
-            if(!lHorHeaderOn) {
-                lTableWidget->horizontalHeader()->hide();
-            }
-            if(!lVerHeaderOn) {
-                lTableWidget->verticalHeader()->hide();
-            }
-            if(lHorHeaderStretchLastOn) {
-                lTableWidget->horizontalHeader()->setStretchLastSection(true);
-            }
-            if(lVerHeaderStretchLastOn) {
-                lTableWidget->verticalHeader()->setStretchLastSection(true);
-            }
-
-            GTableWidget lTable(5, 3, lTableWidget);
-
-            for(int i = 0; i < 3; i++) {
-                lTable.addColHeader(QString("Col[%1]").arg(i));
-            }
-
-            for(int i = 0; i < 5; i++) {
-                for(int j = 0; j < 3; j++) {
-                    lTable.addData(QString("data[%1][%2]").arg(i).arg(j), i);
-                }
-            }
+            //
+            setR
+            setReadonlyOn(lReadonlyOn);
+            setSelectRowOn(lSelectRowOn);
+            setHorHeaderOn(lHorHeaderOn);
+            setVerHeaderOn(lVerHeaderOn);
+            setHorHeaderStretchLastOn(lHorHeaderStretchLastOn);
+            setVerHeaderStretchLastOn(lVerHeaderStretchLastOn);
+            //
+            loadData();
+            //
             connect(lTableWidget, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(onClick(QTableWidgetItem*)));
             connect(lTableWidget, SIGNAL(itemDoubleClicked(QTableWidgetItem*)), this, SLOT(onDoubleClick(QTableWidgetItem*)));
             lItemLayout->addWidget(lTableWidget);
@@ -162,74 +152,76 @@ void GSearchUi::createLayout() {
     resize(lWidth, lHeight);
 }
 //===============================================
+void GSearchUi::setRows(int _rows) {
+    m_rows = _rows;
+}
+//===============================================
+void GSearchUi::setCols(int _cols) {
+    m_cols = _cols;
+}
+//===============================================
+void GSearchUi::setReadonlyOn(bool _isReadonlyOn) {
+    m_readonlyOn = _isReadonlyOn;
+}
+//===============================================
+void GSearchUi::setSelectRowOn(bool _isSelectRowOn) {
+    m_selectRowOn = _isSelectRowOn;
+}
+//===============================================
+void GSearchUi::setHorHeaderOn(bool _isHorHeaderOn) {
+    m_horHeaderOn = _isHorHeaderOn;
+}
+//===============================================
+void GSearchUi::setVerHeaderOn(bool _isVerHeaderOn) {
+    m_verHeaderOn = _isVerHeaderOn;
+}
+//===============================================
+void GSearchUi::setHorHeaderStretchLastOn(bool _isHorHeaderStretchLastOn) {
+    m_horHeaderStretchLastOn = _isHorHeaderStretchLastOn;
+}
+//===============================================
+void GSearchUi::setVerHeaderStretchLastOn(bool _isVerHeaderStretchLastOn) {
+    m_verHeaderStretchLastOn = _isVerHeaderStretchLastOn;
+}
+//===============================================
+void GSearchUi::loadData() {
+    QTableWidget* lTableWidget = qobject_cast<QTableWidget*>(getObject("search/tablewidget"));
+    lTableWidget->clear();
+
+    if(m_readonlyOn) {
+        lTableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    }
+    if(m_selectRowOn) {
+        lTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+    }
+    if(!m_horHeaderOn) {
+        lTableWidget->horizontalHeader()->hide();
+    }
+    if(!m_verHeaderOn) {
+        lTableWidget->verticalHeader()->hide();
+    }
+    if(m_horHeaderStretchLastOn) {
+        lTableWidget->horizontalHeader()->setStretchLastSection(true);
+    }
+    if(m_verHeaderStretchLastOn) {
+        lTableWidget->verticalHeader()->setStretchLastSection(true);
+    }
+
+    GTableWidget lTable(m_rows, m_cols, lTableWidget);
+
+    for(int i = 0; i < m_cols; i++) {
+        lTable.addColHeader(QString("Col[%1]").arg(i));
+    }
+
+    for(int i = 0; i < m_rows; i++) {
+        for(int j = 0; j < m_cols; j++) {
+            lTable.addData(QString("data[%1][%2]").arg(i).arg(j), i);
+        }
+    }
+}
+//===============================================
 void GSearchUi::onEvent() {
-    QString lKey = m_objectMap[sender()];
-    //===============================================
-    // search/send
-    //===============================================
-    if(lKey == "search/send") {
-        QTextEdit* lEmissionEdit = qobject_cast<QTextEdit*>(getObject("search/emission/textedit"));
-        QTextEdit* lReceptionEdit = qobject_cast<QTextEdit*>(getObject("search/reception/textedit"));
-        QString lEmissionText = lEmissionEdit->toPlainText();
-        bool lXmlValid = true;
-        bool lRequestValid = true;
 
-        if(lEmissionText == "") {
-            GERROR(eGERR, QString("Erreur l'editeur de texte est vide."));
-        }
-        else {
-            GXml lXmlFormat;
-            lXmlFormat.isValidXmlData(lEmissionText);
-            lXmlValid &= !lXmlFormat.getErrors()->hasErrors();
-
-            if(0 && !lXmlValid) {
-                GERROR(eGERR, QString("Erreur le format XML est invalide."));
-            }
-            else {
-                GCode lRequestFormat(lEmissionText);
-                QString lModule = lRequestFormat.getModule();
-                QString lMethod = lRequestFormat.getMethod();
-
-                GLOGT(eGOFF, lModule);
-                GLOGT(eGOFF, lMethod);
-
-                lRequestValid &= (lModule != "");
-                lRequestValid &= (lMethod != "");
-
-                if(0 && !lRequestValid) {
-                    GERROR(eGERR, QString("Le format de la requete est invalide."));
-                }
-                else {
-                    GSocket lClient;
-                    QString lReceptionText = lClient.callServer(lEmissionText);
-                    lReceptionEdit->setText(lReceptionText);
-                    GLOGT(eGMSG, QString("[EMISSION]...: %1\n%2").arg(lEmissionText.size()).arg(lEmissionText));
-                    GLOGT(eGMSG, QString("[RECEPTION]..: %1\n%2").arg(lReceptionText.size()).arg(lReceptionText));
-                }
-            }
-        }
-    }
-    //===============================================
-    // request/clear
-    //===============================================
-    else if(lKey == "request/clear") {
-        QTextEdit* lTextEdit = qobject_cast<QTextEdit*>(getObject("request/emission/textedit"));
-        lTextEdit->clear();
-    }
-    //===============================================
-    // else
-    //===============================================
-    else {
-        GERROR(eGERR, QString(""
-                "Erreur la cle n'existe pas.\n"
-                "cle..........: %1")
-                .arg(lKey)
-        );
-    }
-    //===============================================
-    // end
-    //===============================================
-    GERROR_SHOWG(eGERR);
 }
 //===============================================
 void GSearchUi::onEvent(const QString& _text) {

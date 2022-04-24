@@ -29,7 +29,7 @@ public:
     void createMap(const QString& _code, const QString& _key, const QString& _value);
     //
     QString getItem(const QString& _code, const QString& _key);
-    QString getItem(const QString& _code, int _index, const QString& _key);
+    QString getItem(const QString& _code, const QString& _key, int _index, bool _isCData = false);
     int countItem(const QString& _code);
     int countItem(const QString& _code, const QString& _key);
     //

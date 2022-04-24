@@ -109,10 +109,12 @@ QString GCode::getItem(const QString& _code, const QString& _key) {
     return lData;
 }
 //===============================================
-QString GCode::getItem(const QString& _code, int _index, const QString& _key) {
+QString GCode::getItem(const QString& _code, const QString& _key, int _index, bool _isCData) {
     queryXPath(QString("/rdv/datas/data[code='%1']/map/data[position()=%2]/%3").arg(_code).arg(_index + 1).arg(_key));
     getNodeXPath();
-    QString lData = getNodeValue();
+    QString lData = "";
+    if(_isCData) lData = getNodeCData();
+    else lData = getNodeValue();
     return lData;
 }
 //===============================================
