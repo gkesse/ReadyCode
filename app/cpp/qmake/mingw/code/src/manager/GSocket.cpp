@@ -231,7 +231,7 @@ int GSocket::readData(QString& _data) {
     _data.clear();
     QString lBuffer;
     recvData(lBuffer);
-    GLOGT(eGINF, QString("[%1]").arg(lBuffer));
+    GLOGT(eGOFF, QString("[%1]").arg(lBuffer));
     int lSize = lBuffer.toInt();
     int lBytes = 0;
 
@@ -250,7 +250,7 @@ int GSocket::readData(QString& _data) {
         _data += lBuffer;
         lBytes += iBytes;
     }
-    GLOGT(eGINF, QString("[RECEPTION]..: %1\n%2").arg(_data.size()).arg(_data));
+    GLOGT(eGOFF, QString("[RECEPTION]..: %1\n%2").arg(_data.size()).arg(_data));
     return lBytes;
 }
 //===============================================
@@ -289,10 +289,10 @@ int GSocket::writeData(const QString& _data) {
     int lSize = (int)ceil((double)lLength/BUFFER_DATA_SIZE);
     QString lBuffer = QString("%1").arg(lSize);
     lBuffer = lBuffer.leftJustified(BUFFER_NDATA_SIZE);
-    GLOGT(eGINF, QString("[%1]").arg(lBuffer));
+    GLOGT(eGOFF, QString("[%1]").arg(lBuffer));
     sendData(lBuffer);
 
-    GLOGT(eGINF, QString("[EMISSION]...: %1\n%2").arg(_data.size()).arg(_data));
+    GLOGT(eGOFF, QString("[EMISSION]...: %1\n%2").arg(_data.size()).arg(_data));
     for(int i = 0; i < lSize; i++) {
         QString lBuffer = _data.mid(lBytes, BUFFER_DATA_SIZE);
         int iBytes = sendData(lBuffer);
@@ -438,8 +438,8 @@ QString GSocket::callServer(const QString& _dataIn) {
         GERROR(eGERR, "Erreur lors de la connexion au serveur.\n");
     }
 
-    GLOGT(eGINF, QString("[EMISSION]...: %1\n%2").arg(_dataIn.size()).arg(_dataIn));
-    GLOGT(eGINF, QString("[RECEPTION]..: %1\n%2").arg(lDataOut.size()).arg(lDataOut));
+    GLOGT(eGOFF, QString("[EMISSION]...: %1\n%2").arg(_dataIn.size()).arg(_dataIn));
+    GLOGT(eGOFF, QString("[RECEPTION]..: %1\n%2").arg(lDataOut.size()).arg(lDataOut));
 
     closeSocket();
     cleanSocket();
