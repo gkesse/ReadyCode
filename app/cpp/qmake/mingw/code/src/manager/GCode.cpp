@@ -145,7 +145,7 @@ QString GCode::toStringCode(const QString& _code) {
 }
 //===============================================
 QString GCode::toStringCode(const QString& _code, int _index) {
-    queryXPath(QString("/rdv/datas/data[code='%1']/map/data[position()=%d]").arg(_code).arg(_index + 1));
+    queryXPath(QString("/rdv/datas/data[code='%1']/map/data[position()=%2]").arg(_code).arg(_index + 1));
     getNodeXPath();
     QString lData = toStringNode();
     return lData;

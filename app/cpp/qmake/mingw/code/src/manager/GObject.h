@@ -20,7 +20,6 @@ public:
 protected:
 	QSharedPointer<GXml> m_dom;
     QSharedPointer<GError> m_errors;
-    QSharedPointer<GCode> m_params;
 };
 //===============================================
 #endif

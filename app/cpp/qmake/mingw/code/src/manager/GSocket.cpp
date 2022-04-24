@@ -404,10 +404,10 @@ QString GSocket::callServer(const QString& _module, const QString& _method) {
     return lDataOut;
 }
 //===============================================
-QString GSocket::callServer(const QString& _module, const QString& _method, const QSharedPointer<GCode>& _params) {
+QString GSocket::callServer(const QString& _module, const QString& _method, const QString& _params) {
     GCode lReq;
     lReq.createRequest(_module, _method);
-    lReq.loadCode(_params->toStringCode("params"));
+    lReq.loadCode(_params);
     lReq.addPseudo();
     QString lDataOut = callServer(lReq.toString());
     return lDataOut;

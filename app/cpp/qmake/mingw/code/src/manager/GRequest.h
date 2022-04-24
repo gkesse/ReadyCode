@@ -14,7 +14,8 @@ public:
     //
     void setId(int _id);
     //
-    void serialize();
+    QString serialize() const;
+    void deserializeMap(const QString& _data);
     void getRequestList();
 
 private:

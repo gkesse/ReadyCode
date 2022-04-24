@@ -9,8 +9,6 @@ GRequest::GRequest(QObject* _parent) : GObject(_parent) {
     m_module = "";
     m_method = "";
     m_msg = "";
-    m_params.reset(new GCode);
-    m_params->createCode();
 }
 //===============================================
 GRequest::~GRequest() {
@@ -30,21 +28,19 @@ void GRequest::setId(int _id) {
     m_id = _id;
 }
 //===============================================
-void GRequest::serialize() {
-    m_params->addParam("id", QString("%1").arg(m_id));
-    m_params->addParam("module", m_module);
-    m_params->addParam("method", m_method);
-    m_params->addParam("msg", m_msg);
+QString GRequest::serialize() const {
+    GCode lParams;
+    lParams.createCode();
+    lParams.addParam("id", QString("%1").arg(m_id));
+    lParams.addParam("module", m_module);
+    lParams.addParam("method", m_method);
+    lParams.addParam("msg", m_msg);
+    return lParams.toStringCode("params");
 }
 //===============================================
-void GRequest::getRequestList() {
-    GSocket lClient;
-    serialize();
-    QString lDataOut = lClient.callServer("req", "get_req_list", m_params);
-    GCode lReqCode(lDataOut);
+void GRequest::deserializeMap(const QString& _data) {
+    GCode lReqCode(_data);
     int lCount = lReqCode.countItem("req");
-    GLOGT(eGMSG, QString("%1").arg(lCount));
-
     for(int i = 0; i < lCount; i++) {
         GRequest* lReq = new GRequest;
         lReq->m_module = lReqCode.getItem("req", "module", i);
@@ -52,5 +48,13 @@ void GRequest::getRequestList() {
         lReq->m_msg = lReqCode.getItem("req", "msg", i, true);
         m_reqs.push_back(lReq);
     }
+
+}
+//===============================================
+void GRequest::getRequestList() {
+    GSocket lClient;
+    QString lParams = serialize();
+    QString lDataOut = lClient.callServer("req", "get_req_list", lParams);
+    deserializeMap(lDataOut);
 }
 //===============================================

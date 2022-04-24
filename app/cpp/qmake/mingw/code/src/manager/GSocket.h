@@ -48,7 +48,7 @@ public:
     static DWORD WINAPI onServerThread(LPVOID _params);
     QString callServer(const QString& _dataIn);
     QString callServer(const QString& _module, const QString& _method);
-    QString callServer(const QString& _module, const QString& _method, const QSharedPointer<GCode>& _params);
+    QString callServer(const QString& _module, const QString& _method, const QString& _params);
     //
     void setReq(const QString& _req);
     QSharedPointer<GCode>& getReq();
