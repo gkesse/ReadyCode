@@ -15,6 +15,7 @@ public:
     ~GTableWidget();
     void setSize();
     void addData(const QString& _data);
+    void addData(int _data, const QVariant& _key);
     void addData(const QString& _data, const QVariant& _key);
     void addColHeader(const QString& _data);
     void addRowHeader(const QString& _data);

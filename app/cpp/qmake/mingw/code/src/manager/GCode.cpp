@@ -21,6 +21,10 @@ void GCode::createRequest(const QString& _module, const QString& _method) {
     createCode("request", "method", _method);
 }
 //===============================================
+void GCode::addParam(const QString& _key, int _value) {
+    createCode("params", _key, QString("%1").arg(_value));
+}
+//===============================================
 void GCode::addParam(const QString& _key, const QString& _value) {
     createCode("params", _key, _value);
 }

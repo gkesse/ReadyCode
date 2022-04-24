@@ -13,6 +13,7 @@ public:
     ~GCode();
     //
     void createRequest(const QString& _module, const QString& _method);
+    void addParam(const QString& _key, int _value);
     void addParam(const QString& _key, const QString& _value);
     void addSession(const QString& _key, const QString& _value);
     void addPseudo();

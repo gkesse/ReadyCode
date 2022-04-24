@@ -102,6 +102,10 @@ void GCode::createCode(const std::string& _code, const std::string& _key, const 
     }
 }
 //===============================================
+void GCode::createMap(const std::string& _code, const std::string& _key, int _value, int _index, bool _isCData) {
+    createMap(_code, _key, std::to_string(_value), _index, _isCData);
+}
+//===============================================
 void GCode::createMap(const std::string& _code, const std::string& _key, const std::string& _value, int _index, bool _isCData) {
     createCode(_code);
     if(!hasMap(_code)) {

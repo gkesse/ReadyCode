@@ -129,7 +129,7 @@ void GRequest::loadRequestList(GSocket* _client) {
                 , lReqObj.m_msg.c_str()
         );
 
-        lRes->createMap("req", "id", std::to_string(lReqObj.m_id), i);
+        lRes->createMap("req", "id", lReqObj.m_id, i);
         lRes->createMap("req", "module", lReqObj.m_module, i);
         lRes->createMap("req", "method", lReqObj.m_method, i);
         lRes->createMap("req", "msg", lReqObj.m_msg, i, true);

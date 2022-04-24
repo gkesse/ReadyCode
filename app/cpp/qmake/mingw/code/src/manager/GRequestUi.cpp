@@ -228,6 +228,7 @@ void GRequestUi::onEvent() {
 
         for(int i = 0; i < lRows; i++) {
             GRequest* lReq = lReqObj.getReqs().at(i);
+            lTable.addData(lReq->getId(), i);
             lTable.addData(lReq->getModule(), i);
             lTable.addData(lReq->getMethod(), i);
             lTable.addData(lReq->getMsg(), i);

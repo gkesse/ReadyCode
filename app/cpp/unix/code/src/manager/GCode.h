@@ -25,6 +25,7 @@ public:
     bool hasMap(const std::string& _code);
     void createCode(const std::string& _code);
     void createCode(const std::string& _code, const std::string& _key, const std::string& _value);
+    void createMap(const std::string& _code, const std::string& _key, int _value, int _index, bool _isCData = false);
     void createMap(const std::string& _code, const std::string& _key, const std::string& _value, int _index, bool _isCData = false);
     //
     void getCodeNode(const std::string& _code);

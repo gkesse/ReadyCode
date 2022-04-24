@@ -51,7 +51,7 @@ QVector<QString>& GRequest::getHeaders() {
 QString GRequest::serialize() const {
     GCode lParams;
     lParams.createCode();
-    lParams.addParam("id", QString("%1").arg(m_id));
+    lParams.addParam("id", m_id);
     lParams.addParam("module", m_module);
     lParams.addParam("method", m_method);
     lParams.addParam("msg", m_msg);
@@ -70,6 +70,7 @@ void GRequest::deserializeMap(const QString& _data) {
     int lCountData = lReqCode.countItem("req");
     for(int i = 0; i < lCountData; i++) {
         GRequest* lReq = new GRequest;
+        lReq->m_id = lReqCode.getItem("req", "id", i).toInt();
         lReq->m_module = lReqCode.getItem("req", "module", i);
         lReq->m_method = lReqCode.getItem("req", "method", i);
         lReq->m_msg = lReqCode.getItem("req", "msg", i, true);

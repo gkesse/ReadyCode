@@ -41,6 +41,10 @@ void GTableWidget::addData(const QString& _data) {
     m_index++;
 }
 //===============================================
+void GTableWidget::addData(int _data, const QVariant& _key) {
+    addData(QString("%1").arg(_data), _key);
+}
+//===============================================
 void GTableWidget::addData(const QString& _data, const QVariant& _key) {
     int lSize = m_rows * m_cols;
     if(m_index >= lSize) return;
