@@ -11,7 +11,6 @@ class GTest : public GModule {
 
 public:
 	GTest(QObject* _parent = 0);
-	GTest(const QString& _req, QObject* _parent = 0);
 	~GTest();
 	void run(int _argc, char** _argv);
     void runDefault(int _argc, char** _argv);

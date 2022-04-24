@@ -52,6 +52,20 @@ GXml& GXml::loadXmlData(const QString& _data) {
     return *this;
 }
 //===============================================
+GXml& GXml::loadNodeData(const QString& _data) {
+    if(!m_node) return *this;
+    xmlNodePtr lNewNode;
+    QString lData = "<rdv>" + _data + "</rdv>";
+    xmlParseInNodeContext(m_node, lData.toStdString().c_str(), lData.size(), 0, &lNewNode);
+    xmlNodePtr lNode = lNewNode->children;
+    while(lNode) {
+        xmlAddChild(m_node, xmlCopyNode(lNode, 1));
+        lNode = lNode->next;
+    }
+    xmlFreeNode(lNewNode);
+    return *this;
+}
+//===============================================
 GXml& GXml::saveXmlFile(const QString& _filename, const QString& _encoding, int _format) {
     QString lFilename = "";
 
@@ -385,6 +399,15 @@ QString GXml::toString(const QString& _encoding, int _format) const {
     xmlDocDumpFormatMemoryEnc(m_doc, &lBuffer, &lSize, _encoding.toStdString().c_str(), _format);
     QString lData = (char*)lBuffer;
     xmlFree(lBuffer);
+    return lData;
+}
+//===============================================
+QString GXml::toStringNode(const QString& _encoding, int _format) const {
+    if(!m_node) return "";
+    xmlBufferPtr lBuffer = xmlBufferCreate();
+    xmlNodeDump(lBuffer, m_doc, m_node, 0, 1);
+    QString lData = (char*)lBuffer->content;
+    xmlBufferFree(lBuffer);
     return lData;
 }
 //===============================================

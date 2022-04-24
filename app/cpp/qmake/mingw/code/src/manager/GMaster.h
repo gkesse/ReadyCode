@@ -11,7 +11,6 @@ class GMaster : public GModule {
 
 public:
     GMaster(QObject* _parent = 0);
-    GMaster(const QString& _req, QObject* _parent = 0);
     ~GMaster();
     //
     void onModule(GSocket* _client);

@@ -10,10 +10,11 @@ class GRequest : public GObject {
 public:
     GRequest(QObject* _parent = 0);
     ~GRequest();
+    void serialize();
     void getRequestList();
 
 private:
-
+    std::vector<GRequest> m_reqMap;
 };
 //==============================================
 #endif

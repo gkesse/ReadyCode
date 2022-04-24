@@ -173,12 +173,7 @@ void GLog::traceLog(const char* _name, int _level, const char* _file, int _line,
     if(_level == 0) return;
     if(!_isDebug) return;
     QString lDate = GDate().getDate(GDate().getDateTimeLogFormat());
-    if(_data == "") {
-        fprintf(getOutput(_isFileLog), "===> [%s] : %d : %s : %s : [%d] : %s :\n", _name, _level, lDate.toStdString().c_str(), _file, _line, _func);
-    }
-    else {
-        fprintf(getOutput(_isFileLog), "===> [%s] : %d : %s : %s : [%d] : %s :\n%s\n", _name, _level, lDate.toStdString().c_str(), _file, _line, _func, _data.toStdString().c_str());
-    }
+    fprintf(getOutput(_isFileLog), "===> [%s] : %d : %s : %s : [%d] : %s :\n%s\n", _name, _level, lDate.toStdString().c_str(), _file, _line, _func, _data.toStdString().c_str());
     closeLogFile();
 }
 //===============================================

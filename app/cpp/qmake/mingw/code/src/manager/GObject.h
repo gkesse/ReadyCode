@@ -6,6 +6,7 @@
 //===============================================
 class GXml;
 class GError;
+class GCode;
 //===============================================
 class GObject : public QObject {
 	Q_OBJECT
@@ -19,6 +20,7 @@ public:
 protected:
 	QSharedPointer<GXml> m_dom;
     QSharedPointer<GError> m_errors;
+    QSharedPointer<GCode> m_params;
 };
 //===============================================
 #endif

@@ -393,6 +393,12 @@ std::string GXml::getNodeCData() const {
     return lData;
 }
 //===============================================
+GXml& GXml::setAttribute(const std::string& _key, const std::string& _value) {
+    if(!m_node) return *this;
+    xmlSetProp(m_node, BAD_CAST(_key.c_str()), BAD_CAST(_value.c_str()));
+    return *this;
+}
+//===============================================
 std::string GXml::toString(const std::string& _encoding, int _format) const {
     if(!m_doc) return "";
     xmlChar* lBuffer = NULL;
@@ -400,6 +406,15 @@ std::string GXml::toString(const std::string& _encoding, int _format) const {
     xmlDocDumpFormatMemoryEnc(m_doc, &lBuffer, &lSize, _encoding.c_str(), _format);
     std::string lData = (char*)lBuffer;
     xmlFree(lBuffer);
+    return lData;
+}
+//===============================================
+std::string GXml::toStringNode(const std::string& _encoding, int _format) const {
+    if(!m_node) return "";
+    xmlBufferPtr lBuffer = xmlBufferCreate();
+    xmlNodeDump(lBuffer, m_doc, m_node, 0, 1);
+    std::string lData = (char*)lBuffer->content;
+    xmlBufferFree(lBuffer);
     return lData;
 }
 //===============================================

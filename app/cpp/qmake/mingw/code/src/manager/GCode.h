@@ -30,7 +30,11 @@ public:
     //
     QString getItem(const QString& _code, const QString& _key);
     QString getItem(const QString& _code, int _index, const QString& _key);
+    int countItem(const QString& _code);
     int countItem(const QString& _code, const QString& _key);
+    //
+    void loadCode(const QString& _code);
+    QString toStringCode(const QString& _code);
 };
 //==============================================
 #endif

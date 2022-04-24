@@ -8,28 +8,20 @@ GModule::GModule(QObject* _parent) : GObject(_parent) {
 
 }
 //===============================================
-GModule::GModule(const QString& _req, QObject* _parent) : GObject(_parent) {
-    setRequest(_req);
-}
-//===============================================
 GModule::~GModule() {
 
 }
 //===============================================
 void GModule::onModuleUnknown(GSocket* _client) {
+    QSharedPointer<GCode>& lReq = _client->getReq();
     GERROR(eGERR, QString("Erreur le module (%1) n'existe pas")
-            .arg(m_req->getModule()));
+            .arg(lReq->getModule()));
 }
 //===============================================
 void GModule::onMethodUnknown(GSocket* _client) {
+    QSharedPointer<GCode>& lReq = _client->getReq();
     GERROR(eGERR, QString("Erreur la methode (%1 : %2) n'existe pas")
-            .arg(m_req->getModule()).arg(m_req->getMethod()));
-}
-//===============================================
-void GModule::setRequest(const QString& _req) {
-    m_req.reset(new GCode);
-    m_req->loadXmlData(_req);
-    m_req->createXPath();
+            .arg(lReq->getModule()).arg(lReq->getMethod()));
 }
 //===============================================
 void GModule::sendResponse(GSocket* _client) {

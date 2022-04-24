@@ -56,7 +56,10 @@ public:
     GXml& setNodeCData(const std::string& _key, const std::string& _value);
     std::string getNodeCData() const;
     //
+    GXml& setAttribute(const std::string& _key, const std::string& _value);
+    //
     std::string toString(const std::string& _encoding = "UTF8", int _format = 4) const;
+    std::string toStringNode(const std::string& _encoding = "UTF8", int _format = 4) const;
 
 private:
     xmlNodePtr m_node;

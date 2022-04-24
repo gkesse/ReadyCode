@@ -132,7 +132,7 @@ QTableWidget#flat::item:selected {
 	background-color: rgba(255, 255, 255, 0.2);
 }
 QTableWidget#flat QHeaderView::section {
-    background-color: transparent;
+    background-color: #5555AA;
 	border: 1px solid #aaaaff;
 }
 QTableWidget#flat QHeaderView::section:vertical {

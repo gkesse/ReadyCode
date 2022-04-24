@@ -35,6 +35,7 @@ void GError::clearErrors() {
 }
 //===============================================
 void GError::loadErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _res) {
+    if(_res == "") return;
     GCode lRes;
     lRes.loadXmlData(_res);
     lRes.createXPath();

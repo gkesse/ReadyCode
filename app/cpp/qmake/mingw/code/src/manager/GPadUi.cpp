@@ -137,7 +137,7 @@ void GPadUi::onEvent() {
     //===============================================
     else {
         GERROR(eGERR, QString("Erreur la cle n'existe pas.\n"
-                "- cle : (%1)").arg(lKey));
+                "- cle : %1").arg(lKey));
     }
     //===============================================
     // end

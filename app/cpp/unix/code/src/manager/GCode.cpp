@@ -107,6 +107,7 @@ void GCode::createMap(const std::string& _code, const std::string& _key, const s
     if(!hasMap(_code)) {
         appendNodeGet("map");
         appendNodeGet("data");
+        setAttribute("i", std::to_string(_index + 1));
         if(_isCData) appendCData(_key, _value);
         else appendNode(_key, _value);
     }

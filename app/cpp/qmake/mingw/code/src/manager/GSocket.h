@@ -48,9 +48,10 @@ public:
     static DWORD WINAPI onServerThread(LPVOID _params);
     QString callServer(const QString& _dataIn);
     QString callServer(const QString& _module, const QString& _method);
+    QString callServer(const QString& _module, const QString& _method, const QSharedPointer<GCode>& _params);
     //
-    void setRequest(const QString& _req);
-    QString getReq() const;
+    void setReq(const QString& _req);
+    QSharedPointer<GCode>& getReq();
     QStack<GSocket*>& getClientIns();
     QSharedPointer<GCode>& getResponse();
 
@@ -58,6 +59,7 @@ private:
     QSharedPointer<GXml> m_dom;
     QSharedPointer<GXml> m_domWsaError;
     QSharedPointer<GCode> m_res;
+    QSharedPointer<GCode> m_req;
     //
     static const int BUFFER_DATA_SIZE = 1024;
     static const int BUFFER_NDATA_SIZE = 256;
@@ -68,7 +70,6 @@ private:
     //
     GSocket* m_server;
     QStack<GSocket*> m_clientIns;
-    QString m_request;
 };
 //==============================================
 #endif

@@ -196,8 +196,8 @@ void GRequestUi::onEvent() {
                     GSocket lClient;
                     QString lReceptionText = lClient.callServer(lEmissionText);
                     lReceptionEdit->setText(lReceptionText);
-                    GLOGT(eGMSG, QString("[EMISSION] :\n%1").arg(lEmissionText));
-                    GLOGT(eGMSG, QString("[RECEPTION] :\n%1").arg(lReceptionText));
+                    GLOGT(eGMSG, QString("[EMISSION]...: %1\n%2").arg(lEmissionText.size()).arg(lEmissionText));
+                    GLOGT(eGMSG, QString("[RECEPTION]..: %1\n%2").arg(lReceptionText.size()).arg(lReceptionText));
                 }
             }
         }
@@ -224,7 +224,7 @@ void GRequestUi::onEvent() {
     else {
         GERROR(eGERR, QString(""
                 "Erreur la cle n'existe pas.\n"
-                "cle..........: (%1)")
+                "cle..........: %1")
                 .arg(lKey)
         );
     }

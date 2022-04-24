@@ -13,12 +13,13 @@
 #define eGCRI   6, __FILE__, __LINE__, __PRETTY_FUNCTION__
 #define eGFAT   7, __FILE__, __LINE__, __PRETTY_FUNCTION__
 //===============================================
-#define GLOGI GLog::Instance()
+#define GLOGI               GLog::Instance()
 #define GERROR(x, y)        GLOGI->addError(#x, x, y)
-#define GERROR_OBJ(x, y)    m_errors->addError(#x, x, y)
 #define GERROR_LOAD(x, y)   GLOGI->loadErrors(#x, x, y)
 #define GERROR_SHOW(x)      GLOGI->showErrors(#x, x)
 #define GERROR_SHOWG(x)     GLOGI->showErrors(#x, x, this)
+#define GERROR_OBJ(x, y)    m_errors->addError(#x, x, y)
+#define GERROR_OBJL(x, y)   m_errors->loadErrors(#x, x, y)
 #define GLOGT(x, y)         GLOGI->traceLog(#x, x, y)
 #define GLOGW(x, y)         GLOGI->writeLog(#x, x, y)
 #define GSTRC               GLOGI->toString

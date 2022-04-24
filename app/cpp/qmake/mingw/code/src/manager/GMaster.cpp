@@ -10,29 +10,27 @@ GMaster::GMaster(QObject* _parent) : GModule(_parent) {
 
 }
 //===============================================
-GMaster::GMaster(const QString& _req, QObject* _parent) : GModule(_req, _parent) {
-
-}
-//===============================================
 GMaster::~GMaster() {
 
 }
 //===============================================
 void GMaster::onModule(GSocket* _client) {
-    QString lModule = m_req->getModule();
-
+    QString lModule = _client->getReq()->getModule();
+    //===============================================
     // module
+    //===============================================
     if(lModule == "test") {
         onModuleTest(_client);
     }
+    //===============================================
     // unknown
+    //===============================================
     else {
         onModuleUnknown(_client);
     }
 }
 //===============================================
 void GMaster::onModuleTest(GSocket* _client) {
-    GTest lModule(_client->getReq());
-    lModule.onModule(_client);
+    GTest().onModule(_client);
 }
 //===============================================
