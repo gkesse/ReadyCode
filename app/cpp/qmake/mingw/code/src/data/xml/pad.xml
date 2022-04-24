@@ -230,7 +230,7 @@
             <code>search</code>
             <title>RECHERCHE</title>
             <logo>readydev.png</logo>
-            <width>500</width>
+            <width>600</width>
             <height>300</height>
             <style>flat</style>
             <map>
@@ -245,7 +245,7 @@
                     <readonly_on>1</readonly_on>
                     <selectrow_on>1</selectrow_on>
                     <hor_header_on>1</hor_header_on>
-                    <ver_header_on>0</ver_header_on>
+                    <ver_header_on>1</ver_header_on>
 					<hor_header_stretch_last_on>1</hor_header_stretch_last_on>
                     <ver_header_stretch_last_on>0</ver_header_stretch_last_on>
                 </data>

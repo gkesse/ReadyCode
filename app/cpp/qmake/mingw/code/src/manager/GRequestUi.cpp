@@ -217,10 +217,13 @@ void GRequestUi::onEvent() {
         GRequest lReqObj;
         lReqObj.getRequestList();
         GSearchUi* lSearchUi = qobject_cast<GSearchUi*>(getObject("search/ui"));
+        lSearchUi->loadData();
         QTableWidget* lTableWidget = qobject_cast<QTableWidget*>(lSearchUi->getObject("search/tablewidget"));
         int lRows = lReqObj.getReqs().size();
         int lCols = lReqObj.getHeaders().size();
+        GLOGT(eGOFF, QString("size.........: %1 : %2").arg(lRows).arg(lCols));
         GTableWidget lTable(lRows, lCols, lTableWidget);
+
         for(int i = 0; i < lCols; i++) {
             QString lHeader = lReqObj.getHeaders().at(i);
             lTable.addColHeader(lHeader);
@@ -233,7 +236,7 @@ void GRequestUi::onEvent() {
             lTable.addData(lReq->getMethod(), i);
             lTable.addData(lReq->getMsg(), i);
         }
-        lSearchUi->loadData();
+
         lSearchUi->exec();
     }
     //===============================================
