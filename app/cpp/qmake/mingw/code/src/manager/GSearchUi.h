@@ -13,8 +13,6 @@ public:
 	void createDoms();
 	void createLayout();
 	//
-    void setRows(int _rows);
-    void setCols(int _cols);
     void setReadonlyOn(bool _isReadonlyOn);
     void setSelectRowOn(bool _isSelectRowOn);
     void setHorHeaderOn(bool _isHorHeaderOn);
@@ -31,11 +29,6 @@ public slots:
     void onDoubleClick(QTableWidgetItem* _item);
 
 private:
-    std::vector<std::vector<std::string>> m_dataMap;
-    //
-    int m_rows;
-    int m_cols;
-    //
     bool m_readonlyOn;
     bool m_selectRowOn;
     bool m_horHeaderOn;

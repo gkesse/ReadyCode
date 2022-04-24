@@ -99,10 +99,11 @@ void GRequest::loadId() {
 void GRequest::loadRequestList(GSocket* _client) {
     if(!m_uid) return;
     std::vector<std::vector<std::string>> lReq = GMySQL().readMap(sformat(""
-            " select r._module, r._method, r._msg "
+            " select r._id, r._module, r._method, r._msg "
             " from request r, user u "
             " where r._u_id = u._id "
             " and u._id = %d "
+            " order by r._id "
             "", m_uid
     ));
 
@@ -112,6 +113,7 @@ void GRequest::loadRequestList(GSocket* _client) {
         std::vector<std::string> lDataRow = lReq.at(i);
         int j = 0;
         GRequest lReqObj;
+        lReqObj.m_id = lDataRow.at(j++);
         lReqObj.m_module = lDataRow.at(j++);
         lReqObj.m_method = lDataRow.at(j++);
         lReqObj.m_msg = lDataRow.at(j++);
@@ -127,12 +129,14 @@ void GRequest::loadRequestList(GSocket* _client) {
                 , lReqObj.m_msg.c_str()
         );
 
+        lRes->createMap("req", "id", std::to_string(lReqObj.m_id), i);
         lRes->createMap("req", "module", lReqObj.m_module, i);
         lRes->createMap("req", "method", lReqObj.m_method, i);
         lRes->createMap("req", "msg", lReqObj.m_msg, i, true);
     }
 
     int i = 0;
+    lRes->createMap("req/header", "header", "id", i++);
     lRes->createMap("req/header", "header", "module", i++);
     lRes->createMap("req/header", "header", "methode", i++);
     lRes->createMap("req/header", "header", "message", i++);

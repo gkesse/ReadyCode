@@ -12,8 +12,6 @@
 //===============================================
 GSearchUi::GSearchUi(QWidget* _parent) :
 GDialog(_parent) {
-    m_rows = 0;
-    m_cols = 0;
     m_readonlyOn = false;
     m_selectRowOn = false;
     m_horHeaderOn = true;
@@ -149,14 +147,6 @@ void GSearchUi::createLayout() {
     resize(lWidth, lHeight);
 }
 //===============================================
-void GSearchUi::setRows(int _rows) {
-    m_rows = _rows;
-}
-//===============================================
-void GSearchUi::setCols(int _cols) {
-    m_cols = _cols;
-}
-//===============================================
 void GSearchUi::setReadonlyOn(bool _isReadonlyOn) {
     m_readonlyOn = _isReadonlyOn;
 }
@@ -182,8 +172,6 @@ void GSearchUi::setVerHeaderStretchLastOn(bool _isVerHeaderStretchLastOn) {
 }
 //===============================================
 void GSearchUi::loadData() {
-    if(m_rows == 0) return;
-    if(m_cols == 0) return;
     QTableWidget* lTableWidget = qobject_cast<QTableWidget*>(getObject("search/tablewidget"));
     lTableWidget->clear();
 
