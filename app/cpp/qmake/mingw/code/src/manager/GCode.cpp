@@ -136,8 +136,8 @@ void GCode::createMap(const QString& _code, const QString& _key, const QString& 
     }
     else {
         queryXPath(QString("/rdv/datas/data[code='%1']/map/data[position()=%2]/%3").arg(_code).arg(_index + 1).arg(_key)).getNodeXPath();
-        if(_isCData) setNodeCData(_key, _value);
-        else setNodeValue(_key, _value);
+        if(_isCData) setNodeCData(_value);
+        else setNodeValue(_value);
     }
 }
 //===============================================

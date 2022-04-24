@@ -384,8 +384,8 @@ void GTest::runResponse(int _argc, char** _argv) {
     lRes.createCode("request", "method", "save_user");
     lRes.createCode("result", "msg", "ok");
     lRes.createCode("opencv", "version", "4.0");
-    lRes.createMap("error", "msg", "le chemin est incorrect");
-    lRes.createMap("error", "msg", "la donnee est incorrect");
+    lRes.createMap("error", "msg", "le chemin est incorrect", 0);
+    lRes.createMap("error", "msg", "la donnee est incorrect", 0);
 
     GCode lReq;
     lReq.createRequest("req", "get_req_list");
@@ -396,8 +396,8 @@ void GTest::runResponse(int _argc, char** _argv) {
     GLOGT(eGINF, GSTRC(lRes.hasCode("error")));         // true
     GLOGT(eGINF, GSTRC(lRes.hasCode("error", "msg")));  // true
     GLOGT(eGINF, GSTRC(lRes.hasCode("error", "msgo"))); // false
-    GLOGT(eGINF, QString("module.....: %1").arg(lRes.getItem("request", "module")));
-    GLOGT(eGINF, QString("method.....: %1").arg(lRes.getItem("request", "method")));
+    GLOGT(eGINF, QString("module.......: %1").arg(lRes.getItem("request", "module")));
+    GLOGT(eGINF, QString("method.......: %1").arg(lRes.getItem("request", "method")));
     GLOGT(eGINF, lRes.toString());
     GLOGT(eGINF, lRes.toStringCode("error"));
     GLOGT(eGINF, lReq.toString());

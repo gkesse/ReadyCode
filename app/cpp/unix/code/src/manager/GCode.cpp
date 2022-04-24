@@ -129,8 +129,8 @@ void GCode::createMap(const std::string& _code, const std::string& _key, const s
     }
     else {
         queryXPath(sformat("/rdv/datas/data[code='%s']/map/data[position()=%d]/%s", _code.c_str(), _index + 1, _key.c_str())).getNodeXPath();
-        if(_isCData) setNodeCData(_key, _value);
-        else setNodeValue(_key, _value);
+        if(_isCData) setNodeCData(_value);
+        else setNodeValue(_value);
     }
 }
 //===============================================
