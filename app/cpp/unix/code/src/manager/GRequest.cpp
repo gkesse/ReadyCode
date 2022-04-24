@@ -131,6 +131,11 @@ void GRequest::loadRequestList(GSocket* _client) {
         lRes->createMap("req", "method", lReqObj.m_method, i);
         lRes->createMap("req", "msg", lReqObj.m_msg, i, true);
     }
+
+    int i = 0;
+    lRes->createMap("req/header", "header", "module", i++);
+    lRes->createMap("req/header", "header", "methode", i++);
+    lRes->createMap("req/header", "header", "message", i++);
 }
 //===============================================
 void GRequest::saveData() {
