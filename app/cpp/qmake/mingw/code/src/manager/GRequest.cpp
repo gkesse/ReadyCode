@@ -24,8 +24,28 @@ void GRequest::clearReqs() {
     m_reqs.clear();
 }
 //===============================================
-void GRequest::setId(int _id) {
-    m_id = _id;
+int GRequest::getId() const {
+    return m_id;
+}
+//===============================================
+QString GRequest::getMethod() const {
+    return m_method;
+}
+//===============================================
+QString GRequest::getModule() const {
+    return m_module;
+}
+//===============================================
+QString GRequest::getMsg() const {
+    return m_msg;
+}
+//===============================================
+QVector<GRequest*>& GRequest::getReqs() {
+    return m_reqs;
+}
+//===============================================
+QVector<QString>& GRequest::getHeaders() {
+    return m_headers;
 }
 //===============================================
 QString GRequest::serialize() const {
@@ -40,15 +60,21 @@ QString GRequest::serialize() const {
 //===============================================
 void GRequest::deserializeMap(const QString& _data) {
     GCode lReqCode(_data);
-    int lCount = lReqCode.countItem("req");
-    for(int i = 0; i < lCount; i++) {
+    //
+    int lCountHeader = lReqCode.countItem("req/header");
+    for(int i = 0; i < lCountHeader; i++) {
+        QString lHeader = lReqCode.getItem("req/header", "header", i);
+        m_headers.push_back(lHeader);
+    }
+    //
+    int lCountData = lReqCode.countItem("req");
+    for(int i = 0; i < lCountData; i++) {
         GRequest* lReq = new GRequest;
         lReq->m_module = lReqCode.getItem("req", "module", i);
         lReq->m_method = lReqCode.getItem("req", "method", i);
         lReq->m_msg = lReqCode.getItem("req", "msg", i, true);
         m_reqs.push_back(lReq);
     }
-
 }
 //===============================================
 void GRequest::getRequestList() {

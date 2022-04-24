@@ -10,6 +10,7 @@
 #include "GCode.h"
 #include "GSocket.h"
 #include "GRequest.h"
+#include "GTableWidget.h"
 //===============================================
 GRequestUi::GRequestUi(QWidget* _parent) :
 GDialog(_parent) {
@@ -213,9 +214,23 @@ void GRequestUi::onEvent() {
     // request/search
     //===============================================
     else if(lKey == "request/search") {
-        GRequest lReq;
-        lReq.getRequestList();
+        GRequest lReqObj;
+        lReqObj.getRequestList();
         GSearchUi* lSearchUi = qobject_cast<GSearchUi*>(getObject("search/ui"));
+        QTableWidget* lTableWidget = qobject_cast<QTableWidget*>(lSearchUi->getObject("search/tablewidget"));
+        int lRows = lReqObj.getReqs().size();
+        int lCols = lReqObj.getHeaders().size();
+        GTableWidget lTable(lRows, lCols, lTableWidget);
+        for(int i = 0; i < lCols; i++) {
+            QString lHeader = lReqObj.getHeaders().at(i);
+            lTable.addColHeader(lHeader);
+        }
+
+        for(int i = 0; i < lRows; i++) {
+            GRequest* lReq = lReqObj.getReqs().at(i);
+            QString lModule = lReq->getModule();
+            lTable.addData(QString("data[%1][%2]").arg(i).arg(j), i);
+        }
         lSearchUi->loadData();
         lSearchUi->exec();
     }

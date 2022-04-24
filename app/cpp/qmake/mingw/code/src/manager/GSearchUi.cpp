@@ -121,16 +121,12 @@ void GSearchUi::createLayout() {
             addObject(lTableWidget, lKey);
             lTableWidget->setObjectName(lStyle);
             //
-            setRows(5);
-            setCols(3);
             setReadonlyOn(lReadonlyOn);
             setSelectRowOn(lSelectRowOn);
             setHorHeaderOn(lHorHeaderOn);
             setVerHeaderOn(lVerHeaderOn);
             setHorHeaderStretchLastOn(lHorHeaderStretchLastOn);
             setVerHeaderStretchLastOn(lVerHeaderStretchLastOn);
-            //
-            loadData();
             //
             connect(lTableWidget, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(onClick(QTableWidgetItem*)));
             connect(lTableWidget, SIGNAL(itemDoubleClicked(QTableWidgetItem*)), this, SLOT(onDoubleClick(QTableWidgetItem*)));
@@ -208,18 +204,6 @@ void GSearchUi::loadData() {
     }
     if(m_verHeaderStretchLastOn) {
         lTableWidget->verticalHeader()->setStretchLastSection(true);
-    }
-
-    GTableWidget lTable(m_rows, m_cols, lTableWidget);
-
-    for(int i = 0; i < m_cols; i++) {
-        lTable.addColHeader(QString("Col[%1]").arg(i));
-    }
-
-    for(int i = 0; i < m_rows; i++) {
-        for(int j = 0; j < m_cols; j++) {
-            lTable.addData(QString("data[%1][%2]").arg(i).arg(j), i);
-        }
     }
 }
 //===============================================

@@ -12,7 +12,12 @@ public:
     ~GRequest();
     void clearReqs();
     //
-    void setId(int _id);
+    int getId() const;
+    QString getModule() const;
+    QString getMethod() const;
+    QString getMsg() const;
+    QVector<GRequest*>& getReqs();
+    QVector<QString>& getHeaders();
     //
     QString serialize() const;
     void deserializeMap(const QString& _data);
