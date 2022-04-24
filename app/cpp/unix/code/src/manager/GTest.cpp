@@ -578,8 +578,10 @@ void GTest::runResponse(int _argc, char** _argv) {
     GCode lRes;
     lRes.createCode("request", "module", "test");
     lRes.createCode("request", "method", "save_user");
+    lRes.createCode("request", "method", "do_user");
     lRes.createCode("result", "msg", "ok");
     lRes.createCode("opencv", "version", "4.0");
+    lRes.createCode("opencv", "version", "5.0");
     lRes.createMap("error", "msg", "le chemin est incorrect", 0);
     lRes.createMap("error", "code", "1111", 0);
     lRes.createMap("error", "msg", "la donnee est incorrect", 1);
