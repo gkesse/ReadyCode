@@ -431,15 +431,16 @@ QString GSocket::callServer(const QString& _dataIn) {
     QString lDataOut;
     writeData(_dataIn);
     readData(lDataOut);
+
+    GLOGT(eGMSG, QString("[EMISSION]...: %1\n%2").arg(_dataIn.size()).arg(_dataIn));
+    GLOGT(eGMSG, QString("[RECEPTION]..: %1\n%2").arg(lDataOut.size()).arg(lDataOut));
+
     GERROR_LOAD(eGERR, lDataOut);
 
     if(GLOGI->hasErrors()) {
         GLOGI->clearErrors();
         GERROR(eGERR, "Erreur lors de la connexion au serveur.\n");
     }
-
-    GLOGT(eGOFF, QString("[EMISSION]...: %1\n%2").arg(_dataIn.size()).arg(_dataIn));
-    GLOGT(eGOFF, QString("[RECEPTION]..: %1\n%2").arg(lDataOut.size()).arg(lDataOut));
 
     closeSocket();
     cleanSocket();
