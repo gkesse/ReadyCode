@@ -195,9 +195,13 @@ GSocket& GSocket::acceptSocket(GSocket* _socket) {
 }
 //===============================================
 int GSocket::recvData(QString& _data) {
+    return recvData(_data, BUFFER_DATA_SIZE);
+}
+//===============================================
+int GSocket::recvData(QString& _data, int _size) {
     _data.clear();
     char lBuffer[BUFFER_DATA_SIZE + 1];
-    int lBytes = recv(m_socket, lBuffer, BUFFER_DATA_SIZE, 0);
+    int lBytes = recv(m_socket, lBuffer, _size, 0);
     if(lBytes == -1) {
         GERROR(eGERR, QString(""
                 "Erreur lors de la reception des donnees.\n"
@@ -230,7 +234,7 @@ int GSocket::recvData(GSocket& _socket, QString& _data) {
 int GSocket::readData(QString& _data) {
     _data.clear();
     QString lBuffer;
-    recvData(lBuffer);
+    recvData(lBuffer, BUFFER_NDATA_SIZE);
     GLOGT(eGOFF, QString("[%1]").arg(lBuffer));
     int lSize = lBuffer.toInt();
     int lBytes = 0;

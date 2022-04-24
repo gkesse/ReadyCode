@@ -35,6 +35,7 @@ public:
     GSocket& acceptSocket(GSocket& _socket);
     GSocket& acceptSocket(GSocket* _socket);
     int recvData(QString& _data);
+    int recvData(QString& _data, int _size);
     int recvData(GSocket& _socket, QString& _data);
     int readData(QString& _data);
     int sendData(const QString& _data);
