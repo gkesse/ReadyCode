@@ -10,6 +10,10 @@ class GRequest : public GObject {
 public:
     GRequest(QObject* _parent = 0);
     ~GRequest();
+    void clearReqs();
+    //
+    void setId(int _id);
+    //
     void serialize();
     void getRequestList();
 
@@ -19,8 +23,8 @@ private:
     QString m_method;
     QString m_msg;
     //
-    std::vector<GRequest> m_reqs;
-    std::vector<std::string> m_headers;
+    QVector<GRequest*> m_reqs;
+    QVector<QString> m_headers;
 };
 //==============================================
 #endif

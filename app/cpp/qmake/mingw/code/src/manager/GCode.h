@@ -34,7 +34,9 @@ public:
     int countItem(const QString& _code, const QString& _key);
     //
     void loadCode(const QString& _code);
+    //
     QString toStringCode(const QString& _code);
+    QString toStringCode(const QString& _code, int _index);
 };
 //==============================================
 #endif

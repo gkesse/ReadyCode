@@ -121,7 +121,8 @@ void GSearchUi::createLayout() {
             addObject(lTableWidget, lKey);
             lTableWidget->setObjectName(lStyle);
             //
-            setR
+            setRows(5);
+            setCols(3);
             setReadonlyOn(lReadonlyOn);
             setSelectRowOn(lSelectRowOn);
             setHorHeaderOn(lHorHeaderOn);
@@ -185,6 +186,8 @@ void GSearchUi::setVerHeaderStretchLastOn(bool _isVerHeaderStretchLastOn) {
 }
 //===============================================
 void GSearchUi::loadData() {
+    if(m_rows == 0) return;
+    if(m_cols == 0) return;
     QTableWidget* lTableWidget = qobject_cast<QTableWidget*>(getObject("search/tablewidget"));
     lTableWidget->clear();
 

@@ -403,6 +403,7 @@ QString GXml::toString(const QString& _encoding, int _format) const {
 }
 //===============================================
 QString GXml::toStringNode(const QString& _encoding, int _format) const {
+    if(!m_doc) return "";
     if(!m_node) return "";
     xmlBufferPtr lBuffer = xmlBufferCreate();
     xmlNodeDump(lBuffer, m_doc, m_node, 0, 1);

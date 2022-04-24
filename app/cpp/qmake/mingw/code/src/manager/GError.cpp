@@ -41,7 +41,7 @@ void GError::loadErrors(const char* _name, int _level, const char* _file, int _l
     lRes.createXPath();
     int lCount = lRes.countItem("error", "msg");
     for(int i = 0; i < lCount; i++) {
-        QString lError = lRes.getItem("error", i, "msg");
+        QString lError = lRes.getItem("error", "msg", i);
         addError(_name, _level, _file, _line, _func, lError);
     }
 }
