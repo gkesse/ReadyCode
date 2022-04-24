@@ -22,14 +22,18 @@ public:
     QString getMethod();
     //
     void setCode(const QString& _code);
+    //
     bool hasCode(const QString& _code);
-    bool hasCode(const QString& _code, int _index);
-    bool hasCode(const QString& _code, const QString& _key, int _index);
     bool hasCode(const QString& _code, const QString& _key);
-    bool hasMap(const QString& _code);
+    //
+    bool hasCode(const QString& _code);
+    bool hasMap(const QString& _code, int _index);
+    bool hasMap(const QString& _code, const QString& _key, int _index);
+    //
     void createCode();
     void createCode(const QString& _code);
-    void createCode(const QString& _code, const QString& _key, const QString& _value);
+    void createCode(const QString& _code, const QString& _key, const QString& _value, bool _isCData = false);
+    //
     void createMap(const QString& _code, const QString& _key, int _value, int _index, bool _isCData = false);
     void createMap(const QString& _code, const QString& _key, const QString& _value, int _index, bool _isCData = false);
     //
