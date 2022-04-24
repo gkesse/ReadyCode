@@ -26,7 +26,7 @@ public:
     bool hasCode(const QString& _code);
     bool hasCode(const QString& _code, const QString& _key);
     //
-    bool hasCode(const QString& _code);
+    bool hasMap(const QString& _code);
     bool hasMap(const QString& _code, int _index);
     bool hasMap(const QString& _code, const QString& _key, int _index);
     //
