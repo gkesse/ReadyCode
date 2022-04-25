@@ -179,60 +179,39 @@ void GTestNetwork::runServerUdp(int _argc, char** _argv) {
 
     const int MAXBUF = 1024;
     const int PORT = 9002;
+    const char* ADDR = "127.0.0.1";
 
-    int udpSocket;
-    int returnStatus = 0;
-    int addrlen = 0;
-    struct sockaddr_in udpServer, udpClient;
-    char buf[MAXBUF];
+    int sockfd;
+    char buffer[MAXBUF];
+    char *hello = "Hello from server";
+    struct sockaddr_in servaddr, cliaddr;
 
-    udpSocket = socket(AF_INET, SOCK_DGRAM, 0);
-
-    if (udpSocket == -1) {
-        fprintf(stderr, "Could not create a socket!\n");
-        exit(1);
-    }
-    else {
-        printf("Socket created.\n");
+    if ( (sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0 ) {
+        perror("socket creation failed");
+        exit(EXIT_FAILURE);
     }
 
-    udpServer.sin_family = AF_INET;
-    udpServer.sin_addr.s_addr = htonl(INADDR_ANY);
-    udpServer.sin_port = PORT;
+    memset(&servaddr, 0, sizeof(servaddr));
+    memset(&cliaddr, 0, sizeof(cliaddr));
 
-    returnStatus = bind(udpSocket, (struct sockaddr*)&udpServer, sizeof(udpServer));
+    servaddr.sin_family    = AF_INET;
+    servaddr.sin_addr.s_addr = INADDR_ANY;
+    servaddr.sin_port = htons(PORT);
 
-    if (returnStatus == 0) {
-        fprintf(stderr, "Bind completed!\n");
-    }
-    else {
-        fprintf(stderr, "Could not bind to address!\n");
-        close(udpSocket);
-        exit(1);
+    if ( bind(sockfd, (const struct sockaddr *)&servaddr, sizeof(servaddr)) < 0 ) {
+        perror("bind failed");
+        exit(EXIT_FAILURE);
     }
 
-    while(1) {
-        addrlen = sizeof(udpClient);
+    int len, n;
 
-        returnStatus = recvfrom(udpSocket, buf, MAXBUF, 0, (struct sockaddr*)&udpClient, (socklen_t*)&addrlen);
+    len = sizeof(cliaddr);
 
-        if (returnStatus == -1) {
-            fprintf(stderr, "Could not receive message!\n");
-        }
-        else {
-            printf("Received: %s\n", buf);
-            strcpy(buf, "OK");
-            returnStatus = sendto(udpSocket, buf, strlen(buf)+1, 0,(struct sockaddr*)&udpClient, sizeof(udpClient));
-
-            if (returnStatus == -1) {
-                fprintf(stderr, "Could not send confirmation!\n");
-            }
-            else {
-                printf("Confirmation sent.\n");
-            }
-        }
-
-    }
+    n = recvfrom(sockfd, (char *)buffer, MAXBUF, MSG_WAITALL, ( struct sockaddr *) &cliaddr, (socklen_t*)&len);
+    buffer[n] = '\0';
+    printf("Client : %s\n", buffer);
+    sendto(sockfd, (const char *)hello, strlen(hello), MSG_CONFIRM, (const struct sockaddr *) &cliaddr, len);
+    printf("Hello message sent.\n");
 
     close(udpSocket);
 }
@@ -242,48 +221,32 @@ void GTestNetwork::runClientUdp(int _argc, char** _argv) {
 
     const int MAXBUF = 1024;
     const int PORT = 9002;
-    const char* ADDR = "127.0.0.1";
 
-    int udpSocket;
-    int returnStatus;
-    int addrlen;
-    struct sockaddr_in udpClient, udpServer;
-    char buf[MAXBUF];
+    int sockfd;
+    char buffer[MAXBUF];
+    char *hello = "Hello from client";
+    struct sockaddr_in     servaddr;
 
-    udpSocket = socket(AF_INET, SOCK_DGRAM, 0);
-
-    if (udpSocket == -1) {
-        fprintf(stderr, "Could not create a socket!\n");
-        exit(1);
-    }
-    else {
-        printf("Socket created.\n");
+    if ( (sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0 ) {
+        perror("socket creation failed");
+        exit(EXIT_FAILURE);
     }
 
-    strcpy(buf, "For Professionals, By Professionals.\n");
+    memset(&servaddr, 0, sizeof(servaddr));
 
-    udpServer.sin_family = AF_INET;
-    udpServer.sin_addr.s_addr = inet_addr(ADDR);
-    udpServer.sin_port = htons(PORT);
+    servaddr.sin_family = AF_INET;
+    servaddr.sin_port = htons(PORT);
+    servaddr.sin_addr.s_addr = INADDR_ANY;
 
-    returnStatus = sendto(udpSocket, buf, strlen(buf)+1, 0, (struct sockaddr*)&udpServer, sizeof(udpServer));
+    int n, len;
 
-    if (returnStatus == -1) {
-        fprintf(stderr, "Could not send message!\n");
-    }
-    else {
-        printf("Message sent.\n");
-        addrlen = sizeof(udpServer);
-        returnStatus = recvfrom(udpSocket, buf, MAXBUF, 0, (struct sockaddr*)&udpServer, (socklen_t*)&addrlen);
-        if (returnStatus == -1) {
-            fprintf(stderr, "Did not receive confirmation!\n");
-        }
-        else {
-            buf[returnStatus] = 0;
-            printf("Received: %s\n", buf);
-        }
-    }
+    sendto(sockfd, (const char *)hello, strlen(hello), MSG_CONFIRM, (const struct sockaddr *) &servaddr, sizeof(servaddr));
+    printf("Hello message sent.\n");
 
-    close(udpSocket);
+    n = recvfrom(sockfd, (char *)buffer, MAXBUF, MSG_WAITALL, (struct sockaddr *) &servaddr, (socklen_t*)&len);
+    buffer[n] = '\0';
+    printf("Server : %s\n", buffer);
+
+    close(sockfd);
 }
 //===============================================
