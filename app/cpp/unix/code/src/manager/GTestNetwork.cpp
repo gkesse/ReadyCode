@@ -25,10 +25,10 @@ void GTestNetwork::run(int _argc, char** _argv) {
     //===============================================
     // simple
     //===============================================
-    else if(lKey == "server/simple") {
+    else if(lKey == "simple/server") {
         runServerSimple(_argc, _argv);
     }
-    else if(lKey == "client/simple") {
+    else if(lKey == "simple/client") {
         runClientSimple(_argc, _argv);
     }
     //===============================================
