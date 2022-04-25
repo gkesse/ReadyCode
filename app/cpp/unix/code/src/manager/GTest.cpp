@@ -504,7 +504,7 @@ void GTest::onSocketServerStartTimer(int _signo) {
         GSocket* lClient = lClientIns.front();
         lClientIns.pop();
         std::string lData = lClient->getReq()->toString();
-        GLOGT(eGERR, "[RECEPTION]..: %d\n%s", (int)lData.size(), lData.c_str());
+        GLOGT(eGOFF, "[RECEPTION]..: %d\n%s", (int)lData.size(), lData.c_str());
         GMaster().onModule(lClient);
         GMaster().sendResponse(lClient);
     }
