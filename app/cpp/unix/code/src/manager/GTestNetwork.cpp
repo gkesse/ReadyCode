@@ -128,7 +128,7 @@ void GTestNetwork::runClientSimple(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
 
     const int PORT = 9002;
-    const char ADDR = "127.0.0.1";
+    const char* ADDR = "127.0.0.1";
 
     int simpleSocket = 0;
     int simplePort = 0;
