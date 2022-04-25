@@ -25,11 +25,20 @@ void GTestNetwork::run(int _argc, char** _argv) {
     //===============================================
     // simple
     //===============================================
-    else if(lKey == "simple/server") {
+    else if(lKey == "server/simple") {
         runServerSimple(_argc, _argv);
     }
-    else if(lKey == "simple/client") {
+    else if(lKey == "client/simple") {
         runClientSimple(_argc, _argv);
+    }
+    //===============================================
+    // udp
+    //===============================================
+    else if(lKey == "server/udp") {
+        runServerUdp(_argc, _argv);
+    }
+    else if(lKey == "client/udp") {
+        runClientUdp(_argc, _argv);
     }
     //===============================================
     // end
@@ -100,11 +109,9 @@ void GTestNetwork::runServerSimple(int _argc, char** _argv) {
         simpleChildSocket = accept(simpleSocket,(struct sockaddr *)&clientName, (socklen_t*)&clientNameLength);
 
         if (simpleChildSocket == -1) {
-
             fprintf(stderr, "Cannot accept connections!\n");
             close(simpleSocket);
             exit(1);
-
         }
 
         write(simpleChildSocket, APRESSMESSAGE, strlen(APRESSMESSAGE));
@@ -165,5 +172,133 @@ void GTestNetwork::runClientSimple(int _argc, char** _argv) {
     }
 
     close(simpleSocket);
+}
+//===============================================
+void GTestNetwork::runServerUdp(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+
+    const int MAXBUF = 1024;
+    const int PORT = 9002;
+
+    int udpSocket;
+    int returnStatus = 0;
+    int addrlen = 0;
+    struct sockaddr_in udpServer, udpClient;
+    char buf[MAXBUF];
+
+    udpSocket = socket(AF_INET, SOCK_DGRAM, 0);
+
+    if (udpSocket == -1) {
+        fprintf(stderr, "Could not create a socket!\n");
+        exit(1);
+    }
+    else {
+        printf("Socket created.\n");
+    }
+
+    udpServer.sin_family = AF_INET;
+    udpServer.sin_addr.s_addr = htonl(INADDR_ANY);
+    udpServer.sin_port = PORT;
+
+    returnStatus = bind(udpSocket, (struct sockaddr*)&udpServer, sizeof(udpServer));
+
+    if (returnStatus == 0) {
+        fprintf(stderr, "Bind completed!\n");
+    }
+    else {
+        fprintf(stderr, "Could not bind to address!\n");
+        close(udpSocket);
+        exit(1);
+    }
+
+    while(1) {
+        addrlen = sizeof(udpClient);
+
+        returnStatus = recvfrom(udpSocket, buf, MAXBUF, 0, (struct sockaddr*)&udpClient, &addrlen);
+
+        if (returnStatus == -1) {
+            fprintf(stderr, "Could not receive message!\n");
+        }
+        else {
+            printf("Received: %s\n", buf);
+            strcpy(buf, "OK");
+            returnStatus = sendto(udpSocket, buf, strlen(buf)+1, 0,(struct sockaddr*)&udpClient, sizeof(udpClient));
+
+            if (returnStatus == -1) {
+                fprintf(stderr, "Could not send confirmation!\n");
+            }
+            else {
+                printf("Confirmation sent.\n");
+            }
+        }
+
+    }
+
+    close(udpSocket);
+}
+//===============================================
+void GTestNetwork::runClientUdp(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+
+    const int MAXBUF = 1024;
+    const int PORT = 9002;
+    const char* ADDR = "127.0.0.1";
+
+    int udpSocket;
+    int returnStatus;
+    int addrlen;
+    struct sockaddr_in udpClient, udpServer;
+    char buf[MAXBUF];
+
+    udpSocket = socket(AF_INET, SOCK_DGRAM, 0);
+
+    if (udpSocket == -1) {
+        fprintf(stderr, "Could not create a socket!\n");
+        exit(1);
+    }
+    else {
+        printf("Socket created.\n");
+    }
+
+    udpClient.sin_family = AF_INET;
+    udpClient.sin_addr.s_addr = INADDR_ANY;
+    udpClient.sin_port = 0;
+
+    returnStatus = bind(udpSocket, (struct sockaddr*)&udpClient, sizeof(udpClient));
+
+    if (returnStatus == 0) {
+        fprintf(stderr, "Bind completed!\n");
+    }
+    else {
+        fprintf(stderr, "Could not bind to address!\n");
+        close(udpSocket);
+        exit(1);
+    }
+
+    strcpy(buf, "For Professionals, By Professionals.\n");
+
+    udpServer.sin_family = AF_INET;
+    udpServer.sin_addr.s_addr = inet_addr(ADDR);
+    udpServer.sin_port = htons(PORT));
+
+    returnStatus = sendto(udpSocket, buf, strlen(buf)+1, 0, (struct sockaddr*)&udpServer, sizeof(udpServer));
+
+    if (returnStatus == -1) {
+        fprintf(stderr, "Could not send message!\n");
+    }
+    else {
+        printf("Message sent.\n");
+        addrlen = sizeof(udpServer);
+        returnStatus = recvfrom(udpSocket, buf, MAXBUF, 0, (struct sockaddr*)&udpServer, &addrlen);
+        if (returnStatus == -1) {
+            fprintf(stderr, "Did not receive confirmation!\n");
+        }
+        else {
+            buf[returnStatus] = 0;
+            printf("Received: %s\n", buf);
+        }
+    }
+
+    close(udpSocket);
 }
 //===============================================

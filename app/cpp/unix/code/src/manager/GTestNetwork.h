@@ -14,6 +14,8 @@ public:
     void runTest(int _argc, char** _argv);
     void runServerSimple(int _argc, char** _argv);
     void runClientSimple(int _argc, char** _argv);
+    void runServerUdp(int _argc, char** _argv);
+    void runClientUdp(int _argc, char** _argv);
 
 private:
     static GTestNetwork* m_test;
