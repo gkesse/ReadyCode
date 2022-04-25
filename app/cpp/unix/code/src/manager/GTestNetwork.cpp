@@ -260,21 +260,6 @@ void GTestNetwork::runClientUdp(int _argc, char** _argv) {
         printf("Socket created.\n");
     }
 
-    udpClient.sin_family = AF_INET;
-    udpClient.sin_addr.s_addr = INADDR_ANY;
-    udpClient.sin_port = 0;
-
-    returnStatus = bind(udpSocket, (struct sockaddr*)&udpClient, sizeof(udpClient));
-
-    if (returnStatus == 0) {
-        fprintf(stderr, "Bind completed!\n");
-    }
-    else {
-        fprintf(stderr, "Could not bind to address!\n");
-        close(udpSocket);
-        exit(1);
-    }
-
     strcpy(buf, "For Professionals, By Professionals.\n");
 
     udpServer.sin_family = AF_INET;
