@@ -1,17 +1,20 @@
 //===============================================
-#ifndef _GProcess_
-#define _GProcess_
+#ifndef _GTestNetwork_
+#define _GTestNetwork_
 //===============================================
-#include "GObject.h"
+#include "GModule.h"
 //===============================================
-class GProcess : public GObject {
+class GSocket;
+//===============================================
+class GTestNetwork : public GModule {
 public:
-    GProcess();
-    ~GProcess();
+    GTestNetwork();
+    ~GTestNetwork();
     void run(int _argc, char** _argv);
-    void runDefault(int _argc, char** _argv);
     void runTest(int _argc, char** _argv);
-    void runTestNetwork(int _argc, char** _argv);
+
+private:
+    static GTestNetwork* m_test;
 };
 //===============================================
 #endif
