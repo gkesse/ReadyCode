@@ -128,6 +128,7 @@ void GTestNetwork::runClientSimple(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
 
     const int PORT = 9002;
+    const char ADDR = "127.0.0.1";
 
     int simpleSocket = 0;
     int simplePort = 0;
@@ -154,7 +155,7 @@ void GTestNetwork::runClientSimple(int _argc, char** _argv) {
     /* use the IP address sent as an argument for the server address  */
     bzero(&simpleServer, sizeof(simpleServer));
     simpleServer.sin_family = AF_INET;
-    inet_addr(argv[2], &simpleServer.sin_addr.s_addr);
+    inet_addr(ADDR, &simpleServer.sin_addr.s_addr);
     simpleServer.sin_port = htons(simplePort);
 
     /*  connect to the address and port with our socket  */
