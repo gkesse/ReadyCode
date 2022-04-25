@@ -37,40 +37,54 @@ GTest::~GTest() {
 void GTest::run(int _argc, char** _argv) {
     std::string lKey = "default";
     if(_argc > 2) lKey = _argv[2];
-
+    //===============================================
+    // default
+    //===============================================
     if(lKey == "default") {
         runTest(_argc, _argv);
     }
+    //===============================================
     // int
+    //===============================================
     else if(lKey == "int/string") {
         runIntString(_argc, _argv);
     }
     else if(lKey == "int/string/vector") {
         runIntStringVector(_argc, _argv);
     }
+    //===============================================
     // string
+    //===============================================
     else if(lKey == "string") {
         runString(_argc, _argv);
     }
     else if(lKey == "string/int") {
         runStringInt(_argc, _argv);
     }
+    //===============================================
     // path
+    //===============================================
     else if(lKey == "path") {
         runPath(_argc, _argv);
     }
+    //===============================================
     // format
+    //===============================================
     else if(lKey == "format") {
         runFormat(_argc, _argv);
     }
+    //===============================================
     // xml
+    //===============================================
     else if(lKey == "xml") {
         runXml(_argc, _argv);
     }
     else if(lKey == "xml/check") {
         runXmlCheck(_argc, _argv);
     }
+    //===============================================
     // socket
+    //===============================================
     else if(lKey == "socket/server") {
         runSocketServer(_argc, _argv);
     }
@@ -89,23 +103,33 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "socket/client/start") {
         runSocketClientStart(_argc, _argv);
     }
+    //===============================================
     // thread
+    //===============================================
     else if(lKey == "thread") {
         runThread(_argc, _argv);
     }
+    //===============================================
     // exit
+    //===============================================
     else if(lKey == "exit") {
         runExit(_argc, _argv);
     }
+    //===============================================
     // interrupt
+    //===============================================
     else if(lKey == "interrupt") {
         runInterrupt(_argc, _argv);
     }
+    //===============================================
     // timer
+    //===============================================
     else if(lKey == "timer") {
         runTimer(_argc, _argv);
     }
+    //===============================================
     // request
+    //===============================================
     else if(lKey == "request") {
         runRequest(_argc, _argv);
     }
@@ -121,11 +145,15 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "request/error") {
         runRequestError(_argc, _argv);
     }
+    //===============================================
     // response
+    //===============================================
     else if(lKey == "response") {
         runResponse(_argc, _argv);
     }
+    //===============================================
     // mysql
+    //===============================================
     else if(lKey == "mysql") {
         runMysql(_argc, _argv);
     }
@@ -147,26 +175,36 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "mysql/maj") {
         runMysqlMaj(_argc, _argv);
     }
+    //===============================================
     // shell
+    //===============================================
     else if(lKey == "shell/system") {
         runShellSystem(_argc, _argv);
     }
+    //===============================================
     // env
+    //===============================================
     else if(lKey == "env") {
         runEnv(_argc, _argv);
     }
     else if(lKey == "env/type") {
         runEnvType(_argc, _argv);
     }
+    //===============================================
     // date
+    //===============================================
     else if(lKey == "date") {
         runDate(_argc, _argv);
     }
+    //===============================================
     // tmp
+    //===============================================
     else if(lKey == "tmp/clean") {
         runTmpClean(_argc, _argv);
     }
+    //===============================================
     // log
+    //===============================================
     else if(lKey == "log") {
         runLog(_argc, _argv);
     }
@@ -182,23 +220,33 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "log/tail/prod") {
         runLogTailProd(_argc, _argv);
     }
+    //===============================================
     // file
+    //===============================================
     else if(lKey == "file") {
         runFile(_argc, _argv);
     }
+    //===============================================
     // dir
+    //===============================================
     else if(lKey == "dir") {
         runDir(_argc, _argv);
     }
+    //===============================================
     // base64
+    //===============================================
     else if(lKey == "base64") {
         runBase64(_argc, _argv);
     }
+    //===============================================
     // md5
+    //===============================================
     else if(lKey == "md5") {
         runMd5(_argc, _argv);
     }
+    //===============================================
     // end
+    //===============================================
     else {
         runTest(_argc, _argv);
     }

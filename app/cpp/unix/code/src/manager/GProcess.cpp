@@ -34,8 +34,12 @@ void GProcess::run(int _argc, char** _argv) {
     // end
     //===============================================
     else {
-        runTest(_argc, _argv);
+        runDefault(_argc, _argv);
     }
+}
+//===============================================
+void GProcess::runDefault(int _argc, char** _argv) {
+    GTest().run(_argc, _argv);
 }
 //===============================================
 void GProcess::runTest(int _argc, char** _argv) {
