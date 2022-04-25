@@ -214,7 +214,7 @@ void GTestNetwork::runServerUdp(int _argc, char** _argv) {
     while(1) {
         addrlen = sizeof(udpClient);
 
-        returnStatus = recvfrom(udpSocket, buf, MAXBUF, 0, (struct sockaddr*)&udpClient, &addrlen);
+        returnStatus = recvfrom(udpSocket, buf, MAXBUF, 0, (struct sockaddr*)&udpClient, (socklen_t*)&addrlen);
 
         if (returnStatus == -1) {
             fprintf(stderr, "Could not receive message!\n");
@@ -279,7 +279,7 @@ void GTestNetwork::runClientUdp(int _argc, char** _argv) {
 
     udpServer.sin_family = AF_INET;
     udpServer.sin_addr.s_addr = inet_addr(ADDR);
-    udpServer.sin_port = htons(PORT));
+    udpServer.sin_port = htons(PORT);
 
     returnStatus = sendto(udpSocket, buf, strlen(buf)+1, 0, (struct sockaddr*)&udpServer, sizeof(udpServer));
 
@@ -289,7 +289,7 @@ void GTestNetwork::runClientUdp(int _argc, char** _argv) {
     else {
         printf("Message sent.\n");
         addrlen = sizeof(udpServer);
-        returnStatus = recvfrom(udpSocket, buf, MAXBUF, 0, (struct sockaddr*)&udpServer, &addrlen);
+        returnStatus = recvfrom(udpSocket, buf, MAXBUF, 0, (struct sockaddr*)&udpServer, (socklen_t*)&addrlen);
         if (returnStatus == -1) {
             fprintf(stderr, "Did not receive confirmation!\n");
         }
