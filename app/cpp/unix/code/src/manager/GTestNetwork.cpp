@@ -183,7 +183,7 @@ void GTestNetwork::runServerUdp(int _argc, char** _argv) {
 
     int sockfd;
     char buffer[MAXBUF];
-    char *hello = "Hello from server";
+    const char *hello = "Hello from server";
     struct sockaddr_in servaddr, cliaddr;
 
     if ( (sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0 ) {
@@ -224,7 +224,7 @@ void GTestNetwork::runClientUdp(int _argc, char** _argv) {
 
     int sockfd;
     char buffer[MAXBUF];
-    char *hello = "Hello from client";
+    const char *hello = "Hello from client";
     struct sockaddr_in     servaddr;
 
     if ( (sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0 ) {
