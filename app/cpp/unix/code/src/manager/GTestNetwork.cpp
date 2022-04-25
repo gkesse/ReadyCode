@@ -66,17 +66,13 @@ void GTestNetwork::runServerSimple(int _argc, char** _argv) {
         fprintf(stderr, "Socket created!\n");
     }
 
-    /* retrieve the port number for listening */
     simplePort = PORT;
 
-    /* setup the address structure */
-    /* use INADDR_ANY to bind to all local addresses  */
     bzero(&simpleServer, sizeof(simpleServer));
     simpleServer.sin_family = AF_INET;
     simpleServer.sin_addr.s_addr = htonl(INADDR_ANY);
     simpleServer.sin_port = htons(simplePort);
 
-    /*  bind to the address and port with our socket  */
     returnStatus = bind(simpleSocket,(struct sockaddr *)&simpleServer,sizeof(simpleServer));
 
     if (returnStatus == 0) {
@@ -88,7 +84,6 @@ void GTestNetwork::runServerSimple(int _argc, char** _argv) {
         exit(1);
     }
 
-    /* lets listen on the socket for connections      */
     returnStatus = listen(simpleSocket, 5);
 
     if (returnStatus == -1) {
@@ -102,9 +97,7 @@ void GTestNetwork::runServerSimple(int _argc, char** _argv) {
         int simpleChildSocket = 0;
         int clientNameLength = sizeof(clientName);
 
-        /* wait here */
-
-        simpleChildSocket = accept(simpleSocket,(struct sockaddr *)&clientName, &clientNameLength);
+        simpleChildSocket = accept(simpleSocket,(struct sockaddr *)&clientName, (socklen_t*)&clientNameLength);
 
         if (simpleChildSocket == -1) {
 
@@ -114,11 +107,8 @@ void GTestNetwork::runServerSimple(int _argc, char** _argv) {
 
         }
 
-        /* handle the new connection request  */
-        /* write out our message to the client */
         write(simpleChildSocket, APRESSMESSAGE, strlen(APRESSMESSAGE));
         close(simpleChildSocket);
-
     }
 
     close(simpleSocket);
@@ -137,7 +127,6 @@ void GTestNetwork::runClientSimple(int _argc, char** _argv) {
 
     struct sockaddr_in simpleServer;
 
-    /* create a streaming socket      */
     simpleSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
     if (simpleSocket == -1) {
@@ -148,18 +137,14 @@ void GTestNetwork::runClientSimple(int _argc, char** _argv) {
         fprintf(stderr, "Socket created!\n");
     }
 
-    /* retrieve the port number for connecting */
     simplePort = PORT;
 
-    /* setup the address structure */
-    /* use the IP address sent as an argument for the server address  */
     bzero(&simpleServer, sizeof(simpleServer));
     simpleServer.sin_family = AF_INET;
-    inet_addr(ADDR, &simpleServer.sin_addr.s_addr);
+    simpleServer.sin_addr.s_addr = inet_addr(ADDR);
     simpleServer.sin_port = htons(simplePort);
 
-    /*  connect to the address and port with our socket  */
-    returnStatus = connect(simpleSocket, (struct sockaddr *)&simpleServer, sizeof(simpleServer));
+    returnStatus = connect(simpleSocket, (struct sockaddr*)&simpleServer, sizeof(simpleServer));
 
     if (returnStatus == 0) {
         fprintf(stderr, "Connect successful!\n");
@@ -170,12 +155,12 @@ void GTestNetwork::runClientSimple(int _argc, char** _argv) {
         exit(1);
     }
 
-    /* get the message from the server   */
     returnStatus = read(simpleSocket, buffer, sizeof(buffer));
 
     if ( returnStatus > 0 ) {
         printf("%d: %s", returnStatus, buffer);
-    } else {
+    }
+    else {
         fprintf(stderr, "Return Status = %d \n", returnStatus);
     }
 
