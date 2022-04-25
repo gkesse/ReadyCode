@@ -164,6 +164,7 @@ int GSocket::recvData(std::string& _data, int _size) {
     _data.clear();
     char lBuffer[BUFFER_DATA_SIZE + 1];
     int lBytes = recv(m_socket, lBuffer, _size, 0);
+    GLOGT(eGMSG, "SIZE.........: %d\n", lBytes);
     if(lBytes == -1) {
         GERROR(eGERR, ""
                 "Erreur lors de la lecture des donnees.\n"
@@ -226,6 +227,7 @@ int GSocket::readData(std::string& _data) {
 //===============================================
 int GSocket::sendData(const std::string& _data) {
     int lBytes = send(m_socket, _data.c_str(), _data.size(), 0);
+    GLOGT(eGMSG, "SIZE.........: %d\n", lBytes);
     if(lBytes == -1) {
         GERROR(eGERR, "Erreur l'envoi des donnees.\n"
                 "erreur.......: %s\n"
