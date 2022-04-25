@@ -213,7 +213,7 @@ void GTestNetwork::runServerUdp(int _argc, char** _argv) {
     sendto(sockfd, (const char *)hello, strlen(hello), MSG_CONFIRM, (const struct sockaddr *) &cliaddr, len);
     printf("Hello message sent.\n");
 
-    close(udpSocket);
+    close(sockfd);
 }
 //===============================================
 void GTestNetwork::runClientUdp(int _argc, char** _argv) {
