@@ -25,6 +25,8 @@
 #include <sys/stat.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <sys/types.h>
+#include <netdb.h>
 // libxml2
 #include <libxml/tree.h>
 #include <libxml/xpath.h>
