@@ -41,6 +41,7 @@ public:
     int sendData(const QString& _data);
     int sendData(GSocket& _socket, const QString& _data);
     int writeData(const QString& _data);
+    int writePack(const QString& _data);
     QString loadAddressIp() const;
     QString getHostname() const;
     void closeSocket();

@@ -32,9 +32,11 @@ public:
     int recvData(std::string& _data, int _size);
     int recvData(GSocket& _socket, std::string& _data);
     int readData(std::string& _data);
+    int readPack(std::string& _data);
     int sendData(const std::string& _data);
     int sendData(GSocket& _socket, const std::string& _data);
     int writeData(const std::string& _data);
+    int writePack(const std::string& _data);
     void closeSocket();
     void startServer(void* _onServerTcp);
     static void* onServerThread(GSocket* _client);

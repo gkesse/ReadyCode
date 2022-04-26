@@ -240,13 +240,14 @@ int GSocket::readData(QString& _data) {
     int lSize = lBuffer.toInt();
     int lBytes = 0;
 
-    for(int i = 0; i < lSize; i++) {
+    while(1) {
+        if(lBytes >= lSize) break;
         int iBytes = recvData(lBuffer);
         if(iBytes == -1) {
             GERROR(eGERR, QString(""
                     "Erreur lors de la reception des donnees.\n"
-                    "bytes........: %1.\n"
-                    "ibytes.......: %2.\n"
+                    "bytes........: %1\n"
+                    "ibytes.......: %2\n"
                     "erreur_code..: %3\n"
                     "error_msg....: %4\n")
                     .arg(lBytes).arg(iBytes).arg(WSAGetLastError()).arg(loadErrorMsg()));
@@ -307,6 +308,36 @@ int GSocket::writeData(const QString& _data) {
                     "Erreur lors de l'emission des donnees.\n"
                     "bytes........: %1.\n"
                     "ibytes.......: %2.\n"
+                    "erreur_code..: %3\n"
+                    "error_msg....: %4\n")
+                    .arg(lBytes).arg(iBytes).arg(WSAGetLastError()).arg(loadErrorMsg()));
+            return -1;
+        }
+        lBytes += iBytes;
+    }
+
+    return lBytes;
+}
+//===============================================
+int GSocket::writePack(const QString& _data) {
+    int lBytes = 0;
+    int lSize = _data.size();
+    QString lBuffer = QString("%1").arg(lSize);
+    lBuffer = lBuffer.leftJustified(BUFFER_NDATA_SIZE);
+    GLOGT(eGOFF, QString("[%1]").arg(lBuffer));
+    sendData(lBuffer);
+
+    GLOGT(eGOFF, QString("[EMISSION]...: %1\n%2").arg(_data.size()).arg(_data));
+
+    while(1) {
+        if(lBytes >= lSize) break;
+        QString lBuffer = _data.mid(lBytes, BUFFER_DATA_SIZE);
+        int iBytes = sendData(lBuffer);
+        if(iBytes == -1) {
+            GERROR(eGERR, QString(""
+                    "Erreur lors de l'emission des donnees.\n"
+                    "bytes........: %1\n"
+                    "ibytes.......: %2\n"
                     "erreur_code..: %3\n"
                     "error_msg....: %4\n")
                     .arg(lBytes).arg(iBytes).arg(WSAGetLastError()).arg(loadErrorMsg()));
