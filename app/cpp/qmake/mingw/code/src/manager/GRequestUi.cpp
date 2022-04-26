@@ -221,7 +221,7 @@ void GRequestUi::onEvent() {
         QTableWidget* lTableWidget = qobject_cast<QTableWidget*>(lSearchUi->getObject("search/tablewidget"));
         int lRows = lReqObj.getReqs().size();
         int lCols = lReqObj.getHeaders().size();
-        GLOGT(eGOFF, QString("size.........: %1 : %2").arg(lRows).arg(lCols));
+        GLOGT(eGOFF, QString("SIZE.........: %1 : %2").arg(lRows).arg(lCols));
         GTableWidget lTable(lRows, lCols, lTableWidget);
 
         for(int i = 0; i < lCols; i++) {
@@ -237,7 +237,17 @@ void GRequestUi::onEvent() {
             lTable.addData(lReq->getMsg(), i);
         }
 
-        lSearchUi->exec();
+        int lOk = lSearchUi->exec();
+
+        if(lOk == QDialog::Accepted) {
+            int lIndex = lSearchUi->getCurrentIndex();
+            if(lIndex >= 0) {
+                GRequest* lReq = lReqObj.getReqs().at(0);
+                QString lMsg = lReq->getMsg();
+                QTextEdit* lEmissionEdit = qobject_cast<QTextEdit*>(getObject("request/emission/textedit"));
+                lEmissionEdit->setText(lMsg);
+            }
+        }
     }
     //===============================================
     // else

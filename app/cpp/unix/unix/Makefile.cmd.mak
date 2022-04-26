@@ -76,6 +76,8 @@ server_nohup:
 	@cd $(GPROJECT_SCRIPTS) && nohup ./000002-demarrer_serveur.sh &
 server_systemd: server_systemd_stop server_install
 	@cd $(GPROJECT_SCRIPTS) && sudo ./000004-configurer_serveur_systemd.sh
+server_systemd_start:
+	@cd $(GPROJECT_SCRIPTS) && sudo systemctl restart pad
 server_systemd_stop:
 	@cd $(GPROJECT_SCRIPTS) && sudo systemctl stop pad
 #================================================    

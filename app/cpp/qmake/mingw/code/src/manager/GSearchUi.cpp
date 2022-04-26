@@ -18,6 +18,8 @@ GDialog(_parent) {
     m_verHeaderOn = false;
     m_horHeaderStretchLastOn = false;
     m_verHeaderStretchLastOn = false;
+    m_currentItem = 0;
+    m_currentIndex = -1;
     //
     createDoms();
     createLayout();
@@ -195,6 +197,10 @@ void GSearchUi::loadData() {
     }
 }
 //===============================================
+int GSearchUi::getCurrentIndex() const {
+    return m_currentIndex;
+}
+//===============================================
 void GSearchUi::onEvent() {
 
 }
@@ -211,15 +217,16 @@ void GSearchUi::onClick(QTableWidgetItem* _item) {
             "key..........: %2\n"
             "").arg(lData).arg(lKey)
     );
+    m_currentItem = _item;
 }
 //===============================================
 void GSearchUi::onDoubleClick(QTableWidgetItem* _item) {
     QString lData = _item->data(Qt::DisplayRole).toString();
-    QString lKey = _item->data(Qt::UserRole).toString();
+    m_currentIndex = _item->data(Qt::UserRole).toString().toInt();
     GLOGT(eGOFF, QString(""
             "data.........: %1\n"
             "key..........: %2\n"
-            "").arg(lData).arg(lKey)
+            "").arg(lData).arg(m_currentIndex)
     );
 }
 //===============================================

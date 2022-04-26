@@ -21,6 +21,7 @@ public:
     void setVerHeaderStretchLastOn(bool _isVerHeaderStretchLastOn);
     //
 	void loadData();
+	int getCurrentIndex() const;
 
 public slots:
     void onEvent();
@@ -35,6 +36,8 @@ private:
     bool m_verHeaderOn;
     bool m_horHeaderStretchLastOn;
     bool m_verHeaderStretchLastOn;
+    QTableWidgetItem* m_currentItem;
+    int m_currentIndex;
 };
 //===============================================
 #endif
