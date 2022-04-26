@@ -52,7 +52,7 @@ void GModule::sendResponse(GSocket* _client) {
 
     GLOGT(eGOFF, "[EMISSION]...: %d\n%s", (int)lRes->toString().size(), lRes->toString().c_str());
 
-    lClient->writeData(lRes->toString());
+    lClient->writePack(lRes->toString());
 
     lClient->closeSocket();
     delete lClient;
