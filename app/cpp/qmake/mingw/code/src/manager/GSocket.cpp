@@ -355,7 +355,7 @@ int GSocket::writePack(const QString& _data) {
     lBuffer = lBuffer.leftJustified(BUFFER_NDATA_SIZE);
     GLOGT(eGOFF, QString("[%1]").arg(lBuffer));
     sendData(lBuffer);
-    GLOGT(eGMSG, QString("LENGTH.......: %1 : %2").arg(lBuffer.size()).arg(lSize));
+    GLOGT(eGOFF, QString("LENGTH.......: %1 : %2\n").arg(lBuffer.size()).arg(lSize));
 
     GLOGT(eGOFF, QString("[EMISSION]...: %1\n%2").arg(_data.size()).arg(_data));
 
@@ -363,6 +363,7 @@ int GSocket::writePack(const QString& _data) {
         if(lBytes >= lSize) break;
         QString lBuffer = _data.mid(lBytes, BUFFER_DATA_SIZE);
         int iBytes = sendData(lBuffer);
+        GLOGT(eGOFF, QString("SIZE.........: %1\n").arg(iBytes));
         if(iBytes == -1) {
             GERROR(eGERR, QString(""
                     "Erreur lors de l'emission des donnees.\n"

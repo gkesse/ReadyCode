@@ -52,7 +52,7 @@ public:
 
 private:
     static const int BUFFER_DATA_SIZE = 1024;
-    static const int BUFFER_NDATA_SIZE = 8;
+    static const int BUFFER_NDATA_SIZE = 256;
     static const int BUFFER_HOSTNAME_SIZE = 256;
     //
     int m_socket;
