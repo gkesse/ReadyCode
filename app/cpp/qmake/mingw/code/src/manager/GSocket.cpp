@@ -240,8 +240,7 @@ int GSocket::readData(QString& _data) {
     int lSize = lBuffer.toInt();
     int lBytes = 0;
 
-    while(1) {
-        if(lBytes >= lSize) break;
+    for(int i = 0; i < lSize; i++) {
         int iBytes = recvData(lBuffer);
         if(iBytes == -1) {
             GERROR(eGERR, QString(""
@@ -451,7 +450,7 @@ DWORD WINAPI GSocket::onServerThread(LPVOID _params) {
     QStack<GSocket*>& lClientIns = lServer->m_clientIns;
 
     QString lDataIn;
-    if(lClient->readData(lDataIn) == -1) {
+    if(lClient->readPack(lDataIn) == -1) {
         delete lClient;
         return 0;
     }
