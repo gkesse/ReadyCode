@@ -235,6 +235,7 @@ int GSocket::readPack(std::string& _data) {
         return -1;
     }
     int lBytes = 0;
+    GLOGT(eGMSG, "LENGTH.......: %d", lSize);
 
     while(1) {
         if(lBytes >= lSize) break;
@@ -317,6 +318,7 @@ int GSocket::writePack(const std::string& _data) {
     std::string lBuffer = iformat(lSize, BUFFER_NDATA_SIZE);
     GLOGT(eGOFF, "[%s]", lBuffer.c_str());
     sendData(lBuffer);
+    GLOGT(eGMSG, "LENGTH.......: %d", lSize);
 
     GLOGT(eGOFF, "[EMISSION]...: %d\n%s", (int)_data.size(), _data.c_str());
     while(1) {
