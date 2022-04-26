@@ -266,7 +266,7 @@ int GSocket::readPack(QString& _data) {
     GLOGT(eGOFF, QString("[%1]").arg(lBuffer));
     int lSize = lBuffer.toInt();
     int lBytes = 0;
-    GLOGT(eGMSG, QString("LENGTH.......: %1 : %2\n").arg(lBuffer.size()).arg(lBuffer));
+    GLOGT(eGMSG, QString("LENGTH.......: %1 : %2\n").arg(lBuffer.size()).arg(lSize));
 
     while(1) {
         if(lBytes >= lSize) break;
