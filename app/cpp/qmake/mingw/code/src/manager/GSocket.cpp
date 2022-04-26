@@ -266,12 +266,12 @@ int GSocket::readPack(QString& _data) {
     GLOGT(eGOFF, QString("[%1]").arg(lBuffer));
     int lSize = lBuffer.toInt();
     int lBytes = 0;
-    GLOGT(eGMSG, QString("LENGTH.......: %1 : %2\n").arg(lBuffer.size()).arg(lSize));
+    GLOGT(eGOFF, QString("LENGTH.......: %1 : %2\n").arg(lBuffer.size()).arg(lSize));
 
     while(1) {
         if(lBytes >= lSize) break;
         int iBytes = recvData(lBuffer);
-        GLOGT(eGMSG, QString("SIZE.........: %1\n").arg(iBytes));
+        GLOGT(eGOFF, QString("SIZE.........: %1\n").arg(iBytes));
         if(iBytes == -1) {
             GERROR(eGERR, QString(""
                     "Erreur lors de la reception des donnees.\n"

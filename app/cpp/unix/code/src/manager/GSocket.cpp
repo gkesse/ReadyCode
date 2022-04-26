@@ -240,7 +240,7 @@ int GSocket::readPack(std::string& _data) {
     while(1) {
         if(lBytes >= lSize) break;
         int iBytes = recvData(lBuffer);
-        GLOGT(eGMSG, "SIZE.........: %d\n", iBytes);
+        GLOGT(eGOFF, "SIZE.........: %d\n", iBytes);
         if(iBytes == -1) {
             GERROR(eGERR, ""
                     "Erreur lors de la lecture des donnees.\n"
@@ -326,7 +326,7 @@ int GSocket::writePack(const std::string& _data) {
         if(lBytes >= lSize) break;
         std::string lBuffer = _data.substr(lBytes, BUFFER_DATA_SIZE);
         int iBytes = sendData(lBuffer);
-        GLOGT(eGMSG, "SIZE.........: %d\n", iBytes);
+        GLOGT(eGOFF, "SIZE.........: %d\n", iBytes);
         if(iBytes == -1) {
             GERROR(eGERR, ""
                     "Erreur l'envoi des donnees.\n"
