@@ -235,7 +235,7 @@ int GSocket::readPack(std::string& _data) {
         return -1;
     }
     int lBytes = 0;
-    GLOGT(eGMSG, "LENGTH.......: %d : %d", (int)lBuffer.size(), lSize);
+    GLOGT(eGMSG, "LENGTH.......: %d : %d\n", (int)lBuffer.size(), lSize);
 
     while(1) {
         if(lBytes >= lSize) break;
