@@ -404,7 +404,7 @@ void* GSocket::onServerThread(GSocket* _client) {
     GHost().saveHostname(lClient);
 
     std::string lData;
-    if(lClient->readData(lData) == -1) {
+    if(lClient->readPack(lData) == -1) {
         delete lClient;
         return 0;
     }
@@ -427,8 +427,8 @@ std::string GSocket::callServer(const std::string& _dataIn) {
     connectSocket();
 
     std::string lDataOut;
-    writeData(_dataIn);
-    readData(lDataOut);
+    writePack(_dataIn);
+    readPack(lDataOut);
 
     if(lDataOut == "") {
         GERROR(eGERR, "Erreur lors de la connexion au serveur.");

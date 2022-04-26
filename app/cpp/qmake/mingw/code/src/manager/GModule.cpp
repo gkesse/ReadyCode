@@ -40,7 +40,7 @@ void GModule::sendResponse(GSocket* _client) {
         lRes->createCode("result", "msg", "ok");
     }
 
-    lClient->writeData(lRes->toString());
+    lClient->writePack(lRes->toString());
 
     delete lClient;
 }

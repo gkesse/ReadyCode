@@ -38,6 +38,7 @@ public:
     int recvData(QString& _data, int _size);
     int recvData(GSocket& _socket, QString& _data);
     int readData(QString& _data);
+    int readPack(QString& _data);
     int sendData(const QString& _data);
     int sendData(GSocket& _socket, const QString& _data);
     int writeData(const QString& _data);
