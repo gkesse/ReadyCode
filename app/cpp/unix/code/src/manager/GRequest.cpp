@@ -7,6 +7,7 @@
 #include "GUser.h"
 #include "GBase64.h"
 #include "GSocket.h"
+#include "GString.h"
 //===============================================
 GRequest::GRequest() : GModule() {
     m_id = 0;
@@ -51,8 +52,8 @@ void GRequest::onGetRequestList(GSocket* _client) {
     std::shared_ptr<GCode>& lReq = _client->getReq();
     std::string lPseudo = lReq->getSession("pseudo");
     m_uid = GUser(lPseudo).getId();
-    m_dataOffset = std::stoi(lReq->getParam("data_offset"));
-    m_dataSize = lReq->getParam("data_size");
+    m_dataOffset = GString(lReq->getParam("data_offset")).toInt();
+    m_dataSize = GString(lReq->getParam("data_size")).toInt();
     GLOGT(eGOFF, ""
             "pseudo.......: %s\n"
             "uid..........: %d\n"
