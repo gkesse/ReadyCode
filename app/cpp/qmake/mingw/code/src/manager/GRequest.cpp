@@ -9,6 +9,8 @@ GRequest::GRequest(QObject* _parent) : GObject(_parent) {
     m_module = "";
     m_method = "";
     m_msg = "";
+    m_dataOffset = 0;
+    m_dataSize = 0;
 }
 //===============================================
 GRequest::~GRequest() {
@@ -48,6 +50,14 @@ QVector<QString>& GRequest::getHeaders() {
     return m_headers;
 }
 //===============================================
+void GRequest::setDataOffset(int _dataOffset) {
+    m_dataOffset = _dataOffset;
+}
+//===============================================
+void GRequest::setDataSize(int _dataSize) {
+    m_dataSize = _dataSize;
+}
+//===============================================
 QString GRequest::serialize() const {
     GCode lParams;
     lParams.createCode();
@@ -55,6 +65,8 @@ QString GRequest::serialize() const {
     lParams.addParam("module", m_module);
     lParams.addParam("method", m_method);
     lParams.addParam("msg", m_msg);
+    lParams.addParam("data_offset", m_dataOffset);
+    lParams.addParam("data_size", m_dataSize);
     return lParams.toStringCode("params");
 }
 //===============================================

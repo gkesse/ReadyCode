@@ -20,6 +20,9 @@ public:
     QObject* getObject(const QString& _key);
     QString getObject(QObject* _key, const QString& _defaultValue = "");
 
+signals:
+    void onEmit(const QString& _text);
+
 protected:
     QSharedPointer<GXml> m_dom;
     QMap<QObject*, QString> m_objectMap;

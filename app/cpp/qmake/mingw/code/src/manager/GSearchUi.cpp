@@ -235,13 +235,13 @@ void GSearchUi::onEvent() {
     // search/next
     //===============================================
     else if(lKey == "search/next") {
-
+        emit onEmit(lKey);
     }
     //===============================================
     // search/previuos
     //===============================================
     else if(lKey == "search/previuos") {
-
+        emit onEmit(lKey);
     }
     //===============================================
     // else

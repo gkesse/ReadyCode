@@ -16,6 +16,10 @@ public:
 public slots:
     void onEvent();
     void onEvent(const QString& _text);
+
+private:
+    int m_dataOffset;
+    int m_dataSize;
 };
 //===============================================
 #endif

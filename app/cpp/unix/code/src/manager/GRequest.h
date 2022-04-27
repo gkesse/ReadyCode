@@ -26,6 +26,8 @@ private:
     std::string m_module;
     std::string m_method;
     std::string m_msg;
+    int m_dataOffset;
+    int m_dataSize;
 };
 //==============================================
 #endif

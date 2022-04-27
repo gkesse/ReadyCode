@@ -14,6 +14,8 @@ GRequest::GRequest() : GModule() {
     m_module = "";
     m_method = "";
     m_msg = "";
+    m_dataOffset = 0;
+    m_dataSize = 2;
 }
 //===============================================
 GRequest::GRequest(const std::string& _msg) : GModule() {
@@ -49,7 +51,9 @@ void GRequest::onGetRequestList(GSocket* _client) {
     std::shared_ptr<GCode>& lReq = _client->getReq();
     std::string lPseudo = lReq->getSession("pseudo");
     m_uid = GUser(lPseudo).getId();
-    GLOGT(eGMSG, ""
+    m_dataOffset = lReq->getParam("data_offset");
+    m_dataSize = lReq->getParam("data_size");
+    GLOGT(eGOFF, ""
             "pseudo.......: %s\n"
             "uid..........: %d\n"
             "", lPseudo.c_str()
@@ -98,15 +102,18 @@ void GRequest::loadId() {
 //===============================================
 void GRequest::loadRequestList(GSocket* _client) {
     if(!m_uid) return;
+    if(!m_dataSize) return;
     std::vector<std::vector<std::string>> lReq = GMySQL().readMap(sformat(""
             " select r._id, r._module, r._method, r._msg "
             " from request r, user u "
             " where r._u_id = u._id "
             " and u._id = %d "
-            " and r._id > 2 "
+            " and r._id > %d "
             " order by r._id "
-            " limit 2 "
+            " limit %d "
             "", m_uid
+            , m_dataOffset
+            , m_dataSize
     ));
 
     std::shared_ptr<GCode>& lRes = _client->getResponse();

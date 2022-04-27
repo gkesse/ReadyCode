@@ -14,6 +14,8 @@
 //===============================================
 GRequestUi::GRequestUi(QWidget* _parent) :
 GDialog(_parent) {
+    m_dataOffset = 0;
+    m_dataSize = 2;
     createDoms();
     createLayout();
 }
@@ -215,6 +217,8 @@ void GRequestUi::onEvent() {
     //===============================================
     else if(lKey == "request/search") {
         GRequest lReqObj;
+        lReqObj.setDataOffset(m_dataOffset);
+        lReqObj.setDataSize(m_dataSize);
         lReqObj.getRequestList();
         GSearchUi* lSearchUi = qobject_cast<GSearchUi*>(getObject("search/ui"));
         QTableWidget* lTableWidget = qobject_cast<QTableWidget*>(lSearchUi->getObject("search/tablewidget"));

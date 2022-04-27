@@ -19,6 +19,9 @@ public:
     QVector<GRequest*>& getReqs();
     QVector<QString>& getHeaders();
     //
+    void setDataOffset(int _dataOffset);
+    void setDataSize(int _dataSize);
+    //
     QString serialize() const;
     void deserializeMap(const QString& _data);
     void getRequestList();
@@ -28,6 +31,8 @@ private:
     QString m_module;
     QString m_method;
     QString m_msg;
+    int m_dataOffset;
+    int m_dataSize;
     //
     QVector<GRequest*> m_reqs;
     QVector<QString> m_headers;
