@@ -59,7 +59,7 @@ GMySQL& GMySQL::readQuery(const std::string& _sql) {
     openDatabase();
     m_stmt.reset(m_con->createStatement());
     m_res.reset(m_stmt->executeQuery(_sql));
-    GLOGT(eGINF, "sql..........:%s", _sql.c_str());
+    GLOGT(eGOFF, "sql..........:%s", _sql.c_str());
     return *this;
 }
 //===============================================
