@@ -55,6 +55,7 @@ void GSearchUi::createLayout() {
     QString lLogo = getItem("search", "logo");
     int lWidth = getItem("search", "width").toInt();
     int lHeight = getItem("search", "height").toInt();
+    QString lStyle = getItem("search", "style");
 
     for(int i = 0; i < lCount; i++) {
         QString lCategory = getItem("search", "category", i);
@@ -73,6 +74,7 @@ void GSearchUi::createLayout() {
         bool lVerHeaderOn = (getItem("search", "ver_header_on", i) == "1");
         bool lVerHeaderStretchLastOn = (getItem("search", "ver_header_stretch_last_on", i) == "1");
         bool lHorHeaderStretchLastOn = (getItem("search", "hor_header_stretch_last_on", i) == "1");
+        bool lColumnToContentOn = (getItem("search", "column_to_content_on", i) == "1");
         QString lPicto = getItem("search", "picto", i);
         QString lPictoClear = getItem("search", "picto_clear", i);
         QString lPictoColor = getItem("search", "picto_color", i);
@@ -127,6 +129,7 @@ void GSearchUi::createLayout() {
             setVerHeaderOn(lVerHeaderOn);
             setHorHeaderStretchLastOn(lHorHeaderStretchLastOn);
             setVerHeaderStretchLastOn(lVerHeaderStretchLastOn);
+            setColumnToContentOn(lColumnToContentOn);
             //
             connect(lTableWidget, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(onClick(QTableWidgetItem*)));
             connect(lTableWidget, SIGNAL(itemDoubleClicked(QTableWidgetItem*)), this, SLOT(onDoubleClick(QTableWidgetItem*)));
@@ -144,6 +147,7 @@ void GSearchUi::createLayout() {
     }
 
     setLayout(lMainLayout);
+    setObjectName(lStyle);
     setWindowTitle(lTitle);
     setWindowIcon(QIcon(GRES("img", lLogo)));
     resize(lWidth, lHeight);
@@ -173,9 +177,12 @@ void GSearchUi::setVerHeaderStretchLastOn(bool _isVerHeaderStretchLastOn) {
     m_verHeaderStretchLastOn = _isVerHeaderStretchLastOn;
 }
 //===============================================
-void GSearchUi::loadData() {
+void GSearchUi::setColumnToContentOn(bool _isColumnToContentOn) {
+    m_columnToContentOn = _isColumnToContentOn;
+}
+//===============================================
+void GSearchUi::initOptions() {
     QTableWidget* lTableWidget = qobject_cast<QTableWidget*>(getObject("search/tablewidget"));
-    lTableWidget->clear();
 
     if(m_readonlyOn) {
         lTableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -195,14 +202,61 @@ void GSearchUi::loadData() {
     if(m_verHeaderStretchLastOn) {
         lTableWidget->verticalHeader()->setStretchLastSection(true);
     }
+    if(m_columnToContentOn) {
+        lTableWidget->resizeColumnsToContents();
+    }
+    clearIndex();
 }
 //===============================================
 int GSearchUi::getCurrentIndex() const {
     return m_currentIndex;
 }
 //===============================================
+void GSearchUi::clearIndex() {
+    m_currentItem = 0;
+    m_currentIndex = 0;
+}
+//===============================================
 void GSearchUi::onEvent() {
+    QString lKey = m_objectMap[sender()];
+    //===============================================
+    // search/select
+    //===============================================
+    if(lKey == "search/select") {
+        if(m_currentItem != 0) {
+            m_currentIndex = m_currentItem->data(Qt::UserRole).toInt();
+            accept();
+        }
+        else {
+            GERROR(eGERR, QString("Erreur aucune donnee n'a ete selectionne.\n"));
+        }
+    }
+    //===============================================
+    // search/next
+    //===============================================
+    else if(lKey == "search/next") {
 
+    }
+    //===============================================
+    // search/previuos
+    //===============================================
+    else if(lKey == "search/previuos") {
+
+    }
+    //===============================================
+    // else
+    //===============================================
+    else {
+        GERROR(eGERR, QString(""
+                "Erreur la cle n'existe pas.\n"
+                "cle..........: %1")
+                .arg(lKey)
+        );
+    }
+    //===============================================
+    // end
+    //===============================================
+    GERROR_SHOWG(eGERR);
 }
 //===============================================
 void GSearchUi::onEvent(const QString& _text) {
@@ -222,11 +276,12 @@ void GSearchUi::onClick(QTableWidgetItem* _item) {
 //===============================================
 void GSearchUi::onDoubleClick(QTableWidgetItem* _item) {
     QString lData = _item->data(Qt::DisplayRole).toString();
-    m_currentIndex = _item->data(Qt::UserRole).toString().toInt();
+    m_currentIndex = _item->data(Qt::UserRole).toInt();
     GLOGT(eGOFF, QString(""
             "data.........: %1\n"
             "key..........: %2\n"
             "").arg(lData).arg(m_currentIndex)
     );
+    accept();
 }
 //===============================================

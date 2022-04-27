@@ -217,7 +217,6 @@ void GRequestUi::onEvent() {
         GRequest lReqObj;
         lReqObj.getRequestList();
         GSearchUi* lSearchUi = qobject_cast<GSearchUi*>(getObject("search/ui"));
-        lSearchUi->loadData();
         QTableWidget* lTableWidget = qobject_cast<QTableWidget*>(lSearchUi->getObject("search/tablewidget"));
         int lRows = lReqObj.getReqs().size();
         int lCols = lReqObj.getHeaders().size();
@@ -237,12 +236,13 @@ void GRequestUi::onEvent() {
             lTable.addData(lReq->getMsg(), i);
         }
 
+        lSearchUi->initOptions();
         int lOk = lSearchUi->exec();
 
         if(lOk == QDialog::Accepted) {
             int lIndex = lSearchUi->getCurrentIndex();
             if(lIndex >= 0) {
-                GRequest* lReq = lReqObj.getReqs().at(0);
+                GRequest* lReq = lReqObj.getReqs().at(lIndex);
                 QString lMsg = lReq->getMsg();
                 QTextEdit* lEmissionEdit = qobject_cast<QTextEdit*>(getObject("request/emission/textedit"));
                 lEmissionEdit->setText(lMsg);

@@ -11,6 +11,7 @@ GTableWidget::GTableWidget(QObject* _parent) : GObject(_parent) {
 }
 //===============================================
 GTableWidget::GTableWidget(int _rows, int _cols, QTableWidget* _tableWidget, QObject* _parent) : GObject(_parent) {
+    _tableWidget->clear();
     m_tableWidget = _tableWidget;
     m_rows = _rows;
     m_cols = _cols;

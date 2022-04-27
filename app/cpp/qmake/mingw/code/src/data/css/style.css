@@ -14,6 +14,7 @@ QFrame {
 /* ============================================== */
 QDialog {
 	background-color: #111133;
+	border: 2px solid #aaaaff;
 }
 /* ============================================== */
 QMessageBox QPushButton {
@@ -32,10 +33,6 @@ QMessageBox QPushButton:pressed {
 /* custom */
 /* ============================================== */
 QFrame#flat {
-	border: 2px solid #aaaaff;
-}
-/* ============================================== */
-QDialog#flat {
 	border: 2px solid #aaaaff;
 }
 /* ============================================== */

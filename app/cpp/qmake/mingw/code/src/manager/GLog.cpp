@@ -127,7 +127,7 @@ void GLog::showErrors(const char* _name, int _level, const char* _file, int _lin
 void GLog::showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, QWidget* _parent) {
     if(!hasErrors()) return;
     QString lErrors = m_errors->toString();
-    QMessageBox::critical(_parent, "Messages d'erreurs", lErrors);
+    QMessageBox::critical(_parent, "MESSAGES D'ERREURS", lErrors);
     m_errors->clearErrors();
 }
 //===============================================

@@ -6,7 +6,7 @@
 		<!-- ============================================ -->
         <data>
             <code>pad</code>
-            <title>ReadyPad</title>
+            <title>READYPAD</title>
             <logo>readydev.png</logo>
             <width>400</width>
             <height>400</height>
@@ -248,6 +248,7 @@
                     <ver_header_on>1</ver_header_on>
 					<hor_header_stretch_last_on>1</hor_header_stretch_last_on>
                     <ver_header_stretch_last_on>0</ver_header_stretch_last_on>
+                    <column_to_content_on>1</column_to_content_on>
                 </data>
 				<!-- ============================================ -->
                 <!-- button -->
