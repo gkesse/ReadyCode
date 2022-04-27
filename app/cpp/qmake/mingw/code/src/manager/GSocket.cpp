@@ -500,8 +500,8 @@ QString GSocket::callServer(const QString& _dataIn) {
     writePack(_dataIn);
     readPack(lDataOut);
 
-    GLOGT(eGOFF, QString("[EMISSION]...: %1\n%2").arg(_dataIn.size()).arg(_dataIn));
-    GLOGT(eGOFF, QString("[RECEPTION]..: %1\n%2").arg(lDataOut.size()).arg(lDataOut));
+    GLOGT(eGINF, QString("[EMISSION]...: %1\n%2").arg(_dataIn.size()).arg(_dataIn));
+    GLOGT(eGINF, QString("[RECEPTION]..: %1\n%2").arg(lDataOut.size()).arg(lDataOut));
 
     GERROR_LOAD(eGERR, lDataOut);
 
