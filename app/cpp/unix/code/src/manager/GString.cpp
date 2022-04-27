@@ -49,24 +49,25 @@ std::string GString::trimData() const {
     return lData;
 }
 //===============================================
-bool GString::toInt(int& _number) const {
-    if(m_data == "") return false;
+int GString::toInt() const {
+    int lData = 0;
+    if(m_data == "") return 0;
     try {
-        _number = std::stoi(m_data);
+        lData = std::stoi(m_data);
     }
     catch(const std::invalid_argument& e) {
         GERROR_OBJ(eGERR, "Erreur la chaine est invalide.\n"
-                "- erreur......: %s"
+                "erreur.......: %s"
                 "", e.what());
-        return false;
+        return 0;
     }
     catch(const std::out_of_range& e) {
         GERROR_OBJ(eGERR, "Erreur le nombre depasse les limites de conversion.\n"
-                "- erreur......: %s"
+                "erreur.......: %s"
                 "", e.what());
-        return false;
+        return 0;
     }
-    return 0;
+    return lData;
 }
 //===============================================
 GString& GString::operator+=(const GString& _data) {

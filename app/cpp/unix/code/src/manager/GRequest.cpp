@@ -51,7 +51,7 @@ void GRequest::onGetRequestList(GSocket* _client) {
     std::shared_ptr<GCode>& lReq = _client->getReq();
     std::string lPseudo = lReq->getSession("pseudo");
     m_uid = GUser(lPseudo).getId();
-    m_dataOffset = lReq->getParam("data_offset");
+    m_dataOffset = std::stoi(lReq->getParam("data_offset"));
     m_dataSize = lReq->getParam("data_size");
     GLOGT(eGOFF, ""
             "pseudo.......: %s\n"
