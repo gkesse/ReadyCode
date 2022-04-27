@@ -103,7 +103,7 @@ void GRequest::loadRequestList(GSocket* _client) {
             " from request r, user u "
             " where r._u_id = u._id "
             " and u._id = %d "
-            " and r._id > 0 "
+            " and r._id > 2 "
             " order by r._id "
             " limit 2 "
             "", m_uid
