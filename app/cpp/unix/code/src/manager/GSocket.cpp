@@ -235,7 +235,7 @@ int GSocket::readPack(std::string& _data) {
         return -1;
     }
     int lBytes = 0;
-    GLOGT(eGMSG, "LENGTH.......: (%d) : (%d)\n", (int)lBuffer.size(), lSize);
+    GLOGT(eGOFF, "LENGTH.......: (%d) : (%d)\n", (int)lBuffer.size(), lSize);
 
     while(1) {
         if(lBytes >= lSize) break;
@@ -412,7 +412,7 @@ void* GSocket::onServerThread(GSocket* _client) {
         delete lClient;
         return 0;
     }
-    GLOGT(eGOFF, "[RECEPTION]..: %d\n%s", (int)lData.size(), lData.c_str());
+    GLOGT(eGMSG, "[RECEPTION]..: %d\n%s", (int)lData.size(), lData.c_str());
     lClient->setReq(lData);
     lClientIns.push(lClient);
     return 0;

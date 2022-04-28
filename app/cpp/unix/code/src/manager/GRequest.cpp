@@ -70,7 +70,7 @@ void GRequest::loadObj() {
     m_method = lMsg.getMethod();
     std::string lPseudo = lMsg.getSession("pseudo");
     m_uid = GUser(lPseudo).getId();
-    GLOGT(eGMSG, ""
+    GLOGT(eGOFF, ""
             "module.......: %s\n"
             "method.......: %s\n"
             "pseudo.......: %s\n"
@@ -95,7 +95,7 @@ void GRequest::loadId() {
             , m_uid
     ));
     if(lId != "") m_id = std::stoi(lId);
-    GLOGT(eGINF, ""
+    GLOGT(eGOFF, ""
             "id...........: %d\n"
             "uid..........: %d\n"
             "", m_id, m_uid);
