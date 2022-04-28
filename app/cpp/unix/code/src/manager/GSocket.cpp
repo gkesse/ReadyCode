@@ -221,7 +221,7 @@ int GSocket::readData(std::string& _data) {
         _data += lBuffer;
         lBytes += iBytes;
     }
-    GLOGT(eGOFF, "[RECEPTION]..: %d\n%s", (int)_data.size(), _data.c_str());
+    GLOGT(eGOFF, "[RECEPTION]..: (%d)\n(%s)\n", (int)_data.size(), _data.c_str());
     return lBytes;
 }
 //===============================================
@@ -253,7 +253,7 @@ int GSocket::readPack(std::string& _data) {
         _data += lBuffer;
         lBytes += iBytes;
     }
-    GLOGT(eGOFF, "[RECEPTION]..: %d\n%s", (int)_data.size(), _data.c_str());
+    GLOGT(eGOFF, "[RECEPTION]..: (%d)\n(%s)\n", (int)_data.size(), _data.c_str());
     return lBytes;
 }
 //===============================================
@@ -293,7 +293,7 @@ int GSocket::writeData(const std::string& _data) {
     GLOGT(eGOFF, "[%s]", lBuffer.c_str());
     sendData(lBuffer);
 
-    GLOGT(eGOFF, "[EMISSION]...: %d\n%s", (int)_data.size(), _data.c_str());
+    GLOGT(eGOFF, "[EMISSION]...: (%d)\n(%s)\n", (int)_data.size(), _data.c_str());
     for(int i = 0; i < lSize; i++) {
         std::string lBuffer = _data.substr(lBytes, BUFFER_DATA_SIZE);
         int iBytes = sendData(lBuffer);
@@ -319,9 +319,9 @@ int GSocket::writePack(const std::string& _data) {
     std::string lBuffer = iformat(lSize, BUFFER_NDATA_SIZE);
     GLOGT(eGOFF, "[%s]", lBuffer.c_str());
     sendData(lBuffer);
-    GLOGT(eGMSG, "LENGTH.......: %d : %d\n", (int)lBuffer.size(), lSize);
+    GLOGT(eGOFF, "LENGTH.......: (%d) : (%d)\n", (int)lBuffer.size(), lSize);
 
-    GLOGT(eGOFF, "[EMISSION]...: %d\n%s", (int)_data.size(), _data.c_str());
+    GLOGT(eGOFF, "[EMISSION]...: (%d)\n%s", (int)_data.size(), _data.c_str());
     while(1) {
         if(lBytes >= lSize) break;
         std::string lBuffer = _data.substr(lBytes, BUFFER_DATA_SIZE);
@@ -412,7 +412,7 @@ void* GSocket::onServerThread(GSocket* _client) {
         delete lClient;
         return 0;
     }
-    GLOGT(eGMSG, "[RECEPTION]..: %d\n%s", (int)lData.size(), lData.c_str());
+    GLOGT(eGMSG, "[RECEPTION]..: (%d)\n(%s)\n", (int)lData.size(), lData.c_str());
     lClient->setReq(lData);
     lClientIns.push(lClient);
     return 0;

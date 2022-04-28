@@ -32,7 +32,7 @@ GXml& GXml::loadXmlFile(const QString& _filename) {
     if(!m_doc) {
         GERROR(eGERR, QString(""
                 "Erreur lors du chargement du fichier.\n"
-                "fichier......: %1\n"
+                "fichier......: (%1)\n"
                 "").arg(_filename)
         );
     }
@@ -45,7 +45,7 @@ GXml& GXml::loadXmlData(const QString& _data) {
     if(!m_doc) {
         GERROR(eGERR, QString(""
                 "Erreur lors du chargement de la source.\n"
-                "source.......: %1\n"
+                "source.......: (%1)\n"
                 "").arg(_data)
         );
     }
@@ -78,7 +78,7 @@ GXml& GXml::saveXmlFile(const QString& _filename, const QString& _encoding, int 
     else {
         GERROR(eGERR, QString(""
                 "Erreur lors de la sauvegarde du document XML.\n"
-                "fichier......: %1\n"
+                "fichier......: (%1)\n"
                 "").arg(lFilename)
         );
         return *this;
@@ -93,7 +93,7 @@ bool GXml::isValidXmlData(const QString& _data) {
     if(!m_doc) {
         GERROR_OBJ(eGERR, QString(""
                 "Erreur le format XML est invalide.\n"
-                "source.......: %1\n"
+                "source.......: (%1)\n"
                 "").arg(_data)
         );
         return false;
@@ -124,7 +124,7 @@ GXml& GXml::getRoot(const QString& _nodename) {
     if(!m_node) {
         GERROR(eGERR, QString(""
                 "Erreur la recuperation du noeud.\n"
-                "noeud........: %1\n"
+                "noeud........: (%1)\n"
                 "").arg(_nodename)
         );
         return *this;
@@ -133,8 +133,8 @@ GXml& GXml::getRoot(const QString& _nodename) {
     if(lNodeName != _nodename) {
         GERROR(eGERR, QString(""
                 "Erreur de correspondance dans le nom du neoud.\n"
-                "noeud[cur]...: %1\n"
-                "noeud[in]....: %2\n"
+                "noeud[cur]...: (%1)\n"
+                "noeud[in]....: (%2)\n"
                 "").arg(lNodeName).arg(_nodename)
         );
     }
@@ -176,7 +176,7 @@ GXml& GXml::createNode(const QString& _nodename) {
     if(!m_node) {
         GERROR(eGERR, QString(""
                 "Erreur lors de la creation du noeud.\n"
-                "noeud........: %1\n"
+                "noeud........: (%1)\n"
                 "").arg(_nodename)
         );
         return *this;
@@ -190,8 +190,8 @@ GXml& GXml::createNodeValue(const QString& _nodename, const QString& _value) {
     if(!m_node) {
         GERROR(eGERR, QString(""
                 "Erreur lors de la creation du noeud.\n"
-                "noeud........: %1\n"
-                "valeur.......: %2\n"
+                "noeud........: (%1)\n"
+                "valeur.......: (%2)\n"
                 "").arg(_nodename).arg(_value)
         );
         return *this;
@@ -362,7 +362,7 @@ GXml& GXml::createNodeCData(GXml& _xml, const QString& _value) {
     if(!m_node) {
         GERROR(eGERR, QString(""
                 "Erreur lors de la creation du noeud CData.\n"
-                "noeud........: %1\n"
+                "noeud........: (%1)\n"
                 "").arg(_value)
         );
         return *this;

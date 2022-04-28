@@ -138,7 +138,7 @@ void GSearchUi::createLayout() {
         else {
             GERROR(eGERR, QString(""
                     "Erreur le type n'existe pas.\n"
-                    "type.........: %1 : %2\n"
+                    "type.........: %1 : (%2)\n"
                     "").arg(lCategory).arg(lType)
             );
             GERROR_SHOWG(eGERR);
@@ -267,8 +267,8 @@ void GSearchUi::onClick(QTableWidgetItem* _item) {
     QString lData = _item->data(Qt::DisplayRole).toString();
     QString lKey = _item->data(Qt::UserRole).toString();
     GLOGT(eGOFF, QString(""
-            "data.........: %1\n"
-            "key..........: %2\n"
+            "data.........: (%1)\n"
+            "key..........: (%2)\n"
             "").arg(lData).arg(lKey)
     );
     m_currentItem = _item;
@@ -278,8 +278,8 @@ void GSearchUi::onDoubleClick(QTableWidgetItem* _item) {
     QString lData = _item->data(Qt::DisplayRole).toString();
     m_currentIndex = _item->data(Qt::UserRole).toInt();
     GLOGT(eGOFF, QString(""
-            "data.........: %1\n"
-            "key..........: %2\n"
+            "data.........: (%1)\n"
+            "key..........: (%2)\n"
             "").arg(lData).arg(m_currentIndex)
     );
     accept();

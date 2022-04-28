@@ -282,7 +282,7 @@ void GTest::runSocketClientStart(int _argc, char** _argv) {
     QString lData = GFile(GRES("xml", "pad.xml")).getContent();
     lData = lClient.callServer(lData);
 
-    GLOGT(eGINF, QString("[RECEPTION]..:%1\n%1").arg(lData.size()).arg(lData));
+    GLOGT(eGINF, QString("[RECEPTION]..: (%1)\n(%1)").arg(lData.size()).arg(lData));
 
     lClient.closeSocket();
     lClient.cleanSocket();

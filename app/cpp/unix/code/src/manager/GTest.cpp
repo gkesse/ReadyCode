@@ -505,7 +505,7 @@ void GTest::onSocketServerStartTimer(int _signo) {
         GSocket* lClient = lClientIns.front();
         lClientIns.pop();
         std::string lData = lClient->getReq()->toString();
-        GLOGT(eGOFF, "[RECEPTION]..: %d\n%s", (int)lData.size(), lData.c_str());
+        GLOGT(eGOFF, "[RECEPTION]..: (%d)\n(%s)\n", (int)lData.size(), lData.c_str());
         GMaster().onModule(lClient);
         GMaster().sendResponse(lClient);
     }
@@ -590,8 +590,8 @@ void GTest::runRequestSaveUser(int _argc, char** _argv) {
     lReq.createCode("parameters", "lastname", "KESSE");
     std::string lResponse = lClient.callServer(lReq.toString());
     GERROR_LOAD(eGERR, lResponse);
-    GLOGT(eGINF, "[EMISSION]...: %d\n%s", (int)lReq.toString().size(), lReq.toString().c_str());
-    GLOGT(eGINF, "[RECEPTION]..: %d\n%s", (int)lResponse.size(), lResponse.c_str());
+    GLOGT(eGINF, "[EMISSION]...: (%d)\n(%s)\n", (int)lReq.toString().size(), lReq.toString().c_str());
+    GLOGT(eGINF, "[RECEPTION]..: (%d)\n(%s)\n", (int)lResponse.size(), lResponse.c_str());
 }
 //===============================================
 void GTest::runRequestGetUser(int _argc, char** _argv) {
@@ -602,8 +602,8 @@ void GTest::runRequestGetUser(int _argc, char** _argv) {
     std::string lResponse = lClient.callServer(lReq.toString());
     GERROR_LOAD(eGERR, lResponse);
     GCode lRes(lResponse);
-    GLOGT(eGINF, "[EMISSION]...: %d\n%s", (int)lReq.toString().size(), lReq.toString().c_str());
-    GLOGT(eGINF, "[RECEPTION]..: %d\n%s", (int)lResponse.size(), lResponse.c_str());
+    GLOGT(eGINF, "[EMISSION]...: (%d)\n(%s)\n", (int)lReq.toString().size(), lReq.toString().c_str());
+    GLOGT(eGINF, "[RECEPTION]..: (%d)\n(%s)\n", (int)lResponse.size(), lResponse.c_str());
     GLOGT(eGINF, ""
             "firstname.....: %s\n"
             "lastname......: %s\n"
@@ -619,8 +619,8 @@ void GTest::runRequestError(int _argc, char** _argv) {
     lReq.createReq("test", "error");
     std::string lResponse = lClient.callServer(lReq.toString());
     GERROR_LOAD(eGERR, lResponse);
-    GLOGT(eGINF, "[EMISSION]...: %d\n%s", (int)lReq.toString().size(), lReq.toString().c_str());
-    GLOGT(eGINF, "[RECEPTION]..: %d\n%s", (int)lResponse.size(), lResponse.c_str());
+    GLOGT(eGINF, "[EMISSION]...: (%d)\n(%s)\n", (int)lReq.toString().size(), lReq.toString().c_str());
+    GLOGT(eGINF, "[RECEPTION]..: (%d)\n(%s)\n", (int)lResponse.size(), lResponse.c_str());
 }
 //===============================================
 void GTest::runResponse(int _argc, char** _argv) {

@@ -103,7 +103,7 @@ void GRequestUi::createLayout() {
         else {
             GERROR(eGERR, QString(""
                     "Erreur la categorie n'existe pas.\n"
-                    "categorie....: %1\n")
+                    "categorie....: (%1)\n")
                     .arg(lCategory)
             );
             GERROR_SHOWG(eGERR);
@@ -141,7 +141,7 @@ void GRequestUi::createLayout() {
         else {
             GERROR(eGERR, QString(""
                     "Erreur le type n'existe pas.\n"
-                    "type.......: %1 : %2\n"
+                    "type.......: %1 : (%2)\n"
                     "").arg(lCategory).arg(lType)
             );
             GERROR_SHOWG(eGERR);
@@ -199,8 +199,8 @@ void GRequestUi::onEvent() {
                     GSocket lClient;
                     QString lReceptionText = lClient.callServer(lEmissionText);
                     lReceptionEdit->setText(lReceptionText);
-                    GLOGT(eGMSG, QString("[EMISSION]...: %1\n%2").arg(lEmissionText.size()).arg(lEmissionText));
-                    GLOGT(eGMSG, QString("[RECEPTION]..: %1\n%2").arg(lReceptionText.size()).arg(lReceptionText));
+                    GLOGT(eGMSG, QString("[EMISSION]...: (%1)\n(%2)\n").arg(lEmissionText.size()).arg(lEmissionText));
+                    GLOGT(eGMSG, QString("[RECEPTION]..: (%1)\n(%2)\n").arg(lReceptionText.size()).arg(lReceptionText));
                 }
             }
         }
