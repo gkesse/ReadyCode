@@ -94,6 +94,7 @@ void GRequest::getRequestList() {
     GSocket lClient;
     QString lParams = serialize();
     QString lDataOut = lClient.callServer("req", "get_req_list", lParams);
+    GERROR_LOAD(eGERR, lDataOut);
     deserializeMap(lDataOut);
 }
 //===============================================

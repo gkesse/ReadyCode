@@ -92,14 +92,20 @@ void GCode::createCode(const std::string& _code) {
     }
 }
 //===============================================
-void GCode::createCode(const std::string& _code, const std::string& _key, const std::string& _value) {
+void GCode::createCode(const std::string& _code, const std::string& _key, const std::string& _value, bool _isCData) {
     createCode(_code);
     if(!hasCode(_code, _key)) {
-        appendNode(_key, _value);
+        if(!_isCData) appendNode(_key, _value);
+        else appendCData(_key, _value);
     }
     else {
-        setNodeValue(_key, _value);
+        if(!_isCData) setNodeValue(_key, _value);
+        else setNodeCData(_key, _value);
     }
+}
+//===============================================
+void GCode::createCode(const std::string& _code, const std::string& _key, int _value, bool _isCData) {
+    createCode(_code, _key, std::to_string(_value), _isCData);
 }
 //===============================================
 void GCode::createMap(const std::string& _code, const std::string& _key, int _value, int _index, bool _isCData) {

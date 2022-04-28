@@ -16,7 +16,7 @@ GRequest::GRequest() : GModule() {
     m_method = "";
     m_msg = "";
     m_dataOffset = 0;
-    m_dataSize = 2;
+    m_dataSize = 0;
 }
 //===============================================
 GRequest::GRequest(const std::string& _msg) : GModule() {
@@ -54,12 +54,7 @@ void GRequest::onGetRequestList(GSocket* _client) {
     m_uid = GUser(lPseudo).getId();
     m_dataOffset = GString(lReq->getParam("data_offset")).toInt();
     m_dataSize = GString(lReq->getParam("data_size")).toInt();
-    GLOGT(eGOFF, ""
-            "pseudo.......: %s\n"
-            "uid..........: %d\n"
-            "", lPseudo.c_str()
-            , m_uid
-    );
+    loadRequestCount(_client);
     loadRequestList(_client);
 }
 //===============================================
@@ -94,16 +89,27 @@ void GRequest::loadId() {
             , m_method.c_str()
             , m_uid
     ));
-    if(lId != "") m_id = std::stoi(lId);
-    GLOGT(eGOFF, ""
-            "id...........: %d\n"
-            "uid..........: %d\n"
-            "", m_id, m_uid);
+    m_id = GString(lId).toInt();
+}
+//===============================================
+void GRequest::loadRequestCount(GSocket* _client) {
+    if(!m_uid) return;
+    std::string lData = GMySQL().readData(sformat(""
+            " select count(*) "
+            " from request r, user u "
+            " where r._u_id = u._id "
+            " and u._id = %d "
+            "", m_uid
+    ));
+    int lCount = GString(lData).toInt();
+    std::shared_ptr<GCode>& lRes = _client->getResponse();
+    lRes->createCode("req", "data_count", lCount);
 }
 //===============================================
 void GRequest::loadRequestList(GSocket* _client) {
     if(!m_uid) return;
     if(!m_dataSize) return;
+
     std::vector<std::vector<std::string>> lReq = GMySQL().readMap(sformat(""
             " select r._id, r._module, r._method, r._msg "
             " from request r, user u "
@@ -127,17 +133,6 @@ void GRequest::loadRequestList(GSocket* _client) {
         lReqObj.m_module = lDataRow.at(j++);
         lReqObj.m_method = lDataRow.at(j++);
         lReqObj.m_msg = lDataRow.at(j++);
-
-        GLOGT(eGOFF, ""
-                "i............: %d\n"
-                "module.......: %s\n"
-                "method.......: %s\n"
-                "msg..........: %s\n"
-                "", i
-                , lReqObj.m_module.c_str()
-                , lReqObj.m_method.c_str()
-                , lReqObj.m_msg.c_str()
-        );
 
         lRes->createMap("req", "id", lReqObj.m_id, i);
         lRes->createMap("req", "module", lReqObj.m_module, i);

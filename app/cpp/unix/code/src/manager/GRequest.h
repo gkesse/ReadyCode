@@ -16,6 +16,7 @@ public:
     void loadObj();
     void loadId();
     void loadRequestList(GSocket* _client);
+    void loadRequestCount(GSocket* _client);
     void saveData();
     void insertData();
     void updateData();

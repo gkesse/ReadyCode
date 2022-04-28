@@ -274,7 +274,7 @@ void GRequestUi::getRequestList(int _newOffset) {
     if(_newOffset < 0) return;
     if(_newOffset >= m_dataSize) return;
     if(m_dataSize == 0) return;
-    m_dataSize = _newOffset;
+    m_dataOffset = _newOffset;
     m_reqs.reset(new GRequest);
     m_reqs->setDataOffset(m_dataOffset);
     m_reqs->setDataSize(m_dataSize);
