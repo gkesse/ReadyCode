@@ -323,16 +323,16 @@ void GTest::runString(int _argc, char** _argv) {
 //===============================================
 void GTest::runStringInt(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
-    GLOGT(eGINF, "%d", std::stoi("  123  "));
-    GLOGT(eGINF, "%d", std::stoi("  123  abc  "));
+    GLOGT(eGINF, "%d\n", std::stoi("  123  "));
+    GLOGT(eGINF, "%d\n", std::stoi("  123  abc  "));
 
     std::string lData = "  abc 123  ";
     GString lStringInt(lData);
     int lInt = lStringInt.toInt();
-    GLOGT(eGINF, "%d : %s", lInt, GERROR_GET(lStringInt));
+    GLOGT(eGINF, "%d : %s\n", lInt, GERROR_GET(lStringInt));
 
     char lBuffer[1024 + 1];
-    sprintf(lBuffer, "%*d", 1024, 123);
+    sprintf(lBuffer, "%*d", 256, 123);
     GLOGT(eGINF, "%s", lBuffer);
     GLOGT(eGINF, "%d", std::stoi(lBuffer));
 }

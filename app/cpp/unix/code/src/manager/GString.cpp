@@ -57,8 +57,9 @@ int GString::toInt() const {
     }
     catch(const std::invalid_argument& e) {
         GERROR_OBJ(eGERR, "Erreur la chaine est invalide.\n"
-                "erreur.......: %s"
-                "", e.what());
+                "erreur.......: %s\n"
+                "chaine.......: %s\n"
+                "", e.what(), m_data.c_str());
         return 0;
     }
     catch(const std::out_of_range& e) {
