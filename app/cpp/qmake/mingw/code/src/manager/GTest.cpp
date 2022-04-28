@@ -361,8 +361,8 @@ void GTest::runRequestGetUser(int _argc, char** _argv) {
     GCode lRes(lResponse);
     GLOGT(eGINF, lReq.toString());
     GLOGT(eGINF, lResponse);
-    GLOGT(eGINF, QString("firstname.....: %1").arg(lRes.getItem("user", "firstname")));
-    GLOGT(eGINF, QString("lastname......: %1").arg(lRes.getItem("user", "lastname")));
+    GLOGT(eGINF, QString("firstname.....: (%1)\n").arg(lRes.getItem("user", "firstname")));
+    GLOGT(eGINF, QString("lastname......: (%1)\n").arg(lRes.getItem("user", "lastname")));
 }
 //===============================================
 void GTest::runRequestError(int _argc, char** _argv) {
@@ -399,8 +399,8 @@ void GTest::runResponse(int _argc, char** _argv) {
     GLOGT(eGINF, GSTRC(lRes.hasCode("error")));         // true
     GLOGT(eGINF, GSTRC(lRes.hasCode("error", "msg")));  // true
     GLOGT(eGINF, GSTRC(lRes.hasCode("error", "msgo"))); // false
-    GLOGT(eGINF, QString("module.......: %1").arg(lRes.getItem("request", "module")));
-    GLOGT(eGINF, QString("method.......: %1").arg(lRes.getItem("request", "method")));
+    GLOGT(eGINF, QString("module.......: (%1)\n").arg(lRes.getItem("request", "module")));
+    GLOGT(eGINF, QString("method.......: (%1)\n").arg(lRes.getItem("request", "method")));
     GLOGT(eGINF, lRes.toString());
     GLOGT(eGINF, lRes.toStringCode("error"));
     GLOGT(eGINF, lReq.toString());
@@ -454,8 +454,8 @@ void GTest::onRequestSaveUser(GSocket* _client) {
     QSharedPointer<GCode>& lReq = _client->getReq();
     QString lFirstname = lReq->getItem("parameters", "firstname");
     QString lLastname = lReq->getItem("parameters", "lastname");
-    GLOGT(eGINF, QString("firstname......: %1").arg(lFirstname));
-    GLOGT(eGINF, QString("lastname.......: %1").arg(lLastname));
+    GLOGT(eGINF, QString("firstname......: (%1)\n").arg(lFirstname));
+    GLOGT(eGINF, QString("lastname.......: (%1)\n").arg(lLastname));
 }
 //===============================================
 void GTest::onRequestGetUser(GSocket* _client) {

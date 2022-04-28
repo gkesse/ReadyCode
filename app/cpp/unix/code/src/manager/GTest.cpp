@@ -261,7 +261,7 @@ void GTest::runTest(int _argc, char** _argv) {
     sprintf(lBuffer, "%*d", BUFFER_SIZE, lInt);
 
     GLOGT(eGINF, "int.....: [%d]", lInt);
-    GLOGT(eGINF, "string..: %s", lBuffer);
+    GLOGT(eGINF, "string..: (%s)\n", lBuffer);
 }
 //===============================================
 void GTest::runIntString(int _argc, char** _argv) {
@@ -354,8 +354,8 @@ void GTest::runXml(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     m_dom.reset(new GXml(GRES("xml", "pad.xml"), true));
     m_dom->createXPath();
-    GLOGT(eGINF, "app_name.....: %s", getItem("pad", "app_name").c_str());
-    GLOGT(eGINF, "app_version..: %s", getItem("pad", "app_version").c_str());
+    GLOGT(eGINF, "app_name.....: (%s)\n", getItem("pad", "app_name").c_str());
+    GLOGT(eGINF, "app_version..: (%s)\n", getItem("pad", "app_version").c_str());
 }
 //===============================================
 void GTest::runXmlCheck(int _argc, char** _argv) {
@@ -868,8 +868,8 @@ void GTest::onRequestSaveUser(GSocket* _client) {
     std::string lFirstname = _client->getReq()->getItem("parameters", "firstname");
     std::string lLastname = _client->getReq()->getItem("parameters", "lastname");
     GLOGT(eGFUN, "");
-    GLOGT(eGINF, "firstname...: %s", lFirstname.c_str());
-    GLOGT(eGINF, "lastname....: %s", lLastname.c_str());
+    GLOGT(eGINF, "firstname...: (%s)\n", lFirstname.c_str());
+    GLOGT(eGINF, "lastname....: (%s)\n", lLastname.c_str());
 }
 //===============================================
 void GTest::onRequestGetUser(GSocket* _client) {

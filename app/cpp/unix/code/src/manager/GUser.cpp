@@ -48,7 +48,7 @@ void GUser::onCreateUser(GSocket* _client) {
     m_password = lReq->getParam("password");
     GLOGT(eGMSG, ""
             "pseudo.......: %s\n"
-            "password.....: %s"
+            "password.....: (%s)\n"
             "", m_pseudo.c_str() , m_password.c_str());
     loadId();
     saveData();

@@ -24,7 +24,7 @@ void GStyle::loadStyle(const QString& _filename) {
     QFile lFile(_filename);
     if(!lFile.open(QFile::ReadOnly)) {
         GERROR(eGERR, QString("Erreur la methode (loadStyle) a echoue "
-                "sur le fichier %1.").arg(_filename));
+                "sur le fichier (%1)\n").arg(_filename));
         return;
     }
     QString lStyleSheet = QLatin1String(lFile.readAll());

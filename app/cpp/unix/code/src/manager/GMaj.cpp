@@ -33,8 +33,8 @@ void GMaj::createDB() {
 //===============================================
 void GMaj::loadCode() {
     m_code = GString(m_filename).splitData('-').at(0);
-    GLOGT(eGINF, "m_code.......: %s", m_code.c_str());
-    GLOGT(eGINF, "m_filename...: %s", m_filename.c_str());
+    GLOGT(eGINF, "m_code.......: (%s)\n", m_code.c_str());
+    GLOGT(eGINF, "m_filename...: (%s)\n", m_filename.c_str());
 }
 //===============================================
 void GMaj::loadId() {

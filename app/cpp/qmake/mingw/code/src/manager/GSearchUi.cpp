@@ -91,7 +91,7 @@ void GSearchUi::createLayout() {
         else {
             GERROR(eGERR, QString(""
                     "Erreur la categorie n'existe pas.\n"
-                    "categorie....: %1")
+                    "categorie....: (%1)\n")
                     .arg(lCategory)
             );
             GERROR_SHOWG(eGERR);
@@ -249,7 +249,7 @@ void GSearchUi::onEvent() {
     else {
         GERROR(eGERR, QString(""
                 "Erreur la cle n'existe pas.\n"
-                "cle..........: %1")
+                "cle..........: (%1)\n")
                 .arg(lKey)
         );
     }

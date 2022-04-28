@@ -82,8 +82,10 @@ void GXml::loadXml(const std::string& _data, bool _isFile) {
 GXml& GXml::loadXmlData(const std::string& _data) {
     m_doc = xmlParseDoc(BAD_CAST(_data.c_str()));
     if(!m_doc) {
-        GERROR_OBJ(eGERR, "Erreur la methode (GXml::loadXmlData) a echoue (1)\n"
-                "- source.....: (%s).", _data.c_str());
+        GERROR_OBJ(eGERR, ""
+                "Erreur lors du chargement de la source.\n"
+                "source.......: (%s)\n"
+                "", _data.c_str());
     }
     return *this;
 }
@@ -138,8 +140,8 @@ GXml& GXml::getRoot() {
     std::string lNodeName = (char*)m_node->name;
     if(lNodeName != m_nodeRoot) {
         GERROR_OBJ(eGERR, "Erreur le noeud racine ne correspond pas.\n"
-                "- noeud doc....: (%s)"
-                "- noeud arg....: (%s)"
+                "noeud doc....: (%s)\n"
+                "noeud arg....: (%s)\n"
                 "", lNodeName.c_str(), m_nodeRoot.c_str());
     }
     return *this;
@@ -158,7 +160,7 @@ GXml& GXml::getNode(const std::string& _nodename) {
     }
     GERROR_OBJ(eGERR, ""
             "Erreur lors de la lecture du noeud.\n"
-            "- noeud........: (%s)"
+            "noeud........: (%s)\n"
             "", _nodename.c_str());
     return *this;
 }
@@ -177,8 +179,9 @@ std::string GXml::getNodeValue(const std::string& _xpath) {
 GXml& GXml::createNode(const std::string& _nodename) {
     m_node = xmlNewNode(NULL, BAD_CAST(_nodename.c_str()));
     if(!m_node) {
-        GERROR_OBJ(eGERR, "Erreur la methode (GXml::createNode) a echoue (1)\n"
-                "- noeud......: (%s)", _nodename.c_str());
+        GERROR_OBJ(eGERR, ""
+                "Erreur lors de la creation du noeud.\n"
+                "noeud........: (%s)\n", _nodename.c_str());
         return *this;
     }
     return *this;
@@ -188,9 +191,11 @@ GXml& GXml::createNodeValue(const std::string& _nodename, const std::string& _va
     createNode(_nodename);
     setNodeValue(_value);
     if(!m_node) {
-        GERROR_OBJ(eGERR, "Erreur la methode (GXml::createNodeValue) a echoue (1)\n"
-                "- noeud......: (%s)\n"
-                "- valeur.....: (%s)", _nodename.c_str(), _value.c_str());
+        GERROR_OBJ(eGERR, ""
+                "Erreur lors de la creation du noeud.\n"
+                "noeud........: (%s)\n"
+                "valeur.......: (%s)\n"
+                "", _nodename.c_str(), _value.c_str());
         return *this;
     }
     return *this;
@@ -358,8 +363,10 @@ GXml& GXml::createNodeCData(GXml& _xml, const std::string& _value) {
     if(!_xml.m_node) return *this;
     m_node = xmlNewCDataBlock(_xml.m_node->doc, BAD_CAST(_value.c_str()), _value.size());
     if(!m_node) {
-        GERROR_OBJ(eGERR, "Erreur lors de la creation du block CDATA.\n"
-                "- noeud......: (%s)", _value.c_str());
+        GERROR_OBJ(eGERR, ""
+                "Erreur lors de la creation du block CDATA.\n"
+                "noeud........: (%s)\n"
+                "", _value.c_str());
         return *this;
     }
     return *this;

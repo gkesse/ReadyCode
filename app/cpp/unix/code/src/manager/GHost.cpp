@@ -13,6 +13,6 @@ GHost::~GHost() {
 }
 //===============================================
 void GHost::saveHostname(GSocket* _client) {
-    GLOGT(eGMSG, "client_ip....: %s", _client->readAddressIp().c_str());
+    GLOGT(eGMSG, "client_ip....: (%s)\n", _client->readAddressIp().c_str());
 }
 //===============================================

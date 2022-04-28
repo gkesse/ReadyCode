@@ -41,8 +41,9 @@ void GDialog::addObject(QObject* _object, const QString& _key) {
 QObject* GDialog::getObject(const QString& _key) {
     QObject* lObject = m_objectMap.key(_key, 0);
     if(lObject == 0) {
-        GERROR(eGERR, QString("Erreur la cle n'existe pas.\n"
-                "- cle...... %1.").arg(_key));
+        GERROR(eGERR, QString(""
+                "Erreur la cle n'existe pas.\n"
+                "cle..........: (%1)\n").arg(_key));
     }
     GERROR_SHOWG(eGERR);
     return lObject;

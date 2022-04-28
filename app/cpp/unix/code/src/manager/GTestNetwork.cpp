@@ -165,7 +165,7 @@ void GTestNetwork::runClientSimple(int _argc, char** _argv) {
     returnStatus = read(simpleSocket, buffer, sizeof(buffer));
 
     if ( returnStatus > 0 ) {
-        printf("%d: %s", returnStatus, buffer);
+        printf("%d: (%s)\n", returnStatus, buffer);
     }
     else {
         fprintf(stderr, "Return Status = %d \n", returnStatus);

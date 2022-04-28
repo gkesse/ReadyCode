@@ -154,7 +154,7 @@ GXml& GXml::getNode(const QString& _nodename) {
     }
     GERROR(eGERR, QString(""
             "Erreur lors de la recuperation du noeud.\n"
-            "noeud........: %1"
+            "noeud........: (%1)\n"
             "").arg(_nodename)
     );
     return *this;
