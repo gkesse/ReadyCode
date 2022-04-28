@@ -160,116 +160,144 @@ void GRequestUi::createLayout() {
 //===============================================
 void GRequestUi::onEvent() {
     QString lKey = m_objectMap[sender()];
-    //===============================================
-    // request/send
-    //===============================================
+
     if(lKey == "request/send") {
-        QTextEdit* lEmissionEdit = qobject_cast<QTextEdit*>(getObject("request/emission/textedit"));
-        QTextEdit* lReceptionEdit = qobject_cast<QTextEdit*>(getObject("request/reception/textedit"));
-        QString lEmissionText = lEmissionEdit->toPlainText();
-        bool lXmlValid = true;
-        bool lRequestValid = true;
-
-        if(lEmissionText == "") {
-            GERROR(eGERR, QString("Erreur l'editeur de texte est vide."));
-        }
-        else {
-            GXml lXmlFormat;
-            lXmlFormat.isValidXmlData(lEmissionText);
-            lXmlValid &= !lXmlFormat.getErrors()->hasErrors();
-
-            if(0 && !lXmlValid) {
-                GERROR(eGERR, QString("Erreur le format XML est invalide."));
-            }
-            else {
-                GCode lRequestFormat(lEmissionText);
-                QString lModule = lRequestFormat.getModule();
-                QString lMethod = lRequestFormat.getMethod();
-
-                GLOGT(eGOFF, lModule);
-                GLOGT(eGOFF, lMethod);
-
-                lRequestValid &= (lModule != "");
-                lRequestValid &= (lMethod != "");
-
-                if(0 && !lRequestValid) {
-                    GERROR(eGERR, QString("Erreur le format de la requete est invalide."));
-                }
-                else {
-                    GSocket lClient;
-                    QString lReceptionText = lClient.callServer(lEmissionText);
-                    lReceptionEdit->setText(lReceptionText);
-                    GLOGT(eGMSG, QString("[EMISSION]...: (%1)\n(%2)\n").arg(lEmissionText.size()).arg(lEmissionText));
-                    GLOGT(eGMSG, QString("[RECEPTION]..: (%1)\n(%2)\n").arg(lReceptionText.size()).arg(lReceptionText));
-                }
-            }
-        }
+        onRequestSend();
     }
-    //===============================================
-    // request/clear
-    //===============================================
     else if(lKey == "request/clear") {
-        QTextEdit* lTextEdit = qobject_cast<QTextEdit*>(getObject("request/emission/textedit"));
-        lTextEdit->clear();
+        onRequestClear();
     }
-    //===============================================
-    // request/search
-    //===============================================
     else if(lKey == "request/search") {
-        GRequest lReqObj;
-        lReqObj.setDataOffset(m_dataOffset);
-        lReqObj.setDataSize(m_dataSize);
-        lReqObj.getRequestList();
-        GSearchUi* lSearchUi = qobject_cast<GSearchUi*>(getObject("search/ui"));
-        QTableWidget* lTableWidget = qobject_cast<QTableWidget*>(lSearchUi->getObject("search/tablewidget"));
-        int lRows = lReqObj.getReqs().size();
-        int lCols = lReqObj.getHeaders().size();
-        GLOGT(eGOFF, QString("SIZE.........: %1 : %2").arg(lRows).arg(lCols));
-        GTableWidget lTable(lRows, lCols, lTableWidget);
-
-        for(int i = 0; i < lCols; i++) {
-            QString lHeader = lReqObj.getHeaders().at(i);
-            lTable.addColHeader(lHeader);
-        }
-
-        for(int i = 0; i < lRows; i++) {
-            GRequest* lReq = lReqObj.getReqs().at(i);
-            lTable.addData(lReq->getId(), i);
-            lTable.addData(lReq->getModule(), i);
-            lTable.addData(lReq->getMethod(), i);
-            lTable.addData(lReq->getMsg(), i);
-        }
-
-        lSearchUi->initOptions();
-        int lOk = lSearchUi->exec();
-
-        if(lOk == QDialog::Accepted) {
-            int lIndex = lSearchUi->getCurrentIndex();
-            if(lIndex >= 0) {
-                GRequest* lReq = lReqObj.getReqs().at(lIndex);
-                QString lMsg = lReq->getMsg();
-                QTextEdit* lEmissionEdit = qobject_cast<QTextEdit*>(getObject("request/emission/textedit"));
-                lEmissionEdit->setText(lMsg);
-            }
-        }
+        onRequestSearch();
     }
-    //===============================================
-    // else
-    //===============================================
     else {
-        GERROR(eGERR, QString(""
-                "Erreur la cle n'existe pas.\n"
-                "cle..........: (%1)\n")
-                .arg(lKey)
-        );
+        onErrorKey(lKey);
     }
-    //===============================================
-    // end
-    //===============================================
+
     GERROR_SHOWG(eGERR);
 }
 //===============================================
 void GRequestUi::onEvent(const QString& _text) {
+    QString lKey = m_objectMap[sender()];
 
+    if(lKey == "search/ui") {
+        if(_text == "search/next") {
+            onRequestSearchNext();
+        }
+        else if(_text == "search/previous") {
+            onRequestSearchPrevious();
+        }
+        else {
+            onErrorKey(_text);
+        }
+    }
+    else {
+        onErrorKey(lKey);
+    }
+
+    GERROR_SHOWG(eGERR);
+}
+//===============================================
+void GRequestUi::onRequestSend() {
+    QTextEdit* lEmissionEdit = qobject_cast<QTextEdit*>(getObject("request/emission/textedit"));
+    QTextEdit* lReceptionEdit = qobject_cast<QTextEdit*>(getObject("request/reception/textedit"));
+    QString lEmissionText = lEmissionEdit->toPlainText();
+    bool lXmlValid = true;
+    bool lRequestValid = true;
+
+    if(lEmissionText == "") {
+        GERROR(eGERR, QString("Erreur l'editeur de texte est vide."));
+    }
+    else {
+        GXml lXmlFormat;
+        lXmlFormat.isValidXmlData(lEmissionText);
+        lXmlValid &= !lXmlFormat.getErrors()->hasErrors();
+
+        if(0 && !lXmlValid) {
+            GERROR(eGERR, QString("Erreur le format XML est invalide."));
+        }
+        else {
+            GCode lRequestFormat(lEmissionText);
+            QString lModule = lRequestFormat.getModule();
+            QString lMethod = lRequestFormat.getMethod();
+
+            GLOGT(eGOFF, lModule);
+            GLOGT(eGOFF, lMethod);
+
+            lRequestValid &= (lModule != "");
+            lRequestValid &= (lMethod != "");
+
+            if(0 && !lRequestValid) {
+                GERROR(eGERR, QString("Erreur le format de la requete est invalide."));
+            }
+            else {
+                GSocket lClient;
+                QString lReceptionText = lClient.callServer(lEmissionText);
+                lReceptionEdit->setText(lReceptionText);
+                GLOGT(eGMSG, QString("[EMISSION]...: (%1)\n(%2)\n").arg(lEmissionText.size()).arg(lEmissionText));
+                GLOGT(eGMSG, QString("[RECEPTION]..: (%1)\n(%2)\n").arg(lReceptionText.size()).arg(lReceptionText));
+            }
+        }
+    }
+}
+//===============================================
+void GRequestUi::onRequestClear() {
+    QTextEdit* lTextEdit = qobject_cast<QTextEdit*>(getObject("request/emission/textedit"));
+    lTextEdit->clear();
+}
+//===============================================
+void GRequestUi::onRequestSearch() {
+    GSearchUi* lSearchUi = qobject_cast<GSearchUi*>(getObject("search/ui"));
+    getRequestList();
+    int lOk = lSearchUi->exec();
+
+    if(lOk == QDialog::Accepted) {
+        int lIndex = lSearchUi->getCurrentIndex();
+        if(lIndex >= 0) {
+            GRequest* lReq = m_reqs->getReqs().at(lIndex);
+            QString lMsg = lReq->getMsg();
+            QTextEdit* lEmissionEdit = qobject_cast<QTextEdit*>(getObject("request/emission/textedit"));
+            lEmissionEdit->setText(lMsg);
+        }
+    }
+}
+//===============================================
+void GRequestUi::onRequestSearchNext() {
+    getRequestList(m_dataOffset + m_dataSize);
+}
+//===============================================
+void GRequestUi::onRequestSearchPrevious() {
+    getRequestList(m_dataOffset - m_dataSize);
+}
+//===============================================
+void GRequestUi::getRequestList(int _newOffset) {
+    if(_newOffset < 0) return;
+    if(_newOffset >= m_dataSize) return;
+    if(m_dataSize == 0) return;
+    m_dataSize = _newOffset;
+    m_reqs.reset(new GRequest);
+    m_reqs->setDataOffset(m_dataOffset);
+    m_reqs->setDataSize(m_dataSize);
+    m_reqs->getRequestList();
+    GSearchUi* lSearchUi = qobject_cast<GSearchUi*>(getObject("search/ui"));
+    QTableWidget* lTableWidget = qobject_cast<QTableWidget*>(lSearchUi->getObject("search/tablewidget"));
+    int lRows = m_reqs->getReqs().size();
+    int lCols = m_reqs->getHeaders().size();
+    GTableWidget lTable(lRows, lCols, lTableWidget);
+
+    for(int i = 0; i < lCols; i++) {
+        QString lHeader = m_reqs->getHeaders().at(i);
+        lTable.addColHeader(lHeader);
+    }
+
+    for(int i = 0; i < lRows; i++) {
+        GRequest* lReq = m_reqs->getReqs().at(i);
+        lTable.addData(lReq->getId(), i);
+        lTable.addData(lReq->getModule(), i);
+        lTable.addData(lReq->getMethod(), i);
+        lTable.addData(lReq->getMsg(), i);
+    }
+
+    lSearchUi->initOptions();
 }
 //===============================================

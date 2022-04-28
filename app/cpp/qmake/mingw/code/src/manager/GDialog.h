@@ -19,6 +19,8 @@ public:
     void addObject(QObject* _object, const QString& _key);
     QObject* getObject(const QString& _key);
     QString getObject(QObject* _key, const QString& _defaultValue = "");
+    //
+    void onErrorKey(const QString& _key);
 
 signals:
     void onEmit(const QString& _text);

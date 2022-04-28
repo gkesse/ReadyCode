@@ -4,6 +4,8 @@
 //===============================================
 #include "GDialog.h"
 //===============================================
+class GRequest;
+//===============================================
 class GRequestUi : public GDialog {
 	Q_OBJECT
 
@@ -12,6 +14,13 @@ public:
 	~GRequestUi();
 	void createDoms();
 	void createLayout();
+	//
+    void onRequestSend();
+    void onRequestClear();
+    void onRequestSearch();
+	void onRequestSearchNext();
+	void onRequestSearchPrevious();
+	void getRequestList(int _newOffset = 0);
 
 public slots:
     void onEvent();
@@ -20,6 +29,7 @@ public slots:
 private:
     int m_dataOffset;
     int m_dataSize;
+    QSharedPointer<GRequest> m_reqs;
 };
 //===============================================
 #endif

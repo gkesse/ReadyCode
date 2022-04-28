@@ -341,5 +341,18 @@ void GLoginUi::onEvent(const QString& _text) {
         bool lVisible = (_text != "");
         lPasswordClear->setVisible(lVisible);
     }
+    //===============================================
+    // else
+    //===============================================
+    else {
+        GERROR(eGERR, QString(""
+                "Erreur la cle n'existe pas.\n"
+                "cle..........: (%1)\n"
+                "").arg(lKey));
+    }
+    //===============================================
+    // end
+    //===============================================
+    GERROR_SHOWG(eGERR);
 }
 //===============================================

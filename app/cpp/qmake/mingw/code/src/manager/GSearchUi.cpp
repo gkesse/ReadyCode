@@ -23,6 +23,8 @@ GDialog(_parent) {
     //
     createDoms();
     createLayout();
+    //
+    connect(this, SIGNAL(onEmit(QString)), _parent, SLOT(onEvent(QString)));
 }
 //===============================================
 GSearchUi::~GSearchUi() {
@@ -238,9 +240,9 @@ void GSearchUi::onEvent() {
         emit onEmit(lKey);
     }
     //===============================================
-    // search/previuos
+    // search/previous
     //===============================================
-    else if(lKey == "search/previuos") {
+    else if(lKey == "search/previous") {
         emit onEmit(lKey);
     }
     //===============================================

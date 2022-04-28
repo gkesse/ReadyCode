@@ -53,3 +53,11 @@ QString GDialog::getObject(QObject* _key, const QString& _defaultValue) {
     return m_objectMap.value(_key, _defaultValue);
 }
 //===============================================
+void GDialog::onErrorKey(const QString& _key) {
+    GERROR(eGERR, QString(""
+            "Erreur la cle n'existe pas.\n"
+            "cle..........: (%1)\n"
+            "").arg(_key)
+    );
+}
+//===============================================
