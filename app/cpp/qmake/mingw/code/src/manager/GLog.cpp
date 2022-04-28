@@ -107,8 +107,10 @@ void GLog::catLogFile() {
 void GLog::tailLogFile(bool _isTestEnv) {
     QString lLogFile = GFile().getLogFullname(_isTestEnv);
     GFile lFileObj(lLogFile);
-    QString lData = QString("Erreur le fichier log n'existe pas.\n"
-            "fichier......: (%1)\n").arg(lLogFile);
+    QString lData = QString(""
+            "Erreur le fichier log n'existe pas.\n"
+            "fichier......: (%1)\n"
+            "").arg(lLogFile);
     if(lFileObj.existFile()) {
         GShell().tailFile(lLogFile);
     }

@@ -201,8 +201,8 @@ int GSocket::readData(std::string& _data) {
     std::string lBuffer;
     recvData(lBuffer, BUFFER_NDATA_SIZE);
     GLOGT(eGOFF, "[%s]", lBuffer.c_str());
-    int lSize;
-    if(GString(lBuffer).toInt()) {
+    int lSize = GString(lBuffer).toInt();
+    if(lSize <= 0) {
         return -1;
     }
     int lBytes = 0;
@@ -230,8 +230,8 @@ int GSocket::readPack(std::string& _data) {
     std::string lBuffer;
     recvData(lBuffer, BUFFER_NDATA_SIZE);
     GLOGT(eGOFF, "[%s]", lBuffer.c_str());
-    int lSize;
-    if(!GString(lBuffer).toInt()) {
+    int lSize = GString(lBuffer).toInt();
+    if(lSize <= 0) {
         return -1;
     }
     int lBytes = 0;
