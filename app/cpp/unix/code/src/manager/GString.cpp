@@ -50,10 +50,11 @@ std::string GString::trimData() const {
 }
 //===============================================
 int GString::toInt() const {
+    std::string lDataTrim = trimData();
     int lData = 0;
-    if(m_data == "") return 0;
+    if(lDataTrim == "") return 0;
     try {
-        lData = std::stoi(m_data);
+        lData = std::stoi(lDataTrim);
     }
     catch(const std::invalid_argument& e) {
         GERROR_OBJ(eGERR, "Erreur la chaine est invalide.\n"
