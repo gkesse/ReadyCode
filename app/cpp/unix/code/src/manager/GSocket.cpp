@@ -199,35 +199,6 @@ int GSocket::recvData(GSocket& _socket, std::string& _data) {
 int GSocket::readData(std::string& _data) {
     _data.clear();
     std::string lBuffer;
-    recvData(lBuffer, BUFFER_NDATA_SIZE);
-    GLOGT(eGOFF, "[%s]", lBuffer.c_str());
-    int lSize = GString(lBuffer).toInt();
-    if(lSize <= 0) {
-        return -1;
-    }
-    int lBytes = 0;
-
-    for(int i = 0; i < lSize; i++) {
-        int iBytes = recvData(lBuffer);
-        if(iBytes == -1) {
-            GERROR(eGERR, ""
-                    "Erreur lors de la lecture des donnees.\n"
-                    "erreur.......: %s\n"
-                    "bytes........: %d\n"
-                    "ibytes.......: %d"
-                    "", strerror(errno), lBytes, iBytes);
-            return -1;
-        }
-        _data += lBuffer;
-        lBytes += iBytes;
-    }
-    GLOGT(eGOFF, "[RECEPTION]..: (%d)\n(%s)\n", (int)_data.size(), _data.c_str());
-    return lBytes;
-}
-//===============================================
-int GSocket::readPack(std::string& _data) {
-    _data.clear();
-    std::string lBuffer;
     int lSize = recvData(lBuffer, BUFFER_NDATA_SIZE);
     GLOGT(eGMSG, "[%s]", lBuffer.c_str());
     if(lSize != BUFFER_NDATA_SIZE) return -1;
@@ -293,36 +264,6 @@ int GSocket::sendData(GSocket& _socket, const std::string& _data) {
 //===============================================
 int GSocket::writeData(const std::string& _data) {
     int lBytes = 0;
-    int lLength = _data.size();
-    int lSize = (int)ceil((double)lLength/BUFFER_DATA_SIZE);
-    std::string lBuffer = sformat("%-*d", BUFFER_NDATA_SIZE, lSize);
-    GLOGT(eGOFF, "[%s]", lBuffer.c_str());
-    lSize = sendData(lBuffer);
-    GLOGT(eGOFF, "LENGTH.......: (%d) : (%d)\n", (int)lBuffer.size(), lSize);
-
-    GLOGT(eGOFF, "[EMISSION]...: (%d)\n(%s)\n", (int)_data.size(), _data.c_str());
-
-    for(int i = 0; i < lSize; i++) {
-        std::string lBuffer = _data.substr(lBytes, BUFFER_DATA_SIZE);
-        int iBytes = sendData(lBuffer);
-        if(iBytes == -1) {
-            GERROR(eGERR, ""
-                    "Erreur l'envoi des donnees.\n"
-                    "erreur.......: %s\n"
-                    "bytes........: %d\n"
-                    "ibytes.......: %d\n"
-                    "", strerror(errno), lBytes, iBytes
-            );
-            return -1;
-        }
-        lBytes += iBytes;
-    }
-
-    return lBytes;
-}
-//===============================================
-int GSocket::writePack(const std::string& _data) {
-    int lBytes = 0;
     int lSize = _data.size();
     std::string lKey = getItem("socket", "api_key");
     std::string lBuffer = sformat("%s;%d", lKey.c_str(), lSize);
@@ -335,7 +276,7 @@ int GSocket::writePack(const std::string& _data) {
 
     while(1) {
         if(lBytes >= lSize) break;
-        std::string lBuffer = _data.substr(lBytes, BUFFER_DATA_SIZE);
+        lBuffer = _data.substr(lBytes, BUFFER_DATA_SIZE);
         int iBytes = sendData(lBuffer);
         GLOGT(eGOFF, "SIZE.........: %d\n", iBytes);
         if(iBytes == -1) {
@@ -419,7 +360,7 @@ void* GSocket::onServerThread(GSocket* _client) {
     GHost().saveHostname(lClient);
 
     std::string lData;
-    if(lClient->readPack(lData) == -1) {
+    if(lClient->readData(lData) == -1) {
         delete lClient;
         return 0;
     }
@@ -442,8 +383,8 @@ std::string GSocket::callServer(const std::string& _dataIn) {
     connectSocket();
 
     std::string lDataOut;
-    writePack(_dataIn);
-    readPack(lDataOut);
+    writeData(_dataIn);
+    readData(lDataOut);
 
     if(lDataOut == "") {
         GERROR(eGERR, "Erreur lors de la connexion au serveur.");
