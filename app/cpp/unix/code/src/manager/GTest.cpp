@@ -849,10 +849,15 @@ void GTest::runMd5Key(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     std::string lData1 = "produitpargerardkesse";
     std::string lData2 = GMd5(lData1).encodeData();
+    std::string lData3 = sformat("%s;%d", lData2.c_str(), 350);
     GLOGT(eGINF, ""
             "1............: %s\n"
             "2............: %s\n"
-            "", lData1.c_str(), lData2.c_str());
+            "3............: %s\n"
+            "", lData1.c_str()
+            , lData2.c_str()
+            , lData3.c_str()
+    );
 }
 //===============================================
 void GTest::onModule(GSocket* _client) {
