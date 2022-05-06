@@ -294,13 +294,20 @@ void GTest::runIntStringVector(int _argc, char** _argv) {
     std::string lData = lBuffer.data();
     int lNumber = std::stoi(lData);
     int lSize = lData.size();
-    std::string lFormat = sformat("%-*d", BUFFER_SIZE);
+    std::string lFormat = sformat("%-*d", BUFFER_SIZE, lInt);
 
-    GLOGT(eGINF, "int.....: [%d]\n", lInt);
-    GLOGT(eGINF, "data....: [%s]\n", lData.c_str());
-    GLOGT(eGINF, "number..: [%d]\n", lNumber);
-    GLOGT(eGINF, "size....: [%d]\n", lSize);
-    GLOGT(eGINF, "format..: [%s]\n", lFormat.c_str());
+    GLOGT(eGINF, ""
+            "int.....: [%d]\n"
+            "data....: [%s]\n"
+            "number..: [%d]\n"
+            "size....: [%d]\n"
+            "format..: [%s]\n"
+            "", lInt
+            , lData.c_str()
+            , lNumber
+            , lSize
+            , lFormat.c_str()
+    );
 }
 //===============================================
 void GTest::runString(int _argc, char** _argv) {
