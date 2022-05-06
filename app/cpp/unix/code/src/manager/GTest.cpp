@@ -294,12 +294,13 @@ void GTest::runIntStringVector(int _argc, char** _argv) {
     std::string lData = lBuffer.data();
     int lNumber = std::stoi(lData);
     int lSize = lData.size();
+    std::string lFormat = sformat("%-*d", BUFFER_SIZE);
 
     GLOGT(eGINF, "int.....: [%d]\n", lInt);
     GLOGT(eGINF, "data....: [%s]\n", lData.c_str());
     GLOGT(eGINF, "number..: [%d]\n", lNumber);
     GLOGT(eGINF, "size....: [%d]\n", lSize);
-    GLOGT(eGINF, "iformat.: [%s]\n", iformat(lInt, BUFFER_SIZE).c_str());
+    GLOGT(eGINF, "format..: [%s]\n", lFormat.c_str());
 }
 //===============================================
 void GTest::runString(int _argc, char** _argv) {
@@ -847,10 +848,12 @@ void GTest::runMd5(int _argc, char** _argv) {
 //===============================================
 void GTest::runMd5Key(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
+
     std::string lData1 = "produitpargerardkesse";
     std::string lData2 = GMd5(lData1).encodeData();
     std::string lData3 = sformat("%s;%d", lData2.c_str(), 350);
     std::string lData4 = sformat("%-*s", 100, lData3.c_str());
+
     GLOGT(eGINF, ""
             "1............: (%s)\n"
             "2............: (%s)\n"
