@@ -324,12 +324,15 @@ int GSocket::writeData(const std::string& _data) {
 int GSocket::writePack(const std::string& _data) {
     int lBytes = 0;
     int lSize = _data.size();
-    std::string lBuffer = sformat("%-*d", BUFFER_NDATA_SIZE, lSize);
-    GLOGT(eGOFF, "[%s]", lBuffer.c_str());
+    std::string lKey = getItem("socket", "api_key");
+    std::string lBuffer = sformat("%s;%d", lKey.c_str(), lSize);
+    lBuffer = sformat("%-*s", BUFFER_NDATA_SIZE, lBuffer.c_str());
+    GLOGT(eGMSG, "[%s]", lBuffer.c_str());
     lSize = sendData(lBuffer);
     GLOGT(eGOFF, "LENGTH.......: (%d) : (%d)\n", (int)lBuffer.size(), lSize);
 
     GLOGT(eGOFF, "[EMISSION]...: (%d)\n%s", (int)_data.size(), _data.c_str());
+
     while(1) {
         if(lBytes >= lSize) break;
         std::string lBuffer = _data.substr(lBytes, BUFFER_DATA_SIZE);
