@@ -244,6 +244,9 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "md5") {
         runMd5(_argc, _argv);
     }
+    else if(lKey == "md5/key") {
+        runMd5Key(_argc, _argv);
+    }
     //===============================================
     // end
     //===============================================
@@ -835,6 +838,16 @@ void GTest::runBase64(int _argc, char** _argv) {
 void GTest::runMd5(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     std::string lData1 = "root|admin";
+    std::string lData2 = GMd5(lData1).encodeData();
+    GLOGT(eGINF, ""
+            "1............: %s\n"
+            "2............: %s\n"
+            "", lData1.c_str(), lData2.c_str());
+}
+//===============================================
+void GTest::runMd5Key(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    std::string lData1 = "produitpargerardkesse";
     std::string lData2 = GMd5(lData1).encodeData();
     GLOGT(eGINF, ""
             "1............: %s\n"

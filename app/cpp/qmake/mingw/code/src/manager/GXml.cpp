@@ -41,6 +41,7 @@ GXml& GXml::loadXmlFile(const QString& _filename) {
 }
 //===============================================
 GXml& GXml::loadXmlData(const QString& _data) {
+    if(_data.trimmed().isEmpty()) return *this;
     m_doc = xmlParseDoc(BAD_CAST(_data.toStdString().c_str()));
     if(!m_doc) {
         GERROR(eGERR, QString(""
