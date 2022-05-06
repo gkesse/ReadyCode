@@ -229,7 +229,7 @@ int GSocket::readPack(std::string& _data) {
     _data.clear();
     std::string lBuffer;
     int lSize = recvData(lBuffer, BUFFER_NDATA_SIZE);
-    GLOGT(eGOFF, "[%s]", lBuffer.c_str());
+    GLOGT(eGMSG, "[%s]", lBuffer.c_str());
     if(lSize != BUFFER_NDATA_SIZE) return -1;
     lBuffer = GString(lBuffer).trimData();
     std::vector<std::string> lMap = GString(lBuffer).splitData(';');
