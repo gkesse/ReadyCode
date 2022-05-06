@@ -233,6 +233,7 @@ int GSocket::readPack(std::string& _data) {
     if(lSize != BUFFER_NDATA_SIZE) return -1;
     lBuffer = GString(lBuffer).trimData();
     std::vector<std::string> lMap = GString(lBuffer).splitData(';');
+    if(lMap.size() != 2) return -1;
     lBuffer = lMap.at(0);
     std::string lKey = getItem("socket", "api_key");
     if(lBuffer != lKey) return -1;
@@ -294,11 +295,13 @@ int GSocket::writeData(const std::string& _data) {
     int lBytes = 0;
     int lLength = _data.size();
     int lSize = (int)ceil((double)lLength/BUFFER_DATA_SIZE);
-    std::string lBuffer = iformat(lSize, BUFFER_NDATA_SIZE);
+    std::string lBuffer = sformat("%-*d", BUFFER_NDATA_SIZE, lSize);
     GLOGT(eGOFF, "[%s]", lBuffer.c_str());
-    sendData(lBuffer);
+    lSize = sendData(lBuffer);
+    GLOGT(eGOFF, "LENGTH.......: (%d) : (%d)\n", (int)lBuffer.size(), lSize);
 
     GLOGT(eGOFF, "[EMISSION]...: (%d)\n(%s)\n", (int)_data.size(), _data.c_str());
+
     for(int i = 0; i < lSize; i++) {
         std::string lBuffer = _data.substr(lBytes, BUFFER_DATA_SIZE);
         int iBytes = sendData(lBuffer);
@@ -321,9 +324,9 @@ int GSocket::writeData(const std::string& _data) {
 int GSocket::writePack(const std::string& _data) {
     int lBytes = 0;
     int lSize = _data.size();
-    std::string lBuffer = iformat(lSize, BUFFER_NDATA_SIZE);
+    std::string lBuffer = sformat("%-*d", BUFFER_NDATA_SIZE, lSize);
     GLOGT(eGOFF, "[%s]", lBuffer.c_str());
-    sendData(lBuffer);
+    lSize = sendData(lBuffer);
     GLOGT(eGOFF, "LENGTH.......: (%d) : (%d)\n", (int)lBuffer.size(), lSize);
 
     GLOGT(eGOFF, "[EMISSION]...: (%d)\n%s", (int)_data.size(), _data.c_str());
