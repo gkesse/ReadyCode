@@ -228,12 +228,17 @@ int GSocket::readData(std::string& _data) {
 int GSocket::readPack(std::string& _data) {
     _data.clear();
     std::string lBuffer;
-    recvData(lBuffer, BUFFER_NDATA_SIZE);
+    int lSize = recvData(lBuffer, BUFFER_NDATA_SIZE);
     GLOGT(eGOFF, "[%s]", lBuffer.c_str());
-    int lSize = GString(lBuffer).toInt();
-    if(lSize <= 0) {
-        return -1;
-    }
+    if(lSize != BUFFER_NDATA_SIZE) return -1;
+    lBuffer = GString(lBuffer).trimData();
+    std::vector<std::string> lMap = GString(lBuffer).splitData(';');
+    lBuffer = lMap.at(0);
+    std::string lKey = getItem("socket", "api_key");
+    if(lBuffer != lKey) return -1;
+    lBuffer = lMap.at(1);
+    lSize = GString(lBuffer).toInt();
+    if(lSize <= 0) return -1;
     int lBytes = 0;
     GLOGT(eGOFF, "LENGTH.......: (%d) : (%d)\n", (int)lBuffer.size(), lSize);
 

@@ -33,6 +33,7 @@
             <backlog>5</backlog>
             <client_ip>0.0.0.0</client_ip>
             <server_ip>127.0.0.1</server_ip>
+            <api_key>16ac9e66cde8bd80d6141dadb74b5083</api_key>
         </data>
         <!-- ============================================ -->
         <!-- mysql -->
