@@ -25,6 +25,7 @@ std::vector<std::string> GDir::openDir(const std::string& _path, bool _fullOn, b
         }
         closedir(lDir);
     }
+    std::sort(lFiles.begin(), lFiles.end());
     return lFiles;
 }
 //===============================================
