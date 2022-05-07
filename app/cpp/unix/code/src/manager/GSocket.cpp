@@ -421,7 +421,6 @@ std::shared_ptr<GCode>& GSocket::getResponse(){
 //===============================================
 void GSocket::addResponse(const std::string& _data) {
     if(_data == "") return;
-    m_res->createCode();
     m_res->loadCode(_data);
 }
 //===============================================
