@@ -36,7 +36,7 @@ public:
     //
     std::string getItem(const std::string& _code, const std::string& _key);
     std::string getItem(const std::string& _code, int _index, const std::string& _key);
-    int countItem(const std::string& _code, const std::string& _key);
+    int countItem(const std::string& _code);
     //
     void loadCode(const std::string& _code);
     //

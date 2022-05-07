@@ -185,8 +185,8 @@ std::string GCode::getItem(const std::string& _code, int _index, const std::stri
     return lData;
 }
 //===============================================
-int GCode::countItem(const std::string& _code, const std::string& _key) {
-    queryXPath(sformat("/rdv/datas/data[code='%s']/map/data/%s", _code.c_str(), _key.c_str()));
+int GCode::countItem(const std::string& _code) {
+    queryXPath(sformat("/rdv/datas/data[code='%s']/map/data", _code.c_str()));
     int lData = countXPath();
     return lData;
 }
