@@ -62,7 +62,7 @@ void GUser::onHasUserPassword(GSocket* _client) {
     std::shared_ptr<GCode>& lReq = _client->getReq();
     m_pseudo = lReq->getParam("pseudo");
     m_password = lReq->getParam("password");
-    loadId();
+    loadIdPassword();
     std::shared_ptr<GCode>& lRes = _client->getResponse();
     lRes->createCode("user", "id", m_id);
 }
@@ -71,10 +71,6 @@ void GUser::onCreateUser(GSocket* _client) {
     std::shared_ptr<GCode>& lReq = _client->getReq();
     m_pseudo = lReq->getParam("pseudo");
     m_password = lReq->getParam("password");
-    GLOGT(eGMSG, ""
-            "pseudo.......: %s\n"
-            "password.....: (%s)\n"
-            "", m_pseudo.c_str() , m_password.c_str());
     loadId();
     saveData();
 }
@@ -90,25 +86,40 @@ int GUser::getId() const {
 void GUser::loadId() {
     if(m_pseudo == "") return;
 
-    std::string lPassword = "";
-    if(m_password != "") {
-        lPassword = sformat("%s|%s", m_pseudo.c_str(), m_password.c_str());
-        lPassword = GMd5(lPassword).encodeData();
-        lPassword = sformat(""
-                " and _password = '%s' "
-                "", lPassword.c_str());
-    }
+    std::string lId = GMySQL().readData(sformat(""
+            " select _id "
+            " from user "
+            " where _pseudo = '%s' "
+            "", m_pseudo.c_str()
+    ));
+
+    m_id = GString(lId).toInt();
+}
+//===============================================
+void GUser::loadIdPassword() {
+    if(m_pseudo == "") return;
+    if(m_password == "") return;
+
+    computePassword();
 
     std::string lId = GMySQL().readData(sformat(""
             " select _id "
             " from user "
             " where _pseudo = '%s' "
-            " %s "
+            " and _password = '%s' "
             "", m_pseudo.c_str()
-            , lPassword.c_str()
+            , m_password.c_str()
     ));
 
     m_id = GString(lId).toInt();
+}
+//===============================================
+void GUser::computePassword() {
+    if(m_pseudo == "") return;
+    if(m_password == "") return;
+
+    m_password = sformat("%s|%s", m_pseudo.c_str(), m_password.c_str());
+    m_password = GMd5(m_password).encodeData();
 }
 //===============================================
 void GUser::saveData() {

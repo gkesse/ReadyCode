@@ -20,6 +20,8 @@ public:
     //
     int getId() const;
     void loadId();
+    void loadIdPassword();
+    void computePassword();
     void saveData();
     void insertData();
     void updateData();
