@@ -52,32 +52,28 @@ void GUser::onModule(GSocket* _client) {
 //===============================================
 void GUser::onHasUser(GSocket* _client) {
     deserialize(_client->toReq());
+    computePassword();
     loadId();
     std::string lData = serialize();
     _client->addResponse(lData);
 }
 //===============================================
 void GUser::onHasUserPassword(GSocket* _client) {
-    std::shared_ptr<GCode>& lReq = _client->getReq();
-    m_pseudo = lReq->getParam("pseudo");
-    m_password = lReq->getParam("password");
+    deserialize(_client->toReq());
     computePassword();
     loadIdPassword();
-    std::shared_ptr<GCode>& lRes = _client->getResponse();
-    lRes->createCode("user", "id", m_id);
+    std::string lData = serialize();
+    _client->addResponse(lData);
 }
 //===============================================
 void GUser::onCreateUser(GSocket* _client) {
-    std::shared_ptr<GCode>& lReq = _client->getReq();
-    m_pseudo = lReq->getParam("pseudo");
-    m_password = lReq->getParam("password");
+    deserialize(_client->toReq());
     computePassword();
     loadId();
     saveData();
-}
-//===============================================
-void GUser::onSaveUser(GSocket* _client) {
-
+    loadId();
+    std::string lData = serialize();
+    _client->addResponse(lData);
 }
 //===============================================
 std::string GUser::serialize() const {

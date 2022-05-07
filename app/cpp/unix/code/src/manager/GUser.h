@@ -16,7 +16,6 @@ public:
     void onHasUser(GSocket* _client);
     void onHasUserPassword(GSocket* _client);
     void onCreateUser(GSocket* _client);
-    void onSaveUser(GSocket* _client);
     //
     std::string serialize() const;
     void deserialize(const std::string& _data);
