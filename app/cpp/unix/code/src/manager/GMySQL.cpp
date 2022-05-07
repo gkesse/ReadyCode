@@ -91,9 +91,13 @@ std::vector<std::string> GMySQL::readCol(const std::string& _sql) {
 std::vector<std::string> GMySQL::readRow(const std::string& _sql) {
     std::vector<std::string> lDataMap;
     readQuery(_sql);
+    int lColumns = getColumnCount();
     while(m_res->next()) {
-        std::string lData = m_res->getString(1);
-        lDataMap.push_back(lData);
+        for(int i = 1; i <= lColumns; i++) {
+            std::string lData = m_res->getString(i);
+            lDataMap.push_back(lData);
+        }
+        break;
     }
     return lDataMap;
 }
