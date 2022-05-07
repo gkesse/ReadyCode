@@ -23,6 +23,7 @@ public:
     int getId() const;
     void loadId();
     void loadIdPassword();
+    void loadUser();
     void computePassword();
     void saveData();
     void insertData();

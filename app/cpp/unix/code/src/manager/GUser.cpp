@@ -59,6 +59,7 @@ void GUser::onHasUserPassword(GSocket* _client) {
     deserialize(_client->toReq());
     computePassword();
     loadIdPassword();
+    loadUser();
     std::string lData = serialize();
     _client->addResponse(lData);
 }
@@ -69,6 +70,7 @@ void GUser::onCreateUser(GSocket* _client) {
     loadId();
     saveData();
     loadId();
+    loadUser();
     std::string lData = serialize();
     _client->addResponse(lData);
 }
@@ -123,6 +125,24 @@ void GUser::loadIdPassword() {
     ));
 
     m_id = GString(lId).toInt();
+}
+//===============================================
+void GUser::loadUser() {
+    if(!m_id) return;
+
+    std::vector<std::string> lRow = GMySQL().readRow(sformat(""
+            " select _id, _pseudo, _group, _active "
+            " from user "
+            " where _id = %d "
+            "", m_id
+    ));
+
+    int i = 0;
+    m_id = GString(lRow.at(i++)).toInt();
+    m_pseudo = lRow.at(i++);
+    m_password = "";
+    m_group = lRow.at(i++);
+    m_active = lRow.at(i++);
 }
 //===============================================
 void GUser::computePassword() {
