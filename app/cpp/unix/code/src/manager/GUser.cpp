@@ -6,6 +6,7 @@
 #include "GMySQL.h"
 #include "GSocket.h"
 #include "GString.h"
+#include "GMd5.h"
 //===============================================
 GUser::GUser() : GModule() {
     m_id = 0;
@@ -32,6 +33,9 @@ void GUser::onModule(GSocket* _client) {
     if(lMethod == "has_user") {
         onHasUser(_client);
     }
+    else if(lMethod == "has_user_password") {
+        onHasUserPassword(_client);
+    }
     else if(lMethod == "create_user") {
         onCreateUser(_client);
     }
@@ -49,6 +53,15 @@ void GUser::onModule(GSocket* _client) {
 void GUser::onHasUser(GSocket* _client) {
     std::shared_ptr<GCode>& lReq = _client->getReq();
     m_pseudo = lReq->getParam("pseudo");
+    loadId();
+    std::shared_ptr<GCode>& lRes = _client->getResponse();
+    lRes->createCode("user", "id", m_id);
+}
+//===============================================
+void GUser::onHasUserPassword(GSocket* _client) {
+    std::shared_ptr<GCode>& lReq = _client->getReq();
+    m_pseudo = lReq->getParam("pseudo");
+    m_password = lReq->getParam("password");
     loadId();
     std::shared_ptr<GCode>& lRes = _client->getResponse();
     lRes->createCode("user", "id", m_id);
@@ -76,14 +89,26 @@ int GUser::getId() const {
 //===============================================
 void GUser::loadId() {
     if(m_pseudo == "") return;
+
+    std::string lPassword = "";
+    if(m_password != "") {
+        lPassword = sformat("%s|%s", m_pseudo.c_str(), m_password.c_str());
+        lPassword = GMd5(lPassword).encodeData();
+        lPassword = sformat(""
+                " and _password = '%s' "
+                "", lPassword.c_str());
+    }
+
     std::string lId = GMySQL().readData(sformat(""
             " select _id "
             " from user "
             " where _pseudo = '%s' "
+            " %s "
             "", m_pseudo.c_str()
+            , lPassword.c_str()
     ));
+
     m_id = GString(lId).toInt();
-    GLOGT(eGOFF, "id...........: %d", m_id);
 }
 //===============================================
 void GUser::saveData() {
