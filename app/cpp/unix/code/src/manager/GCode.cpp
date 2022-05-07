@@ -81,8 +81,12 @@ bool GCode::hasMap(const std::string& _code) {
     return (lCount != 0);
 }
 //===============================================
-void GCode::createCode(const std::string& _code) {
+void GCode::createCode() {
     createNodePath("/rdv/datas");
+}
+//===============================================
+void GCode::createCode(const std::string& _code) {
+    createCode();
     if(!hasCode(_code)) {
         appendNodeGet("data");
         appendNode("code", _code);

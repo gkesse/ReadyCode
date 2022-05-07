@@ -23,6 +23,7 @@ public:
     bool hasCode(const std::string& _code, int _index);
     bool hasCode(const std::string& _code, const std::string& _key, int _index);
     bool hasMap(const std::string& _code);
+    void createCode();
     void createCode(const std::string& _code);
     void createCode(const std::string& _code, const std::string& _key, const std::string& _value, bool _isCData = false);
     void createCode(const std::string& _code, const std::string& _key, const int _value, bool _isCData = false);
