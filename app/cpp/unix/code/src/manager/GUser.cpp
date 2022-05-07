@@ -132,6 +132,9 @@ void GUser::saveData() {
 }
 //===============================================
 void GUser::insertData() {
+    if(m_pseudo == "") return;
+    if(m_password == "") return;
+
     GMySQL().execQuery(sformat(""
             " insert into user "
             " ( _pseudo, _password ) "
@@ -142,6 +145,10 @@ void GUser::insertData() {
 }
 //===============================================
 void GUser::updateData() {
+    if(!m_id) return;
+    if(m_pseudo == "") return;
+    if(m_password == "") return;
+
     GMySQL().execQuery(sformat(""
             " update user "
             " set _pseudo = '%s' "
