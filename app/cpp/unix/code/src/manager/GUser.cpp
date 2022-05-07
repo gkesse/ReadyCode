@@ -109,7 +109,6 @@ void GUser::loadId() {
     ));
 
     m_id = GString(lId).toInt();
-    m_password = "";
 }
 //===============================================
 void GUser::loadIdPassword() {
@@ -141,7 +140,6 @@ void GUser::loadUser() {
     int i = 0;
     m_id = GString(lRow.at(i++)).toInt();
     m_pseudo = lRow.at(i++);
-    m_password = "";
     m_group = lRow.at(i++);
     m_active = lRow.at(i++);
 }
