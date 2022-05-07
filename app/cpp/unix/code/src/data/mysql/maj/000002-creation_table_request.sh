@@ -1,4 +1,3 @@
-
 #================================================
 . $GPROJECT_DATA/mysql/pkg/pkg_var.sh
 . $GPKG/pkg_database.sh
