@@ -87,7 +87,7 @@ std::string GUser::serialize() const {
     lReq.createCode("user", "password", m_password);
     lReq.createCode("user", "group", m_group);
     lReq.createCode("user", "active", m_active);
-    return lReq.toString();
+    return lReq.toStringCode("user");
 }
 //===============================================
 void GUser::deserialize(const std::string& _data) {

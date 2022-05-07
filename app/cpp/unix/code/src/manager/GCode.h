@@ -39,6 +39,8 @@ public:
     int countItem(const std::string& _code, const std::string& _key);
     //
     void loadCode(const std::string& _code);
+    //
+    std::string toStringCode(const std::string& _code);
 };
 //==============================================
 #endif

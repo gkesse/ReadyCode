@@ -198,3 +198,10 @@ void GCode::loadCode(const std::string& _code) {
     loadNodeData(_code);
 }
 //===============================================
+std::string GCode::toStringCode(const std::string& _code) {
+    queryXPath(sformat("/rdv/datas/data[code='%s']", _code.c_str()));
+    getNodeXPath();
+    std::string lData = toStringNode();
+    return lData;
+}
+//===============================================
