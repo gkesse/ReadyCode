@@ -5,6 +5,7 @@
 #include "GCode.h"
 #include "GMySQL.h"
 #include "GSocket.h"
+#include "GString.h"
 //===============================================
 GUser::GUser() : GModule() {
     m_id = 0;
@@ -28,7 +29,10 @@ void GUser::onModule(GSocket* _client) {
     //===============================================
     // method
     //===============================================
-    if(lMethod == "create_user") {
+    if(lMethod == "has_user") {
+        onHasUser(_client);
+    }
+    else if(lMethod == "create_user") {
         onCreateUser(_client);
     }
     else if(lMethod == "save_user") {
@@ -40,6 +44,14 @@ void GUser::onModule(GSocket* _client) {
     else {
         onMethodUnknown(_client);
     }
+}
+//===============================================
+void GUser::onHasUser(GSocket* _client) {
+    std::shared_ptr<GCode>& lReq = _client->getReq();
+    m_pseudo = lReq->getParam("pseudo");
+    loadId();
+    std::shared_ptr<GCode>& lRes = _client->getResponse();
+    lRes->createCode("user", "id", m_id);
 }
 //===============================================
 void GUser::onCreateUser(GSocket* _client) {
@@ -70,7 +82,7 @@ void GUser::loadId() {
             " where _pseudo = '%s' "
             "", m_pseudo.c_str()
     ));
-    if(lId != "") m_id = std::stoi(lId);
+    m_id = GString(lId).toInt();
     GLOGT(eGOFF, "id...........: %d", m_id);
 }
 //===============================================

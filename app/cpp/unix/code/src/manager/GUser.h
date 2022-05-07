@@ -13,6 +13,7 @@ public:
     ~GUser();
     //
     void onModule(GSocket* _client);
+    void onHasUser(GSocket* _client);
     void onCreateUser(GSocket* _client);
     void onSaveUser(GSocket* _client);
     //
