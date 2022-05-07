@@ -62,6 +62,7 @@ void GUser::onHasUserPassword(GSocket* _client) {
     std::shared_ptr<GCode>& lReq = _client->getReq();
     m_pseudo = lReq->getParam("pseudo");
     m_password = lReq->getParam("password");
+    computePassword();
     loadIdPassword();
     std::shared_ptr<GCode>& lRes = _client->getResponse();
     lRes->createCode("user", "id", m_id);
@@ -71,6 +72,7 @@ void GUser::onCreateUser(GSocket* _client) {
     std::shared_ptr<GCode>& lReq = _client->getReq();
     m_pseudo = lReq->getParam("pseudo");
     m_password = lReq->getParam("password");
+    computePassword();
     loadId();
     saveData();
 }
@@ -99,8 +101,6 @@ void GUser::loadId() {
 void GUser::loadIdPassword() {
     if(m_pseudo == "") return;
     if(m_password == "") return;
-
-    computePassword();
 
     std::string lId = GMySQL().readData(sformat(""
             " select _id "
@@ -135,9 +135,8 @@ void GUser::insertData() {
     GMySQL().execQuery(sformat(""
             " insert into user "
             " ( _pseudo, _password ) "
-            " values ( '%s', md5('%s|%s') ) "
+            " values ( '%s', '%s' ) "
             "", m_pseudo.c_str()
-            , m_pseudo.c_str()
             , m_password.c_str()
     ));
 }
@@ -146,10 +145,9 @@ void GUser::updateData() {
     GMySQL().execQuery(sformat(""
             " update user "
             " set _pseudo = '%s' "
-            " , _password = md5('%s|%s') "
+            " , _password = '%s' "
             " where _id = %d "
             "", m_pseudo.c_str()
-            , m_pseudo.c_str()
             , m_password.c_str()
             , m_id
     ));
