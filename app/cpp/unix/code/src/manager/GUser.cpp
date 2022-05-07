@@ -109,6 +109,7 @@ void GUser::loadId() {
     ));
 
     m_id = GString(lId).toInt();
+    m_password = "";
 }
 //===============================================
 void GUser::loadIdPassword() {
