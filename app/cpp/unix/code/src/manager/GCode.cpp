@@ -112,6 +112,33 @@ void GCode::createMap(const std::string& _code, const std::string& _key, int _va
     createMap(_code, _key, std::to_string(_value), _index, _isCData);
 }
 //===============================================
+void GCode::createMap(const std::string& _code, int _value, int _index, bool _isCData) {
+    createMap(_code, std::to_string(_value), _index, _isCData);
+}
+//===============================================
+void GCode::createMap(const std::string& _code, const std::string& _value, int _index, bool _isCData) {
+    createCode(_code);
+    if(!hasMap(_code)) {
+        appendNodeGet("map");
+        appendNodeGet("data");
+        setAttribute("i", std::to_string(_index + 1));
+        if(_isCData) setNodeCData(_value);
+        else setNodeValue(_value);
+    }
+    else if(!hasCode(_code, _index)) {
+        queryXPath(sformat("/rdv/datas/data[code='%s']/map", _code.c_str())).getNodeXPath();
+        appendNodeGet("data");
+        setAttribute("i", std::to_string(_index + 1));
+        if(_isCData) setNodeCData(_value);
+        else setNodeValue(_value);
+    }
+    else {
+        queryXPath(sformat("/rdv/datas/data[code='%s']/map/data[position()=%d]", _code.c_str(), _index + 1)).getNodeXPath();
+        if(_isCData) setNodeCData(_value);
+        else setNodeValue(_value);
+    }
+}
+//===============================================
 void GCode::createMap(const std::string& _code, const std::string& _key, const std::string& _value, int _index, bool _isCData) {
     createCode(_code);
     if(!hasMap(_code)) {

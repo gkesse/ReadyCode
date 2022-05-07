@@ -27,6 +27,8 @@ public:
     void createCode(const std::string& _code, const std::string& _key, const std::string& _value, bool _isCData = false);
     void createCode(const std::string& _code, const std::string& _key, const int _value, bool _isCData = false);
     void createMap(const std::string& _code, const std::string& _key, int _value, int _index, bool _isCData = false);
+    void createMap(const std::string& _code, int _value, int _index, bool _isCData = false);
+    void createMap(const std::string& _code, const std::string& _value, int _index, bool _isCData = false);
     void createMap(const std::string& _code, const std::string& _key, const std::string& _value, int _index, bool _isCData = false);
     //
     void getCodeNode(const std::string& _code);

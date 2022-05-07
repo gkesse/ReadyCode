@@ -42,11 +42,11 @@ void GModule::sendResponse(GSocket* _client) {
         std::vector<std::string>& lErrors = GLOGI->getErrors();
         for(int i = 0; i < lErrors.size(); i++) {
             std::string lError = lErrors.at(i);
-            lRes->createMap("error", "msg", lError, i);
+            lRes->createMap("error", lError, i);
         }
         GLOGI->clearErrors();
     }
-    else {
+    else if(lRes->toString() == "") {
         lRes->createCode("result", "msg", "ok");
     }
 
