@@ -59,15 +59,15 @@ void GRequest::setDataSize(int _dataSize) {
 }
 //===============================================
 QString GRequest::serialize() const {
-    GCode lParams;
-    lParams.createCode();
-    lParams.addParam("id", m_id);
-    lParams.addParam("module", m_module);
-    lParams.addParam("method", m_method);
-    lParams.addParam("msg", m_msg);
-    lParams.addParam("data_offset", m_dataOffset);
-    lParams.addParam("data_size", m_dataSize);
-    return lParams.toStringCode("params");
+    GCode lReq;
+    lReq.createCode();
+    lReq.addParam("id", m_id);
+    lReq.addParam("module", m_module);
+    lReq.addParam("method", m_method);
+    lReq.addParam("msg", m_msg);
+    lReq.addParam("data_offset", m_dataOffset);
+    lReq.addParam("data_size", m_dataSize);
+    return lReq.toStringCode("params");
 }
 //===============================================
 void GRequest::deserializeMap(const QString& _data) {
