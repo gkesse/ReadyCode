@@ -97,6 +97,7 @@ void GCode::createCode(const std::string& _code) {
 }
 //===============================================
 void GCode::createCode(const std::string& _code, const std::string& _key, const std::string& _value, bool _isCData) {
+    if(_value == "") return;
     createCode(_code);
     if(!hasCode(_code, _key)) {
         if(!_isCData) appendNode(_key, _value);
