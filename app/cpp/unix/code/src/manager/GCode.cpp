@@ -187,3 +187,10 @@ int GCode::countItem(const std::string& _code, const std::string& _key) {
     return lData;
 }
 //===============================================
+void GCode::loadCode(const std::string& _code) {
+    if(_code == "") return;
+    queryXPath(sformat("/rdv/datas"));
+    getNodeXPath();
+    loadNodeData(_code);
+}
+//===============================================

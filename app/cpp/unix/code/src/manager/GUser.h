@@ -18,6 +18,9 @@ public:
     void onCreateUser(GSocket* _client);
     void onSaveUser(GSocket* _client);
     //
+    std::string serialize() const;
+    void deserialize(const std::string& _data);
+    //
     int getId() const;
     void loadId();
     void loadIdPassword();
@@ -30,6 +33,8 @@ private:
     int m_id;
     std::string m_pseudo;
     std::string m_password;
+    std::string m_group;
+    std::string m_active;
 };
 //==============================================
 #endif

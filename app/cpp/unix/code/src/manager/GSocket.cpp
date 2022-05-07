@@ -403,6 +403,10 @@ std::shared_ptr<GCode>& GSocket::getReq() {
     return m_req;
 }
 //===============================================
+std::string GSocket::toReq() const {
+    return m_req->toString();
+}
+//===============================================
 std::queue<std::string>& GSocket::getDataIns() {
     return m_dataIns;
 }
@@ -413,6 +417,11 @@ std::queue<GSocket*>& GSocket::getClientIns() {
 //===============================================
 std::shared_ptr<GCode>& GSocket::getResponse(){
     return m_res;
+}
+//===============================================
+void GSocket::addResponse(const std::string& _data) {
+    if(_data == "") return;
+    m_res->loadCode(_data);
 }
 //===============================================
 std::string GSocket::readAddressIp() const {

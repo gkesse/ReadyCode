@@ -90,6 +90,20 @@ GXml& GXml::loadXmlData(const std::string& _data) {
     return *this;
 }
 //===============================================
+GXml& GXml::loadNodeData(const std::string& _data) {
+    if(!m_node) return *this;
+    xmlNodePtr lNewNode;
+    std::string lData = "<rdv>" + _data + "</rdv>";
+    xmlParseInNodeContext(m_node, lData.c_str(), lData.size(), 0, &lNewNode);
+    xmlNodePtr lNode = lNewNode->children;
+    while(lNode) {
+        xmlAddChild(m_node, xmlCopyNode(lNode, 1));
+        lNode = lNode->next;
+    }
+    xmlFreeNode(lNewNode);
+    return *this;
+}
+//===============================================
 GXml& GXml::saveXmlFile(const std::string& _filename, const std::string& _encoding, int _format) {
     std::string lFilename = "";
 
