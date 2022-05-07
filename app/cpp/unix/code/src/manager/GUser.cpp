@@ -39,9 +39,6 @@ void GUser::onModule(GSocket* _client) {
     else if(lMethod == "create_user") {
         onCreateUser(_client);
     }
-    else if(lMethod == "save_user") {
-        onSaveUser(_client);
-    }
     //===============================================
     // unknown
     //===============================================
