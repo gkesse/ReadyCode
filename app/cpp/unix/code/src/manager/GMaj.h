@@ -10,6 +10,7 @@ public:
     GMaj(const std::string& _path, const std::string& _filename);
     ~GMaj();
     void createDB();
+    void createDB(bool _isTestEnv);
     void loadCode();
     void loadId();
     void loadId(bool _isTestEnv);

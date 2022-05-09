@@ -29,7 +29,11 @@ GMaj::~GMaj() {
 }
 //===============================================
 void GMaj::createDB() {
-    runMaj("$GPROJECT_DATA/mysql/pkg/pkg_maj.sh");
+    createDB(GEnv().isTestEnv());
+}
+//===============================================
+void GMaj::createDB(bool _isTestEnv) {
+    runMaj("$GPROJECT_DATA/mysql/pkg/pkg_maj.sh", _isTestEnv);
 }
 //===============================================
 void GMaj::loadCode() {

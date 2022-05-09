@@ -747,7 +747,7 @@ void GTest::runMysqlMaj(int _argc, char** _argv) {
         lMaj.loadCode();
         lMaj.loadId();
         lMaj.saveData();
-        lMaj.runMaj(true);
+        lMaj.runMaj();
     }
 }
 //===============================================
@@ -759,7 +759,7 @@ void GTest::runMysqlMajProd(int _argc, char** _argv) {
     for(int i = 0; i < (int)lFiles.size(); i++) {
         std::string lFile = lFiles.at(i);
         GMaj lMaj(lPath, lFile);
-        lMaj.createDB();
+        lMaj.createDB(false);
         lMaj.loadCode();
         lMaj.loadId(false);
         lMaj.saveData(false);
