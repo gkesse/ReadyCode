@@ -80,17 +80,17 @@ void GMaj::updateData() {
     ));
 }
 //===============================================
-void GMaj::runMaj() {
+void GMaj::runMaj(bool _isTestEnv) {
     if(!hasData()) {
         std::string lFilename = sformat("%s/%s"
                 , m_path.c_str()
                 , m_filename.c_str());
-        runMaj(lFilename);
+        runMaj(lFilename, _isTestEnv);
     }
 }
 //===============================================
-void GMaj::runMaj(const std::string& _filename) {
-    std::string lDatabase = GMySQL().loadDatabase();
+void GMaj::runMaj(const std::string& _filename, bool _isTestEnv) {
+    std::string lDatabase = GMySQL().loadDatabase(_isTestEnv);
     std::string lCommand = sformat(""
             " chmod a+x %s \n"
             " %s %s \n"

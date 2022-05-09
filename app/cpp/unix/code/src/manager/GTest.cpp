@@ -175,6 +175,9 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "mysql/maj") {
         runMysqlMaj(_argc, _argv);
     }
+    else if(lKey == "mysql/maj/prod") {
+        runMysqlMajProd(_argc, _argv);
+    }
     //===============================================
     // shell
     //===============================================
@@ -744,7 +747,23 @@ void GTest::runMysqlMaj(int _argc, char** _argv) {
         lMaj.loadCode();
         lMaj.loadId();
         lMaj.saveData();
-        lMaj.runMaj();
+        lMaj.runMaj(true);
+    }
+}
+//===============================================
+void GTest::runMysqlMajProd(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    std::string lPath = GRES("mysql", "maj");
+    std::vector<std::string> lFiles = GDir().openDir(lPath, false, false);
+    GLOGT(eGMSG, "%s\n", GSTRC(lFiles).c_str());
+    for(int i = 0; i < (int)lFiles.size(); i++) {
+        std::string lFile = lFiles.at(i);
+        GMaj lMaj(lPath, lFile);
+        lMaj.createDB();
+        lMaj.loadCode();
+        lMaj.loadId();
+        lMaj.saveData();
+        lMaj.runMaj(false);
     }
 }
 //===============================================

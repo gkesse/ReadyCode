@@ -16,8 +16,8 @@ public:
     void saveData();
     void insertData();
     void updateData();
-    void runMaj();
-    void runMaj(const std::string& _filename);
+    void runMaj(bool _isTestEnv);
+    void runMaj(const std::string& _filename, bool _isTestEnv);
 
 private:
     int m_id;
