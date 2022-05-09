@@ -6,6 +6,7 @@
 #include "GError.h"
 #include "GLog.h"
 #include "GShell.h"
+#include "GEnv.h"
 //===============================================
 GMaj::GMaj() : GObject() {
     m_id = 0;
@@ -32,43 +33,65 @@ void GMaj::createDB() {
 }
 //===============================================
 void GMaj::loadCode() {
+    if(m_filename == "") return;
+
     m_code = GString(m_filename).splitData('-').at(0);
-    GLOGT(eGINF, "m_code.......: (%s)\n", m_code.c_str());
-    GLOGT(eGINF, "m_filename...: (%s)\n", m_filename.c_str());
+
+    GLOGT(eGOFF, ""
+            "code.........: (%s)\n"
+            "filename.....: (%s)\n"
+            "", m_code.c_str()
+            , m_filename.c_str()
+    );
 }
 //===============================================
 void GMaj::loadId() {
+    loadId(GEnv().isTestEnv());
+}
+//===============================================
+void GMaj::loadId(bool _isTestEnv) {
+    if(m_code == "") return;
+
     std::string lId = GMySQL().readData(sformat(""
             " select _id "
             " from maj "
             " where _code = '%s' "
             "", m_code.c_str()
-    ));
-    if(lId != "") m_id = std::stoi(lId);
-    GLOGT(eGINF, "m_id.........: %d", m_id);
-}
-//===============================================
-bool GMaj::hasData() const {
-    return (m_id != 0);
+    ), _isTestEnv);
+
+    m_id = GString(lId).toInt();
+
+    GLOGT(eGOFF, "m_id.........: %d", m_id);
 }
 //===============================================
 void GMaj::saveData() {
-    if(!hasData()) {
-        insertData();
+    saveData(GEnv().isTestEnv());
+}
+//===============================================
+void GMaj::saveData(bool _isTestEnv) {
+    if(!m_id) {
+        insertData(_isTestEnv);
     }
 }
 //===============================================
-void GMaj::insertData() {
+void GMaj::insertData(bool _isTestEnv) {
+    if(m_code == "") return;
+    if(m_filename == "") return;
+
     GMySQL().execQuery(sformat(""
             " insert into maj "
             " ( _code, _filename ) "
             " values ( '%s', '%s' ) "
             "", m_code.c_str()
             , m_filename.c_str()
-    ));
+    ), _isTestEnv);
 }
 //===============================================
-void GMaj::updateData() {
+void GMaj::updateData(bool _isTestEnv) {
+    if(!m_id) return;
+    if(m_code == "") return;
+    if(m_filename == "") return;
+
     GMySQL().execQuery(sformat(""
             " update maj "
             " set _code = '%s' "
@@ -77,11 +100,11 @@ void GMaj::updateData() {
             "", m_code.c_str()
             , m_filename.c_str()
             , m_id
-    ));
+    ), _isTestEnv);
 }
 //===============================================
 void GMaj::runMaj(bool _isTestEnv) {
-    if(!hasData()) {
+    if(!m_id) {
         std::string lFilename = sformat("%s/%s"
                 , m_path.c_str()
                 , m_filename.c_str());

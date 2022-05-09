@@ -761,8 +761,8 @@ void GTest::runMysqlMajProd(int _argc, char** _argv) {
         GMaj lMaj(lPath, lFile);
         lMaj.createDB();
         lMaj.loadCode();
-        lMaj.loadId();
-        lMaj.saveData();
+        lMaj.loadId(false);
+        lMaj.saveData(false);
         lMaj.runMaj(false);
     }
 }

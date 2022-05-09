@@ -12,10 +12,11 @@ public:
     void createDB();
     void loadCode();
     void loadId();
-    bool hasData() const;
+    void loadId(bool _isTestEnv);
     void saveData();
-    void insertData();
-    void updateData();
+    void saveData(bool _isTestEnv);
+    void insertData(bool _isTestEnv);
+    void updateData(bool _isTestEnv);
     void runMaj(bool _isTestEnv);
     void runMaj(const std::string& _filename, bool _isTestEnv);
 
