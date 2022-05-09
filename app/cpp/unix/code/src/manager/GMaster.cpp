@@ -8,6 +8,7 @@
 #include "GCode.h"
 #include "GTest.h"
 #include "GRequest.h"
+#include "GMaj.h"
 //===============================================
 GMaster::GMaster() : GModule() {
 
@@ -45,6 +46,9 @@ void GMaster::onModule(GSocket* _client) {
         else if(lModule == "req") {
             onModuleReq(_client);
         }
+        else if(lModule == "maj") {
+            onModuleReq(_client);
+        }
         //===============================================
         // unknown
         //===============================================
@@ -70,5 +74,9 @@ void GMaster::onModuleUser(GSocket* _client) {
 //===============================================
 void GMaster::onModuleReq(GSocket* _client) {
     GRequest().onModule(_client);
+}
+//===============================================
+void GMaster::onModuleMaj(GSocket* _client) {
+    GMaj().onModule(_client);
 }
 //===============================================

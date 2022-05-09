@@ -7,8 +7,10 @@
 #include "GLog.h"
 #include "GShell.h"
 #include "GEnv.h"
+#include "GSocket.h"
+#include "GCode.h"
 //===============================================
-GMaj::GMaj() : GObject() {
+GMaj::GMaj() : GModule() {
     m_id = 0;
     m_code = "";
     m_path = "";
@@ -16,7 +18,7 @@ GMaj::GMaj() : GObject() {
     m_errors.reset(new GError);
 }
 //===============================================
-GMaj::GMaj(const std::string& _path, const std::string& _filename) : GObject() {
+GMaj::GMaj(const std::string& _path, const std::string& _filename) : GModule() {
     m_id = 0;
     m_code = "";
     m_path = _path;
@@ -26,6 +28,26 @@ GMaj::GMaj(const std::string& _path, const std::string& _filename) : GObject() {
 //===============================================
 GMaj::~GMaj() {
 
+}
+//===============================================
+void GMaj::onModule(GSocket* _client) {
+    std::string lMethod = _client->getReq()->getMethod();
+    //===============================================
+    // method
+    //===============================================
+    if(lMethod == "update_database") {
+        onUpdateDatabase(_client);
+    }
+    //===============================================
+    // unknown
+    //===============================================
+    else {
+        onMethodUnknown(_client);
+    }
+}
+//===============================================
+void GMaj::onUpdateDatabase(GSocket* _client) {
+    GLOGT(eGINF, "");
 }
 //===============================================
 void GMaj::createDB() {

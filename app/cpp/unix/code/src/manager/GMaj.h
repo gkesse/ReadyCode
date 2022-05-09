@@ -2,13 +2,19 @@
 #ifndef _GMaj_
 #define _GMaj_
 //===============================================
-#include "GObject.h"
+#include "GModule.h"
 //===============================================
-class GMaj : public GObject {
+class GSocket;
+//===============================================
+class GMaj : public GModule {
 public:
     GMaj();
     GMaj(const std::string& _path, const std::string& _filename);
     ~GMaj();
+    //
+    void onModule(GSocket* _client);
+    void onUpdateDatabase(GSocket* _client);
+    //
     void createDB();
     void createDB(bool _isTestEnv);
     void loadCode();
