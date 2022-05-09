@@ -18,6 +18,7 @@ public:
     std::string getSession(const std::string& _param);
     bool isValidReq();
     //
+    bool hasCode();
     bool hasCode(const std::string& _code);
     bool hasCode(const std::string& _code, const std::string& _key);
     bool hasCode(const std::string& _code, int _index);

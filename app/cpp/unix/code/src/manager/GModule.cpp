@@ -46,7 +46,7 @@ void GModule::sendResponse(GSocket* _client) {
         }
         GLOGI->clearErrors();
     }
-    else if(lRes->toString() == "") {
+    else if(!lRes->hasCode()) {
         lRes->createCode("result", "msg", "ok");
     }
 

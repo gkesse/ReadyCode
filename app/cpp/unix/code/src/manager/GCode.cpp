@@ -51,6 +51,12 @@ bool GCode::isValidReq() {
     return lValidReq;
 }
 //===============================================
+bool GCode::hasCode() {
+    queryXPath(sformat("/rdv/datas/data[code]"));
+    int lCount = countXPath();
+    return (lCount != 0);
+}
+//===============================================
 bool GCode::hasCode(const std::string& _code) {
     queryXPath(sformat("/rdv/datas/data[code='%s']", _code.c_str()));
     int lCount = countXPath();
