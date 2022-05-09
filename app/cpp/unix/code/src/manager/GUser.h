@@ -12,13 +12,13 @@ public:
     GUser(const std::string& _pseudo);
     ~GUser();
     //
+    std::string serialize() const;
+    void deserialize(const std::string& _req);
+    //
     void onModule(GSocket* _client);
     void onHasUser(GSocket* _client);
     void onHasUserPassword(GSocket* _client);
     void onCreateUser(GSocket* _client);
-    //
-    std::string serialize() const;
-    void deserialize(const std::string& _data);
     //
     int getId() const;
     void loadId();

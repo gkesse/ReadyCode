@@ -25,6 +25,25 @@ GUser::~GUser() {
 
 }
 //===============================================
+std::string GUser::serialize() const {
+    GCode lReq;
+    lReq.createCode("user", "id", m_id);
+    lReq.createCode("user", "pseudo", m_pseudo);
+    lReq.createCode("user", "password", m_password);
+    lReq.createCode("user", "group", m_group);
+    lReq.createCode("user", "active", m_active);
+    return lReq.toStringCode("user");
+}
+//===============================================
+void GUser::deserialize(const std::string& _req) {
+    GCode lReq(_req);
+    m_id = GString(lReq.getParam("id")).toInt();
+    m_pseudo = lReq.getParam("pseudo");
+    m_password = lReq.getParam("password");
+    m_group = lReq.getParam("group");
+    m_active = lReq.getParam("active");
+}
+//===============================================
 void GUser::onModule(GSocket* _client) {
     std::string lMethod = _client->getReq()->getMethod();
     //===============================================
@@ -73,25 +92,6 @@ void GUser::onCreateUser(GSocket* _client) {
     loadUser();
     std::string lData = serialize();
     _client->addResponse(lData);
-}
-//===============================================
-std::string GUser::serialize() const {
-    GCode lReq;
-    lReq.createCode("user", "id", m_id);
-    lReq.createCode("user", "pseudo", m_pseudo);
-    lReq.createCode("user", "password", m_password);
-    lReq.createCode("user", "group", m_group);
-    lReq.createCode("user", "active", m_active);
-    return lReq.toStringCode("user");
-}
-//===============================================
-void GUser::deserialize(const std::string& _data) {
-    GCode lReq(_data);
-    m_id = GString(lReq.getParam("id")).toInt();
-    m_pseudo = lReq.getParam("pseudo");
-    m_password = lReq.getParam("password");
-    m_group = lReq.getParam("group");
-    m_active = lReq.getParam("active");
 }
 //===============================================
 int GUser::getId() const {
