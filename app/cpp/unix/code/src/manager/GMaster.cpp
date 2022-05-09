@@ -47,7 +47,7 @@ void GMaster::onModule(GSocket* _client) {
             onModuleReq(_client);
         }
         else if(lModule == "maj") {
-            onModuleReq(_client);
+            onModuleMaj(_client);
         }
         //===============================================
         // unknown

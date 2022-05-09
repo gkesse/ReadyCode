@@ -15,7 +15,6 @@ GMaj::GMaj() : GModule() {
     m_code = "";
     m_path = "";
     m_filename = "";
-    m_errors.reset(new GError);
 }
 //===============================================
 GMaj::GMaj(const std::string& _path, const std::string& _filename) : GModule() {
@@ -23,7 +22,6 @@ GMaj::GMaj(const std::string& _path, const std::string& _filename) : GModule() {
     m_code = "";
     m_path = _path;
     m_filename = _filename;
-    m_errors.reset(new GError);
 }
 //===============================================
 GMaj::~GMaj() {
