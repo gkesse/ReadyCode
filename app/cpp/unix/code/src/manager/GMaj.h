@@ -17,6 +17,7 @@ public:
     void saveData(bool _isTestEnv);
     void insertData(bool _isTestEnv);
     void updateData(bool _isTestEnv);
+    void runMaj();
     void runMaj(bool _isTestEnv);
     void runMaj(const std::string& _filename, bool _isTestEnv);
 

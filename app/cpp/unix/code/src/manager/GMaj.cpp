@@ -103,6 +103,10 @@ void GMaj::updateData(bool _isTestEnv) {
     ), _isTestEnv);
 }
 //===============================================
+void GMaj::runMaj() {
+    runMaj(GEnv().isTestEnv());
+}
+//===============================================
 void GMaj::runMaj(bool _isTestEnv) {
     if(!m_id) {
         std::string lFilename = sformat("%s/%s"
