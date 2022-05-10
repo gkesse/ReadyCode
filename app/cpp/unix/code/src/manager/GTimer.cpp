@@ -47,6 +47,7 @@ void GTimer::setRunning(bool _running) {
 //===============================================
 void GTimer::stopTimer() {
     setRunning(false);
+    setCallback(0, 0);
 }
 //===============================================
 void GTimer::pauseTimer() {
