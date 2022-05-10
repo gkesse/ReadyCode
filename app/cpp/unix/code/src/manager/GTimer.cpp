@@ -51,7 +51,6 @@ void GTimer::stopTimer() {
 //===============================================
 void GTimer::pauseTimer() {
     while(isRunning()) {
-        GLOGT(eGINF, "");
         pause();
     }
 }
