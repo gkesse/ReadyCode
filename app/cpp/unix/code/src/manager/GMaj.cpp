@@ -53,7 +53,7 @@ void GMaj::onUpdateDatabase(GSocket* _client) {
     lAsync->setSocket(_client);
     lAsync->deserialize(_client->toReq());
     lAsync->setTitle("Maj base de données");
-    lAsync->start((void*)onUpdateDatabaseThread, this);
+    lAsync->start((void*)onUpdateDatabaseThread, lAsync);
 }
 //===============================================
 void GMaj::onUpdateDatabaseThread(void* _params) {
@@ -71,7 +71,7 @@ void GMaj::onUpdateDatabaseThread(void* _params) {
         lMaj.saveData();
         lMaj.runMaj();
     }
-    //lAsync->finish();
+    lAsync->finish();
     std::string lData = lAsync->serialize();
     lClient->addResponse(lData);
 }
