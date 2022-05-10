@@ -4,9 +4,7 @@
 //===============================================
 #include "GObject.h"
 //===============================================
-class GThread;
 class GSocket;
-class GTimer;
 //===============================================
 class GAsync : public GObject {
 public:
@@ -40,8 +38,6 @@ private:
     std::string m_status;
     std::string m_data;
     //
-    GThread* m_thread;
-    GTimer* m_timer;
     GSocket* m_client;
     bool m_running;
 };

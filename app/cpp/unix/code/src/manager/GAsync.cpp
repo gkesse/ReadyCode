@@ -15,15 +15,12 @@ GAsync::GAsync() : GObject() {
     m_status = "";
     m_data = "";
     //
-    m_thread = new GThread;
-    m_timer = new GTimer;
     m_client = 0;
     m_running = true;
 }
 //===============================================
 GAsync::~GAsync() {
-    delete m_thread;
-    delete m_timer;
+
 }
 //===============================================
 std::string GAsync::serialize() const {
@@ -123,8 +120,8 @@ void GAsync::updateData() {
 //===============================================
 void GAsync::exec(void* _onThreadCB, void* _params) {
     maj("En cours");
-    m_thread->createThread(_onThreadCB, _params);
-    m_timer->setCallback((void*)GTimer::onTimer, 500);
+    GThread lThread;
+    lThread.createThread(_onThreadCB, _params);
     while(m_running) {
         GLOGT(eGINF, "");
         pause();
