@@ -12,6 +12,7 @@
 #include "GThread.h"
 #include "GPath.h"
 #include "GDir.h"
+#include "GTimer.h"
 //===============================================
 GMaj::GMaj() : GModule() {
     m_id = 0;
@@ -49,7 +50,11 @@ void GMaj::onModule(GSocket* _client) {
 //===============================================
 void GMaj::onUpdateDatabase(GSocket* _client) {
     GLOGT(eGINF, "");
-    GThread().createThread((void*)onUpdateDatabaseThread, _client);
+    GThread lThread;
+    GTimer lTimer;
+    lThread.createThread((void*)onUpdateDatabaseThread, _client);
+    lTimer.setCallback((void*)onUpdateDatabaseTimer, 500);
+    lTimer.pauseTimer();
 }
 //===============================================
 void GMaj::onUpdateDatabaseThread(GSocket* _client) {
@@ -66,6 +71,10 @@ void GMaj::onUpdateDatabaseThread(GSocket* _client) {
         lMaj.saveData();
         lMaj.runMaj();
     }
+}
+//===============================================
+void GMaj::onUpdateDatabaseTimer(int _signo) {
+    GLOGT(eGINF, "");
 }
 //===============================================
 void GMaj::createDB() {

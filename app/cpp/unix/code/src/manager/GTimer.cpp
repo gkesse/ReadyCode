@@ -45,6 +45,16 @@ void GTimer::setRunning(bool _running) {
     m_running = _running;
 }
 //===============================================
+void GTimer::stopTimer() {
+    setRunning(false);
+}
+//===============================================
+void GTimer::pauseTimer() {
+    while(isRunning()) {
+        pause();
+    }
+}
+//===============================================
 void GTimer::onTimer(int _signo) {
     GLOGT(eGINF, "timer du programme...\n");
 }

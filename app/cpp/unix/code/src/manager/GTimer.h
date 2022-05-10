@@ -14,6 +14,8 @@ public:
     void setCallback(void* _onTimer, int _ms);
     bool isRunning() const;
     void setRunning(bool _running);
+    void stopTimer();
+    void pauseTimer();
     //
     static void onTimer(int _signo);
 
