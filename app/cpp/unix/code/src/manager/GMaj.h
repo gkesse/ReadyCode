@@ -4,13 +4,18 @@
 //===============================================
 #include "GModule.h"
 //===============================================
+#define GMAJI   GMaj::Instance()
+//===============================================
 class GSocket;
+class GThread;
+class GTimer;
 //===============================================
 class GMaj : public GModule {
 public:
     GMaj();
     GMaj(const std::string& _path, const std::string& _filename);
     ~GMaj();
+    static GMaj* Instance();
     //
     void onModule(GSocket* _client);
     void onUpdateDatabase(GSocket* _client);
@@ -35,6 +40,10 @@ private:
     std::string m_code;
     std::string m_path;
     std::string m_filename;
+    //
+    static GMaj* m_maj;
+    GThread m_thread;
+    GTimer m_timer;
 };
 //==============================================
 #endif

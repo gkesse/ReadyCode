@@ -14,6 +14,8 @@
 #include "GDir.h"
 #include "GTimer.h"
 //===============================================
+GMaj* GMaj::m_maj = 0;
+//===============================================
 GMaj::GMaj() : GModule() {
     m_id = 0;
     m_code = "";
@@ -30,6 +32,13 @@ GMaj::GMaj(const std::string& _path, const std::string& _filename) : GModule() {
 //===============================================
 GMaj::~GMaj() {
 
+}
+//===============================================
+GMaj* GMaj::Instance() {
+    if(m_maj == 0) {
+        m_maj = new GMaj;
+    }
+    return m_maj;
 }
 //===============================================
 void GMaj::onModule(GSocket* _client) {
@@ -50,11 +59,9 @@ void GMaj::onModule(GSocket* _client) {
 //===============================================
 void GMaj::onUpdateDatabase(GSocket* _client) {
     GLOGT(eGINF, "");
-    GThread lThread;
-    GTimer lTimer;
-    lThread.createThread((void*)onUpdateDatabaseThread, _client);
-    lTimer.setCallback((void*)onUpdateDatabaseTimer, 500);
-    lTimer.pauseTimer();
+    GMAJI->m_thread.createThread((void*)onUpdateDatabaseThread, _client);
+    GMAJI->m_timer.setCallback((void*)onUpdateDatabaseTimer, 500);
+    GMAJI->m_timer.pauseTimer();
 }
 //===============================================
 void GMaj::onUpdateDatabaseThread(GSocket* _client) {
