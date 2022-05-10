@@ -122,10 +122,7 @@ void GAsync::exec(void* _onThreadCB, void* _params) {
     maj("En cours");
     GThread lThread;
     lThread.createThread(_onThreadCB, _params);
-    while(m_running) {
-        GLOGT(eGINF, "");
-        pause();
-    }
+    lThread.joinThread(0);
 }
 //===============================================
 void GAsync::maj(const std::string& _status) {

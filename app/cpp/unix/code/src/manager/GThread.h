@@ -12,6 +12,7 @@ public:
     GThread();
     ~GThread();
     void createThread(void* _onThread, void* _params);
+    void joinThread(void** _params);
 
 private:
     pthread_t m_thread;
