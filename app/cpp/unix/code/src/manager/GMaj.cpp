@@ -53,7 +53,7 @@ void GMaj::onUpdateDatabase(GSocket* _client) {
     lAsync->setSocket(_client);
     lAsync->deserialize(_client->toReq());
     lAsync->setTitle("Maj base de données");
-    lAsync->start(onUpdateDatabaseThread, this);
+    lAsync->start((void*)onUpdateDatabaseThread, this);
 }
 //===============================================
 void GMaj::onUpdateDatabaseThread(void* _params) {
