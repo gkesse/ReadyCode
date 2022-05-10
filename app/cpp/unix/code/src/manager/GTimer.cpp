@@ -47,27 +47,11 @@ void GTimer::setRunning(bool _running) {
 //===============================================
 void GTimer::stopTimer() {
     setRunning(false);
-
-    m_sigaction.sa_handler = 0;
-    m_sigaction.sa_flags = 0;
-    if (sigaction(SIGALRM, &m_sigaction, NULL) == -1) {
-        GERROR(eGERR, "Erreur lors de l'arret du timer.\n");
-        return;
-    }
-
-    m_timer.it_interval.tv_sec = 0;
-    m_timer.it_interval.tv_usec = 0;
-    m_timer.it_value.tv_sec = 0;
-    m_timer.it_value.tv_usec = 0;
-
-    if (setitimer(ITIMER_REAL, &m_timer, NULL) == -1) {
-        GERROR(eGERR, "Erreur lors de l'arret du timer.\n");
-        return;
-    }
 }
 //===============================================
 void GTimer::pauseTimer() {
     while(isRunning()) {
+        GLOGT(eGINF, "");
         pause();
     }
 }
