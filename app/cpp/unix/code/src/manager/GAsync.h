@@ -43,6 +43,7 @@ private:
     GThread* m_thread;
     GTimer* m_timer;
     GSocket* m_client;
+    bool m_running;
 };
 //==============================================
 #endif

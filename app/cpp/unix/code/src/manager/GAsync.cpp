@@ -6,6 +6,7 @@
 #include "GString.h"
 #include "GFormat.h"
 #include "GMySQL.h"
+#include "GLog.h"
 //===============================================
 GAsync::GAsync() : GObject() {
     m_id = 0;
@@ -17,6 +18,7 @@ GAsync::GAsync() : GObject() {
     m_thread = new GThread;
     m_timer = new GTimer;
     m_client = 0;
+    m_running = true;
 }
 //===============================================
 GAsync::~GAsync() {
@@ -123,7 +125,10 @@ void GAsync::exec(void* _onThreadCB, void* _params) {
     maj("En cours");
     m_thread->createThread(_onThreadCB, _params);
     m_timer->setCallback((void*)GTimer::onTimer, 500);
-    m_timer->pauseTimer();
+    while(m_running) {
+        GLOGT(eGINF, "");
+        pause();
+    }
 }
 //===============================================
 void GAsync::maj(const std::string& _status) {
@@ -133,6 +138,6 @@ void GAsync::maj(const std::string& _status) {
 //===============================================
 void GAsync::finish() {
     maj("Terminé");
-    m_timer->stopTimer();
+    m_running = false;
 }
 //===============================================
