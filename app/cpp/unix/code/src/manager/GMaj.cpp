@@ -50,7 +50,7 @@ void GMaj::onModule(GSocket* _client) {
 //===============================================
 void GMaj::onUpdateDatabase(GSocket* _client) {
     GAsync* lAsync = new GAsync;
-    lAsync->setSocket(_client);
+    lAsync->setClient(_client);
     lAsync->deserialize(_client->toReq());
     lAsync->setTitle("Maj base de données");
     lAsync->start((void*)onUpdateDatabaseThread, lAsync);
@@ -58,10 +58,12 @@ void GMaj::onUpdateDatabase(GSocket* _client) {
 //===============================================
 void GMaj::onUpdateDatabaseThread(void* _params) {
     GAsync* lAsync = (GAsync*)_params;
-    GSocket* lClient = lAsync->getSocket();
+    GSocket* lClient = lAsync->getClient();
     std::string lPath = GRES("mysql", "maj");
     std::vector<std::string> lFiles = GDir().openDir(lPath, false, false);
+
     GLOGT(eGMSG, "%s\n", GSTRC(lFiles).c_str());
+
     for(int i = 0; i < (int)lFiles.size(); i++) {
         std::string lFile = lFiles.at(i);
         GMaj lMaj(lPath, lFile);
@@ -71,9 +73,11 @@ void GMaj::onUpdateDatabaseThread(void* _params) {
         lMaj.saveData();
         lMaj.runMaj();
     }
+
     lAsync->finish();
     std::string lData = lAsync->serialize();
     lClient->addResponse(lData);
+    delete lAsync;
 }
 //===============================================
 void GMaj::createDB() {

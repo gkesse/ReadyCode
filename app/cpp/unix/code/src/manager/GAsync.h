@@ -19,8 +19,8 @@ public:
     void setStatus(const std::string& _status);
     void setData(const std::string& _data);
     void addData(const std::string& _data);
-    void setSocket(GSocket* _socket);
-    GSocket* getSocket();
+    void setClient(GSocket* _socket);
+    GSocket* getClient();
     //
     void onMajAsync();
     //
@@ -40,7 +40,7 @@ private:
     std::string m_data;
     //
     GThread* m_thread;
-    GSocket* m_socket;
+    GSocket* m_client;
 };
 //==============================================
 #endif
