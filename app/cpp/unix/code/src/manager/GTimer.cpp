@@ -47,7 +47,16 @@ void GTimer::setRunning(bool _running) {
 //===============================================
 void GTimer::stopTimer() {
     setRunning(false);
-    setCallback((void*)onTimer, 0);
+
+    m_timer.it_interval.tv_sec = 0;
+    m_timer.it_interval.tv_usec = 0;
+    m_timer.it_value.tv_sec = 0;
+    m_timer.it_value.tv_usec = 0;
+
+    if (setitimer(ITIMER_REAL, &m_timer, NULL) == -1) {
+        GERROR(eGERR, "Erreur lors de l'arret du timer.\n");
+        return;
+    }
 }
 //===============================================
 void GTimer::pauseTimer() {
