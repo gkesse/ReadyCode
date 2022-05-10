@@ -4,11 +4,7 @@
 //===============================================
 #include "GModule.h"
 //===============================================
-#define GMAJI   GMaj::Instance()
-//===============================================
 class GSocket;
-class GThread;
-class GTimer;
 //===============================================
 class GMaj : public GModule {
 public:
@@ -19,8 +15,7 @@ public:
     //
     void onModule(GSocket* _client);
     void onUpdateDatabase(GSocket* _client);
-    static void onUpdateDatabaseThread(GSocket* _client);
-    static void onUpdateDatabaseTimer(int _signo);
+    static void onUpdateDatabaseThread(void* _params);
     //
     void createDB();
     void createDB(bool _isTestEnv);
@@ -40,10 +35,6 @@ private:
     std::string m_code;
     std::string m_path;
     std::string m_filename;
-    //
-    static GMaj* m_maj;
-    GThread m_thread;
-    GTimer m_timer;
 };
 //==============================================
 #endif

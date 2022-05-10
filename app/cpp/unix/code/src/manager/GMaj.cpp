@@ -12,9 +12,7 @@
 #include "GThread.h"
 #include "GPath.h"
 #include "GDir.h"
-#include "GTimer.h"
-//===============================================
-GMaj* GMaj::m_maj = 0;
+#include "GAsync.h"
 //===============================================
 GMaj::GMaj() : GModule() {
     m_id = 0;
@@ -32,13 +30,6 @@ GMaj::GMaj(const std::string& _path, const std::string& _filename) : GModule() {
 //===============================================
 GMaj::~GMaj() {
 
-}
-//===============================================
-GMaj* GMaj::Instance() {
-    if(m_maj == 0) {
-        m_maj = new GMaj;
-    }
-    return m_maj;
 }
 //===============================================
 void GMaj::onModule(GSocket* _client) {
@@ -59,12 +50,12 @@ void GMaj::onModule(GSocket* _client) {
 //===============================================
 void GMaj::onUpdateDatabase(GSocket* _client) {
     GLOGT(eGINF, "");
-    GMAJI->m_thread.createThread((void*)onUpdateDatabaseThread, _client);
-    GMAJI->m_timer.setCallback((void*)onUpdateDatabaseTimer, 500);
-    GMAJI->m_timer.pauseTimer();
+    GAsync* lAsync = new GAsync;
+    lAsync->deserialize(_client->toReq());
+    lAsync->setTitle("Maj base de données");
 }
 //===============================================
-void GMaj::onUpdateDatabaseThread(GSocket* _client) {
+void GMaj::onUpdateDatabaseThread(void* _client) {
     GLOGT(eGFUN, "");
     std::string lPath = GRES("mysql", "maj");
     std::vector<std::string> lFiles = GDir().openDir(lPath, false, false);
@@ -78,10 +69,6 @@ void GMaj::onUpdateDatabaseThread(GSocket* _client) {
         lMaj.saveData();
         lMaj.runMaj();
     }
-}
-//===============================================
-void GMaj::onUpdateDatabaseTimer(int _signo) {
-    GLOGT(eGINF, "");
 }
 //===============================================
 void GMaj::createDB() {

@@ -162,6 +162,7 @@ void GUser::saveData() {
 }
 //===============================================
 void GUser::insertData() {
+    if(m_id != 0) return;
     if(m_pseudo == "") return;
     if(m_password == "") return;
 
@@ -175,7 +176,7 @@ void GUser::insertData() {
 }
 //===============================================
 void GUser::updateData() {
-    if(!m_id) return;
+    if( m_id == 0) return;
     if(m_pseudo == "") return;
     if(m_password == "") return;
 

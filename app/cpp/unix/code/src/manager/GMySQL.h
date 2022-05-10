@@ -22,6 +22,7 @@ public:
     GMySQL& readQuery(const std::string& _sql);
     GMySQL& readQuery(const std::string& _sql, bool _isTestEnv);
     int getColumnCount() const;
+    int getId();
     std::string readData(const std::string& _sql);
     std::string readData(const std::string& _sql, bool _isTestEnv);
     std::vector<std::string> readCol(const std::string& _sql);

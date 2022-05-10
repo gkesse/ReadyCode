@@ -151,16 +151,13 @@ void GRequest::loadRequestList(GSocket* _client) {
 }
 //===============================================
 void GRequest::saveData() {
-    if(!m_id) {
-        insertData();
-    }
-    else {
-        updateData();
-    }
+    insertData();
+    updateData();
 }
 //===============================================
 void GRequest::insertData() {
-    if(!m_uid) return;
+    if(m_id != 0) return;
+    if(m_uid == 0) return;
     if(m_module == "") return;
     if(m_method == "") return;
     if(m_msg == "") return;
@@ -177,7 +174,12 @@ void GRequest::insertData() {
 }
 //===============================================
 void GRequest::updateData() {
-    if(!m_uid) return;
+    if(m_id == 0) return;
+    if(m_uid == 0) return;
+    if(m_module == "") return;
+    if(m_method == "") return;
+    if(m_msg == "") return;
+
     GMySQL().execQuery(sformat(""
             " update request "
             " set _u_id = %d "

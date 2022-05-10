@@ -79,6 +79,13 @@ int GMySQL::getColumnCount() const {
     return lColumns;
 }
 //===============================================
+int GMySQL::getId() {
+    m_res.reset(m_stmt->executeQuery("select @@identity as id"));
+    m_res->next();
+    int lId = (int)m_res->getInt64("id");
+    return lId;
+}
+//===============================================
 std::string GMySQL::readData(const std::string& _sql) {
     return readData(_sql, GEnv().isTestEnv());
 }
