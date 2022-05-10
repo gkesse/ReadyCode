@@ -6,6 +6,7 @@
 //===============================================
 class GThread;
 class GSocket;
+class GTimer;
 //===============================================
 class GAsync : public GObject {
 public:
@@ -28,7 +29,7 @@ public:
     void insertData();
     void updateData();
     //
-    void start(void* _onThreadCB, void* _params);
+    void exec(void* _onThreadCB, void* _params);
     void maj(const std::string& _status);
     void finish();
 
@@ -40,6 +41,7 @@ private:
     std::string m_data;
     //
     GThread* m_thread;
+    GTimer* m_timer;
     GSocket* m_client;
 };
 //==============================================

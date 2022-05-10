@@ -53,11 +53,11 @@ void GMaj::onUpdateDatabase(GSocket* _client) {
     lAsync->setClient(_client);
     lAsync->deserialize(_client->toReq());
     lAsync->setTitle("Maj base de données");
-    lAsync->start((void*)onUpdateDatabaseThread, lAsync);
+    lAsync->exec((void*)onUpdateDatabaseThread, lAsync);
 }
 //===============================================
 void GMaj::onUpdateDatabaseThread(void* _params) {
-    GAsync* lAsync = (GAsync*)_params;
+    std::shared_ptr<GAsync> lAsync((GAsync*)_params);
     GSocket* lClient = lAsync->getClient();
     std::string lPath = GRES("mysql", "maj");
     std::vector<std::string> lFiles = GDir().openDir(lPath, false, false);
@@ -77,7 +77,6 @@ void GMaj::onUpdateDatabaseThread(void* _params) {
     lAsync->finish();
     std::string lData = lAsync->serialize();
     lClient->addResponse(lData);
-    delete lAsync;
 }
 //===============================================
 void GMaj::createDB() {

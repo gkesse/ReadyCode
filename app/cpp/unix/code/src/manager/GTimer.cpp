@@ -56,6 +56,6 @@ void GTimer::pauseTimer() {
 }
 //===============================================
 void GTimer::onTimer(int _signo) {
-    GLOGT(eGINF, "timer du programme...\n");
+    GLOGT(eGINF, "");
 }
 //===============================================
