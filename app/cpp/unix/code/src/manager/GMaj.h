@@ -14,6 +14,7 @@ public:
     //
     void onModule(GSocket* _client);
     void onUpdateDatabase(GSocket* _client);
+    static void onUpdateDatabaseThread(GSocket* _client);
     //
     void createDB();
     void createDB(bool _isTestEnv);

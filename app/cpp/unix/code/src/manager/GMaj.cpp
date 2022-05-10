@@ -9,6 +9,7 @@
 #include "GEnv.h"
 #include "GSocket.h"
 #include "GCode.h"
+#include "GThread.h"
 //===============================================
 GMaj::GMaj() : GModule() {
     m_id = 0;
@@ -45,6 +46,11 @@ void GMaj::onModule(GSocket* _client) {
 }
 //===============================================
 void GMaj::onUpdateDatabase(GSocket* _client) {
+    GLOGT(eGINF, "");
+    GThread().createThread((void*)onUpdateDatabaseThread, _client);
+}
+//===============================================
+void GMaj::onUpdateDatabaseThread(GSocket* _client) {
     GLOGT(eGINF, "");
 }
 //===============================================
