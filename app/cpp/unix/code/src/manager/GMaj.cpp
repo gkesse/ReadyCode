@@ -10,6 +10,8 @@
 #include "GSocket.h"
 #include "GCode.h"
 #include "GThread.h"
+#include "GPath.h"
+#include "GDir.h"
 //===============================================
 GMaj::GMaj() : GModule() {
     m_id = 0;
@@ -51,7 +53,19 @@ void GMaj::onUpdateDatabase(GSocket* _client) {
 }
 //===============================================
 void GMaj::onUpdateDatabaseThread(GSocket* _client) {
-    GLOGT(eGINF, "");
+    GLOGT(eGFUN, "");
+    std::string lPath = GRES("mysql", "maj");
+    std::vector<std::string> lFiles = GDir().openDir(lPath, false, false);
+    GLOGT(eGMSG, "%s\n", GSTRC(lFiles).c_str());
+    for(int i = 0; i < (int)lFiles.size(); i++) {
+        std::string lFile = lFiles.at(i);
+        GMaj lMaj(lPath, lFile);
+        lMaj.createDB();
+        lMaj.loadCode();
+        lMaj.loadId();
+        lMaj.saveData();
+        lMaj.runMaj();
+    }
 }
 //===============================================
 void GMaj::createDB() {
@@ -147,6 +161,7 @@ void GMaj::runMaj(bool _isTestEnv) {
 }
 //===============================================
 void GMaj::runMaj(const std::string& _filename, bool _isTestEnv) {
+    if(_filename == "") return;
     std::string lDatabase = GMySQL().loadDatabase(_isTestEnv);
     std::string lCommand = sformat(""
             " chmod a+x %s \n"
