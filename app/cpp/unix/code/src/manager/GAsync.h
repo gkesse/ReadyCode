@@ -5,6 +5,7 @@
 #include "GObject.h"
 //===============================================
 class GThread;
+class GSocket;
 //===============================================
 class GAsync : public GObject {
 public:
@@ -18,6 +19,8 @@ public:
     void setStatus(const std::string& _status);
     void setData(const std::string& _data);
     void addData(const std::string& _data);
+    void setSocket(GSocket* _socket);
+    GSocket* getSocket();
     //
     void onMajAsync();
     //
@@ -37,6 +40,7 @@ private:
     std::string m_data;
     //
     GThread* m_thread;
+    GSocket* m_socket;
 };
 //==============================================
 #endif

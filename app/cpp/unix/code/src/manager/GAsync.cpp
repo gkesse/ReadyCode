@@ -15,6 +15,7 @@ GAsync::GAsync() : GObject() {
     m_data = "";
     //
     m_thread = new GThread;
+    m_socket = 0;
 }
 //===============================================
 GAsync::~GAsync() {
@@ -53,6 +54,14 @@ void GAsync::setData(const std::string& _data) {
 //===============================================
 void GAsync::addData(const std::string& _data) {
     m_data += _data;
+}
+//===============================================
+void GAsync::setSocket(GSocket* _socket) {
+    m_socket = _socket;
+}
+//===============================================
+GSocket* GAsync::getSocket() {
+    return m_socket;
 }
 //===============================================
 void GAsync::onMajAsync() {
