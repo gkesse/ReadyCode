@@ -11,10 +11,13 @@ GRLIB = ../../incs
 GINCS =\
     -I$(GSRC)/manager \
 	-I/usr/include/libxml2 \
+	-I/usr/local/include \
     -I$(GRLIB)/include \
 	
 GLIBS =\
+    -L/usr/local/lib \
     -lxml2 -lmysqlcppconn \
+    -lPocoFoundation -lPocoNet  -lPocoNetSSL -lPocoUtil -lPocoXML \
 	
 GOBJS =\
     $(patsubst $(GSRC)/%.cpp, $(GBUILD)/%.o, $(wildcard $(GSRC)/*.cpp)) \
