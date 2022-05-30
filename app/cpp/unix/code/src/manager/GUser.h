@@ -11,7 +11,7 @@ public:
     GUser();
     ~GUser();
     //
-    std::string serialize(const std::string& _code = "request") const;
+    std::string serialize(const std::string& _code = "user") const;
     void deserialize(const std::string& _data, const std::string& _code = "user");
     //
     void onModule(GSocket* _client);
