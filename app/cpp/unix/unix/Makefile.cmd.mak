@@ -69,6 +69,8 @@ git_status:
 	@cd $(GPROJECT_PATH) && git status -u
 git_store:
 	@git config credential.helper store
+git_cmd:
+	@cd $(GPROJECT_PATH) && $(argv)
 #================================================    
 # server
 server_install: 
