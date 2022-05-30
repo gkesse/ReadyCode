@@ -72,6 +72,10 @@ int GString::toInt() const {
     return lData;
 }
 //===============================================
+bool GString::toBool() const {
+    return (toInt() == 1);
+}
+//===============================================
 GString& GString::operator+=(const GString& _data) {
     m_data += _data.m_data;
     return *this;

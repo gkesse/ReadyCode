@@ -20,6 +20,8 @@ public:
     void onCreateUser(GSocket* _client);
     void onRunConnection(GSocket* _client);
     //
+    bool runConnection();
+    //
     int getId() const;
     void loadId();
     void loadIdPassword();
@@ -36,6 +38,8 @@ private:
     std::string m_password;
     std::string m_group;
     std::string m_active;
+    std::string m_msg;
+    bool m_status;
 };
 //==============================================
 #endif

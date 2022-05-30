@@ -15,6 +15,8 @@ GUser::GUser() : GModule() {
     m_password = "";
     m_group = "";
     m_active = "";
+    m_msg = "";
+    m_status = false;
 }
 //===============================================
 GUser::~GUser() {
@@ -28,6 +30,8 @@ std::string GUser::serialize(const std::string& _code) const {
     lReq.createCode(_code, "password", m_password);
     lReq.createCode(_code, "group", m_group);
     lReq.createCode(_code, "active", m_active);
+    lReq.createCode(_code, "msg", m_msg);
+    lReq.createCode(_code, "status", m_status);
     return lReq.toStringCode(_code);
 }
 //===============================================
@@ -39,6 +43,8 @@ void GUser::deserialize(const std::string& _data, const std::string& _code) {
     m_password = lReq.getItem(_code, "password");
     m_group = lReq.getItem(_code, "group");
     m_active = lReq.getItem(_code, "active");
+    m_msg = lReq.getItem(_code, "msg");
+    m_status = GString(lReq.getItem(_code, "status")).toBool();
 }
 //===============================================
 void GUser::onModule(GSocket* _client) {
@@ -102,6 +108,14 @@ void GUser::onRunConnection(GSocket* _client) {
     loadUser();*/
     std::string lData = serialize();
     _client->addResponse(lData);
+}
+//===============================================
+bool GUser::runConnection() {
+    if(m_email == "") return false;
+    if(m_password == "") return false;
+    m_status = true;
+    m_msg = "Bonne connexion.";
+    return true;
 }
 //===============================================
 int GUser::getId() const {
