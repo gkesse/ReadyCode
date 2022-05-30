@@ -26,6 +26,7 @@ GUser::~GUser() {
 std::string GUser::serialize(const std::string& _code) const {
     GCode lReq;
     lReq.createCode(_code, "id", m_id);
+    lReq.createCode(_code, "email", m_email);
     lReq.createCode(_code, "pseudo", m_pseudo);
     lReq.createCode(_code, "password", m_password);
     lReq.createCode(_code, "group", m_group);
@@ -39,6 +40,7 @@ void GUser::deserialize(const std::string& _data, const std::string& _code) {
     GModule::deserialize(_data);
     GCode lReq(_data);
     m_id = GString(lReq.getItem(_code, "id")).toInt();
+    m_email = lReq.getItem(_code, "email");
     m_pseudo = lReq.getItem(_code, "pseudo");
     m_password = lReq.getItem(_code, "password");
     m_group = lReq.getItem(_code, "group");
