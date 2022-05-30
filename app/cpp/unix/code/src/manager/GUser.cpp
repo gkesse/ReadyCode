@@ -101,6 +101,7 @@ void GUser::onCreateUser(GSocket* _client) {
 }
 //===============================================
 void GUser::onRunConnection(GSocket* _client) {
+    runConnection();
     /*computePassword();
     loadId();
     saveData();
