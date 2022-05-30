@@ -11,6 +11,8 @@ class GModule : public GObject {
 public:
     GModule();
     virtual ~GModule();
+    std::string serialize(const std::string& _code = "request") const;
+    void deserialize(const std::string& _data, const std::string& _code = "request");
     //
     virtual void onXmlInvalid(GSocket* _client);
     virtual void onReqInvalid(GSocket* _client);
@@ -18,6 +20,10 @@ public:
     virtual void onMethodUnknown(GSocket* _client);
     //
     void sendResponse(GSocket* _client);
+
+protected:
+    std::string m_module;
+    std::string m_method;
 };
 //==============================================
 #endif

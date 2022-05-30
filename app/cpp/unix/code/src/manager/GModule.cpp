@@ -7,11 +7,25 @@
 #include "GXml.h"
 //===============================================
 GModule::GModule() : GObject() {
-
+    m_module = "";
+    m_method = "";
 }
 //===============================================
 GModule::~GModule() {
 
+}
+//===============================================
+std::string GModule::serialize(const std::string& _code) const {
+    GCode lReq;
+    lReq.createCode(_code, "module", m_module);
+    lReq.createCode(_code, "method", m_method);
+    return lReq.toStringCode(_code);
+}
+//===============================================
+void GModule::deserialize(const std::string& _data, const std::string& _code) {
+    GCode lReq(_data);
+    m_module = lReq.getItem(_code, "module");
+    m_method = lReq.getItem(_code, "method");
 }
 //===============================================
 void GModule::onXmlInvalid(GSocket* _client) {

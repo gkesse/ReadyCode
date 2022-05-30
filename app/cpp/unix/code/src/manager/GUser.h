@@ -9,16 +9,16 @@ class GSocket;
 class GUser : public GModule {
 public:
     GUser();
-    GUser(const std::string& _pseudo);
     ~GUser();
     //
-    std::string serialize() const;
-    void deserialize(const std::string& _req);
+    std::string serialize(const std::string& _code = "request") const;
+    void deserialize(const std::string& _data, const std::string& _code = "user");
     //
     void onModule(GSocket* _client);
     void onHasUser(GSocket* _client);
     void onHasUserPassword(GSocket* _client);
     void onCreateUser(GSocket* _client);
+    void onRunConnection(GSocket* _client);
     //
     int getId() const;
     void loadId();
@@ -31,6 +31,7 @@ public:
 
 private:
     int m_id;
+    std::string m_email;
     std::string m_pseudo;
     std::string m_password;
     std::string m_group;
