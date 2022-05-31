@@ -20,16 +20,11 @@ GMaster::~GMaster() {
 }
 //===============================================
 std::string GMaster::serialize(const std::string& _code) const {
-    GCode lReq;
-    lReq.createCode(_code, "module", m_module);
-    return lReq.toStringCode(_code);
+    return "";
 }
 //===============================================
 void GMaster::deserialize(const std::string& _data, const std::string& _code) {
     GModule::deserialize(_data);
-    GCode lReq(_data);
-    m_module = lReq.getItem(_code, "module");
-    m_method = lReq.getItem(_code, "method");
 }
 //===============================================
 void GMaster::onModule(GSocket* _client) {
