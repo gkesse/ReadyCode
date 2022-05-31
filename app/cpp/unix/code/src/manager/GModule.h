@@ -2,12 +2,12 @@
 #ifndef _GModule_
 #define _GModule_
 //===============================================
-#include "GObject.h"
+#include "GSession.h"
 //===============================================
 class GCode;
 class GSocket;
 //===============================================
-class GModule : public GObject {
+class GModule : public GSession {
 public:
     GModule();
     virtual ~GModule();

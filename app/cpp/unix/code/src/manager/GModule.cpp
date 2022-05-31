@@ -6,7 +6,7 @@
 #include "GSocket.h"
 #include "GXml.h"
 //===============================================
-GModule::GModule() : GObject() {
+GModule::GModule() : GSession() {
     m_module = "";
     m_method = "";
 }
@@ -23,6 +23,7 @@ std::string GModule::serialize(const std::string& _code) const {
 }
 //===============================================
 void GModule::deserialize(const std::string& _data, const std::string& _code) {
+    GSession::deserialize(_data);
     GCode lReq(_data);
     m_module = lReq.getItem(_code, "module");
     m_method = lReq.getItem(_code, "method");
@@ -30,22 +31,22 @@ void GModule::deserialize(const std::string& _data, const std::string& _code) {
 //===============================================
 void GModule::onXmlInvalid(GSocket* _client) {
     GERROR(eGERR, "Erreur le format XML est invalide.",
-            _client->getReq()->getModule().c_str());
+            m_module.c_str());
 }
 //===============================================
 void GModule::onReqInvalid(GSocket* _client) {
     GERROR(eGERR, "Erreur le format de la requete est invalide.",
-            _client->getReq()->getModule().c_str());
+            m_module.c_str());
 }
 //===============================================
 void GModule::onModuleUnknown(GSocket* _client) {
     GERROR(eGERR, "Erreur le module (%s) n'existe pas",
-            _client->getReq()->getModule().c_str());
+            m_module.c_str());
 }
 //===============================================
 void GModule::onMethodUnknown(GSocket* _client) {
     GERROR(eGERR, "Erreur la methode (%s : %s) n'existe pas",
-            _client->getReq()->getModule().c_str(), _client->getReq()->getMethod().c_str());
+            m_module.c_str(), m_method.c_str());
 }
 //===============================================
 void GModule::sendResponse(GSocket* _client) {

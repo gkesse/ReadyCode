@@ -12,7 +12,7 @@
 //===============================================
 GMaster::GMaster() : GModule() {
     m_validateXml = false;
-    m_validateReq = true;
+    m_validateReq = false;
 }
 //===============================================
 GMaster::~GMaster() {
@@ -65,25 +65,30 @@ void GMaster::onModule(GSocket* _client) {
         //===============================================
         // end
         //===============================================
-        GRequest().onSaveRequest(_client);
+        GRequest lRequest;
+        lRequest.onSaveRequest(_client);
         //===============================================
     }
 }
 //===============================================
 void GMaster::onModuleTest(GSocket* _client) {
-    GTest().onModule(_client);
+    GTest lTest;
+    lTest.onModule(_client);
 }
 //===============================================
 void GMaster::onModuleUser(GSocket* _client) {
-    GUser().onModule(_client);
+    GUser lUser;
+    lUser.onModule(_client);
 }
 //===============================================
 void GMaster::onModuleReq(GSocket* _client) {
-    GRequest().onModule(_client);
+    GRequest lRequest;
+    lRequest.onModule(_client);
 }
 //===============================================
 void GMaster::onModuleMaj(GSocket* _client) {
-    GMaj().onModule(_client);
+    GMaj lMaj;
+    lMaj.onModule(_client);
 }
 //===============================================
 void GMaster::validateXmlRequest(const std::string& _data) {

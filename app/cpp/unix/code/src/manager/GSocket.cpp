@@ -357,7 +357,8 @@ void* GSocket::onServerThread(GSocket* _client) {
     GSocket* lServer = lClient->m_server;
     std::queue<GSocket*>& lClientIns = lServer->m_clientIns;
 
-    GHost().saveHostname(lClient);
+    GHost lHost;
+    lHost.saveHostname(lClient);
 
     std::string lData;
     if(lClient->readData(lData) == -1) {
