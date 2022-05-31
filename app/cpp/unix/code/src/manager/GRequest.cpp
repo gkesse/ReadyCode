@@ -60,8 +60,6 @@ void GRequest::onSaveRequest(GSocket* _client) {
     loadId();
     saveData();
     loadId();
-    std::string lData = serialize();
-    _client->addResponse(lData);
 }
 //===============================================
 void GRequest::onGetRequestList(GSocket* _client) {

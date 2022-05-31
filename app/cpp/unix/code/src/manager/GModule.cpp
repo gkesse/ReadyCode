@@ -40,12 +40,12 @@ void GModule::onReqInvalid(GSocket* _client) {
 }
 //===============================================
 void GModule::onModuleUnknown(GSocket* _client) {
-    GERROR(eGERR, "Erreur le module (%s) n'existe pas",
+    GERROR(eGERR, "Erreur le module (%s) n'existe pas.",
             m_module.c_str());
 }
 //===============================================
 void GModule::onMethodUnknown(GSocket* _client) {
-    GERROR(eGERR, "Erreur la methode (%s : %s) n'existe pas",
+    GERROR(eGERR, "Erreur la methode (%s : %s) n'existe pas.",
             m_module.c_str(), m_method.c_str());
 }
 //===============================================
