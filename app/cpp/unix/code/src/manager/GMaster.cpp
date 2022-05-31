@@ -11,42 +11,54 @@
 #include "GMaj.h"
 //===============================================
 GMaster::GMaster() : GModule() {
-
+    m_validateXml = false;
+    m_validateReq = true;
 }
 //===============================================
 GMaster::~GMaster() {
 
 }
 //===============================================
+std::string GMaster::serialize(const std::string& _code) const {
+    GCode lReq;
+    lReq.createCode(_code, "module", m_module);
+    return lReq.toStringCode(_code);
+}
+//===============================================
+void GMaster::deserialize(const std::string& _data, const std::string& _code) {
+    GModule::deserialize(_data);
+    GCode lReq(_data);
+    m_module = lReq.getItem(_code, "module");
+    m_method = lReq.getItem(_code, "method");
+}
+//===============================================
 void GMaster::onModule(GSocket* _client) {
-    bool lValidXml = _client->getReq()->isValidXml();
-    bool lValidReq = _client->getReq()->isValidReq();
-    std::string lModule = _client->getReq()->getModule();
-    std::string lMethod = _client->getReq()->getMethod();
+    validateXmlRequest(_client->toReq());
+    deserialize(_client->toReq());
 
     //===============================================
     // valid
     //===============================================
-    if(!lValidXml) {
+    if(!m_validateXml) {
         onXmlInvalid(_client);
     }
-    else if(!lValidReq) {
+    else if(!m_validateReq) {
         onReqInvalid(_client);
     }
     else {
         //===============================================
         // module
         //===============================================
-        if(lModule == "test") {
+        if(m_module == "test") {
             onModuleTest(_client);
         }
-        else if(lModule == "user") {
+        else if(m_module == "user") {
             onModuleUser(_client);
         }
-        else if(lModule == "req") {
+        else if(m_module == "req") {
             onModuleReq(_client);
         }
-        else if(lModule == "maj") {
+        else if(m_module == "maj") {
             onModuleMaj(_client);
         }
         //===============================================
@@ -77,5 +89,11 @@ void GMaster::onModuleReq(GSocket* _client) {
 //===============================================
 void GMaster::onModuleMaj(GSocket* _client) {
     GMaj().onModule(_client);
+}
+//===============================================
+void GMaster::validateXmlRequest(const std::string& _data) {
+    GCode lReq(_data);
+    m_validateXml = lReq.isValidXml();
+    m_validateReq = lReq.isValidReq();
 }
 //===============================================

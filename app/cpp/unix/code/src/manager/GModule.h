@@ -11,8 +11,8 @@ class GModule : public GObject {
 public:
     GModule();
     virtual ~GModule();
-    std::string serialize(const std::string& _code = "request") const;
-    void deserialize(const std::string& _data, const std::string& _code = "request");
+    virtual std::string serialize(const std::string& _code = "request") const;
+    virtual void deserialize(const std::string& _data, const std::string& _code = "request");
     //
     virtual void onXmlInvalid(GSocket* _client);
     virtual void onReqInvalid(GSocket* _client);
