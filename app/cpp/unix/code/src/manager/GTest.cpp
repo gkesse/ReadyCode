@@ -378,7 +378,7 @@ void GTest::runStringClass(int _argc, char** _argv) {
     lData10 = 300;
     //
     lData11 = GString("quatre");
-    lData11 = GString(400);
+    lData12 = GString(400);
     //
     GLOGT(eGINF, GSTRC(lData01));
     GLOGT(eGINF, GSTRC(lData02));
