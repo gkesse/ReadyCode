@@ -136,7 +136,25 @@ GString operator+(const GString& _data1, const GString& _data2) {
     return lData;
 }
 //===============================================
-GString operator+(const char* _data1, int _data2) {
+GString operator+(const GString& _data1, const char* _data2) {
+    GString lData(_data1);
+    lData += _data2;
+    return lData;
+}
+//===============================================
+GString operator+(const char* _data1, const GString& _data2) {
+    GString lData(_data1);
+    lData += _data2;
+    return lData;
+}
+//===============================================
+GString operator+(const GString& _data1, int _data2) {
+    GString lData(_data1);
+    lData += _data2;
+    return lData;
+}
+//===============================================
+GString operator+(int _data1, const GString& _data2) {
     GString lData(_data1);
     lData += _data2;
     return lData;

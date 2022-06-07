@@ -32,8 +32,10 @@ public:
     GString& operator+=(int _data);
     //
     friend GString operator+(const GString& _data1, const GString& _data2);
-    friend GString operator+(const char* _data1, int _data2);
-    friend GString operator+(int _data1, const char* _data2);
+    friend GString operator+(const GString& _data1, const char* _data2);
+    friend GString operator+(const char* _data1, const GString& _data2);
+    friend GString operator+(const GString& _data1, int _data2);
+    friend GString operator+(int _data1, const GString& _data2);
     //
     friend std::ostream& operator<<(std::ostream& _os, const GString& _data);
 
