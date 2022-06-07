@@ -46,7 +46,9 @@ public:
     std::queue<std::string>& getDataIns();
     std::queue<GSocket*>& getClientIns();
     std::shared_ptr<GCode>& getResponse();
-    void addResponse(const std::string& _data);
+    void addResponse(const std::string& _data, bool _isRoot = true);
+    void addErrors();
+    void sendResponse();
     //
     std::string readAddressIp() const;
 

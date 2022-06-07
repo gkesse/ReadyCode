@@ -39,7 +39,7 @@ public:
     std::string getItem(const std::string& _code, const std::string& _key, int _index);
     int countItem(const std::string& _code);
     //
-    void loadCode(const std::string& _code);
+    void loadCode(const std::string& _code, bool _isRoot = true);
     //
     std::string toStringCode(const std::string& _code);
 };

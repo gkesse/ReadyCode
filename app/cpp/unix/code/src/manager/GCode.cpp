@@ -198,7 +198,7 @@ int GCode::countItem(const std::string& _code) {
     return lData;
 }
 //===============================================
-void GCode::loadCode(const std::string& _code) {
+void GCode::loadCode(const std::string& _code, bool _isRoot) {
     if(_code == "") return;
     createCode();
     getNodeXPath();

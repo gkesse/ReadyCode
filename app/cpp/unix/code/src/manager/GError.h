@@ -9,6 +9,8 @@ public:
     GError();
     ~GError();
     //
+    std::string deserialize(const std::string& _code = "errors");
+    //
     void addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _error);
     void addError(const char* _name, int _level, const char* _file, int _line, const char* _func, GError& _error);
     std::string toString() const;

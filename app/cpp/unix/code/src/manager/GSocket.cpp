@@ -420,9 +420,33 @@ std::shared_ptr<GCode>& GSocket::getResponse(){
     return m_res;
 }
 //===============================================
-void GSocket::addResponse(const std::string& _data) {
+void GSocket::addResponse(const std::string& _data, bool _isRoot) {
     if(_data == "") return;
-    m_res->loadCode(_data);
+    m_res->loadCode(_data, _isRoot);
+}
+//===============================================
+void GSocket::addErrors() {
+    GLog* lLog = GLOGI;
+    if(GLOGI->hasErrors()) {
+        std::vector<std::string>& lErrors = GLOGI->getErrors();
+        for(int i = 0; i < lErrors.size(); i++) {
+            std::string lError = lErrors.at(i);
+            lRes->createMap("error", lError, i);
+        }
+        GLOGI->clearErrors();
+    }
+    else if(!lRes->hasCode()) {
+        lRes->createCode("result", "msg", "ok");
+    }
+}
+//===============================================
+void GSocket::sendResponse() {
+    std::string lData = m_res->toString();
+    int lSize = lData.size();
+    writeData(lData);
+    GLOGT(eGMSG, "[EMISSION]...: (%d)\n(%s)\n", lSize, lData.c_str());
+    closeSocket();
+    delete this;
 }
 //===============================================
 std::string GSocket::readAddressIp() const {

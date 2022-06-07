@@ -82,6 +82,9 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "xml/check") {
         runXmlCheck(_argc, _argv);
     }
+    else if(lKey == "xml/map") {
+        runXmlMap(_argc, _argv);
+    }
     //===============================================
     // socket
     //===============================================
@@ -377,6 +380,11 @@ void GTest::runXmlCheck(int _argc, char** _argv) {
     m_dom.reset(new GXml);
     m_dom->loadXml("Bonjour tout le monde", false);
     GLOGT(eGINF, "isValid : %s\n", GSTRC(m_dom->isValidXml()).c_str());
+}
+//===============================================
+void GTest::runXmlMap(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+
 }
 //===============================================
 void GTest::runSocketServer(int _argc, char** _argv) {

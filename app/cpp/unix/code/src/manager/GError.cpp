@@ -11,6 +11,11 @@ GError::~GError() {
 
 }
 //===============================================
+std::string GError::deserialize(const std::string& _code = "errors") {
+    GCode lDom;
+    return lDom.toStringCode(_code);
+}
+//===============================================
 void GError::addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _error) {
     GLOGI->traceLog(_name, _level, _file, _line, _func, _error);
     m_errors.push_back(_error);

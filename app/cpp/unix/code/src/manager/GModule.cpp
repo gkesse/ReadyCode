@@ -64,12 +64,5 @@ void GModule::sendResponse(GSocket* _client) {
     else if(!lRes->hasCode()) {
         lRes->createCode("result", "msg", "ok");
     }
-
-    lClient->writeData(lRes->toString());
-
-    GLOGT(eGMSG, "[EMISSION]...: (%d)\n(%s)\n", (int)lRes->toString().size(), lRes->toString().c_str());
-
-    lClient->closeSocket();
-    delete lClient;
 }
 //===============================================

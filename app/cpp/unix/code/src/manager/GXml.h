@@ -17,7 +17,7 @@ public:
     void loadXml();
     void loadXml(const std::string& _data, bool _isFile);
     GXml& loadXmlData(const std::string& _data);
-    GXml& loadNodeData(const std::string& _data);
+    GXml& loadNodeData(const std::string& _data, bool _isRoot = true);
     GXml& saveXmlFile(const std::string& _filename = "", const std::string& _encoding = "UTF-8", int _format = 4);
     bool isValidXml() const;
     //

@@ -90,10 +90,11 @@ GXml& GXml::loadXmlData(const std::string& _data) {
     return *this;
 }
 //===============================================
-GXml& GXml::loadNodeData(const std::string& _data) {
+GXml& GXml::loadNodeData(const std::string& _data, bool _isRoot) {
     if(!m_node) return *this;
     xmlNodePtr lNewNode;
-    std::string lData = "<rdv>" + _data + "</rdv>";
+    std::string lData = _data;
+    if(_isRoot) lData = "<rdv>" + _data + "</rdv>";
     xmlParseInNodeContext(m_node, lData.c_str(), lData.size(), 0, &lNewNode);
     xmlNodePtr lNode = lNewNode->children;
     while(lNode) {
