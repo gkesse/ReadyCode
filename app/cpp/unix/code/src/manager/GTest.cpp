@@ -61,6 +61,9 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "string/int") {
         runStringInt(_argc, _argv);
     }
+    else if(lKey == "string/class") {
+        runStringClass(_argc, _argv);
+    }
     //===============================================
     // path
     //===============================================
