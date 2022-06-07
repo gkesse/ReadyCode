@@ -385,8 +385,8 @@ void GTest::runStringClass(int _argc, char** _argv) {
     lData13 += "cinq";
     lData14 += 500;
     //
-    lData15 = "six + " + 600;
-    lData16 = 600 + " six";
+    lData15 = "six + " + GString(600);
+    lData16 = GString(600) + " six";
     //
     GLOGT(eGINF, GSTRC(lData01));
     GLOGT(eGINF, GSTRC(lData02));
