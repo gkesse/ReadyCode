@@ -191,6 +191,10 @@ std::string GXml::getNodeValue(const std::string& _xpath) {
     return lData;
 }
 //===============================================
+void GXml::createXNode(const std::string& _path) {
+
+}
+//===============================================
 GXml& GXml::createNode(const std::string& _nodename) {
     m_node = xmlNewNode(NULL, BAD_CAST(_nodename.c_str()));
     if(!m_node) {

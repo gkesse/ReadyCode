@@ -76,6 +76,21 @@ bool GString::toBool() const {
     return (toInt() == 1);
 }
 //===============================================
+GString& GString::operator=(const GString& _data) {
+    m_data = _data.m_data;
+    return *this;
+}
+//===============================================
+GString& GString::operator=(const std::string& _data) {
+    m_data = _data;
+    return *this;
+}
+//===============================================
+GString& GString::operator=(int _data) {
+    m_data = std::to_string(_data);
+    return *this;
+}
+//===============================================
 GString& GString::operator+=(const GString& _data) {
     m_data += _data.m_data;
     return *this;

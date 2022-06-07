@@ -356,6 +356,12 @@ void GTest::runStringInt(int _argc, char** _argv) {
     GLOGT(eGINF, "%d", std::stoi(lBuffer));
 }
 //===============================================
+void GTest::runStringClass(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    GString lData1("un");
+    GString lData2 = "un";
+}
+//===============================================
 void GTest::runPath(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     std::string lPath = GRES("xml", "pad.xml");
