@@ -361,25 +361,31 @@ void GTest::runStringInt(int _argc, char** _argv) {
 //===============================================
 void GTest::runStringClass(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
-    GString lData1("un");
-    GString lData2 = "deux";
-    GString lData3(100);
-    GString lData4 = 200;
-    GString lData5 = lData1;
-    GString lData6 = lData3;
-    GString lData7, lData8;
+    GString lData01("un");
+    GString lData02 = "deux";
+    GString lData03(100);
+    GString lData04 = 200;
+    GString lData05 = lData01;
+    GString lData06 = lData03;
+    GString lData07, lData08;
+    GString lData09, lData10;
     //
-    lData7 = lData2;
-    lData8 = lData4;
+    lData07 = lData02;
+    lData08 = lData04;
     //
-    GLOGT(eGINF, GSTRC(lData1));
-    GLOGT(eGINF, GSTRC(lData2));
-    GLOGT(eGINF, GSTRC(lData3));
-    GLOGT(eGINF, GSTRC(lData4));
-    GLOGT(eGINF, GSTRC(lData5));
-    GLOGT(eGINF, GSTRC(lData6));
-    GLOGT(eGINF, GSTRC(lData7));
-    GLOGT(eGINF, GSTRC(lData8));
+    lData09 = "trois";
+    lData10 = 300;
+    //
+    GLOGT(eGINF, GSTRC(lData01));
+    GLOGT(eGINF, GSTRC(lData02));
+    GLOGT(eGINF, GSTRC(lData03));
+    GLOGT(eGINF, GSTRC(lData04));
+    GLOGT(eGINF, GSTRC(lData05));
+    GLOGT(eGINF, GSTRC(lData06));
+    GLOGT(eGINF, GSTRC(lData07));
+    GLOGT(eGINF, GSTRC(lData08));
+    GLOGT(eGINF, GSTRC(lData09));
+    GLOGT(eGINF, GSTRC(lData10));
 }
 //===============================================
 void GTest::runPath(int _argc, char** _argv) {
