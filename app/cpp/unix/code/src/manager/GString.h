@@ -28,6 +28,8 @@ public:
     //
     GString& operator+=(const GString& _data);
     GString& operator+=(const std::string& _data);
+    GString& operator+=(const char* _data);
+    GString& operator+=(int _data);
     //
     friend GString operator+(const GString& _data1, const GString& _data2);
     //

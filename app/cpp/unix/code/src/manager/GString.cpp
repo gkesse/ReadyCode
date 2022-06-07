@@ -120,6 +120,16 @@ GString& GString::operator+=(const std::string& _data) {
     return *this;
 }
 //===============================================
+GString& GString::operator+=(const char* _data) {
+    m_data += _data;
+    return *this;
+}
+//===============================================
+GString& GString::operator+=(int _data) {
+    m_data += std::to_string(_data);
+    return *this;
+}
+//===============================================
 GString operator+(const GString& _data1, const GString& _data2) {
     GString lData(_data1);
     lData += _data2;
