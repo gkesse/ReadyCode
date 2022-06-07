@@ -384,7 +384,10 @@ void GTest::runXmlCheck(int _argc, char** _argv) {
 //===============================================
 void GTest::runXmlMap(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
-
+    GCode lDom;
+    lDom.createReq("sitemap", "get_enum");
+    std::string lData = lDom.toString();
+    GLOGT(eGMSG, lData.c_str());
 }
 //===============================================
 void GTest::runSocketServer(int _argc, char** _argv) {
