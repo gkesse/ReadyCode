@@ -17,7 +17,7 @@ public:
     const char* c_str() const;
     //
     std::vector<std::string> splitData(char _sep) const;
-    GString trimData() const;
+    std::string trimData() const;
     int toInt() const;
     bool toBool() const;
     //

@@ -31,7 +31,7 @@ public:
     std::string getNodeValue() const;
     std::string getNodeValue(const std::string& _xpath);
     //
-    void createXNode(const GString& _path);
+    bool createXNode(const GString& _path);
     GXml& createNode(const std::string& _nodename);
     GXml& createNodeValue(const std::string& _nodename, const std::string& _value);
     GXml& createNodePath(const std::string& _path, const std::string& _value = "");

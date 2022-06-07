@@ -437,12 +437,16 @@ void GTest::runXmlMap(int _argc, char** _argv) {
     GCode lDom;
     lDom.createRequest("sitemap", "get_enum");
     std::string lData = lDom.toString();
-
-    GString lData02 = "   Bonjour   ";
-
     GLOGT(eGMSG, lData.c_str());
-    GLOGT(eGMSG, "(%s)", lData02.c_str());
-    GLOGT(eGMSG, "(%s)", lData02.trimData().c_str());
+
+    std::string lPath = "   /rdv/datas/data   ";
+    char lChar;
+
+    GLOGT(eGMSG, "(%s)", lPath.c_str());
+    lPath = GString(lPath).trimData();
+    GLOGT(eGMSG, "(%s)", lPath.c_str());
+    lChar = lPath[0];
+    GLOGT(eGMSG, "(%c)", lChar);
 }
 //===============================================
 void GTest::runSocketServer(int _argc, char** _argv) {

@@ -56,7 +56,7 @@ std::vector<std::string> GString::splitData(char _sep) const {
     return lDataOut;
 }
 //===============================================
-GString GString::trimData() const {
+std::string GString::trimData() const {
     std::string lData = m_data;
     lData.erase(lData.find_last_not_of(' ') + 1);
     lData.erase(0, lData.find_first_not_of(' '));
@@ -64,7 +64,7 @@ GString GString::trimData() const {
 }
 //===============================================
 int GString::toInt() const {
-    std::string lDataTrim = trimData().data();
+    std::string lDataTrim = trimData();
     int lData = 0;
     if(lDataTrim == "") return 0;
     try {

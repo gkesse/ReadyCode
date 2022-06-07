@@ -191,8 +191,10 @@ std::string GXml::getNodeValue(const std::string& _xpath) {
     return lData;
 }
 //===============================================
-void GXml::createXNode(const GString& _path) {
-    GString lPath = _path.trimData();
+bool GXml::createXNode(const GString& _path) {
+    std::string lPath = _path.trimData();
+    if(lPath == "") return false;
+    return true;
 }
 //===============================================
 GXml& GXml::createNode(const std::string& _nodename) {
@@ -227,7 +229,7 @@ GXml& GXml::createNodePath(const std::string& _path, const std::string& _value) 
     std::vector<std::string> lPaths = GString(_path).splitData('/');
     std::string lName = "";
     for(int i = 0; i < lPaths.size(); i++) {
-        std::string lPath = GString(lPaths.at(i)).trimData().data();
+        std::string lPath = GString(lPaths.at(i)).trimData();
         if(lPath == "") continue;
         lName += "/" + lPath;
         int lCount = queryXPath(lName).countXPath();
