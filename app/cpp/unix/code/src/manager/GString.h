@@ -27,7 +27,10 @@ public:
     GString& operator=(int _data);
     //
     GString& operator+=(const GString& _data);
+    GString& operator+=(const std::string& _data);
+    //
     friend GString operator+(const GString& _data1, const GString& _data2);
+    //
     friend std::ostream& operator<<(std::ostream& _os, const GString& _data);
 
 private:

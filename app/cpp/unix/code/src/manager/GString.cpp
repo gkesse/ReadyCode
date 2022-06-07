@@ -115,6 +115,11 @@ GString& GString::operator+=(const GString& _data) {
     return *this;
 }
 //===============================================
+GString& GString::operator+=(const std::string& _data) {
+    m_data += _data;
+    return *this;
+}
+//===============================================
 GString operator+(const GString& _data1, const GString& _data2) {
     GString lData(_data1);
     lData += _data2;
