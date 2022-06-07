@@ -100,6 +100,11 @@ GString& GString::operator=(const std::string& _data) {
     return *this;
 }
 //===============================================
+GString& GString::operator=(const char* _data) {
+    m_data = _data;
+    return *this;
+}
+//===============================================
 GString& GString::operator=(int _data) {
     m_data = std::to_string(_data);
     return *this;
