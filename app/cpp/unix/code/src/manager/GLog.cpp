@@ -8,6 +8,7 @@
 #include "GPath.h"
 #include "GShell.h"
 #include "GError.h"
+#include "GString.h"
 //===============================================
 GLog* GLog::m_instance = 0;
 //===============================================
@@ -175,6 +176,11 @@ void GLog::traceLog(const char* _name, int _level, const char* _file, int _line,
 std::string GLog::toString(bool _data) const {
     if(_data) return "true";
     return "false";
+}
+//===============================================
+const char* GLog::toString(const GString& _data) const {
+    const char* lData = _data.c;
+    return lData;
 }
 //===============================================
 std::string GLog::toString(const std::vector<std::string>& _data) const {

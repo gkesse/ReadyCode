@@ -16,6 +16,12 @@ GString::GString(const std::string& _data) : GObject() {
     m_errors.reset(new GError);
 }
 //===============================================
+GString::GString(const char* _data) : GObject() {
+    m_data = _data;
+    // errors
+    m_errors.reset(new GError);
+}
+//===============================================
 GString::GString(int _data) : GObject(){
     m_data = std::to_string(_data);
     // errors
@@ -30,6 +36,14 @@ GString::GString(const GString& _data) : GObject() {
 //===============================================
 GString::~GString() {
 
+}
+//===============================================
+std::string GString::data() const {
+    return m_data;
+}
+//===============================================
+const char* GString::c_str() const {
+    return m_data.c_str();
 }
 //===============================================
 std::vector<std::string> GString::splitData(char _sep) const {

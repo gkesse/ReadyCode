@@ -8,9 +8,13 @@ class GString : public GObject {
 public:
     GString();
     GString(const std::string& _data);
+    GString(const char* _data);
     GString(int _data);
     GString(const GString& _data);
     ~GString();
+    //
+    std::string data() const;
+    const char* c_str() const;
     //
     std::vector<std::string> splitData(char _sep) const;
     std::string trimData() const;

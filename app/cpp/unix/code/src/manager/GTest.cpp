@@ -359,7 +359,24 @@ void GTest::runStringInt(int _argc, char** _argv) {
 void GTest::runStringClass(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GString lData1("un");
-    GString lData2 = "un";
+    GString lData2 = "deux";
+    GString lData3(100);
+    GString lData4 = 200;
+    GString lData5 = lData1;
+    GString lData6 = lData3;
+    GString lData7, lData8;
+    //
+    lData7 = lData2;
+    lData8 = lData4;
+    //
+    GLOGT(eGINF, GSTRC(lData1));
+    GLOGT(eGINF, GSTRC(lData2));
+    GLOGT(eGINF, GSTRC(lData3));
+    GLOGT(eGINF, GSTRC(lData4));
+    GLOGT(eGINF, GSTRC(lData5));
+    GLOGT(eGINF, GSTRC(lData6));
+    GLOGT(eGINF, GSTRC(lData7));
+    GLOGT(eGINF, GSTRC(lData8));
 }
 //===============================================
 void GTest::runPath(int _argc, char** _argv) {
