@@ -11,7 +11,7 @@ GError::~GError() {
 
 }
 //===============================================
-std::string GError::deserialize(const std::string& _code = "errors") {
+std::string GError::deserialize(const std::string& _code) const {
     GCode lDom;
     return lDom.toStringCode(_code);
 }
