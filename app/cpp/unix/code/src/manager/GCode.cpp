@@ -19,7 +19,7 @@ GCode::~GCode() {
 
 }
 //===============================================
-void GCode::createReq(const std::string& _module, const std::string& _method) {
+void GCode::createRequest(const std::string& _module, const std::string& _method) {
     createCode("request", "module", _module);
     createCode("request", "method", _method);
 }

@@ -386,7 +386,7 @@ void GTest::runStringClass(int _argc, char** _argv) {
     lData14 += 500;
     //
     lData15 = "six + " + GString(600);
-    lData16 = GString(600) + " six";
+    lData16 = GString(600) + " + six";
     //
     GLOGT(eGINF, GSTRC(lData01));
     GLOGT(eGINF, GSTRC(lData02));
@@ -435,9 +435,14 @@ void GTest::runXmlCheck(int _argc, char** _argv) {
 void GTest::runXmlMap(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GCode lDom;
-    lDom.createReq("sitemap", "get_enum");
+    lDom.createRequest("sitemap", "get_enum");
     std::string lData = lDom.toString();
+
+    GString lData02 = "   Bonjour   ";
+
     GLOGT(eGMSG, lData.c_str());
+    GLOGT(eGMSG, "(%s)", lData02.c_str());
+    GLOGT(eGMSG, "(%s)", lData02.trimData().c_str());
 }
 //===============================================
 void GTest::runSocketServer(int _argc, char** _argv) {
@@ -649,7 +654,7 @@ void GTest::runRequestSend(int _argc, char** _argv) {
     GLOGT(eGMSG, "");
     GCode lReq;
     GSocket lClient;
-    lReq.createReq("test", "request_send");
+    lReq.createRequest("test", "request_send");
     std::string lResponse = lClient.callServer(lReq.toString());
     GLOGT(eGINF, "%s", lReq.toString().c_str());
     GLOGT(eGINF, "%s", lResponse.c_str());
@@ -659,7 +664,7 @@ void GTest::runRequestSaveUser(int _argc, char** _argv) {
     GLOGT(eGMSG, "");
     GCode lReq;
     GSocket lClient;
-    lReq.createReq("test", "save_user");
+    lReq.createRequest("test", "save_user");
     lReq.createCode("parameters", "firstname", "Gerard");
     lReq.createCode("parameters", "lastname", "KESSE");
     std::string lResponse = lClient.callServer(lReq.toString());
@@ -672,7 +677,7 @@ void GTest::runRequestGetUser(int _argc, char** _argv) {
     GLOGT(eGMSG, "");
     GCode lReq;
     GSocket lClient;
-    lReq.createReq("test", "get_user");
+    lReq.createRequest("test", "get_user");
     std::string lResponse = lClient.callServer(lReq.toString());
     GERROR_LOAD(eGERR, lResponse);
     GCode lRes(lResponse);
@@ -690,7 +695,7 @@ void GTest::runRequestError(int _argc, char** _argv) {
     GLOGT(eGMSG, "");
     GCode lReq;
     GSocket lClient;
-    lReq.createReq("test", "error");
+    lReq.createRequest("test", "error");
     std::string lResponse = lClient.callServer(lReq.toString());
     GERROR_LOAD(eGERR, lResponse);
     GLOGT(eGINF, "[EMISSION]...: (%d)\n(%s)\n", (int)lReq.toString().size(), lReq.toString().c_str());
