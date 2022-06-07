@@ -426,18 +426,7 @@ void GSocket::addResponse(const std::string& _data, bool _isRoot) {
 }
 //===============================================
 void GSocket::addErrors() {
-    GLog* lLog = GLOGI;
-    if(GLOGI->hasErrors()) {
-        std::vector<std::string>& lErrors = GLOGI->getErrors();
-        for(int i = 0; i < lErrors.size(); i++) {
-            std::string lError = lErrors.at(i);
-            lRes->createMap("error", lError, i);
-        }
-        GLOGI->clearErrors();
-    }
-    else if(!lRes->hasCode()) {
-        lRes->createCode("result", "msg", "ok");
-    }
+
 }
 //===============================================
 void GSocket::sendResponse() {
