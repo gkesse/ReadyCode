@@ -426,7 +426,10 @@ void GSocket::addResponse(const std::string& _data, bool _isRoot) {
 }
 //===============================================
 void GSocket::addErrors() {
-
+    GCode lDom;
+    lDom.createReq("sitemap", "get_enum");
+    std::string lData = lDom.toString();
+    GLOGT(eGMSG, lData.c_str());
 }
 //===============================================
 void GSocket::sendResponse() {
