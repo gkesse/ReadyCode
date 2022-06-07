@@ -369,12 +369,16 @@ void GTest::runStringClass(int _argc, char** _argv) {
     GString lData06 = lData03;
     GString lData07, lData08;
     GString lData09, lData10;
+    GString lData11, lData12;
     //
     lData07 = lData02;
     lData08 = lData04;
     //
     lData09 = "trois";
     lData10 = 300;
+    //
+    lData11 = GString("quatre");
+    lData11 = GString(400);
     //
     GLOGT(eGINF, GSTRC(lData01));
     GLOGT(eGINF, GSTRC(lData02));
@@ -386,6 +390,8 @@ void GTest::runStringClass(int _argc, char** _argv) {
     GLOGT(eGINF, GSTRC(lData08));
     GLOGT(eGINF, GSTRC(lData09));
     GLOGT(eGINF, GSTRC(lData10));
+    GLOGT(eGINF, GSTRC(lData11));
+    GLOGT(eGINF, GSTRC(lData12));
 }
 //===============================================
 void GTest::runPath(int _argc, char** _argv) {
