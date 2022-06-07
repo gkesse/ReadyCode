@@ -227,7 +227,7 @@ GXml& GXml::createNodePath(const std::string& _path, const std::string& _value) 
     std::vector<std::string> lPaths = GString(_path).splitData('/');
     std::string lName = "";
     for(int i = 0; i < lPaths.size(); i++) {
-        std::string lPath = GString(lPaths.at(i)).trimData();
+        std::string lPath = GString(lPaths.at(i)).trimData().data();
         if(lPath == "") continue;
         lName += "/" + lPath;
         int lCount = queryXPath(lName).countXPath();
