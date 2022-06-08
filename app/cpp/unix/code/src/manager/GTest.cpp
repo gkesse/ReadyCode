@@ -654,8 +654,8 @@ void GTest::runRequest(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GXml lReq;
     lReq.createDoc();
-    lReq.createNodePath("/rdv/module", "hostname");
-    lReq.createNodePath("/rdv/method", "save_hostname");
+    lReq.createXNode("/rdv/module", "hostname");
+    lReq.createXNode("/rdv/method", "save_hostname");
     GLOGT(eGINF, "%s", lReq.toString().c_str());
 }
 //===============================================

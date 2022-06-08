@@ -133,10 +133,10 @@ int GCode::countItem(const std::string& _code) {
     return lData;
 }
 //===============================================
-bool GCode::loadCode(const std::string& _data) {
+bool GCode::loadCode(const std::string& _data, bool _isRoot) {
     if(_data == "") return false;
     createXNode("/rdv/datas");
-    loadNode(_data);
+    loadNode(_data, _isRoot);
     return true;
 }
 //===============================================
