@@ -62,7 +62,7 @@ void GMaj::onUpdateDatabaseThread(void* _params) {
     std::string lPath = GRES("mysql", "maj");
     std::vector<std::string> lFiles = GDir().openDir(lPath, false, false);
 
-    GLOGT(eGMSG, "%s\n", GSTRC(lFiles).c_str());
+    GLOGT(eGMSG, "%s\n", GSTRC(lFiles));
 
     for(int i = 0; i < (int)lFiles.size(); i++) {
         std::string lFile = lFiles.at(i);

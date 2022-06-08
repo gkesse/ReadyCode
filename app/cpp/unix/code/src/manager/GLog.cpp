@@ -173,7 +173,7 @@ void GLog::traceLog(const char* _name, int _level, const char* _file, int _line,
     closeLogFile();
 }
 //===============================================
-std::string GLog::toString(bool _data) const {
+const char* GLog::toString(bool _data) const {
     if(_data) return "true";
     return "false";
 }
@@ -182,7 +182,7 @@ const char* GLog::toString(const GString& _data) const {
     return _data.c_str();
 }
 //===============================================
-std::string GLog::toString(const std::vector<std::string>& _data) const {
+const char* GLog::toString(const std::vector<std::string>& _data) const {
     std::string lData = "";
     for(size_t i = 0; i < _data.size(); i++) {
         if(i != 0) lData += "\n";
@@ -191,7 +191,7 @@ std::string GLog::toString(const std::vector<std::string>& _data) const {
     return lData;
 }
 //===============================================
-std::string GLog::toString(const std::vector<std::vector<std::string>>& _data) const {
+const char* GLog::toString(const std::vector<std::vector<std::string>>& _data) const {
     std::string lData = "";
     for(size_t i = 0; i < _data.size(); i++) {
         if(i != 0) lData += "\n";
@@ -201,6 +201,6 @@ std::string GLog::toString(const std::vector<std::vector<std::string>>& _data) c
             lData += lDataRow.at((int)j);
         }
     }
-    return lData;
+    return lData.c_str();
 }
 //===============================================
