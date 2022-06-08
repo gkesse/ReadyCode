@@ -26,18 +26,10 @@ public:
     GXml& createDoc();
     GXml& createRoot();
     //
-    GXml& getRoot();
-    GXml& getNode(const std::string& _nodename);
     std::string getNodeValue() const;
-    std::string getNodeValue(const std::string& _xpath);
     //
-    bool createXNode(const GString& _path);
-    GXml& createNode(const std::string& _nodename);
-    GXml& createNodeValue(const std::string& _nodename, const std::string& _value);
-    GXml& createNodePath(const std::string& _path, const std::string& _value = "");
-    GXml& createCData(GXml& _xml, const std::string& _value);
-    GXml& setNodeValue(const std::string& _value);
-    GXml& setNodeValue(const std::string& _key, const std::string& _value);
+    bool createXNode(const GString& _path, const std::string& _value = "", bool _isCData = false, bool _isGet = true);
+    bool setNodeValue(const std::string& _value, bool _isCData);
     GXml& appendNode(GXml& _xml);
     GXml& appendNode(const std::string& _nodename);
     GXml& appendNode(const std::string& _nodename, const std::string& _value);
@@ -49,6 +41,7 @@ public:
     //
     GXml& createXPath();
     GXml& queryXPath(const std::string& _query);
+    void getXPath(const std::string& _path);
     int countXPath() const;
     GXml& getNodeXPath();
     GXml& getNodeItem(int _index);
@@ -62,11 +55,15 @@ public:
     //
     GXml& setAttribute(const std::string& _key, const std::string& _value);
     //
+    void saveNode();
+    void restoreNode();
+    //
     std::string toString(const std::string& _encoding = "UTF8", int _format = 4) const;
     std::string toStringNode(const std::string& _encoding = "UTF8", int _format = 4) const;
 
 private:
     xmlNodePtr m_node;
+    std::stack<xmlNodePtr> m_nodeCopy;
     xmlDocPtr m_doc;
     xmlXPathContextPtr m_xpath;
     xmlXPathObjectPtr m_xpathObj;
