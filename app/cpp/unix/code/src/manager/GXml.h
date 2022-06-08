@@ -28,8 +28,8 @@ public:
     //
     std::string getNodeValue() const;
     //
-    bool createNode(const GString& _path);
-    bool createXNode(const GString& _path, const std::string& _value = "", bool _isCData = false, bool _isGet = true);
+    bool createNode(const std::string& _path);
+    bool createXNode(const std::string& _path, const std::string& _value = "", bool _isCData = false, bool _isGet = true);
     bool setNodeValue(const std::string& _value, bool _isCData);
     bool appendNode(const std::string& _nodename, const std::string& _value = "", bool _isCData = false);
     GXml& replaceNode(GXml& _xml);
