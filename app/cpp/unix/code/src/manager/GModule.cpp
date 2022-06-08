@@ -17,8 +17,8 @@ GModule::~GModule() {
 //===============================================
 std::string GModule::serialize(const std::string& _code) const {
     GCode lReq;
-    lReq.createCode(_code, "module", m_module);
-    lReq.createCode(_code, "method", m_method);
+    lReq.addData(_code, "module", m_module);
+    lReq.addData(_code, "method", m_method);
     return lReq.toStringCode(_code);
 }
 //===============================================
@@ -50,19 +50,6 @@ void GModule::onMethodUnknown(GSocket* _client) {
 }
 //===============================================
 void GModule::sendResponse(GSocket* _client) {
-    GSocket* lClient = _client;
-    std::shared_ptr<GCode>& lRes = lClient->getResponse();
 
-    if(GLOGI->hasErrors()) {
-        std::vector<std::string>& lErrors = GLOGI->getErrors();
-        for(int i = 0; i < lErrors.size(); i++) {
-            std::string lError = lErrors.at(i);
-            lRes->createMap("error", lError, i);
-        }
-        GLOGI->clearErrors();
-    }
-    else if(!lRes->hasCode()) {
-        lRes->createCode("result", "msg", "ok");
-    }
 }
 //===============================================

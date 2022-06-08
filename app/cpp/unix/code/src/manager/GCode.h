@@ -24,14 +24,10 @@ public:
     bool hasCode(const std::string& _code, int _index);
     bool hasCode(const std::string& _code, const std::string& _key, int _index);
     bool hasMap(const std::string& _code);
-    void createCode();
-    void createCode(const std::string& _code);
-    void createCode(const std::string& _code, const std::string& _key, const std::string& _value, bool _isCData = false);
+    bool createCode(const std::string& _code);
+    bool addData(const std::string& _code, const std::string& _key, const std::string& _value, bool _isCData = false);
+    bool getCode(const std::string& _code);
     void createCode(const std::string& _code, const std::string& _key, const int _value, bool _isCData = false);
-    void createMap(const std::string& _code, const std::string& _key, int _value, int _index, bool _isCData = false);
-    void createMap(const std::string& _code, int _value, int _index, bool _isCData = false);
-    void createMap(const std::string& _code, const std::string& _value, int _index, bool _isCData = false);
-    void createMap(const std::string& _code, const std::string& _key, const std::string& _value, int _index, bool _isCData = false);
     //
     void getCodeNode(const std::string& _code);
     //
@@ -39,7 +35,7 @@ public:
     std::string getItem(const std::string& _code, const std::string& _key, int _index);
     int countItem(const std::string& _code);
     //
-    void loadCode(const std::string& _code, bool _isRoot = true);
+    bool loadCode(const std::string& _data);
     //
     std::string toStringCode(const std::string& _code);
 };

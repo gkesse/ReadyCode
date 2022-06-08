@@ -674,8 +674,8 @@ void GTest::runRequestSaveUser(int _argc, char** _argv) {
     GCode lReq;
     GSocket lClient;
     lReq.createRequest("test", "save_user");
-    lReq.createCode("parameters", "firstname", "Gerard");
-    lReq.createCode("parameters", "lastname", "KESSE");
+    lReq.addData("parameters", "firstname", "Gerard");
+    lReq.addData("parameters", "lastname", "KESSE");
     std::string lResponse = lClient.callServer(lReq.toString());
     GERROR_LOAD(eGERR, lResponse);
     GLOGT(eGINF, "[EMISSION]...: (%d)\n(%s)\n", (int)lReq.toString().size(), lReq.toString().c_str());
@@ -714,12 +714,12 @@ void GTest::runRequestError(int _argc, char** _argv) {
 void GTest::runResponse(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GCode lRes;
-    lRes.createCode("request", "module", "test");
-    lRes.createCode("request", "method", "save_user");
-    lRes.createCode("request", "method", "do_user");
-    lRes.createCode("result", "msg", "ok");
-    lRes.createCode("opencv", "version", "4.0");
-    lRes.createCode("opencv", "version", "5.0");
+    lRes.addData("request", "module", "test");
+    lRes.addData("request", "method", "save_user");
+    lRes.addData("request", "method", "do_user");
+    lRes.addData("result", "msg", "ok");
+    lRes.addData("opencv", "version", "4.0");
+    lRes.addData("opencv", "version", "5.0");
     lRes.createMap("error", "msg", "le chemin est incorrect", 0);
     lRes.createMap("error", "code", "1111", 0);
     lRes.createMap("error", "msg", "la donnee est incorrect", 1);
@@ -999,8 +999,8 @@ void GTest::onRequestSaveUser(GSocket* _client) {
 //===============================================
 void GTest::onRequestGetUser(GSocket* _client) {
     std::shared_ptr<GCode>& lRes = _client->getResponse();
-    lRes->createCode("user", "firstname", "Gerard");
-    lRes->createCode("user", "lastname", "KESSE");
+    lRes->addData("user", "firstname", "Gerard");
+    lRes->addData("user", "lastname", "KESSE");
 }
 //===============================================
 void GTest::onRequestError(GSocket* _client) {

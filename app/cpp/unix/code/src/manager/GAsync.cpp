@@ -26,9 +26,9 @@ GAsync::~GAsync() {
 std::string GAsync::serialize() const {
     GCode lReq;
     lReq.createCode("async", "id", m_id);
-    lReq.createCode("async", "title", m_title);
-    lReq.createCode("async", "status", m_status);
-    lReq.createCode("async", "data", m_data);
+    lReq.addData("async", "title", m_title);
+    lReq.addData("async", "status", m_status);
+    lReq.addData("async", "data", m_data);
     return lReq.toStringCode("async");
 }
 //===============================================

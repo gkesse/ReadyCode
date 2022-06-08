@@ -90,7 +90,7 @@ GXml& GXml::loadXmlData(const std::string& _data) {
     return *this;
 }
 //===============================================
-GXml& GXml::loadNodeData(const std::string& _data, bool _isRoot) {
+GXml& GXml::loadNode(const std::string& _data, bool _isRoot) {
     if(!m_node) return *this;
     xmlNodePtr lNewNode;
     std::string lData = _data;
