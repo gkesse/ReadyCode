@@ -450,6 +450,8 @@ void GTest::runXmlMap(int _argc, char** _argv) {
     GLOGT(eGMSG, "(%c)", lChar);
     lMap = GString(lPath).splitData('/');
     GLOGT(eGMSG, "(%s)", GSTRC(lMap).c_str());
+    GLOGT(eGMSG, "(%s)", GSTRC(true));
+    GLOGT(eGMSG, "(%s)", GSTRC(false));
 }
 //===============================================
 void GTest::runSocketServer(int _argc, char** _argv) {
