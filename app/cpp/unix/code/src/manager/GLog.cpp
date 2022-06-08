@@ -173,13 +173,13 @@ void GLog::traceLog(const char* _name, int _level, const char* _file, int _line,
     closeLogFile();
 }
 //===============================================
-std::string GLog::toString(bool _data) const {
+const char* GLog::toString(bool _data) const {
     if(_data) return "true";
     return "false";
 }
 //===============================================
-std::string GLog::toString(const GString& _data) const {
-    return _data.data();
+const char* GLog::toString(const GString& _data) const {
+    return _data.c_str();
 }
 //===============================================
 std::string GLog::toString(const std::vector<std::string>& _data) const {

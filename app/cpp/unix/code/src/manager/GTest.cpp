@@ -429,7 +429,7 @@ void GTest::runXmlCheck(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     m_dom.reset(new GXml);
     m_dom->loadXml("Bonjour tout le monde", false);
-    GLOGT(eGINF, "isValid : %s\n", GSTRC(m_dom->isValidXml()).c_str());
+    GLOGT(eGINF, "isValid : %s\n", GSTRC(m_dom->isValidXml()));
 }
 //===============================================
 void GTest::runXmlMap(int _argc, char** _argv) {
@@ -724,11 +724,11 @@ void GTest::runResponse(int _argc, char** _argv) {
     lRes.createMap("error", "code", "2222", 1);
     lRes.createMap("error", "code", "3333", 1);
 
-    GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("result")).c_str());        // true
-    GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("resulto")).c_str());       // false
-    GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("error")).c_str());         // true
-    GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("error", "msg")).c_str());  // true
-    GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("error", "msgo")).c_str()); // false
+    GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("result")));        // true
+    GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("resulto")));       // false
+    GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("error")));         // true
+    GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("error", "msg")));  // true
+    GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("error", "msgo"))); // false
     GLOGT(eGINF, ""
             "module.......: %s\n"
             "method.......: %s\n"
