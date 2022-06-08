@@ -188,7 +188,7 @@ const char* GLog::toString(const std::vector<std::string>& _data) const {
         if(i != 0) lData += "\n";
         lData += _data.at((int)i);
     }
-    return lData;
+    return lData.c_str();
 }
 //===============================================
 const char* GLog::toString(const std::vector<std::vector<std::string>>& _data) const {
