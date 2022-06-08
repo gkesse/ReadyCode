@@ -43,7 +43,7 @@ std::string GString::data() const {
 }
 //===============================================
 const char* GString::c_str() const {
-    return m_data.c_str();
+    return m_data.data();
 }
 //===============================================
 std::vector<std::string> GString::splitData(char _sep) const {

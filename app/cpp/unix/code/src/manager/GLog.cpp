@@ -179,7 +179,7 @@ const char* GLog::toString(bool _data) const {
 }
 //===============================================
 const char* GLog::toString(const GString& _data) const {
-    return _data.data();
+    return _data.c_str();
 }
 //===============================================
 const char* GLog::toString(const std::vector<std::string>& _data) const {
