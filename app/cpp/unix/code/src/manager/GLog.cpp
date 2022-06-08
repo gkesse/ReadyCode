@@ -184,9 +184,9 @@ const char* GLog::toString(const GString& _data) const {
 //===============================================
 const char* GLog::toString(const std::vector<std::string>& _data) const {
     std::string lData = "";
-    for(size_t i = 0; i < _data.size(); i++) {
+    for(int i = 0; i < (int)_data.size(); i++) {
         if(i != 0) lData += "\n";
-        lData += _data.at((int)i);
+        lData += _data.at(i);
     }
     return lData.c_str();
 }
