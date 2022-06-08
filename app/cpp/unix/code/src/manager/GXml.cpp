@@ -135,8 +135,8 @@ std::string GXml::getNodeValue() const {
     return lData;
 }
 //===============================================
-bool GXml::createXNode(const GString& _path, const std::string& _value, bool _isCData, bool _isGet) {
-    std::string lPath = _path.trimData();
+bool GXml::createXNode(const std::string& _path, const std::string& _value, bool _isCData, bool _isGet) {
+    std::string lPath = GString(_path).trimData();
     if(lPath == "") return false;
     char lChar = lPath[0];
     bool lRootOn = (lChar == '/');
