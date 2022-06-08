@@ -129,39 +129,6 @@ bool GXml::isValidXml() const {
     return true;
 }
 //===============================================
-GXml& GXml::createDoc() {
-    if(m_version == "") return *this;
-    m_doc = xmlNewDoc(BAD_CAST(m_version.c_str()));
-    createRoot();
-    createXPath();
-    return *this;
-}
-//===============================================
-GXml& GXml::createRoot() {
-    if(m_nodeRoot == "") return *this;
-    m_node = xmlNewNode(0, BAD_CAST(m_nodeRoot.c_str()));
-    xmlDocSetRootElement(m_doc, m_node);
-    return *this;
-}
-//===============================================
-GXml& GXml::getRoot() {
-    if(!m_doc) return *this;
-    if(m_nodeRoot == "") return *this;
-    m_node = xmlDocGetRootElement(m_doc);
-    if(!m_node) {
-        GERROR_OBJ(eGERR, "Erreur le noeud racine n'existe pas.");
-        return *this;
-    }
-    std::string lNodeName = (char*)m_node->name;
-    if(lNodeName != m_nodeRoot) {
-        GERROR_OBJ(eGERR, "Erreur le noeud racine ne correspond pas.\n"
-                "noeud doc....: (%s)\n"
-                "noeud arg....: (%s)\n"
-                "", lNodeName.c_str(), m_nodeRoot.c_str());
-    }
-    return *this;
-}
-//===============================================
 std::string GXml::getNodeValue() const {
     if(!m_node) return "";
     std::string lData = (char*)xmlNodeGetContent(m_node);
@@ -210,12 +177,6 @@ bool GXml::createNode(const std::string& _nodename) {
     return true;
 }
 //===============================================
-GXml& GXml::createCData(GXml& _xml, const std::string& _value) {
-    if(!_xml.m_node) return *this;
-    m_node = xmlNewCDataBlock(_xml.m_node->doc, BAD_CAST(_value.c_str()), _value.size());
-    return *this;
-}
-//===============================================
 bool GXml::setNodeValue(const std::string& _value, bool _isCData) {
     if(!m_doc) return false;
     if(!m_node) return false;
@@ -229,60 +190,22 @@ bool GXml::setNodeValue(const std::string& _value, bool _isCData) {
     return true;
 }
 //===============================================
-GXml& GXml::appendNode(GXml& _xml) {
-    if(!m_node) return *this;
-    xmlAddChild(m_node, _xml.m_node);
-    return *this;
-}
-//===============================================
-GXml& GXml::appendNode(const std::string& _nodename) {
-    GXml lNode;
-    lNode.createNode(_nodename);
-    appendNode(lNode);
-    return *this;
-}
-//===============================================
-GXml& GXml::appendNode(const std::string& _nodename, const std::string& _value) {
-    if(!m_node) return *this;
-    GXml lNode;
-    lNode.createNodeValue(_nodename, _value);
-    appendNode(lNode);
-    return *this;
-}
-//===============================================
-GXml& GXml::appendNodeGet(const std::string& _nodename) {
-    if(!m_node) return *this;
-    GXml lNode;
-    lNode.createNode(_nodename);
-    appendNode(lNode);
-    m_node = lNode.m_node;
-    return *this;
-}
-//===============================================
-GXml& GXml::appendNodeGet(const std::string& _nodename, const std::string& _value) {
-    if(!m_node) return *this;
-    GXml lNode;
-    lNode.createNodeValue(_nodename, _value);
-    appendNode(lNode);
-    m_node = lNode.m_node;
-    return *this;
-}
-//===============================================
-GXml& GXml::appendCData(const std::string& _value) {
-    if(!m_node) return *this;
-    GXml lCData;
-    lCData.createCData(*this, _value);
-    appendNode(lCData);
-    return *this;
-}
-//===============================================
-GXml& GXml::appendCData(const std::string& _nodename, const std::string& _value) {
-    if(!m_node) return *this;
-    GXml lNode;
-    lNode.createNode(_nodename);
-    lNode.appendCData(_value);
-    appendNode(lNode);
-    return *this;
+bool GXml::appendNode(const std::string& _nodename, const std::string& _value, bool _isCData) {
+    if(_nodename == "") return false;
+    if(!m_node) return false;
+    if(!m_doc) return false;
+    xmlNodePtr lNode = xmlNewNode(NULL, BAD_CAST(_nodename.c_str()));
+    if(_value == "") {
+        if(!_isCData) {
+            xmlNodeSetContent(lNode, BAD_CAST(_value.c_str()));
+        }
+        else {
+            xmlNodePtr lCData = xmlNewCDataBlock(m_doc, BAD_CAST(_value.c_str()), _value.size());
+            xmlAddChild(lNode, lCData);
+        }
+    }
+    xmlAddChild(m_node, lNode);
+    return true;
 }
 //===============================================
 GXml& GXml::replaceNode(GXml& _xml) {
@@ -324,13 +247,12 @@ int GXml::countXPath() const {
     return lCount;
 }
 //===============================================
-//===============================================
-GXml& GXml::getNodeItem(int _index) {
+bool GXml::getNodeXPath(int _index) {
     m_node = 0;
     if(!m_xpathObj->nodesetval) return *this;
     if(!m_xpathObj->nodesetval->nodeNr) return *this;
     m_node = m_xpathObj->nodesetval->nodeTab[_index];
-    return *this;
+    return true;
 }
 //===============================================
 GXml& GXml::clearNodeXPath() {
@@ -339,27 +261,6 @@ GXml& GXml::clearNodeXPath() {
         xmlUnlinkNode(lNode);
         xmlFreeNode(lNode);
     }
-    return *this;
-}
-//===============================================
-GXml& GXml::createNodeCData(GXml& _xml, const std::string& _value) {
-    if(!_xml.m_node) return *this;
-    m_node = xmlNewCDataBlock(_xml.m_node->doc, BAD_CAST(_value.c_str()), _value.size());
-    if(!m_node) {
-        GERROR_OBJ(eGERR, ""
-                "Erreur lors de la creation du block CDATA.\n"
-                "noeud........: (%s)\n"
-                "", _value.c_str());
-        return *this;
-    }
-    return *this;
-}
-//===============================================
-GXml& GXml::createNodeCData(const std::string& _nodename, const std::string& _value) {
-    createNode(_nodename);
-    GXml lNode;
-    lNode.createNodeCData(*this, _value);
-    appendNode(lNode);
     return *this;
 }
 //===============================================

@@ -28,23 +28,17 @@ public:
     //
     std::string getNodeValue() const;
     //
+    bool createNode(const GString& _path);
     bool createXNode(const GString& _path, const std::string& _value = "", bool _isCData = false, bool _isGet = true);
     bool setNodeValue(const std::string& _value, bool _isCData);
-    GXml& appendNode(GXml& _xml);
-    GXml& appendNode(const std::string& _nodename);
-    GXml& appendNode(const std::string& _nodename, const std::string& _value);
-    GXml& appendNodeGet(const std::string& _nodename);
-    GXml& appendNodeGet(const std::string& _nodename, const std::string& _value);
-    GXml& appendCData(const std::string& _value);
-    GXml& appendCData(const std::string& _nodename, const std::string& _value);
+    bool appendNode(const std::string& _nodename, const std::string& _value = "", bool _isCData = false);
     GXml& replaceNode(GXml& _xml);
     //
     GXml& createXPath();
     GXml& queryXPath(const std::string& _query);
     void getXPath(const std::string& _path);
     int countXPath() const;
-    GXml& getNodeXPath();
-    GXml& getNodeItem(int _index);
+    bool getNodeXPath(int _index = 0);
     GXml& clearNodeXPath();
     //
     GXml& createNodeCData(GXml& _xml, const std::string& _value);
