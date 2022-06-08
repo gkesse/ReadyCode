@@ -58,10 +58,10 @@ public:
     void traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _data = "");
     void traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const std::string& _data = "");
     //
-    const char* toString(bool _data) const;
-    const char* toString(const GString& _data) const;
-    const char* toString(const std::vector<std::string>& _data) const;
-    const char* toString(const std::vector<std::vector<std::string>>& _data) const;
+    std::string toString(bool _data) const;
+    std::string toString(const GString& _data) const;
+    std::string toString(const std::vector<std::string>& _data) const;
+    std::string toString(const std::vector<std::vector<std::string>>& _data) const;
 
 private:
     static GLog* m_instance;

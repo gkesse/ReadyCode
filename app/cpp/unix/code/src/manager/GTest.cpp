@@ -429,7 +429,7 @@ void GTest::runXmlCheck(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     m_dom.reset(new GXml);
     m_dom->loadXml("Bonjour tout le monde", false);
-    GLOGT(eGINF, "isValid : %s\n", GSTRC(m_dom->isValidXml()));
+    GLOGT(eGINF, "isValid : %s\n", GSTRC(m_dom->isValidXml()).c_str());
 }
 //===============================================
 void GTest::runXmlMap(int _argc, char** _argv) {
@@ -449,7 +449,7 @@ void GTest::runXmlMap(int _argc, char** _argv) {
     lChar = lPath[0];
     GLOGT(eGMSG, "(%c)", lChar);
     lMap = GString(lPath).splitData('/');
-    GLOGT(eGMSG, "(%s)", GSTRC(lMap));
+    GLOGT(eGMSG, "(%s)", GSTRC(lMap).c_str());
 }
 //===============================================
 void GTest::runSocketServer(int _argc, char** _argv) {
@@ -724,11 +724,11 @@ void GTest::runResponse(int _argc, char** _argv) {
     lRes.createMap("error", "code", "2222", 1);
     lRes.createMap("error", "code", "3333", 1);
 
-    GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("result")));        // true
-    GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("resulto")));       // false
-    GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("error")));         // true
-    GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("error", "msg")));  // true
-    GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("error", "msgo"))); // false
+    GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("result")).c_str());        // true
+    GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("resulto")).c_str());       // false
+    GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("error")).c_str());         // true
+    GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("error", "msg")).c_str());  // true
+    GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("error", "msgo")).c_str()); // false
     GLOGT(eGINF, ""
             "module.......: %s\n"
             "method.......: %s\n"
@@ -744,7 +744,7 @@ void GTest::runMysql(int _argc, char** _argv) {
     GMySQL lMySQL;
     std::string lSql = "select user from mysql.user";
     GLOGT(eGINF, "%s", lMySQL.readData(lSql).c_str());
-    GLOGT(eGINF, "%s", GSTRC(lMySQL.readCol(lSql)));
+    GLOGT(eGINF, "%s", GSTRC(lMySQL.readCol(lSql)).c_str());
 }
 //===============================================
 void GTest::runMysqlShell(int _argc, char** _argv) {
@@ -811,7 +811,7 @@ void GTest::runMysqlMaj(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     std::string lPath = GRES("mysql", "maj");
     std::vector<std::string> lFiles = GDir().openDir(lPath, false, false);
-    GLOGT(eGMSG, "%s\n", GSTRC(lFiles));
+    GLOGT(eGMSG, "%s\n", GSTRC(lFiles).c_str());
     for(int i = 0; i < (int)lFiles.size(); i++) {
         std::string lFile = lFiles.at(i);
         GMaj lMaj(lPath, lFile);
@@ -827,7 +827,7 @@ void GTest::runMysqlMajProd(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     std::string lPath = GRES("mysql", "maj");
     std::vector<std::string> lFiles = GDir().openDir(lPath, false, false);
-    GLOGT(eGMSG, "%s\n", GSTRC(lFiles));
+    GLOGT(eGMSG, "%s\n", GSTRC(lFiles).c_str());
     for(int i = 0; i < (int)lFiles.size(); i++) {
         std::string lFile = lFiles.at(i);
         GMaj lMaj(lPath, lFile);
@@ -920,7 +920,7 @@ void GTest::runFile(int _argc, char** _argv) {
 //===============================================
 void GTest::runDir(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
-    GLOGT(eGINF, "%s", GSTRC(GDir().openDir(GRES("mysql", "maj"), true, false)));
+    GLOGT(eGINF, "%s", GSTRC(GDir().openDir(GRES("mysql", "maj"), true, false)).c_str());
 }
 //===============================================
 void GTest::runBase64(int _argc, char** _argv) {
