@@ -132,17 +132,17 @@ void GRequest::loadRequestList(GSocket* _client) {
         lReqObj.m_method = lDataRow.at(j++);
         lReqObj.m_msg = lDataRow.at(j++);
 
-        lRes->createMap("req", "id", lReqObj.m_id, i);
-        lRes->createMap("req", "module", lReqObj.m_module, i);
-        lRes->createMap("req", "method", lReqObj.m_method, i);
-        lRes->createMap("req", "msg", lReqObj.m_msg, i, true);
+        //lRes->createMap("req", "id", lReqObj.m_id, i);
+        //lRes->createMap("req", "module", lReqObj.m_module, i);
+        //lRes->createMap("req", "method", lReqObj.m_method, i);
+        //lRes->createMap("req", "msg", lReqObj.m_msg, i, true);
     }
 
     int i = 0;
-    lRes->createMap("req/header", "header", "id", i++);
-    lRes->createMap("req/header", "header", "module", i++);
-    lRes->createMap("req/header", "header", "methode", i++);
-    lRes->createMap("req/header", "header", "message", i++);
+    //lRes->createMap("req/header", "header", "id", i++);
+    //lRes->createMap("req/header", "header", "module", i++);
+    //lRes->createMap("req/header", "header", "methode", i++);
+    //lRes->createMap("req/header", "header", "message", i++);
 }
 //===============================================
 void GRequest::saveData() {

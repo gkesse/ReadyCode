@@ -720,11 +720,6 @@ void GTest::runResponse(int _argc, char** _argv) {
     lRes.addData("result", "msg", "ok");
     lRes.addData("opencv", "version", "4.0");
     lRes.addData("opencv", "version", "5.0");
-    lRes.createMap("error", "msg", "le chemin est incorrect", 0);
-    lRes.createMap("error", "code", "1111", 0);
-    lRes.createMap("error", "msg", "la donnee est incorrect", 1);
-    lRes.createMap("error", "code", "2222", 1);
-    lRes.createMap("error", "code", "3333", 1);
 
     GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("result")));        // true
     GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("resulto")));       // false
