@@ -88,7 +88,7 @@ std::string GXml::getNodeValue() const {
     return lData;
 }
 //===============================================
-bool GXml::createXNode(const std::string& _path, const std::string& _value, bool _isCData, bool _isGet) {
+bool GXml::createXNode(const std::string& _path, const std::string& _value, bool _isCData, bool _isGet, bool _isCreate) {
     std::string lPath = GString(_path).trimData();
     if(lPath == "") return false;
     char lChar = lPath[0];
@@ -105,7 +105,7 @@ bool GXml::createXNode(const std::string& _path, const std::string& _value, bool
         if(lPath != "" || lRootOn) lPath += "/";
         lPath += lItem;
         getXPath(lPath, lRootOn);
-        if(countXPath() == 0) {
+        if(countXPath() == 0 || _isCreate) {
             createNode(lItem);
         }
     }
@@ -119,6 +119,16 @@ bool GXml::createXNode(const std::string& _path, const std::string& _value, bool
 //===============================================
 bool GXml::createRNode(const std::string& _path, const std::string& _value, bool _isCData) {
     createXNode(_path, _value, _isCData, false);
+    return true;
+}
+//===============================================
+bool GXml::createCXNode(const std::string& _path, const std::string& _value, bool _isCData) {
+    createXNode(_path, _value, _isCData, true, true);
+    return true;
+}
+//===============================================
+bool GXml::createCRNode(const std::string& _path, const std::string& _value, bool _isCData) {
+    createXNode(_path, _value, _isCData, false, true);
     return true;
 }
 //===============================================
@@ -186,22 +196,24 @@ GXml& GXml::replaceNode(GXml& _xml) {
     return *this;
 }
 //===============================================
-bool GXml::queryXPath(const std::string& _query, bool _isRoot) {
+bool GXml::queryXPath(const std::string& _path, bool _isRoot) {
     if(!m_xpath) return false;
     if(_isRoot) {
-        m_xpathObj = xmlXPathEvalExpression(BAD_CAST(_query.c_str()), m_xpath);
+        m_xpathObj = xmlXPathEvalExpression(BAD_CAST(_path.c_str()), m_xpath);
     }
     else {
         if(!m_node) return false;
-        m_xpathObj = xmlXPathNodeEval(m_node, BAD_CAST(_query.c_str()), m_xpath);
+        m_xpathObj = xmlXPathNodeEval(m_node, BAD_CAST(_path.c_str()), m_xpath);
     }
     if(!m_xpathObj) {GERROR(eGERR, "Erreur lors de la création du xpath."); return false;}
     return true;
 }
 //===============================================
-void GXml::getXPath(const std::string& _path, bool _isRoot) {
+bool GXml::getXPath(const std::string& _path, bool _isRoot) {
+    if(_path == "") return false;
     queryXPath(_path, _isRoot);
     getNodeXPath();
+    return true;
 }
 //===============================================
 int GXml::countXPath() const {

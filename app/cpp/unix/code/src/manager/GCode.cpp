@@ -110,7 +110,7 @@ bool GCode::addData(const std::string& _code, const std::vector<std::string>& _d
     for(int i = 0; i < (int)_datas.size(); i++) {
         std::string lData = _datas[i];
         saveNode();
-        createRNode("data", lData, _isCData);
+        createCRNode("data", lData, _isCData);
         restoreNode();
     }
     return true;
