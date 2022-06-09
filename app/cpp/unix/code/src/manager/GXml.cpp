@@ -118,7 +118,7 @@ bool GXml::createXNode(const std::string& _path, const std::string& _value, bool
 }
 //===============================================
 bool GXml::createRNode(const std::string& _path, const std::string& _value, bool _isCData) {
-    createXNode(_path, _value, _isCData, false);
+    createXNode(_path, _value, _isCData, false, false);
     return true;
 }
 //===============================================
