@@ -689,7 +689,8 @@ void GTest::runRequestGetUser(int _argc, char** _argv) {
     lReq.createRequest("test", "get_user");
     std::string lResponse = lClient.callServer(lReq.toString());
     GERROR_LOAD(eGERR, lResponse);
-    GCode lRes(lResponse);
+    GCode lRes;
+    lRes.loadXml(lResponse);
     GLOGT(eGINF, "[EMISSION]...: (%d)\n(%s)\n", (int)lReq.toString().size(), lReq.toString().c_str());
     GLOGT(eGINF, "[RECEPTION]..: (%d)\n(%s)\n", (int)lResponse.size(), lResponse.c_str());
     GLOGT(eGINF, ""
