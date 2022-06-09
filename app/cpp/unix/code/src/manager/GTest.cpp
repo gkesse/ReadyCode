@@ -438,9 +438,9 @@ void GTest::runXmlMap(int _argc, char** _argv) {
     lDom.createDoc();
     lDom.createXNode("/rdv/datas/data");
     lDom.saveNode();
-    lDom.createXNode("code", "request", false);
-    lDom.createXNode("module", "sitemap", false);
-    lDom.createXNode("method", "get_enum", false);
+    lDom.createRNode("code", "request");
+    lDom.createRNode("module", "sitemap");
+    lDom.createRNode("method", "get_enum");
     lDom.restoreNode();
     std::string lData = lDom.toString();
     GLOGT(eGMSG, lData.c_str());

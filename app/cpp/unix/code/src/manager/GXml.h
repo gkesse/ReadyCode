@@ -27,6 +27,7 @@ public:
     bool createDoc(const std::string& _version = "1.0");
     bool createNode(const std::string& _path);
     bool createXNode(const std::string& _path, const std::string& _value = "", bool _isCData = false, bool _isGet = true);
+    bool createRNode(const std::string& _path, const std::string& _value = "", bool _isCData = false);
     bool setNodeValue(const std::string& _value, bool _isCData);
     bool appendNode(const std::string& _nodename, const std::string& _value = "", bool _isCData = false);
     GXml& replaceNode(GXml& _xml);

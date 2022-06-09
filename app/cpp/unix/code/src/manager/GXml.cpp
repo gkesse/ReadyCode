@@ -117,6 +117,11 @@ bool GXml::createXNode(const std::string& _path, const std::string& _value, bool
     return true;
 }
 //===============================================
+bool GXml::createRNode(const std::string& _path, const std::string& _value, bool _isCData) {
+    createXNode(_path, _value, _isCData, false);
+    return true;
+}
+//===============================================
 bool GXml::createDoc(const std::string& _version) {
     m_doc = xmlNewDoc(BAD_CAST "1.0");
     if(!m_doc) {GERROR(eGERR, "Erreur lors de la création du document."); return false;}
