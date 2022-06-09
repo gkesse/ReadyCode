@@ -88,6 +88,9 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "xml/map") {
         runXmlMap(_argc, _argv);
     }
+    else if(lKey == "xml/code") {
+        runXmlCode(_argc, _argv);
+    }
     //===============================================
     // socket
     //===============================================
@@ -458,6 +461,17 @@ void GTest::runXmlMap(int _argc, char** _argv) {
     GLOGT(eGMSG, "(%s)", GSTRC(lMap).c_str());
     GLOGT(eGMSG, "(%s)", GSTRC(true));
     GLOGT(eGMSG, "(%s)", GSTRC(false));
+}
+//===============================================
+void GTest::runXmlCode(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    GCode lDom;
+    lDom.createDoc();
+    lDom.createCode("request");
+    lDom.createCode("request");
+    lDom.createCode("errors");
+    lDom.createCode("errors");
+    std::string lData = lDom.toString();
 }
 //===============================================
 void GTest::runSocketServer(int _argc, char** _argv) {

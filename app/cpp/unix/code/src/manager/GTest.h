@@ -22,6 +22,7 @@ public:
     void runXml(int _argc, char** _argv);
     void runXmlCheck(int _argc, char** _argv);
     void runXmlMap(int _argc, char** _argv);
+    void runXmlCode(int _argc, char** _argv);
     void runSocketServer(int _argc, char** _argv);
     void runSocketClient(int _argc, char** _argv);
     void runSocketServerFile(int _argc, char** _argv);

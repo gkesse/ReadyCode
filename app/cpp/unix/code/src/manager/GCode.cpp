@@ -80,7 +80,7 @@ bool GCode::hasMap(const std::string& _code) {
 }
 //===============================================
 bool GCode::createCode(const std::string& _code) {
-    if(hasCode(_code)) {
+    if(!hasCode(_code)) {
         createXNode("/rdv/datas");
         createXNode("data");
         createXNode("code", _code);
