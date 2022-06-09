@@ -467,12 +467,19 @@ void GTest::runXmlCode(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GCode lDom;
     lDom.createDoc();
+    //
     lDom.createCode("request");
     lDom.createCode("request");
     lDom.createCode("errors");
     lDom.createCode("errors");
-    std::string lData = lDom.toString();
-    GLOGT(eGINF, lData.c_str());
+    GLOGT(eGINF, lDom.toString().c_str());
+    //
+    lDom.addData("request", "module", "user");
+    lDom.addData("request", "module", "sitemap");
+    lDom.addData("request", "method", "get_list");
+    lDom.addData("request", "method", "get_enum");
+    GLOGT(eGINF, lDom.toString().c_str());
+    //
 }
 //===============================================
 void GTest::runSocketServer(int _argc, char** _argv) {
