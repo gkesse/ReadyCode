@@ -104,7 +104,7 @@ bool GXml::createXNode(const std::string& _path, const std::string& _value, bool
         if(lItem == "") continue;
         if(lPath != "" || lRootOn) lPath += "/";
         lPath += lItem;
-        getXPath(lPath);
+        getXPath(lPath, lRootOn);
         if(countXPath() == 0) {
             createNode(lItem);
         }
@@ -186,15 +186,21 @@ GXml& GXml::replaceNode(GXml& _xml) {
     return *this;
 }
 //===============================================
-bool GXml::queryXPath(const std::string& _query) {
+bool GXml::queryXPath(const std::string& _query, bool _isRoot) {
     if(!m_xpath) return false;
-    m_xpathObj = xmlXPathEvalExpression((xmlChar*)_query.c_str(), m_xpath);
+    if(_isRoot) {
+        m_xpathObj = xmlXPathEvalExpression(BAD_CAST(_query.c_str()), m_xpath);
+    }
+    else {
+        if(!m_node) return false;
+        m_xpathObj = xmlXPathNodeEval(m_node, BAD_CAST(_query.c_str()), m_xpath);
+    }
     if(!m_xpathObj) {GERROR(eGERR, "Erreur lors de la création du xpath."); return false;}
     return true;
 }
 //===============================================
-void GXml::getXPath(const std::string& _path) {
-    queryXPath(_path);
+void GXml::getXPath(const std::string& _path, bool _isRoot) {
+    queryXPath(_path, _isRoot);
     getNodeXPath();
 }
 //===============================================
