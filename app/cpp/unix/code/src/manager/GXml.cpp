@@ -30,9 +30,9 @@ void GXml::cleanModule() {
 }
 //===============================================
 bool GXml::loadXml(const std::string& _data) {
-    _data = GString(_data).trimData();
-    if(_data == "") return false;
-    m_doc = xmlParseDoc(BAD_CAST(_data.c_str()));
+    std::string lData = GString(_data).trimData();
+    if(lData == "") return false;
+    m_doc = xmlParseDoc(BAD_CAST(lData.c_str()));
     if(!m_doc) {GERROR(eGERR, "Erreur lors de la création du document."); return false;}
     m_xpath = xmlXPathNewContext(m_doc);
     if(!m_xpath) {GERROR(eGERR, "Erreur lors de la création du xpath."); return false;}
