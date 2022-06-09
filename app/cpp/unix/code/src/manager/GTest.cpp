@@ -472,6 +472,7 @@ void GTest::runXmlCode(int _argc, char** _argv) {
     lDom.createCode("errors");
     lDom.createCode("errors");
     std::string lData = lDom.toString();
+    GLOGT(eGINF, lData.c_str());
 }
 //===============================================
 void GTest::runSocketServer(int _argc, char** _argv) {
