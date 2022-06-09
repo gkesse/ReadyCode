@@ -77,6 +77,12 @@ void GTest::run(int _argc, char** _argv) {
         runFormat(_argc, _argv);
     }
     //===============================================
+    // list
+    //===============================================
+    else if(lKey == "list/queue") {
+        runListQueue(_argc, _argv);
+    }
+    //===============================================
     // xml
     //===============================================
     else if(lKey == "xml") {
@@ -491,6 +497,22 @@ void GTest::runXmlCode(int _argc, char** _argv) {
     lDom.addData("request", lErrors, true);
     GLOGT(eGINF, lDom.toString().c_str());
     //
+}
+//===============================================
+void GTest::runListQueue(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+
+    std::queue<std::string> lQueue;
+
+    lQueue.push("one");
+    lQueue.push("two");
+    lQueue.push("three");
+    lQueue.push("four");
+
+    while(!lQueue.empty()) {
+        std::cout << lQueue.front() << "\n";
+        lQueue.pop();
+    }
 }
 //===============================================
 void GTest::runSocketServer(int _argc, char** _argv) {
