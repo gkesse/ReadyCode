@@ -436,7 +436,7 @@ void GTest::runXmlMap(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GCode lDom;
     lDom.createDoc();
-    lDom.createRequest("sitemap", "get_enum");
+    lDom.createXNode("/rdv/datas/data/code", "request");
     std::string lData = lDom.toString();
     GLOGT(eGMSG, lData.c_str());
 
@@ -663,8 +663,8 @@ void GTest::runRequest(int _argc, char** _argv) {
 void GTest::runRequestSend(int _argc, char** _argv) {
     GLOGT(eGMSG, "");
     GCode lReq;
-    lReq.createDoc();
     GSocket lClient;
+    lReq.createDoc();
     lReq.createRequest("test", "request_send");
     std::string lResponse = lClient.callServer(lReq.toString());
     GLOGT(eGINF, "%s", lReq.toString().c_str());
@@ -675,6 +675,7 @@ void GTest::runRequestSaveUser(int _argc, char** _argv) {
     GLOGT(eGMSG, "");
     GCode lReq;
     GSocket lClient;
+    lReq.createDoc();
     lReq.createRequest("test", "save_user");
     lReq.addData("parameters", "firstname", "Gerard");
     lReq.addData("parameters", "lastname", "KESSE");
@@ -688,6 +689,7 @@ void GTest::runRequestGetUser(int _argc, char** _argv) {
     GLOGT(eGMSG, "");
     GCode lReq;
     GSocket lClient;
+    lReq.createDoc();
     lReq.createRequest("test", "get_user");
     std::string lResponse = lClient.callServer(lReq.toString());
     GERROR_LOAD(eGERR, lResponse);
@@ -707,6 +709,7 @@ void GTest::runRequestError(int _argc, char** _argv) {
     GLOGT(eGMSG, "");
     GCode lReq;
     GSocket lClient;
+    lReq.createDoc();
     lReq.createRequest("test", "error");
     std::string lResponse = lClient.callServer(lReq.toString());
     GERROR_LOAD(eGERR, lResponse);
@@ -717,6 +720,7 @@ void GTest::runRequestError(int _argc, char** _argv) {
 void GTest::runResponse(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GCode lRes;
+    lRes.createDoc();
     lRes.addData("request", "module", "test");
     lRes.addData("request", "method", "save_user");
     lRes.addData("request", "method", "do_user");
