@@ -149,34 +149,6 @@ bool GXml::setNodeValue(const std::string& _value, bool _isCData) {
     return true;
 }
 //===============================================
-bool GXml::appendNode(const std::string& _nodename, const std::string& _value, bool _isCData) {
-    if(_nodename == "") return false;
-    if(!m_node) return false;
-    if(!m_doc) return false;
-    xmlNodePtr lNode = xmlNewNode(NULL, BAD_CAST(_nodename.c_str()));
-    if(_value == "") {
-        if(!_isCData) {
-            xmlNodeSetContent(lNode, BAD_CAST(_value.c_str()));
-        }
-        else {
-            xmlNodePtr lCData = xmlNewCDataBlock(m_doc, BAD_CAST(_value.c_str()), _value.size());
-            xmlAddChild(lNode, lCData);
-        }
-    }
-    xmlAddChild(m_node, lNode);
-    return true;
-}
-//===============================================
-GXml& GXml::replaceNode(GXml& _xml) {
-    if(!m_node || !_xml.m_node) {
-        GERROR_OBJ(eGERR, "Erreur la methode (GXml::replaceNode) a echoue (1)");
-        return *this;
-    }
-    xmlReplaceNode(m_node, _xml.m_node);
-    xmlFreeNode(m_node);
-    return *this;
-}
-//===============================================
 bool GXml::queryXPath(const std::string& _path, bool _isRoot) {
     if(!m_xpath) return false;
     if(_isRoot) {
