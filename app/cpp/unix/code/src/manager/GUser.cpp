@@ -39,7 +39,7 @@ std::string GUser::serialize(const std::string& _code) const {
 //===============================================
 void GUser::deserialize(const std::string& _data, const std::string& _code) {
     GModule::deserialize(_data);
-    GCode lReq
+    GCode lReq;
     lReq.loadXml(_data);
     m_id = GString(lReq.getItem(_code, "id")).toInt();
     m_email = lReq.getItem(_code, "email");
