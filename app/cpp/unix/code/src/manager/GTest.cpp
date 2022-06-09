@@ -82,6 +82,9 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "list/queue") {
         runListQueue(_argc, _argv);
     }
+    else if(lKey == "list/stack") {
+        runListStack(_argc, _argv);
+    }
     //===============================================
     // xml
     //===============================================
@@ -512,6 +515,22 @@ void GTest::runListQueue(int _argc, char** _argv) {
     while(!lQueue.empty()) {
         std::cout << lQueue.front() << "\n";
         lQueue.pop();
+    }
+}
+//===============================================
+void GTest::runListStack(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+
+    std::stack<std::string> lStack;
+
+    lStack.push("one");
+    lStack.push("two");
+    lStack.push("three");
+    lStack.push("four");
+
+    while(!lStack.empty()) {
+        std::cout << lStack.top() << "\n";
+        lStack.pop();
     }
 }
 //===============================================

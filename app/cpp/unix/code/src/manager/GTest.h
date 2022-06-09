@@ -26,6 +26,7 @@ public:
     void runXmlCode(int _argc, char** _argv);
     //
     void runListQueue(int _argc, char** _argv);
+    void runListStack(int _argc, char** _argv);
     //
     void runSocketServer(int _argc, char** _argv);
     void runSocketClient(int _argc, char** _argv);
