@@ -92,7 +92,7 @@ bool GCode::addData(const std::string& _code, const std::string& _key, const std
     if(_value == "") return false;
     createCode(_code);
     getCode(_code);
-    createXNode(_key, _value, _isCData);
+    createRNode(_key, _value, _isCData);
     return true;
 }
 //===============================================
