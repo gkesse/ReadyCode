@@ -88,15 +88,13 @@ std::string GXml::getNodeValue() const {
     return lData;
 }
 //===============================================
-bool GXml::createXNode(const std::string& _path, const std::string& _value, bool _isCData, bool _isGet, bool _isCreate) {
+bool GXml::createXNode(const std::string& _path, const std::string& _value, bool _isCData) {
     std::string lPath = GString(_path).trimData();
     if(lPath == "") return false;
     char lChar = lPath[0];
     bool lRootOn = (lChar == '/');
     std::vector<std::string> lMap = GString(lPath).splitData('/');
     lPath = "";
-
-    if(!_isGet) saveNode();
 
     for(int i = 0; i < (int)lMap.size(); i++) {
         std::string lItem = lMap[i];
@@ -105,30 +103,13 @@ bool GXml::createXNode(const std::string& _path, const std::string& _value, bool
         if(lPath != "" || lRootOn) lPath += "/";
         lPath += lItem;
         getXPath(lPath, lRootOn);
-        if(countXPath() == 0 || _isCreate) {
+        if(countXPath() == 0) {
             createNode(lItem);
         }
     }
     if(_value != "") {
         setNodeValue(_value, _isCData);
     }
-
-    if(!_isGet) restoreNode();
-    return true;
-}
-//===============================================
-bool GXml::createRNode(const std::string& _path, const std::string& _value, bool _isCData) {
-    createXNode(_path, _value, _isCData, false, false);
-    return true;
-}
-//===============================================
-bool GXml::createCXNode(const std::string& _path, const std::string& _value, bool _isCData) {
-    createXNode(_path, _value, _isCData, true, true);
-    return true;
-}
-//===============================================
-bool GXml::createCRNode(const std::string& _path, const std::string& _value, bool _isCData) {
-    createXNode(_path, _value, _isCData, false, true);
     return true;
 }
 //===============================================
@@ -231,28 +212,30 @@ bool GXml::getNodeXPath(int _index) {
     return true;
 }
 //===============================================
-GXml& GXml::clearNodeXPath() {
+bool GXml::clearXNode() {
     for(int i = 0; i < countXPath(); i++) {
         xmlNodePtr lNode = m_xpathObj->nodesetval->nodeTab[i];
         xmlUnlinkNode(lNode);
         xmlFreeNode(lNode);
     }
-    return *this;
+    return true;
 }
 //===============================================
-GXml& GXml::setAttribute(const std::string& _key, const std::string& _value) {
-    if(!m_node) return *this;
+bool GXml::setAttribute(const std::string& _key, const std::string& _value) {
+    if(!m_node) return false;
     xmlSetProp(m_node, BAD_CAST(_key.c_str()), BAD_CAST(_value.c_str()));
-    return *this;
+    return true;
 }
 //===============================================
-void GXml::saveNode() {
+bool GXml::saveNode() {
     m_nodeCopy.push(m_node);
+    return true;
 }
 //===============================================
-void GXml::restoreNode() {
+bool GXml::restoreNode() {
     m_node = m_nodeCopy.top();
     m_nodeCopy.pop();
+    return true;
 }
 //===============================================
 std::string GXml::toString(const std::string& _encoding, int _format) const {
