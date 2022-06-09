@@ -181,10 +181,11 @@ GXml& GXml::replaceNode(GXml& _xml) {
     return *this;
 }
 //===============================================
-GXml& GXml::queryXPath(const std::string& _query) {
-    if(!m_xpath) return *this;
+bool GXml::queryXPath(const std::string& _query) {
+    if(!m_xpath) return false;
     m_xpathObj = xmlXPathEvalExpression((xmlChar*)_query.c_str(), m_xpath);
-    return *this;
+    if(!m_xpathObj) {GERROR(eGERR, "Erreur lors de la création du xpath."); return false;}
+    return true;
 }
 //===============================================
 void GXml::getXPath(const std::string& _path) {
@@ -201,7 +202,6 @@ int GXml::countXPath() const {
 }
 //===============================================
 bool GXml::getNodeXPath(int _index) {
-    m_node = 0;
     if(!m_xpathObj->nodesetval) return false;
     if(!m_xpathObj->nodesetval->nodeNr) return false;
     m_node = m_xpathObj->nodesetval->nodeTab[_index];

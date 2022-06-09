@@ -31,7 +31,7 @@ public:
     bool appendNode(const std::string& _nodename, const std::string& _value = "", bool _isCData = false);
     GXml& replaceNode(GXml& _xml);
     //
-    GXml& queryXPath(const std::string& _query);
+    bool queryXPath(const std::string& _query);
     void getXPath(const std::string& _path);
     int countXPath() const;
     bool getNodeXPath(int _index = 0);
