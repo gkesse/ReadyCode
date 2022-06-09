@@ -23,6 +23,7 @@ public:
     bool hasMap(const std::string& _code);
     bool createCode(const std::string& _code);
     bool addData(const std::string& _code, const std::string& _key, const std::string& _value, bool _isCData = false);
+    bool addData(const std::string& _code, const std::string& _key, int _value, bool _isCData = false);
     bool addData(const std::string& _code, const std::vector<std::string>& _datas, bool _isCData = false);
     bool getCode(const std::string& _code);
     bool getCode(const std::string& _code, const std::string& _key);

@@ -96,6 +96,12 @@ bool GCode::addData(const std::string& _code, const std::string& _key, const std
     return true;
 }
 //===============================================
+bool GCode::addData(const std::string& _code, const std::string& _key, int _value, bool _isCData) {
+    std::string lData = std::to_string(_value);
+    addData(_code, _key, lData, _isCData);
+    return true;
+}
+//===============================================
 bool GCode::addData(const std::string& _code, const std::vector<std::string>& _datas, bool _isCData) {
     if(!_datas.size()) return false;
     createCode(_code);
