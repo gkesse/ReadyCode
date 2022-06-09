@@ -109,9 +109,8 @@ bool GCode::addData(const std::string& _code, const std::vector<std::string>& _d
     createXNode("map");
     for(int i = 0; i < (int)_datas.size(); i++) {
         std::string lData = _datas[i];
-        saveNode();
-        createCRNode("data", lData, _isCData);
-        restoreNode();
+        createCXNode("data");
+        setNodeValue(lData, _isCData);
     }
     return true;
 }
