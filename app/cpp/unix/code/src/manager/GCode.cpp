@@ -111,7 +111,7 @@ bool GCode::addData(const std::string& _code, const std::vector<std::string>& _d
         std::string lData = _datas[i];
         saveNode();
         createNode("data");
-        createXNode("mon/chemin/path", lData, _isCData);
+        createRNode("mon/chemin/path", lData, _isCData);
         restoreNode();
     }
     return true;
