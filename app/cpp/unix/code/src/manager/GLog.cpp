@@ -32,7 +32,8 @@ GLog* GLog::Instance() {
 }
 //===============================================
 void GLog::createDoms() {
-    m_dom.reset(new GXml(GRES("xml", "pad.xml"), true));
+    m_dom.reset(new GXml);
+    m_dom->loadFile(GRES("xml", "pad.xml"));
 }
 //===============================================
 bool GLog::isDebug() const {

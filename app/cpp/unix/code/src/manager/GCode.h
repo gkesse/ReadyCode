@@ -7,8 +7,6 @@
 class GCode : public GXml {
 public:
     GCode();
-    GCode(const std::string& _code);
-    GCode(const std::string& _version, const std::string& _nodeRoot);
     ~GCode();
     //
     void createRequest(const std::string& _module, const std::string& _method);

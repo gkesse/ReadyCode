@@ -92,7 +92,8 @@ void GMaster::onModuleMaj(GSocket* _client) {
 }
 //===============================================
 void GMaster::validateXmlRequest(const std::string& _data) {
-    GCode lReq(_data);
+    GCode lReq;
+    lReq.loadXml("source", _data, "");
     m_validateXml = lReq.isValidXml();
     m_validateReq = lReq.isValidReq();
 }

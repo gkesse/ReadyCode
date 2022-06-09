@@ -4,15 +4,7 @@
 #include "GFormat.h"
 //===============================================
 GCode::GCode() : GXml() {
-    createDoc();
-}
-//===============================================
-GCode::GCode(const std::string& _code) : GXml(_code, false) {
 
-}
-//===============================================
-GCode::GCode(const std::string& _version, const std::string& _nodeRoot) : GXml(_version, _nodeRoot) {
-    createDoc();
 }
 //===============================================
 GCode::~GCode() {

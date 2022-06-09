@@ -10,35 +10,7 @@ GXml::GXml() : GObject() {
     m_doc = 0;
     m_xpath = 0;
     m_xpathObj = 0;
-    m_data = "";
-    m_isFile = true;
-    m_version = "1.0";
-    m_nodeRoot = "rdv";
-    xmlKeepBlanksDefault(0);
-}
-//===============================================
-GXml::GXml(const std::string& _data, bool _isFile) : GObject() {
-    m_node = 0;
-    m_doc = 0;
-    m_xpath = 0;
-    m_xpathObj = 0;
-    m_data = _data;
-    m_isFile = _isFile;
-    m_version = "1.0";
-    m_nodeRoot = "rdv";
-    xmlKeepBlanksDefault(0);
-    loadXml();
-}
-//===============================================
-GXml::GXml(const std::string& _version, const std::string& _nodeRoot) : GObject() {
-    m_node = 0;
-    m_doc = 0;
-    m_xpath = 0;
-    m_xpathObj = 0;
-    m_data = "";
-    m_isFile = true;
-    m_version = _version;
-    m_nodeRoot = _nodeRoot;
+    m_filename = "";
     xmlKeepBlanksDefault(0);
 }
 //===============================================
@@ -57,37 +29,24 @@ void GXml::cleanModule() {
     xmlMemoryDump();
 }
 //===============================================
-void GXml::loadXml() {
-    if(m_data == "") return;
-    loadXml(m_data, m_isFile);
-}
-//===============================================
-void GXml::loadXml(const std::string& _data, bool _isFile) {
-    if(_data == "") return;
-    if(_isFile) {
-        try {
-            m_doc = xmlParseFile(_data.c_str());
-        }
-        catch (...) {}
-    }
-    else {
-        try {
-            m_doc = xmlParseDoc(BAD_CAST(_data.c_str()));
-        }
-        catch (...) {}
-    }
-    createXPath();
-}
-//===============================================
-GXml& GXml::loadXmlData(const std::string& _data) {
+bool GXml::loadXml(const std::string& _data) {
+    _data = GString(_data).trimData();
+    if(_data == "") return false;
     m_doc = xmlParseDoc(BAD_CAST(_data.c_str()));
-    if(!m_doc) {
-        GERROR_OBJ(eGERR, ""
-                "Erreur lors du chargement de la source.\n"
-                "source.......: (%s)\n"
-                "", _data.c_str());
-    }
-    return *this;
+    if(!m_doc) {GERROR(eGERR, "Erreur lors de la création du document."); return false;}
+    m_xpath = xmlXPathNewContext(m_doc);
+    if(!m_xpath) {GERROR(eGERR, "Erreur lors de la création du xpath."); return false;}
+    return true;
+}
+//===============================================
+bool GXml::loadFile(const std::string& _filename) {
+    if(_filename == "") return false;
+    m_doc = xmlParseFile(_filename.c_str());
+    if(!m_doc) {GERROR(eGERR, "Erreur lors de la création du document."); return false;}
+    m_filename = _filename;
+    m_xpath = xmlXPathNewContext(m_doc);
+    if(!m_xpath) {GERROR(eGERR, "Erreur lors de la création du xpath."); return false;}
+    return true;
 }
 //===============================================
 GXml& GXml::loadNode(const std::string& _data, bool _isRoot) {
@@ -105,26 +64,20 @@ GXml& GXml::loadNode(const std::string& _data, bool _isRoot) {
     return *this;
 }
 //===============================================
-GXml& GXml::saveXmlFile(const std::string& _filename, const std::string& _encoding, int _format) {
+bool GXml::saveXml(const std::string& _filename, const std::string& _encoding, int _format) {
     std::string lFilename = "";
-
     if(_filename != "") {
         lFilename = _filename;
     }
-    else if(m_isFile && m_data != "") {
-        lFilename = m_data;
-    }
     else {
-        GERROR_OBJ(eGERR, "Erreur le fichier de sortie n'a pas ete defini.");
-        return *this;
+        lFilename = m_filename;
     }
-
+    if(lFilename == "") {GERROR(eGERR, "Erreur le nom du fichier est vide."); return false;}
     xmlSaveFormatFileEnc(lFilename.c_str(), m_doc, _encoding.c_str(), _format);
-    return *this;
+    return true;
 }
 //===============================================
 bool GXml::isValidXml() const {
-    if(m_data == "") return false;
     if(!m_doc) return false;
     return true;
 }
@@ -164,9 +117,18 @@ bool GXml::createXNode(const std::string& _path, const std::string& _value, bool
     return true;
 }
 //===============================================
+bool GXml::createDoc(const std::string& _version) {
+    m_doc = xmlNewDoc(BAD_CAST "1.0");
+    if(!m_doc) {GERROR(eGERR, "Erreur lors de la création du document."); return false;}
+    m_xpath = xmlXPathNewContext(m_doc);
+    if(!m_xpath) {GERROR(eGERR, "Erreur lors de la création du xpath."); return false;}
+    return true;
+}
+//===============================================
 bool GXml::createNode(const std::string& _nodename) {
     if(!m_doc) return false;
     xmlNodePtr lNode = xmlNewNode(NULL, BAD_CAST(_nodename.c_str()));
+    if(!lNode) GERROR(eGERR, "Erreur lors de la création du noeud.");
     if(!m_node) {
         xmlDocSetRootElement(m_doc, lNode);
     }
@@ -185,6 +147,7 @@ bool GXml::setNodeValue(const std::string& _value, bool _isCData) {
     }
     else {
         xmlNodePtr lNode = xmlNewCDataBlock(m_doc, BAD_CAST(_value.c_str()), _value.size());
+        if(!lNode) GERROR(eGERR, "Erreur lors de la création du noeud.");
         xmlAddChild(m_node, lNode);
     }
     return true;
@@ -215,16 +178,6 @@ GXml& GXml::replaceNode(GXml& _xml) {
     }
     xmlReplaceNode(m_node, _xml.m_node);
     xmlFreeNode(m_node);
-    return *this;
-}
-//===============================================
-GXml& GXml::createXPath() {
-    if(!m_doc) return *this;
-    m_xpath = xmlXPathNewContext(m_doc);
-    if(!m_xpath) {
-        GERROR_OBJ(eGERR, "Erreur la creation de l'objet XPath a echoue.");
-        return *this;
-    }
     return *this;
 }
 //===============================================

@@ -46,7 +46,7 @@ GXml& GXml::loadXmlFile(const std::string& _filename) {
     return *this;
 }
 //===============================================
-GXml& GXml::loadXmlData(const std::string& _data) {
+GXml& GXml::loadXml(const std::string& _data) {
     m_doc = xmlParseDoc(BAD_CAST(_data.c_str()));
     if(!m_doc) {
         GERROR->addError(sformat("Erreur la methode (loadXmlData) a echoue "
@@ -55,7 +55,7 @@ GXml& GXml::loadXmlData(const std::string& _data) {
     return *this;
 }
 //===============================================
-GXml& GXml::saveXmlFile(const std::string& _filename, const std::string& _encoding, int _format) {
+GXml& GXml::saveXml(const std::string& _filename, const std::string& _encoding, int _format) {
     std::string lFilename = "";
 
     if(_filename != "") {

@@ -21,7 +21,8 @@ GSocket::~GSocket() {
 }
 //===============================================
 void GSocket::createDoms() {
-    m_dom.reset(new GXml(GRES("xml", "pad.xml"), true));
+    m_dom.reset(new GXml);
+    m_dom->loadFile(GRES("xml", "pad.xml"));
     m_res.reset(new GCode);
 }
 //===============================================
@@ -397,7 +398,7 @@ std::string GSocket::callServer(const std::string& _dataIn) {
 }
 //===============================================
 void GSocket::setReq(const std::string& _req) {
-    m_req.reset(new GCode(_req));
+    m_req.reset(new GCode);
 }
 //===============================================
 std::shared_ptr<GCode>& GSocket::getReq() {
