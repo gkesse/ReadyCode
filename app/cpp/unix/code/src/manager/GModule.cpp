@@ -17,6 +17,7 @@ GModule::~GModule() {
 //===============================================
 std::string GModule::serialize(const std::string& _code) const {
     GCode lReq;
+    lReq.createDoc();
     lReq.addData(_code, "module", m_module);
     lReq.addData(_code, "method", m_method);
     return lReq.toStringCode(_code);
@@ -24,7 +25,8 @@ std::string GModule::serialize(const std::string& _code) const {
 //===============================================
 void GModule::deserialize(const std::string& _data, const std::string& _code) {
     GSession::deserialize(_data);
-    GCode lReq(_data);
+    GCode lReq;
+    lReq.loadXml(_data);
     m_module = lReq.getItem(_code, "module");
     m_method = lReq.getItem(_code, "method");
 }

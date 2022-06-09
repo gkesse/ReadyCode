@@ -23,6 +23,7 @@ GRequest::~GRequest() {
 //===============================================
 std::string GRequest::serialize(const std::string& _code) const {
     GCode lReq;
+    lReq.createDoc();
     lReq.createCode(_code, "id", m_id);
     lReq.createCode(_code, "data_count", m_dataCount);
     lReq.createCode(_code, "data_offset", m_dataOffset);
@@ -32,7 +33,8 @@ std::string GRequest::serialize(const std::string& _code) const {
 //===============================================
 void GRequest::deserialize(const std::string& _data, const std::string& _code) {
     GModule::deserialize(_data);
-    GCode lReq(_data);
+    GCode lReq;
+    lReq.loadXml(_data);
     m_id = GString(lReq.getItem(_code, "id")).toInt();
     m_msg = _data;
     m_dataOffset = GString(lReq.getItem(_code, "data_offset")).toInt();

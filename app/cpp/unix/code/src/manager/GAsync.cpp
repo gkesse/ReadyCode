@@ -25,6 +25,7 @@ GAsync::~GAsync() {
 //===============================================
 std::string GAsync::serialize() const {
     GCode lReq;
+    lReq.createDoc();
     lReq.createCode("async", "id", m_id);
     lReq.addData("async", "title", m_title);
     lReq.addData("async", "status", m_status);
@@ -33,7 +34,8 @@ std::string GAsync::serialize() const {
 }
 //===============================================
 void GAsync::deserialize(const std::string& _req) {
-    GCode lReq(_req);
+    GCode lReq;
+    lReq.loadXml(_req);
     m_id = GString(lReq.getParam("id")).toInt();
     m_uid = GString(lReq.getSession("user_id")).toInt();
     m_title = lReq.getParam("title");

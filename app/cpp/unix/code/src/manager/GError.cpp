@@ -46,7 +46,8 @@ void GError::clearErrors() {
 }
 //===============================================
 void GError::loadErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _res) {
-    GCode lRes(_res);
+    GCode lRes;
+    lRes.loadXml(_res);
     int lCount = lRes.countItem("error");
     for(int i = 0; i < lCount; i++) {
         std::string lError = lRes.getItem("error", "msg", i);
