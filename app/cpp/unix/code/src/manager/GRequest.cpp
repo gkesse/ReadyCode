@@ -24,10 +24,10 @@ GRequest::~GRequest() {
 std::string GRequest::serialize(const std::string& _code) const {
     GCode lReq;
     lReq.createDoc();
-    lReq.createCode(_code, "id", m_id);
-    lReq.createCode(_code, "data_count", m_dataCount);
-    lReq.createCode(_code, "data_offset", m_dataOffset);
-    lReq.createCode(_code, "data_size", m_dataSize);
+    lReq.addData(_code, "id", m_id);
+    lReq.addData(_code, "data_count", m_dataCount);
+    lReq.addData(_code, "data_offset", m_dataOffset);
+    lReq.addData(_code, "data_size", m_dataSize);
     return lReq.toStringCode(_code);
 }
 //===============================================
@@ -103,7 +103,7 @@ void GRequest::loadRequestCount(GSocket* _client) {
     ));
     int lCount = GString(lData).toInt();
     std::shared_ptr<GCode>& lRes = _client->getResponse();
-    lRes->createCode("req", "data_count", lCount);
+    lRes->addData("req", "data_count", lCount);
 }
 //===============================================
 void GRequest::loadRequestList(GSocket* _client) {

@@ -96,6 +96,20 @@ bool GCode::addData(const std::string& _code, const std::string& _key, const std
     return true;
 }
 //===============================================
+bool GCode::addData(const std::string& _code, const std::vector<std::string>& _datas, bool _isCData) {
+    if(!_datas.size()) return false;
+    createCode(_code);
+    getCode(_code);
+    createXNode("map");
+    for(int i = 0; i < (int)_datas.size(); i++) {
+        std::string lData = _datas[i];
+        saveNode();
+        createRNode("data", lData, _isCData);
+        restoreNode();
+    }
+    return true;
+}
+//===============================================
 bool GCode::getCode(const std::string& _code) {
     getXPath(sformat("/rdv/datas/data[code='%s']", _code.c_str()));
     return true;
@@ -104,10 +118,6 @@ bool GCode::getCode(const std::string& _code) {
 bool GCode::getCode(const std::string& _code, const std::string& _key) {
     getXPath(sformat("/rdv/datas/data[code='%s']/%s", _code.c_str(), _key.c_str()));
     return true;
-}
-//===============================================
-void GCode::createCode(const std::string& _code, const std::string& _key, int _value, bool _isCData) {
-    addData(_code, _key, std::to_string(_value), _isCData);
 }
 //===============================================
 std::string GCode::getItem(const std::string& _code, const std::string& _key) {

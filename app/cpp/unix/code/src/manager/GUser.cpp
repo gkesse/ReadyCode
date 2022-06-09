@@ -26,14 +26,14 @@ GUser::~GUser() {
 std::string GUser::serialize(const std::string& _code) const {
     GCode lReq;
     lReq.createDoc();
-    lReq.createCode(_code, "id", m_id);
+    lReq.addData(_code, "id", m_id);
     lReq.addData(_code, "email", m_email);
     lReq.addData(_code, "pseudo", m_pseudo);
     lReq.addData(_code, "password", m_password);
     lReq.addData(_code, "group", m_group);
     lReq.addData(_code, "active", m_active);
     lReq.addData(_code, "msg", m_msg);
-    lReq.createCode(_code, "status", m_status);
+    lReq.addData(_code, "status", m_status);
     return lReq.toStringCode(_code);
 }
 //===============================================
