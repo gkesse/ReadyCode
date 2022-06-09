@@ -43,12 +43,6 @@ bool GCode::isValidReq() {
     return lValidReq;
 }
 //===============================================
-bool GCode::hasCode() {
-    queryXPath(sformat("/rdv/datas/data[code]"));
-    int lCount = countXPath();
-    return (lCount != 0);
-}
-//===============================================
 bool GCode::hasCode(const std::string& _code) {
     queryXPath(sformat("/rdv/datas/data[code='%s']", _code.c_str()));
     int lCount = countXPath();
@@ -91,13 +85,24 @@ bool GCode::createCode(const std::string& _code) {
 bool GCode::addData(const std::string& _code, const std::string& _key, const std::string& _value, bool _isCData) {
     if(_value == "") return false;
     createCode(_code);
-    getCode(_code);
-    createXNode(_key, _value, _isCData);
+    if(!hasCode(_code, _key)) {
+        getCode(_code);
+        createXNode(_key, _value, _isCData);
+    }
+    else {
+        getCode(_code, _key);
+        setNodeValue(_value, _isCData);
+    }
     return true;
 }
 //===============================================
 bool GCode::getCode(const std::string& _code) {
     getXPath(sformat("/rdv/datas/data[code='%s']", _code.c_str()));
+    return true;
+}
+//===============================================
+bool GCode::getCode(const std::string& _code, const std::string& _key) {
+    getXPath(sformat("/rdv/datas/data[code='%s']/%s", _code.c_str(), _key.c_str()));
     return true;
 }
 //===============================================

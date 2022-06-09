@@ -16,7 +16,6 @@ public:
     std::string getSession(const std::string& _param);
     bool isValidReq();
     //
-    bool hasCode();
     bool hasCode(const std::string& _code);
     bool hasCode(const std::string& _code, const std::string& _key);
     bool hasCode(const std::string& _code, int _index);
@@ -25,6 +24,7 @@ public:
     bool createCode(const std::string& _code);
     bool addData(const std::string& _code, const std::string& _key, const std::string& _value, bool _isCData = false);
     bool getCode(const std::string& _code);
+    bool getCode(const std::string& _code, const std::string& _key);
     void createCode(const std::string& _code, const std::string& _key, const int _value, bool _isCData = false);
     //
     void getCodeNode(const std::string& _code);
