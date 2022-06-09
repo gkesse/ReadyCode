@@ -92,12 +92,12 @@ bool GCode::addData(const std::string& _code, const std::string& _key, const std
     if(_value == "") return false;
     createCode(_code);
     getCode(_code);
-    createRNode(_key, _value, _isCData);
+    createXNode(_key, _value, _isCData);
     return true;
 }
 //===============================================
 bool GCode::getCode(const std::string& _code) {
-    getXPath(sformat("/rdv/datas/data[code='%s']", _code));
+    getXPath(sformat("/rdv/datas/data[code='%s']", _code.c_str()));
     return true;
 }
 //===============================================
