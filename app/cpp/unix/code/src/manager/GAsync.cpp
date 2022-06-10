@@ -8,9 +8,8 @@
 #include "GMySQL.h"
 #include "GLog.h"
 //===============================================
-GAsync::GAsync() : GObject() {
+GAsync::GAsync() : GModule() {
     m_id = 0;
-    m_uid = 0;
     m_title = "";
     m_status = "";
     m_data = "";
@@ -23,24 +22,24 @@ GAsync::~GAsync() {
 
 }
 //===============================================
-std::string GAsync::serialize() const {
+std::string GAsync::serialize(const std::string& _code) const {
     GCode lReq;
     lReq.createDoc();
-    lReq.addData("async", "id", m_id);
-    lReq.addData("async", "title", m_title);
-    lReq.addData("async", "status", m_status);
-    lReq.addData("async", "data", m_data);
+    lReq.addData(_code, "id", m_id);
+    lReq.addData(_code, "title", m_title);
+    lReq.addData(_code, "status", m_status);
+    lReq.addData(_code, "data", m_data);
     return lReq.toStringCode("async");
 }
 //===============================================
-void GAsync::deserialize(const std::string& _req) {
+void GAsync::deserialize(const std::string& _req, const std::string& _code) {
+    GModule::deserialize(_req);
     GCode lReq;
     lReq.loadXml(_req);
-    m_id = GString(lReq.getParam("id")).toInt();
-    m_uid = GString(lReq.getSession("user_id")).toInt();
-    m_title = lReq.getParam("title");
-    m_status = lReq.getParam("status");
-    m_data = lReq.getParam("data");
+    m_id = GString(lReq.getItem(_code, "id")).toInt();
+    m_title = lReq.getItem(_code, "title");
+    m_status = lReq.getItem(_code, "status");
+    m_data = lReq.getItem(_code, "data");
 }
 //===============================================
 void GAsync::setTitle(const std::string& _title) {
@@ -84,7 +83,7 @@ void GAsync::saveData() {
 //===============================================
 void GAsync::insertData() {
     if(m_id != 0) return;
-    if(m_uid == 0) return;
+    if(m_userId == 0) return;
     if(m_title == "") return;
     if(m_status == "") return;
 
@@ -92,7 +91,7 @@ void GAsync::insertData() {
             " insert into async "
             " ( _u_id, _title, _status, _data ) "
             " values ( %d, '%s', '%s', '%s' ) "
-            "", m_uid
+            "", m_userId
             , m_title.c_str()
             , m_status.c_str()
             , m_data.c_str()
@@ -101,7 +100,7 @@ void GAsync::insertData() {
 //===============================================
 void GAsync::updateData() {
     if(m_id == 0) return;
-    if(m_uid == 0) return;
+    if(m_userId == 0) return;
     if(m_title == "") return;
     if(m_status == "") return;
 
@@ -112,7 +111,7 @@ void GAsync::updateData() {
             " , _status = '%s' "
             " , _data = '%s' "
             " where _id = %d "
-            "", m_uid
+            "", m_userId
             , m_title.c_str()
             , m_status.c_str()
             , m_data.c_str()

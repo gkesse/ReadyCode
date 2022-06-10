@@ -2,17 +2,17 @@
 #ifndef _GAsync_
 #define _GAsync_
 //===============================================
-#include "GObject.h"
+#include "GModule.h"
 //===============================================
 class GSocket;
 //===============================================
-class GAsync : public GObject {
+class GAsync : public GModule {
 public:
     GAsync();
     ~GAsync();
     //
-    std::string serialize() const;
-    void deserialize(const std::string& _req);
+    std::string serialize(const std::string& _code = "async") const;
+    void deserialize(const std::string& _req, const std::string& _code = "async");
     //
     void setTitle(const std::string& _title);
     void setStatus(const std::string& _status);
@@ -33,7 +33,6 @@ public:
 
 private:
     int m_id;
-    int m_uid;
     std::string m_title;
     std::string m_status;
     std::string m_data;
