@@ -28,47 +28,37 @@ void GMaster::deserialize(const std::string& _data, const std::string& _code) {
 }
 //===============================================
 void GMaster::onModule(GSocket* _client) {
-    validateXmlRequest(_client->toReq());
+    if(isValidXml(_client->toReq())) return;
     deserialize(_client->toReq());
+    if(isValidReq()) return;
 
     //===============================================
-    // valid
+    // module
     //===============================================
-    if(!m_validateXml) {
-        onXmlInvalid(_client);
+    if(m_module == "test") {
+        onModuleTest(_client);
     }
-    else if(!m_validateReq) {
-        onReqInvalid(_client);
+    else if(m_module == "user") {
+        onModuleUser(_client);
     }
+    else if(m_module == "req") {
+        onModuleReq(_client);
+    }
+    else if(m_module == "maj") {
+        onModuleMaj(_client);
+    }
+    //===============================================
+    // unknown
+    //===============================================
     else {
-        //===============================================
-        // module
-        //===============================================
-        if(m_module == "test") {
-            onModuleTest(_client);
-        }
-        else if(m_module == "user") {
-            onModuleUser(_client);
-        }
-        else if(m_module == "req") {
-            onModuleReq(_client);
-        }
-        else if(m_module == "maj") {
-            onModuleMaj(_client);
-        }
-        //===============================================
-        // unknown
-        //===============================================
-        else {
-            onModuleUnknown(_client);
-        }
-        //===============================================
-        // end
-        //===============================================
-        GRequest lRequest;
-        lRequest.onSaveRequest(_client);
-        //===============================================
+        onModuleUnknown(_client);
     }
+    //===============================================
+    // end
+    //===============================================
+    GRequest lRequest;
+    lRequest.onSaveRequest(_client);
+    //===============================================
 }
 //===============================================
 void GMaster::onModuleTest(GSocket* _client) {
@@ -91,10 +81,19 @@ void GMaster::onModuleMaj(GSocket* _client) {
     lMaj.onModule(_client);
 }
 //===============================================
-void GMaster::validateXmlRequest(const std::string& _data) {
+bool GMaster::isValidXml(const std::string& _data) {
     GCode lReq;
     lReq.loadXml(_data);
-    m_validateXml = lReq.isValidXml();
-    m_validateReq = lReq.isValidReq();
+    bool lValidXml = lReq.isValidXml();
+    if(!lValidXml) {GERROR(eGERR, "Erreur le XML est invalide."); return false;}
+    return true;
+}
+//===============================================
+bool GMaster::isValidReq() {
+    bool lValidReq = true;
+    lValidReq &= (m_module != "");
+    lValidReq &= (m_method != "");
+    if(!lValidReq) {GERROR(eGERR, "Erreur la requete est invalide."); return false;}
+    return true;
 }
 //===============================================

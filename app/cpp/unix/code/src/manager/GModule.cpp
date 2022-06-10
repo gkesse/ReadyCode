@@ -31,27 +31,11 @@ void GModule::deserialize(const std::string& _data, const std::string& _code) {
     m_method = lReq.getItem(_code, "method");
 }
 //===============================================
-void GModule::onXmlInvalid(GSocket* _client) {
-    GERROR(eGERR, "Erreur le format XML est invalide.",
-            m_module.c_str());
-}
-//===============================================
-void GModule::onReqInvalid(GSocket* _client) {
-    GERROR(eGERR, "Erreur le format de la requete est invalide.",
-            m_module.c_str());
-}
-//===============================================
 void GModule::onModuleUnknown(GSocket* _client) {
-    GERROR(eGERR, "Erreur le module (%s) n'existe pas.",
-            m_module.c_str());
+    GERROR(eGERR, "Erreur le module n'existe pas.");
 }
 //===============================================
 void GModule::onMethodUnknown(GSocket* _client) {
-    GERROR(eGERR, "Erreur la methode (%s : %s) n'existe pas.",
-            m_module.c_str(), m_method.c_str());
-}
-//===============================================
-void GModule::sendResponse(GSocket* _client) {
-
+    GERROR(eGERR, "Erreur la methode n'existe pas.");
 }
 //===============================================

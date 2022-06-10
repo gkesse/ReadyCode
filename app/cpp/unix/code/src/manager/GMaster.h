@@ -21,7 +21,8 @@ public:
     void onModuleReq(GSocket* _client);
     void onModuleMaj(GSocket* _client);
     //
-    void validateXmlRequest(const std::string& _data);
+    bool isValidXml(const std::string& _data);
+    bool isValidReq();
 
 private:
     bool m_validateXml;

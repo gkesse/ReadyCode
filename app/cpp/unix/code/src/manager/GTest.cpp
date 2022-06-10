@@ -740,7 +740,7 @@ void GTest::runRequestSend(int _argc, char** _argv) {
     GCode lReq;
     GSocket lClient;
     lReq.createDoc();
-    lReq.createRequest("test", "request_send");
+    lReq.createReq("test", "request_send");
     std::string lResponse = lClient.callServer(lReq.toString());
     GLOGT(eGINF, "%s", lReq.toString().c_str());
     GLOGT(eGINF, "%s", lResponse.c_str());
@@ -751,7 +751,7 @@ void GTest::runRequestSaveUser(int _argc, char** _argv) {
     GCode lReq;
     GSocket lClient;
     lReq.createDoc();
-    lReq.createRequest("test", "save_user");
+    lReq.createReq("test", "save_user");
     lReq.addData("parameters", "firstname", "Gerard");
     lReq.addData("parameters", "lastname", "KESSE");
     std::string lResponse = lClient.callServer(lReq.toString());
@@ -765,7 +765,7 @@ void GTest::runRequestGetUser(int _argc, char** _argv) {
     GCode lReq;
     GSocket lClient;
     lReq.createDoc();
-    lReq.createRequest("test", "get_user");
+    lReq.createReq("test", "get_user");
     std::string lResponse = lClient.callServer(lReq.toString());
     GERROR_LOAD(eGERR, lResponse);
     GCode lRes;
@@ -785,7 +785,7 @@ void GTest::runRequestError(int _argc, char** _argv) {
     GCode lReq;
     GSocket lClient;
     lReq.createDoc();
-    lReq.createRequest("test", "error");
+    lReq.createReq("test", "error");
     std::string lResponse = lClient.callServer(lReq.toString());
     GERROR_LOAD(eGERR, lResponse);
     GLOGT(eGINF, "[EMISSION]...: (%d)\n(%s)\n", (int)lReq.toString().size(), lReq.toString().c_str());
