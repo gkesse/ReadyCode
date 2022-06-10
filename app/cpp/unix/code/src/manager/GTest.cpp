@@ -500,6 +500,38 @@ void GTest::runXmlCode(int _argc, char** _argv) {
     //
 }
 //===============================================
+void GTest::runXmlData(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    GCode lDom;
+    std::vector<std::string> lErrors;
+    //
+    lDom.createDoc();
+    //
+    lDom.createCode("request");
+    lDom.createCode("request");
+    lDom.createCode("errors");
+    lDom.createCode("errors");
+    GLOGT(eGINF, lDom.toString().c_str());
+    //
+    lDom.addData("request", "module", "user");
+    lDom.addData("request", "module", "sitemap");
+    lDom.addData("request", "method", "get_list");
+    lDom.addData("request", "method", "get_enum");
+    GLOGT(eGINF, lDom.toString().c_str());
+    //
+    lErrors.push_back("Le nom d'utilisateur est vide.");
+    lErrors.push_back("L'adresse email est invalide.");
+    lErrors.push_back("Le mode passe est incorrect.");
+    lDom.addData("request", lErrors);
+    GLOGT(eGINF, lDom.toString().c_str());
+    //
+    lDom.addData("request", lErrors, true);
+    GLOGT(eGINF, lDom.toString().c_str());
+    //
+    GLOGT(eGINF, lDom.toStringData().c_str());
+    //
+}
+//===============================================
 void GTest::runListQueue(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
 

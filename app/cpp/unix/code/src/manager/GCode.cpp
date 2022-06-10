@@ -37,7 +37,7 @@ bool GCode::hasCode(const std::string& _code, const std::string& _key) {
 bool GCode::createCode(const std::string& _code) {
     if(!hasCode(_code)) {
         createXNode("/rdv/datas");
-        createXNode("data");
+        createNode("data");
         createXNode("code", _code);
     }
     return true;
