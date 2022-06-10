@@ -496,6 +496,8 @@ void GTest::runXmlCode(int _argc, char** _argv) {
     lDom.addData("request", lErrors, true);
     GLOGT(eGINF, lDom.toString().c_str());
     //
+    GLOGT(eGINF, lDom.toStringData().c_str());
+    //
 }
 //===============================================
 void GTest::runListQueue(int _argc, char** _argv) {
@@ -667,11 +669,12 @@ void GTest::onSocketServerStartTimer(int _signo) {
     if(!lClientIns.empty()) {
         GSocket* lClient = lClientIns.front();
         lClientIns.pop();
-        std::string lData = lClient->getReq()->toString();
+        std::string lData = lClient->toReq();
         GLOGT(eGOFF, "[RECEPTION]..: (%d)\n(%s)\n", (int)lData.size(), lData.c_str());
         GMaster lMaster;
         lMaster.onModule(lClient);
-        //lMaster.sendResponse();
+        lClient->addErrors();
+        lClient->sendResponse();
     }
 }
 //===============================================
