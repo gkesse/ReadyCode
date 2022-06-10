@@ -7,6 +7,7 @@
 //===============================================
 GXml::GXml() : GObject() {
     m_node = 0;
+    m_queryNode = 0;
     m_doc = 0;
     m_xpath = 0;
     m_xpathObj = 0;
@@ -96,6 +97,8 @@ bool GXml::createXNode(const std::string& _path, const std::string& _value, bool
     std::vector<std::string> lMap = GString(lPath).splitData('/');
     lPath = "";
 
+    m_queryNode = m_node;
+
     for(int i = 0; i < (int)lMap.size(); i++) {
         std::string lItem = lMap[i];
         lItem = GString(lItem).trimData();
@@ -110,6 +113,7 @@ bool GXml::createXNode(const std::string& _path, const std::string& _value, bool
     if(_value != "") {
         setNodeValue(_value, _isCData);
     }
+    m_queryNode = 0;
     return true;
 }
 //===============================================
@@ -155,9 +159,8 @@ bool GXml::queryXPath(const std::string& _path, bool _isRoot) {
         m_xpathObj = xmlXPathEvalExpression(BAD_CAST(_path.c_str()), m_xpath);
     }
     else {
-        xmlNodePtr lNode = m_nodeCopy.top();
-        if(lNode) {
-            m_xpathObj = xmlXPathNodeEval(m_node, BAD_CAST(_path.c_str()), m_xpath);
+        if(m_queryNode) {
+            m_xpathObj = xmlXPathNodeEval(m_queryNode, BAD_CAST(_path.c_str()), m_xpath);
         }
         else {
             m_xpathObj = xmlXPathEvalExpression(BAD_CAST(_path.c_str()), m_xpath);

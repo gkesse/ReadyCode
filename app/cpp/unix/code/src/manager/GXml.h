@@ -45,6 +45,7 @@ public:
 
 private:
     xmlNodePtr m_node;
+    xmlNodePtr m_queryNode;
     std::stack<xmlNodePtr> m_nodeCopy;
     xmlDocPtr m_doc;
     xmlXPathContextPtr m_xpath;
