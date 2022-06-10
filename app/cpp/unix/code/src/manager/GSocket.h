@@ -41,11 +41,9 @@ public:
     std::string callServer(const std::string& _dataIn);
     //
     void setReq(const std::string& _req);
-    std::shared_ptr<GCode>& getReq();
     std::string toReq() const;
     std::queue<std::string>& getDataIns();
     std::queue<GSocket*>& getClientIns();
-    std::shared_ptr<GCode>& getResponse();
     void addResponse(const std::string& _data, bool _isRoot = true);
     void addErrors();
     void sendResponse();

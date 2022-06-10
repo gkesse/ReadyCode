@@ -9,6 +9,7 @@
 #include "GTest.h"
 #include "GRequest.h"
 #include "GMaj.h"
+#include "GString.h"
 //===============================================
 GMaster::GMaster() : GModule() {
     m_validateXml = false;
@@ -31,7 +32,6 @@ void GMaster::onModule(GSocket* _client) {
     if(isValidXml(_client->toReq())) return;
     deserialize(_client->toReq());
     if(isValidReq()) return;
-
     //===============================================
     // module
     //===============================================
@@ -82,6 +82,8 @@ void GMaster::onModuleMaj(GSocket* _client) {
 }
 //===============================================
 bool GMaster::isValidXml(const std::string& _data) {
+    std::string lData = GString(_data).trimData();
+    if(lData == "") return false;
     GCode lReq;
     lReq.loadXml(_data);
     bool lValidXml = lReq.isValidXml();
