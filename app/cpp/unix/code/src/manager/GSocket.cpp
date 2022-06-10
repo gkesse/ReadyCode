@@ -356,10 +356,6 @@ std::queue<GSocket*>& GSocket::getClientIns() {
     return m_clientIns;
 }
 //===============================================
-std::shared_ptr<GCode>& GSocket::getResponse(){
-    return m_res;
-}
-//===============================================
 void GSocket::addResponse(const std::string& _data, bool _isRoot) {
     if(_data == "") return;
     m_res->loadCode(_data, _isRoot);
