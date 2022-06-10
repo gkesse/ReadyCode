@@ -516,7 +516,6 @@ void GTest::runXmlData(int _argc, char** _argv) {
     //
     lDom.createDoc();
     lDom.createXNode("rdv/datas/date", "MES_DONNEES");
-    lData = "Bonjour tout le monde";
     lOk = lMaster.isValidXml(lData);
     GLOGT(eGINF, GSTRC(lOk));
 }
