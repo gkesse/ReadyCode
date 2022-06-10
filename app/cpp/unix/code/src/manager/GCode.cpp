@@ -34,18 +34,6 @@ bool GCode::hasCode(const std::string& _code, const std::string& _key) {
     return (lCount != 0);
 }
 //===============================================
-bool GCode::hasCode(const std::string& _code, int _index) {
-    queryXPath(sformat("/rdv/datas/data[code='%s']/map/data[position()=%d]", _code.c_str(), _index + 1));
-    int lCount = countXPath();
-    return (lCount != 0);
-}
-//===============================================
-bool GCode::hasCode(const std::string& _code, const std::string& _key, int _index) {
-    queryXPath(sformat("/rdv/datas/data[code='%s']/map/data[position()=%d]/%s", _code.c_str(), _index + 1, _key.c_str()));
-    int lCount = countXPath();
-    return (lCount != 0);
-}
-//===============================================
 bool GCode::createCode(const std::string& _code) {
     if(!hasCode(_code)) {
         createXNode("/rdv/datas");
