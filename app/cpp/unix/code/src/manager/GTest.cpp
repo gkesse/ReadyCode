@@ -1090,17 +1090,21 @@ void GTest::onModule(GSocket* _client) {
 }
 //===============================================
 void GTest::onRequestSaveUser(GSocket* _client) {
+    /*
     std::string lFirstname = _client->getReq()->getItem("parameters", "firstname");
     std::string lLastname = _client->getReq()->getItem("parameters", "lastname");
     GLOGT(eGFUN, "");
     GLOGT(eGINF, "firstname...: (%s)\n", lFirstname.c_str());
     GLOGT(eGINF, "lastname....: (%s)\n", lLastname.c_str());
+    */
 }
 //===============================================
 void GTest::onRequestGetUser(GSocket* _client) {
+    /*
     std::shared_ptr<GCode>& lRes = _client->getResponse();
     lRes->addData("user", "firstname", "Gerard");
     lRes->addData("user", "lastname", "KESSE");
+    */
 }
 //===============================================
 void GTest::onRequestError(GSocket* _client) {
