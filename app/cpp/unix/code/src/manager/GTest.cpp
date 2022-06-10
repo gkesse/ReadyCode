@@ -671,7 +671,7 @@ void GTest::onSocketServerStartTimer(int _signo) {
         GLOGT(eGOFF, "[RECEPTION]..: (%d)\n(%s)\n", (int)lData.size(), lData.c_str());
         GMaster lMaster;
         lMaster.onModule(lClient);
-        lMaster.sendResponse(lClient);
+        //lMaster.sendResponse();
     }
 }
 //===============================================
@@ -1045,17 +1045,17 @@ void GTest::runMd5Key(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::onModule(GSocket* _client) {
-    std::string lMethod = _client->getReq()->getMethod();
+    deserialize(_client->toReq());
     //===============================================
     // method
     //===============================================
-    if(lMethod == "save_user") {
+    if(m_method == "save_user") {
         onRequestSaveUser(_client);
     }
-    else if(lMethod == "get_user") {
+    else if(m_method == "get_user") {
         onRequestGetUser(_client);
     }
-    else if(lMethod == "error") {
+    else if(m_method == "error") {
         onRequestError(_client);
     }
     //===============================================
