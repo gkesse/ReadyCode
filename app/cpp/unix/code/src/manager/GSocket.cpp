@@ -344,10 +344,6 @@ void GSocket::setReq(const std::string& _req) {
     m_req.reset(new GCode);
 }
 //===============================================
-std::shared_ptr<GCode>& GSocket::getReq() {
-    return m_req;
-}
-//===============================================
 std::string GSocket::toReq() const {
     return m_req->toString();
 }
