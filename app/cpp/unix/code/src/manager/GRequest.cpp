@@ -102,8 +102,6 @@ void GRequest::loadRequestCount(GSocket* _client) {
             "", m_userId
     ));
     int lCount = GString(lData).toInt();
-    std::shared_ptr<GCode>& lRes = _client->getResponse();
-    lRes->addData("req", "data_count", lCount);
 }
 //===============================================
 void GRequest::loadRequestList(GSocket* _client) {
@@ -122,8 +120,6 @@ void GRequest::loadRequestList(GSocket* _client) {
             , m_dataOffset
             , m_dataSize
     ));
-
-    std::shared_ptr<GCode>& lRes = _client->getResponse();
 
     for(int i = 0; i < (int)lReq.size(); i++) {
         std::vector<std::string> lDataRow = lReq.at(i);
