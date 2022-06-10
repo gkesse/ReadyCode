@@ -155,8 +155,13 @@ bool GXml::queryXPath(const std::string& _path, bool _isRoot) {
         m_xpathObj = xmlXPathEvalExpression(BAD_CAST(_path.c_str()), m_xpath);
     }
     else {
-        if(!m_node) return false;
-        m_xpathObj = xmlXPathNodeEval(m_node, BAD_CAST(_path.c_str()), m_xpath);
+        xmlNodePtr lNode = m_nodeCopy.top();
+        if(lNode) {
+            m_xpathObj = xmlXPathNodeEval(m_node, BAD_CAST(_path.c_str()), m_xpath);
+        }
+        else {
+            m_xpathObj = xmlXPathEvalExpression(BAD_CAST(_path.c_str()), m_xpath);
+        }
     }
     if(!m_xpathObj) {GERROR(eGERR, "Erreur lors de la création du xpath."); return false;}
     return true;
