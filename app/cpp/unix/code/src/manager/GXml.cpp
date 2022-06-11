@@ -84,7 +84,7 @@ bool GXml::isValidXml() const {
 }
 //===============================================
 std::string GXml::getNodeValue() const {
-    if(!m_node) return "";
+    if(!countXPath()) return "";
     std::string lData = (char*)xmlNodeGetContent(m_node);
     return lData;
 }
@@ -186,7 +186,6 @@ int GXml::countXPath() const {
 }
 //===============================================
 bool GXml::getNodeXPath(int _index) {
-    m_node = 0;
     if(!m_xpathObj->nodesetval) return false;
     if(!m_xpathObj->nodesetval->nodeNr) return false;
     m_node = m_xpathObj->nodesetval->nodeTab[_index];
