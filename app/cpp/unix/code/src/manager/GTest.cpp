@@ -532,6 +532,11 @@ void GTest::runXmlItem(int _argc, char** _argv) {
     lDom.addData("user", "password", "xxxxxxxxx");
     std::string lData = lDom.toString();
     GLOGT(eGMSG, lData.c_str());
+    //
+    lData = lDom.getItem("user", "password");
+    GLOGT(eGMSG, lData.c_str());
+    lData = lDom.getItem("user", "status");
+    GLOGT(eGMSG, lData.c_str());
 }
 //===============================================
 void GTest::runListQueue(int _argc, char** _argv) {
