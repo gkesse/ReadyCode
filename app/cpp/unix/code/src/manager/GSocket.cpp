@@ -23,6 +23,7 @@ void GSocket::createDoms() {
     m_dom.reset(new GXml);
     m_dom->loadFile(GRES("xml", "pad.xml"));
     m_res.reset(new GCode);
+    m_res->createDoc();
 }
 //===============================================
 int GSocket::loadDomain() const {
