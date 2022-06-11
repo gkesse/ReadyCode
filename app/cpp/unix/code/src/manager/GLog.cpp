@@ -31,6 +31,10 @@ GLog* GLog::Instance() {
     return m_instance;
 }
 //===============================================
+std::string GLog::deserialize(const std::string& _code = "errors") const {
+    return m_errors->deserialize();
+}
+//===============================================
 void GLog::createDoms() {
     m_dom.reset(new GXml);
     m_dom->loadFile(GRES("xml", "pad.xml"));

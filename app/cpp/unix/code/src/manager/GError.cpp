@@ -13,7 +13,8 @@ GError::~GError() {
 //===============================================
 std::string GError::deserialize(const std::string& _code) const {
     GCode lDom;
-    return lDom.toStringCode(_code);
+    lDom.addData(_code, m_errors);
+    return lDom.toStringData();
 }
 //===============================================
 void GError::addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _error) {

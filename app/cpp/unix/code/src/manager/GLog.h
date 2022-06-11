@@ -30,6 +30,7 @@ public:
     ~GLog();
     static GLog* Instance();
     void createDoms();
+    std::string deserialize(const std::string& _code = "errors") const;
     //
     bool isDebug() const;
     bool isDebug(bool _isTestEnv) const;
