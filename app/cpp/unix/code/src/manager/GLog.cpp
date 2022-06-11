@@ -31,7 +31,7 @@ GLog* GLog::Instance() {
     return m_instance;
 }
 //===============================================
-std::string GLog::deserialize(const std::string& _code = "errors") const {
+std::string GLog::deserialize(const std::string& _code) const {
     return m_errors->deserialize();
 }
 //===============================================
