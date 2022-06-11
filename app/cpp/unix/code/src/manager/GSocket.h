@@ -42,7 +42,6 @@ public:
     //
     void setReq(const std::string& _req);
     std::string toReq() const;
-    std::queue<std::string>& getDataIns();
     std::queue<GSocket*>& getClientIns();
     void addResponse(const std::string& _data, bool _isRoot = true);
     void addErrors();
@@ -59,10 +58,9 @@ private:
     struct sockaddr_in m_address;
     //
     GSocket* m_server;
-    std::queue<std::string> m_dataIns;
     std::queue<GSocket*> m_clientIns;
-    std::shared_ptr<GCode> m_req;
     std::shared_ptr<GCode> m_res;
+    std::string m_req;
 };
 //==============================================
 #endif

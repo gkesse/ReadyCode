@@ -341,15 +341,11 @@ std::string GSocket::callServer(const std::string& _dataIn) {
 }
 //===============================================
 void GSocket::setReq(const std::string& _req) {
-    m_req.reset(new GCode);
+    m_req = _req;
 }
 //===============================================
 std::string GSocket::toReq() const {
-    return m_req->toString();
-}
-//===============================================
-std::queue<std::string>& GSocket::getDataIns() {
-    return m_dataIns;
+    return m_req;
 }
 //===============================================
 std::queue<GSocket*>& GSocket::getClientIns() {
