@@ -103,6 +103,9 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "xml/data") {
         runXmlData(_argc, _argv);
     }
+    else if(lKey == "xml/item") {
+        runXmlItem(_argc, _argv);
+    }
     //===============================================
     // socket
     //===============================================
@@ -518,6 +521,17 @@ void GTest::runXmlData(int _argc, char** _argv) {
     lDom.createXNode("rdv/datas/date", "MES_DONNEES");
     lOk = lMaster.isValidXml(lData);
     GLOGT(eGINF, GSTRC(lOk));
+}
+//===============================================
+void GTest::runXmlItem(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    GCode lDom;
+    lDom.createDoc();
+    lDom.addData("request", "module", "user");
+    lDom.addData("request", "method", "run_connection");
+    lDom.addData("user", "password", "xxxxxxxxx");
+    std::string lData = lDom.toString();
+    GLOGT(eGMSG, lData.c_str());
 }
 //===============================================
 void GTest::runListQueue(int _argc, char** _argv) {
