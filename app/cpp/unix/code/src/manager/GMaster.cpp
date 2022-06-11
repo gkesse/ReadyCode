@@ -29,9 +29,9 @@ void GMaster::deserialize(const std::string& _data, const std::string& _code) {
 }
 //===============================================
 void GMaster::onModule(GSocket* _client) {
-    if(isValidXml(_client->toReq())) return;
+    if(!isValidXml(_client->toReq())) return;
     deserialize(_client->toReq());
-    if(isValidReq()) return;
+    if(!isValidReq()) return;
     //===============================================
     // module
     //===============================================
