@@ -13,6 +13,7 @@ GError::~GError() {
 //===============================================
 std::string GError::deserialize(const std::string& _code) const {
     GCode lDom;
+    lDom.createDoc();
     lDom.addData(_code, m_errors);
     return lDom.toStringData();
 }
