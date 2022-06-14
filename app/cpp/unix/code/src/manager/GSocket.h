@@ -44,6 +44,7 @@ public:
     std::string toReq() const;
     std::queue<GSocket*>& getClientIns();
     void addResponse(const std::string& _data, bool _isRoot = true);
+    bool clearErrors();
     bool addErrors();
     void sendResponse();
     //

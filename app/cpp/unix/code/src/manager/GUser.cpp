@@ -116,15 +116,8 @@ void GUser::onRunConnection(GSocket* _client) {
 }
 //===============================================
 bool GUser::runConnection() {
-    if(m_email == "") {
-        GERROR(eGERR, "L'email est obligatoire.");
-        return false;
-    }
-    if(m_password == "") {
-        m_status = false;
-        m_msg = "Le mot de passe est obligatoire.";
-        return false;
-    }
+    if(m_email == "") {GERROR(eGERR, "L'email est obligatoire."); return false;}
+    if(m_password == "") {GERROR(eGERR, "Le mot de passe est obligatoire."); return false;}
     m_status = true;
     m_msg = "Bonne connexion.";
     return true;

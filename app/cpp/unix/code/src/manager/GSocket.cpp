@@ -358,6 +358,12 @@ void GSocket::addResponse(const std::string& _data, bool _isRoot) {
     m_res->loadCode(_data, _isRoot);
 }
 //===============================================
+bool GSocket::clearErrors() {
+    if(!GLOGI->hasErrors()) return false;
+    GLOGI->clearErrors();
+    return true;
+}
+//===============================================
 bool GSocket::addErrors() {
     if(!GLOGI->hasErrors()) return false;
     m_res->loadCode(GLOGI->deserialize());
