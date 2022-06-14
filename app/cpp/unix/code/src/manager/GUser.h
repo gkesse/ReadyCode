@@ -33,6 +33,7 @@ public:
 
 private:
     int m_id;
+    std::string m_mode;
     std::string m_email;
     std::string m_pseudo;
     std::string m_password;

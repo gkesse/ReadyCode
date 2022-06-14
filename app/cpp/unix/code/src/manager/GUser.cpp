@@ -7,9 +7,11 @@
 #include "GSocket.h"
 #include "GString.h"
 #include "GMd5.h"
+#include "GDefine.h"
 //===============================================
 GUser::GUser() : GModule() {
     m_id = 0;
+    m_mode = "";
     m_email = "";
     m_pseudo = "";
     m_password = "";
@@ -27,6 +29,7 @@ std::string GUser::serialize(const std::string& _code) const {
     GCode lReq;
     lReq.createDoc();
     lReq.addData(_code, "id", m_id);
+    lReq.addData(_code, "mode", m_mode);
     lReq.addData(_code, "email", m_email);
     lReq.addData(_code, "pseudo", m_pseudo);
     lReq.addData(_code, "password", m_password);
@@ -42,6 +45,7 @@ void GUser::deserialize(const std::string& _data, const std::string& _code) {
     GCode lReq;
     lReq.loadXml(_data);
     m_id = GString(lReq.getItem(_code, "id")).toInt();
+    m_mode = lReq.getItem(_code, "mode");
     m_email = lReq.getItem(_code, "email");
     m_pseudo = lReq.getItem(_code, "pseudo");
     m_password = lReq.getItem(_code, "password");
@@ -116,6 +120,7 @@ void GUser::onRunConnection(GSocket* _client) {
 }
 //===============================================
 bool GUser::runConnection() {
+    if(m_mode == "") {GERROR(eGERR, "Le mode de recherche n'est pas defini."); return false;}
     if(m_email == "") {GERROR(eGERR, "L'email est obligatoire."); return false;}
     if(m_password == "") {GERROR(eGERR, "Le mot de passe est obligatoire."); return false;}
     m_status = true;
