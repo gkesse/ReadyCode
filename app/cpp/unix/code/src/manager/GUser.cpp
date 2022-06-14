@@ -121,11 +121,37 @@ void GUser::onRunConnection(GSocket* _client) {
 //===============================================
 bool GUser::runConnection() {
     if(m_mode == "") {GERROR(eGERR, "Le mode de recherche n'est pas defini."); return false;}
+    bool lHasSearchMode = hasSearchMode(m_mode);
+    if(m_mode == "") {GERROR(eGERR, "Le mode de recherche n'est pas defini."); return false;}
+    return true;
+}
+//===============================================
+bool GUser::runConnectionEmail() {
+    if(m_mode == "") {GERROR(eGERR, "Le mode de recherche n'est pas defini."); return false;}
     if(m_email == "") {GERROR(eGERR, "L'email est obligatoire."); return false;}
     if(m_password == "") {GERROR(eGERR, "Le mot de passe est obligatoire."); return false;}
     m_status = true;
     m_msg = "Bonne connexion.";
     return true;
+}
+//===============================================
+bool GUser::runConnectionPseudo() {
+    if(m_mode == "") {GERROR(eGERR, "Le mode de recherche n'est pas defini."); return false;}
+    if(m_email == "") {GERROR(eGERR, "L'email est obligatoire."); return false;}
+    if(m_password == "") {GERROR(eGERR, "Le mot de passe est obligatoire."); return false;}
+    m_status = true;
+    m_msg = "Bonne connexion.";
+    return true;
+}
+//===============================================
+bool GUser::hasSearchMode(const std::string& _mode) {
+    int lCount = GMySQL().execQuery(sformat(""
+            " select count(*) "
+            " from user_mode "
+            " where _mode = '%s' "
+            "", _mode.c_str()
+    ));
+    return false;
 }
 //===============================================
 int GUser::getId() const {

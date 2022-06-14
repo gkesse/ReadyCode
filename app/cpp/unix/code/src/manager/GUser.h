@@ -21,6 +21,9 @@ public:
     void onRunConnection(GSocket* _client);
     //
     bool runConnection();
+    bool runConnectionEmail();
+    bool runConnectionPseudo();
+    bool hasSearchMode(const std::string& _mode);
     //
     int getId() const;
     void loadId();
