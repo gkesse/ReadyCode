@@ -11,7 +11,7 @@
 //===============================================
 GUser::GUser() : GModule() {
     m_id = 0;
-    m_mode = D_USER_MODE_EMAIL;
+    m_mode = "";
     m_email = "";
     m_pseudo = "";
     m_password = "";
@@ -49,17 +49,15 @@ void GUser::deserialize(const std::string& _data, const std::string& _code) {
     m_active = lReq.getItem(_code, "active");
 }
 //===============================================
-void GUser::onModule(GSocket* _client) {
+bool GUser::onModule(GSocket* _client) {
     deserialize(_client->toReq());
+    //===============================================
+    if(m_method == "") {
+        return false;
+    }
     //===============================================
     // method
     //===============================================
-    if(m_method == "has_user") {
-        onHasUser(_client);
-    }
-    else if(m_method == "has_user_password") {
-        onHasUserPassword(_client);
-    }
     else if(m_method == "create_user") {
         onCreateUser(_client);
     }
@@ -72,31 +70,13 @@ void GUser::onModule(GSocket* _client) {
     else {
         onMethodUnknown(_client);
     }
-}
-//===============================================
-void GUser::onHasUser(GSocket* _client) {
-    deserialize(_client->toReq());
-    computePassword();
-    loadId();
-    std::string lData = serialize();
-    _client->addResponse(lData);
-}
-//===============================================
-void GUser::onHasUserPassword(GSocket* _client) {
-    deserialize(_client->toReq());
-    computePassword();
-    loadIdPassword();
-    loadUser();
-    std::string lData = serialize();
-    _client->addResponse(lData);
+    return true;
 }
 //===============================================
 void GUser::onCreateUser(GSocket* _client) {
     deserialize(_client->toReq());
-    computePassword();
-    loadId();
+    computePasswordEmail();
     saveData();
-    loadId();
     loadUser();
     std::string lData = serialize();
     _client->addResponse(lData);
@@ -125,13 +105,20 @@ bool GUser::runConnectionEmail() {
     if(m_password == "") {GERROR(eGERR, "Le mot de passe est obligatoire."); return false;}
     loadUserEmail();
     if(m_id == 0) {GERROR(eGERR, "L'email n'existe pas encore."); return false;}
+    computePasswordEmail();
+    loadUserPassword();
+    if(m_id == 0) {GERROR(eGERR, "Le mot de passe est incorrect."); return false;}
     return true;
 }
 //===============================================
 bool GUser::runConnectionPseudo() {
-    if(m_mode == "") {GERROR(eGERR, "Le mode de recherche n'est pas defini."); return false;}
     if(m_pseudo == "") {GERROR(eGERR, "Le nom d'utilisateur est obligatoire."); return false;}
     if(m_password == "") {GERROR(eGERR, "Le mot de passe est obligatoire."); return false;}
+    loadUserPseudo();
+    if(m_id == 0) {GERROR(eGERR, "Le pseudo n'existe pas encore."); return false;}
+    computePasswordPseudo();
+    loadUserPassword();
+    if(m_id == 0) {GERROR(eGERR, "Le mot de passe est incorrect."); return false;}
     return true;
 }
 //===============================================
@@ -146,73 +133,64 @@ bool GUser::loadUserEmail() {
     return true;
 }
 //===============================================
-int GUser::countMode(const std::string& _mode) {
+bool GUser::loadUserPseudo() {
     std::string lData = GMySQL().readData(sformat(""
-            " select count(*) "
-            " from user_mode "
-            " where _mode = '%s' "
-            "", _mode.c_str()
-    ));
-    int lCount = GString(lData).toInt();
-    return lCount;
-}
-//===============================================
-int GUser::getId() const {
-    return m_id;
-}
-//===============================================
-void GUser::loadId() {
-    if(m_pseudo == "") return;
-
-    std::string lId = GMySQL().readData(sformat(""
             " select _id "
-            " from user "
+            " from _user "
             " where _pseudo = '%s' "
             "", m_pseudo.c_str()
     ));
-
-    m_id = GString(lId).toInt();
+    m_id = GString(lData).toInt();
+    return true;
 }
 //===============================================
-void GUser::loadIdPassword() {
-    if(m_pseudo == "") return;
-    if(m_password == "") return;
-
-    std::string lId = GMySQL().readData(sformat(""
+bool GUser::loadUserPassword() {
+    if(m_id == 0) return false;
+    if(m_passwordMd5) return false;
+    std::string lData = GMySQL().readData(sformat(""
             " select _id "
-            " from user "
-            " where _pseudo = '%s' "
+            " from _user "
+            " where _id = %d "
             " and _password = '%s' "
-            "", m_pseudo.c_str()
-            , m_password.c_str()
+            "", m_id
+            , m_passwordMd5.c_str()
     ));
-
-    m_id = GString(lId).toInt();
+    m_id = GString(lData).toInt();
+    return true;
 }
 //===============================================
-void GUser::loadUser() {
-    if(!m_id) return;
+bool GUser::loadUser() {
+    if(m_id == 0) return false;
 
     std::vector<std::string> lRow = GMySQL().readRow(sformat(""
-            " select _id, _pseudo, _group, _active "
-            " from user "
+            " select _email, _pseudo, _group, _active "
+            " from _user "
             " where _id = %d "
             "", m_id
     ));
 
     int i = 0;
-    m_id = GString(lRow.at(i++)).toInt();
+    m_email = lRow.at(i++);
     m_pseudo = lRow.at(i++);
     m_group = lRow.at(i++);
     m_active = lRow.at(i++);
+    return true;
 }
 //===============================================
-void GUser::computePassword() {
-    if(m_pseudo == "") return;
-    if(m_password == "") return;
-
+bool GUser::computePasswordEmail() {
+    if(m_email == "") return false;
+    if(m_password == "") return false;
+    m_password = sformat("%s|%s", m_email.c_str(), m_password.c_str());
+    m_passwordMd5 = GMd5(m_password).encodeData();
+    return true;
+}
+//===============================================
+bool GUser::computePasswordPseudo() {
+    if(m_pseudo == "") return false;
+    if(m_password == "") return false;
     m_password = sformat("%s|%s", m_pseudo.c_str(), m_password.c_str());
-    m_password = GMd5(m_password).encodeData();
+    m_passwordMd5 = GMd5(m_password).encodeData();
+    return true;
 }
 //===============================================
 void GUser::saveData() {

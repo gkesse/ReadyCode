@@ -14,23 +14,20 @@ public:
     std::string serialize(const std::string& _code = "user") const;
     void deserialize(const std::string& _data, const std::string& _code = "user");
     //
-    void onModule(GSocket* _client);
-    void onHasUser(GSocket* _client);
-    void onHasUserPassword(GSocket* _client);
+    bool onModule(GSocket* _client);
     void onCreateUser(GSocket* _client);
     void onRunConnection(GSocket* _client);
     //
     bool runConnection();
     bool runConnectionEmail();
     bool runConnectionPseudo();
-    bool loadUserEmail();
-    int countMode(const std::string& _mode);
     //
-    int getId() const;
-    void loadId();
-    void loadIdPassword();
-    void loadUser();
-    void computePassword();
+    bool loadUserEmail();
+    bool loadUserPseudo();
+    bool loadUserPassword();
+    bool loadUser();
+    bool computePasswordEmail();
+    bool computePasswordPseudo();
     void saveData();
     void insertData();
     void updateData();
@@ -41,6 +38,7 @@ private:
     std::string m_email;
     std::string m_pseudo;
     std::string m_password;
+    std::string m_passwordMd5;
     std::string m_group;
     std::string m_active;
 };
