@@ -9,6 +9,7 @@
 #include "GTest.h"
 #include "GRequest.h"
 #include "GMaj.h"
+#include "GMd5.h"
 #include "GString.h"
 //===============================================
 GMaster::GMaster() : GModule() {
@@ -47,6 +48,9 @@ void GMaster::onModule(GSocket* _client) {
     else if(m_module == "maj") {
         onModuleMaj(_client);
     }
+    else if(m_module == "md5") {
+        onModuleMd5(_client);
+    }
     //===============================================
     // unknown
     //===============================================
@@ -79,6 +83,11 @@ void GMaster::onModuleReq(GSocket* _client) {
 void GMaster::onModuleMaj(GSocket* _client) {
     GMaj lMaj;
     lMaj.onModule(_client);
+}
+//===============================================
+void GMaster::onModuleMd5(GSocket* _client) {
+    GMd5 lMd5;
+    lMd5.onModule(_client);
 }
 //===============================================
 bool GMaster::isValidXml(const std::string& _data) {

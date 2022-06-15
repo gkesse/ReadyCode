@@ -20,6 +20,7 @@ public:
     void onModuleUser(GSocket* _client);
     void onModuleReq(GSocket* _client);
     void onModuleMaj(GSocket* _client);
+    void onModuleMd5(GSocket* _client);
     //
     bool isValidXml(const std::string& _data);
     bool isValidReq();
