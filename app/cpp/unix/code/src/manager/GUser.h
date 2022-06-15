@@ -23,7 +23,7 @@ public:
     bool runConnection();
     bool runConnectionEmail();
     bool runConnectionPseudo();
-    bool hasSearchMode(const std::string& _mode);
+    int countMode(const std::string& _mode);
     //
     int getId() const;
     void loadId();

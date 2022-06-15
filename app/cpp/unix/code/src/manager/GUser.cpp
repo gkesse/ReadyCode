@@ -121,8 +121,7 @@ void GUser::onRunConnection(GSocket* _client) {
 //===============================================
 bool GUser::runConnection() {
     if(m_mode == "") {GERROR(eGERR, "Le mode de recherche n'est pas defini."); return false;}
-    bool lHasSearchMode = hasSearchMode(m_mode);
-    if(m_mode == "") {GERROR(eGERR, "Le mode de recherche n'est pas defini."); return false;}
+    if(!countMode(m_mode)) {GERROR(eGERR, "Le mode de recherche n'est pas reconnu."); return false;}
     return true;
 }
 //===============================================
@@ -144,14 +143,15 @@ bool GUser::runConnectionPseudo() {
     return true;
 }
 //===============================================
-bool GUser::hasSearchMode(const std::string& _mode) {
-    int lCount = GMySQL().execQuery(sformat(""
+int GUser::countMode(const std::string& _mode) {
+    std::string lData = GMySQL().readData(sformat(""
             " select count(*) "
             " from user_mode "
             " where _mode = '%s' "
             "", _mode.c_str()
     ));
-    return false;
+    int lCount = GString(lData).toInt();
+    return lCount;
 }
 //===============================================
 int GUser::getId() const {
