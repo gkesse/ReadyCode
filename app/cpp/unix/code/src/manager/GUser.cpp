@@ -11,14 +11,12 @@
 //===============================================
 GUser::GUser() : GModule() {
     m_id = 0;
-    m_mode = "";
+    m_mode = D_USER_MODE_EMAIL;
     m_email = "";
     m_pseudo = "";
     m_password = "";
     m_group = "";
     m_active = "";
-    m_msg = "";
-    m_status = false;
 }
 //===============================================
 GUser::~GUser() {
@@ -120,17 +118,15 @@ void GUser::onRunConnection(GSocket* _client) {
 }
 //===============================================
 bool GUser::runConnection() {
-    if(m_mode == "") {GERROR(eGERR, "Le mode de recherche n'est pas defini."); return false;}
-    if(!countMode(m_mode)) {GERROR(eGERR, "Le mode de recherche n'est pas reconnu."); return false;}
-    return true;
+    if(m_mode == D_USER_MODE_EMAIL) return runConnectionEmail();
+    if(m_mode == D_USER_MODE_PSEUDO) return runConnectionPseudo();
+    GERROR(eGERR, "Le mode de recherche n'est pas defini.");
+    return false;
 }
 //===============================================
 bool GUser::runConnectionEmail() {
-    if(m_mode == "") {GERROR(eGERR, "Le mode de recherche n'est pas defini."); return false;}
     if(m_email == "") {GERROR(eGERR, "L'email est obligatoire."); return false;}
     if(m_password == "") {GERROR(eGERR, "Le mot de passe est obligatoire."); return false;}
-    m_status = true;
-    m_msg = "Bonne connexion.";
     return true;
 }
 //===============================================
