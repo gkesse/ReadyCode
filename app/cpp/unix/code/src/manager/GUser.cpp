@@ -104,6 +104,7 @@ bool GUser::runConnectionEmail() {
     computePasswordEmail();
     loadUserPassword();
     if(m_id == 0) {GERROR(eGERR, "Le mot de passe est incorrect."); return false;}
+    loadUser();
     return true;
 }
 //===============================================
@@ -115,6 +116,7 @@ bool GUser::runConnectionPseudo() {
     computePasswordPseudo();
     loadUserPassword();
     if(m_id == 0) {GERROR(eGERR, "Le mot de passe est incorrect."); return false;}
+    loadUser();
     return true;
 }
 //===============================================
