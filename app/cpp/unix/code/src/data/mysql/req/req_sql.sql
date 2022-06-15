@@ -1,23 +1,69 @@
 -- ==============================================
--- maj
+-- _maj
 -- ==============================================
-select *
-from maj m
-order by m._id;
+drop table if exists _maj;
+
+create table if not exists _maj (
+    _id int not null auto_increment,
+    _code varchar(255) not null,
+    _filename varchar(255) not null,
+    _c_date datetime default current_timestamp,
+    _u_date datetime on update current_timestamp,
+    primary key (_id),
+    unique (_code)
+);
 
 -- ==============================================
 -- user
 -- ==============================================
-create table if not exists user_mode (
+drop table if exists _user;
+
+create table if not exists _user (
     _id int not null auto_increment,
-    _pseudo varchar(255) not null,
-    _password varchar(255) not null,
-    _group char(1) default '2',
-    _active char(1) default '1',
+    _email varchar(50),
+    _pseudo varchar(50),
+    _password varchar(50) not null,
+    _group char(1) default '0',
+    _active char(1) default '0',
     _c_date datetime default current_timestamp,
     _u_date datetime on update current_timestamp,
     primary key (_id),
     unique (_pseudo)
+);
+
+-- ==============================================
+-- request
+-- ==============================================
+drop table if exists _request;
+
+create table if not exists _request (
+    _id int not null auto_increment,
+    _u_id int not null,
+    _module varchar(255) not null,
+    _method varchar(255) not null,
+    _msg text not null,
+    _c_date datetime default current_timestamp,
+    _u_date datetime on update current_timestamp,
+    primary key (_id),
+    unique (_u_id, _module, _method),
+    foreign key (_u_id) references _user (_id)
+);
+
+-- ==============================================
+-- _async
+-- ==============================================
+drop table if exists _async;
+
+create table if not exists async (
+    _id int not null auto_increment,
+    _u_id int not null,
+    _title varchar(255) not null,
+    _status varchar(255) not null,
+    _data text,
+    _c_date datetime default current_timestamp,
+    _u_date datetime on update current_timestamp,
+    primary key (_id),
+    foreign key (_u_id) references _user (_id)
 );
 
 -- ==============================================

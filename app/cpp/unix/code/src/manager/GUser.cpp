@@ -33,8 +33,6 @@ std::string GUser::serialize(const std::string& _code) const {
     lReq.addData(_code, "password", m_password);
     lReq.addData(_code, "group", m_group);
     lReq.addData(_code, "active", m_active);
-    lReq.addData(_code, "msg", m_msg);
-    lReq.addData(_code, "status", m_status);
     return lReq.toStringCode(_code);
 }
 //===============================================
@@ -49,8 +47,6 @@ void GUser::deserialize(const std::string& _data, const std::string& _code) {
     m_password = lReq.getItem(_code, "password");
     m_group = lReq.getItem(_code, "group");
     m_active = lReq.getItem(_code, "active");
-    m_msg = lReq.getItem(_code, "msg");
-    m_status = GString(lReq.getItem(_code, "status")).toBool();
 }
 //===============================================
 void GUser::onModule(GSocket* _client) {
@@ -127,15 +123,26 @@ bool GUser::runConnection() {
 bool GUser::runConnectionEmail() {
     if(m_email == "") {GERROR(eGERR, "L'email est obligatoire."); return false;}
     if(m_password == "") {GERROR(eGERR, "Le mot de passe est obligatoire."); return false;}
+    loadUserEmail();
+    if(m_id == 0) {GERROR(eGERR, "L'email n'existe pas encore."); return false;}
     return true;
 }
 //===============================================
 bool GUser::runConnectionPseudo() {
     if(m_mode == "") {GERROR(eGERR, "Le mode de recherche n'est pas defini."); return false;}
-    if(m_email == "") {GERROR(eGERR, "L'email est obligatoire."); return false;}
+    if(m_pseudo == "") {GERROR(eGERR, "Le nom d'utilisateur est obligatoire."); return false;}
     if(m_password == "") {GERROR(eGERR, "Le mot de passe est obligatoire."); return false;}
-    m_status = true;
-    m_msg = "Bonne connexion.";
+    return true;
+}
+//===============================================
+bool GUser::loadUserEmail() {
+    std::string lData = GMySQL().readData(sformat(""
+            " select _id "
+            " from _user "
+            " where _email = '%s' "
+            "", m_email.c_str()
+    ));
+    m_id = GString(lData).toInt();
     return true;
 }
 //===============================================

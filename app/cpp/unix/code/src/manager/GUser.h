@@ -23,6 +23,7 @@ public:
     bool runConnection();
     bool runConnectionEmail();
     bool runConnectionPseudo();
+    bool loadUserEmail();
     int countMode(const std::string& _mode);
     //
     int getId() const;
