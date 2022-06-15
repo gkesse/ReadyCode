@@ -15,6 +15,7 @@ GUser::GUser() : GModule() {
     m_email = "";
     m_pseudo = "";
     m_password = "";
+    m_passwordMd5 = "";
     m_group = "";
     m_active = "";
 }
@@ -146,7 +147,7 @@ bool GUser::loadUserPseudo() {
 //===============================================
 bool GUser::loadUserPassword() {
     if(m_id == 0) return false;
-    if(m_passwordMd5) return false;
+    if(m_passwordMd5 == "") return false;
     std::string lData = GMySQL().readData(sformat(""
             " select _id "
             " from _user "
