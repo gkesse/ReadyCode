@@ -1060,7 +1060,7 @@ void GTest::runBase64(int _argc, char** _argv) {
 void GTest::runMd5(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     std::string lData1 = "root|admin";
-    std::string lData2 = GMd5(lData1).encodeData();
+    std::string lData2 = GMd5().encodeData(lData1);
     GLOGT(eGINF, ""
             "1............: %s\n"
             "2............: %s\n"
@@ -1070,8 +1070,8 @@ void GTest::runMd5(int _argc, char** _argv) {
 void GTest::runMd5Key(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
 
-    std::string lData1 = "produitpargerardkesse";
-    std::string lData2 = GMd5(lData1).encodeData();
+    std::string lData1 = "hello";
+    std::string lData2 = GMd5().encodeData(lData1);
     std::string lData3 = sformat("%s;%d", lData2.c_str(), 350);
     std::string lData4 = sformat("%-*s", 100, lData3.c_str());
 

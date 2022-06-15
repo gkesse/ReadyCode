@@ -85,11 +85,6 @@ void GUser::onCreateUser(GSocket* _client) {
 //===============================================
 void GUser::onRunConnection(GSocket* _client) {
     runConnection();
-    /*computePassword();
-    loadId();
-    saveData();
-    loadId();
-    loadUser();*/
     std::string lData = serialize();
     _client->addResponse(lData);
 }
@@ -182,7 +177,7 @@ bool GUser::computePasswordEmail() {
     if(m_email == "") return false;
     if(m_password == "") return false;
     m_password = sformat("%s|%s", m_email.c_str(), m_password.c_str());
-    m_passwordMd5 = GMd5(m_password).encodeData();
+    m_passwordMd5 = GMd5().encodeData(m_password);
     return true;
 }
 //===============================================
@@ -190,7 +185,7 @@ bool GUser::computePasswordPseudo() {
     if(m_pseudo == "") return false;
     if(m_password == "") return false;
     m_password = sformat("%s|%s", m_pseudo.c_str(), m_password.c_str());
-    m_passwordMd5 = GMd5(m_password).encodeData();
+    m_passwordMd5 = GMd5().encodeData(m_password);
     return true;
 }
 //===============================================
