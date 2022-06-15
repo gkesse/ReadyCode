@@ -176,16 +176,16 @@ bool GUser::loadUser() {
 bool GUser::computePasswordEmail() {
     if(m_email == "") return false;
     if(m_password == "") return false;
-    m_password = sformat("%s|%s", m_email.c_str(), m_password.c_str());
-    m_passwordMd5 = GMd5().encodeData(m_password);
+    m_passwordMd5 = sformat("%s|%s", m_email.c_str(), m_password.c_str());
+    m_passwordMd5 = GMd5().encodeData(m_passwordMd5);
     return true;
 }
 //===============================================
 bool GUser::computePasswordPseudo() {
     if(m_pseudo == "") return false;
     if(m_password == "") return false;
-    m_password = sformat("%s|%s", m_pseudo.c_str(), m_password.c_str());
-    m_passwordMd5 = GMd5().encodeData(m_password);
+    m_passwordMd5 = sformat("%s|%s", m_pseudo.c_str(), m_password.c_str());
+    m_passwordMd5 = GMd5().encodeData(m_passwordMd5);
     return true;
 }
 //===============================================
