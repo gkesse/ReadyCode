@@ -102,11 +102,9 @@ bool GUser::createConnection() {
     if(m_pseudo == "") {GERROR(eGERR, "Le nom d'utilisateur est obligatoire."); return false;}
     if(m_password == "") {GERROR(eGERR, "Le mot de passe est obligatoire."); return false;}
     loadUserPseudo();
-    if(m_id != 0) {GERROR(eGERR, "Le nom d'utilisateur n'existe pas encore."); return false;}
+    if(m_id != 0) {GERROR(eGERR, "Le nom d'utilisateur existe déjà."); return false;}
     computePassword();
     saveUser();
-    if(m_id == 0) {GERROR(eGERR, "Le mot de passe est incorrect."); return false;}
-    loadUser();
     return true;
 }
 //===============================================
