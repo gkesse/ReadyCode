@@ -21,10 +21,10 @@ drop table if exists _user;
 create table if not exists _user (
     _id int not null auto_increment,
     _email varchar(50),
-    _pseudo varchar(50),
+    _pseudo varchar(50) not null,
     _password varchar(50) not null,
     _group char(1) default '0',
-    _active char(1) default '0',
+    _active char(1) default '1',
     _c_date datetime default current_timestamp,
     _u_date datetime on update current_timestamp,
     primary key (_id),

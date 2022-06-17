@@ -19,15 +19,11 @@ public:
     void onRunConnection(GSocket* _client);
     //
     bool runConnection();
-    bool runConnectionEmail();
-    bool runConnectionPseudo();
     //
-    bool loadUserEmail();
     bool loadUserPseudo();
     bool loadUserPassword();
     bool loadUser();
-    bool computePasswordEmail();
-    bool computePasswordPseudo();
+    bool computePassword();
     void saveData();
     void insertData();
     void updateData();

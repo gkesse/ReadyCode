@@ -76,7 +76,7 @@ bool GUser::onModule(GSocket* _client) {
 //===============================================
 void GUser::onCreateUser(GSocket* _client) {
     deserialize(_client->toReq());
-    computePasswordEmail();
+    computePassword();
     saveData();
     loadUser();
     std::string lData = serialize();
@@ -90,30 +90,11 @@ void GUser::onRunConnection(GSocket* _client) {
 }
 //===============================================
 bool GUser::runConnection() {
-    if(m_mode == D_USER_MODE_EMAIL) return runConnectionEmail();
-    if(m_mode == D_USER_MODE_PSEUDO) return runConnectionPseudo();
-    GERROR(eGERR, "Le mode de recherche n'est pas defini.");
-    return false;
-}
-//===============================================
-bool GUser::runConnectionEmail() {
-    if(m_email == "") {GERROR(eGERR, "L'email est obligatoire."); return false;}
-    if(m_password == "") {GERROR(eGERR, "Le mot de passe est obligatoire."); return false;}
-    loadUserEmail();
-    if(m_id == 0) {GERROR(eGERR, "L'email n'existe pas encore."); return false;}
-    computePasswordEmail();
-    loadUserPassword();
-    if(m_id == 0) {GERROR(eGERR, "Le mot de passe est incorrect."); return false;}
-    loadUser();
-    return true;
-}
-//===============================================
-bool GUser::runConnectionPseudo() {
     if(m_pseudo == "") {GERROR(eGERR, "Le nom d'utilisateur est obligatoire."); return false;}
     if(m_password == "") {GERROR(eGERR, "Le mot de passe est obligatoire."); return false;}
     loadUserPseudo();
-    if(m_id == 0) {GERROR(eGERR, "Le pseudo n'existe pas encore."); return false;}
-    computePasswordPseudo();
+    if(m_id == 0) {GERROR(eGERR, "Le nom d'utilisateur n'existe pas encore."); return false;}
+    computePassword();
     loadUserPassword();
     if(m_id == 0) {GERROR(eGERR, "Le mot de passe est incorrect."); return false;}
     loadUser();
@@ -125,6 +106,7 @@ bool GUser::loadUserEmail() {
             " select _id "
             " from _user "
             " where _email = '%s' "
+            " and _active = '1' "
             "", m_email.c_str()
     ));
     m_id = GString(lData).toInt();
@@ -136,6 +118,7 @@ bool GUser::loadUserPseudo() {
             " select _id "
             " from _user "
             " where _pseudo = '%s' "
+            " and _active = '1' "
             "", m_pseudo.c_str()
     ));
     m_id = GString(lData).toInt();
@@ -150,6 +133,7 @@ bool GUser::loadUserPassword() {
             " from _user "
             " where _id = %d "
             " and _password = '%s' "
+            " and _active = '1' "
             "", m_id
             , m_passwordMd5.c_str()
     ));
@@ -164,6 +148,7 @@ bool GUser::loadUser() {
             " select _email, _pseudo, _group, _active "
             " from _user "
             " where _id = %d "
+            " and _active = '1' "
             "", m_id
     ));
 
@@ -175,15 +160,7 @@ bool GUser::loadUser() {
     return true;
 }
 //===============================================
-bool GUser::computePasswordEmail() {
-    if(m_email == "") return false;
-    if(m_password == "") return false;
-    m_passwordMd5 = sformat("%s|%s", m_email.c_str(), m_password.c_str());
-    m_passwordMd5 = GMd5().encodeData(m_passwordMd5);
-    return true;
-}
-//===============================================
-bool GUser::computePasswordPseudo() {
+bool GUser::computePassword() {
     if(m_pseudo == "") return false;
     if(m_password == "") return false;
     m_passwordMd5 = sformat("%s|%s", m_pseudo.c_str(), m_password.c_str());
