@@ -15,18 +15,19 @@ public:
     void deserialize(const std::string& _data, const std::string& _code = "user");
     //
     bool onModule(GSocket* _client);
-    void onCreateUser(GSocket* _client);
+    void onCreateAccount(GSocket* _client);
     void onRunConnection(GSocket* _client);
     //
     bool runConnection();
+    bool createConnection();
     //
     bool loadUserPseudo();
     bool loadUserPassword();
     bool loadUser();
     bool computePassword();
-    void saveData();
-    void insertData();
-    void updateData();
+    bool saveUser();
+    bool insertUser();
+    bool updateUser();
 
 private:
     int m_id;

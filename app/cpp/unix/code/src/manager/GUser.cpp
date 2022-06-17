@@ -59,8 +59,8 @@ bool GUser::onModule(GSocket* _client) {
     //===============================================
     // method
     //===============================================
-    else if(m_method == "create_user") {
-        onCreateUser(_client);
+    else if(m_method == "create_account") {
+        onCreateAccount(_client);
     }
     else if(m_method == "run_connection") {
         onRunConnection(_client);
@@ -74,11 +74,8 @@ bool GUser::onModule(GSocket* _client) {
     return true;
 }
 //===============================================
-void GUser::onCreateUser(GSocket* _client) {
-    deserialize(_client->toReq());
-    computePassword();
-    saveData();
-    loadUser();
+void GUser::onCreateAccount(GSocket* _client) {
+    createConnection();
     std::string lData = serialize();
     _client->addResponse(lData);
 }
@@ -96,6 +93,18 @@ bool GUser::runConnection() {
     if(m_id == 0) {GERROR(eGERR, "Le nom d'utilisateur n'existe pas encore."); return false;}
     computePassword();
     loadUserPassword();
+    if(m_id == 0) {GERROR(eGERR, "Le mot de passe est incorrect."); return false;}
+    loadUser();
+    return true;
+}
+//===============================================
+bool GUser::createConnection() {
+    if(m_pseudo == "") {GERROR(eGERR, "Le nom d'utilisateur est obligatoire."); return false;}
+    if(m_password == "") {GERROR(eGERR, "Le mot de passe est obligatoire."); return false;}
+    loadUserPseudo();
+    if(m_id != 0) {GERROR(eGERR, "Le nom d'utilisateur n'existe pas encore."); return false;}
+    computePassword();
+    saveUser();
     if(m_id == 0) {GERROR(eGERR, "Le mot de passe est incorrect."); return false;}
     loadUser();
     return true;
@@ -156,42 +165,42 @@ bool GUser::computePassword() {
     return true;
 }
 //===============================================
-void GUser::saveData() {
-    if(!m_id) {
-        insertData();
-    }
-    else {
-        updateData();
-    }
+bool GUser::saveUser() {
+    if(m_id == 0) return insertUser();
+    return updateUser();
 }
 //===============================================
-void GUser::insertData() {
-    if(m_id != 0) return;
-    if(m_pseudo == "") return;
-    if(m_password == "") return;
+bool GUser::insertUser() {
+    if(m_id != 0) return false;
+    if(m_pseudo == "") return false;
+    if(m_passwordMd5 == "") return false;
 
-    GMySQL().execQuery(sformat(""
-            " insert into user "
+    m_id = GMySQL().execQuery(sformat(""
+            " insert into _user "
             " ( _pseudo, _password ) "
             " values ( '%s', '%s' ) "
             "", m_pseudo.c_str()
-            , m_password.c_str()
-    ));
+            , m_passwordMd5.c_str()
+    )).getId();
+
+    return true;
 }
 //===============================================
-void GUser::updateData() {
-    if( m_id == 0) return;
-    if(m_pseudo == "") return;
-    if(m_password == "") return;
+bool GUser::updateUser() {
+    if( m_id == 0) return false;
+    if(m_pseudo == "") return false;
+    if(m_password == "") return false;
 
     GMySQL().execQuery(sformat(""
-            " update user "
+            " update _user "
             " set _pseudo = '%s' "
             " , _password = '%s' "
             " where _id = %d "
             "", m_pseudo.c_str()
-            , m_password.c_str()
+            , m_passwordMd5.c_str()
             , m_id
     ));
+
+    return true;
 }
 //===============================================
