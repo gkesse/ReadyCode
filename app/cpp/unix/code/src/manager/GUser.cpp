@@ -101,18 +101,6 @@ bool GUser::runConnection() {
     return true;
 }
 //===============================================
-bool GUser::loadUserEmail() {
-    std::string lData = GMySQL().readData(sformat(""
-            " select _id "
-            " from _user "
-            " where _email = '%s' "
-            " and _active = '1' "
-            "", m_email.c_str()
-    ));
-    m_id = GString(lData).toInt();
-    return true;
-}
-//===============================================
 bool GUser::loadUserPseudo() {
     std::string lData = GMySQL().readData(sformat(""
             " select _id "
