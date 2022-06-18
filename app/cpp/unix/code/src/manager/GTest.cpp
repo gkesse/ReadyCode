@@ -546,6 +546,7 @@ void GTest::runXmlItem(int _argc, char** _argv) {
 void GTest::runXmlObj(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     std::vector<GObject*> lMap;
+    GManager lManager;
     for(int i = 0; i < 3; i++) {
         GCode lDom;
         lDom.createDoc();
@@ -554,9 +555,8 @@ void GTest::runXmlObj(int _argc, char** _argv) {
         lDom.addData("manager", "label", "label");
         std::string lData = lDom.toString();
         GLOGT(eGINF, lData.c_str());
-        GManager* lManager = new GManager;
-        lManager->deserialize(lData);
-        lMap.push_back(lManager);
+        lManager.deserialize(lData);
+        lMap.push_back(&lManager);
     }
 
     GCode lDom;
