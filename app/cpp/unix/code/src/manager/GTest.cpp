@@ -553,10 +553,10 @@ void GTest::runXmlObj(int _argc, char** _argv) {
         lDom.addData("manager", "code_id", "code");
         lDom.addData("manager", "label", "label");
         std::string lData = lDom.toString();
+        GLOGT(eGINF, lData.c_str());
         GManager* lManager = new GManager;
         lManager->deserialize(lData);
         lMap.push_back(lManager);
-        GLOGT(eGINF, lData.c_str());
     }
 
     GCode lDom;
