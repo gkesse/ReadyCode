@@ -19,6 +19,7 @@ public:
     //
     bool createCode();
     //
+    bool loadCodeId();
     bool loadCode();
     bool saveCode();
     bool insertCode();

@@ -72,13 +72,13 @@ bool GManager::createCode() {
     if(m_code.size() < 3) {GERROR(eGERR, "Le code doit faire au minimum 8 caractères."); return false;}
     if(m_code.size() > 50) {GERROR(eGERR, "Le code doit faire au maximum 50 caractères."); return false;}
     if(m_label.size() > 50) {GERROR(eGERR, "Le libellé doit faire au maximum 50 caractères."); return false;}
-    loadCode();
+    loadCodeId();
     if(m_id != 0) {GERROR(eGERR, "Le code existe déjà."); return false;}
     saveCode();
     return true;
 }
 //===============================================
-bool GManager::loadCode() {
+bool GManager::loadCodeId() {
     if(m_code == "") return false;
     std::string lData = GMySQL().readData(sformat(""
             " select _id "
