@@ -57,23 +57,35 @@ bool GCode::addData(const std::string& _code, const std::string& _key, const std
     return true;
 }
 //===============================================
+bool GCode::addData(const std::string& _code, const std::string& _key, const std::string& _value, bool _isCData) {
+    if(_value == "") return false;
+    createCode(_code);
+    if(!hasCode(_code, _key)) {
+        getCode(_code);
+        createXNode(_key, _value, _isCData);
+    }
+    else {
+        getCode(_code, _key);
+        setNodeValue(_value, _isCData);
+    }
+    return true;
+}
+//===============================================
 bool GCode::addData(const std::string& _code, const std::string& _key, int _value, bool _isCData) {
     std::string lData = std::to_string(_value);
     addData(_code, _key, lData, _isCData);
     return true;
 }
 //===============================================
-bool GCode::addData(const std::string& _code, const std::vector<std::string>& _datas, bool _isCData) {
+bool GCode::addData(const std::string& _code, const std::vector<GObject*>& _datas) {
     if(!_datas.size()) return false;
     createCode(_code);
     getCode(_code);
     createXNode("map");
     for(int i = 0; i < (int)_datas.size(); i++) {
-        std::string lData = _datas[i];
-        saveNode();
-        createNode("data");
-        setNodeValue(lData, _isCData);
-        restoreNode();
+        GObject* lObj = _datas[i];
+        std::string lData = lObj->serialize(_code);
+        loadNode(lData);
     }
     return true;
 }

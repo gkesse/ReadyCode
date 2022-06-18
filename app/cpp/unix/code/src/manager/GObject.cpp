@@ -36,3 +36,6 @@ std::shared_ptr<GError>& GObject::getErrors() {
     return m_errors;
 }
 //===============================================
+std::string GObject::serialize(const std::string& _code) const {return "";}
+void GObject::deserialize(const std::string& _data, const std::string& _code) {}
+//===============================================
