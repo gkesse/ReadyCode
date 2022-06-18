@@ -23,7 +23,7 @@ std::string GManager::serialize(const std::string& _code) const {
     GCode lReq;
     lReq.createDoc();
     lReq.addData(_code, "id", m_id);
-    lReq.addData(_code, "code", m_code);
+    lReq.addData(_code, "code_id", m_code);
     lReq.addData(_code, "label", m_label);
     return lReq.toStringCode(_code);
 }
@@ -33,7 +33,7 @@ void GManager::deserialize(const std::string& _data, const std::string& _code) {
     GCode lReq;
     lReq.loadXml(_data);
     m_id = GString(lReq.getItem(_code, "id")).toInt();
-    m_code = lReq.getItem(_code, "code");
+    m_code = lReq.getItem(_code, "code_id");
     m_label = lReq.getItem(_code, "label");
 }
 //===============================================

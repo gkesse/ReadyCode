@@ -32,6 +32,21 @@ create table if not exists _user (
 );
 
 -- ==============================================
+-- user
+-- ==============================================
+drop table if exists _code;
+
+create table if not exists _code (
+    _id int not null auto_increment,
+    _code varchar(50),
+    _label varchar(50) not null,
+    _c_date datetime default current_timestamp,
+    _u_date datetime on update current_timestamp,
+    primary key (_id),
+    unique (_code)
+);
+
+-- ==============================================
 -- request
 -- ==============================================
 drop table if exists _request;
