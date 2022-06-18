@@ -16,11 +16,15 @@ public:
     //
     bool onModule(GSocket* _client);
     void onCreateCode(GSocket* _client);
+    void onSearchCode(GSocket* _client);
     //
     bool createCode();
+    bool searchCode();
     //
     bool loadCodeId();
     bool loadCode();
+    bool loadCodeMap();
+    //
     bool saveCode();
     bool insertCode();
     bool updateCode();
@@ -29,6 +33,8 @@ private:
     int m_id;
     std::string m_code;
     std::string m_label;
+    std::string m_where;
+    std::vector<GManager*> m_map;
 };
 //==============================================
 #endif

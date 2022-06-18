@@ -13,10 +13,14 @@ GManager::GManager() : GModule() {
     m_id = 0;
     m_code = "";
     m_label = "";
+    m_where = " where 1 ";
 }
 //===============================================
 GManager::~GManager() {
-
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GManager* lManager = m_map.at(i);
+        delete lManager;
+    }
 }
 //===============================================
 std::string GManager::serialize(const std::string& _code) const {
@@ -51,6 +55,10 @@ bool GManager::onModule(GSocket* _client) {
         onCreateCode(_client);
     }
     //===============================================
+    else if(m_method == "search_code") {
+        onSearchCode(_client);
+    }
+    //===============================================
     // unknown
     //===============================================
     else {
@@ -67,6 +75,12 @@ void GManager::onCreateCode(GSocket* _client) {
     _client->addResponse(lData);
 }
 //===============================================
+void GManager::onSearchCode(GSocket* _client) {
+    searchCode();
+    std::string lData = serialize();
+    _client->addResponse(lData);
+}
+//===============================================
 bool GManager::createCode() {
     if(m_code == "") {GERROR(eGERR, "Le code est obligatoire."); return false;}
     if(m_code.size() < 3) {GERROR(eGERR, "Le code doit faire au minimum 8 caractères."); return false;}
@@ -75,6 +89,15 @@ bool GManager::createCode() {
     loadCodeId();
     if(m_id != 0) {GERROR(eGERR, "Le code existe déjà."); return false;}
     saveCode();
+    return true;
+}
+//===============================================
+bool GManager::searchCode() {
+    if(m_id != 0) {m_where += sformat(" and _id = %d ", m_id);}
+    else {
+        if(m_code != "") {m_where += sformat(" and _code = '%s' ", m_code.c_str());}
+    }
+    loadCode();
     return true;
 }
 //===============================================
@@ -94,16 +117,37 @@ bool GManager::loadCode() {
     if(m_id == 0) return false;
 
     std::vector<std::string> lRow = GMySQL().readRow(sformat(""
-            " select _code, _label "
+            " select _id, _code, _label "
             " from _code "
             " where _id = %d "
-            " and _active = '1' "
             "", m_id
     ));
 
     int i = 0;
+    m_id = GString(lRow.at(i++)).toInt();
     m_code = lRow.at(i++);
     m_label = lRow.at(i++);
+    return true;
+}
+//===============================================
+bool GManager::loadCodeMap() {
+    std::vector<std::vector<std::string>> lMap = GMySQL().readMap(sformat(""
+            " select _id, _code, _label "
+            " from _code "
+            " %s "
+            "", m_where.c_str()
+    ));
+
+    for(int i = 0; i < (int)lMap.size(); i++) {
+        std::vector<std::string> lRow = lMap.at(i);
+        GManager* lManager = new GManager;
+        int j = 0;
+        lManager->m_id = GString(lRow.at(j++)).toInt();
+        lManager->m_code = lRow.at(j++);
+        lManager->m_label = lRow.at(j++);
+        m_map.push_back(lManager);
+    }
+
     return true;
 }
 //===============================================
