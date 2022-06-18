@@ -23,6 +23,7 @@
 #include "GMaj.h"
 #include "GBase64.h"
 #include "GMd5.h"
+#include "GManager.h"
 //===============================================
 GTest* GTest::m_test = 0;
 //===============================================
@@ -105,6 +106,9 @@ void GTest::run(int _argc, char** _argv) {
     }
     else if(lKey == "xml/item") {
         runXmlItem(_argc, _argv);
+    }
+    else if(lKey == "xml/obj") {
+        runXmlObj(_argc, _argv);
     }
     //===============================================
     // socket
@@ -537,6 +541,23 @@ void GTest::runXmlItem(int _argc, char** _argv) {
     GLOGT(eGMSG, lData.c_str());
     lData = lDom.getItem("user", "status");
     GLOGT(eGMSG, lData.c_str());
+}
+//===============================================
+void GTest::runXmlObj(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    std::vector<GManager> lMap;
+    for(int i = 0; i < 3; i++) {
+        GCode lDom;
+        lDom.createDoc();
+        lDom.addData("manager", "id", i);
+        lDom.addData("manager", "code", "code");
+        lDom.addData("manager", "label", "label");
+        std::string lData = lDom.toString();
+        GManager lManager;
+        lManager.deserialize(lData);
+        lMap.push_back(lManager);
+        GLOGT(eGINF, lData.c_str());
+    }
 }
 //===============================================
 void GTest::runListQueue(int _argc, char** _argv) {
