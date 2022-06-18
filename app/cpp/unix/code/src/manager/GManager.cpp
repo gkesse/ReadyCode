@@ -29,6 +29,7 @@ std::string GManager::serialize(const std::string& _code) const {
     lReq.addData(_code, "id", m_id);
     lReq.addData(_code, "code_id", m_code);
     lReq.addData(_code, "label", m_label);
+    lReq.addData(_code, m_map);
     return lReq.toStringCode(_code);
 }
 //===============================================
