@@ -20,7 +20,6 @@ public:
     bool createCode();
     //
     bool loadCode();
-    bool loadCode();
     bool saveCode();
     bool insertCode();
     bool updateCode();
