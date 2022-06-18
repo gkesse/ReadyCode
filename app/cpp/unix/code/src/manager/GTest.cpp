@@ -550,7 +550,7 @@ void GTest::runXmlObj(int _argc, char** _argv) {
         GCode lDom;
         lDom.createDoc();
         lDom.addData("manager", "id", i);
-        lDom.addData("manager", "code", "code");
+        lDom.addData("manager", "code_id", "code");
         lDom.addData("manager", "label", "label");
         std::string lData = lDom.toString();
         GManager lManager;
