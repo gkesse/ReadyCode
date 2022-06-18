@@ -19,7 +19,7 @@ public:
     void onRunConnection(GSocket* _client);
     //
     bool runConnection();
-    bool createConnection();
+    bool createAccount();
     //
     bool loadUserPseudo();
     bool loadUserPassword();

@@ -20,7 +20,7 @@ void GMaster::onModule(GSocket* _client) {
     // module
     //===============================================
     if(lModule == "test") {
-        onModuleTest(_client);
+        onTest(_client);
     }
     //===============================================
     // unknown
@@ -30,7 +30,7 @@ void GMaster::onModule(GSocket* _client) {
     }
 }
 //===============================================
-void GMaster::onModuleTest(GSocket* _client) {
+void GMaster::onTest(GSocket* _client) {
     GTest().onModule(_client);
 }
 //===============================================

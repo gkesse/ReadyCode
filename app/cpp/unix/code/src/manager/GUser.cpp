@@ -75,7 +75,7 @@ bool GUser::onModule(GSocket* _client) {
 }
 //===============================================
 void GUser::onCreateAccount(GSocket* _client) {
-    createConnection();
+    createAccount();
     std::string lData = serialize();
     _client->addResponse(lData);
 }
@@ -98,7 +98,7 @@ bool GUser::runConnection() {
     return true;
 }
 //===============================================
-bool GUser::createConnection() {
+bool GUser::createAccount() {
     if(m_pseudo == "") {GERROR(eGERR, "Le nom d'utilisateur est obligatoire."); return false;}
     if(m_pseudo.size() < 8) {GERROR(eGERR, "Le nom d'utilisateur doit faire au minimum 8 caractères."); return false;}
     if(m_pseudo.size() > 50) {GERROR(eGERR, "Le nom d'utilisateur doit faire au maximum 50 caractères."); return false;}

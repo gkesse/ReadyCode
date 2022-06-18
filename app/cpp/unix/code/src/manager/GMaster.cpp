@@ -10,6 +10,7 @@
 #include "GRequest.h"
 #include "GMaj.h"
 #include "GMd5.h"
+#include "GManager.h"
 #include "GString.h"
 //===============================================
 GMaster::GMaster() : GModule() {
@@ -29,33 +30,46 @@ void GMaster::deserialize(const std::string& _data, const std::string& _code) {
     GModule::deserialize(_data);
 }
 //===============================================
-void GMaster::onModule(GSocket* _client) {
-    if(!isValidXml(_client->toReq())) return;
+bool GMaster::onModule(GSocket* _client) {
+    if(!isValidXml(_client->toReq())) return false;
     deserialize(_client->toReq());
-    if(!isValidReq()) return;
+    if(!isValidReq()) return false;
+    //===============================================
+    if(m_module == "") {
+        onModuleNone(_client);
+        return false;
+    }
+    else if(m_method == "") {
+        onMethodNone(_client);
+        return false;
+    }
     //===============================================
     // module
     //===============================================
-    if(m_module == "test") {
-        onModuleTest(_client);
+    else if(m_module == "test") {
+        onTest(_client);
     }
     else if(m_module == "user") {
-        onModuleUser(_client);
+        onUser(_client);
     }
     else if(m_module == "req") {
-        onModuleReq(_client);
+        onReq(_client);
     }
     else if(m_module == "maj") {
-        onModuleMaj(_client);
+        onMaj(_client);
     }
     else if(m_module == "md5") {
-        onModuleMd5(_client);
+        onMd5(_client);
+    }
+    else if(m_module == "manager") {
+        onManager(_client);
     }
     //===============================================
     // unknown
     //===============================================
     else {
         onModuleUnknown(_client);
+        return false;
     }
     //===============================================
     // end
@@ -63,31 +77,37 @@ void GMaster::onModule(GSocket* _client) {
     GRequest lRequest;
     lRequest.onSaveRequest(_client);
     //===============================================
+    return true;
 }
 //===============================================
-void GMaster::onModuleTest(GSocket* _client) {
+void GMaster::onTest(GSocket* _client) {
     GTest lTest;
     lTest.onModule(_client);
 }
 //===============================================
-void GMaster::onModuleUser(GSocket* _client) {
+void GMaster::onUser(GSocket* _client) {
     GUser lUser;
     lUser.onModule(_client);
 }
 //===============================================
-void GMaster::onModuleReq(GSocket* _client) {
+void GMaster::onReq(GSocket* _client) {
     GRequest lRequest;
     lRequest.onModule(_client);
 }
 //===============================================
-void GMaster::onModuleMaj(GSocket* _client) {
+void GMaster::onMaj(GSocket* _client) {
     GMaj lMaj;
     lMaj.onModule(_client);
 }
 //===============================================
-void GMaster::onModuleMd5(GSocket* _client) {
+void GMaster::onMd5(GSocket* _client) {
     GMd5 lMd5;
     lMd5.onModule(_client);
+}
+//===============================================
+void GMaster::onManager(GSocket* _client) {
+    GManager lManager;
+    lManager.onModule(_client);
 }
 //===============================================
 bool GMaster::isValidXml(const std::string& _data) {
