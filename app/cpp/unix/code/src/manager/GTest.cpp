@@ -565,7 +565,8 @@ void GTest::runXmlObj(int _argc, char** _argv) {
     lDom.addData("manager", "code_id", "code");
     lDom.addData("manager", "label", "label");
     lDom.addData("manager", lMap);
-
+    std::string lData = lDom.toString();
+    GLOGT(eGINF, lData.c_str());
 }
 //===============================================
 void GTest::runListQueue(int _argc, char** _argv) {
