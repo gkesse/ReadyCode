@@ -72,16 +72,18 @@ bool GManager::onModule(GSocket* _client) {
     return true;
 }
 //===============================================
-void GManager::onCreateCode(GSocket* _client) {
+bool GManager::onCreateCode(GSocket* _client) {
     createCode();
     std::string lData = serialize();
     _client->addResponse(lData);
+    return true;
 }
 //===============================================
-void GManager::onSearchCode(GSocket* _client) {
+bool GManager::onSearchCode(GSocket* _client) {
     searchCode();
     std::string lData = serialize();
     _client->addResponse(lData);
+    return true;
 }
 //===============================================
 bool GManager::createCode() {
@@ -100,7 +102,7 @@ bool GManager::searchCode() {
     else {
         if(m_code != "") {m_where += sformat(" and _code = '%s' ", m_code.c_str());}
     }
-    loadCode();
+    loadCodeMap();
     return true;
 }
 //===============================================

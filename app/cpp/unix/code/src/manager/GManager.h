@@ -16,8 +16,8 @@ public:
     void deserialize(const std::string& _data, const std::string& _code = "manager");
     //
     bool onModule(GSocket* _client);
-    void onCreateCode(GSocket* _client);
-    void onSearchCode(GSocket* _client);
+    bool onCreateCode(GSocket* _client);
+    bool onSearchCode(GSocket* _client);
     //
     bool createCode();
     bool searchCode();
