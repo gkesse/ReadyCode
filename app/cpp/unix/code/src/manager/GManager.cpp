@@ -20,6 +20,10 @@ GManager::~GManager() {
 
 }
 //===============================================
+GObject* GManager::clone() {
+    return new GManager;
+}
+//===============================================
 std::string GManager::serialize(const std::string& _code) {
     GCode lReq;
     lReq.createDoc();
@@ -37,7 +41,7 @@ void GManager::deserialize(const std::string& _data, const std::string& _code) {
     m_id = GString(lReq.getItem(_code, "id")).toInt();
     m_code = lReq.getItem(_code, "code_id");
     m_label = lReq.getItem(_code, "label");
-    lReq.getItem(_code, m_map);
+    lReq.getItem(_code, m_map, this);
 }
 //===============================================
 bool GManager::onModule(GSocket* _client) {

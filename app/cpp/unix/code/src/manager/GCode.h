@@ -23,7 +23,7 @@ public:
     //
     std::string getItem(const std::string& _code, const std::string& _key);
     std::string getItem(const std::string& _code, const std::string& _key, int _index);
-    bool getItem(const std::string& _code, const std::vector<GObject*>& _datas);
+    bool getItem(const std::string& _code, std::vector<GObject*>& _datas, GObject* _obj);
     std::string getMap(const std::string& _code, int _index);
     int countItem(const std::string& _code);
     //

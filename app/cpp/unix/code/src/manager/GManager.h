@@ -10,6 +10,7 @@ class GManager : public GModule {
 public:
     GManager();
     ~GManager();
+    GObject* clone();
     //
     std::string serialize(const std::string& _code = "manager");
     void deserialize(const std::string& _data, const std::string& _code = "manager");

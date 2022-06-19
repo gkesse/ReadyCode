@@ -582,6 +582,9 @@ void GTest::runXmlObj(int _argc, char** _argv) {
         lMap.push_back(lManager);
         GLOGT(eGINF, lData.c_str());
     }
+    clearMap(lMap);
+
+    lDom.getItem("manager", lMap, new GManager);
 
     GCode lDom2;
     lDom2.createDoc();

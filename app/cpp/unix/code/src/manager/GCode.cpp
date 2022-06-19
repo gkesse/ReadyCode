@@ -114,9 +114,16 @@ std::string GCode::getItem(const std::string& _code, const std::string& _key, in
     std::string lData = getNodeValue();
     return lData;
 }
-bool GCode::getItem(const std::string& _code, const std::vector<GObject*>& _datas) {
+//===============================================
+bool GCode::getItem(const std::string& _code, std::vector<GObject*>& _datas, GObject* _obj) {
+    int lCount = countItem(_code);
 
-
+    for(int i = 0; i < lCount; i++) {
+        std::string lData = getMap(_code, i);
+        GObject* lObj = _obj->clone();
+        lObj->deserialize(lData, _code);
+        _datas.push_back(lObj);
+    }
     return true;
 }
 //===============================================
