@@ -123,7 +123,11 @@ bool GCode::getItem(const std::string& _code, const std::vector<GObject*>& _data
 std::string GCode::getMap(const std::string& _code, int _index) {
     getXPath(sformat("/rdv/datas/data[code='%s']/map/data[position()=%d]", _code.c_str(), _index + 1));
     std::string lData = toStringNode();
-    return lData;
+    GCode lDom;
+    lDom.createDoc();
+    lDom.createXNode("/rdv/data");
+    lDom.loadNode(lData);
+    return lDom.toString();
 }
 //===============================================
 int GCode::countItem(const std::string& _code) {
