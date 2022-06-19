@@ -627,6 +627,16 @@ void GTest::runXmlErrors(int _argc, char** _argv) {
     lDom.addData("errors", lErrors);
     lData = lDom.toString();
     GLOGT(eGINF, lData.c_str());
+
+    GCode lDom2;
+    lDom.loadXml(lData);
+    lDom.getItem(lData, lErrors, new GError);
+
+    GCode lDom3;
+    lDom3.createDoc();
+    lDom3.addData("errors", lErrors);
+    lData = lDom3.toString();
+    GLOGT(eGINF, lData.c_str());
 }
 //===============================================
 void GTest::runListQueue(int _argc, char** _argv) {
