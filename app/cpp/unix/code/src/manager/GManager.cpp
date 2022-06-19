@@ -14,7 +14,7 @@ GManager::GManager() : GModule() {
     m_code = "";
     m_label = "";
     m_where = " where 1 ";
-    m_orderBy = " order by desc _id ";
+    m_orderBy = " order by _id desc ";
 }
 //===============================================
 GManager::~GManager() {
