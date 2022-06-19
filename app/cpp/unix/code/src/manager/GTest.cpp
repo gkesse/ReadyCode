@@ -584,9 +584,13 @@ void GTest::runXmlObj(int _argc, char** _argv) {
     }
 
     std::string lData;
-    GCode lDom;
-    lDom.createDoc();
-    lData = lDom.toString();
+    GCode lDom2;
+    lDom2.createDoc();
+    lDom2.addData("manager", "id", 2);
+    lDom2.addData("manager", "code_id", "code");
+    lDom2.addData("manager", "label", "label");
+    lDom2.addData("manager", lMap);
+    lData = lDom2.toString();
     GLOGT(eGINF, lData.c_str());
     clearMap(lMap);
 }
