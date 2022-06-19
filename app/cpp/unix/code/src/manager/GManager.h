@@ -11,7 +11,7 @@ public:
     GManager();
     ~GManager();
     //
-    std::string serialize(const std::string& _code = "manager") const;
+    std::string serialize(const std::string& _code = "manager");
     void deserialize(const std::string& _data, const std::string& _code = "manager");
     //
     bool onModule(GSocket* _client);

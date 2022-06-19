@@ -570,10 +570,8 @@ void GTest::runXmlObj(int _argc, char** _argv) {
     lData = lDom.toString();
     GLOGT(eGINF, lData.c_str());
 
-    GManager lManager;
-    lManager.deserialize(lData);
-    lData = lManager.serialize();
-    GLOGT(eGINF, lData.c_str());
+    int lCount = lDom.countItem("manager");
+    GLOGT(eGINF, "%d", lCount);
 }
 //===============================================
 void GTest::runListQueue(int _argc, char** _argv) {

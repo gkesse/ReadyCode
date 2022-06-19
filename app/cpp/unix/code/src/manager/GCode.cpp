@@ -78,7 +78,7 @@ bool GCode::addData(const std::string& _code, const std::vector<std::string>& _d
     return true;
 }
 //===============================================
-bool GCode::addData(const std::string& _code, const std::vector<GObject*>& _datas) {
+bool GCode::addData(const std::string& _code, std::vector<GObject*>& _datas) {
     if(!_datas.size()) return false;
     createCode(_code);
     getCode(_code);
@@ -88,6 +88,7 @@ bool GCode::addData(const std::string& _code, const std::vector<GObject*>& _data
         std::string lData = lObj->serialize(_code);
         loadNode(lData);
     }
+    clearMap(_datas);
     return true;
 }
 //===============================================
@@ -113,6 +114,11 @@ std::string GCode::getItem(const std::string& _code, const std::string& _key, in
     getNodeXPath();
     std::string lData = getNodeValue();
     return lData;
+}
+bool GCode::getItem(const std::string& _code, const std::vector<GObject*>& _datas) {
+
+
+    return true;
 }
 //===============================================
 int GCode::countItem(const std::string& _code) {

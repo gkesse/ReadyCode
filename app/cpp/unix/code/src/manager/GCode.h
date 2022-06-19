@@ -17,12 +17,13 @@ public:
     bool addData(const std::string& _code, const std::string& _key, const std::string& _value, bool _isCData = false);
     bool addData(const std::string& _code, const std::string& _key, int _value, bool _isCData = false);
     bool addData(const std::string& _code, const std::vector<std::string>& _datas, bool _isCData = false);
-    bool addData(const std::string& _code, const std::vector<GObject*>& _datas);
+    bool addData(const std::string& _code, std::vector<GObject*>& _datas);
     bool getCode(const std::string& _code);
     bool getCode(const std::string& _code, const std::string& _key);
     //
     std::string getItem(const std::string& _code, const std::string& _key);
     std::string getItem(const std::string& _code, const std::string& _key, int _index);
+    bool getItem(const std::string& _code, const std::vector<GObject*>& _datas);
     bool getMap(const std::string& _code, const std::string& _key, int _index);
     int countItem(const std::string& _code);
     //

@@ -20,7 +20,7 @@ GManager::~GManager() {
 
 }
 //===============================================
-std::string GManager::serialize(const std::string& _code) const {
+std::string GManager::serialize(const std::string& _code) {
     GCode lReq;
     lReq.createDoc();
     lReq.addData(_code, "id", m_id);
@@ -37,6 +37,7 @@ void GManager::deserialize(const std::string& _data, const std::string& _code) {
     m_id = GString(lReq.getItem(_code, "id")).toInt();
     m_code = lReq.getItem(_code, "code_id");
     m_label = lReq.getItem(_code, "label");
+    lReq.getItem(_code, m_map);
 }
 //===============================================
 bool GManager::onModule(GSocket* _client) {
@@ -135,8 +136,6 @@ bool GManager::loadCodeMap() {
             " %s "
             "", m_where.c_str()
     ));
-
-    clearMap();
 
     for(int i = 0; i < (int)lMap.size(); i++) {
         std::vector<std::string> lRow = lMap.at(i);
