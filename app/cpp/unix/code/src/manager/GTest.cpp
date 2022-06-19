@@ -111,7 +111,7 @@ void GTest::run(int _argc, char** _argv) {
         runXmlObj(_argc, _argv);
     }
     else if(lKey == "xml/errors") {
-        runXmlError(_argc, _argv);
+        runXmlErrors(_argc, _argv);
     }
     //===============================================
     // socket
@@ -600,7 +600,7 @@ void GTest::runXmlObj(int _argc, char** _argv) {
     clearMap(lMap);
 }
 //===============================================
-void GTest::runXmlError(int _argc, char** _argv) {
+void GTest::runXmlErrors(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     std::vector<GObject*> lErrors;
     for(int i = 0; i < 4; i++) {
@@ -620,6 +620,13 @@ void GTest::runXmlError(int _argc, char** _argv) {
         lError->deserialize(lData);
         lErrors.push_back(lError);
     }
+
+    std::string lData;
+    GCode lDom;
+    lDom.createDoc();
+    lDom.addData("errors", lErrors);
+    lData = lDom.toString();
+    GLOGT(eGINF, lData.c_str());
 }
 //===============================================
 void GTest::runListQueue(int _argc, char** _argv) {
