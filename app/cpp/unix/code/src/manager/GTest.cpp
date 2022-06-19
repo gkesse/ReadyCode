@@ -572,7 +572,7 @@ void GTest::runXmlObj(int _argc, char** _argv) {
 
     GManager lManager;
     lManager.deserialize(lData);
-    lData = lDom.toString();
+    lData = lManager.serialize();
     GLOGT(eGINF, lData.c_str());
 }
 //===============================================
