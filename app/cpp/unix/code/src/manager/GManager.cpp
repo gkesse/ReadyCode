@@ -25,23 +25,23 @@ GObject* GManager::clone() {
 }
 //===============================================
 std::string GManager::serialize(const std::string& _code) {
-    GCode lReq;
-    lReq.createDoc();
-    lReq.addData(_code, "id", m_id);
-    lReq.addData(_code, "code_id", m_code);
-    lReq.addData(_code, "label", m_label);
-    lReq.addData(_code, m_map);
-    return lReq.toStringCode(_code);
+    GCode lDom;
+    lDom.createDoc();
+    lDom.addData(_code, "id", m_id);
+    lDom.addData(_code, "code_id", m_code);
+    lDom.addData(_code, "label", m_label);
+    lDom.addData(_code, m_map);
+    return lDom.toStringCode(_code);
 }
 //===============================================
 void GManager::deserialize(const std::string& _data, const std::string& _code) {
     GModule::deserialize(_data);
-    GCode lReq;
-    lReq.loadXml(_data);
-    m_id = GString(lReq.getItem(_code, "id")).toInt();
-    m_code = lReq.getItem(_code, "code_id");
-    m_label = lReq.getItem(_code, "label");
-    lReq.getItem(_code, m_map, this);
+    GCode lDom;
+    lDom.loadXml(_data);
+    m_id = GString(lDom.getItem(_code, "id")).toInt();
+    m_code = lDom.getItem(_code, "code_id");
+    m_label = lDom.getItem(_code, "label");
+    lDom.getItem(_code, m_map, this);
 }
 //===============================================
 bool GManager::onModule(GSocket* _client) {
