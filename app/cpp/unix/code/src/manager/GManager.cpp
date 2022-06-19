@@ -136,6 +136,8 @@ bool GManager::loadCodeMap() {
             "", m_where.c_str()
     ));
 
+    clearMap();
+
     for(int i = 0; i < (int)lMap.size(); i++) {
         std::vector<std::string> lRow = lMap.at(i);
         GManager* lManager = new GManager;
