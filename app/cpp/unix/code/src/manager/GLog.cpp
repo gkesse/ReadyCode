@@ -32,7 +32,7 @@ GLog* GLog::Instance() {
 }
 //===============================================
 std::string GLog::deserialize(const std::string& _code) const {
-    return m_errors->deserialize();
+    return m_errors->deserializer();
 }
 //===============================================
 void GLog::createDoms() {

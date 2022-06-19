@@ -110,6 +110,9 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "xml/obj") {
         runXmlObj(_argc, _argv);
     }
+    else if(lKey == "xml/errors") {
+        runXmlError(_argc, _argv);
+    }
     //===============================================
     // socket
     //===============================================
@@ -574,7 +577,6 @@ void GTest::runXmlObj(int _argc, char** _argv) {
     int lCount = lDom.countItem("manager");
     GLOGT(eGINF, "%d", lCount);
 
-    /*
     for(int i = 0; i < lCount; i++) {
         lData = lDom.getMap("manager", i);
         GManager* lManager;
@@ -584,7 +586,6 @@ void GTest::runXmlObj(int _argc, char** _argv) {
         GLOGT(eGINF, lData.c_str());
     }
     clearMap(lMap);
-    */
 
     lDom.getItem("manager", lMap, new GManager);
 
@@ -597,6 +598,28 @@ void GTest::runXmlObj(int _argc, char** _argv) {
     lData = lDom2.toString();
     GLOGT(eGINF, lData.c_str());
     clearMap(lMap);
+}
+//===============================================
+void GTest::runXmlError(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    std::vector<GObject*> lErrors;
+    for(int i = 0; i < 4; i++) {
+        std::string lSide = "server";
+        std::string lMsg = "Le mot de passe est obligatoire.";
+        if(i % 2 == 0) {
+            lSide = "client";
+            lMsg = "Le code existe déjà.";
+        }
+        GCode lDom;
+        lDom.createDoc();
+        lDom.addData("errors", "side", lSide);
+        lDom.addData("errors", "msg", lMsg);
+        std::string lData = lDom.toString();
+        GLOGT(eGINF, lData.c_str());
+        GError* lError = new GError;
+        lError->deserialize(lData);
+        lErrors.push_back(lError);
+    }
 }
 //===============================================
 void GTest::runListQueue(int _argc, char** _argv) {

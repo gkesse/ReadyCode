@@ -4,14 +4,36 @@
 #include "GLog.h"
 //===============================================
 GError::GError() : GObject() {
-
+    m_side = "";
+    m_msg = "";
 }
 //===============================================
 GError::~GError() {
 
 }
 //===============================================
-std::string GError::deserialize(const std::string& _code) const {
+GObject* GError::clone() {
+    return new GError;
+}
+//===============================================
+std::string GError::serialize(const std::string& _code) {
+    GCode lReq;
+    lReq.createDoc();
+    lReq.addData(_code, "side", m_side);
+    lReq.addData(_code, "msg", m_msg);
+    lReq.addData(_code, m_map);
+    return lReq.toStringCode(_code);
+}
+//===============================================
+void GError::deserialize(const std::string& _data, const std::string& _code) {
+    GCode lReq;
+    lReq.loadXml(_data);
+    m_side = lReq.getItem(_code, "side");
+    m_msg = lReq.getItem(_code, "msg");
+    lReq.getItem(_code, m_map, this);
+}
+//===============================================
+std::string GError::deserializer(const std::string& _code) const {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, m_errors);
