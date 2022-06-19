@@ -32,7 +32,7 @@ create table if not exists _user (
 );
 
 -- ==============================================
--- user
+-- _code
 -- ==============================================
 drop table if exists _code;
 
@@ -45,6 +45,11 @@ create table if not exists _code (
     primary key (_id),
     unique (_code)
 );
+
+select * 
+from _code
+where 1
+and _code like lower('%use%');
 
 -- ==============================================
 -- request
