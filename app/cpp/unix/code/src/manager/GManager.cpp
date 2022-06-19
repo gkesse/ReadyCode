@@ -14,6 +14,7 @@ GManager::GManager() : GModule() {
     m_code = "";
     m_label = "";
     m_where = " where 1 ";
+    m_orderBy = " order by desc _id ";
 }
 //===============================================
 GManager::~GManager() {
@@ -139,8 +140,9 @@ bool GManager::loadCodeMap() {
     std::vector<std::vector<std::string>> lMap = GMySQL().readMap(sformat(""
             " select _id, _code, _label "
             " from _code "
-            " %s "
+            " %s %s "
             "", m_where.c_str()
+            , m_orderBy.c_str()
     ));
 
     for(int i = 0; i < (int)lMap.size(); i++) {

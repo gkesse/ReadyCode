@@ -35,6 +35,7 @@ private:
     std::string m_code;
     std::string m_label;
     std::string m_where;
+    std::string m_orderBy;
 };
 //==============================================
 #endif
