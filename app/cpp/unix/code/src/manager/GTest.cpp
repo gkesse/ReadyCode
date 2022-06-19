@@ -629,8 +629,8 @@ void GTest::runXmlErrors(int _argc, char** _argv) {
     GLOGT(eGINF, lData.c_str());
 
     GCode lDom2;
-    lDom.loadXml(lData);
-    lDom.getItem(lData, lErrors, new GError);
+    lDom2.loadXml(lData);
+    lDom2.getItem(lData, lErrors, new GError);
 
     GCode lDom3;
     lDom3.createDoc();
