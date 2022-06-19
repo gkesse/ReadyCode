@@ -556,7 +556,7 @@ void GTest::runXmlObj(int _argc, char** _argv) {
         std::string lData = lDom.toString();
         GLOGT(eGINF, lData.c_str());
         lManager = new GManager;
-        lManager->deserialize(lData, "manager");
+        lManager->deserialize(lData);
         lMap.push_back(lManager);
     }
 

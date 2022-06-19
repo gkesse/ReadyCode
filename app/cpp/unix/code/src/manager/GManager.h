@@ -34,7 +34,6 @@ private:
     std::string m_code;
     std::string m_label;
     std::string m_where;
-    std::vector<GObject*> m_map;
 };
 //==============================================
 #endif

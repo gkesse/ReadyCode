@@ -36,6 +36,13 @@ std::shared_ptr<GError>& GObject::getErrors() {
     return m_errors;
 }
 //===============================================
+bool GObject::clearMap() {
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GObject* lObj = m_map.at(i);
+        delete lObj;
+    }
+    return true;
+}
+//===============================================
 std::string GObject::serialize(const std::string& _code) const {return "";}
-void GObject::deserialize(const std::string& _data, const std::string& _code) {}
 //===============================================

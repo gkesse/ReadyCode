@@ -17,10 +17,7 @@ GManager::GManager() : GModule() {
 }
 //===============================================
 GManager::~GManager() {
-    for(int i = 0; i < (int)m_map.size(); i++) {
-        GManager* lManager = m_map.at(i);
-        delete lManager;
-    }
+
 }
 //===============================================
 std::string GManager::serialize(const std::string& _code) const {

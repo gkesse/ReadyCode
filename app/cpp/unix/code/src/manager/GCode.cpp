@@ -88,6 +88,7 @@ bool GCode::addData(const std::string& _code, const std::vector<GObject*>& _data
         std::string lData = lObj->serialize(_code);
         loadNode(lData);
     }
+    clearMap();
     return true;
 }
 //===============================================
