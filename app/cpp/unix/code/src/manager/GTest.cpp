@@ -572,6 +572,11 @@ void GTest::runXmlObj(int _argc, char** _argv) {
 
     int lCount = lDom.countItem("manager");
     GLOGT(eGINF, "%d", lCount);
+
+    for(int i = 0; i < lCount; i++) {
+        lData = lDom.getMap("manager", i);
+        GLOGT(eGINF, lData.c_str());
+    }
 }
 //===============================================
 void GTest::runListQueue(int _argc, char** _argv) {

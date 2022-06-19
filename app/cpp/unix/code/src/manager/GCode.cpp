@@ -110,8 +110,7 @@ std::string GCode::getItem(const std::string& _code, const std::string& _key) {
 }
 //===============================================
 std::string GCode::getItem(const std::string& _code, const std::string& _key, int _index) {
-    queryXPath(sformat("/rdv/datas/data[code='%s']/map/data[position()=%d]/%s", _code.c_str(), _index + 1, _key.c_str()));
-    getNodeXPath();
+    getXPath(sformat("/rdv/datas/data[code='%s']/map/data[position()=%d]/%s", _code.c_str(), _index + 1, _key.c_str()));
     std::string lData = getNodeValue();
     return lData;
 }
@@ -119,6 +118,12 @@ bool GCode::getItem(const std::string& _code, const std::vector<GObject*>& _data
 
 
     return true;
+}
+//===============================================
+std::string GCode::getMap(const std::string& _code, int _index) {
+    getXPath(sformat("/rdv/datas/data[code='%s']/map/data[position()=%d]", _code.c_str(), _index + 1));
+    std::string lData = toStringNode();
+    return lData;
 }
 //===============================================
 int GCode::countItem(const std::string& _code) {
