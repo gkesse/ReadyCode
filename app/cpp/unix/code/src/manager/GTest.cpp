@@ -574,6 +574,7 @@ void GTest::runXmlObj(int _argc, char** _argv) {
     int lCount = lDom.countItem("manager");
     GLOGT(eGINF, "%d", lCount);
 
+    /*
     for(int i = 0; i < lCount; i++) {
         lData = lDom.getMap("manager", i);
         GManager* lManager;
@@ -583,6 +584,7 @@ void GTest::runXmlObj(int _argc, char** _argv) {
         GLOGT(eGINF, lData.c_str());
     }
     clearMap(lMap);
+    */
 
     lDom.getItem("manager", lMap, new GManager);
 
