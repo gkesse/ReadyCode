@@ -100,7 +100,7 @@ bool GManager::createCode() {
 bool GManager::searchCode() {
     if(m_id != 0) {m_where += sformat(" and _id = %d ", m_id);}
     else {
-        if(m_code != "") {m_where += sformat(" and _code = '\%%s\%' ", m_code.c_str());}
+        if(m_code != "") {m_where += sformat(" and _code = '%s' ", m_code.c_str());}
     }
     loadCodeMap();
     return true;
