@@ -630,7 +630,7 @@ void GTest::runXmlErrors(int _argc, char** _argv) {
 
     GCode lDom2;
     lDom2.loadXml(lData);
-    lDom2.getItem(lData, lErrors, new GError);
+    lDom2.getItem("errors", lErrors, new GError);
 
     GCode lDom3;
     lDom3.createDoc();
