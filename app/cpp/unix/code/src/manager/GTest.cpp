@@ -569,14 +569,26 @@ void GTest::runXmlObj(int _argc, char** _argv) {
     lDom.addData("manager", lMap);
     lData = lDom.toString();
     GLOGT(eGINF, lData.c_str());
+    clearMap(lMap);
 
     int lCount = lDom.countItem("manager");
     GLOGT(eGINF, "%d", lCount);
 
     for(int i = 0; i < lCount; i++) {
         lData = lDom.getMap("manager", i);
+        GManager* lManager;
+        lManager = new GManager;
+        lManager->deserialize(lData);
+        lMap.push_back(lManager);
         GLOGT(eGINF, lData.c_str());
     }
+
+    std::string lData;
+    GCode lDom;
+    lDom.createDoc();
+    lData = lDom.toString();
+    GLOGT(eGINF, lData.c_str());
+    clearMap(lMap);
 }
 //===============================================
 void GTest::runListQueue(int _argc, char** _argv) {
