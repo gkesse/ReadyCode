@@ -583,7 +583,6 @@ void GTest::runXmlObj(int _argc, char** _argv) {
         GLOGT(eGINF, lData.c_str());
     }
 
-    std::string lData;
     GCode lDom2;
     lDom2.createDoc();
     lDom2.addData("manager", "id", 2);
