@@ -125,7 +125,7 @@ std::string GCode::getMap(const std::string& _code, int _index) {
     std::string lData = toStringNode();
     GCode lDom;
     lDom.createDoc();
-    lDom.createXNode("/rdv/data");
+    lDom.createXNode("/rdv/datas");
     lDom.loadNode(lData);
     return lDom.toString();
 }
