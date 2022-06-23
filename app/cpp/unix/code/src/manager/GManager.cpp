@@ -170,7 +170,8 @@ bool GManager::loadDataMap() {
             , m_dataSize
     ));
 
-    for(int i = 0; i < (int)lMap.size(); i++) {
+    int lSize = (int)lMap.size();
+    for(int i = 0; i < lSize; i++) {
         std::vector<std::string> lRow = lMap.at(i);
         GManager* lManager = new GManager;
         int j = 0;
@@ -178,8 +179,13 @@ bool GManager::loadDataMap() {
         lManager->m_code = lRow.at(j++);
         lManager->m_label = lRow.at(j++);
         m_map.push_back(lManager);
+        //
+        if(i == lSize - 1) {
+            m_lastId = lManager->m_id;
+        }
     }
 
+    m_dataOffset += m_dataSize;
     return true;
 }
 //===============================================
