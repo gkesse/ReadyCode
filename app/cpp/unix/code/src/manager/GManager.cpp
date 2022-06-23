@@ -23,14 +23,16 @@ GObject* GManager::clone() {
     return new GManager;
 }
 //===============================================
-std::string GManager::serialize(const std::string& _code) {
+std::string GManager::serialize(bool _isParent = true, const std::string& _code) {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
     lDom.addData(_code, "code_id", m_code);
     lDom.addData(_code, "label", m_label);
     lDom.addData(_code, m_map);
-    lDom.loadCode(GSearch::serialize());
+    if(_isParent) {
+        lDom.loadCode(GSearch::serialize());
+    }
     return lDom.toStringData();
 }
 //===============================================
@@ -81,7 +83,7 @@ bool GManager::onCreateCode(GSocket* _client) {
 //===============================================
 bool GManager::onSearchCode(GSocket* _client) {
     searchCode();
-    std::string lData = serialize();
+    std::string lData = serialize(false);
     _client->addResponse(lData);
     return true;
 }
