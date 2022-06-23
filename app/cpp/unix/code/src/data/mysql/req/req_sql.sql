@@ -52,6 +52,12 @@ where 1
 and _code like lower('%us%')
 order by _id desc;
 
+ select _id, _code, _label  
+ from _code
+ where 1  and _id < 33
+order by _id desc
+limit 5;
+
 -- ==============================================
 -- request
 -- ==============================================

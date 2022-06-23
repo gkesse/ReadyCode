@@ -15,6 +15,7 @@ protected:
     int m_lastId;
     int m_dataCount;
     int m_dataSize;
+    int m_dataOffset;
     std::string m_where;
     std::string m_orderBy;
 };
