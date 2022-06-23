@@ -97,12 +97,6 @@ bool GManager::createCode() {
 }
 //===============================================
 bool GManager::searchCode() {
-    loadLastId();
-    if(m_lastId == 0) {GERROR(eGERR, "La table est vide."); return false;}
-    loadDataCount();
-    if(m_dataCount == 0) {GERROR(eGERR, "La table est vide."); return false;}
-    if(m_dataSize == 0) {GERROR(eGERR, "La taille des données n'est pas définie."); return false;}
-    //
     if(m_id != 0) {
         m_where += sformat(" and _id = %d ", m_id);
     }
@@ -110,8 +104,15 @@ bool GManager::searchCode() {
         if(m_code != "") {
             m_where += sformat(" and _code like lower('%%%s%%') ", m_code.c_str());
         }
-        m_where += sformat(" and _id < %d ", m_lastId);
     }
+    //
+    loadLastId();
+    if(m_lastId == 0) {GERROR(eGERR, "Il n'y a pas de codes."); return false;}
+    loadDataCount();
+    if(m_dataCount == 0) {GERROR(eGERR, "La table ne contient pas de codes."); return false;}
+    if(m_dataSize == 0) {GERROR(eGERR, "La taille des codes n'est pas définie."); return false;}
+    //
+    m_where += sformat(" and _id < %d ", m_lastId);
     //
     loadDataMap();
     return true;
@@ -147,10 +148,8 @@ bool GManager::loadDataCount() {
             " select count(*) "
             " from _code "
             " %s %s "
-            " limit %d "
             "", m_where.c_str()
             , m_orderBy.c_str()
-            , m_dataSize
     ));
 
     m_dataCount = GString(lCount).toInt();
@@ -162,8 +161,10 @@ bool GManager::loadDataMap() {
             " select _id, _code, _label "
             " from _code "
             " %s %s "
+            " limit %d "
             "", m_where.c_str()
             , m_orderBy.c_str()
+            , m_dataSize
     ));
 
     for(int i = 0; i < (int)lMap.size(); i++) {
