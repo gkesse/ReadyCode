@@ -3,6 +3,7 @@
 #include "GLog.h"
 #include "GFormat.h"
 #include "GXml.h"
+#include "GPath.h"
 //===============================================
 GObject::GObject() {
 
@@ -10,6 +11,11 @@ GObject::GObject() {
 //===============================================
 GObject::~GObject() {
 
+}
+//===============================================
+void GObject::createDoms() {
+    m_dom.reset(new GXml);
+    m_dom->loadFile(GRES("xml", "pad.xml"));
 }
 //===============================================
 std::string GObject::getItem(const std::string& _code, const std::string& _data) const {

@@ -10,7 +10,6 @@ class GMySQL : public GObject {
 public:
     GMySQL();
     ~GMySQL();
-    void createDoms();
     //
     std::string loadDatabase(bool _isTestEnv) const;
     //

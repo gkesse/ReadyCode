@@ -12,6 +12,7 @@ class GObject {
 public:
     GObject();
     virtual ~GObject();
+    virtual void createDoms();
     virtual GObject* clone();
     virtual std::string serialize(const std::string& _code);
     virtual void deserialize(const std::string& _data, const std::string& _code);

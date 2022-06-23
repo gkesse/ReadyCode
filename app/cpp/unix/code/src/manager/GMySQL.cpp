@@ -15,11 +15,6 @@ GMySQL::~GMySQL() {
 
 }
 //===============================================
-void GMySQL::createDoms() {
-    m_dom.reset(new GXml);
-    m_dom->loadFile(GRES("xml", "pad.xml"));
-}
-//===============================================
 std::string GMySQL::loadDatabase(bool _isTestEnv) const {
     std::string lDatabase = getItem("mysql", "prod_database");
     if(_isTestEnv) lDatabase = getItem("mysql", "test_database");
@@ -55,10 +50,16 @@ GMySQL& GMySQL::execQuery(const std::string& _sql) {
 }
 //===============================================
 GMySQL& GMySQL::execQuery(const std::string& _sql, bool _isTestEnv) {
+    bool lLogOn = (getItem("mysql", "log_on") == "1");
     openDatabase(_isTestEnv);
     m_stmt.reset(m_con->createStatement());
     m_stmt->execute(_sql);
-    GLOGT(eGOFF, "sql..........:%s", _sql.c_str());
+    if(lLogOn) {
+        GLOGT(eGMSG, "%s", _sql.c_str());
+    }
+    else {
+        GLOGT(eGOFF, "%s", _sql.c_str());
+    }
     return *this;
 }
 //===============================================
@@ -68,10 +69,16 @@ GMySQL& GMySQL::readQuery(const std::string& _sql) {
 }
 //===============================================
 GMySQL& GMySQL::readQuery(const std::string& _sql, bool _isTestEnv) {
+    bool lLogOn = (getItem("mysql", "log_on") == "1");
     openDatabase(_isTestEnv);
     m_stmt.reset(m_con->createStatement());
     m_res.reset(m_stmt->executeQuery(_sql));
-    GLOGT(eGOFF, "sql..........:%s", _sql.c_str());
+    if(lLogOn) {
+        GLOGT(eGMSG, "%s", _sql.c_str());
+    }
+    else {
+        GLOGT(eGOFF, "%s", _sql.c_str());
+    }
     return *this;
 }
 //===============================================
