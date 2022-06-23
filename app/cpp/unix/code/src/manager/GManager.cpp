@@ -142,7 +142,7 @@ bool GManager::loadLastId() {
             "", m_orderBy.c_str()
     ));
 
-    m_lastId = GString(lLastId).toInt();
+    m_lastId = GString(lLastId).toInt() + 1;
     return true;
 }
 //===============================================
