@@ -85,7 +85,7 @@ bool GCode::addData(const std::string& _code, std::vector<GObject*>& _datas) {
     createXNode("map");
     for(int i = 0; i < (int)_datas.size(); i++) {
         GObject* lObj = _datas[i];
-        std::string lData = lObj->serialize(_code);
+        std::string lData = lObj->serialize(false, _code);
         loadNode(lData);
     }
     clearMap(_datas);

@@ -14,7 +14,7 @@ public:
     virtual ~GObject();
     virtual void createDoms();
     virtual GObject* clone();
-    virtual std::string serialize(const std::string& _code);
+    virtual std::string serialize(bool _isParent, const std::string& _code);
     virtual void deserialize(const std::string& _data, const std::string& _code);
     virtual std::string getItem(const std::string& _code, const std::string& _data) const;
     virtual std::string getItem(const std::string& _code, const std::string& _key, int _index);

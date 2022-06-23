@@ -83,7 +83,7 @@ bool GManager::onCreateCode(GSocket* _client) {
 //===============================================
 bool GManager::onSearchCode(GSocket* _client) {
     searchCode();
-    std::string lData = serialize(false);
+    std::string lData = serialize();
     _client->addResponse(lData);
     return true;
 }

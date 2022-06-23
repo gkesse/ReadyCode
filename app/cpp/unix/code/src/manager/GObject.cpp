@@ -52,6 +52,6 @@ bool GObject::clearMap(std::vector<GObject*>& _map) {
 }
 //===============================================
 GObject* GObject::clone() {return new GObject;}
-std::string GObject::serialize(const std::string& _code) {return "";}
+std::string GObject::serialize(bool _isParent, const std::string& _code) {return "";}
 void GObject::deserialize(const std::string& _data, const std::string& _code) {}
 //===============================================
