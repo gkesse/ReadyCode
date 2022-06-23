@@ -184,8 +184,6 @@ bool GManager::loadDataMap() {
             m_lastId = lManager->m_id;
         }
     }
-
-    m_dataOffset += m_dataSize;
     return true;
 }
 //===============================================
