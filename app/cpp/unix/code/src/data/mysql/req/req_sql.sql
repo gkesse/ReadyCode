@@ -49,7 +49,8 @@ create table if not exists _code (
 select * 
 from _code
 where 1
-and _code like lower('%use%');
+and _code like lower('%us%')
+order by _id desc;
 
 -- ==============================================
 -- request

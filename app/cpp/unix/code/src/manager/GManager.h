@@ -2,11 +2,11 @@
 #ifndef _GManager_
 #define _GManager_
 //===============================================
-#include "GModule.h"
+#include "GSearch.h"
 //===============================================
 class GSocket;
 //===============================================
-class GManager : public GModule {
+class GManager : public GSearch {
 public:
     GManager();
     ~GManager();
@@ -22,20 +22,19 @@ public:
     bool createCode();
     bool searchCode();
     //
-    bool loadCodeId();
-    bool loadCode();
-    bool loadCodeMap();
+    bool loadId();
+    bool loadLastId();
+    bool loadDataCount();
+    bool loadDataMap();
     //
-    bool saveCode();
-    bool insertCode();
-    bool updateCode();
+    bool saveData();
+    bool insertData();
+    bool updateData();
 
 private:
     int m_id;
     std::string m_code;
     std::string m_label;
-    std::string m_where;
-    std::string m_orderBy;
 };
 //==============================================
 #endif

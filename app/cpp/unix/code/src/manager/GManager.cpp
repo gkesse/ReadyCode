@@ -9,12 +9,10 @@
 #include "GMd5.h"
 #include "GDefine.h"
 //===============================================
-GManager::GManager() : GModule() {
+GManager::GManager() : GSearch() {
     m_id = 0;
     m_code = "";
     m_label = "";
-    m_where = " where 1 ";
-    m_orderBy = " order by _id desc ";
 }
 //===============================================
 GManager::~GManager() {
@@ -32,11 +30,11 @@ std::string GManager::serialize(const std::string& _code) {
     lDom.addData(_code, "code_id", m_code);
     lDom.addData(_code, "label", m_label);
     lDom.addData(_code, m_map);
-    return lDom.toStringCode(_code);
+    return lDom.toStringData();
 }
 //===============================================
 void GManager::deserialize(const std::string& _data, const std::string& _code) {
-    GModule::deserialize(_data);
+    GSearch::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
     m_id = GString(lDom.getItem(_code, "id")).toInt();
@@ -92,22 +90,34 @@ bool GManager::createCode() {
     if(m_code.size() < 3) {GERROR(eGERR, "Le code doit faire au minimum 8 caractères."); return false;}
     if(m_code.size() > 50) {GERROR(eGERR, "Le code doit faire au maximum 50 caractères."); return false;}
     if(m_label.size() > 50) {GERROR(eGERR, "Le libellé doit faire au maximum 50 caractères."); return false;}
-    loadCodeId();
+    loadId();
     if(m_id != 0) {GERROR(eGERR, "Le code existe déjà."); return false;}
-    saveCode();
+    saveData();
     return true;
 }
 //===============================================
 bool GManager::searchCode() {
-    if(m_id != 0) {m_where += sformat(" and _id = %d ", m_id);}
-    else {
-        if(m_code != "") {m_where += sformat(" and _code like lower('%%%s%%') ", m_code.c_str());}
+    loadLastId();
+    if(m_lastId == 0) {GERROR(eGERR, "La table est vide."); return false;}
+    loadDataCount();
+    if(m_dataCount == 0) {GERROR(eGERR, "La table est vide."); return false;}
+    if(m_dataSize == 0) {GERROR(eGERR, "La taille des données n'est pas définie."); return false;}
+    //
+    if(m_id != 0) {
+        m_where += sformat(" and _id = %d ", m_id);
     }
-    loadCodeMap();
+    else {
+        if(m_code != "") {
+            m_where += sformat(" and _code like lower('%%%s%%') ", m_code.c_str());
+        }
+        m_where += sformat(" and _id < %d ", m_lastId);
+    }
+    //
+    loadDataMap();
     return true;
 }
 //===============================================
-bool GManager::loadCodeId() {
+bool GManager::loadId() {
     if(m_code == "") return false;
     std::string lData = GMySQL().readData(sformat(""
             " select _id "
@@ -119,24 +129,35 @@ bool GManager::loadCodeId() {
     return true;
 }
 //===============================================
-bool GManager::loadCode() {
-    if(m_id == 0) return false;
-
-    std::vector<std::string> lRow = GMySQL().readRow(sformat(""
-            " select _id, _code, _label "
+bool GManager::loadLastId() {
+    std::string lLastId = GMySQL().readData(sformat(""
+            " select _id "
             " from _code "
-            " where _id = %d "
-            "", m_id
+            " %s "
+            " limit 1 "
+            "", m_orderBy.c_str()
     ));
 
-    int i = 0;
-    m_id = GString(lRow.at(i++)).toInt();
-    m_code = lRow.at(i++);
-    m_label = lRow.at(i++);
+    m_lastId = GString(lLastId).toInt();
     return true;
 }
 //===============================================
-bool GManager::loadCodeMap() {
+bool GManager::loadDataCount() {
+    std::string lCount = GMySQL().readData(sformat(""
+            " select count(*) "
+            " from _code "
+            " %s %s "
+            " limit %d "
+            "", m_where.c_str()
+            , m_orderBy.c_str()
+            , m_dataSize
+    ));
+
+    m_dataCount = GString(lCount).toInt();
+    return true;
+}
+//===============================================
+bool GManager::loadDataMap() {
     std::vector<std::vector<std::string>> lMap = GMySQL().readMap(sformat(""
             " select _id, _code, _label "
             " from _code "
@@ -158,12 +179,12 @@ bool GManager::loadCodeMap() {
     return true;
 }
 //===============================================
-bool GManager::saveCode() {
-    if(m_id == 0) return insertCode();
-    return updateCode();
+bool GManager::saveData() {
+    if(m_id == 0) return insertData();
+    return updateData();
 }
 //===============================================
-bool GManager::insertCode() {
+bool GManager::insertData() {
     if(m_id != 0) return false;
     if(m_code == "") return false;
 
@@ -178,7 +199,7 @@ bool GManager::insertCode() {
     return true;
 }
 //===============================================
-bool GManager::updateCode() {
+bool GManager::updateData() {
     if( m_id == 0) return false;
     if(m_code == "") return false;
 
