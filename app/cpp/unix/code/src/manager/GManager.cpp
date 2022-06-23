@@ -64,6 +64,10 @@ bool GManager::onModule(GSocket* _client) {
         onSearchCode(_client);
     }
     //===============================================
+    else if(m_method == "next_code") {
+        onNextCode(_client);
+    }
+    //===============================================
     // unknown
     //===============================================
     else {
@@ -82,6 +86,13 @@ bool GManager::onCreateCode(GSocket* _client) {
 }
 //===============================================
 bool GManager::onSearchCode(GSocket* _client) {
+    searchCode();
+    std::string lData = serialize();
+    _client->addResponse(lData);
+    return true;
+}
+//===============================================
+bool GManager::onNextCode(GSocket* _client) {
     searchCode();
     std::string lData = serialize();
     _client->addResponse(lData);

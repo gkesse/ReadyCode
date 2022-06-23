@@ -18,6 +18,7 @@ public:
     bool onModule(GSocket* _client);
     bool onCreateCode(GSocket* _client);
     bool onSearchCode(GSocket* _client);
+    bool onNextCode(GSocket* _client);
     //
     bool createCode();
     bool searchCode();
