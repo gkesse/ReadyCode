@@ -17,7 +17,6 @@ protected:
     int m_dataSize;
     int m_dataOffset;
     std::string m_where;
-    std::string m_orderBy;
 };
 //==============================================
 #endif

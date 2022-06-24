@@ -15,7 +15,6 @@ GSearch::GSearch() : GModule() {
     m_dataSize = 0;
     m_dataOffset = 0;
     m_where = " where 1 ";
-    m_orderBy = " order by _id desc ";
 }
 //===============================================
 GSearch::~GSearch() {

@@ -68,6 +68,10 @@ bool GManager::onModule(GSocket* _client) {
         onNextCode(_client);
     }
     //===============================================
+    else if(m_method == "previous_code") {
+        onPreviousCode(_client);
+    }
+    //===============================================
     // unknown
     //===============================================
     else {
@@ -99,6 +103,13 @@ bool GManager::onNextCode(GSocket* _client) {
     return true;
 }
 //===============================================
+bool GManager::onPreviousCode(GSocket* _client) {
+    searchCode();
+    std::string lData = serialize();
+    _client->addResponse(lData);
+    return true;
+}
+//===============================================
 bool GManager::createCode() {
     if(m_code == "") {GERROR(eGERR, "Le code est obligatoire."); return false;}
     if(m_code.size() < 3) {GERROR(eGERR, "Le code doit faire au minimum 8 caractères."); return false;}
@@ -120,13 +131,12 @@ bool GManager::searchCode() {
         }
     }
     //
-    loadLastId();
-    if(m_lastId == 0) {GERROR(eGERR, "Il n'y a pas de codes."); return false;}
+    if(m_dataSize == 0) {GERROR(eGERR, "La taille des codes n'est pas définie."); return false;}
+    if(m_dataOffset < 0) {GERROR(eGERR, "L'offset est négatif."); return false;}
     loadDataCount();
     if(m_dataCount == 0) {GERROR(eGERR, "La table ne contient pas de codes."); return false;}
-    if(m_dataSize == 0) {GERROR(eGERR, "La taille des codes n'est pas définie."); return false;}
-    //
-    m_where += sformat(" and _id < %d ", m_lastId);
+    if(m_dataOffset == m_dataCount) {GERROR(eGERR, "L'offet est égal au nombre de données."); return false;}
+    if(m_dataOffset > m_dataCount) {GERROR(eGERR, "L'offet est supérieur au nombre de données."); return false;}
     //
     loadDataMap();
     return true;
@@ -149,8 +159,9 @@ bool GManager::loadLastId() {
             " select _id "
             " from _code "
             " %s "
+            " order by _id desc "
             " limit 1 "
-            "", m_orderBy.c_str()
+            ""
     ));
 
     m_lastId = GString(lLastId).toInt() + 1;
@@ -161,9 +172,9 @@ bool GManager::loadDataCount() {
     std::string lCount = GMySQL().readData(sformat(""
             " select count(*) "
             " from _code "
-            " %s %s "
+            " %s "
+            " order by _id desc "
             "", m_where.c_str()
-            , m_orderBy.c_str()
     ));
 
     m_dataCount = GString(lCount).toInt();
@@ -174,11 +185,12 @@ bool GManager::loadDataMap() {
     std::vector<std::vector<std::string>> lMap = GMySQL().readMap(sformat(""
             " select _id, _code, _label "
             " from _code "
-            " %s %s "
-            " limit %d "
+            " %s "
+            " order by _id desc "
+            " limit %d offset %d "
             "", m_where.c_str()
-            , m_orderBy.c_str()
             , m_dataSize
+            , m_dataOffset
     ));
 
     int lSize = (int)lMap.size();
