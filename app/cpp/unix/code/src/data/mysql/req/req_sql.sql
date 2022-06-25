@@ -60,15 +60,23 @@ limit 1;
 
 select _id, _code, _label  
 from _code
-where 1  and _id > 25
+where 1  
+and _id > 26
 order by _id
 limit 5;
 
 select _id, _code, _label  
 from _code
-where 1  and _id < 33
+where 1  
+and _id < 34
 order by _id desc
 limit 5;
+
+select _id, _code, _label  
+from _code
+where 1  
+order by _id desc
+limit 5 offset 0;
 
 -- ==============================================
 -- request

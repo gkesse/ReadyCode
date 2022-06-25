@@ -132,11 +132,12 @@ bool GManager::searchCode() {
     }
     //
     if(m_dataSize == 0) {GERROR(eGERR, "La taille des codes n'est pas définie."); return false;}
-    if(m_dataOffset < 0) {GERROR(eGERR, "L'offset est négatif."); return false;}
     loadDataCount();
     if(m_dataCount == 0) {GERROR(eGERR, "La table ne contient pas de codes."); return false;}
-    if(m_dataOffset == m_dataCount) {GERROR(eGERR, "L'offet est égal au nombre de données."); return false;}
-    if(m_dataOffset > m_dataCount) {GERROR(eGERR, "L'offet est supérieur au nombre de données."); return false;}
+    if(m_lastId < 0) {
+        loadLastId();
+        if(m_lastId <= 0) {GERROR(eGERR, "La table ne contient pas d'index."); return false;}
+    }
     //
     loadDataMap();
     return true;
@@ -186,11 +187,12 @@ bool GManager::loadDataMap() {
             " select _id, _code, _label "
             " from _code "
             " %s "
+            " and _id < %d "
             " order by _id desc "
-            " limit %d offset %d "
+            " limit %d "
             "", m_where.c_str()
+            , m_lastId
             , m_dataSize
-            , m_dataOffset
     ));
 
     int lSize = (int)lMap.size();
