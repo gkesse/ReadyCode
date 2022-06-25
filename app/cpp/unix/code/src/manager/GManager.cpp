@@ -159,7 +159,6 @@ bool GManager::loadLastId() {
     std::string lLastId = GMySQL().readData(sformat(""
             " select _id "
             " from _code "
-            " %s "
             " order by _id desc "
             " limit 1 "
             ""
