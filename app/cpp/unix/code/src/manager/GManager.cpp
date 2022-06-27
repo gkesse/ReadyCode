@@ -127,7 +127,7 @@ bool GManager::createCode() {
     if(m_code.size() > 50) {GERROR(eGERR, "Le code doit faire au maximum 50 caractères."); return false;}
     if(m_label.size() > 50) {GERROR(eGERR, "Le libellé doit faire au maximum 50 caractères."); return false;}
     loadId();
-    if(m_id != 0) {GERROR(eGERR, "Le code existe déjà."); return false;}
+    if(m_id != 0) {GERROR(eGERR, "L'identifiant existe déjà."); return false;}
     saveData();
     return true;
 }
