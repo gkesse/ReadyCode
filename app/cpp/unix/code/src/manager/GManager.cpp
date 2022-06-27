@@ -68,8 +68,12 @@ bool GManager::onModule(GSocket* _client) {
         onNextCode(_client);
     }
     //===============================================
-    else if(m_method == "previous_code") {
-        onPreviousCode(_client);
+    else if(m_method == "update_code") {
+        onUpdateCode(_client);
+    }
+    //===============================================
+    else if(m_method == "delete_code") {
+        onDeleteCode(_client);
     }
     //===============================================
     // unknown
@@ -103,8 +107,15 @@ bool GManager::onNextCode(GSocket* _client) {
     return true;
 }
 //===============================================
-bool GManager::onPreviousCode(GSocket* _client) {
-    searchCode();
+bool GManager::onUpdateCode(GSocket* _client) {
+    updateCode();
+    std::string lData = serialize();
+    _client->addResponse(lData);
+    return true;
+}
+//===============================================
+bool GManager::onDeleteCode(GSocket* _client) {
+    deleteCode();
     std::string lData = serialize();
     _client->addResponse(lData);
     return true;
@@ -140,6 +151,50 @@ bool GManager::searchCode() {
     }
     //
     loadDataMap();
+    return true;
+}
+//===============================================
+bool GManager::updateCode() {
+    if(m_id != 0) {
+        m_where += sformat(" and _id = %d ", m_id);
+    }
+    else {
+        if(m_code != "") {
+            m_where += sformat(" and _code like lower('%%%s%%') ", m_code.c_str());
+        }
+    }
+    //
+    if(m_dataSize == 0) {GERROR(eGERR, "La taille des codes n'est pas définie."); return false;}
+    loadDataCount();
+    if(m_dataCount == 0) {GERROR(eGERR, "La table ne contient pas de codes."); return false;}
+    if(m_lastId < 0) {
+        loadLastId();
+        if(m_lastId <= 0) {GERROR(eGERR, "La table ne contient pas d'index."); return false;}
+    }
+    //
+    loadDataMap();
+    return true;
+}
+//===============================================
+bool GManager::updateCode() {
+    if(m_id == 0) {GERROR(eGERR, "L'identifiant n'est pas défini."); return false;}
+    GMySQL().execQuery(sformat(""
+            " update _code "
+            " set _code = '%s' "
+            " , _label = '%s' "
+            " where _id = %d "
+            "", m_code.c_str()
+            , m_label.c_str()
+            , m_id));
+    return true;
+}
+//===============================================
+bool GManager::deleteCode() {
+    if(m_id == 0) {GERROR(eGERR, "L'identifiant n'est pas défini."); return false;}
+    GMySQL().execQuery(sformat(""
+            " delete from _code "
+            " where _id = %d "
+            "", m_id));
     return true;
 }
 //===============================================

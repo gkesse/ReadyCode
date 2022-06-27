@@ -19,10 +19,13 @@ public:
     bool onCreateCode(GSocket* _client);
     bool onSearchCode(GSocket* _client);
     bool onNextCode(GSocket* _client);
-    bool onPreviousCode(GSocket* _client);
+    bool onUpdateCode(GSocket* _client);
+    bool onDeleteCode(GSocket* _client);
     //
     bool createCode();
     bool searchCode();
+    bool updateCode();
+    bool deleteCode();
     //
     bool loadId();
     bool loadLastId();

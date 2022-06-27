@@ -78,6 +78,13 @@ where 1
 order by _id desc
 limit 5 offset 0;
 
+delete from _code
+where _id = 27;
+
+update _code
+set _label = 'label_moto'
+where _id = 26;
+
 -- ==============================================
 -- request
 -- ==============================================
