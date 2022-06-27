@@ -142,12 +142,12 @@ bool GManager::searchCode() {
         }
     }
     //
-    if(m_dataSize == 0) {GERROR(eGERR, "La taille des codes n'est pas définie."); return false;}
+    if(m_dataSize == 0) {GERROR(eGERR, "La taille des données n'a pas été définie."); return false;}
     loadDataCount();
-    if(m_dataCount == 0) {GERROR(eGERR, "La table ne contient pas de codes."); return false;}
+    if(m_dataCount == 0) {GERROR(eGERR, "Aucun résultat n'a été trouvé."); return false;}
     if(m_lastId < 0) {
         loadLastId();
-        if(m_lastId <= 0) {GERROR(eGERR, "La table ne contient pas d'index."); return false;}
+        if(m_lastId <= 0) {GERROR(eGERR, "Aucune donnée n'a été trouvée."); return false;}
     }
     //
     loadDataMap();
