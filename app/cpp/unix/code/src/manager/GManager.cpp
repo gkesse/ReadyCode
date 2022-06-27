@@ -155,28 +155,6 @@ bool GManager::searchCode() {
 }
 //===============================================
 bool GManager::updateCode() {
-    if(m_id != 0) {
-        m_where += sformat(" and _id = %d ", m_id);
-    }
-    else {
-        if(m_code != "") {
-            m_where += sformat(" and _code like lower('%%%s%%') ", m_code.c_str());
-        }
-    }
-    //
-    if(m_dataSize == 0) {GERROR(eGERR, "La taille des codes n'est pas définie."); return false;}
-    loadDataCount();
-    if(m_dataCount == 0) {GERROR(eGERR, "La table ne contient pas de codes."); return false;}
-    if(m_lastId < 0) {
-        loadLastId();
-        if(m_lastId <= 0) {GERROR(eGERR, "La table ne contient pas d'index."); return false;}
-    }
-    //
-    loadDataMap();
-    return true;
-}
-//===============================================
-bool GManager::updateCode() {
     if(m_id == 0) {GERROR(eGERR, "L'identifiant n'est pas défini."); return false;}
     GMySQL().execQuery(sformat(""
             " update _code "
