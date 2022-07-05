@@ -10,7 +10,6 @@ class GLoginUi : public GDialog {
 public:
 	GLoginUi(QWidget* _parent = 0);
 	~GLoginUi();
-	void createDoms();
 	void createLayout();
 
 public slots:

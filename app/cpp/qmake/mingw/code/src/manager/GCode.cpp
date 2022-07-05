@@ -150,6 +150,15 @@ QString GCode::getItem(const QString& _code, const QString& _key) {
     return lData;
 }
 //===============================================
+QString GCode::getItem(const QString& _code, int _index, bool _isCData) {
+    queryXPath(QString("/rdv/datas/data[code='%1']/map/data[position()=%2]").arg(_code).arg(_index + 1));
+    getNodeXPath();
+    QString lData = "";
+    if(_isCData) lData = getNodeCData();
+    else lData = getNodeValue();
+    return lData;
+}
+//===============================================
 QString GCode::getItem(const QString& _code, const QString& _key, int _index, bool _isCData) {
     queryXPath(QString("/rdv/datas/data[code='%1']/map/data[position()=%2]/%3").arg(_code).arg(_index + 1).arg(_key));
     getNodeXPath();
@@ -157,6 +166,18 @@ QString GCode::getItem(const QString& _code, const QString& _key, int _index, bo
     if(_isCData) lData = getNodeCData();
     else lData = getNodeValue();
     return lData;
+}
+//===============================================
+QString GCode::getItem(const QString& _code, const QString& _category, const QString& _key, bool _isCData) {
+    int lCount = countItem(_code);
+    for(int i = 0; i < lCount; i++) {
+        QString lCategory = getItem(_code, "category", i);
+        QString lData = getItem(_code, _key, i);
+        if(lCategory == _category) {
+            return lData;
+        }
+    }
+    return "";
 }
 //===============================================
 int GCode::countItem(const QString& _code) {

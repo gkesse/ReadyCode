@@ -1,23 +1,23 @@
 //===============================================
-#ifndef _GPadUi_
-#define _GPadUi_
+#ifndef _GPadMdi_
+#define _GPadMdi_
 //===============================================
-#include "GWidget.h"
+#include "GMainWindow.h"
 //===============================================
-class GPadUi : public GWidget {
+class GPadMdi : public GMainWindow {
 	Q_OBJECT
 
 public:
-	GPadUi(QWidget* _parent = 0);
-	~GPadUi();
+	GPadMdi(QWidget* _parent = 0);
+	~GPadMdi();
     void createLayout();
 
 public slots:
-	void onEvent();
-	void onEvent(const QString& _text);
+    void onTriggered(bool _checked = false);
+    void onSubWindowActivated(QMdiSubWindow* _window);
 
-protected:
-	bool eventFilter(QObject* _obj, QEvent* _event);
+private:
+    QMdiArea* m_mdiArea;
 };
 //===============================================
 #endif

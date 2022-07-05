@@ -19,12 +19,6 @@ GPadUi::~GPadUi() {
 
 }
 //===============================================
-void GPadUi::createDoms() {
-    m_dom.reset(new GXml);
-    m_dom->loadXmlFile(GRES("xml", "pad.xml"));
-    m_dom->createXPath();
-}
-//===============================================
 void GPadUi::createLayout() {
     QHBoxLayout* lHeaderLayout = new QHBoxLayout;
     lHeaderLayout->setMargin(0);

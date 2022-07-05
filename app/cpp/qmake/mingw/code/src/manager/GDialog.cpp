@@ -2,6 +2,7 @@
 #include "GDialog.h"
 #include "GLog.h"
 #include "GXml.h"
+#include "GPath.h"
 //===============================================
 GDialog::GDialog(QWidget* _parent) :
 QDialog(_parent) {
@@ -10,6 +11,12 @@ QDialog(_parent) {
 //===============================================
 GDialog::~GDialog() {
 
+}
+//===============================================
+void GDialog::createDoms() {
+    m_dom.reset(new GXml);
+    m_dom->loadXmlFile(GRES("xml", "app.xml"));
+    m_dom->createXPath();
 }
 //===============================================
 QString GDialog::getItem(const QString& _code, const QString& _data) const {

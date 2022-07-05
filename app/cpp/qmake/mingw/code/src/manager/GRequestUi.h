@@ -12,7 +12,6 @@ class GRequestUi : public GDialog {
 public:
 	GRequestUi(QWidget* _parent = 0);
 	~GRequestUi();
-	void createDoms();
 	void createLayout();
 	//
     void onRequestSend();

@@ -54,6 +54,115 @@
             </map>
         </data>
         <!-- ============================================ -->
+        <!-- pad/mdi -->
+        <!-- ============================================ -->
+        <data>
+        	<code>pad/mdi</code>
+        	<bg_color>#111133</bg_color>
+        	<map>
+		        <!-- ============================================ -->
+		        <!-- menu -->
+		        <!-- ============================================ -->
+        		<data>
+        			<category>menu</category>
+        			<text>Menu 1</text>
+        		</data>
+        		<data>
+        			<category>submenu</category>
+        			<text>SubMenu 1</text>
+        		</data>
+        		<data>
+        			<category>submenu</category>
+        			<text>SubMenu 2</text>
+        		</data>
+		        <!-- ============================================ -->
+		        <!-- menu -->
+		        <!-- ============================================ -->
+        		<data>
+        			<category>menu</category>
+        			<text>Menu 2</text>
+        		</data>
+        		<data>
+        			<category>submenu</category>
+        			<text>SubMenu 1</text>
+        		</data>
+        		<data>
+        			<category>submenu</category>
+        			<text>SubMenu 2</text>
+        		</data>
+		        <!-- ============================================ -->
+		        <!-- menu -->
+		        <!-- ============================================ -->
+        		<data>
+        			<category>menu</category>
+        			<text>Menu 3</text>
+        		</data>
+		        <!-- ============================================ -->
+		        <!-- titlebar -->
+		        <!-- ============================================ -->
+        		<data>
+        			<category>titlebar</category>
+        			<model>img/logo</model>
+        			<img>logo.png</img>
+        		</data>
+        		<data>
+        			<category>titlebar</category>
+        			<model>button/title</model>
+        			<text>ReadyApp</text>
+        			<style>appname</style>
+        		</data>
+        		<data>
+        			<category>titlebar</category>
+        			<model>spacer</model>
+        		</data>
+        		<data>
+        			<category>titlebar</category>
+        			<model>img</model>
+        			<img>fullscreen.png</img>
+        			<tooltip>Plein écran</tooltip>
+        			<key>fullscreen</key>
+        			<style>icon</style>
+        		</data>
+        		<data>
+        			<category>titlebar</category>
+        			<model>picto</model>
+        			<picto>windowminimize</picto>
+        			<picto_color>#ffffff</picto_color>
+        			<tooltip>Réduire</tooltip>
+        			<key>minimize</key>
+        			<style>icon</style>
+        		</data>
+        		<data>
+        			<category>titlebar</category>
+        			<model>picto</model>
+        			<picto>windowmaximize</picto>
+        			<picto_color>#ffffff</picto_color>
+        			<tooltip>Agrandir</tooltip>
+        			<key>maximize</key>
+        			<style>icon</style>
+        		</data>
+        		<data>
+        			<category>titleb ar</category>
+        			<model>picto</model>
+        			<picto>times</picto>
+        			<picto_color>#ffffff</picto_color>
+        			<tooltip>Fermer</tooltip>
+        			<key>close</key>
+        			<style>icon</style>
+        		</data>
+		        <!-- ============================================ -->
+		        <!-- titlebar/settings -->
+		        <!-- ============================================ -->
+        		<data>
+        			<category>titlebar/settings</category>
+        			<icon_size>20</icon_size>
+        		</data>
+		        <!-- ============================================ -->
+		        <!-- end -->
+		        <!-- ============================================ -->
+        	</map>
+        </data>
+        <!-- ============================================ -->
         <!-- login -->
         <!-- ============================================ -->
         <data>
@@ -318,6 +427,20 @@
             <test_file_on>0</test_file_on>
             <prod_on>1</prod_on>
             <prod_file_on>1</prod_file_on>
+        </data>
+        <!-- ============================================ -->
+        <!-- fonts -->
+        <!-- ============================================ -->
+        <data>
+        	<code>fonts</code>
+        	<map>
+        		<data>Aclonica-Regular.ttf</data>
+        		<data>Akronim-Regular.ttf</data>
+        		<data>Allan-Regular.ttf</data>
+        		<data>ArchivoNarrow-Regular.ttf</data>
+        		<data>CourierPrime-Regular.ttf</data>
+        		<data>Lobster-Regular.ttf</data>
+        	</map>
         </data>
         <!-- ============================================ -->
         <!-- end -->

@@ -29,7 +29,6 @@ public:
     GLog(QObject* _parent = 0);
     ~GLog();
     static GLog* Instance();
-    void createDoms();
     //
     bool isDebug() const;
     bool isDebug(bool _isTestEnv) const;

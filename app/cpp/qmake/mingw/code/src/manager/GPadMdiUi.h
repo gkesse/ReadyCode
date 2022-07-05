@@ -1,23 +1,22 @@
 //===============================================
-#ifndef _GPadUi_
-#define _GPadUi_
+#ifndef _GPadMdiUi_
+#define _GPadMdiUi_
 //===============================================
 #include "GWidget.h"
 //===============================================
-class GPadUi : public GWidget {
+class GPadMdiUi : public GWidget {
 	Q_OBJECT
 
 public:
-	GPadUi(QWidget* _parent = 0);
-	~GPadUi();
+	GPadMdiUi(QWidget* _parent = 0);
+	~GPadMdiUi();
     void createLayout();
 
-public slots:
-	void onEvent();
-	void onEvent(const QString& _text);
-
 protected:
-	bool eventFilter(QObject* _obj, QEvent* _event);
+    void resizeEvent(QResizeEvent* event);
+
+private:
+    QSizeGrip* m_sizeGrip;
 };
 //===============================================
 #endif

@@ -4,9 +4,8 @@
 //===============================================
 #include "GInclude.h"
 //===============================================
-class GXml;
-class GError;
 class GCode;
+class GError;
 //===============================================
 class GObject : public QObject {
 	Q_OBJECT
@@ -14,11 +13,15 @@ class GObject : public QObject {
 public:
     GObject(QObject* _parent = 0);
 	virtual ~GObject();
-	virtual QString getItem(const QString& _key, const QString& _data) const;
+	virtual void createDoms();
+    virtual QString getItem(const QString& _code, const QString& _key) const;
+    virtual QString getItem(const QString& _code, int _index, bool _isCData = false) const;
+    virtual int countItem(const QString& _code) const;
 	QSharedPointer<GError>& getErrors();
+	virtual void runDefault(int _argc, char** _argv);
 
 protected:
-	QSharedPointer<GXml> m_dom;
+	QSharedPointer<GCode> m_dom;
     QSharedPointer<GError> m_errors;
 };
 //===============================================

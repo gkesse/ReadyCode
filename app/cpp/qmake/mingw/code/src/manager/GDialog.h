@@ -13,6 +13,7 @@ class GDialog : public QDialog {
 public:
     GDialog(QWidget* _parent = 0);
     virtual ~GDialog();
+    virtual void createDoms();
     virtual QString getItem(const QString& _code, const QString& _data) const;
     virtual QString getItem(const QString& _code, const QString& _data, int _i) const;
     virtual int countItem(const QString& _code) const;

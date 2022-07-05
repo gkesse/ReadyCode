@@ -16,12 +16,6 @@ GLoginUi::~GLoginUi() {
 
 }
 //===============================================
-void GLoginUi::createDoms() {
-    m_dom.reset(new GXml);
-    m_dom->loadXmlFile(GRES("xml", "pad.xml"));
-    m_dom->createXPath();
-}
-//===============================================
 void GLoginUi::createLayout() {
     QHBoxLayout* lUsernameLayout = new QHBoxLayout;
     lUsernameLayout->setMargin(0);

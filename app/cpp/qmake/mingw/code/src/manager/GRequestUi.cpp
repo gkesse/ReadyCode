@@ -24,12 +24,6 @@ GRequestUi::~GRequestUi() {
 
 }
 //===============================================
-void GRequestUi::createDoms() {
-    m_dom.reset(new GXml);
-    m_dom->loadXmlFile(GRES("xml", "pad.xml"));
-    m_dom->createXPath();
-}
-//===============================================
 void GRequestUi::createLayout() {
     QHBoxLayout* lEmissionLayout = new QHBoxLayout;
     lEmissionLayout->setMargin(0);

@@ -31,12 +31,6 @@ GSearchUi::~GSearchUi() {
 
 }
 //===============================================
-void GSearchUi::createDoms() {
-    m_dom.reset(new GXml);
-    m_dom->loadXmlFile(GRES("xml", "pad.xml"));
-    m_dom->createXPath();
-}
-//===============================================
 void GSearchUi::createLayout() {
     QHBoxLayout* lTableLayout = new QHBoxLayout;
     lTableLayout->setMargin(0);

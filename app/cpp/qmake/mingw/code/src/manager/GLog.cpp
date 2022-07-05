@@ -30,12 +30,6 @@ GLog* GLog::Instance() {
     return m_instance;
 }
 //===============================================
-void GLog::createDoms() {
-    m_dom.reset(new GXml);
-    m_dom->loadXmlFile(GRES("xml", "pad.xml"));
-    m_dom->createXPath();
-}
-//===============================================
 bool GLog::isDebug() const {
     return isDebug(GEnv().isTestEnv());
 }
