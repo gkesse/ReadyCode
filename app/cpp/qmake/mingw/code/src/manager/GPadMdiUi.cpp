@@ -6,8 +6,8 @@
 #include "GPath.h"
 #include "GFont.h"
 //===============================================
-GPadMdiUi::GPadMdiUi(QWidget* _parent) :
-GWidget(_parent) {
+GPadMdiUi::GPadMdiUi(QWidget* _parent)
+: GWidget(_parent) {
     GFont lFont;
     lFont.loadFont();
     GSTYLE(GRES("css", "style.css"));
@@ -21,20 +21,22 @@ GPadMdiUi::~GPadMdiUi() {
 //===============================================
 void GPadMdiUi::createLayout() {
     GTitleBar* lTitleBar = new GTitleBar(this);
+    lTitleBar->setObjectName("bottom");
     GPadMdi* lPadMdi = new GPadMdi;
 
-    QVBoxLayout* lPadMdiLayout = new QVBoxLayout;
-    lPadMdiLayout->addWidget(lPadMdi);
-    lPadMdiLayout->setContentsMargins(10,  0,  10,  10);
-    lPadMdiLayout->setSpacing(0);
+    QVBoxLayout* lBodyLayout = new QVBoxLayout;
+    lBodyLayout->addWidget(lPadMdi);
+    lBodyLayout->setMargin(5);
+    lBodyLayout->setSpacing(5);
 
     QVBoxLayout* lMainLayout = new QVBoxLayout;
     lMainLayout->addWidget(lTitleBar);
-    lMainLayout->addLayout(lPadMdiLayout);
+    lMainLayout->addLayout(lBodyLayout);
     lMainLayout->setMargin(0);
     lMainLayout->setSpacing(0);
 
     setLayout(lMainLayout);
+    setObjectName("flat");
 
     m_sizeGrip = new QSizeGrip(this);
 }

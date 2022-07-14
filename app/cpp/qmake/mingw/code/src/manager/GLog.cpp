@@ -135,20 +135,8 @@ void GLog::showErrors(const char* _name, int _level, const char* _file, int _lin
     m_errors->clearErrors();
 }
 //===============================================
-bool GLog::hasErrors() {
-    return m_errors->hasErrors();
-}
-//===============================================
-void GLog::clearErrors() {
-    m_errors->clearErrors();
-}
-//===============================================
 void GLog::loadErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _res) {
     m_errors->loadErrors(_name, _level, _file, _line, _func, _res);
-}
-//===============================================
-QVector<QString>& GLog::getErrors() {
-    return m_errors->getErrors();
 }
 //===============================================
 void GLog::writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _log) {

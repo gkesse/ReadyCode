@@ -48,10 +48,7 @@ public:
     void showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func);
     void showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, QWidget* _parent);
     void showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog);
-    bool hasErrors();
-    void clearErrors();
     void loadErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _res);
-    QVector<QString>& getErrors();
     //
     void writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _log);
     void writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const QString& _log);

@@ -143,10 +143,12 @@ void GCode::createMap(const QString& _code, const QString& _key, const QString& 
     }
 }
 //===============================================
-QString GCode::getItem(const QString& _code, const QString& _key) {
+QString GCode::getItem(const QString& _code, const QString& _key, bool _isCData) {
     queryXPath(QString("/rdv/datas/data[code='%1']/%2").arg(_code).arg(_key));
     getNodeXPath();
-    QString lData = getNodeValue();
+    QString lData = "";
+    if(_isCData) lData = getNodeCData();
+    else lData = getNodeValue();
     return lData;
 }
 //===============================================

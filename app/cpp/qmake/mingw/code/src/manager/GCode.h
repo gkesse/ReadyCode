@@ -37,7 +37,7 @@ public:
     void createMap(const QString& _code, const QString& _key, int _value, int _index, bool _isCData = false);
     void createMap(const QString& _code, const QString& _key, const QString& _value, int _index, bool _isCData = false);
     //
-    QString getItem(const QString& _code, const QString& _key);
+    QString getItem(const QString& _code, const QString& _key, bool _isCData = false);
     QString getItem(const QString& _code, int _index, bool _isCData = false);
     QString getItem(const QString& _code, const QString& _key, int _index, bool _isCData = false);
     QString getItem(const QString& _code, const QString& _category, const QString& _key, bool _isCData = false);

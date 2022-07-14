@@ -101,7 +101,7 @@ void GSearchUi::createLayout() {
         }
         else if(lType == "button") {
             QPushButton* lButton = new QPushButton;
-            addObject(lButton, lKey);
+            addObj(lKey, lButton);
             lButton->setObjectName(lStyle);
             lButton->setText(lText);
             lButton->setCursor(Qt::PointingHandCursor);
@@ -116,7 +116,7 @@ void GSearchUi::createLayout() {
         }
         else if(lType == "tablewidget") {
             QTableWidget* lTableWidget = new QTableWidget;
-            addObject(lTableWidget, lKey);
+            addObj(lKey, lTableWidget);
             lTableWidget->setObjectName(lStyle);
             //
             setReadonlyOn(lReadonlyOn);
@@ -178,7 +178,7 @@ void GSearchUi::setColumnToContentOn(bool _isColumnToContentOn) {
 }
 //===============================================
 void GSearchUi::initOptions() {
-    QTableWidget* lTableWidget = qobject_cast<QTableWidget*>(getObject("search/tablewidget"));
+    QTableWidget* lTableWidget = (QTableWidget*)getObj("search/tablewidget");
 
     if(m_readonlyOn) {
         lTableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -214,7 +214,7 @@ void GSearchUi::clearIndex() {
 }
 //===============================================
 void GSearchUi::onEvent() {
-    QString lKey = m_objectMap[sender()];
+    QString lKey = getKey(sender());
     //===============================================
     // search/select
     //===============================================

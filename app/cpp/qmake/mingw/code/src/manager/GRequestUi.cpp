@@ -1,5 +1,6 @@
 //===============================================
 #include "GRequestUi.h"
+#include "GLoginUi.h"
 #include "GSearchUi.h"
 #include "GPath.h"
 #include "GXml.h"
@@ -111,7 +112,7 @@ void GRequestUi::createLayout() {
         }
         else if(lType == "button") {
             QPushButton* lButton = new QPushButton;
-            addObject(lButton, lKey);
+            addObj(lKey, lButton);
             lButton->setObjectName(lStyle);
             lButton->setText(lText);
             lButton->setCursor(Qt::PointingHandCursor);
@@ -126,7 +127,7 @@ void GRequestUi::createLayout() {
         }
         else if(lType == "textedit") {
             QTextEdit* lTextEdit = new QTextEdit;
-            addObject(lTextEdit, lKey);
+            addObj(lKey, lTextEdit);
             lTextEdit->setObjectName(lStyle);
             lTextEdit->setLineWrapMode(QTextEdit::NoWrap);
             lTextEdit->setReadOnly(lReadonly);
@@ -134,8 +135,7 @@ void GRequestUi::createLayout() {
         }
         else {
             GERROR(eGERR, QString(""
-                    "Erreur le type n'existe pas.\n"
-                    "type.......: %1 : (%2)\n"
+                    "Erreur le type (%1 : %2) n'existe pas.\n"
                     "").arg(lCategory).arg(lType)
             );
             GERROR_SHOWG(eGERR);
@@ -149,11 +149,12 @@ void GRequestUi::createLayout() {
     resize(lWidth, lHeight);
     setObjectName(lStyle);
 
-    addObject(new GSearchUi(this), "search/ui");
+    addObj("login/ui", (void*)(new GLoginUi(this)));
+    addObj("search/ui", (void*)(new GSearchUi(this)));
 }
 //===============================================
 void GRequestUi::onEvent() {
-    QString lKey = m_objectMap[sender()];
+    QString lKey = getKey(sender());
 
     if(lKey == "request/send") {
         onRequestSend();
@@ -172,7 +173,7 @@ void GRequestUi::onEvent() {
 }
 //===============================================
 void GRequestUi::onEvent(const QString& _text) {
-    QString lKey = m_objectMap[sender()];
+    QString lKey = getKey(sender());
 
     if(lKey == "search/ui") {
         if(_text == "search/next") {
@@ -193,8 +194,8 @@ void GRequestUi::onEvent(const QString& _text) {
 }
 //===============================================
 void GRequestUi::onRequestSend() {
-    QTextEdit* lEmissionEdit = qobject_cast<QTextEdit*>(getObject("request/emission/textedit"));
-    QTextEdit* lReceptionEdit = qobject_cast<QTextEdit*>(getObject("request/reception/textedit"));
+    QTextEdit* lEmissionEdit = (QTextEdit*)getObj("request/emission/textedit");
+    QTextEdit* lReceptionEdit = (QTextEdit*)getObj("request/reception/textedit");
     QString lEmissionText = lEmissionEdit->toPlainText();
     bool lXmlValid = true;
     bool lRequestValid = true;
@@ -205,7 +206,7 @@ void GRequestUi::onRequestSend() {
     else {
         GXml lXmlFormat;
         lXmlFormat.isValidXmlData(lEmissionText);
-        lXmlValid &= !lXmlFormat.getErrors()->hasErrors();
+        lXmlValid &= !lXmlFormat.hasErrors();
 
         if(0 && !lXmlValid) {
             GERROR(eGERR, QString("Erreur le format XML est invalide."));
@@ -236,12 +237,12 @@ void GRequestUi::onRequestSend() {
 }
 //===============================================
 void GRequestUi::onRequestClear() {
-    QTextEdit* lTextEdit = qobject_cast<QTextEdit*>(getObject("request/emission/textedit"));
+    QTextEdit* lTextEdit = (QTextEdit*)getObj("request/emission/textedit");
     lTextEdit->clear();
 }
 //===============================================
 void GRequestUi::onRequestSearch() {
-    GSearchUi* lSearchUi = qobject_cast<GSearchUi*>(getObject("search/ui"));
+    GSearchUi* lSearchUi = (GSearchUi*)getObj("search/ui");
     getRequestList();
     int lOk = lSearchUi->exec();
 
@@ -250,7 +251,7 @@ void GRequestUi::onRequestSearch() {
         if(lIndex >= 0) {
             GRequest* lReq = m_reqs->getReqs().at(lIndex);
             QString lMsg = lReq->getMsg();
-            QTextEdit* lEmissionEdit = qobject_cast<QTextEdit*>(getObject("request/emission/textedit"));
+            QTextEdit* lEmissionEdit = (QTextEdit*)getObj("request/emission/textedit");
             lEmissionEdit->setText(lMsg);
         }
     }
@@ -273,8 +274,8 @@ void GRequestUi::getRequestList(int _newOffset) {
     m_reqs->setDataOffset(m_dataOffset);
     m_reqs->setDataSize(m_dataSize);
     m_reqs->getRequestList();
-    GSearchUi* lSearchUi = qobject_cast<GSearchUi*>(getObject("search/ui"));
-    QTableWidget* lTableWidget = qobject_cast<QTableWidget*>(lSearchUi->getObject("search/tablewidget"));
+    GSearchUi* lSearchUi = (GSearchUi*)getObj("search/ui");
+    QTableWidget* lTableWidget = (QTableWidget*)lSearchUi->getObj("search/tablewidget");
     int lRows = m_reqs->getReqs().size();
     int lCols = m_reqs->getHeaders().size();
     GTableWidget lTable(lRows, lCols, lTableWidget);

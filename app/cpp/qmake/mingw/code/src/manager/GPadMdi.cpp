@@ -1,12 +1,14 @@
 //===============================================
 #include "GPadMdi.h"
+#include "GLoginUi.h"
+#include "GCvUi.h"
 #include "GStyle.h"
 #include "GPath.h"
 #include "GPicto.h"
+#include "GLog.h"
 //===============================================
-GPadMdi::GPadMdi(QWidget* _parent) :
-GMainWindow(_parent) {
-    GSTYLE(GRES("css", "style.css"));
+GPadMdi::GPadMdi(QWidget* _parent)
+: GMainWindow(_parent) {
     createDoms();
     createLayout();
 }
@@ -29,6 +31,7 @@ void GPadMdi::createLayout() {
 
     for(int i = 0; i < lCount; i++) {
         QString lCategory = getItem("pad/mdi", "category", i);
+        QString lKey = getItem("pad/mdi", "key", i);
         QString lText = getItem("pad/mdi", "text", i);
         QString lPicto = getItem("pad/mdi", "picto", i);
         QString lPictoColor = getItem("pad/mdi", "picto_color", i);
@@ -41,15 +44,16 @@ void GPadMdi::createLayout() {
             if(lToolBarOn) {
                 lToolBar = addToolBar(tr("File"));
             }
+            connect(lMenu, SIGNAL(triggered(QAction*)), this, SLOT(onEvent(QAction*)));
         }
         else if(lCategory == "submenu") {
             const QIcon lIcon = GPICTO(lPicto, lPictoColor);
             QAction* lAction = new QAction(this);
+            lAction->setData(lKey);
             lAction->setText(lText);
             lAction->setIcon(lIcon);
             lAction->setShortcut(QKeySequence(lShortcut));
             lAction->setStatusTip(lStatus);
-            connect(lAction, SIGNAL(triggered(bool)), this, SLOT(onTriggered(bool)));
             lMenu->addAction(lAction);
 
             if(lToolBarOn) {
@@ -58,22 +62,44 @@ void GPadMdi::createLayout() {
         }
     }
 
-    QTextEdit* lText = new QTextEdit;
-    m_mdiArea->addSubWindow(lText);
-    lText->show();
-
-    connect(m_mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)), this, SLOT(onSubWindowActivated(QMdiSubWindow*)));
+    connect(m_mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)), this, SLOT(onEvent(QMdiSubWindow*)));
 
     resize(500, 400);
 
     setCentralWidget(m_mdiArea);
 }
 //===============================================
-void GPadMdi::onTriggered(bool _checked) {
+void GPadMdi::onEvent(QAction* _action) {
+    QAction* lAction = _action;
+    QString lKey = lAction->data().toString();
+    //
+    if(lKey == "manager/connection") {
+        onConnection();
+    }
+    else if(lKey == "editor/cv") {
+        onCv();
+    }
+    else {
+        onErrorKey(lKey);
+    }
+    GERROR_SHOWG(eGERR);
+}
+//===============================================
+void GPadMdi::onEvent(QMdiSubWindow* _window) {
 
 }
 //===============================================
-void GPadMdi::onSubWindowActivated(QMdiSubWindow* _window) {
-
+void GPadMdi::onConnection() {
+    GLoginUi* lLoginUi = new GLoginUi(this);
+    lLoginUi->exec();
+    delete lLoginUi;
+}
+//===============================================
+void GPadMdi::onCv() {
+    QMdiSubWindow* lSub = new QMdiSubWindow(this);
+    GCvUi* lCvUi = new GCvUi(lSub);
+    lSub->setWidget(lCvUi);
+    m_mdiArea->addSubWindow(lSub);
+    lSub->show();
 }
 //===============================================

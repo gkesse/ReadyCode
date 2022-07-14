@@ -1,25 +1,27 @@
 //===============================================
-#include "GLoginUi.h"
-#include "GTitleBar.h"
-#include "GTitleBarDialog.h"
+#include "GCvUi.h"
+#include "GTitleBarMdi.h"
 #include "GPath.h"
 #include "GXml.h"
 #include "GPicto.h"
 #include "GLog.h"
 #include "GUser.h"
 //===============================================
-GLoginUi::GLoginUi(QWidget* _parent)
-: GDialog(_parent) {
+GCvUi::GCvUi(QWidget* _parent)
+: GWidget(_parent) {
     createDoms();
     createLayout();
 }
 //===============================================
-GLoginUi::~GLoginUi() {
+GCvUi::~GCvUi() {
 
 }
 //===============================================
-void GLoginUi::createLayout() {
-    GTitleBarDialog* lTitleBar = new GTitleBarDialog(this);
+void GCvUi::createLayout() {
+    QWidget* lParent = parentWidget();
+    lParent->setWindowTitle("titre");
+
+    GTitleBarMdi* lTitleBar = new GTitleBarMdi(lParent);
 
     QHBoxLayout* lUsernameLayout = new QHBoxLayout;
     lUsernameLayout->setMargin(0);
@@ -241,6 +243,8 @@ void GLoginUi::createLayout() {
     resize(lWidth, lHeight);
     setObjectName(lStyle);
 
+    setMinimumWidth(lWidth);
+
     if(lWidthFix) {
         setFixedWidth(lWidth);
     }
@@ -249,7 +253,7 @@ void GLoginUi::createLayout() {
     }
 }
 //===============================================
-void GLoginUi::onEvent() {
+void GCvUi::onEvent() {
     QString lKey = getKey(sender());
     //===============================================
     // actions
@@ -277,7 +281,7 @@ void GLoginUi::onEvent() {
     GERROR_SHOWG(eGERR);
 }
 //===============================================
-void GLoginUi::onEvent(const QString& _text) {
+void GCvUi::onEvent(const QString& _text) {
     QString lKey = getKey(sender());
     //===============================================
     // actions
@@ -301,7 +305,7 @@ void GLoginUi::onEvent(const QString& _text) {
     GERROR_SHOWG(eGERR);
 }
 //===============================================
-void GLoginUi::onConnect() {
+void GCvUi::onConnect() {
     QLineEdit* lUsernameEdit = (QLineEdit*)getObj("login/username");
     QLineEdit* lPasswordEdit = (QLineEdit*)getObj("login/password");
     QLabel* lErrorLabel = (QLabel*)getObj("login/error");
@@ -338,29 +342,26 @@ void GLoginUi::onConnect() {
             lErrorLabel->show();
             setFixedHeight(sizeHint().height());
         }
-        else {
-            accept();
-        }
     }
 }
 //===============================================
-void GLoginUi::onUsernameClear() {
+void GCvUi::onUsernameClear() {
     QLineEdit* lUsernameEdit = (QLineEdit*)getObj("login/username");
     lUsernameEdit->clear();
 }
 //===============================================
-void GLoginUi::onUsernameClear(const QString& _text) {
+void GCvUi::onUsernameClear(const QString& _text) {
     QPushButton* lUsernameClear = (QPushButton*)getObj("login/username/clear");
     bool lVisible = (_text != "");
     lUsernameClear->setVisible(lVisible);
 }
 //===============================================
-void GLoginUi::onPasswordClear() {
+void GCvUi::onPasswordClear() {
     QLineEdit* lPasswordEdit = (QLineEdit*)getObj("login/password");
     lPasswordEdit->clear();
 }
 //===============================================
-void GLoginUi::onPasswordClear(const QString& _text) {
+void GCvUi::onPasswordClear(const QString& _text) {
     QPushButton* lPasswordClear = (QPushButton*)getObj("login/password/clear");
     bool lVisible = (_text != "");
     lPasswordClear->setVisible(lVisible);

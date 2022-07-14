@@ -75,7 +75,7 @@ void GPadUi::createLayout() {
         }
         else if(lType == "button") {
             QPushButton* lButton = new QPushButton;
-            addObject(lButton, lKey);
+            addObj(lKey, lButton);
             lButton->setObjectName(lStyle);
             lButton->setText(lText);
             lButton->setCursor(Qt::PointingHandCursor);
@@ -105,25 +105,25 @@ void GPadUi::createLayout() {
     resize(lWidth, lHeight);
     setObjectName(lStyle);
 
-    addObject(new GLoginUi(this), "login/ui");
-    addObject(new GRequestUi(this), "request/ui");
+    addObj("login/ui", (void*)(new GLoginUi(this)));
+    addObj("request/ui", (void*)(new GRequestUi(this)));
 }
 //===============================================
 void GPadUi::onEvent() {
-    QString lKey = m_objectMap[sender()];
+    QString lKey = getKey(sender());
     GLOGT(eGINF, lKey);
     //===============================================
     // header/connect
     //===============================================
     if(lKey == "header/connect") {
-        QDialog* lLoginUi = qobject_cast<GLoginUi*>(getObject("login/ui"));
+        QDialog* lLoginUi = (GLoginUi*)getObj("login/ui");
         lLoginUi->exec();
     }
     //===============================================
     // header/request
     //===============================================
     else if(lKey == "header/request") {
-        QDialog* lRequestUi = qobject_cast<GRequestUi*>(getObject("request/ui"));
+        QDialog* lRequestUi = (GRequestUi*)getObj("request/ui");
         lRequestUi->exec();
     }
     //===============================================

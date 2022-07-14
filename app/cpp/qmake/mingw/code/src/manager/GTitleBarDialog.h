@@ -1,15 +1,15 @@
 //===============================================
-#ifndef _GTitleBar_
-#define _GTitleBar_
+#ifndef _GTitleBarDialog_
+#define _GTitleBarDialog_
 //===============================================
 #include "GWidget.h"
 //===============================================
-class GTitleBar : public GWidget {
+class GTitleBarDialog : public GWidget {
     Q_OBJECT
 
 public:
-    GTitleBar(QWidget* _parent = 0);
-    ~GTitleBar();
+    GTitleBarDialog(QWidget* _parent = 0);
+    ~GTitleBarDialog();
     void createLayout();
     void onClose();
     void onMinimize();

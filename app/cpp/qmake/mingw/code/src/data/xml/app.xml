@@ -61,41 +61,28 @@
         	<bg_color>#111133</bg_color>
         	<map>
 		        <!-- ============================================ -->
-		        <!-- menu -->
+		        <!-- menu/manager -->
 		        <!-- ============================================ -->
         		<data>
         			<category>menu</category>
-        			<text>Menu 1</text>
+        			<text>Managers</text>
         		</data>
         		<data>
         			<category>submenu</category>
-        			<text>SubMenu 1</text>
-        		</data>
-        		<data>
-        			<category>submenu</category>
-        			<text>SubMenu 2</text>
+        			<key>manager/connection</key>
+        			<text>Manager de Connexion</text>
         		</data>
 		        <!-- ============================================ -->
-		        <!-- menu -->
+		        <!-- menu/editor -->
 		        <!-- ============================================ -->
         		<data>
         			<category>menu</category>
-        			<text>Menu 2</text>
+        			<text>Editeurs</text>
         		</data>
         		<data>
         			<category>submenu</category>
-        			<text>SubMenu 1</text>
-        		</data>
-        		<data>
-        			<category>submenu</category>
-        			<text>SubMenu 2</text>
-        		</data>
-		        <!-- ============================================ -->
-		        <!-- menu -->
-		        <!-- ============================================ -->
-        		<data>
-        			<category>menu</category>
-        			<text>Menu 3</text>
+        			<key>editor/cv</key>
+        			<text>Editeur de CV</text>
         		</data>
 		        <!-- ============================================ -->
 		        <!-- titlebar -->
@@ -104,12 +91,14 @@
         			<category>titlebar</category>
         			<model>img/logo</model>
         			<img>logo.png</img>
+        			<size>20</size>
         		</data>
         		<data>
         			<category>titlebar</category>
         			<model>button/title</model>
         			<text>ReadyApp</text>
         			<style>appname</style>
+        			<size>20</size>
         		</data>
         		<data>
         			<category>titlebar</category>
@@ -122,6 +111,7 @@
         			<tooltip>Plein écran</tooltip>
         			<key>fullscreen</key>
         			<style>icon</style>
+        			<size>20</size>
         		</data>
         		<data>
         			<category>titlebar</category>
@@ -131,6 +121,7 @@
         			<tooltip>Réduire</tooltip>
         			<key>minimize</key>
         			<style>icon</style>
+        			<size>20</size>
         		</data>
         		<data>
         			<category>titlebar</category>
@@ -140,22 +131,17 @@
         			<tooltip>Agrandir</tooltip>
         			<key>maximize</key>
         			<style>icon</style>
+        			<size>20</size>
         		</data>
         		<data>
-        			<category>titleb ar</category>
+        			<category>titlebar</category>
         			<model>picto</model>
         			<picto>times</picto>
         			<picto_color>#ffffff</picto_color>
         			<tooltip>Fermer</tooltip>
         			<key>close</key>
         			<style>icon</style>
-        		</data>
-		        <!-- ============================================ -->
-		        <!-- titlebar/settings -->
-		        <!-- ============================================ -->
-        		<data>
-        			<category>titlebar/settings</category>
-        			<icon_size>20</icon_size>
+        			<size>20</size>
         		</data>
 		        <!-- ============================================ -->
 		        <!-- end -->

@@ -1,20 +1,19 @@
 //===============================================
-#ifndef _GTitleBar_
-#define _GTitleBar_
+#ifndef _GTitleBarMdi_
+#define _GTitleBarMdi_
 //===============================================
 #include "GWidget.h"
 //===============================================
-class GTitleBar : public GWidget {
+class GTitleBarMdi : public GWidget {
     Q_OBJECT
 
 public:
-    GTitleBar(QWidget* _parent = 0);
-    ~GTitleBar();
+    GTitleBarMdi(QWidget* _parent = 0);
+    ~GTitleBarMdi();
     void createLayout();
     void onClose();
     void onMinimize();
     void onMaximize();
-    void onFullscreen();
 
 public slots:
     void onEvent();
@@ -24,11 +23,15 @@ protected:
     void mouseReleaseEvent(QMouseEvent* event);
     void mouseMoveEvent(QMouseEvent* event);
     void mouseDoubleClickEvent(QMouseEvent* event);
+    bool eventFilter(QObject* _obj, QEvent* _event);
 
 private:
     QWidget* m_mainWindow;
     QPoint m_pressPos;
+    QPoint m_diffPos;
     bool m_pressFlag;
+    QString m_windowState;
+    bool m_minimizeOn;
 };
 //===============================================
 #endif

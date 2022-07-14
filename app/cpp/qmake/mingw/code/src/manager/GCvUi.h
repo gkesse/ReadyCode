@@ -1,17 +1,17 @@
 //===============================================
-#ifndef _GLoginUi_
-#define _GLoginUi_
+#ifndef _GCvUi_
+#define _GCvUi_
 //===============================================
-#include "GDialog.h"
+#include "GWidget.h"
 //===============================================
-class GLoginUi : public GDialog {
-	Q_OBJECT
+class GCvUi : public GWidget {
+    Q_OBJECT
 
 public:
-	GLoginUi(QWidget* _parent = 0);
-	~GLoginUi();
-	void createLayout();
-	void onConnect();
+    GCvUi(QWidget* _parent = 0);
+    ~GCvUi();
+    void createLayout();
+    void onConnect();
     void onUsernameClear();
     void onUsernameClear(const QString& _text);
     void onPasswordClear();

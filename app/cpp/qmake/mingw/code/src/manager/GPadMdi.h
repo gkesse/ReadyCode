@@ -11,10 +11,13 @@ public:
 	GPadMdi(QWidget* _parent = 0);
 	~GPadMdi();
     void createLayout();
+    //
+    void onConnection();
+    void onCv();
 
 public slots:
-    void onTriggered(bool _checked = false);
-    void onSubWindowActivated(QMdiSubWindow* _window);
+    void onEvent(QAction* _action);
+    void onEvent(QMdiSubWindow* _window);
 
 private:
     QMdiArea* m_mdiArea;
