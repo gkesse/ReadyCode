@@ -1,11 +1,12 @@
 //===============================================
 #include "GStyle.h"
+#include "GPath.h"
 #include "GLog.h"
 //===============================================
 GStyle* GStyle::m_instance = 0;
 //===============================================
-GStyle::GStyle(QObject* _parent) :
-GObject(_parent) {
+GStyle::GStyle(QObject* _parent)
+: GObject(_parent) {
 
 }
 //===============================================
@@ -20,14 +21,24 @@ GStyle* GStyle::Instance() {
     return m_instance;
 }
 //===============================================
-void GStyle::loadStyle(const QString& _filename) {
+bool GStyle::loadStyle() {
+    GPath lPath;
+    QString lFile = lPath.getPath("css", "style.css");
+    if(!loadStyle(lFile)) return false;
+    return true;
+}
+//===============================================
+bool GStyle::loadStyle(const QString& _filename) {
     QFile lFile(_filename);
     if(!lFile.open(QFile::ReadOnly)) {
-        GERROR(eGERR, QString("Erreur la methode (loadStyle) a echoue "
-                "sur le fichier (%1)\n").arg(_filename));
-        return;
+        GERROR(eGERR, QString(""
+                "Erreur lors du chargement du style.\n"
+                "fichier : (%1)\n"
+                "").arg(_filename));
+        return false;
     }
     QString lStyleSheet = QLatin1String(lFile.readAll());
     qApp->setStyleSheet(lStyleSheet);
+    return true;
 }
 //===============================================

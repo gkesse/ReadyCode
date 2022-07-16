@@ -27,16 +27,16 @@ QDialog {
 /* ============================================== */
 /* QMessageBox */
 /* ============================================== */
-QMessageBox QPushButton {
+QMessageBox QDialogButtonBox#qt_msgbox_buttonbox QPushButton {
 	background-color: transparent;
 	border: 2px solid #aaaaff;
 	padding: 2px 5px;
 	border-radius: 5px;
 }
-QMessageBox QPushButton:hover {
+QMessageBox QDialogButtonBox#qt_msgbox_buttonbox QPushButton:hover {
 	background-color: rgba(255, 255, 255, 0.2);
 }
-QMessageBox QPushButton:pressed {
+QMessageBox QDialogButtonBox#qt_msgbox_buttonbox QPushButton:pressed {
 	background-color: transparent;
 }
 /* ============================================== */

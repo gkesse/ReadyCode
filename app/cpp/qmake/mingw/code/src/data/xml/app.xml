@@ -92,6 +92,7 @@
         			<model>img/logo</model>
         			<img>logo.png</img>
         			<size>20</size>
+        			<key>logo</key>
         		</data>
         		<data>
         			<category>titlebar</category>
@@ -99,6 +100,7 @@
         			<text>ReadyApp</text>
         			<style>appname</style>
         			<size>20</size>
+        			<key>title</key>
         		</data>
         		<data>
         			<category>titlebar</category>
@@ -130,6 +132,16 @@
         			<picto_color>#ffffff</picto_color>
         			<tooltip>Agrandir</tooltip>
         			<key>maximize</key>
+        			<style>icon</style>
+        			<size>20</size>
+        		</data>
+        		<data>
+        			<category>titlebar</category>
+        			<model>picto</model>
+        			<picto>question</picto>
+        			<picto_color>#ffffff</picto_color>
+        			<tooltip>Aide</tooltip>
+        			<key>help</key>
         			<style>icon</style>
         			<size>20</size>
         		</data>

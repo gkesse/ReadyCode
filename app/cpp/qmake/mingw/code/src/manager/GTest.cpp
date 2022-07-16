@@ -9,6 +9,10 @@
 #include "GTimer.h"
 #include "GMaster.h"
 #include "GLog.h"
+#include "GFont.h"
+#include "GStyle.h"
+#include "GMessageBox.h"
+#include "GMessageBox.h"
 //===============================================
 GTest* GTest::m_test = 0;
 //===============================================
@@ -107,9 +111,15 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "string/sub") {
         runStringSub(_argc, _argv);
     }
-	//===============================================
+    //===============================================
+    // qt
+    //===============================================
+    else if(lKey == "qt/messagebox") {
+        runQtMessageBox(_argc, _argv);
+    }
+    //===============================================
     // end
-	//===============================================
+    //===============================================
     else {
         runDefault(_argc, _argv);
     }
@@ -444,6 +454,29 @@ void GTest::runStringSub(int _argc, char** _argv) {
     QString lSub = lData.mid(1, 5);
     GLOGT(eGINF, lData);
     GLOGT(eGINF, lSub);
+}
+//===============================================
+void GTest::runQtMessageBox(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    QApplication lApp(_argc, _argv);
+
+    GFont lFont;
+    if(!lFont.loadFont()) return;
+
+    GStyle lStyle;
+    if(!lStyle.loadStyle()) return;
+
+    QWidget* lWindow = new QWidget;
+    lWindow->resize(300, 150);
+    lWindow->show();
+
+    GMessageBox* lMsgBox = new GMessageBox(lWindow);
+    lMsgBox->setWindowTitle("Message d'erreur");
+    lMsgBox->setIcon(QMessageBox::Information);
+    lMsgBox->setText("Bonjour tout le monde");
+    lMsgBox->exec();
+
+    lApp.exec();
 }
 //===============================================
 void GTest::onModule(GSocket* _client) {

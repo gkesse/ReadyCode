@@ -72,10 +72,11 @@ void GPadMdi::createLayout() {
 void GPadMdi::onEvent(QAction* _action) {
     QAction* lAction = _action;
     QString lKey = lAction->data().toString();
-    //
+    // manager
     if(lKey == "manager/connection") {
         onConnection();
     }
+    // editor
     else if(lKey == "editor/cv") {
         onCv();
     }

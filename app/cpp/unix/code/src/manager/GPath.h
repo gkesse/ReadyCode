@@ -12,7 +12,7 @@ public:
     GPath();
     ~GPath();
     static GPath* Instance();
-    std::string getDataPath() const;
+    std::string getPath() const;
     std::string getResourcePath(const std::string& _res, const std::string& _filename) const;
 
 private:

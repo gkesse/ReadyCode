@@ -96,13 +96,15 @@ QString GSocket::loadErrorMsg() const {
     return lErrorMsg;
 }
 //===============================================
-GSocket& GSocket::initSocket(int _major, int _minor) {
+bool GSocket::initSocket(int _major, int _minor) {
+    if(GLOGI->hasErrors()) return false;
     WSADATA lWsaData;
     WSAStartup(MAKEWORD(_major, _minor), &lWsaData);
-    return *this;
+    return true;
 }
 //===============================================
-GSocket& GSocket::createSocket(int _domain, int _type, int _protocol) {
+bool GSocket::createSocket(int _domain, int _type, int _protocol) {
+    if(GLOGI->hasErrors()) return false;
     m_socket = socket(_domain, _type, _protocol);
     if(m_socket == INVALID_SOCKET) {
         GERROR(eGERR, QString(""
@@ -110,33 +112,35 @@ GSocket& GSocket::createSocket(int _domain, int _type, int _protocol) {
                 "erreur_code..: (%1)\n"
                 "error_msg....: (%2)\n")
                 .arg(WSAGetLastError()).arg(loadErrorMsg()));
-        return *this;
+        return false;
     }
-    return *this;
+    return true;
 }
 //===============================================
-GSocket& GSocket::createAddress(int _family, const QString& _addressIp, int _port) {
+bool GSocket::createAddress(int _family, const QString& _addressIp, int _port) {
+    if(GLOGI->hasErrors()) return false;
     m_address.sin_family = _family;
     m_address.sin_addr.s_addr = inet_addr(_addressIp.toStdString().c_str());
     m_address.sin_port = htons(_port);
     memset(&m_address.sin_zero, 0, sizeof(m_address.sin_zero));
-    return *this;
+    return true;
 }
 //===============================================
-GSocket& GSocket::listenSocket(int _backlog) {
+bool GSocket::listenSocket(int _backlog) {
+    if(GLOGI->hasErrors()) return false;
     int lAnswer = listen(m_socket, _backlog);
     if(lAnswer == SOCKET_ERROR) {
         GERROR(eGERR, QString(""
-                "Erreur lors de l'init du nombre de connexion a ecouter.\n"
+                "Erreur lors de l'initialisation du nombre de connexion a ecouter.\n"
                 "erreur_code..: (%1)\n"
                 "error_msg....: (%2)\n")
                 .arg(WSAGetLastError()).arg(loadErrorMsg()));
-        return *this;
+        return false;
     }
-    return *this;
+    return true;
 }
 //===============================================
-GSocket& GSocket::bindSocket() {
+bool GSocket::bindSocket() {
     int lAnswer = bind(m_socket, (SOCKADDR*)&m_address, sizeof(m_address));
     if(lAnswer == SOCKET_ERROR) {
         GERROR(eGERR, QString(""
@@ -144,12 +148,13 @@ GSocket& GSocket::bindSocket() {
                 "erreur_code..: (%1)\n"
                 "error_msg....: (%2)\n")
                 .arg(WSAGetLastError()).arg(loadErrorMsg()));
-        return *this;
+        return false;
     }
-    return *this;
+    return true;
 }
 //===============================================
-GSocket& GSocket::connectSocket() {
+bool GSocket::connectSocket() {
+    if(GLOGI->hasErrors()) return false;
     int lAnswer = connect(m_socket, (SOCKADDR*)(&m_address), sizeof(m_address));
     if(lAnswer == SOCKET_ERROR) {
         GERROR(eGERR, QString(""
@@ -157,16 +162,19 @@ GSocket& GSocket::connectSocket() {
                 "erreur_code..: (%1)\n"
                 "error_msg....: (%2)\n")
                 .arg(WSAGetLastError()).arg(loadErrorMsg()));
-        return *this;
+        return false;
     }
-    return *this;
+    return true;
 }
 //===============================================
-void GSocket::startMessage() {
+bool GSocket::startMessage() {
+    if(GLOGI->hasErrors()) return false;
     GLOGT(eGMSG, QString("demarrage du serveur..."));
+    return true;
 }
 //===============================================
-GSocket& GSocket::acceptSocket(GSocket& _socket) {
+bool GSocket::acceptSocket(GSocket& _socket) {
+    if(GLOGI->hasErrors()) return false;
     int lSize = sizeof(_socket.m_address);
     _socket.m_socket = accept(m_socket, (SOCKADDR*)&_socket.m_address, &lSize);
     if(_socket.m_socket == INVALID_SOCKET) {
@@ -175,12 +183,13 @@ GSocket& GSocket::acceptSocket(GSocket& _socket) {
                 "erreur_code..: (%1)\n"
                 "error_msg....: (%2)\n")
                 .arg(WSAGetLastError()).arg(loadErrorMsg()));
-        return *this;
+        return false;
     }
-    return *this;
+    return true;
 }
 //===============================================
-GSocket& GSocket::acceptSocket(GSocket* _socket) {
+bool GSocket::acceptSocket(GSocket* _socket) {
+    if(GLOGI->hasErrors()) return false;
     int lSize = sizeof(_socket->m_address);
     _socket->m_socket = accept(m_socket, (SOCKADDR*)&_socket->m_address, &lSize);
     if(_socket->m_socket == INVALID_SOCKET) {
@@ -189,16 +198,18 @@ GSocket& GSocket::acceptSocket(GSocket* _socket) {
                 "erreur_code..: (%1)\n"
                 "error_msg....: (%2)\n")
                 .arg(WSAGetLastError()).arg(loadErrorMsg()));
-        return *this;
+        return false;
     }
-    return *this;
+    return true;
 }
 //===============================================
 int GSocket::recvData(QString& _data) {
+    if(GLOGI->hasErrors()) return -1;
     return recvData(_data, BUFFER_DATA_SIZE);
 }
 //===============================================
 int GSocket::recvData(QString& _data, int _size) {
+    if(GLOGI->hasErrors()) return -1;
     _data.clear();
     char lBuffer[BUFFER_DATA_SIZE + 1];
     int lBytes = recv(m_socket, lBuffer, _size, 0);
@@ -217,6 +228,7 @@ int GSocket::recvData(QString& _data, int _size) {
 }
 //===============================================
 int GSocket::recvData(GSocket& _socket, QString& _data) {
+    if(GLOGI->hasErrors()) return -1;
     _data.clear();
     char lBuffer[BUFFER_DATA_SIZE + 1];
     int lSize = sizeof(_socket.m_address);
@@ -233,6 +245,7 @@ int GSocket::recvData(GSocket& _socket, QString& _data) {
 }
 //===============================================
 int GSocket::readData(QString& _data) {
+    if(GLOGI->hasErrors()) return -1;
     _data.clear();
     QString lBuffer;
     recvData(lBuffer, BUFFER_NDATA_SIZE);
@@ -260,6 +273,7 @@ int GSocket::readData(QString& _data) {
 }
 //===============================================
 int GSocket::readPack(QString& _data) {
+    if(GLOGI->hasErrors()) return -1;
     _data.clear();
     QString lBuffer;
     recvData(lBuffer, BUFFER_NDATA_SIZE);
@@ -290,6 +304,7 @@ int GSocket::readPack(QString& _data) {
 }
 //===============================================
 int GSocket::sendData(const QString& _data) {
+    if(GLOGI->hasErrors()) return -1;
     int lBytes = send(m_socket, _data.toStdString().c_str(), _data.size(), 0);
     GLOGT(eGOFF, QString("SIZE.........: (%1)\n").arg(lBytes));
     if(lBytes == -1) {
@@ -305,6 +320,7 @@ int GSocket::sendData(const QString& _data) {
 }
 //===============================================
 int GSocket::sendData(GSocket& _socket, const QString& _data) {
+    if(GLOGI->hasErrors()) return -1;
     int lSize = sizeof(_socket.m_address);
     int lBytes = sendto(m_socket, _data.toStdString().c_str(), _data.size(), 0, (SOCKADDR*)&_socket.m_address, lSize);
     if(lBytes == -1) {
@@ -320,6 +336,7 @@ int GSocket::sendData(GSocket& _socket, const QString& _data) {
 }
 //===============================================
 int GSocket::writeData(const QString& _data) {
+    if(GLOGI->hasErrors()) return -1;
     int lBytes = 0;
     int lLength = _data.size();
     int lSize = (int)ceil((double)lLength/BUFFER_DATA_SIZE);
@@ -349,6 +366,7 @@ int GSocket::writeData(const QString& _data) {
 }
 //===============================================
 int GSocket::writePack(const QString& _data) {
+    if(GLOGI->hasErrors()) return -1;
     int lBytes = 0;
     int lSize = _data.size();
     QString lBuffer = QString("%1").arg(lSize);
@@ -392,12 +410,16 @@ QString GSocket::getHostname() const {
     return lHostname;
 }
 //===============================================
-void GSocket::closeSocket() {
+bool GSocket::closeSocket() {
+    if(GLOGI->hasErrors()) return false;
     closesocket(m_socket);
+    return true;
 }
 //===============================================
-void GSocket::cleanSocket() {
+bool GSocket::cleanSocket() {
+    if(GLOGI->hasErrors()) return false;
     WSACleanup();
+    return true;
 }
 //===============================================
 void GSocket::startServer(void* _onServerThread) {

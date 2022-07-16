@@ -35,6 +35,7 @@ void GTitleBarMdi::createLayout() {
         int lSize = getItem("pad/mdi", "size", i).toInt();
         //
         if(lKey == "fullscreen") continue;
+        if(lKey == "help") continue;
         //
         if(lModel == "spacer") {
             lMainLayout->addStretch();
@@ -173,12 +174,6 @@ void GTitleBarMdi::mouseMoveEvent(QMouseEvent* event) {
         QPoint lDiffPos = lCurrentPos - m_pressPos;
         m_diffPos += lDiffPos;
         m_mainWindow->move(m_diffPos);
-    }
-}
-//===============================================
-void GTitleBarMdi::mouseDoubleClickEvent(QMouseEvent* event) {
-    if(event->button() == Qt::LeftButton) {
-        onMaximize();
     }
 }
 //===============================================

@@ -10,7 +10,7 @@ class GFont : public GObject {
 public:
     GFont(QObject* _parent = 0);
     ~GFont();
-    void loadFont();
+    bool loadFont();
 };
 //==============================================
 #endif

@@ -23,12 +23,14 @@ protected:
     void mousePressEvent(QMouseEvent* event);
     void mouseReleaseEvent(QMouseEvent* event);
     void mouseMoveEvent(QMouseEvent* event);
-    void mouseDoubleClickEvent(QMouseEvent* event);
 
 private:
     QWidget* m_mainWindow;
+    QString m_windowState;
     QPoint m_pressPos;
+    QPoint m_diffPos;
     bool m_pressFlag;
+    bool m_minimizeOn;
 };
 //===============================================
 #endif

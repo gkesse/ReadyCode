@@ -34,6 +34,8 @@ void GTitleBar::createLayout() {
         QString lKey = getItem("pad/mdi", "key", i);
         int lSize = getItem("pad/mdi", "size", i).toInt();
         //
+        if(lKey == "help") continue;
+        //
         if(lModel == "spacer") {
             lMainLayout->addStretch();
         }
@@ -90,9 +92,12 @@ void GTitleBar::createLayout() {
 
     setObjectName("flat");
     setLayout(lMainLayout);
+
     m_mainWindow->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
 
     m_pressFlag = false;
+    m_windowState = "normal";
+    m_minimizeOn = false;
 }
 //===============================================
 void GTitleBar::onEvent() {
@@ -117,21 +122,23 @@ void GTitleBar::onClose() {
 }
 //===============================================
 void GTitleBar::onMinimize() {
-
+    m_mainWindow->showMinimized();
 }
 //===============================================
 void GTitleBar::onMaximize() {
     QPushButton* lFullscreen = (QPushButton*)getObj("fullscreen");
     QPushButton* lMaximize = (QPushButton*)getObj("maximize");
     //
-    lFullscreen->setIcon(QIcon(GRES("img", "fullscreen")));
-    //
-    if(m_mainWindow->windowState() != Qt::WindowMaximized) {
+    if(m_windowState != "maximize") {
+        lFullscreen->setIcon(QIcon(GRES("img", "fullscreen")));
         lMaximize->setIcon(GPICTO("windowrestore", "#ffffff"));
+        m_windowState = "maximize";
         m_mainWindow->showMaximized();
     }
     else {
+        lFullscreen->setIcon(QIcon(GRES("img", "fullscreen")));
         lMaximize->setIcon(GPICTO("windowmaximize", "#ffffff"));
+        m_windowState = "normal";
         m_mainWindow->showNormal();
     }
 }
@@ -140,14 +147,16 @@ void GTitleBar::onFullscreen() {
     QPushButton* lFullscreen = (QPushButton*)getObj("fullscreen");
     QPushButton* lMaximize = (QPushButton*)getObj("maximize");
     //
-    lMaximize->setIcon(GPICTO("windowmaximize", "#ffffff"));
-    //
-    if(!m_mainWindow->isFullScreen()) {
+    if(m_windowState != "fullscreen") {
         lFullscreen->setIcon(QIcon(GRES("img", "fullscreen_exit")));
+        lMaximize->setIcon(GPICTO("windowmaximize", "#ffffff"));
+        m_windowState = "fullscreen";
         m_mainWindow->showFullScreen();
     }
     else {
         lFullscreen->setIcon(QIcon(GRES("img", "fullscreen")));
+        lMaximize->setIcon(GPICTO("windowmaximize", "#ffffff"));
+        m_windowState = "normal";
         m_mainWindow->showNormal();
     }
 }
@@ -167,15 +176,10 @@ void GTitleBar::mouseReleaseEvent(QMouseEvent* event) {
 //===============================================
 void GTitleBar::mouseMoveEvent(QMouseEvent* event) {
     if(m_pressFlag == true) {
-        QPoint lGlobalPos = event->globalPos();
-        QPoint lDiffPos = lGlobalPos - m_pressPos;
-        m_mainWindow->move(lDiffPos);
-    }
-}
-//===============================================
-void GTitleBar::mouseDoubleClickEvent(QMouseEvent* event) {
-    if(event->button() == Qt::LeftButton) {
-        onFullscreen();
+        QPoint lCurrentPos = event->pos();
+        QPoint lDiffPos = lCurrentPos - m_pressPos;
+        m_diffPos += lDiffPos;
+        m_mainWindow->move(m_diffPos);
     }
 }
 //===============================================

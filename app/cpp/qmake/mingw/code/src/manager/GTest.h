@@ -37,6 +37,7 @@ public:
     void runResponse(int _argc, char** _argv);
     void runStringPad(int _argc, char** _argv);
     void runStringSub(int _argc, char** _argv);
+    void runQtMessageBox(int _argc, char** _argv);
     //
     void onModule(GSocket* _client);
     void onRequestSaveUser(GSocket* _client);

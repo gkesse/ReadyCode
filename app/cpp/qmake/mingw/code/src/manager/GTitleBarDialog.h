@@ -12,22 +12,22 @@ public:
     ~GTitleBarDialog();
     void createLayout();
     void onClose();
-    void onMinimize();
-    void onMaximize();
-    void onFullscreen();
+    void onHelp();
+    void onTitle();
 
 public slots:
     void onEvent();
 
 protected:
-    void mousePressEvent(QMouseEvent* event);
-    void mouseReleaseEvent(QMouseEvent* event);
-    void mouseMoveEvent(QMouseEvent* event);
-    void mouseDoubleClickEvent(QMouseEvent* event);
+    void mousePressEvent(QMouseEvent* _event);
+    void mouseReleaseEvent(QMouseEvent* _event);
+    void mouseMoveEvent(QMouseEvent* _event);
+    bool eventFilter(QObject* _obj, QEvent* _event);
 
 private:
     QWidget* m_mainWindow;
     QPoint m_pressPos;
+    QPoint m_diffPos;
     bool m_pressFlag;
 };
 //===============================================
