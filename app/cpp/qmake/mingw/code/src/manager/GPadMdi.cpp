@@ -62,11 +62,11 @@ void GPadMdi::createLayout() {
         }
     }
 
-    connect(m_mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)), this, SLOT(onEvent(QMdiSubWindow*)));
-
+    setObjectName("flat");
+    setCentralWidget(m_mdiArea);
     resize(500, 400);
 
-    setCentralWidget(m_mdiArea);
+    connect(m_mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)), this, SLOT(onEvent(QMdiSubWindow*)));
 }
 //===============================================
 void GPadMdi::onEvent(QAction* _action) {

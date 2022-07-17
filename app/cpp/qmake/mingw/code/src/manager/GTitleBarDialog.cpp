@@ -165,7 +165,7 @@ bool GTitleBarDialog::eventFilter(QObject* _obj, QEvent* _event) {
     //
     if(_obj == m_mainWindow) {
         if(_event->type() == QEvent::Resize) {
-            setMinimumWidth(m_mainWindow->width());
+            setFixedWidth(m_mainWindow->width());
         }
         else if(_event->type() == QEvent::WindowIconChange) {
             lLogo->setIcon(m_mainWindow->windowIcon());

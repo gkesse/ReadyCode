@@ -12,7 +12,7 @@
 #include "GFont.h"
 #include "GStyle.h"
 #include "GMessageBox.h"
-#include "GMessageBox.h"
+#include "GPadMdi.h"
 //===============================================
 GTest* GTest::m_test = 0;
 //===============================================
@@ -116,6 +116,9 @@ void GTest::run(int _argc, char** _argv) {
     //===============================================
     else if(lKey == "qt/messagebox") {
         runQtMessageBox(_argc, _argv);
+    }
+    else if(lKey == "qt/padmdi") {
+        runQtPadMdi(_argc, _argv);
     }
     //===============================================
     // end
@@ -473,8 +476,26 @@ void GTest::runQtMessageBox(int _argc, char** _argv) {
     GMessageBox* lMsgBox = new GMessageBox(lWindow);
     lMsgBox->setWindowTitle("Message d'erreur");
     lMsgBox->setIcon(QMessageBox::Information);
-    lMsgBox->setText("Bonjour tout le monde");
+    lMsgBox->setText("Bonjour tout le monde<br>Bonjour tout le monde");
     lMsgBox->exec();
+
+    lApp.exec();
+}
+//===============================================
+void GTest::runQtPadMdi(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    QApplication lApp(_argc, _argv);
+
+    GFont lFont;
+    if(!lFont.loadFont()) return;
+
+    GStyle lStyle;
+    if(!lStyle.loadStyle()) return;
+
+    GPadMdi* lWindow = new GPadMdi;
+    lWindow->setWindowTitle("ReadyDev");
+    lWindow->resize(300, 150);
+    lWindow->showMaximized();
 
     lApp.exec();
 }

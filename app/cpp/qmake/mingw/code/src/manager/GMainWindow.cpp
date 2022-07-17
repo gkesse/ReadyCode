@@ -1,12 +1,13 @@
 //===============================================
 #include "GMainWindow.h"
+#include "GTitleBar.h"
 #include "GLog.h"
 #include "GCode.h"
 #include "GPath.h"
 //===============================================
 GMainWindow::GMainWindow(QWidget* _parent)
 : QMainWindow(_parent) {
-
+    new GTitleBar(this);
 }
 //===============================================
 GMainWindow::~GMainWindow() {
