@@ -1,6 +1,5 @@
 //===============================================
 #include "GCvUi.h"
-#include "GTitleBarMdi.h"
 #include "GPath.h"
 #include "GXml.h"
 #include "GPicto.h"
@@ -18,11 +17,6 @@ GCvUi::~GCvUi() {
 }
 //===============================================
 void GCvUi::createLayout() {
-    QWidget* lParent = parentWidget();
-    lParent->setWindowTitle("titre");
-
-    GTitleBarMdi* lTitleBar = new GTitleBarMdi(lParent);
-
     QHBoxLayout* lUsernameLayout = new QHBoxLayout;
     lUsernameLayout->setMargin(0);
     lUsernameLayout->setSpacing(0);
@@ -43,20 +37,14 @@ void GCvUi::createLayout() {
     lAccountLayout->setMargin(0);
     lAccountLayout->setSpacing(10);
 
-    QVBoxLayout* lBodyLayout = new QVBoxLayout;
-    lBodyLayout->addLayout(lUsernameLayout);
-    lBodyLayout->addLayout(lPasswordLayout);
-    lBodyLayout->addLayout(lMessageLayout);
-    lBodyLayout->addLayout(lButtonLayout);
-    lBodyLayout->addLayout(lAccountLayout);
-    lBodyLayout->setMargin(10);
-    lBodyLayout->setSpacing(10);
-
     QVBoxLayout* lMainLayout = new QVBoxLayout;
-    lMainLayout->addWidget(lTitleBar);
-    lMainLayout->addLayout(lBodyLayout);
-    lMainLayout->setMargin(0);
-    lMainLayout->setSpacing(0);
+    lMainLayout->addLayout(lUsernameLayout);
+    lMainLayout->addLayout(lPasswordLayout);
+    lMainLayout->addLayout(lMessageLayout);
+    lMainLayout->addLayout(lButtonLayout);
+    lMainLayout->addLayout(lAccountLayout);
+    lMainLayout->setMargin(10);
+    lMainLayout->setSpacing(10);
 
     int lCount = countItem("login");
     QString lTitle = getItem("login", "title");

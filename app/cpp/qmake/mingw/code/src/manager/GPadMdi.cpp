@@ -93,7 +93,6 @@ void GPadMdi::onEvent(QMdiSubWindow* _window) {
 void GPadMdi::onConnection() {
     GLoginUi* lLoginUi = new GLoginUi(this);
     lLoginUi->exec();
-    delete lLoginUi;
 }
 //===============================================
 void GPadMdi::onCv() {

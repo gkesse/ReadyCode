@@ -1,6 +1,5 @@
 //===============================================
 #include "GLoginUi.h"
-#include "GTitleBar.h"
 #include "GTitleBarDialog.h"
 #include "GPath.h"
 #include "GXml.h"
@@ -19,7 +18,7 @@ GLoginUi::~GLoginUi() {
 }
 //===============================================
 void GLoginUi::createLayout() {
-    GTitleBarDialog* lTitleBar = new GTitleBarDialog(this);
+    new GTitleBarDialog(this);
 
     QHBoxLayout* lUsernameLayout = new QHBoxLayout;
     lUsernameLayout->setMargin(0);
@@ -41,20 +40,14 @@ void GLoginUi::createLayout() {
     lAccountLayout->setMargin(0);
     lAccountLayout->setSpacing(10);
 
-    QVBoxLayout* lBodyLayout = new QVBoxLayout;
-    lBodyLayout->addLayout(lUsernameLayout);
-    lBodyLayout->addLayout(lPasswordLayout);
-    lBodyLayout->addLayout(lMessageLayout);
-    lBodyLayout->addLayout(lButtonLayout);
-    lBodyLayout->addLayout(lAccountLayout);
-    lBodyLayout->setMargin(10);
-    lBodyLayout->setSpacing(10);
-
     QVBoxLayout* lMainLayout = new QVBoxLayout;
-    lMainLayout->addWidget(lTitleBar);
-    lMainLayout->addLayout(lBodyLayout);
-    lMainLayout->setMargin(0);
-    lMainLayout->setSpacing(0);
+    lMainLayout->addLayout(lUsernameLayout);
+    lMainLayout->addLayout(lPasswordLayout);
+    lMainLayout->addLayout(lMessageLayout);
+    lMainLayout->addLayout(lButtonLayout);
+    lMainLayout->addLayout(lAccountLayout);
+    lMainLayout->setMargin(10);
+    lMainLayout->setSpacing(10);
 
     int lCount = countItem("login");
     QString lTitle = getItem("login", "title");
