@@ -1,5 +1,6 @@
 //===============================================
 #include "GCvUi.h"
+#include "GTitleBarMdi.h"
 #include "GPath.h"
 #include "GXml.h"
 #include "GPicto.h"
@@ -8,6 +9,7 @@
 //===============================================
 GCvUi::GCvUi(QWidget* _parent)
 : GWidget(_parent) {
+    new GTitleBarMdi(_parent, this);
     createDoms();
     createLayout();
 }

@@ -4,8 +4,9 @@
 #include "GPicto.h"
 #include "GLog.h"
 //===============================================
-GTitleBarMdi::GTitleBarMdi(QWidget* _parent)
-: GWidget(_parent) {
+GTitleBarMdi::GTitleBarMdi(QWidget* _mdiWindow, QWidget* _parent)
+: GWidget(_parent)
+, m_mdiWindow(_mdiWindow) {
     createDoms();
     createLayout();
 }
@@ -17,10 +18,10 @@ GTitleBarMdi::~GTitleBarMdi() {
 void GTitleBarMdi::createLayout() {
     int lCount = countItem("pad/mdi");
     m_mainWindow = parentWidget();
-    m_mainWindow->installEventFilter(this);
+    m_mdiWindow->installEventFilter(this);
 
     QHBoxLayout* lMainLayout = new QHBoxLayout;
-    lMainLayout->setContentsMargins(5,  5,  5,  5);
+    lMainLayout->setMargin(5);
     lMainLayout->setSpacing(0);
 
     for(int i = 0; i < lCount; i++) {
@@ -50,13 +51,12 @@ void GTitleBarMdi::createLayout() {
         }
         else if(lModel == "button/title") {
             QPushButton* lButton = new QPushButton;
+            lButton->installEventFilter(this);
             addObj(lKey, lButton);
             lButton->setObjectName(lStyle);
             lButton->setText(lText);
-            lButton->setCursor(Qt::PointingHandCursor);
             lMainLayout->addWidget(lButton);
-            m_mainWindow->setWindowTitle(lText);
-            connect(lButton, SIGNAL(clicked()), this, SLOT(onEvent()));
+            m_mdiWindow->setWindowTitle(lText);
         }
         else if(lModel == "picto") {
             QPushButton* lButton = new QPushButton;
@@ -80,22 +80,25 @@ void GTitleBarMdi::createLayout() {
         }
         else if(lModel == "img/logo") {
             QPushButton* lButton = new QPushButton;
+            addObj(lKey, lButton);
             lButton->setObjectName(lStyle);
             QIcon lIcon = QIcon(GRES("img", lImg));
             lButton->setIcon(lIcon);
             lButton->setIconSize(QSize(lSize, lSize));
             lButton->setCursor(Qt::PointingHandCursor);
             lMainLayout->addWidget(lButton);
-            m_mainWindow->setWindowIcon(lIcon);
+            m_mdiWindow->setWindowIcon(lIcon);
             connect(lButton, SIGNAL(clicked()), this, SLOT(onEvent()));
         }
     }
 
-    setObjectName("bottom");
+    setObjectName("flat");
     setLayout(lMainLayout);
+    setMinimumHeight(40);
 
-    m_mainWindow->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
-    m_mainWindow->setAttribute(Qt::WA_DeleteOnClose);
+    m_mdiWindow->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
+    m_mdiWindow->setAttribute(Qt::WA_DeleteOnClose);
+    m_mainWindow->setContentsMargins(0,  40,  0,  0);
 
     m_pressFlag = false;
     m_minimizeOn = false;
@@ -121,7 +124,7 @@ void GTitleBarMdi::onEvent() {
 }
 //===============================================
 void GTitleBarMdi::onClose() {
-    m_mainWindow->close();
+    m_mdiWindow->close();
 }
 //===============================================
 void GTitleBarMdi::onMinimize() {
@@ -131,9 +134,9 @@ void GTitleBarMdi::onMinimize() {
     if(m_windowState != "minimize") {
         lMinimize->setIcon(GPICTO("windowrestore", "#ffffff"));
         lMaximize->setIcon(GPICTO("windowmaximize", "#ffffff"));
-        m_mainWindow->setWindowFlags(Qt::Window);
+        m_mdiWindow->setWindowFlags(Qt::Window);
         m_windowState = "minimize";
-        m_mainWindow->showMinimized();
+        m_mdiWindow->showMinimized();
     }
 }
 //===============================================
@@ -144,13 +147,13 @@ void GTitleBarMdi::onMaximize() {
     if(m_windowState != "maximize") {
         lMinimize->setIcon(GPICTO("windowminimize", "#ffffff"));
         lMaximize->setIcon(GPICTO("windowrestore", "#ffffff"));
-        m_mainWindow->showMaximized();
+        m_mdiWindow->showMaximized();
         m_windowState = "maximize";
     }
     else {
         lMinimize->setIcon(GPICTO("windowminimize", "#ffffff"));
         lMaximize->setIcon(GPICTO("windowmaximize", "#ffffff"));
-        m_mainWindow->showNormal();
+        m_mdiWindow->showNormal();
         m_windowState = "normal";
     }
 }
@@ -173,21 +176,33 @@ void GTitleBarMdi::mouseMoveEvent(QMouseEvent* event) {
         QPoint lCurrentPos = event->pos();
         QPoint lDiffPos = lCurrentPos - m_pressPos;
         m_diffPos += lDiffPos;
-        m_mainWindow->move(m_diffPos);
+        m_mdiWindow->move(m_diffPos);
     }
 }
 //===============================================
 bool GTitleBarMdi::eventFilter(QObject* _obj, QEvent* _event) {
-    if(_obj == m_mainWindow) {
-        if(_event->type() == QEvent::WindowStateChange) {
-            if(m_mainWindow->isMinimized()) {
+    QPushButton* lLogo = (QPushButton*)getObj("logo");
+    QPushButton* lTitle = (QPushButton*)getObj("title");
+    //
+    if(_obj == m_mdiWindow) {
+        if(_event->type() == QEvent::Resize) {
+            setFixedWidth(m_mdiWindow->width());
+        }
+        else if(_event->type() == QEvent::WindowIconChange) {
+            lLogo->setIcon(m_mdiWindow->windowIcon());
+        }
+        else if(_event->type() == QEvent::WindowTitleChange) {
+            lTitle->setText(m_mdiWindow->windowTitle());
+        }
+        else if(_event->type() == QEvent::WindowStateChange) {
+            if(m_mdiWindow->isMinimized()) {
                 m_minimizeOn = true;
             }
             else if(m_minimizeOn) {
                 QPushButton* lMinimize = (QPushButton*)getObj("minimize");
                 QPushButton* lMaximize = (QPushButton*)getObj("maximize");
-                m_mainWindow->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
-                if(m_mainWindow->isMaximized()) {
+                m_mdiWindow->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
+                if(m_mdiWindow->isMaximized()) {
                     lMinimize->setIcon(GPICTO("windowminimize", "#ffffff"));
                     lMaximize->setIcon(GPICTO("windowrestore", "#ffffff"));
                     m_windowState = "maximize";
@@ -198,6 +213,20 @@ bool GTitleBarMdi::eventFilter(QObject* _obj, QEvent* _event) {
                     m_windowState = "normal";
                 }
                 m_minimizeOn = false;
+            }
+        }
+    }
+    else if(_obj == lTitle) {
+        if(_event->type() == QEvent::MouseButtonPress) {
+            QMouseEvent* lEvent = (QMouseEvent*)_event;
+            if(lEvent->button() == Qt::LeftButton) {
+                mousePressEvent(lEvent);
+            }
+        }
+        else if(_event->type() == QEvent::MouseButtonRelease) {
+            QMouseEvent* lEvent = (QMouseEvent*)_event;
+            if(lEvent->button() == Qt::LeftButton) {
+                mouseReleaseEvent(lEvent);
             }
         }
     }

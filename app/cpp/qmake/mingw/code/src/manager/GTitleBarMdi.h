@@ -8,7 +8,7 @@ class GTitleBarMdi : public GWidget {
     Q_OBJECT
 
 public:
-    GTitleBarMdi(QWidget* _parent = 0);
+    GTitleBarMdi(QWidget* _mdiWindow, QWidget* _parent = 0);
     ~GTitleBarMdi();
     void createLayout();
     void onClose();
@@ -26,6 +26,7 @@ protected:
 
 private:
     QWidget* m_mainWindow;
+    QWidget* m_mdiWindow;
     QPoint m_pressPos;
     QPoint m_diffPos;
     bool m_pressFlag;

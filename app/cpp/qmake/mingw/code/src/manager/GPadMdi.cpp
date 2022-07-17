@@ -100,6 +100,7 @@ void GPadMdi::onCv() {
     GCvUi* lCvUi = new GCvUi(lSub);
     lSub->setWidget(lCvUi);
     m_mdiArea->addSubWindow(lSub);
+    lSub->setWindowTitle("Editeur de CV");
     lSub->show();
 }
 //===============================================
