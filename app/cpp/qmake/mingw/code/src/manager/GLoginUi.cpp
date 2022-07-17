@@ -28,10 +28,6 @@ void GLoginUi::createLayout() {
     lPasswordLayout->setMargin(0);
     lPasswordLayout->setSpacing(0);
 
-    QHBoxLayout* lMessageLayout = new QHBoxLayout;
-    lMessageLayout->setMargin(0);
-    lMessageLayout->setSpacing(0);
-
     QHBoxLayout* lButtonLayout = new QHBoxLayout;
     lButtonLayout->setMargin(0);
     lButtonLayout->setSpacing(10);
@@ -43,7 +39,6 @@ void GLoginUi::createLayout() {
     QVBoxLayout* lMainLayout = new QVBoxLayout;
     lMainLayout->addLayout(lUsernameLayout);
     lMainLayout->addLayout(lPasswordLayout);
-    lMainLayout->addLayout(lMessageLayout);
     lMainLayout->addLayout(lButtonLayout);
     lMainLayout->addLayout(lAccountLayout);
     lMainLayout->setMargin(10);
@@ -84,9 +79,6 @@ void GLoginUi::createLayout() {
         else if(lCategory == "password") {
             lItemLayout = lPasswordLayout;
         }
-        else if(lCategory == "message") {
-            lItemLayout = lMessageLayout;
-        }
         else if(lCategory == "button") {
             lItemLayout = lButtonLayout;
         }
@@ -124,20 +116,6 @@ void GLoginUi::createLayout() {
             QLabel* lLabel = new QLabel;
             lLabel->setText(lText);
             lLabel->setMinimumWidth(lLabelWidth);
-            lItemLayout->addWidget(lLabel);
-        }
-        else if(lType == "label/message") {
-            QLabel* lLabel = new QLabel;
-            addObj(lKey, lLabel);
-            lLabel->setObjectName(lStyle);
-            lLabel->setText(lText);
-            if(lKey == "login/error") {
-                lLabel->hide();
-            }
-            if(lAlign == "center") {
-                lLabel->setAlignment(Qt::AlignCenter);
-            }
-            lLabel->setOpenExternalLinks(lLink);
             lItemLayout->addWidget(lLabel);
         }
         else if(lType == "label/icon") {
@@ -278,39 +256,25 @@ void GLoginUi::onEvent(const QString& _text) {
 void GLoginUi::onConnect() {
     QLineEdit* lUsernameEdit = (QLineEdit*)getObj("login/username");
     QLineEdit* lPasswordEdit = (QLineEdit*)getObj("login/password");
-    QLabel* lErrorLabel = (QLabel*)getObj("login/error");
 
     QString lUsername = lUsernameEdit->text();
     QString lPassword = lPasswordEdit->text();
 
-    if(!lErrorLabel->isHidden()) {
-        lErrorLabel->hide();
-        setFixedHeight(sizeHint().height());
-    }
-
     if(lUsername == "") {
-        lErrorLabel->setText("Le nom d'utilisateur est obligatoire.");
-        lErrorLabel->show();
-        setFixedHeight(sizeHint().height());
+        GERROR(eGERR, "Le nom d'utilisateur est obligatoire.");
     }
     else if(lPassword == "") {
-        lErrorLabel->setText("Le mot de passe est obligatoire.");
-        lErrorLabel->show();
-        setFixedHeight(sizeHint().height());
+        GERROR(eGERR, "Le mot de passe est obligatoire.");
     }
     else {
         bool lUsernameOn = GUser().hasUser(lUsername);
         bool lPasswordOn = GUser().hasUser(lUsername, lPassword);
 
         if(!lUsernameOn) {
-            lErrorLabel->setText("Le nom d'utilisateur n'existe pas.");
-            lErrorLabel->show();
-            setFixedHeight(sizeHint().height());
+            GERROR(eGERR, "Le nom d'utilisateur n'existe pas.");
         }
         else if(!lPasswordOn) {
-            lErrorLabel->setText("Le mot de passe est incorrect.");
-            lErrorLabel->show();
-            setFixedHeight(sizeHint().height());
+            GERROR(eGERR, "Le mot de passe est incorrect.");
         }
         else {
             accept();

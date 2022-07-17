@@ -206,17 +206,6 @@
                     <style>flat_icon_clear</style>
                 </data>
                 <!-- ============================================ -->
-                <!-- message -->
-                <!-- ============================================ -->
-                <data>
-                    <category>message</category>
-                    <type>label/message</type>
-                    <key>login/error</key>
-                    <text>Votre mot de passe est incorrect.</text>
-                    <align>center</align>
-                    <style>flat_message</style>
-                </data>
-                <!-- ============================================ -->
                 <!-- button -->
                 <!-- ============================================ -->
                 <data>

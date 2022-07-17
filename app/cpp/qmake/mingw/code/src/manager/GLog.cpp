@@ -1,5 +1,6 @@
 //===============================================
 #include "GLog.h"
+#include "GMessageBox.h"
 #include "GCode.h"
 #include "GDate.h"
 #include "GEnv.h"
@@ -124,7 +125,11 @@ void GLog::showErrors(const char* _name, int _level, const char* _file, int _lin
 void GLog::showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, QWidget* _parent) {
     if(!hasErrors()) return;
     QString lErrors = m_errors->toString();
-    QMessageBox::critical(_parent, "MESSAGES D'ERREURS", lErrors);
+    GMessageBox* lMsgBox = new GMessageBox(_parent);
+    lMsgBox->setWindowTitle("Messages d'erreurs");
+    lMsgBox->setIcon(QMessageBox::Critical);
+    lMsgBox->setText(lErrors);
+    lMsgBox->exec();
     m_errors->clearErrors();
 }
 //===============================================

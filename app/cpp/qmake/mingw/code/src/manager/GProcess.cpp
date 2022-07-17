@@ -1,9 +1,10 @@
 //===============================================
 #include "GProcess.h"
+#include "GFont.h"
+#include "GStyle.h"
 #include "GTest.h"
 #include "GPadUi.h"
 #include "GPadMdi.h"
-#include "GPadMdiUi.h"
 #include "GLog.h"
 //===============================================
 GProcess::GProcess(QObject* _parent) : GObject(_parent) {
@@ -32,9 +33,6 @@ void GProcess::run(int _argc, char** _argv) {
     else if(lKey == "pad/mdi") {
         runPadMdi(_argc, _argv);
     }
-    else if(lKey == "pad/mdi/ui") {
-        runPadMdiUi(_argc, _argv);
-    }
     //===============================================
 	// end
     //===============================================
@@ -61,15 +59,14 @@ void GProcess::runPad(int _argc, char** _argv) {
 //===============================================
 void GProcess::runPadMdi(int _argc, char** _argv) {
     QApplication lApp(_argc, _argv);
+    GFont lFont;
+    if(!lFont.loadFont()) return;
+
+    GStyle lStyle;
+    if(!lStyle.loadStyle()) return;
+
     GPadMdi* lPadMdi = new GPadMdi;
-    lPadMdi->show();
-    lApp.exec();
-}
-//===============================================
-void GProcess::runPadMdiUi(int _argc, char** _argv) {
-    QApplication lApp(_argc, _argv);
-    GPadMdiUi* lPadMdiUi = new GPadMdiUi;
-    lPadMdiUi->show();
+    lPadMdi->showMaximized();
     lApp.exec();
 }
 //===============================================
