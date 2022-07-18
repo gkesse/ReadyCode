@@ -11,7 +11,9 @@
 //===============================================
 GLog* GLog::m_instance = 0;
 //===============================================
-GLog::GLog(QObject* _parent) : GObject(_parent) {
+GLog::GLog(QObject* _parent)
+: GObject(_parent)
+, m_isConnectionError(true) {
     // errors
     m_errors.reset(new GError(_parent));
     // dom
@@ -67,6 +69,14 @@ bool GLog::isTestLog() const {
 bool GLog::isProdLog() const {
     bool lLogOn = (getItem("log", "prod_on") == "1");
     return lLogOn;
+}
+//===============================================
+bool GLog::isConnectionError() const {
+    return m_isConnectionError;
+}
+//===============================================
+void GLog::setConnectionError(bool _isConnectionError) {
+    m_isConnectionError = _isConnectionError;
 }
 //===============================================
 FILE* GLog::getOutput(bool _isFileLog) {

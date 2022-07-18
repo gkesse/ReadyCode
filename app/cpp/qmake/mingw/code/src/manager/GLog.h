@@ -38,6 +38,9 @@ public:
     bool isProdFileLog() const;
     bool isTestLog() const;
     bool isProdLog() const;
+    bool isConnectionError() const;
+    void setConnectionError(bool _isConnectionError);
+    //
     FILE* getOutput(bool _isFileLog);
     FILE* getOutputFile();
     void closeLogFile();
@@ -62,6 +65,7 @@ public:
 private:
     static GLog* m_instance;
     FILE* m_file;
+    bool m_isConnectionError;
 };
 //==============================================
 #endif

@@ -367,6 +367,7 @@ int GSocket::writeData(const QString& _data) {
 //===============================================
 int GSocket::writePack(const QString& _data) {
     if(GLOGI->hasErrors()) return -1;
+    GLOGI->setConnectionError(false);
     int lBytes = 0;
     int lSize = _data.size();
     QString lBuffer = QString("%1").arg(lSize);
@@ -513,6 +514,8 @@ QString GSocket::callServer(const QString& _dataIn) {
     QString lServerIp = getItem("socket", "server_ip");
     int lPort = loadPort();
 
+    GLOGI->setConnectionError(true);
+
     initSocket(lMajor, lMinor);
     createSocket(lDomain, lType, lProtocol);
     createAddress(lFamily, lServerIp, lPort);
@@ -529,7 +532,7 @@ QString GSocket::callServer(const QString& _dataIn) {
 
     if(GLOGI->hasErrors()) {
         GLOGI->clearErrors();
-        GERROR(eGERR, "Erreur lors de la connexion au serveur.\n");
+        GERROR(eGERR, "Erreur lors de la connexion au serveur.");
     }
 
     closeSocket();

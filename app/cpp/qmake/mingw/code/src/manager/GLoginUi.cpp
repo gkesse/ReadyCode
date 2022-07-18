@@ -69,7 +69,6 @@ void GLoginUi::createLayout() {
         QString lPictoClear = getItem("login", "picto_clear", i);
         QString lPictoColor = getItem("login", "picto_color", i);
         int lPictoSize = getItem("login", "picto_size", i).toInt();
-        bool lLink = (getItem("login", "link", i) == "1");
 
         QBoxLayout* lItemLayout = 0;
 
@@ -270,13 +269,15 @@ void GLoginUi::onConnect() {
         bool lUsernameOn = GUser().hasUser(lUsername);
         bool lPasswordOn = GUser().hasUser(lUsername, lPassword);
 
-        if(!lUsernameOn) {
+        if(!lUsernameOn && !GLOGI->isConnectionError()) {
+            GLOGI->clearErrors();
             GERROR(eGERR, "Le nom d'utilisateur n'existe pas.");
         }
-        else if(!lPasswordOn) {
+        else if(!lPasswordOn && !GLOGI->isConnectionError()) {
+            GLOGI->clearErrors();
             GERROR(eGERR, "Le mot de passe est incorrect.");
         }
-        else {
+        else if(!GLOGI->isConnectionError()) {
             accept();
         }
     }
