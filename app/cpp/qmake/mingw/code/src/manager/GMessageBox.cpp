@@ -1,13 +1,13 @@
 //===============================================
 #include "GMessageBox.h"
-#include "GTitleBarDialog.h"
+#include "GTitleBarMsg.h"
 #include "GLog.h"
 #include "GCode.h"
 #include "GPath.h"
 //===============================================
 GMessageBox::GMessageBox(QWidget* _parent) :
 QMessageBox(_parent) {
-    new GTitleBarDialog(this);
+    new GTitleBarMsg(this);
 }
 //===============================================
 GMessageBox::~GMessageBox() {

@@ -5,7 +5,6 @@
 #include "GInclude.h"
 //===============================================
 class GCode;
-class GError;
 //===============================================
 class GMessageBox : public QMessageBox {
     Q_OBJECT
@@ -33,7 +32,6 @@ signals:
 protected:
     QMap<QString, void*> m_objs;
     QSharedPointer<GCode> m_dom;
-    QSharedPointer<GError> m_errors;
 };
 //===============================================
 #endif

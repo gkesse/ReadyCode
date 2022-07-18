@@ -1,15 +1,15 @@
 //===============================================
-#ifndef _GTitleBarDialog_
-#define _GTitleBarDialog_
+#ifndef _GTitleBarMsg_
+#define _GTitleBarMsg_
 //===============================================
 #include "GWidget.h"
 //===============================================
-class GTitleBarDialog : public GWidget {
+class GTitleBarMsg : public GWidget {
     Q_OBJECT
 
 public:
-    GTitleBarDialog(QWidget* _parent = 0);
-    ~GTitleBarDialog();
+    GTitleBarMsg(QWidget* _parent = 0);
+    ~GTitleBarMsg();
     void createLayout();
     void onClose();
     void onHelp();
@@ -24,7 +24,7 @@ protected:
     bool eventFilter(QObject* _obj, QEvent* _event);
 
 private:
-    QDialog* m_mainWindow;
+    QMessageBox* m_mainWindow;
     QPoint m_pressPos;
     QPoint m_diffPos;
     bool m_pressFlag;

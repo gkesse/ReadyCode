@@ -1,22 +1,22 @@
 //===============================================
-#include "GTitleBarDialog.h"
+#include "GTitleBarMsg.h"
 #include "GPath.h"
 #include "GPicto.h"
 #include "GLog.h"
 //===============================================
-GTitleBarDialog::GTitleBarDialog(QWidget* _parent)
+GTitleBarMsg::GTitleBarMsg(QWidget* _parent)
 : GWidget(_parent) {
     createDoms();
     createLayout();
 }
 //===============================================
-GTitleBarDialog::~GTitleBarDialog() {
+GTitleBarMsg::~GTitleBarMsg() {
 
 }
 //===============================================
-void GTitleBarDialog::createLayout() {
+void GTitleBarMsg::createLayout() {
     int lCount = countItem("pad/mdi");
-    m_mainWindow = (QDialog*)parentWidget();
+    m_mainWindow = (QMessageBox*)parentWidget();
     m_mainWindow->installEventFilter(this);
 
     QHBoxLayout* lMainLayout = new QHBoxLayout;
@@ -38,6 +38,7 @@ void GTitleBarDialog::createLayout() {
         if(lKey == "minimize") continue;
         if(lKey == "maximize") continue;
         if(lKey == "help") continue;
+        if(lKey == "close") continue;
         //
         if(lModel == "spacer") {
             lMainLayout->addStretch();
@@ -102,7 +103,7 @@ void GTitleBarDialog::createLayout() {
     m_pressFlag = false;
 }
 //===============================================
-void GTitleBarDialog::onEvent() {
+void GTitleBarMsg::onEvent() {
     QString lKey = getKey(sender());
     //
     if(lKey == "close") {
@@ -117,15 +118,15 @@ void GTitleBarDialog::onEvent() {
     GERROR_SHOWG(eGERR);
 }
 //===============================================
-void GTitleBarDialog::onClose() {
+void GTitleBarMsg::onClose() {
     m_mainWindow->close();
 }
 //===============================================
-void GTitleBarDialog::onHelp() {
+void GTitleBarMsg::onHelp() {
     QWhatsThis::enterWhatsThisMode();
 }
 //===============================================
-void GTitleBarDialog::mousePressEvent(QMouseEvent* _event) {
+void GTitleBarMsg::mousePressEvent(QMouseEvent* _event) {
     if(_event->button() == Qt::LeftButton) {
         setCursor(QCursor(Qt::SizeAllCursor));
         m_pressPos = _event->pos();
@@ -134,7 +135,7 @@ void GTitleBarDialog::mousePressEvent(QMouseEvent* _event) {
     QWidget::mousePressEvent(_event);
 }
 //===============================================
-void GTitleBarDialog::mouseReleaseEvent(QMouseEvent* _event) {
+void GTitleBarMsg::mouseReleaseEvent(QMouseEvent* _event) {
     if(_event->button() == Qt::LeftButton) {
         setCursor(QCursor(Qt::ArrowCursor));
         m_pressFlag = false;
@@ -142,7 +143,7 @@ void GTitleBarDialog::mouseReleaseEvent(QMouseEvent* _event) {
     QWidget::mouseReleaseEvent(_event);
 }
 //===============================================
-void GTitleBarDialog::mouseMoveEvent(QMouseEvent* _event) {
+void GTitleBarMsg::mouseMoveEvent(QMouseEvent* _event) {
     if(m_pressFlag == true) {
         QPoint lCurrentPos = _event->pos();
         QPoint lDiffPos = lCurrentPos - m_pressPos;
@@ -152,7 +153,7 @@ void GTitleBarDialog::mouseMoveEvent(QMouseEvent* _event) {
     QWidget::mouseMoveEvent(_event);
 }
 //===============================================
-bool GTitleBarDialog::eventFilter(QObject* _obj, QEvent* _event) {
+bool GTitleBarMsg::eventFilter(QObject* _obj, QEvent* _event) {
     QPushButton* lLogo = (QPushButton*)getObj("logo");
     QPushButton* lTitle = (QPushButton*)getObj("title");
     //
