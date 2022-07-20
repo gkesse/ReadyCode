@@ -266,18 +266,7 @@ void GLoginUi::onConnect() {
         GERROR(eGERR, "Le mot de passe est obligatoire.");
     }
     else {
-        bool lUsernameOn = GUser().hasUser(lUsername);
-        bool lPasswordOn = GUser().hasUser(lUsername, lPassword);
-
-        if(!lUsernameOn && !GLOGI->isConnectionError()) {
-            GLOGI->clearErrors();
-            GERROR(eGERR, "Le nom d'utilisateur n'existe pas.");
-        }
-        else if(!lPasswordOn && !GLOGI->isConnectionError()) {
-            GLOGI->clearErrors();
-            GERROR(eGERR, "Le mot de passe est incorrect.");
-        }
-        else if(!GLOGI->isConnectionError()) {
+        if(GUser().runConnection()) {
             accept();
         }
     }

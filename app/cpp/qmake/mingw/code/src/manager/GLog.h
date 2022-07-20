@@ -18,8 +18,6 @@
 #define GERROR_LOAD(x, y)   GLOGI->loadErrors(#x, x, y)
 #define GERROR_SHOW(x)      GLOGI->showErrors(#x, x)
 #define GERROR_SHOWG(x)     GLOGI->showErrors(#x, x, this)
-#define GERROR_OBJ(x, y)    m_errors->addError(#x, x, y)
-#define GERROR_OBJL(x, y)   m_errors->loadErrors(#x, x, y)
 #define GLOGT(x, y)         GLOGI->traceLog(#x, x, y)
 #define GLOGW(x, y)         GLOGI->writeLog(#x, x, y)
 #define GSTRC               GLOGI->toString
@@ -29,6 +27,8 @@ public:
     GLog(QObject* _parent = 0);
     ~GLog();
     static GLog* Instance();
+    QString serialize(const QString& _code = "errors") const;
+    void deserialize(const QString& _data, const QString& _code = "errors");
     //
     bool isDebug() const;
     bool isDebug(bool _isTestEnv) const;
@@ -58,6 +58,10 @@ public:
     void traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _data = "");
     void traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const QString& _data = "");
     //
+    bool hasErrors() const;
+    void clearErrors();
+    //
+    QString toString() const;
     QString toString(bool _data) const;
     QString toString(const QVector<QString>& _data) const;
     QString toString(const QVector<QVector<QString>>& _data) const;
@@ -66,6 +70,7 @@ private:
     static GLog* m_instance;
     FILE* m_file;
     bool m_isConnectionError;
+    QVector<QString> m_errors;
 };
 //==============================================
 #endif

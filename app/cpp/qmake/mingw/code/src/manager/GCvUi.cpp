@@ -319,8 +319,8 @@ void GCvUi::onConnect() {
         setFixedHeight(sizeHint().height());
     }
     else {
-        bool lUsernameOn = GUser().hasUser(lUsername);
-        bool lPasswordOn = GUser().hasUser(lUsername, lPassword);
+        bool lUsernameOn = false;
+        bool lPasswordOn = false;
 
         if(!lUsernameOn) {
             lErrorLabel->setText("Le nom d'utilisateur n'existe pas.");

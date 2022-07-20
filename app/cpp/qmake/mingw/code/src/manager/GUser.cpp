@@ -4,47 +4,46 @@
 #include "GSocket.h"
 #include "GLog.h"
 //===============================================
-GUser* GUser::m_instance = 0;
-//===============================================
-GUser::GUser(QObject* _parent) : GObject(_parent) {
-    m_pseudo = "root";
+GUser::GUser(QObject* _parent)
+: GModule(_parent) {
+    m_pseudo = "";
+    m_password = "";
 }
 //===============================================
 GUser::~GUser() {
 
 }
 //===============================================
-GUser* GUser::Instance() {
-    if(m_instance == 0) {
-        m_instance = new GUser;
-    }
-    return m_instance;
+QString GUser::serialize(const QString& _code) const {
+    GCode lDom;
+    lDom.createDoc();
+    lDom.addData(_code, "pseudo", m_pseudo);
+    lDom.addData(_code, "password", m_password);
+    return lDom.toStringData();
+}
+//===============================================
+void GUser::deserialize(const QString& _data, const QString& _code) {
+    GModule::deserialize(_data);
+    GCode lDom;
+    lDom.loadXml(_data);
+    m_pseudo = lDom.getItem(_code, "pseudo");
+    m_password = lDom.getItem(_code, "password");
 }
 //===============================================
 QString GUser::getPseudo() const {
     return m_pseudo;
 }
 //===============================================
-bool GUser::hasUser(const QString& _username) const {
-    GCode lReq;
-    GSocket lClient;
-    lReq.createRequest("user", "has_user");
-    lReq.addParam("username", _username);
-    GLOGT(eGMSG, lReq.toString());
-    QString lResponse = lClient.callServer(lReq.toString());
-    GERROR_LOAD(eGERR, lResponse);
-    return !GLOGI->hasErrors();
+QString GUser::getPassword() const {
+    return m_password;
 }
 //===============================================
-bool GUser::hasUser(const QString& _username, const QString& _password) const {
-    GCode lReq;
+bool GUser::runConnection() {
+    if(GLOGI->hasErrors()) return false;
     GSocket lClient;
-    lReq.createRequest("user", "has_user_password");
-    lReq.addParam("username", _username);
-    lReq.addParam("password", _password);
-    GLOGT(eGMSG, lReq.toString());
-    QString lResponse = lClient.callServer(lReq.toString());
-    GERROR_LOAD(eGERR, lResponse);
+    QString lData = serialize();
+    lData = lClient.callServer("user", "run_connection", lData);
+    deserialize(lData);
     return !GLOGI->hasErrors();
 }
 //===============================================

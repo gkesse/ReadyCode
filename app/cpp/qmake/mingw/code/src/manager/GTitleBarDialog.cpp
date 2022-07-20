@@ -130,6 +130,7 @@ void GTitleBarDialog::mousePressEvent(QMouseEvent* _event) {
         setCursor(QCursor(Qt::SizeAllCursor));
         m_pressPos = _event->pos();
         m_pressFlag = true;
+        m_diffPos = m_mainWindow->geometry().topLeft();
     }
     QWidget::mousePressEvent(_event);
 }

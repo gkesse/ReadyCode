@@ -4,7 +4,6 @@
 //===============================================
 #include "GInclude.h"
 //===============================================
-class GXml;
 class GCode;
 //===============================================
 class GSocket {
@@ -50,19 +49,20 @@ public:
     void startServer(void* _onServerThread);
     static DWORD WINAPI onServerThread(LPVOID _params);
     QString callServer(const QString& _dataIn);
-    QString callServer(const QString& _module, const QString& _method);
-    QString callServer(const QString& _module, const QString& _method, const QString& _params);
+    QString callServer(const QString& _module, const QString& _method, const QString& _data = "");
     //
     void setReq(const QString& _req);
-    QSharedPointer<GCode>& getReq();
+    QString toReq() const;
     QStack<GSocket*>& getClientIns();
-    QSharedPointer<GCode>& getResponse();
+    //
+    bool addErrors();
+    bool sendResponse();
 
 private:
-    QSharedPointer<GXml> m_dom;
-    QSharedPointer<GXml> m_domWsaError;
+    QSharedPointer<GCode> m_dom;
+    QSharedPointer<GCode> m_domWsaError;
     QSharedPointer<GCode> m_res;
-    QSharedPointer<GCode> m_req;
+    QString m_req;
     //
     static const int BUFFER_DATA_SIZE = 1024;
     static const int BUFFER_NDATA_SIZE = 256;

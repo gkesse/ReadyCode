@@ -4,44 +4,53 @@
 #include "GCode.h"
 #include "GSocket.h"
 //===============================================
-GModule::GModule(QObject* _parent) : GObject(_parent) {
-
+GModule::GModule(QObject* _parent)
+: GSession(_parent) {
+    m_module = "";
+    m_method = "";
 }
 //===============================================
 GModule::~GModule() {
 
 }
 //===============================================
+QString GModule::serialize(const QString& _code) const {
+    GCode lDom;
+    lDom.createDoc();
+    lDom.addData(_code, "module", m_module);
+    lDom.addData(_code, "method", m_method);
+    return lDom.toStringCode(_code);
+}
+//===============================================
+void GModule::deserialize(const QString& _data, const QString& _code) {
+    GSession::deserialize(_data);
+    GCode lDom;
+    lDom.loadXml(_data);
+    m_module = lDom.getItem(_code, "module");
+    m_method = lDom.getItem(_code, "method");
+}
+//===============================================
+QString GModule::getModule() const {
+    return m_module;
+}
+//===============================================
+QString GModule::getMethod() const {
+    return m_method;
+}
+//===============================================
+void GModule::onModuleNone(GSocket* _client) {
+    GERROR(eGERR, "Le module est obligatoire.");
+}
+//===============================================
+void GModule::onMethodNone(GSocket* _client) {
+    GERROR(eGERR, "La methode est obligatoire.");
+}
+//===============================================
 void GModule::onModuleUnknown(GSocket* _client) {
-    QSharedPointer<GCode>& lReq = _client->getReq();
-    GERROR(eGERR, QString("Erreur le module (%1) n'existe pas")
-            .arg(lReq->getModule()));
+    GERROR(eGERR, "Le module n'existe pas.");
 }
 //===============================================
 void GModule::onMethodUnknown(GSocket* _client) {
-    QSharedPointer<GCode>& lReq = _client->getReq();
-    GERROR(eGERR, QString("Erreur la methode (%1 : %2) n'existe pas")
-            .arg(lReq->getModule()).arg(lReq->getMethod()));
-}
-//===============================================
-void GModule::sendResponse(GSocket* _client) {
-    GSocket* lClient = _client;
-    QSharedPointer<GCode>& lRes = lClient->getResponse();
-
-    if(GLOGI->hasErrors()) {
-        QVector<QString>& lErrors = GLOGI->getErrors();
-        for(int i = 0; i < lErrors.size(); i++) {
-            QString lError = lErrors.at(i);
-            lRes->createMap("error", "msg", lError, i);
-        }
-        GLOGI->clearErrors();
-    }
-    else {
-        lRes->createCode("result", "msg", "ok");
-    }
-
-    lClient->writePack(lRes->toString());
-
-    delete lClient;
+    GERROR(eGERR, "La methode n'existe pas.");
 }
 //===============================================

@@ -16,24 +16,23 @@ GMessageBox::~GMessageBox() {
 //===============================================
 void GMessageBox::createDoms() {
     m_dom.reset(new GCode);
-    m_dom->loadXmlFile(GRES("xml", "app.xml"));
-    m_dom->createXPath();
+    m_dom->loadFile(GRES("xml", "app.xml"));
 }
 //===============================================
-QString GMessageBox::getItem(const QString& _code, const QString& _key, bool _isCData) const {
-    return m_dom->getItem(_code, _key, _isCData);
+QString GMessageBox::getItem(const QString& _code, const QString& _key) const {
+    return m_dom->getItem(_code, _key);
 }
 //===============================================
-QString GMessageBox::getItem(const QString& _code, int _index, bool _isCData) const {
-    return m_dom->getItem(_code, _index, _isCData);
+QString GMessageBox::getItem(const QString& _code, int _index) const {
+    return m_dom->getItem(_code, _index);
 }
 //===============================================
-QString GMessageBox::getItem(const QString& _code, const QString& _key, int _index, bool _isCData) const {
-    return m_dom->getItem(_code, _key, _index, _isCData);
+QString GMessageBox::getItem(const QString& _code, const QString& _key, int _index) const {
+    return m_dom->getItem(_code, _key, _index);
 }
 //===============================================
-QString GMessageBox::getItem(const QString& _code, const QString& _category, const QString& _key, bool _isCData) const {
-    return m_dom->getItem(_code, _category, _key, _isCData);
+QString GMessageBox::getItem(const QString& _code, const QString& _category, const QString& _key) const {
+    return m_dom->getItem(_code, _category, _key);
 }
 //===============================================
 int GMessageBox::countItem(const QString& _code) const {

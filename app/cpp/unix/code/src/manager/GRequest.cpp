@@ -9,7 +9,8 @@
 #include "GSocket.h"
 #include "GString.h"
 //===============================================
-GRequest::GRequest() : GModule() {
+GRequest::GRequest()
+: GModule() {
     m_id = 0;
     m_msg = "";
     m_dataOffset = 0;
@@ -22,23 +23,23 @@ GRequest::~GRequest() {
 }
 //===============================================
 std::string GRequest::serialize(const std::string& _code) const {
-    GCode lReq;
-    lReq.createDoc();
-    lReq.addData(_code, "id", m_id);
-    lReq.addData(_code, "data_count", m_dataCount);
-    lReq.addData(_code, "data_offset", m_dataOffset);
-    lReq.addData(_code, "data_size", m_dataSize);
-    return lReq.toStringCode(_code);
+    GCode lDom;
+    lDom.createDoc();
+    lDom.addData(_code, "id", m_id);
+    lDom.addData(_code, "data_count", m_dataCount);
+    lDom.addData(_code, "data_offset", m_dataOffset);
+    lDom.addData(_code, "data_size", m_dataSize);
+    return lDom.toStringData();
 }
 //===============================================
 void GRequest::deserialize(const std::string& _data, const std::string& _code) {
     GModule::deserialize(_data);
-    GCode lReq;
-    lReq.loadXml(_data);
-    m_id = GString(lReq.getItem(_code, "id")).toInt();
+    GCode lDom;
+    lDom.loadXml(_data);
+    m_id = GString(lDom.getItem(_code, "id")).toInt();
     m_msg = _data;
-    m_dataOffset = GString(lReq.getItem(_code, "data_offset")).toInt();
-    m_dataSize = GString(lReq.getItem(_code, "data_size")).toInt();
+    m_dataOffset = GString(lDom.getItem(_code, "data_offset")).toInt();
+    m_dataSize = GString(lDom.getItem(_code, "data_size")).toInt();
 }
 //===============================================
 void GRequest::onModule(GSocket* _client) {

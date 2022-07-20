@@ -3,9 +3,9 @@
 #include "GLog.h"
 #include "GCode.h"
 #include "GPath.h"
-#include "GError.h"
 //===============================================
-GObject::GObject(QObject* _parent) : QObject(_parent) {
+GObject::GObject(QObject* _parent)
+: QObject(_parent) {
 
 }
 //===============================================
@@ -15,24 +15,23 @@ GObject::~GObject() {
 //===============================================
 void GObject::createDoms() {
     m_dom.reset(new GCode);
-    m_dom->loadXmlFile(GRES("xml", "app.xml"));
-    m_dom->createXPath();
+    m_dom->loadFile(GRES("xml", "app.xml"));
 }
 //===============================================
-QString GObject::getItem(const QString& _code, const QString& _key, bool _isCData) const {
-    return m_dom->getItem(_code, _key, _isCData);
+QString GObject::getItem(const QString& _code, const QString& _key) const {
+    return m_dom->getItem(_code, _key);
 }
 //===============================================
-QString GObject::getItem(const QString& _code, int _index, bool _isCData) const {
-    return m_dom->getItem(_code, _index, _isCData);
+QString GObject::getItem(const QString& _code, int _index) const {
+    return m_dom->getItem(_code, _index);
 }
 //===============================================
-QString GObject::getItem(const QString& _code, const QString& _key, int _index, bool _isCData) const {
-    return m_dom->getItem(_code, _key, _index, _isCData);
+QString GObject::getItem(const QString& _code, const QString& _key, int _index) const {
+    return m_dom->getItem(_code, _key, _index);
 }
 //===============================================
-QString GObject::getItem(const QString& _code, const QString& _category, const QString& _key, bool _isCData) const {
-    return m_dom->getItem(_code, _category, _key, _isCData);
+QString GObject::getItem(const QString& _code, const QString& _category, const QString& _key) const {
+    return m_dom->getItem(_code, _category, _key);
 }
 //===============================================
 int GObject::countItem(const QString& _code) const {
@@ -53,23 +52,20 @@ QString GObject::getKey(void* _obj, const QString& _defaultValue) const {
     return lKey;
 }
 //===============================================
-bool GObject::hasErrors() const {
-    return m_errors->hasErrors();
-}
-//===============================================
-void GObject::clearErrors() {
-    m_errors->clearErrors();
-}
-//===============================================
-QVector<QString>& GObject::getErrors() {
-    return m_errors->getErrors();
-}
-//===============================================
-const QVector<QString>& GObject::getErrors() const {
-    return m_errors->getErrors();
-}
-//===============================================
 void GObject::runDefault(int _argc, char** _argv) {
     GERROR(eGERR, "Vous devez selectionner un module.");
 }
+//===============================================
+bool GObject::clearMap(QVector<GObject*>& _map) {
+    for(int i = 0; i < (int)_map.size(); i++) {
+        GObject* lObj = _map.at(i);
+        delete lObj;
+    }
+    _map.clear();
+    return true;
+}
+//===============================================
+GObject* GObject::clone() {return new GObject;}
+QString GObject::serialize(bool _isParent, const QString& _code) {return "";}
+void GObject::deserialize(const QString& _data, const QString& _code) {}
 //===============================================

@@ -7,7 +7,6 @@
 #include "GPicto.h"
 #include "GLog.h"
 #include "GUser.h"
-#include "GError.h"
 #include "GCode.h"
 #include "GSocket.h"
 #include "GRequest.h"
@@ -155,7 +154,7 @@ void GRequestUi::createLayout() {
 //===============================================
 void GRequestUi::onEvent() {
     QString lKey = getKey(sender());
-
+    //
     if(lKey == "request/send") {
         onRequestSend();
     }
@@ -168,7 +167,6 @@ void GRequestUi::onEvent() {
     else {
         onErrorKey(lKey);
     }
-
     GERROR_SHOWG(eGERR);
 }
 //===============================================
@@ -205,19 +203,17 @@ void GRequestUi::onRequestSend() {
     }
     else {
         GXml lXmlFormat;
-        lXmlFormat.isValidXmlData(lEmissionText);
-        lXmlValid &= !lXmlFormat.hasErrors();
+        lXmlFormat.loadXml(lEmissionText);
+        lXmlValid &= lXmlFormat.isValidXml();
 
-        if(0 && !lXmlValid) {
+        if(!lXmlValid) {
             GERROR(eGERR, QString("Erreur le format XML est invalide."));
         }
         else {
-            GCode lRequestFormat(lEmissionText);
-            QString lModule = lRequestFormat.getModule();
-            QString lMethod = lRequestFormat.getMethod();
-
-            GLOGT(eGOFF, lModule);
-            GLOGT(eGOFF, lMethod);
+            GModule lModuleObj;
+            lModuleObj.deserialize(lEmissionText);
+            QString lModule = lModuleObj.getModule();
+            QString lMethod = lModuleObj.getMethod();
 
             lRequestValid &= (lModule != "");
             lRequestValid &= (lMethod != "");
@@ -249,7 +245,7 @@ void GRequestUi::onRequestSearch() {
     if(lOk == QDialog::Accepted) {
         int lIndex = lSearchUi->getCurrentIndex();
         if(lIndex >= 0) {
-            GRequest* lReq = m_reqs->getReqs().at(lIndex);
+            GRequest* lReq = 0;//m_reqs->getReqs().at(lIndex);
             QString lMsg = lReq->getMsg();
             QTextEdit* lEmissionEdit = (QTextEdit*)getObj("request/emission/textedit");
             lEmissionEdit->setText(lMsg);
@@ -276,17 +272,17 @@ void GRequestUi::getRequestList(int _newOffset) {
     m_reqs->getRequestList();
     GSearchUi* lSearchUi = (GSearchUi*)getObj("search/ui");
     QTableWidget* lTableWidget = (QTableWidget*)lSearchUi->getObj("search/tablewidget");
-    int lRows = m_reqs->getReqs().size();
-    int lCols = m_reqs->getHeaders().size();
+    int lRows = 0; //m_reqs->getReqs().size();
+    int lCols = 1; //m_reqs->getHeaders().size();
     GTableWidget lTable(lRows, lCols, lTableWidget);
 
     for(int i = 0; i < lCols; i++) {
-        QString lHeader = m_reqs->getHeaders().at(i);
+        QString lHeader = "";//m_reqs->getHeaders().at(i);
         lTable.addColHeader(lHeader);
     }
 
     for(int i = 0; i < lRows; i++) {
-        GRequest* lReq = m_reqs->getReqs().at(i);
+        GRequest* lReq = 0;//m_reqs->getReqs().at(i);
         lTable.addData(lReq->getId(), i);
         lTable.addData(lReq->getModule(), i);
         lTable.addData(lReq->getMethod(), i);

@@ -145,8 +145,7 @@ void GTest::runPath(int _argc, char** _argv) {
 void GTest::runXml(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GXml lXml;
-    lXml.loadXmlFile(GRES("xml", "pad.xml"));
-    lXml.createXPath();
+    lXml.loadFile(GRES("xml", "pad.xml"));
     lXml.queryXPath(QString("/rdv/datas/data[code='pad']/title"));
     lXml.getNodeXPath();
     QString lData = lXml.getNodeValue();
@@ -304,7 +303,8 @@ VOID CALLBACK GTest::onSocketServerStartTimer(HWND, UINT, UINT_PTR, DWORD) {
         lClientIns.pop();
         GMaster lMaster;
         lMaster.onModule(lClient);
-        lMaster.sendResponse(lClient);
+        lClient->addErrors();
+        lClient->sendResponse();
     }
 }
 //===============================================
@@ -350,49 +350,48 @@ VOID CALLBACK GTest::onTimer(HWND, UINT, UINT_PTR, DWORD) {
 //===============================================
 void GTest::runRequest(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
-    GXml lReq;
-    lReq.createDoc("1.0");
-    lReq.createRoot("rdv");
-    lReq.createXPath();
-    lReq.createNodePath("/rdv/module", "user");
-    lReq.createNodePath("/rdv/method", "save_user");
-    lReq.createNodePath("/rdv/data/firstname", "Gerard");
-    lReq.createNodePath("/rdv/data/lastname", "KESSE");
-    GLOGT(eGINF, lReq.toString());
+    GXml lDom;
+    lDom.createDoc();
+    lDom.createXNode("/rdv/module", "user");
+    lDom.createXNode("/rdv/method", "save_user");
+    lDom.createXNode("/rdv/data/firstname", "Gerard");
+    lDom.createXNode("/rdv/data/lastname", "KESSE");
+    GLOGT(eGINF, lDom.toString());
 }
 //===============================================
 void GTest::runRequestSend(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
-    GCode lReq;
+    GCode lDom;
     GSocket lClient;
-    lReq.createRequest("test", "request_send");
-    QString lResponse = lClient.callServer(lReq.toString());
-    GLOGT(eGINF, lReq.toString());
+    lDom.createReq("test", "request_send");
+    QString lResponse = lClient.callServer(lDom.toString());
+    GLOGT(eGINF, lDom.toString());
     GLOGT(eGINF, lResponse);
 }
 //===============================================
 void GTest::runRequestSaveUser(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
-    GCode lReq;
+    GCode lDom;
     GSocket lClient;
-    lReq.createRequest("test", "save_user");
-    lReq.createCode("parameters", "firstname", "Gerard");
-    lReq.createCode("parameters", "lastname", "KESSE");
-    QString lResponse = lClient.callServer(lReq.toString());
+    lDom.createReq("test", "save_user");
+    lDom.addData("parameters", "firstname", "Gerard");
+    lDom.addData("parameters", "lastname", "KESSE");
+    QString lResponse = lClient.callServer(lDom.toString());
     GERROR_LOAD(eGERR, lResponse);
-    GLOGT(eGINF, lReq.toString());
+    GLOGT(eGINF, lDom.toString());
     GLOGT(eGINF, lResponse);
 }
 //===============================================
 void GTest::runRequestGetUser(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
-    GCode lReq;
+    GCode lDom;
     GSocket lClient;
-    lReq.createRequest("test", "get_user");
-    QString lResponse = lClient.callServer(lReq.toString());
+    lDom.createReq("test", "get_user");
+    QString lResponse = lClient.callServer(lDom.toString());
     GERROR_LOAD(eGERR, lResponse);
-    GCode lRes(lResponse);
-    GLOGT(eGINF, lReq.toString());
+    GCode lRes;
+    lRes.loadXml(lResponse);
+    GLOGT(eGINF, lDom.toString());
     GLOGT(eGINF, lResponse);
     GLOGT(eGINF, QString("firstname.....: (%1)\n").arg(lRes.getItem("user", "firstname")));
     GLOGT(eGINF, QString("lastname......: (%1)\n").arg(lRes.getItem("user", "lastname")));
@@ -400,32 +399,29 @@ void GTest::runRequestGetUser(int _argc, char** _argv) {
 //===============================================
 void GTest::runRequestError(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
-    GCode lReq;
+    GCode lDom;
     GSocket lClient;
-    lReq.createRequest("test", "error");
-    QString lResponse = lClient.callServer(lReq.toString());
+    lDom.createReq("test", "error");
+    QString lResponse = lClient.callServer(lDom.toString());
     GERROR_LOAD(eGERR, lResponse);
-    GLOGT(eGINF, lReq.toString());
+    GLOGT(eGINF, lDom.toString());
     GLOGT(eGINF, lResponse);
 }
 //===============================================
 void GTest::runResponse(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GCode lRes;
-    lRes.createDoc("1.0", "rdv");
-    lRes.createCode("request", "module", "test");
-    lRes.createCode("request", "method", "save_user");
-    lRes.createCode("request", "method", "do_user");
-    lRes.createCode("result", "msg", "ok");
-    lRes.createCode("opencv", "version", "4.0");
-    lRes.createCode("opencv", "version", "5.0");
-    lRes.createMap("error", "msg", "le chemin est incorrect", 0);
-    lRes.createMap("error", "msg", "la donnee est incorrect", 1);
-    lRes.createMap("error", "data", "la donnee est incorrect", 0);
+    lRes.createDoc();
+    lRes.addData("request", "module", "test");
+    lRes.addData("request", "method", "save_user");
+    lRes.addData("request", "method", "do_user");
+    lRes.addData("result", "msg", "ok");
+    lRes.addData("opencv", "version", "4.0");
+    lRes.addData("opencv", "version", "5.0");
 
-    GCode lReq;
-    lReq.createRequest("req", "get_req_list");
-    lReq.loadCode(lRes.toStringCode("error"));
+    GCode lDom;
+    lDom.createReq("req", "get_req_list");
+    lDom.loadCode(lRes.toStringCode("error"));
 
     GLOGT(eGINF, GSTRC(lRes.hasCode("result")));        // true
     GLOGT(eGINF, GSTRC(lRes.hasCode("resulto")));       // false
@@ -436,7 +432,7 @@ void GTest::runResponse(int _argc, char** _argv) {
     GLOGT(eGINF, QString("method.......: (%1)\n").arg(lRes.getItem("request", "method")));
     GLOGT(eGINF, lRes.toString());
     GLOGT(eGINF, lRes.toStringCode("error"));
-    GLOGT(eGINF, lReq.toString());
+    GLOGT(eGINF, lDom.toString());
 }
 //===============================================
 void GTest::runStringPad(int _argc, char** _argv) {
@@ -501,12 +497,9 @@ void GTest::runQtPadMdi(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::onModule(GSocket* _client) {
-    QSharedPointer<GCode>& lReq = _client->getReq();
-    QString lMethod = lReq->getMethod();
-
-    //===============================================
-    // method
-    //===============================================
+    deserialize(_client->toReq());
+    QString lMethod = m_method;
+    //
     if(lMethod == "save_user") {
         onRequestSaveUser(_client);
     }
@@ -516,26 +509,25 @@ void GTest::onModule(GSocket* _client) {
     else if(lMethod == "error") {
         onRequestError(_client);
     }
-    //===============================================
-    // unknown
-    //===============================================
     else {
         onMethodUnknown(_client);
     }
 }
 //===============================================
 void GTest::onRequestSaveUser(GSocket* _client) {
-    QSharedPointer<GCode>& lReq = _client->getReq();
-    QString lFirstname = lReq->getItem("parameters", "firstname");
-    QString lLastname = lReq->getItem("parameters", "lastname");
+    GCode lDom;
+    lDom.loadXml(_client->toReq());
+    QString lFirstname = lDom.getItem("parameters", "firstname");
+    QString lLastname = lDom.getItem("parameters", "lastname");
     GLOGT(eGINF, QString("firstname......: (%1)\n").arg(lFirstname));
     GLOGT(eGINF, QString("lastname.......: (%1)\n").arg(lLastname));
 }
 //===============================================
 void GTest::onRequestGetUser(GSocket* _client) {
-    QSharedPointer<GCode>& lRes = _client->getResponse();
-    lRes->createCode("user", "firstname", "Gerard");
-    lRes->createCode("user", "lastname", "KESSE");
+    GCode lDom;
+    lDom.loadXml(_client->toReq());
+    lDom.addData("user", "firstname", "Gerard");
+    lDom.addData("user", "lastname", "KESSE");
 }
 //===============================================
 void GTest::onRequestError(GSocket* _client) {

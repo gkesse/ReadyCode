@@ -7,19 +7,14 @@
 #include "GFile.h"
 #include "GPath.h"
 #include "GShell.h"
-#include "GError.h"
 //===============================================
 GLog* GLog::m_instance = 0;
 //===============================================
 GLog::GLog(QObject* _parent)
-: GObject(_parent)
-, m_isConnectionError(true) {
-    // errors
-    m_errors.reset(new GError(_parent));
-    // dom
+: GObject(_parent) {
     createDoms();
-    // file
     m_file = 0;
+    m_isConnectionError = false;
 }
 //===============================================
 GLog::~GLog() {
@@ -31,6 +26,15 @@ GLog* GLog::Instance() {
         m_instance = new GLog;
     }
     return m_instance;
+}
+//===============================================
+QString GLog::serialize(const QString& _code) const {
+    return "";
+}
+//===============================================
+void GLog::deserialize(const QString& _data, const QString& _code) {
+    GCode lDom;
+    lDom.loadXml(_data);
 }
 //===============================================
 bool GLog::isDebug() const {
@@ -125,7 +129,8 @@ void GLog::tailLogFile(bool _isTestEnv) {
 }
 //===============================================
 void GLog::addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _error) {
-    m_errors->addError(_name, _level, _file, _line, _func, _error);
+    traceLog(_name, _level, _file, _line, _func, _error);
+    m_errors.push_back(_error);
 }
 //===============================================
 void GLog::showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func) {
@@ -134,24 +139,31 @@ void GLog::showErrors(const char* _name, int _level, const char* _file, int _lin
 //===============================================
 void GLog::showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, QWidget* _parent) {
     if(!hasErrors()) return;
-    QString lErrors = m_errors->toString();
+    QString lErrors = toString();
     GMessageBox* lMsgBox = new GMessageBox(_parent);
     lMsgBox->setWindowTitle("Messages d'erreurs");
     lMsgBox->setIcon(QMessageBox::Critical);
     lMsgBox->setText(lErrors);
     lMsgBox->exec();
-    m_errors->clearErrors();
+    m_errors.clear();
 }
 //===============================================
 void GLog::showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog) {
     if(!_isDebug) return;
     if(!hasErrors()) return;
-    GLOGT(eGERR, m_errors->toString());
-    m_errors->clearErrors();
+    GLOGT(eGERR, toString());
+    m_errors.clear();
 }
 //===============================================
 void GLog::loadErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _res) {
-    m_errors->loadErrors(_name, _level, _file, _line, _func, _res);
+    if(_res == "") return;
+    GCode lRes;
+    lRes.loadXml(_res);
+    int lCount = lRes.countItem("error");
+    for(int i = 0; i < lCount; i++) {
+        QString lError = lRes.getItem("error", i);
+        addError(_name, _level, _file, _line, _func, lError);
+    }
 }
 //===============================================
 void GLog::writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _log) {
@@ -177,9 +189,27 @@ void GLog::traceLog(const char* _name, int _level, const char* _file, int _line,
     closeLogFile();
 }
 //===============================================
+bool GLog::hasErrors() const {
+    return !m_errors.empty();
+}
+//===============================================
+void GLog::clearErrors() {
+    m_errors.clear();
+}
+//===============================================
 QString GLog::toString(bool _data) const {
     if(_data) return "true";
     return "false";
+}
+//===============================================
+QString GLog::toString() const {
+    if(!hasErrors()) return "";
+    QString lErrors = "";
+    for(int i = 0; i < m_errors.size(); i++) {
+        if(i != 0) lErrors += "\n";
+        lErrors += m_errors.at(i);
+    }
+    return lErrors;
 }
 //===============================================
 QString GLog::toString(const QVector<QString>& _data) const {

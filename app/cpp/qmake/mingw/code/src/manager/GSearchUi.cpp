@@ -6,7 +6,6 @@
 #include "GPicto.h"
 #include "GLog.h"
 #include "GUser.h"
-#include "GError.h"
 #include "GCode.h"
 #include "GSocket.h"
 //===============================================

@@ -15,24 +15,23 @@ GWidget::~GWidget() {
 //===============================================
 void GWidget::createDoms() {
     m_dom.reset(new GCode);
-    m_dom->loadXmlFile(GRES("xml", "app.xml"));
-    m_dom->createXPath();
+    m_dom->loadFile(GRES("xml", "app.xml"));
 }
 //===============================================
-QString GWidget::getItem(const QString& _code, const QString& _key, bool _isCData) const {
-    return m_dom->getItem(_code, _key, _isCData);
+QString GWidget::getItem(const QString& _code, const QString& _key) const {
+    return m_dom->getItem(_code, _key);
 }
 //===============================================
-QString GWidget::getItem(const QString& _code, int _index, bool _isCData) const {
-    return m_dom->getItem(_code, _index, _isCData);
+QString GWidget::getItem(const QString& _code, int _index) const {
+    return m_dom->getItem(_code, _index);
 }
 //===============================================
-QString GWidget::getItem(const QString& _code, const QString& _key, int _index, bool _isCData) const {
-    return m_dom->getItem(_code, _key, _index, _isCData);
+QString GWidget::getItem(const QString& _code, const QString& _key, int _index) const {
+    return m_dom->getItem(_code, _key, _index);
 }
 //===============================================
-QString GWidget::getItem(const QString& _code, const QString& _category, const QString& _key, bool _isCData) const {
-    return m_dom->getItem(_code, _category, _key, _isCData);
+QString GWidget::getItem(const QString& _code, const QString& _category, const QString& _key) const {
+    return m_dom->getItem(_code, _category, _key);
 }
 //===============================================
 int GWidget::countItem(const QString& _code) const {
@@ -40,6 +39,7 @@ int GWidget::countItem(const QString& _code) const {
 }
 //===============================================
 void GWidget::addObj(const QString& _key, void* _obj) {
+    if(_key == "") return;
     m_objs[_key] = _obj;
 }
 //===============================================

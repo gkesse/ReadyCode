@@ -9,8 +9,6 @@ class GString;
 class GXml : public GObject {
 public:
     GXml();
-    GXml(const std::string& _data, bool _isFile);
-    GXml(const std::string& _version, const std::string& _nodeRoot);
     virtual ~GXml();
     //
     void initModule();
@@ -18,7 +16,7 @@ public:
     //
     bool loadXml(const std::string& _data);
     bool loadFile(const std::string& _filename);
-    GXml& loadNode(const std::string& _data, bool _isRoot = true);
+    bool loadNode(const std::string& _data, bool _isRoot = true);
     bool saveXml(const std::string& _filename = "", const std::string& _encoding = "UTF-8", int _format = 4);
     bool isValidXml() const;
     //

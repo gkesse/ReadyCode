@@ -5,7 +5,8 @@
 #include "GString.h"
 #include "GError.h"
 //===============================================
-GXml::GXml() : GObject() {
+GXml::GXml()
+: GObject() {
     m_node = 0;
     m_queryNode = 0;
     m_doc = 0;
@@ -50,8 +51,8 @@ bool GXml::loadFile(const std::string& _filename) {
     return true;
 }
 //===============================================
-GXml& GXml::loadNode(const std::string& _data, bool _isRoot) {
-    if(!m_node) return *this;
+bool GXml::loadNode(const std::string& _data, bool _isRoot) {
+    if(!m_node) return false;
     xmlNodePtr lNewNode;
     std::string lData = _data;
     if(_isRoot) lData = "<rdv>" + _data + "</rdv>";
@@ -62,7 +63,7 @@ GXml& GXml::loadNode(const std::string& _data, bool _isRoot) {
         lNode = lNode->next;
     }
     xmlFreeNode(lNewNode);
-    return *this;
+    return true;
 }
 //===============================================
 bool GXml::saveXml(const std::string& _filename, const std::string& _encoding, int _format) {
