@@ -19,8 +19,8 @@ QString GSession::serialize(const QString& _code) const {
 }
 //===============================================
 void GSession::deserialize(const QString& _data, const QString& _code) {
-    GCode lReq;
-    lReq.loadXml(_data);
-    m_userId = lReq.getItem(_code, "user_id").toInt();
+    GCode lDom;
+    lDom.loadXml(_data);
+    m_userId = lDom.getItem(_code, "user_id").toInt();
 }
 //===============================================

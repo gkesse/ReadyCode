@@ -271,30 +271,33 @@ int GSocket::readPack(QString& _data) {
     if(GLOGI->hasErrors()) return -1;
     _data.clear();
     QString lBuffer;
-    recvData(lBuffer, BUFFER_NDATA_SIZE);
-    GLOGT(eGOFF, QString("[%1]").arg(lBuffer));
-    int lSize = lBuffer.toInt();
+
+    int lSize = recvData(lBuffer, BUFFER_NDATA_SIZE);
+    GLOGT(eGMSG, QString("[%1]").arg(lBuffer));
+    if(lSize != BUFFER_NDATA_SIZE) return -1;
+    lBuffer = lBuffer.trimmed();
+    QStringList lMap = lBuffer.split(';');
+    if(lMap.size() != 2) return -1;
+    lBuffer = lMap.at(0);
+    QString lKey = getItem("socket", "api_key");
+    if(lBuffer != lKey) return -1;
+    lBuffer = lMap.at(1);
+    lSize = lBuffer.toInt();
+    if(lSize <= 0) return -1;
+
     int lBytes = 0;
-    GLOGT(eGOFF, QString("LENGTH.......: %1 : (%2)\n").arg(lBuffer.size()).arg(lSize));
+    GLOGT(eGOFF, QString("LENGTH: (%d) : (%d)").arg(lBuffer.size()).arg(lSize));
 
     while(1) {
         if(lBytes >= lSize) break;
         int iBytes = recvData(lBuffer);
-        GLOGT(eGOFF, QString("SIZE.........: (%1)\n").arg(iBytes));
-        if(iBytes == -1) {
-            GERROR(eGERR, QString(""
-                    "Erreur lors de la reception des donnees.\n"
-                    "bytes........: (%1)\n"
-                    "ibytes.......: (%2)\n"
-                    "erreur_code..: (%3)\n"
-                    "error_msg....: (%4)\n")
-                    .arg(lBytes).arg(iBytes).arg(WSAGetLastError()).arg(loadErrorMsg()));
-            return -1;
-        }
+        GLOGT(eGOFF, QString("SIZE : %d").arg(iBytes));
+        if(iBytes == -1) {GERROR(eGERR, "Erreur lors de la lecture des donnees."); return -1;}
         _data += lBuffer;
         lBytes += iBytes;
     }
-    GLOGT(eGOFF, QString("[RECEPTION]..: (%1)\n(%2)\n").arg(_data.size()).arg(_data));
+
+    GLOGT(eGOFF, QString("[RECEPTION] : (%d)\n(%s)").arg(_data.size()).arg(_data));
     return lBytes;
 }
 //===============================================
@@ -480,9 +483,11 @@ DWORD WINAPI GSocket::onServerThread(LPVOID _params) {
 //===============================================
 QString GSocket::callServer(const QString& _module, const QString& _method, const QString& _data) {
     GCode lDom;
+    lDom.createDoc();
     lDom.createReq(_module, _method);
     lDom.loadCode(_data);
-    QString lDataOut = callServer(lDom.toString());
+    QString lData = lDom.toString();
+    QString lDataOut = callServer(lData);
     return lDataOut;
 }
 //===============================================
@@ -506,6 +511,9 @@ QString GSocket::callServer(const QString& _dataIn) {
     QString lDataOut;
     writePack(_dataIn);
     readPack(lDataOut);
+
+    GLOGT(eGMSG, QString("[EMISSION] : (%1)\n(%2)\n").arg(_dataIn.size()).arg(_dataIn));
+    GLOGT(eGMSG, QString("[RECEPTION] : (%1)\n(%2)\n").arg(lDataOut.size()).arg(lDataOut));
 
     GERROR_LOAD(eGERR, lDataOut);
 

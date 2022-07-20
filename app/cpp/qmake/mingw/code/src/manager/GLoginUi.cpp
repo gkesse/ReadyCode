@@ -266,7 +266,11 @@ void GLoginUi::onConnect() {
         GERROR(eGERR, "Le mot de passe est obligatoire.");
     }
     else {
-        if(GUser().runConnection()) {
+        GUser lUser;
+        lUser.setPseudo(lUsername);
+        lUser.setPassword(lPassword);
+
+        if(lUser.runConnection()) {
             accept();
         }
     }

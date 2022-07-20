@@ -225,8 +225,6 @@ void GRequestUi::onRequestSend() {
                 GSocket lClient;
                 QString lReceptionText = lClient.callServer(lEmissionText);
                 lReceptionEdit->setText(lReceptionText);
-                GLOGT(eGMSG, QString("[EMISSION]...: (%1)\n(%2)\n").arg(lEmissionText.size()).arg(lEmissionText));
-                GLOGT(eGMSG, QString("[RECEPTION]..: (%1)\n(%2)\n").arg(lReceptionText.size()).arg(lReceptionText));
             }
         }
     }

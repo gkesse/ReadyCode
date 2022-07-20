@@ -184,6 +184,7 @@ int GXml::countXPath() const {
 }
 //===============================================
 bool GXml::getNodeXPath(int _index) {
+    if(!m_xpathObj) return false;
     if(!m_xpathObj->nodesetval) return false;
     if(!m_xpathObj->nodesetval->nodeNr) return false;
     m_node = m_xpathObj->nodesetval->nodeTab[_index];
