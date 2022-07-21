@@ -614,9 +614,6 @@ void GTest::runXmlErrors(int _argc, char** _argv) {
         lDom.addData("errors", "msg", lMsg);
         std::string lData = lDom.toString();
         GLOGT(eGINF, lData.c_str());
-        GError* lError = new GError;
-        lError->deserialize(lData);
-        lErrors.push_back(lError);
     }
 
     std::string lData;
@@ -628,7 +625,6 @@ void GTest::runXmlErrors(int _argc, char** _argv) {
 
     GCode lDom2;
     lDom2.loadXml(lData);
-    lDom2.getItem("errors", lErrors, new GError);
 
     GCode lDom3;
     lDom3.createDoc();
