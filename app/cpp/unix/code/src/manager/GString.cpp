@@ -2,36 +2,30 @@
 #include "GString.h"
 #include "GLog.h"
 #include "GFormat.h"
-#include "GError.h"
 //===============================================
-GString::GString() : GObject() {
+GString::GString()
+: GObject() {
     m_data = "";
-    // errors
-    m_errors.reset(new GError);
 }
 //===============================================
-GString::GString(const std::string& _data) : GObject() {
+GString::GString(const std::string& _data)
+: GObject() {
     m_data = _data;
-    // errors
-    m_errors.reset(new GError);
 }
 //===============================================
-GString::GString(const char* _data) : GObject() {
+GString::GString(const char* _data)
+: GObject() {
     m_data = _data;
-    // errors
-    m_errors.reset(new GError);
 }
 //===============================================
-GString::GString(int _data) : GObject(){
+GString::GString(int _data)
+: GObject(){
     m_data = std::to_string(_data);
-    // errors
-    m_errors.reset(new GError);
 }
 //===============================================
-GString::GString(const GString& _data) : GObject() {
+GString::GString(const GString& _data)
+: GObject() {
     m_data = _data.m_data;
-    // errors
-    m_errors.reset(new GError);
 }
 //===============================================
 GString::~GString() {
@@ -70,8 +64,8 @@ int GString::toInt() const {
     try {
         lData = std::stoi(lDataTrim);
     }
-    catch(const std::invalid_argument& e) {GERROR_OBJ(eGERR, "Erreur la chaine est invalide."); lData = 0;}
-    catch(const std::out_of_range& e) {GERROR_OBJ(eGERR, "Erreur le nombre depasse les limites de conversion."); lData = 0;}
+    catch(const std::invalid_argument& e) {GERROR(eGERR, "Erreur la chaine est invalide."); lData = 0;}
+    catch(const std::out_of_range& e) {GERROR(eGERR, "Erreur le nombre depasse les limites de conversion."); lData = 0;}
     return lData;
 }
 //===============================================

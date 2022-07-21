@@ -44,6 +44,7 @@ QString GLog::serialize(const QString& _code) const {
 }
 //===============================================
 void GLog::deserialize(const QString& _data, const QString& _code) {
+    clearMap(m_map);
     GCode lDom;
     lDom.loadXml(_data);
 }

@@ -3,7 +3,6 @@
 #include "GLog.h"
 #include "GFormat.h"
 #include "GString.h"
-#include "GError.h"
 //===============================================
 GXml::GXml()
 : GObject() {

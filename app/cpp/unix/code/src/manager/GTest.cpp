@@ -18,7 +18,6 @@
 #include "GDate.h"
 #include "GHost.h"
 #include "GString.h"
-#include "GError.h"
 #include "GDir.h"
 #include "GMaj.h"
 #include "GBase64.h"

@@ -3,7 +3,6 @@
 #include "GMySQL.h"
 #include "GFormat.h"
 #include "GString.h"
-#include "GError.h"
 #include "GLog.h"
 #include "GShell.h"
 #include "GEnv.h"
