@@ -37,6 +37,7 @@ std::string GManager::serialize(const std::string& _code) {
 }
 //===============================================
 void GManager::deserialize(const std::string& _data, const std::string& _code) {
+    clearMap(m_map);
     GSearch::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);

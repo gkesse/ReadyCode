@@ -17,7 +17,7 @@ public:
     virtual std::string getItem(const std::string& _code, const std::string& _key) const;
     virtual std::string getItem(const std::string& _code, const std::string& _key, int _index) const;
     virtual int countItem(const std::string& _code) const;
-    virtual bool clearObjs(std::vector<GObject*>& _objs);
+    virtual bool clearMap(std::vector<GObject*>& _map);
     virtual void setIsParent(bool _isParent);
 
 protected:

@@ -40,6 +40,7 @@ private:
     int m_id;
     std::string m_code;
     std::string m_label;
+    std::vector<GObject*> m_map;
 };
 //==============================================
 #endif

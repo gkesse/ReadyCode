@@ -35,12 +35,12 @@ std::string GLog::serialize(const std::string& _code) const {
     lDom.createDoc();
     lDom.addData(_code, "type", m_type);
     lDom.addData(_code, "msg", m_msg);
-    lDom.addData(_code, m_logs);
+    lDom.addData(_code, m_map);
     return lDom.toStringData();
 }
 //===============================================
 void GLog::deserialize(const std::string& _data, const std::string& _code) {
-    clearObjs(m_logs);
+    clearMap(m_map);
     GCode lDom;
     lDom.loadXml(_data);
 }
@@ -139,7 +139,7 @@ void GLog::addError(const char* _name, int _level, const char* _file, int _line,
     GLog* lLog = new GLog;
     lLog->m_type = "error";
     lLog->m_msg = _error;
-    lLog->m_logs.push_back(lLog);
+    lLog->m_map.push_back(lLog);
 }
 //===============================================
 void GLog::showErrors() {
@@ -150,8 +150,8 @@ void GLog::showErrors(bool _isDebug, bool _isFileLog) {
     if(!_isDebug) return;
     if(!hasErrors()) return;
     std::string lErrors = "";
-    for(int i = 0; i < (int)m_logs.size(); i++) {
-        GLog* lLog = (GLog*)m_logs.at(i);
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GLog* lLog = (GLog*)m_map.at(i);
         if(lLog->m_type == "error") {
             if(i != 0) lErrors += "\n";
             lErrors += lLog->m_msg;
@@ -161,8 +161,8 @@ void GLog::showErrors(bool _isDebug, bool _isFileLog) {
 }
 //===============================================
 bool GLog::hasErrors() const {
-    for(int i = 0; i < (int)m_logs.size(); i++) {
-        GLog* lLog = (GLog*)m_logs.at(i);
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GLog* lLog = (GLog*)m_map.at(i);
         if(lLog->m_type == "error") {
             return true;
         }
@@ -171,11 +171,11 @@ bool GLog::hasErrors() const {
 }
 //===============================================
 void GLog::clearErrors() {
-    for(int i = 0; i < (int)m_logs.size(); i++) {
-        GLog* lLog = (GLog*)m_logs.at(i);
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GLog* lLog = (GLog*)m_map.at(i);
         if(lLog->m_type == "error") {
             delete lLog;
-            m_logs.erase (m_logs.begin() + i);
+            m_map.erase (m_map.begin() + i);
         }
     }
 }

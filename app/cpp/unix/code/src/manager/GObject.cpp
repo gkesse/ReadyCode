@@ -30,12 +30,12 @@ int GObject::countItem(const std::string& _code) const {
     return m_dom->countItem(_code);
 }
 //===============================================
-bool GObject::clearObjs(std::vector<GObject*>& _objs) {
-    for(int i = 0; i < (int)_objs.size(); i++) {
-        GObject* lObj = _objs.at(i);
+bool GObject::clearMap(std::vector<GObject*>& _map) {
+    for(int i = 0; i < (int)_map.size(); i++) {
+        GObject* lObj = _map.at(i);
         delete lObj;
     }
-    _objs.clear();
+    _map.clear();
     return true;
 }
 //===============================================

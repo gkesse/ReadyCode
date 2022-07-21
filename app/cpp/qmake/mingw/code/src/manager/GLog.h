@@ -27,6 +27,7 @@ public:
     GLog(QObject* _parent = 0);
     ~GLog();
     static GLog* Instance();
+    GObject* clone();
     QString serialize(const QString& _code = "errors") const;
     void deserialize(const QString& _data, const QString& _code = "errors");
     //
@@ -71,7 +72,7 @@ private:
     //
     QString m_type;
     QString m_msg;
-    QVector<GObject*> m_logs;
+    QVector<GObject*> m_map;
     //
     FILE* m_file;
     bool m_isConnectionError;

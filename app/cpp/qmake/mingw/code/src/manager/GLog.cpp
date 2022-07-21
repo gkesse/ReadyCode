@@ -30,12 +30,16 @@ GLog* GLog::Instance() {
     return m_instance;
 }
 //===============================================
+GObject* GLog::clone() {
+    return new GLog;
+}
+//===============================================
 QString GLog::serialize(const QString& _code) const {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "type", m_type);
     lDom.addData(_code, "msg", m_msg);
-    lDom.addData(_code, m_logs);
+    lDom.addData(_code, m_map);
     return lDom.toStringData();
 }
 //===============================================

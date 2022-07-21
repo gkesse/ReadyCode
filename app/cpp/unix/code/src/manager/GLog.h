@@ -70,7 +70,7 @@ private:
     std::string m_msg;
     //
     FILE* m_file;
-    std::vector<GObject*> m_logs;
+    std::vector<GObject*> m_map;
 };
 //==============================================
 #endif
