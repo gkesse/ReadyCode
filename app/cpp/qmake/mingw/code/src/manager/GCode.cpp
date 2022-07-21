@@ -86,7 +86,8 @@ bool GCode::addData(const QString& _code, const QVector<GObject*>& _datas) {
     createXNode("map");
     for(int i = 0; i < (int)_datas.size(); i++) {
         GObject* lObj = _datas[i];
-        QString lData = lObj->serialize(false, _code);
+        lObj->setIsParent(false);
+        QString lData = lObj->serialize(_code);
         loadNode(lData);
     }
     return true;

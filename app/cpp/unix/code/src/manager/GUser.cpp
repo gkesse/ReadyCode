@@ -9,7 +9,8 @@
 #include "GMd5.h"
 #include "GDefine.h"
 //===============================================
-GUser::GUser() : GModule() {
+GUser::GUser()
+: GModule() {
     m_id = 0;
     m_mode = "";
     m_email = "";

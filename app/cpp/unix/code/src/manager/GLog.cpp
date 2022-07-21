@@ -43,6 +43,9 @@ void GLog::deserialize(const std::string& _data, const std::string& _code) {
     clearMap(m_map);
     GCode lDom;
     lDom.loadXml(_data);
+    m_type = lDom.getItem(_code, "type");
+    m_msg = lDom.getItem(_code, "msg");
+    lDom.getItem(_code, m_map, this);
 }
 //===============================================
 void GLog::createDoms() {
@@ -139,7 +142,7 @@ void GLog::addError(const char* _name, int _level, const char* _file, int _line,
     GLog* lLog = new GLog;
     lLog->m_type = "error";
     lLog->m_msg = _error;
-    lLog->m_map.push_back(lLog);
+    m_map.push_back(lLog);
 }
 //===============================================
 void GLog::showErrors() {

@@ -6,7 +6,7 @@
 //===============================================
 GObject::GObject(QObject* _parent)
 : QObject(_parent) {
-
+    m_isParent = true;
 }
 //===============================================
 GObject::~GObject() {
@@ -63,6 +63,10 @@ bool GObject::clearMap(QVector<GObject*>& _map) {
     }
     _map.clear();
     return true;
+}
+//===============================================
+void GObject::setIsParent(bool _isParent) {
+    m_isParent = _isParent;
 }
 //===============================================
 GObject* GObject::clone() {return new GObject;}

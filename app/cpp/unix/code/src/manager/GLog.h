@@ -68,9 +68,9 @@ private:
     //
     std::string m_type;
     std::string m_msg;
+    std::vector<GObject*> m_map;
     //
     FILE* m_file;
-    std::vector<GObject*> m_map;
 };
 //==============================================
 #endif

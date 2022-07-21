@@ -47,6 +47,9 @@ void GLog::deserialize(const QString& _data, const QString& _code) {
     clearMap(m_map);
     GCode lDom;
     lDom.loadXml(_data);
+    m_type = lDom.getItem(_code, "type");
+    m_msg = lDom.getItem(_code, "msg");
+    lDom.getItem(_code, m_map, this);
 }
 //===============================================
 bool GLog::isDebug() const {
@@ -142,11 +145,28 @@ void GLog::tailLogFile(bool _isTestEnv) {
 //===============================================
 void GLog::addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _error) {
     traceLog(_name, _level, _file, _line, _func, _error);
-    m_errors.push_back(_error);
+    GLog* lLog = new GLog;
+    lLog->m_type = "error";
+    lLog->m_msg = _error;
+    lLog->m_map.push_back(lLog);
 }
 //===============================================
 void GLog::showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func) {
     showErrors(_name, _level, _file, _line, _func, isDebug(), isFileLog());
+}
+//===============================================
+void GLog::showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog) {
+    if(!_isDebug) return;
+    if(!hasErrors()) return;
+    QString lErrors = "";
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GLog* lLog = (GLog*)m_map.at(i);
+        if(lLog->m_type == "error") {
+            if(i != 0) lErrors += "\n";
+            lErrors += lLog->m_msg;
+        }
+    }
+    traceLog(_name, _level, _file, _line, _func, _isDebug, _isFileLog, lErrors);
 }
 //===============================================
 void GLog::showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, QWidget* _parent) {
@@ -157,14 +177,7 @@ void GLog::showErrors(const char* _name, int _level, const char* _file, int _lin
     lMsgBox->setIcon(QMessageBox::Critical);
     lMsgBox->setText(lErrors);
     lMsgBox->exec();
-    m_errors.clear();
-}
-//===============================================
-void GLog::showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog) {
-    if(!_isDebug) return;
-    if(!hasErrors()) return;
-    GLOGT(eGERR, toString());
-    m_errors.clear();
+    clearErrors();
 }
 //===============================================
 void GLog::loadErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _res) {
@@ -202,11 +215,23 @@ void GLog::traceLog(const char* _name, int _level, const char* _file, int _line,
 }
 //===============================================
 bool GLog::hasErrors() const {
-    return !m_errors.empty();
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GLog* lLog = (GLog*)m_map.at(i);
+        if(lLog->m_type == "error") {
+            return true;
+        }
+    }
+    return false;
 }
 //===============================================
 void GLog::clearErrors() {
-    m_errors.clear();
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GLog* lLog = (GLog*)m_map.at(i);
+        if(lLog->m_type == "error") {
+            delete lLog;
+            m_map.erase (m_map.begin() + i);
+        }
+    }
 }
 //===============================================
 QString GLog::toString(bool _data) const {
@@ -217,9 +242,12 @@ QString GLog::toString(bool _data) const {
 QString GLog::toString() const {
     if(!hasErrors()) return "";
     QString lErrors = "";
-    for(int i = 0; i < m_errors.size(); i++) {
-        if(i != 0) lErrors += "\n";
-        lErrors += m_errors.at(i);
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GLog* lLog = (GLog*)m_map.at(i);
+        if(lLog->m_type == "error") {
+            if(i != 0) lErrors += "\n";
+            lErrors += lLog->m_msg;
+        }
     }
     return lErrors;
 }

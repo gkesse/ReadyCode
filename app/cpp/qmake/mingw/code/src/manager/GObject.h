@@ -16,6 +16,7 @@ public:
     virtual QString serialize(const QString& _code = "object");
     virtual void deserialize(const QString& _data, const QString& _code = "object");
     virtual bool clearMap(QVector<GObject*>& _map);
+    virtual void setIsParent(bool _isParent);
 	//
 	virtual void createDoms();
     virtual QString getItem(const QString& _code, const QString& _key) const;
@@ -33,6 +34,7 @@ public:
 protected:
     QMap<QString, void*> m_objs;
     QSharedPointer<GCode> m_dom;
+    bool m_isParent;
 };
 //===============================================
 #endif
