@@ -13,8 +13,8 @@ public:
     GObject(QObject* _parent = 0);
 	virtual ~GObject();
     virtual GObject* clone();
-    virtual QString serialize(bool _isParent, const QString& _code);
-    virtual void deserialize(const QString& _data, const QString& _code);
+    virtual QString serialize(const QString& _code = "object");
+    virtual void deserialize(const QString& _data, const QString& _code = "object");
     virtual bool clearMap(QVector<GObject*>& _map);
 	//
 	virtual void createDoms();

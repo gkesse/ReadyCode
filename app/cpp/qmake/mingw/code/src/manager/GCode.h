@@ -20,7 +20,7 @@ public:
     bool addData(const QString& _code, const QString& _key, const QString& _value, bool _isCData = false);
     bool addData(const QString& _code, const QString& _key, int _value, bool _isCData = false);
     bool addData(const QString& _code, const QVector<QString>& _datas, bool _isCData = false);
-    bool addData(const QString& _code, QVector<GObject*>& _datas);
+    bool addData(const QString& _code, const QVector<GObject*>& _datas);
     //
     bool getCode(const QString& _code);
     bool getCode(const QString& _code, const QString& _key);

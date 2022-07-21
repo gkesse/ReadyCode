@@ -66,6 +66,6 @@ bool GObject::clearMap(QVector<GObject*>& _map) {
 }
 //===============================================
 GObject* GObject::clone() {return new GObject;}
-QString GObject::serialize(bool _isParent, const QString& _code) {return "";}
+QString GObject::serialize(const QString& _code) {return "";}
 void GObject::deserialize(const QString& _data, const QString& _code) {}
 //===============================================

@@ -79,7 +79,7 @@ bool GCode::addData(const QString& _code, const QVector<QString>& _datas, bool _
     return true;
 }
 //===============================================
-bool GCode::addData(const QString& _code, QVector<GObject*>& _datas) {
+bool GCode::addData(const QString& _code, const QVector<GObject*>& _datas) {
     if(!_datas.size()) return false;
     createCode(_code);
     getCode(_code);
@@ -89,7 +89,6 @@ bool GCode::addData(const QString& _code, QVector<GObject*>& _datas) {
         QString lData = lObj->serialize(false, _code);
         loadNode(lData);
     }
-    clearMap(_datas);
     return true;
 }
 //===============================================

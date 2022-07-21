@@ -572,7 +572,7 @@ void GTest::runXmlObj(int _argc, char** _argv) {
     lDom.addData("manager", lMap);
     lData = lDom.toString();
     GLOGT(eGINF, lData.c_str());
-    clearMap(lMap);
+    clearObjs(lMap);
 
     int lCount = lDom.countItem("manager");
     GLOGT(eGINF, "%d", lCount);
@@ -585,7 +585,7 @@ void GTest::runXmlObj(int _argc, char** _argv) {
         lMap.push_back(lManager);
         GLOGT(eGINF, lData.c_str());
     }
-    clearMap(lMap);
+    clearObjs(lMap);
 
     lDom.getItem("manager", lMap, new GManager);
 
@@ -597,7 +597,7 @@ void GTest::runXmlObj(int _argc, char** _argv) {
     lDom2.addData("manager", lMap);
     lData = lDom2.toString();
     GLOGT(eGINF, lData.c_str());
-    clearMap(lMap);
+    clearObjs(lMap);
 }
 //===============================================
 void GTest::runXmlErrors(int _argc, char** _argv) {

@@ -20,11 +20,7 @@ GLog::GLog()
 }
 //===============================================
 GLog::~GLog() {
-    for(int i = 0; i < (int)m_logs.size(); i++) {
-        GLog* lLog = m_logs.at(i);
-        delete lLog;
-    }
-    m_logs.clear();
+
 }
 //===============================================
 GLog* GLog::Instance() {
@@ -44,9 +40,9 @@ std::string GLog::serialize(const std::string& _code) const {
 }
 //===============================================
 void GLog::deserialize(const std::string& _data, const std::string& _code) {
+    clearObjs(m_logs);
     GCode lDom;
     lDom.loadXml(_data);
-
 }
 //===============================================
 void GLog::createDoms() {

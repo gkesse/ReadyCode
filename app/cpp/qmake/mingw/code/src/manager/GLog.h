@@ -68,9 +68,13 @@ public:
 
 private:
     static GLog* m_instance;
+    //
+    QString m_type;
+    QString m_msg;
+    QVector<GObject*> m_logs;
+    //
     FILE* m_file;
     bool m_isConnectionError;
-    QVector<QString> m_errors;
 };
 //==============================================
 #endif

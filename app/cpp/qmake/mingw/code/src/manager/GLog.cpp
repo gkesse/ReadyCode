@@ -13,6 +13,8 @@ GLog* GLog::m_instance = 0;
 GLog::GLog(QObject* _parent)
 : GObject(_parent) {
     createDoms();
+    m_type = "";
+    m_msg = "";
     m_file = 0;
     m_isConnectionError = false;
 }
@@ -29,7 +31,12 @@ GLog* GLog::Instance() {
 }
 //===============================================
 QString GLog::serialize(const QString& _code) const {
-    return "";
+    GCode lDom;
+    lDom.createDoc();
+    lDom.addData(_code, "type", m_type);
+    lDom.addData(_code, "msg", m_msg);
+    lDom.addData(_code, m_logs);
+    return lDom.toStringData();
 }
 //===============================================
 void GLog::deserialize(const QString& _data, const QString& _code) {

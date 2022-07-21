@@ -17,12 +17,11 @@ public:
     virtual std::string getItem(const std::string& _code, const std::string& _key) const;
     virtual std::string getItem(const std::string& _code, const std::string& _key, int _index) const;
     virtual int countItem(const std::string& _code) const;
-    virtual bool clearMap(std::vector<GObject*>& _map);
+    virtual bool clearObjs(std::vector<GObject*>& _objs);
     virtual void setIsParent(bool _isParent);
 
 protected:
     std::shared_ptr<GCode> m_dom;
-    std::vector<GObject*> m_map;
     bool m_isParent;
 };
 //===============================================
