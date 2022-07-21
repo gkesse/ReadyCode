@@ -148,7 +148,7 @@ void GLog::addError(const char* _name, int _level, const char* _file, int _line,
     GLog* lLog = new GLog;
     lLog->m_type = "error";
     lLog->m_msg = _error;
-    lLog->m_map.push_back(lLog);
+    m_map.push_back(lLog);
 }
 //===============================================
 void GLog::showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func) {
@@ -180,15 +180,10 @@ void GLog::showErrors(const char* _name, int _level, const char* _file, int _lin
     clearErrors();
 }
 //===============================================
-void GLog::loadErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _res) {
-    if(_res == "") return;
-    GCode lRes;
-    lRes.loadXml(_res);
-    int lCount = lRes.countItem("error");
-    for(int i = 0; i < lCount; i++) {
-        QString lError = lRes.getItem("error", i);
-        addError(_name, _level, _file, _line, _func, lError);
-    }
+void GLog::loadErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _data) {
+    if(_data == "") return;
+    deserialize(_data);
+    showErrors(_name, _level, _file, _line, _func);
 }
 //===============================================
 void GLog::writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _log) {

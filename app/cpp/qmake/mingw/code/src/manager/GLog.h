@@ -28,8 +28,8 @@ public:
     ~GLog();
     static GLog* Instance();
     GObject* clone();
-    QString serialize(const QString& _code = "errors") const;
-    void deserialize(const QString& _data, const QString& _code = "errors");
+    QString serialize(const QString& _code = "logs") const;
+    void deserialize(const QString& _data, const QString& _code = "logs");
     //
     bool isDebug() const;
     bool isDebug(bool _isTestEnv) const;
@@ -52,7 +52,7 @@ public:
     void showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func);
     void showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, QWidget* _parent);
     void showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog);
-    void loadErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _res);
+    void loadErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _data);
     //
     void writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _log);
     void writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const QString& _log);
