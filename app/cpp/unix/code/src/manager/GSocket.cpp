@@ -366,7 +366,7 @@ bool GSocket::clearErrors() {
 //===============================================
 bool GSocket::addErrors() {
     if(!GLOGI->hasErrors()) return false;
-    m_res->loadCode(GLOGI->deserialize());
+    m_res->loadCode(GLOGI->serialize());
     return true;
 }
 //===============================================
