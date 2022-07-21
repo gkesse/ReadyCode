@@ -7,21 +7,24 @@
 #include "GFile.h"
 #include "GPath.h"
 #include "GShell.h"
-#include "GError.h"
 #include "GString.h"
 //===============================================
 GLog* GLog::m_instance = 0;
 //===============================================
-GLog::GLog() : GObject() {
+GLog::GLog()
+: GObject() {
     createDoms();
-    // file
     m_file = 0;
-    // errors
-    m_errors.reset(new GError);
+    m_type = "";
+    m_msg = "";
 }
 //===============================================
 GLog::~GLog() {
-
+    for(int i = 0; i < (int)m_logs.size(); i++) {
+        GLog* lLog = m_logs.at(i);
+        delete lLog;
+    }
+    m_logs.clear();
 }
 //===============================================
 GLog* GLog::Instance() {
@@ -31,13 +34,34 @@ GLog* GLog::Instance() {
     return m_instance;
 }
 //===============================================
-std::string GLog::deserialize(const std::string& _code) const {
-    return m_errors->deserializer();
+std::string GLog::serialize(const std::string& _code) const {
+    GCode lDom;
+    lDom.createDoc();
+    lDom.addData(_code, "type", m_type);
+    lDom.addData(_code, "msg", m_msg);
+    lDom.addData(_code, m_logs);
+    return lDom.toStringData();
+}
+//===============================================
+void GLog::deserialize(const std::string& _data, const std::string& _code) {
+    GCode lDom;
+    lDom.loadXml(_data);
+
 }
 //===============================================
 void GLog::createDoms() {
-    m_dom.reset(new GXml);
+    m_dom.reset(new GCode);
     m_dom->loadFile(GRES("xml", "pad.xml"));
+}
+//===============================================
+void GLog::clearErrors() {
+    for(int i = 0; i < (int)m_logs.size(); i++) {
+        GLog* lLog = m_logs.at(i);
+        if(lLog->m_type == "error") {
+            delete lLog;
+            m_logs.erase (m_logs.begin() + i);
+        }
+    }
 }
 //===============================================
 bool GLog::isDebug() const {
@@ -125,34 +149,44 @@ void GLog::tailLogFile(bool _isTestEnv) {
 }
 //===============================================
 void GLog::addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _error) {
-    m_errors->addError(_name, _level, _file, _line, _func, _error);
+    traceLog(_name, _level, _file, _line, _func, _error);
+    GLog* lLog = new GLog;
+    lLog->m_type = "error";
+    lLog->m_msg = _error;
+    lLog->m_logs.push_back(lLog);
 }
 //===============================================
-void GLog::showError() {
-    showError(isDebug(), isFileLog());
+void GLog::showErrors() {
+    showErrors(isDebug(), isFileLog());
 }
 //===============================================
-void GLog::showError(bool _isDebug, bool _isFileLog) {
+void GLog::showErrors(bool _isDebug, bool _isFileLog) {
     if(!_isDebug) return;
     if(!hasErrors()) return;
-    GLOGT(eGERR, "%s", m_errors->toString().c_str());
-    m_errors->clearErrors();
+    std::string lErrors = "";
+    for(int i = 0; i < (int)m_logs.size(); i++) {
+        GLog* lLog = m_logs.at(i);
+        if(lLog->m_type == "error") {
+            if(i != 0) lErrors += "\n";
+            lErrors += lLog->m_msg;
+        }
+    }
+    GLOGT(eGERR, "%s", lErrors.c_str());
 }
 //===============================================
-bool GLog::hasErrors() {
-    return m_errors->hasErrors();
+bool GLog::hasErrors() const {
+    for(int i = 0; i < (int)m_logs.size(); i++) {
+        GLog* lLog = m_logs.at(i);
+        if(lLog->m_type == "error") {
+            return true;
+        }
+    }
+    return false;
 }
 //===============================================
-void GLog::clearErrors() {
-    m_errors->clearErrors();
-}
-//===============================================
-void GLog::loadErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _res) {
-    m_errors->loadErrors(_name, _level, _file, _line, _func, _res);
-}
-//===============================================
-std::vector<std::string>& GLog::getErrors() {
-    return m_errors->getErrors();
+void GLog::loadErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _data) {
+    deserialize(_data);
+    showErrors();
 }
 //===============================================
 void GLog::writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _log) {

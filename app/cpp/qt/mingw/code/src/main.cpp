@@ -8,7 +8,7 @@ int main(int _argc, char** _argv) {
     GXML->initModule();
     GPROCESS->run(_argc, _argv);
     GQTLOG->showError();
-    GERROR->showError();
+    GERROR->showErrors();
     GXML->cleanModule();
     return 0;
 }

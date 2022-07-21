@@ -12,7 +12,7 @@ public:
     ~GLog();
     static GLog* Instance();
     void addError(const std::string& _error);
-    void showError();
+    void showErrors();
     bool hasErrors();
 
 private:
