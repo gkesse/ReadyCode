@@ -376,7 +376,6 @@ void GTest::runStringInt(int _argc, char** _argv) {
     std::string lData = "  abc 123  ";
     GString lStringInt(lData);
     int lInt = lStringInt.toInt();
-    GLOGT(eGINF, "%d : %s\n", lInt, GERROR_GET(lStringInt));
 
     char lBuffer[1024 + 1];
     sprintf(lBuffer, "%*d", 256, 123);
