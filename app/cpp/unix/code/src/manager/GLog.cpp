@@ -151,7 +151,7 @@ void GLog::showErrors(bool _isDebug, bool _isFileLog) {
     if(!hasErrors()) return;
     std::string lErrors = "";
     for(int i = 0; i < (int)m_logs.size(); i++) {
-        GLog* lLog = m_logs.at(i);
+        GLog* lLog = (GLog*)m_logs.at(i);
         if(lLog->m_type == "error") {
             if(i != 0) lErrors += "\n";
             lErrors += lLog->m_msg;
@@ -162,7 +162,7 @@ void GLog::showErrors(bool _isDebug, bool _isFileLog) {
 //===============================================
 bool GLog::hasErrors() const {
     for(int i = 0; i < (int)m_logs.size(); i++) {
-        GLog* lLog = m_logs.at(i);
+        GLog* lLog = (GLog*)m_logs.at(i);
         if(lLog->m_type == "error") {
             return true;
         }
@@ -172,7 +172,7 @@ bool GLog::hasErrors() const {
 //===============================================
 void GLog::clearErrors() {
     for(int i = 0; i < (int)m_logs.size(); i++) {
-        GLog* lLog = m_logs.at(i);
+        GLog* lLog = (GLog*)m_logs.at(i);
         if(lLog->m_type == "error") {
             delete lLog;
             m_logs.erase (m_logs.begin() + i);
