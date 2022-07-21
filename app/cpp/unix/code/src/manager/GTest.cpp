@@ -444,7 +444,7 @@ void GTest::runFormat(int _argc, char** _argv) {
 //===============================================
 void GTest::runXml(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
-    m_dom.reset(new GXml);
+    m_dom.reset(new GCode);
     m_dom->loadFile(GRES("xml", "pad.xml"));
     GLOGT(eGINF, "app_name.....: (%s)\n", getItem("pad", "app_name").c_str());
     GLOGT(eGINF, "app_version..: (%s)\n", getItem("pad", "app_version").c_str());
@@ -452,7 +452,7 @@ void GTest::runXml(int _argc, char** _argv) {
 //===============================================
 void GTest::runXmlCheck(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
-    m_dom.reset(new GXml);
+    m_dom.reset(new GCode);
     m_dom->loadXml("Bonjour tout le monde");
     GLOGT(eGINF, "isValid : %s\n", GSTRC(m_dom->isValidXml()));
 }
