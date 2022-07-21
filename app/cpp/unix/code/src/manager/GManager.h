@@ -12,7 +12,7 @@ public:
     ~GManager();
     GObject* clone();
     //
-    std::string serialize(bool _isParent = true, const std::string& _code = "manager");
+    std::string serialize(const std::string& _code = "manager");
     void deserialize(const std::string& _data, const std::string& _code = "manager");
     //
     bool onModule(GSocket* _client);

@@ -79,17 +79,17 @@ bool GCode::addData(const std::string& _code, const std::vector<std::string>& _d
     return true;
 }
 //===============================================
-bool GCode::addData(const std::string& _code, std::vector<GObject*>& _datas) {
+bool GCode::addData(const std::string& _code, const std::vector<GObject*>& _datas) {
     if(!_datas.size()) return false;
     createCode(_code);
     getCode(_code);
     createXNode("map");
     for(int i = 0; i < (int)_datas.size(); i++) {
         GObject* lObj = _datas[i];
-        std::string lData = lObj->serialize(false, _code);
+        lObj->setIsParent(false);
+        std::string lData = lObj->serialize(_code);
         loadNode(lData);
     }
-    clearMap(_datas);
     return true;
 }
 //===============================================

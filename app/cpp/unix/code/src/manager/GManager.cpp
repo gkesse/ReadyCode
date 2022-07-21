@@ -23,14 +23,14 @@ GObject* GManager::clone() {
     return new GManager;
 }
 //===============================================
-std::string GManager::serialize(bool _isParent, const std::string& _code) {
+std::string GManager::serialize(const std::string& _code) {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
     lDom.addData(_code, "code_id", m_code);
     lDom.addData(_code, "label", m_label);
     lDom.addData(_code, m_map);
-    if(_isParent) {
+    if(m_isParent) {
         lDom.loadCode(GSearch::serialize());
     }
     return lDom.toStringData();

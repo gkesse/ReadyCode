@@ -32,7 +32,6 @@ public:
     void deserialize(const std::string& _data, const std::string& _code = "logs");
     //
     void createDoms();
-    void clearErrors();
     bool isDebug() const;
     bool isDebug(bool _isTestEnv) const;
     bool isFileLog() const;
@@ -71,7 +70,7 @@ private:
     std::string m_msg;
     //
     FILE* m_file;
-    std::vector<GLog*> m_logs;
+    std::vector<GObject*> m_logs;
 };
 //==============================================
 #endif

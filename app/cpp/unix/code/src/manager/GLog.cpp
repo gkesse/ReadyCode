@@ -54,16 +54,6 @@ void GLog::createDoms() {
     m_dom->loadFile(GRES("xml", "pad.xml"));
 }
 //===============================================
-void GLog::clearErrors() {
-    for(int i = 0; i < (int)m_logs.size(); i++) {
-        GLog* lLog = m_logs.at(i);
-        if(lLog->m_type == "error") {
-            delete lLog;
-            m_logs.erase (m_logs.begin() + i);
-        }
-    }
-}
-//===============================================
 bool GLog::isDebug() const {
     return isDebug(GEnv().isTestEnv());
 }
@@ -182,6 +172,16 @@ bool GLog::hasErrors() const {
         }
     }
     return false;
+}
+//===============================================
+void GLog::clearErrors() {
+    for(int i = 0; i < (int)m_logs.size(); i++) {
+        GLog* lLog = m_logs.at(i);
+        if(lLog->m_type == "error") {
+            delete lLog;
+            m_logs.erase (m_logs.begin() + i);
+        }
+    }
 }
 //===============================================
 void GLog::loadErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _data) {

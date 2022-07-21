@@ -6,7 +6,7 @@
 #include "GPath.h"
 //===============================================
 GObject::GObject() {
-
+    m_isParent = true;
 }
 //===============================================
 GObject::~GObject() {
@@ -39,7 +39,11 @@ bool GObject::clearMap(std::vector<GObject*>& _map) {
     return true;
 }
 //===============================================
+void GObject::setIsParent(bool _isParent) {
+    m_isParent = _isParent;
+}
+//===============================================
 GObject* GObject::clone() {return new GObject;}
-std::string GObject::serialize(bool _isParent, const std::string& _code) const {return "";}
+std::string GObject::serialize(const std::string& _code) const {return "";}
 void GObject::deserialize(const std::string& _data, const std::string& _code) {}
 //===============================================
