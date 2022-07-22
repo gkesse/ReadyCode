@@ -62,7 +62,7 @@ public:
     bool hasErrors() const;
     void clearErrors();
     //
-    QString toString() const;
+    QString toString();
     QString toString(bool _data) const;
     QString toString(const QVector<QString>& _data) const;
     QString toString(const QVector<QVector<QString>>& _data) const;
@@ -77,6 +77,7 @@ private:
     //
     FILE* m_file;
     bool m_isConnectionError;
+    bool m_isClientSide;
 };
 //==============================================
 #endif

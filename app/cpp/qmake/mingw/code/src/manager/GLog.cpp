@@ -18,6 +18,8 @@ GLog::GLog(QObject* _parent)
     m_msg = "";
     m_file = 0;
     m_isConnectionError = false;
+    m_isClientSide = true;
+
 }
 //===============================================
 GLog::~GLog() {
@@ -150,7 +152,7 @@ void GLog::addError(const char* _name, int _level, const char* _file, int _line,
     traceLog(_name, _level, _file, _line, _func, _error);
     GLog* lLog = new GLog;
     lLog->m_type = "error";
-    lLog->m_type = "client";
+    lLog->m_side = "client";
     lLog->m_msg = _error;
     m_map.push_back(lLog);
 }
@@ -178,7 +180,12 @@ void GLog::showErrors(const char* _name, int _level, const char* _file, int _lin
     QString lErrors = toString();
     GMessageBox* lMsgBox = new GMessageBox(_parent);
     lMsgBox->setWindowTitle("Messages d'erreurs");
-    lMsgBox->setIcon(QMessageBox::Critical);
+    if(m_isClientSide) {
+        lMsgBox->setIcon(QMessageBox::Warning);
+    }
+    else {
+        lMsgBox->setIcon(QMessageBox::Critical);
+    }
     lMsgBox->setText(lErrors);
     lMsgBox->exec();
     clearErrors();
@@ -238,12 +245,14 @@ QString GLog::toString(bool _data) const {
     return "false";
 }
 //===============================================
-QString GLog::toString() const {
+QString GLog::toString() {
     if(!hasErrors()) return "";
+    m_isClientSide = true;
     QString lErrors = "";
     for(int i = 0; i < (int)m_map.size(); i++) {
         GLog* lLog = (GLog*)m_map.at(i);
         if(lLog->m_type == "error") {
+            m_isClientSide &= (lLog->m_side == "client");
             if(i != 0) lErrors += "\n";
             lErrors += lLog->m_msg;
         }
