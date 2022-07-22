@@ -53,22 +53,16 @@ void GUser::deserialize(const std::string& _data, const std::string& _code) {
 //===============================================
 bool GUser::onModule(GSocket* _client) {
     deserialize(_client->toReq());
-    //===============================================
+    //
     if(m_method == "") {
         return false;
     }
-    //===============================================
-    // method
-    //===============================================
     else if(m_method == "create_account") {
         onCreateAccount(_client);
     }
     else if(m_method == "run_connection") {
         onRunConnection(_client);
     }
-    //===============================================
-    // unknown
-    //===============================================
     else {
         onMethodUnknown(_client);
     }
@@ -104,7 +98,7 @@ bool GUser::createAccount() {
     if(m_pseudo.size() < 8) {GERROR(eGERR, "Le nom d'utilisateur doit faire au minimum 8 caractères."); return false;}
     if(m_pseudo.size() > 50) {GERROR(eGERR, "Le nom d'utilisateur doit faire au maximum 50 caractères."); return false;}
     if(m_password == "") {GERROR(eGERR, "Le mot de passe est obligatoire."); return false;}
-    if(m_password.size() < 8) {GERROR(eGERR, "Le mot de passe doit faire au minimum 8 caractères."); return false;}
+    if(m_password.size() < 8) {GERROR(eGERR, "Le mot de passe doit faire au minimum 8 caracteres."); return false;}
     if(m_password.size() > 50) {GERROR(eGERR, "Le mot de passe doit faire au maximum 50 caractères."); return false;}
     loadUserPseudo();
     if(m_id != 0) {GERROR(eGERR, "Le nom d'utilisateur existe déjà."); return false;}

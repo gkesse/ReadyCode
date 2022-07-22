@@ -54,8 +54,22 @@ QString GDialog::getKey(void* _obj, const QString& _defaultValue) const {
 //===============================================
 void GDialog::onErrorKey(const QString& _key) {
     GERROR(eGERR, QString(""
-            "Erreur la cle (%1) n'existe pas.\n"
+            "Erreur la clé (%1) n'existe pas.\n"
             "").arg(_key)
+    );
+}
+//===============================================
+void GDialog::onErrorCategory(const QString& _category) {
+    GERROR(eGERR, QString(""
+            "Erreur la catégorie (%1) n'existe pas.\n"
+            "").arg(_category)
+    );
+}
+//===============================================
+void GDialog::onErrorType(const QString& _category, const QString& _type) {
+    GERROR(eGERR, QString(""
+            "Erreur le type (%1 : %2) n'existe pas.\n"
+            "").arg(_category).arg(_type)
     );
 }
 //===============================================

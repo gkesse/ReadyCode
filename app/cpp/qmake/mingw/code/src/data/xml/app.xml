@@ -70,7 +70,12 @@
         		<data>
         			<category>submenu</category>
         			<key>manager/connection</key>
-        			<text>Manager de Connexion</text>
+        			<text>Manager de connexion</text>
+        		</data>
+        		<data>
+        			<category>submenu</category>
+        			<key>manager/account</key>
+        			<text>Manager de compte</text>
         		</data>
 		        <!-- ============================================ -->
 		        <!-- menu/editor -->
@@ -165,7 +170,7 @@
         <!-- ============================================ -->
         <data>
             <code>login</code>
-            <title>CONNEXION</title>
+            <title>Connexion</title>
             <logo>readydev.png</logo>
             <width>380</width>
             <height>150</height>
@@ -247,6 +252,89 @@
                 <!-- ============================================ -->
             </map>
         </data>
+        <!-- ============================================ -->
+        <!-- account -->
+        <!-- ============================================ -->
+        <data>
+            <code>account</code>
+            <title>Création d'un compte</title>
+            <logo>readydev.png</logo>
+            <width>380</width>
+            <height>150</height>
+            <style>flat</style>
+            <label_width>160</label_width>
+            <width_fix_on>0</width_fix_on>
+            <height_fix_on>1</height_fix_on>
+            <map>
+                <!-- ============================================ -->
+                <!-- username -->
+                <!-- ============================================ -->
+                <data>
+                    <category>username</category>
+                    <type>lineedit/icon/clear</type>
+                    <key>account/username</key>
+                    <key_clear>account/username/clear</key_clear>
+                    <text>Nom d'utilisateur</text>
+                    <picto>user</picto>
+                    <picto_clear>times</picto_clear>
+                    <picto_color>#aaaaff</picto_color>
+                    <picto_size>20</picto_size>
+                    <style>flat_icon_clear</style>
+                </data>
+                <!-- ============================================ -->
+                <!-- password -->
+                <!-- ============================================ -->
+                <data>
+                    <category>password</category>
+                    <type>lineedit/icon/clear</type>
+                    <key>account/password</key>
+                    <key_clear>account/password/clear</key_clear>
+                    <text>Mot de passe</text>
+                    <picto>key</picto>
+                    <picto_clear>times</picto_clear>
+                    <picto_color>#aaaaff</picto_color>
+                    <picto_size>20</picto_size>
+                    <echo_mode>password</echo_mode>
+                    <style>flat_icon_clear</style>
+                </data>
+                <!-- ============================================ -->
+                <!-- confirm -->
+                <!-- ============================================ -->
+                <data>
+                    <category>confirm</category>
+                    <type>lineedit/icon/clear</type>
+                    <key>account/confirm</key>
+                    <key_clear>account/confirm/clear</key_clear>
+                    <text>Confirmation</text>
+                    <picto>key</picto>
+                    <picto_clear>times</picto_clear>
+                    <picto_color>#aaaaff</picto_color>
+                    <picto_size>20</picto_size>
+                    <echo_mode>password</echo_mode>
+                    <style>flat_icon_clear</style>
+                </data>
+                <!-- ============================================ -->
+                <!-- button -->
+                <!-- ============================================ -->
+                <data>
+                    <category>button</category>
+                    <type>spacer</type>
+                </data>
+                <data>
+                    <category>button</category>
+                    <type>button</type>
+                    <key>account/create</key>
+                    <text>Créer</text>
+                    <picto>plus</picto>
+                    <picto_color>#aaaaff</picto_color>
+                    <picto_size>20</picto_size>
+                    <style>flat</style>
+                </data>
+                 <!-- ============================================ -->
+                <!-- end -->
+                <!-- ============================================ -->
+         	</map>
+       	</data>
         <!-- ============================================ -->
         <!-- request -->
         <!-- ============================================ -->

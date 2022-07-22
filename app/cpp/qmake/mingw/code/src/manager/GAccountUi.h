@@ -1,22 +1,23 @@
 //===============================================
-#ifndef _GLoginUi_
-#define _GLoginUi_
+#ifndef _GAccountUi_
+#define _GAccountUi_
 //===============================================
 #include "GDialog.h"
 //===============================================
-class GLoginUi : public GDialog {
+class GAccountUi : public GDialog {
 	Q_OBJECT
 
 public:
-	GLoginUi(QWidget* _parent = 0);
-	~GLoginUi();
+	GAccountUi(QWidget* _parent = 0);
+	~GAccountUi();
 	void createLayout();
-	void onConnect();
+	void onAccountCreate();
     void onUsernameClear();
     void onUsernameClear(const QString& _text);
     void onPasswordClear();
     void onPasswordClear(const QString& _text);
-    void onAccountCreate();
+    void onConfirmClear();
+    void onConfirmClear(const QString& _text);
 
 public slots:
     void onEvent();

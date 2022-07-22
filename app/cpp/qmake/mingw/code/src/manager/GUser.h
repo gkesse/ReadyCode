@@ -20,6 +20,7 @@ public:
     QString getPassword() const;
     //
     bool runConnection();
+    bool createAccount();
 
 private:
     static GUser* m_instance;

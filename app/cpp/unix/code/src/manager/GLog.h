@@ -67,6 +67,7 @@ private:
     static GLog* m_instance;
     //
     std::string m_type;
+    std::string m_side;
     std::string m_msg;
     std::vector<GObject*> m_map;
     //

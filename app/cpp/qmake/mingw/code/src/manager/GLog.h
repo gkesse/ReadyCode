@@ -71,6 +71,7 @@ private:
     static GLog* m_instance;
     //
     QString m_type;
+    QString m_side;
     QString m_msg;
     QVector<GObject*> m_map;
     //

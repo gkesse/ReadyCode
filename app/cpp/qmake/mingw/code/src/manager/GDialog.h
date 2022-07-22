@@ -26,6 +26,8 @@ public:
     virtual QString getKey(void* _obj, const QString& _defaultValue = "") const;
     //
     void onErrorKey(const QString& _key);
+    void onErrorCategory(const QString& _category);
+    void onErrorType(const QString& _category, const QString& _type);
 
 signals:
     void onEmit(const QString& _text);

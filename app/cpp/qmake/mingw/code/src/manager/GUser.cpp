@@ -66,3 +66,12 @@ bool GUser::runConnection() {
     return !GLOGI->hasErrors();
 }
 //===============================================
+bool GUser::createAccount() {
+    if(GLOGI->hasErrors()) return false;
+    GSocket lClient;
+    QString lData = serialize();
+    lData = lClient.callServer("user", "create_account", lData);
+    deserialize(lData);
+    return !GLOGI->hasErrors();
+}
+//===============================================

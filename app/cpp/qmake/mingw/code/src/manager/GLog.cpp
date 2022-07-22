@@ -14,6 +14,7 @@ GLog::GLog(QObject* _parent)
 : GObject(_parent) {
     createDoms();
     m_type = "";
+    m_side = "";
     m_msg = "";
     m_file = 0;
     m_isConnectionError = false;
@@ -38,6 +39,7 @@ QString GLog::serialize(const QString& _code) const {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "type", m_type);
+    lDom.addData(_code, "side", m_side);
     lDom.addData(_code, "msg", m_msg);
     lDom.addData(_code, m_map);
     return lDom.toStringData();
@@ -48,6 +50,7 @@ void GLog::deserialize(const QString& _data, const QString& _code) {
     GCode lDom;
     lDom.loadXml(_data);
     m_type = lDom.getItem(_code, "type");
+    m_side = lDom.getItem(_code, "side");
     m_msg = lDom.getItem(_code, "msg");
     lDom.getItem(_code, m_map, this);
 }
@@ -147,6 +150,7 @@ void GLog::addError(const char* _name, int _level, const char* _file, int _line,
     traceLog(_name, _level, _file, _line, _func, _error);
     GLog* lLog = new GLog;
     lLog->m_type = "error";
+    lLog->m_type = "client";
     lLog->m_msg = _error;
     m_map.push_back(lLog);
 }

@@ -104,40 +104,24 @@ void GPadUi::createLayout() {
     setWindowIcon(QIcon(GRES("img", lLogo)));
     resize(lWidth, lHeight);
     setObjectName(lStyle);
-
-    addObj("login/ui", (void*)(new GLoginUi(this)));
-    addObj("request/ui", (void*)(new GRequestUi(this)));
 }
 //===============================================
 void GPadUi::onEvent() {
     QString lKey = getKey(sender());
-    GLOGT(eGINF, lKey);
-    //===============================================
-    // header/connect
-    //===============================================
+    //
     if(lKey == "header/connect") {
-        QDialog* lLoginUi = (GLoginUi*)getObj("login/ui");
+        QDialog* lLoginUi = new GLoginUi(this);
         lLoginUi->exec();
+        delete lLoginUi;
     }
-    //===============================================
-    // header/request
-    //===============================================
     else if(lKey == "header/request") {
-        QDialog* lRequestUi = (GRequestUi*)getObj("request/ui");
+        QDialog* lRequestUi = new GRequestUi(this);
         lRequestUi->exec();
+        delete lRequestUi;
     }
-    //===============================================
-    // else
-    //===============================================
     else {
-        GERROR(eGERR, QString(""
-                "Erreur la cle n'existe pas.\n"
-                "cle..........: (%1)\n"
-                "").arg(lKey));
+        onErrorKey(lKey);
     }
-    //===============================================
-    // end
-    //===============================================
     GERROR_SHOWG(eGERR);
 }
 //===============================================

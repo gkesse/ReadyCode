@@ -13,6 +13,7 @@ public:
     void createLayout();
     //
     void onConnection();
+    void onAccount();
     void onCv();
 
 public slots:

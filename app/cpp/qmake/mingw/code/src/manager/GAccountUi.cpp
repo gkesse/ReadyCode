@@ -1,24 +1,23 @@
 //===============================================
-#include "GLoginUi.h"
-#include "GTitleBarDialog.h"
 #include "GAccountUi.h"
+#include "GTitleBarDialog.h"
 #include "GPath.h"
 #include "GXml.h"
 #include "GPicto.h"
 #include "GLog.h"
 #include "GUser.h"
 //===============================================
-GLoginUi::GLoginUi(QWidget* _parent)
+GAccountUi::GAccountUi(QWidget* _parent)
 : GDialog(_parent) {
     createDoms();
     createLayout();
 }
 //===============================================
-GLoginUi::~GLoginUi() {
+GAccountUi::~GAccountUi() {
 
 }
 //===============================================
-void GLoginUi::createLayout() {
+void GAccountUi::createLayout() {
     new GTitleBarDialog(this);
 
     QHBoxLayout* lUsernameLayout = new QHBoxLayout;
@@ -29,47 +28,47 @@ void GLoginUi::createLayout() {
     lPasswordLayout->setMargin(0);
     lPasswordLayout->setSpacing(0);
 
+    QHBoxLayout* lConfirmLayout = new QHBoxLayout;
+    lPasswordLayout->setMargin(0);
+    lPasswordLayout->setSpacing(0);
+
     QHBoxLayout* lButtonLayout = new QHBoxLayout;
     lButtonLayout->setMargin(0);
     lButtonLayout->setSpacing(10);
 
-    QHBoxLayout* lAccountLayout = new QHBoxLayout;
-    lAccountLayout->setMargin(0);
-    lAccountLayout->setSpacing(10);
-
     QVBoxLayout* lMainLayout = new QVBoxLayout;
     lMainLayout->addLayout(lUsernameLayout);
     lMainLayout->addLayout(lPasswordLayout);
+    lMainLayout->addLayout(lConfirmLayout);
     lMainLayout->addLayout(lButtonLayout);
-    lMainLayout->addLayout(lAccountLayout);
     lMainLayout->setMargin(10);
     lMainLayout->setSpacing(10);
 
-    int lCount = countItem("login");
-    QString lTitle = getItem("login", "title");
-    QString lLogo = getItem("login", "logo");
-    int lWidth = getItem("login", "width").toInt();
-    int lHeight = getItem("login", "height").toInt();
-    int lLabelWidth = getItem("login", "label_width").toInt();
-    bool lWidthFix = (getItem("login", "width_fix_on") == "1");
-    bool lHeightFix = (getItem("login", "height_fix_on") == "1");
-    QString lStyle = getItem("login", "style");
+    int lCount = countItem("account");
+    QString lTitle = getItem("account", "title");
+    QString lLogo = getItem("account", "logo");
+    int lWidth = getItem("account", "width").toInt();
+    int lHeight = getItem("account", "height").toInt();
+    int lLabelWidth = getItem("account", "label_width").toInt();
+    bool lWidthFix = (getItem("account", "width_fix_on") == "1");
+    bool lHeightFix = (getItem("account", "height_fix_on") == "1");
+    QString lStyle = getItem("account", "style");
 
     for(int i = 0; i < lCount; i++) {
-        QString lCategory = getItem("login", "category", i);
-        QString lType = getItem("login", "type", i);
-        QString lStyle = getItem("login", "style", i);
-        QString lAlign = getItem("login", "align", i);
-        QString lAction = getItem("login", "action", i);
-        QString lKey = getItem("login", "key", i);
-        QString lKeyClear = getItem("login", "key_clear", i);
-        QString lText = getItem("login", "text", i);
-        QString lEchoMode = getItem("login", "echo_mode", i);
-        QString lMask = getItem("login", "mask", i);
-        QString lPicto = getItem("login", "picto", i);
-        QString lPictoClear = getItem("login", "picto_clear", i);
-        QString lPictoColor = getItem("login", "picto_color", i);
-        int lPictoSize = getItem("login", "picto_size", i).toInt();
+        QString lCategory = getItem("account", "category", i);
+        QString lType = getItem("account", "type", i);
+        QString lStyle = getItem("account", "style", i);
+        QString lAlign = getItem("account", "align", i);
+        QString lAction = getItem("account", "action", i);
+        QString lKey = getItem("account", "key", i);
+        QString lKeyClear = getItem("account", "key_clear", i);
+        QString lText = getItem("account", "text", i);
+        QString lEchoMode = getItem("account", "echo_mode", i);
+        QString lMask = getItem("account", "mask", i);
+        QString lPicto = getItem("account", "picto", i);
+        QString lPictoClear = getItem("account", "picto_clear", i);
+        QString lPictoColor = getItem("account", "picto_color", i);
+        int lPictoSize = getItem("account", "picto_size", i).toInt();
 
         QBoxLayout* lItemLayout = 0;
 
@@ -79,11 +78,11 @@ void GLoginUi::createLayout() {
         else if(lCategory == "password") {
             lItemLayout = lPasswordLayout;
         }
+        else if(lCategory == "confirm") {
+            lItemLayout = lConfirmLayout;
+        }
         else if(lCategory == "button") {
             lItemLayout = lButtonLayout;
-        }
-        else if(lCategory == "account") {
-            lItemLayout = lAccountLayout;
         }
         else {
             onErrorCategory(lCategory);
@@ -215,35 +214,38 @@ void GLoginUi::createLayout() {
     }
 }
 //===============================================
-void GLoginUi::onEvent() {
+void GAccountUi::onEvent() {
     QString lKey = getKey(sender());
     //
-    if(lKey == "login/connect") {
-        onConnect();
-    }
-    else if(lKey == "login/username/clear") {
-        onUsernameClear();
-    }
-    else if(lKey == "login/password/clear") {
-        onPasswordClear();
-    }
-    else if(lKey == "login/account/create") {
+    if(lKey == "account/create") {
         onAccountCreate();
     }
+    else if(lKey == "account/username/clear") {
+        onUsernameClear();
+    }
+    else if(lKey == "account/password/clear") {
+        onPasswordClear();
+    }
+    else if(lKey == "account/confirm/clear") {
+        onConfirmClear();
+    }
     else {
         onErrorKey(lKey);
     }
     GERROR_SHOWG(eGERR);
 }
 //===============================================
-void GLoginUi::onEvent(const QString& _text) {
+void GAccountUi::onEvent(const QString& _text) {
     QString lKey = getKey(sender());
     //
-    if(lKey == "login/username") {
+    if(lKey == "account/username") {
         onUsernameClear(_text);
     }
-    else if(lKey == "login/password") {
+    else if(lKey == "account/password") {
         onPasswordClear(_text);
+    }
+    else if(lKey == "account/confirm") {
+        onConfirmClear(_text);
     }
     else {
         onErrorKey(lKey);
@@ -251,12 +253,14 @@ void GLoginUi::onEvent(const QString& _text) {
     GERROR_SHOWG(eGERR);
 }
 //===============================================
-void GLoginUi::onConnect() {
-    QLineEdit* lUsernameEdit = (QLineEdit*)getObj("login/username");
-    QLineEdit* lPasswordEdit = (QLineEdit*)getObj("login/password");
+void GAccountUi::onAccountCreate() {
+    QLineEdit* lUsernameEdit = (QLineEdit*)getObj("account/username");
+    QLineEdit* lPasswordEdit = (QLineEdit*)getObj("account/password");
+    QLineEdit* lConfirmEdit = (QLineEdit*)getObj("account/confirm");
 
     QString lUsername = lUsernameEdit->text();
     QString lPassword = lPasswordEdit->text();
+    QString lConfirm = lConfirmEdit->text();
 
     if(lUsername == "") {
         GERROR(eGERR, "Le nom d'utilisateur est obligatoire.");
@@ -264,41 +268,53 @@ void GLoginUi::onConnect() {
     else if(lPassword == "") {
         GERROR(eGERR, "Le mot de passe est obligatoire.");
     }
+    else if(lConfirm == "") {
+        GERROR(eGERR, "La confirmation est obligatoire.");
+    }
+    else if(lConfirm != lPassword) {
+        GERROR(eGERR, "La confirmation est différente du mot de passe.");
+    }
     else {
         GUser lUser;
         lUser.setPseudo(lUsername);
         lUser.setPassword(lPassword);
 
-        if(lUser.runConnection()) {
+        if(lUser.createAccount()) {
             accept();
         }
     }
 }
 //===============================================
-void GLoginUi::onUsernameClear() {
-    QLineEdit* lUsernameEdit = (QLineEdit*)getObj("login/username");
+void GAccountUi::onUsernameClear() {
+    QLineEdit* lUsernameEdit = (QLineEdit*)getObj("account/username");
     lUsernameEdit->clear();
 }
 //===============================================
-void GLoginUi::onUsernameClear(const QString& _text) {
-    QPushButton* lUsernameClear = (QPushButton*)getObj("login/username/clear");
+void GAccountUi::onUsernameClear(const QString& _text) {
+    QPushButton* lUsernameClear = (QPushButton*)getObj("account/username/clear");
     bool lVisible = (_text != "");
     lUsernameClear->setVisible(lVisible);
 }
 //===============================================
-void GLoginUi::onPasswordClear() {
-    QLineEdit* lPasswordEdit = (QLineEdit*)getObj("login/password");
+void GAccountUi::onPasswordClear() {
+    QLineEdit* lPasswordEdit = (QLineEdit*)getObj("account/password");
     lPasswordEdit->clear();
 }
 //===============================================
-void GLoginUi::onPasswordClear(const QString& _text) {
-    QPushButton* lPasswordClear = (QPushButton*)getObj("login/password/clear");
+void GAccountUi::onPasswordClear(const QString& _text) {
+    QPushButton* lPasswordClear = (QPushButton*)getObj("account/password/clear");
     bool lVisible = (_text != "");
     lPasswordClear->setVisible(lVisible);
 }
 //===============================================
-void GLoginUi::onAccountCreate() {
-    GAccountUi* lAccountUi = new GAccountUi(this);
-    lAccountUi->exec();
+void GAccountUi::onConfirmClear() {
+    QLineEdit* lConfirmEdit = (QLineEdit*)getObj("account/confirm");
+    lConfirmEdit->clear();
+}
+//===============================================
+void GAccountUi::onConfirmClear(const QString& _text) {
+    QPushButton* lConfirmClear = (QPushButton*)getObj("account/confirm/clear");
+    bool lVisible = (_text != "");
+    lConfirmClear->setVisible(lVisible);
 }
 //===============================================

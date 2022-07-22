@@ -1,6 +1,7 @@
 //===============================================
 #include "GPadMdi.h"
 #include "GLoginUi.h"
+#include "GAccountUi.h"
 #include "GCvUi.h"
 #include "GStyle.h"
 #include "GPath.h"
@@ -76,6 +77,9 @@ void GPadMdi::onEvent(QAction* _action) {
     if(lKey == "manager/connection") {
         onConnection();
     }
+    else if(lKey == "manager/account") {
+        onAccount();
+    }
     // editor
     else if(lKey == "editor/cv") {
         onCv();
@@ -93,6 +97,11 @@ void GPadMdi::onEvent(QMdiSubWindow* _window) {
 void GPadMdi::onConnection() {
     GLoginUi* lLoginUi = new GLoginUi(this);
     lLoginUi->exec();
+}
+//===============================================
+void GPadMdi::onAccount() {
+    GAccountUi* lAccountUi = new GAccountUi(this);
+    lAccountUi->exec();
 }
 //===============================================
 void GPadMdi::onCv() {
