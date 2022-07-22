@@ -54,7 +54,7 @@ bool GXml::loadNode(const QString& _data, bool _isRoot) {
     QString lData = _data;
     if(_isRoot) lData = "<rdv>" + _data + "</rdv>";
     GLOGT(eGMSG, lData);
-    xmlParseInNodeContext(m_node, lData.toStdString().c_str(), lData.size(), 0, &lNewNode);
+    xmlParseInNodeContext(m_node, lData.toStdString().c_str(), lData.size(), XML_PARSE_IGNORE_ENC, &lNewNode);
     if(!lNewNode) {GERROR(eGERR, "Erreur lors du chargement du noeud."); return false;}
     xmlNodePtr lNode = lNewNode->children;
     while(lNode) {
