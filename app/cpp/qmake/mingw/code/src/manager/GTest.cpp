@@ -45,6 +45,9 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "xml") {
         runXml(_argc, _argv);
     }
+    else if(lKey == "xml/node/load") {
+        runXmlNodeLoad(_argc, _argv);
+    }
     //===============================================
     // socket
     //===============================================
@@ -150,6 +153,28 @@ void GTest::runXml(int _argc, char** _argv) {
     lXml.getNodeXPath();
     QString lData = lXml.getNodeValue();
     GLOGT(eGINF, lData);
+}
+//===============================================
+void GTest::runXmlNodeLoad(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+
+    QString lXml = QString(""
+            "<map>"
+            "<data>"
+            "<msg>Useréé</msg>"
+            "</data>"
+            "</map>"
+            "");
+    QString lData;
+
+    GCode lDom;
+    lDom.createDoc();
+    lDom.createCode("logs");
+    lDom.getCode("logs");
+    lDom.loadNode(lXml);
+    lData = lDom.toString();
+    GLOGT(eGMSG, lData);
+
 }
 //===============================================
 void GTest::runSocketServer(int _argc, char** _argv) {

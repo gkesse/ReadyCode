@@ -53,7 +53,7 @@ bool GXml::loadNode(const QString& _data, bool _isRoot) {
     xmlNodePtr lNewNode;
     QString lData = _data;
     if(_isRoot) lData = "<rdv>" + _data + "</rdv>";
-    GLOGT(eGOFF, lData);
+    GLOGT(eGMSG, lData);
     xmlParserErrors lError = xmlParseInNodeContext(m_node, lData.toStdString().c_str(), lData.size(), 0, &lNewNode);
     GLOGT(eGOFF, QString("%1").arg(lError));
     if(!lNewNode) {GERROR(eGERR, "Erreur lors du chargement du noeud."); return false;}
@@ -119,9 +119,10 @@ bool GXml::createXNode(const QString& _path, const QString& _value, bool _isCDat
 }
 //===============================================
 bool GXml::createDoc(const QString& _version, const QString& _encoding) {
-    m_doc = xmlNewDoc(BAD_CAST(_version.toStdString().c_str()));
+    m_doc = xmlNewDoc(BAD_CAST "1.0");
     if(!m_doc) {GERROR(eGERR, "Erreur lors de la création du document."); return false;}
-    m_doc->encoding = BAD_CAST(_encoding.toStdString().c_str());
+    //xmlNewDocProp(m_doc, BAD_CAST "encoding", BAD_CAST "utf-8");
+    GLOGT(eGMSG, QString("%1").arg((char*)m_doc->encoding));
     m_xpath = xmlXPathNewContext(m_doc);
     if(!m_xpath) {GERROR(eGERR, "Erreur lors de la création du xpath."); return false;}
     return true;

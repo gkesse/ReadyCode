@@ -28,6 +28,7 @@ public:
     void runXmlItem(int _argc, char** _argv);
     void runXmlObj(int _argc, char** _argv);
     void runXmlErrors(int _argc, char** _argv);
+    void runXmlNodeLoad(int _argc, char** _argv);
     //
     void runListQueue(int _argc, char** _argv);
     void runListStack(int _argc, char** _argv);

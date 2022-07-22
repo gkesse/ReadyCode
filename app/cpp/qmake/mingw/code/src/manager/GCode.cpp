@@ -152,7 +152,7 @@ QString GCode::getMap(const QString& _code, int _index) {
     GCode lDom;
     lDom.createDoc();
     lDom.createXNode("/rdv/datas");
-    GLOGT(eGOFF, lData);
+    GLOGT(eGMSG, lData);
     lDom.loadNode(lData);
     return lDom.toString();
 }

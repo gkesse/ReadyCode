@@ -16,7 +16,10 @@ public:
     void runDefault(int _argc, char** _argv);
     void runTest(int _argc, char** _argv);
     void runPath(int _argc, char** _argv);
+    //
     void runXml(int _argc, char** _argv);
+    void runXmlNodeLoad(int _argc, char** _argv);
+    //
     void runSocketServer(int _argc, char** _argv);
     void runSocketClient(int _argc, char** _argv);
     void runSocketServerWrite(int _argc, char** _argv);
