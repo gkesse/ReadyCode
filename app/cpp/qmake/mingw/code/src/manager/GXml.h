@@ -22,7 +22,7 @@ public:
     //
     QString getNodeValue() const;
     //
-    bool createDoc(const QString& _version = "1.0");
+    bool createDoc(const QString& _version = "1.0", const QString& _encoding = "UTF-8");
     bool createNode(const QString& _path);
     bool createXNode(const QString& _path, const QString& _value = "", bool _isCData = false);
     bool setNodeValue(const QString& _value, bool _isCData);
