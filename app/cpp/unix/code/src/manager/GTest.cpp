@@ -639,14 +639,14 @@ void GTest::runXmlErrors(int _argc, char** _argv) {
 void GTest::runXmlNodeLoad(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
 
-    QString lXml = QString(""
+    std::string lXml = ""
             "<map>"
             "<data>"
             "<msg>Useréé</msg>"
             "</data>"
             "</map>"
-            "");
-    QString lData;
+            "";
+    std::string lData;
 
     GCode lDom;
     lDom.createDoc();
@@ -654,7 +654,7 @@ void GTest::runXmlNodeLoad(int _argc, char** _argv) {
     lDom.getCode("logs");
     lDom.loadNode(lXml);
     lData = lDom.toString();
-    GLOGT(eGMSG, lData);
+    GLOGT(eGMSG, "%s", lData.c_str());
 
 }
 //===============================================
