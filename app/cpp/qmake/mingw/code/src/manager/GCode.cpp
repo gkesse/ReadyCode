@@ -163,10 +163,10 @@ int GCode::countItem(const QString& _code) {
     return lData;
 }
 //===============================================
-bool GCode::loadCode(const QString& _data, bool _isRoot) {
+bool GCode::loadCode(const QString& _data, const QString& _encoding) {
     if(_data == "") return false;
     createXNode("/rdv/datas");
-    loadNode(_data, _isRoot);
+    loadNode(_data, _encoding);
     return true;
 }
 //===============================================

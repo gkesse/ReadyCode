@@ -8,6 +8,7 @@
 #include <fstream>
 #include <sstream>
 #include <winsock2.h>
+#include <locale.h>
 // qt
 #include <QtWidgets>
 #include <QtAwesome.h>

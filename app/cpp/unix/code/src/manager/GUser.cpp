@@ -90,6 +90,7 @@ bool GUser::runConnection() {
     loadUserPassword();
     if(m_id == 0) {GERROR(eGERR, "Le mot de passe est incorrect."); return false;}
     loadUser();
+    GLOG_ADD(eGLOG, "La connexion a réussi.");
     return true;
 }
 //===============================================
@@ -104,6 +105,7 @@ bool GUser::createAccount() {
     if(m_id != 0) {GERROR(eGERR, "Le nom d'utilisateur existe déjà."); return false;}
     computePassword();
     saveUser();
+    GLOG_ADD(eGLOG, "La création compte a réussi.");
     return true;
 }
 //===============================================

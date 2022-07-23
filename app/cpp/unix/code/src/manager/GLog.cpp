@@ -149,6 +149,15 @@ void GLog::addError(const char* _name, int _level, const char* _file, int _line,
     m_map.push_back(lLog);
 }
 //===============================================
+void GLog::addLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _log) {
+    traceLog(_name, _level, _file, _line, _func, _log);
+    GLog* lLog = new GLog;
+    lLog->m_type = "log";
+    lLog->m_side = "server";
+    lLog->m_msg = _log;
+    m_map.push_back(lLog);
+}
+//===============================================
 void GLog::showErrors() {
     showErrors(isDebug(), isFileLog());
 }

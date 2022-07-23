@@ -48,13 +48,15 @@ bool GXml::loadFile(const QString& _filename) {
     return true;
 }
 //===============================================
-bool GXml::loadNode(const QString& _data, bool _isRoot) {
+bool GXml::loadNode(const QString& _data, const QString& _encoding) {
     if(!m_node) return false;
     xmlNodePtr lNewNode;
     QString lData = _data;
-    if(_isRoot) lData = "<rdv>" + _data + "</rdv>";
+    lData = "<rdv>" + _data + "</rdv>";
+    xmlChar* lDataOut = convertData(lData.toStdString().c_str(), _encoding.toStdString().c_str());
+    int lSizeOut = xmlStrlen(lDataOut);
     GLOGT(eGMSG, lData);
-    xmlParserErrors lError = xmlParseInNodeContext(m_node, lData.toStdString().c_str(), lData.size(), 0, &lNewNode);
+    xmlParserErrors lError = xmlParseInNodeContext(m_node, (char*)lDataOut, lSizeOut, 0, &lNewNode);
     GLOGT(eGOFF, QString("%1").arg(lError));
     if(!lNewNode) {GERROR(eGERR, "Erreur lors du chargement du noeud."); return false;}
     xmlNodePtr lNode = lNewNode->children;
@@ -118,11 +120,9 @@ bool GXml::createXNode(const QString& _path, const QString& _value, bool _isCDat
     return true;
 }
 //===============================================
-bool GXml::createDoc(const QString& _version, const QString& _encoding) {
-    m_doc = xmlNewDoc(BAD_CAST "1.0");
+bool GXml::createDoc(const QString& _version) {
+    m_doc = xmlNewDoc(BAD_CAST(_version.toStdString().c_str()));
     if(!m_doc) {GERROR(eGERR, "Erreur lors de la création du document."); return false;}
-    //xmlNewDocProp(m_doc, BAD_CAST "encoding", BAD_CAST "utf-8");
-    GLOGT(eGMSG, QString("%1").arg((char*)m_doc->encoding));
     m_xpath = xmlXPathNewContext(m_doc);
     if(!m_xpath) {GERROR(eGERR, "Erreur lors de la création du xpath."); return false;}
     return true;
@@ -220,6 +220,54 @@ bool GXml::restoreNode() {
     m_node = m_nodeCopy.top();
     m_nodeCopy.pop();
     return true;
+}
+//===============================================
+xmlChar* GXml::convertData(const char* _data, const char* _encoding) {
+    xmlChar *out;
+    int ret;
+    int size;
+    int out_size;
+    int temp;
+    xmlCharEncodingHandlerPtr handler;
+
+    if (_data == 0)
+        return 0;
+
+    handler = xmlFindCharEncodingHandler(_encoding);
+
+    if (!handler) {
+        printf("ConvertInput: no encoding handler found for '%s'\n",
+               _encoding ? _encoding : "");
+        return 0;
+    }
+
+    size = (int) strlen(_data) + 1;
+    out_size = size * 2 - 1;
+    out = (unsigned char *) xmlMalloc((size_t) out_size);
+
+    if (out != 0) {
+        temp = size - 1;
+        ret = handler->input(out, &out_size, (const xmlChar *) _data, &temp);
+        if ((ret < 0) || (temp - size + 1)) {
+            if (ret < 0) {
+                printf("ConvertInput: conversion wasn't successful.\n");
+            } else {
+                printf
+                    ("ConvertInput: conversion wasn't successful. converted: %i octets.\n",
+                     temp);
+            }
+
+            xmlFree(out);
+            out = 0;
+        } else {
+            out = (unsigned char *) xmlRealloc(out, out_size + 1);
+            out[out_size] = 0;  /*null terminating out */
+        }
+    } else {
+        printf("ConvertInput: no mem\n");
+    }
+
+    return out;
 }
 //===============================================
 QString GXml::toString(const QString& _encoding, int _format) const {

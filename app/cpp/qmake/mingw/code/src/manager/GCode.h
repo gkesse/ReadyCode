@@ -33,7 +33,7 @@ public:
     QString getMap(const QString& _code, int _index);
     int countItem(const QString& _code);
     //
-    bool loadCode(const QString& _data, bool _isRoot = true);
+    bool loadCode(const QString& _data, const QString& _encoding = "UTF-8");
     //
     QString toStringCode(const QString& _code);
     QString toStringData();

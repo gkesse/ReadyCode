@@ -16,13 +16,13 @@ public:
     //
     bool loadXml(const QString& _data);
     bool loadFile(const QString& _filename);
-    bool loadNode(const QString& _data, bool _isRoot = true);
+    bool loadNode(const QString& _data, const QString& _encoding = "UTF-8");
     bool saveXml(const QString& _filename = "", const QString& _encoding = "UTF-8", int _format = 4);
     bool isValidXml() const;
     //
     QString getNodeValue() const;
     //
-    bool createDoc(const QString& _version = "1.0", const QString& _encoding = "UTF-8");
+    bool createDoc(const QString& _version = "1.0");
     bool createNode(const QString& _path);
     bool createXNode(const QString& _path, const QString& _value = "", bool _isCData = false);
     bool setNodeValue(const QString& _value, bool _isCData);
@@ -37,9 +37,10 @@ public:
     //
     bool saveNode();
     bool restoreNode();
+    xmlChar* convertData(const char* _data, const char* _encoding = "UTF-8");
     //
-    QString toString(const QString& _encoding = "UTF8", int _format = 4) const;
-    QString toStringNode(const QString& _encoding = "UTF8", int _format = 4) const;
+    QString toString(const QString& _encoding = "UTF-8", int _format = 4) const;
+    QString toStringNode(const QString& _encoding = "UTF-8", int _format = 4) const;
 
 private:
     xmlNodePtr m_node;
