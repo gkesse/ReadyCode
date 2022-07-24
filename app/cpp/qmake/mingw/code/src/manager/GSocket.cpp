@@ -516,6 +516,7 @@ QString GSocket::callServer(const QString& _dataIn) {
     GLOGT(eGMSG, QString("[RECEPTION] : (%1)\n(%2)\n").arg(lDataOut.size()).arg(lDataOut));
 
     GERROR_LOAD(eGERR, lDataOut);
+    GLOG_LOAD(eGLOG, lDataOut);
 
     if(GLOGI->isConnectionError()) {
         GLOGI->clearErrors();

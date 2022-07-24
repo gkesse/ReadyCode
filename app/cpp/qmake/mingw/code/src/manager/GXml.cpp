@@ -55,7 +55,7 @@ bool GXml::loadNode(const QString& _data, const QString& _encoding) {
     lData = "<rdv>" + _data + "</rdv>";
     xmlChar* lDataOut = convertData(lData.toStdString().c_str(), _encoding.toStdString().c_str());
     int lSizeOut = xmlStrlen(lDataOut);
-    GLOGT(eGMSG, lData);
+    GLOGT(eGOFF, lData);
     xmlParserErrors lError = xmlParseInNodeContext(m_node, (char*)lDataOut, lSizeOut, 0, &lNewNode);
     GLOGT(eGOFF, QString("%1").arg(lError));
     if(!lNewNode) {GERROR_ADD(eGERR, "Erreur lors du chargement du noeud."); return false;}
