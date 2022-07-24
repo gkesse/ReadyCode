@@ -186,10 +186,30 @@ bool GLog::hasErrors() const {
     return false;
 }
 //===============================================
+bool GLog::hasLogs() const {
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GLog* lLog = (GLog*)m_map.at(i);
+        if(lLog->m_type == "log") {
+            return true;
+        }
+    }
+    return false;
+}
+//===============================================
 void GLog::clearErrors() {
     for(int i = 0; i < (int)m_map.size(); i++) {
         GLog* lLog = (GLog*)m_map.at(i);
         if(lLog->m_type == "error") {
+            delete lLog;
+            m_map.erase (m_map.begin() + i);
+        }
+    }
+}
+//===============================================
+void GLog::clearLogs() {
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GLog* lLog = (GLog*)m_map.at(i);
+        if(lLog->m_type == "log") {
             delete lLog;
             m_map.erase (m_map.begin() + i);
         }

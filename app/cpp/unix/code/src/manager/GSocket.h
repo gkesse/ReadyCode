@@ -45,6 +45,7 @@ public:
     std::queue<GSocket*>& getClientIns();
     void addResponse(const std::string& _data, bool _isRoot = true);
     bool clearErrors();
+    bool clearLogs();
     bool addErrors();
     void sendResponse();
     //
