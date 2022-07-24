@@ -93,7 +93,7 @@ void GCvUi::createLayout() {
             lItemLayout = lAccountLayout;
         }
         else {
-            GERROR(eGERR, QString(""
+            GERROR_ADD(eGERR, QString(""
                     "Erreur la categorie (%1) n'existe pas.\n"
                     "").arg(lCategory)
             );
@@ -220,7 +220,7 @@ void GCvUi::createLayout() {
             lItemLayout->addWidget(lLineEdit);
         }
         else {
-            GERROR(eGERR, QString(""
+            GERROR_ADD(eGERR, QString(""
                     "Erreur le type (%1 : %2) n'existe pas.\n"
                     "").arg(lCategory).arg(lType)
             );

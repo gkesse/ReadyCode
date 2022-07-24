@@ -197,6 +197,12 @@ void GLog::loadErrors(const char* _name, int _level, const char* _file, int _lin
     showErrors(_name, _level, _file, _line, _func);
 }
 //===============================================
+void GLog::loadLogs(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _data) {
+    if(_data == "") return;
+    deserialize(_data);
+    showErrors(_name, _level, _file, _line, _func);
+}
+//===============================================
 void GLog::writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _log) {
     writeLog(_name, _level, _file, _line, _func, isDebug(), isFileLog(), _log);
 }

@@ -95,7 +95,7 @@ void GRequestUi::createLayout() {
             lItemLayout = lButtonLayout;
         }
         else {
-            GERROR(eGERR, QString(""
+            GERROR_ADD(eGERR, QString(""
                     "Erreur la categorie n'existe pas.\n"
                     "categorie....: (%1)\n")
                     .arg(lCategory)
@@ -133,7 +133,7 @@ void GRequestUi::createLayout() {
             lItemLayout->addWidget(lTextEdit);
         }
         else {
-            GERROR(eGERR, QString(""
+            GERROR_ADD(eGERR, QString(""
                     "Erreur le type (%1 : %2) n'existe pas.\n"
                     "").arg(lCategory).arg(lType)
             );
@@ -199,7 +199,7 @@ void GRequestUi::onRequestSend() {
     bool lRequestValid = true;
 
     if(lEmissionText == "") {
-        GERROR(eGERR, QString("Erreur l'editeur de texte est vide."));
+        GERROR_ADD(eGERR, QString("Erreur l'editeur de texte est vide."));
     }
     else {
         GXml lXmlFormat;
@@ -207,7 +207,7 @@ void GRequestUi::onRequestSend() {
         lXmlValid &= lXmlFormat.isValidXml();
 
         if(!lXmlValid) {
-            GERROR(eGERR, QString("Erreur le format XML est invalide."));
+            GERROR_ADD(eGERR, QString("Erreur le format XML est invalide."));
         }
         else {
             GModule lModuleObj;
@@ -219,7 +219,7 @@ void GRequestUi::onRequestSend() {
             lRequestValid &= (lMethod != "");
 
             if(0 && !lRequestValid) {
-                GERROR(eGERR, QString("Erreur le format de la requete est invalide."));
+                GERROR_ADD(eGERR, QString("Erreur le format de la requete est invalide."));
             }
             else {
                 GSocket lClient;

@@ -32,18 +32,18 @@ void GModule::deserialize(const std::string& _data, const std::string& _code) {
 }
 //===============================================
 void GModule::onModuleNone(GSocket* _client) {
-    GERROR(eGERR, "Le module est obligatoire.");
+    GERROR_ADD(eGERR, "Le module est obligatoire.");
 }
 //===============================================
 void GModule::onMethodNone(GSocket* _client) {
-    GERROR(eGERR, "La methode est obligatoire.");
+    GERROR_ADD(eGERR, "La methode est obligatoire.");
 }
 //===============================================
 void GModule::onModuleUnknown(GSocket* _client) {
-    GERROR(eGERR, "Le module n'existe pas.");
+    GERROR_ADD(eGERR, "Le module n'existe pas.");
 }
 //===============================================
 void GModule::onMethodUnknown(GSocket* _client) {
-    GERROR(eGERR, "La methode n'existe pas.");
+    GERROR_ADD(eGERR, "La methode n'existe pas.");
 }
 //===============================================

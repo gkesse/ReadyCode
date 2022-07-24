@@ -123,12 +123,12 @@ bool GManager::onDeleteCode(GSocket* _client) {
 }
 //===============================================
 bool GManager::createCode() {
-    if(m_code == "") {GERROR(eGERR, "Le code est obligatoire."); return false;}
-    if(m_code.size() < 3) {GERROR(eGERR, "Le code doit faire au minimum 8 caractères."); return false;}
-    if(m_code.size() > 50) {GERROR(eGERR, "Le code doit faire au maximum 50 caractères."); return false;}
-    if(m_label.size() > 50) {GERROR(eGERR, "Le libellé doit faire au maximum 50 caractères."); return false;}
+    if(m_code == "") {GERROR_ADD(eGERR, "Le code est obligatoire."); return false;}
+    if(m_code.size() < 3) {GERROR_ADD(eGERR, "Le code doit faire au minimum 8 caractères."); return false;}
+    if(m_code.size() > 50) {GERROR_ADD(eGERR, "Le code doit faire au maximum 50 caractères."); return false;}
+    if(m_label.size() > 50) {GERROR_ADD(eGERR, "Le libellé doit faire au maximum 50 caractères."); return false;}
     loadId();
-    if(m_id != 0) {GERROR(eGERR, "L'identifiant existe déjà."); return false;}
+    if(m_id != 0) {GERROR_ADD(eGERR, "L'identifiant existe déjà."); return false;}
     saveData();
     return true;
 }
@@ -143,12 +143,12 @@ bool GManager::searchCode() {
         }
     }
     //
-    if(m_dataSize == 0) {GERROR(eGERR, "La taille des données n'a pas été définie."); return false;}
+    if(m_dataSize == 0) {GERROR_ADD(eGERR, "La taille des données n'a pas été définie."); return false;}
     loadDataCount();
-    if(m_dataCount == 0) {GERROR(eGERR, "Aucun résultat n'a été trouvé."); return false;}
+    if(m_dataCount == 0) {GERROR_ADD(eGERR, "Aucun résultat n'a été trouvé."); return false;}
     if(m_lastId < 0) {
         loadLastId();
-        if(m_lastId <= 0) {GERROR(eGERR, "Aucune donnée n'a été trouvée."); return false;}
+        if(m_lastId <= 0) {GERROR_ADD(eGERR, "Aucune donnée n'a été trouvée."); return false;}
     }
     //
     loadDataMap();
@@ -156,7 +156,7 @@ bool GManager::searchCode() {
 }
 //===============================================
 bool GManager::updateCode() {
-    if(m_id == 0) {GERROR(eGERR, "L'identifiant n'est pas défini."); return false;}
+    if(m_id == 0) {GERROR_ADD(eGERR, "L'identifiant n'est pas défini."); return false;}
     GMySQL().execQuery(sformat(""
             " update _code "
             " set _code = '%s' "
@@ -169,7 +169,7 @@ bool GManager::updateCode() {
 }
 //===============================================
 bool GManager::deleteCode() {
-    if(m_id == 0) {GERROR(eGERR, "L'identifiant n'est pas défini."); return false;}
+    if(m_id == 0) {GERROR_ADD(eGERR, "L'identifiant n'est pas défini."); return false;}
     GMySQL().execQuery(sformat(""
             " delete from _code "
             " where _id = %d "

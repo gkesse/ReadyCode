@@ -64,8 +64,8 @@ int GString::toInt() const {
     try {
         lData = std::stoi(lDataTrim);
     }
-    catch(const std::invalid_argument& e) {GERROR(eGERR, "Erreur la chaine est invalide."); lData = 0;}
-    catch(const std::out_of_range& e) {GERROR(eGERR, "Erreur le nombre depasse les limites de conversion."); lData = 0;}
+    catch(const std::invalid_argument& e) {GERROR_ADD(eGERR, "Erreur la chaine est invalide."); lData = 0;}
+    catch(const std::out_of_range& e) {GERROR_ADD(eGERR, "Erreur le nombre depasse les limites de conversion."); lData = 0;}
     return lData;
 }
 //===============================================

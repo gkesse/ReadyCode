@@ -16,7 +16,7 @@ void GTimer::setCallback(void* _onTimer, int _ms) {
     sigemptyset(&m_sigaction.sa_mask);
     m_sigaction.sa_flags = SA_RESTART;
     if (sigaction(SIGALRM, &m_sigaction, NULL) == -1) {
-        GERROR(eGERR, ""
+        GERROR_ADD(eGERR, ""
                 "Erreur lors de la creation du timer.\n"
                 "ms...........: (%d)\n"
                 "", _ms);
@@ -29,7 +29,7 @@ void GTimer::setCallback(void* _onTimer, int _ms) {
     m_timer.it_value.tv_usec = _ms * 1000;
 
     if (setitimer(ITIMER_REAL, &m_timer, NULL) == -1) {
-        GERROR(eGERR, ""
+        GERROR_ADD(eGERR, ""
                 "Erreur lors de la creation du timer.\n"
                 "ms...........: (%d)\n"
                 "", _ms);

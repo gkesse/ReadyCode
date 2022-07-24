@@ -53,7 +53,7 @@ bool GMd5::onModule(GSocket* _client) {
 }
 //===============================================
 bool GMd5::onEncodeData(GSocket* _client) {
-    if(m_dataIn == "") {GERROR(eGERR, "La donnée est vide."); return false;}
+    if(m_dataIn == "") {GERROR_ADD(eGERR, "La donnée est vide."); return false;}
     m_dataOut = encodeData(m_dataIn);
     std::string lData = serialize();
     _client->addResponse(lData);

@@ -61,7 +61,7 @@ void GPadUi::createLayout() {
             lItemLayout = lHeaderLayout;
         }
         else {
-            GERROR(eGERR, QString(""
+            GERROR_ADD(eGERR, QString(""
                     "Erreur la categorie n'existe pas.\n"
                     "categorie....: (%1)\n"
                     "").arg(lCategory)
@@ -89,7 +89,7 @@ void GPadUi::createLayout() {
             lItemLayout->addWidget(lButton);
         }
         else {
-            GERROR(eGERR, QString(""
+            GERROR_ADD(eGERR, QString(""
                     "Erreur le type n'existe pas.\n"
                     "type.........: %1 : (%2)\n"
                     "").arg(lCategory).arg(lType)

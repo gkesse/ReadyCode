@@ -54,7 +54,7 @@ QString GMessageBox::getKey(void* _obj, const QString& _defaultValue) const {
 }
 //===============================================
 void GMessageBox::onErrorKey(const QString& _key) {
-    GERROR(eGERR, QString(""
+    GERROR_ADD(eGERR, QString(""
             "Erreur la cle (%1) n'existe pas.\n"
             "").arg(_key)
     );

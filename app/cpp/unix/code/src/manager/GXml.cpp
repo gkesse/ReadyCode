@@ -34,19 +34,19 @@ bool GXml::loadXml(const std::string& _data) {
     std::string lData = GString(_data).trimData();
     if(lData == "") return false;
     m_doc = xmlParseDoc(BAD_CAST(lData.c_str()));
-    if(!m_doc) {GERROR(eGERR, "Erreur lors de la création du document."); return false;}
+    if(!m_doc) {GERROR_ADD(eGERR, "Erreur lors de la création du document."); return false;}
     m_xpath = xmlXPathNewContext(m_doc);
-    if(!m_xpath) {GERROR(eGERR, "Erreur lors de la création du xpath."); return false;}
+    if(!m_xpath) {GERROR_ADD(eGERR, "Erreur lors de la création du xpath."); return false;}
     return true;
 }
 //===============================================
 bool GXml::loadFile(const std::string& _filename) {
     if(_filename == "") return false;
     m_doc = xmlParseFile(_filename.c_str());
-    if(!m_doc) {GERROR(eGERR, "Erreur lors de la création du document."); return false;}
+    if(!m_doc) {GERROR_ADD(eGERR, "Erreur lors de la création du document."); return false;}
     m_filename = _filename;
     m_xpath = xmlXPathNewContext(m_doc);
-    if(!m_xpath) {GERROR(eGERR, "Erreur lors de la création du xpath."); return false;}
+    if(!m_xpath) {GERROR_ADD(eGERR, "Erreur lors de la création du xpath."); return false;}
     return true;
 }
 //===============================================
@@ -73,7 +73,7 @@ bool GXml::saveXml(const std::string& _filename, const std::string& _encoding, i
     else {
         lFilename = m_filename;
     }
-    if(lFilename == "") {GERROR(eGERR, "Erreur le nom du fichier est vide."); return false;}
+    if(lFilename == "") {GERROR_ADD(eGERR, "Erreur le nom du fichier est vide."); return false;}
     xmlSaveFormatFileEnc(lFilename.c_str(), m_doc, _encoding.c_str(), _format);
     return true;
 }
@@ -119,16 +119,16 @@ bool GXml::createXNode(const std::string& _path, const std::string& _value, bool
 //===============================================
 bool GXml::createDoc(const std::string& _version) {
     m_doc = xmlNewDoc(BAD_CAST "1.0");
-    if(!m_doc) {GERROR(eGERR, "Erreur lors de la création du document."); return false;}
+    if(!m_doc) {GERROR_ADD(eGERR, "Erreur lors de la création du document."); return false;}
     m_xpath = xmlXPathNewContext(m_doc);
-    if(!m_xpath) {GERROR(eGERR, "Erreur lors de la création du xpath."); return false;}
+    if(!m_xpath) {GERROR_ADD(eGERR, "Erreur lors de la création du xpath."); return false;}
     return true;
 }
 //===============================================
 bool GXml::createNode(const std::string& _nodename) {
     if(!m_doc) return false;
     xmlNodePtr lNode = xmlNewNode(NULL, BAD_CAST(_nodename.c_str()));
-    if(!lNode) GERROR(eGERR, "Erreur lors de la création du noeud.");
+    if(!lNode) GERROR_ADD(eGERR, "Erreur lors de la création du noeud.");
     if(!m_node) {
         xmlDocSetRootElement(m_doc, lNode);
     }
@@ -147,7 +147,7 @@ bool GXml::setNodeValue(const std::string& _value, bool _isCData) {
     }
     else {
         xmlNodePtr lNode = xmlNewCDataBlock(m_doc, BAD_CAST(_value.c_str()), _value.size());
-        if(!lNode) GERROR(eGERR, "Erreur lors de la création du noeud.");
+        if(!lNode) GERROR_ADD(eGERR, "Erreur lors de la création du noeud.");
         xmlAddChild(m_node, lNode);
     }
     return true;
@@ -166,7 +166,7 @@ bool GXml::queryXPath(const std::string& _path, bool _isRoot) {
             m_xpathObj = xmlXPathEvalExpression(BAD_CAST(_path.c_str()), m_xpath);
         }
     }
-    if(!m_xpathObj) {GERROR(eGERR, "Erreur lors de la création du xpath."); return false;}
+    if(!m_xpathObj) {GERROR_ADD(eGERR, "Erreur lors de la création du xpath."); return false;}
     return true;
 }
 //===============================================

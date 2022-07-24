@@ -32,19 +32,19 @@ bool GXml::loadXml(const QString& _data) {
     QString lData = _data.trimmed();
     if(lData == "") return false;
     m_doc = xmlParseDoc(BAD_CAST(lData.toStdString().c_str()));
-    if(!m_doc) {GERROR(eGERR, "Erreur lors de la création du document."); return false;}
+    if(!m_doc) {GERROR_ADD(eGERR, "Erreur lors de la création du document."); return false;}
     m_xpath = xmlXPathNewContext(m_doc);
-    if(!m_xpath) {GERROR(eGERR, "Erreur lors de la création du xpath."); return false;}
+    if(!m_xpath) {GERROR_ADD(eGERR, "Erreur lors de la création du xpath."); return false;}
     return true;
 }
 //===============================================
 bool GXml::loadFile(const QString& _filename) {
     if(_filename == "") return false;
     m_doc = xmlParseFile(_filename.toStdString().c_str());
-    if(!m_doc) {GERROR(eGERR, "Erreur lors de la création du document."); return false;}
+    if(!m_doc) {GERROR_ADD(eGERR, "Erreur lors de la création du document."); return false;}
     m_filename = _filename;
     m_xpath = xmlXPathNewContext(m_doc);
-    if(!m_xpath) {GERROR(eGERR, "Erreur lors de la création du xpath."); return false;}
+    if(!m_xpath) {GERROR_ADD(eGERR, "Erreur lors de la création du xpath."); return false;}
     return true;
 }
 //===============================================
@@ -58,7 +58,7 @@ bool GXml::loadNode(const QString& _data, const QString& _encoding) {
     GLOGT(eGMSG, lData);
     xmlParserErrors lError = xmlParseInNodeContext(m_node, (char*)lDataOut, lSizeOut, 0, &lNewNode);
     GLOGT(eGOFF, QString("%1").arg(lError));
-    if(!lNewNode) {GERROR(eGERR, "Erreur lors du chargement du noeud."); return false;}
+    if(!lNewNode) {GERROR_ADD(eGERR, "Erreur lors du chargement du noeud."); return false;}
     xmlNodePtr lNode = lNewNode->children;
     while(lNode) {
         xmlAddChild(m_node, xmlCopyNode(lNode, 1));
@@ -76,7 +76,7 @@ bool GXml::saveXml(const QString& _filename, const QString& _encoding, int _form
     else {
         lFilename = m_filename;
     }
-    if(lFilename == "") {GERROR(eGERR, "Erreur le nom du fichier est vide."); return false;}
+    if(lFilename == "") {GERROR_ADD(eGERR, "Erreur le nom du fichier est vide."); return false;}
     xmlSaveFormatFileEnc(lFilename.toStdString().c_str(), m_doc, _encoding.toStdString().c_str(), _format);
     return true;
 }
@@ -122,16 +122,16 @@ bool GXml::createXNode(const QString& _path, const QString& _value, bool _isCDat
 //===============================================
 bool GXml::createDoc(const QString& _version) {
     m_doc = xmlNewDoc(BAD_CAST(_version.toStdString().c_str()));
-    if(!m_doc) {GERROR(eGERR, "Erreur lors de la création du document."); return false;}
+    if(!m_doc) {GERROR_ADD(eGERR, "Erreur lors de la création du document."); return false;}
     m_xpath = xmlXPathNewContext(m_doc);
-    if(!m_xpath) {GERROR(eGERR, "Erreur lors de la création du xpath."); return false;}
+    if(!m_xpath) {GERROR_ADD(eGERR, "Erreur lors de la création du xpath."); return false;}
     return true;
 }
 //===============================================
 bool GXml::createNode(const QString& _nodename) {
     if(!m_doc) return false;
     xmlNodePtr lNode = xmlNewNode(NULL, BAD_CAST(_nodename.toStdString().c_str()));
-    if(!lNode) GERROR(eGERR, "Erreur lors de la création du noeud.");
+    if(!lNode) GERROR_ADD(eGERR, "Erreur lors de la création du noeud.");
     if(!m_node) {
         xmlDocSetRootElement(m_doc, lNode);
     }
@@ -150,7 +150,7 @@ bool GXml::setNodeValue(const QString& _value, bool _isCData) {
     }
     else {
         xmlNodePtr lNode = xmlNewCDataBlock(m_doc, BAD_CAST(_value.toStdString().c_str()), _value.size());
-        if(!lNode) GERROR(eGERR, "Erreur lors de la création du noeud.");
+        if(!lNode) GERROR_ADD(eGERR, "Erreur lors de la création du noeud.");
         xmlAddChild(m_node, lNode);
     }
     return true;
@@ -169,7 +169,7 @@ bool GXml::queryXPath(const QString& _path, bool _isRoot) {
             m_xpathObj = xmlXPathEvalExpression(BAD_CAST(_path.toStdString().c_str()), m_xpath);
         }
     }
-    if(!m_xpathObj) {GERROR(eGERR, "Erreur lors de la création du xpath."); return false;}
+    if(!m_xpathObj) {GERROR_ADD(eGERR, "Erreur lors de la création du xpath."); return false;}
     return true;
 }
 //===============================================

@@ -55,7 +55,7 @@ std::string GSQLite::getVersion() const {
 bool GSQLite::openDatabase(const std::string& _filename) {
     int lAnswer = sqlite3_open(_filename.c_str(), &m_sqlite3);
     if(lAnswer != SQLITE_OK) {
-        GERROR->addError(sformat("Erreur la methode (openDatabase) a echoue "
+        GERROR_ADD->addError(sformat("Erreur la methode (openDatabase) a echoue "
                 "sur le fichier (%s).", _filename.c_str()));
         return false;
     }
@@ -66,7 +66,7 @@ bool GSQLite::executeQuery(const std::string& _query, onExecCB _onExec, void* _p
     char* lError;
     int lAnswer = sqlite3_exec(m_sqlite3, _query.c_str(), _onExec, _params, &lError);
     if(lAnswer != SQLITE_OK) {
-        GERROR->addError(sformat("Erreur la methode (executeQuery) a echoue "
+        GERROR_ADD->addError(sformat("Erreur la methode (executeQuery) a echoue "
                 "sur la requete (%s) avec le message (%s).", _query.c_str(), lError));
         return false;
     }
@@ -76,7 +76,7 @@ bool GSQLite::executeQuery(const std::string& _query, onExecCB _onExec, void* _p
 bool GSQLite::prepareQuery(const std::string& _query) {
     int lAnswer = sqlite3_prepare_v2(m_sqlite3, _query.c_str(), -1, &m_stmt, 0);
     if(lAnswer != SQLITE_OK) {
-        GERROR->addError(sformat("Erreur la methode (prepareQuery) a echoue "
+        GERROR_ADD->addError(sformat("Erreur la methode (prepareQuery) a echoue "
                 "sur la requete (%s).", _query.c_str()));
         return false;
     }
@@ -86,7 +86,7 @@ bool GSQLite::prepareQuery(const std::string& _query) {
 bool GSQLite::stepQuery() {
     int lAnswer = sqlite3_step(m_stmt);
     if(lAnswer != SQLITE_OK) {
-        GERROR->addError("Erreur la methode (stepQuery) a echoue.");
+        GERROR_ADD->addError("Erreur la methode (stepQuery) a echoue.");
         return false;
     }
     return true;

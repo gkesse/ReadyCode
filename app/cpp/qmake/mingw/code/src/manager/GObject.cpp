@@ -53,7 +53,7 @@ QString GObject::getKey(void* _obj, const QString& _defaultValue) const {
 }
 //===============================================
 void GObject::runDefault(int _argc, char** _argv) {
-    GERROR(eGERR, "Vous devez selectionner un module.");
+    GERROR_ADD(eGERR, "Vous devez selectionner un module.");
 }
 //===============================================
 bool GObject::clearMap(QVector<GObject*>& _map) {

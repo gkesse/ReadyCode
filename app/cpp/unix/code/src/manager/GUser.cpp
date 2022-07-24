@@ -82,27 +82,27 @@ void GUser::onRunConnection(GSocket* _client) {
 }
 //===============================================
 bool GUser::runConnection() {
-    if(m_pseudo == "") {GERROR(eGERR, "Le nom d'utilisateur est obligatoire."); return false;}
-    if(m_password == "") {GERROR(eGERR, "Le mot de passe est obligatoire."); return false;}
+    if(m_pseudo == "") {GERROR_ADD(eGERR, "Le nom d'utilisateur est obligatoire."); return false;}
+    if(m_password == "") {GERROR_ADD(eGERR, "Le mot de passe est obligatoire."); return false;}
     loadUserPseudo();
-    if(m_id == 0) {GERROR(eGERR, "Le nom d'utilisateur n'existe pas encore."); return false;}
+    if(m_id == 0) {GERROR_ADD(eGERR, "Le nom d'utilisateur n'existe pas encore."); return false;}
     computePassword();
     loadUserPassword();
-    if(m_id == 0) {GERROR(eGERR, "Le mot de passe est incorrect."); return false;}
+    if(m_id == 0) {GERROR_ADD(eGERR, "Le mot de passe est incorrect."); return false;}
     loadUser();
     GLOG_ADD(eGLOG, "La connexion a réussi.");
     return true;
 }
 //===============================================
 bool GUser::createAccount() {
-    if(m_pseudo == "") {GERROR(eGERR, "Le nom d'utilisateur est obligatoire."); return false;}
-    if(m_pseudo.size() < 8) {GERROR(eGERR, "Le nom d'utilisateur doit faire au minimum 8 caractères."); return false;}
-    if(m_pseudo.size() > 50) {GERROR(eGERR, "Le nom d'utilisateur doit faire au maximum 50 caractères."); return false;}
-    if(m_password == "") {GERROR(eGERR, "Le mot de passe est obligatoire."); return false;}
-    if(m_password.size() < 8) {GERROR(eGERR, "Le mot de passe doit faire au minimum 8 caractères."); return false;}
-    if(m_password.size() > 50) {GERROR(eGERR, "Le mot de passe doit faire au maximum 50 caractères."); return false;}
+    if(m_pseudo == "") {GERROR_ADD(eGERR, "Le nom d'utilisateur est obligatoire."); return false;}
+    if(m_pseudo.size() < 8) {GERROR_ADD(eGERR, "Le nom d'utilisateur doit faire au minimum 8 caractères."); return false;}
+    if(m_pseudo.size() > 50) {GERROR_ADD(eGERR, "Le nom d'utilisateur doit faire au maximum 50 caractères."); return false;}
+    if(m_password == "") {GERROR_ADD(eGERR, "Le mot de passe est obligatoire."); return false;}
+    if(m_password.size() < 8) {GERROR_ADD(eGERR, "Le mot de passe doit faire au minimum 8 caractères."); return false;}
+    if(m_password.size() > 50) {GERROR_ADD(eGERR, "Le mot de passe doit faire au maximum 50 caractères."); return false;}
     loadUserPseudo();
-    if(m_id != 0) {GERROR(eGERR, "Le nom d'utilisateur existe déjà."); return false;}
+    if(m_id != 0) {GERROR_ADD(eGERR, "Le nom d'utilisateur existe déjà."); return false;}
     computePassword();
     saveUser();
     GLOG_ADD(eGLOG, "La création compte a réussi.");

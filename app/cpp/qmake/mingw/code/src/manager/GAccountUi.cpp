@@ -263,16 +263,16 @@ void GAccountUi::onAccountCreate() {
     QString lConfirm = lConfirmEdit->text();
 
     if(lUsername == "") {
-        GERROR(eGERR, "Le nom d'utilisateur est obligatoire.");
+        GERROR_ADD(eGERR, "Le nom d'utilisateur est obligatoire.");
     }
     else if(lPassword == "") {
-        GERROR(eGERR, "Le mot de passe est obligatoire.");
+        GERROR_ADD(eGERR, "Le mot de passe est obligatoire.");
     }
     else if(lConfirm == "") {
-        GERROR(eGERR, "La confirmation est obligatoire.");
+        GERROR_ADD(eGERR, "La confirmation est obligatoire.");
     }
     else if(lConfirm != lPassword) {
-        GERROR(eGERR, "La confirmation est différente du mot de passe.");
+        GERROR_ADD(eGERR, "La confirmation est différente du mot de passe.");
     }
     else {
         GUser lUser;

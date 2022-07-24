@@ -25,7 +25,7 @@ std::string GPath::getPath() const {
     GEnv lEnv;
     std::string lPath = lEnv.getEnv("GPROJECT_DATA");
     if(lPath == "") {
-        GERROR(eGERR, "Erreur la methode (GPath::getDataPath) a echoue.");
+        GERROR_ADD(eGERR, "Erreur la methode (GPath::getDataPath) a echoue.");
         return "";
     }
     return lPath;

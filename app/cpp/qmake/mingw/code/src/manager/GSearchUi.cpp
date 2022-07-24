@@ -84,7 +84,7 @@ void GSearchUi::createLayout() {
             lItemLayout = lButtonLayout;
         }
         else {
-            GERROR(eGERR, QString(""
+            GERROR_ADD(eGERR, QString(""
                     "Erreur la categorie n'existe pas.\n"
                     "categorie....: (%1)\n")
                     .arg(lCategory)
@@ -131,7 +131,7 @@ void GSearchUi::createLayout() {
             lItemLayout->addWidget(lTableWidget);
         }
         else {
-            GERROR(eGERR, QString(""
+            GERROR_ADD(eGERR, QString(""
                     "Erreur le type n'existe pas.\n"
                     "type.........: %1 : (%2)\n"
                     "").arg(lCategory).arg(lType)
@@ -223,7 +223,7 @@ void GSearchUi::onEvent() {
             accept();
         }
         else {
-            GERROR(eGERR, QString("Erreur aucune donnee n'a ete selectionne.\n"));
+            GERROR_ADD(eGERR, QString("Erreur aucune donnee n'a ete selectionne.\n"));
         }
     }
     //===============================================
@@ -242,7 +242,7 @@ void GSearchUi::onEvent() {
     // else
     //===============================================
     else {
-        GERROR(eGERR, QString(""
+        GERROR_ADD(eGERR, QString(""
                 "Erreur la cle n'existe pas.\n"
                 "cle..........: (%1)\n")
                 .arg(lKey)

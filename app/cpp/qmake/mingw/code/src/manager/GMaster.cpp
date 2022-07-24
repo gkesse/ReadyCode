@@ -59,7 +59,7 @@ bool GMaster::isValidXml(const QString& _data) {
     GCode lReq;
     lReq.loadXml(_data);
     bool lValidXml = lReq.isValidXml();
-    if(!lValidXml) {GERROR(eGERR, "Erreur le XML est invalide."); return false;}
+    if(!lValidXml) {GERROR_ADD(eGERR, "Erreur le XML est invalide."); return false;}
     return true;
 }
 //===============================================
@@ -67,7 +67,7 @@ bool GMaster::isValidReq() {
     bool lValidReq = true;
     lValidReq &= (m_module != "");
     lValidReq &= (m_method != "");
-    if(!lValidReq) {GERROR(eGERR, "Erreur la requete est invalide."); return false;}
+    if(!lValidReq) {GERROR_ADD(eGERR, "Erreur la requete est invalide."); return false;}
     return true;
 }
 //===============================================

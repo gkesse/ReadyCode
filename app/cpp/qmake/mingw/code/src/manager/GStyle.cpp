@@ -31,7 +31,7 @@ bool GStyle::loadStyle() {
 bool GStyle::loadStyle(const QString& _filename) {
     QFile lFile(_filename);
     if(!lFile.open(QFile::ReadOnly)) {
-        GERROR(eGERR, QString(""
+        GERROR_ADD(eGERR, QString(""
                 "Erreur lors du chargement du style.\n"
                 "fichier : (%1)\n"
                 "").arg(_filename));

@@ -14,8 +14,9 @@
 #define eGFAT   7, __FILE__, __LINE__, __PRETTY_FUNCTION__
 //===============================================
 #define GLOGI               GLog::Instance()
-#define GERROR(x, y)        GLOGI->addError(#x, x, y)
+#define GERROR_ADD(x, y)        GLOGI->addError(#x, x, y)
 #define GERROR_LOAD(x, y)   GLOGI->loadErrors(#x, x, y)
+#define GLOG_LOAD(x, y)     GLOGI->loadLogs(#x, x, y)
 #define GERROR_SHOW(x)      GLOGI->showErrors(#x, x)
 #define GERROR_SHOWG(x)     GLOGI->showErrors(#x, x, this)
 #define GLOGT(x, y)         GLOGI->traceLog(#x, x, y)
@@ -53,6 +54,7 @@ public:
     void showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, QWidget* _parent);
     void showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog);
     void loadErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _data);
+    void loadLogs(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _data);
     //
     void writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _log);
     void writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const QString& _log);

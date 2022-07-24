@@ -4,7 +4,7 @@
 //===============================================
 #include "GObject.h"
 //===============================================
-#define GERROR GLog::Instance()
+#define GERROR_ADD GLog::Instance()
 //===============================================
 class GLog : public GObject {
 public:

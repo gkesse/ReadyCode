@@ -259,10 +259,10 @@ void GLoginUi::onConnect() {
     QString lPassword = lPasswordEdit->text();
 
     if(lUsername == "") {
-        GERROR(eGERR, "Le nom d'utilisateur est obligatoire.");
+        GERROR_ADD(eGERR, "Le nom d'utilisateur est obligatoire.");
     }
     else if(lPassword == "") {
-        GERROR(eGERR, "Le mot de passe est obligatoire.");
+        GERROR_ADD(eGERR, "Le mot de passe est obligatoire.");
     }
     else {
         GUser lUser;

@@ -125,7 +125,7 @@ void GSocket::initSocket(int _major, int _minor) {
 bool GSocket::createSocketTcp() {
     m_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if(m_socket == INVALID_SOCKET) {
-        GERROR->addError("Erreur la methode (createSocketTcp) a echoue.");
+        GERROR_ADD->addError("Erreur la methode (createSocketTcp) a echoue.");
         return false;
     }
     return true;
@@ -134,7 +134,7 @@ bool GSocket::createSocketTcp() {
 bool GSocket::cretaeSocketUdp() {
     m_socket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
     if(m_socket == INVALID_SOCKET) {
-        GERROR->addError("Erreur la methode (cretaeSocketUdp) a echoue.");
+        GERROR_ADD->addError("Erreur la methode (cretaeSocketUdp) a echoue.");
         return false;
     }
     return true;
@@ -150,7 +150,7 @@ void GSocket::createAddress(const std::string& _ip, int _port) {
 bool GSocket::listenSocket(int _backlog) {
     int lAnswer = listen(m_socket, _backlog);
     if(lAnswer == SOCKET_ERROR) {
-        GERROR->addError("Erreur la methode (listenSocket) a echoue.");
+        GERROR_ADD->addError("Erreur la methode (listenSocket) a echoue.");
         return false;
     }
     return true;
@@ -159,7 +159,7 @@ bool GSocket::listenSocket(int _backlog) {
 bool GSocket::bindSocket() {
     int lAnswer = bind(m_socket, (SOCKADDR*)&m_address, sizeof(m_address));
     if(lAnswer == SOCKET_ERROR) {
-        GERROR->addError("Erreur la methode (bindSocket) a echoue.");
+        GERROR_ADD->addError("Erreur la methode (bindSocket) a echoue.");
         return false;
     }
     return true;
@@ -168,7 +168,7 @@ bool GSocket::bindSocket() {
 bool GSocket::connectSocket() {
     int lAnswer = connect(m_socket, (SOCKADDR*)(&m_address), sizeof(m_address));
     if(lAnswer == SOCKET_ERROR) {
-        GERROR->addError("Erreur la methode (connectToServer) a echoue.");
+        GERROR_ADD->addError("Erreur la methode (connectToServer) a echoue.");
         return false;
     }
     return true;
@@ -178,7 +178,7 @@ bool GSocket::acceptSocket(GSocket& _socket) {
     int lSize = sizeof(_socket.m_address);
     _socket.m_socket = accept(m_socket, (SOCKADDR*)&_socket.m_address, &lSize);
     if(_socket.m_socket == INVALID_SOCKET) {
-        GERROR->addError("Erreur la methode (acceptConnection) a echoue.");
+        GERROR_ADD->addError("Erreur la methode (acceptConnection) a echoue.");
         return false;
     }
     return true;
@@ -564,7 +564,7 @@ void GSocket::addClient(const std::string& _id, GSocket* _socket) {
         showMessage(sformat("nombre de clients (%d)", (int)m_clientMap.size()));
     }
     else {
-        GERROR->addError(sformat("Erreur la methode (addClient) a echoue "
+        GERROR_ADD->addError(sformat("Erreur la methode (addClient) a echoue "
                 "sur l'ID (%s).", _id.c_str()));
     }
 }

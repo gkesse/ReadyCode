@@ -556,7 +556,7 @@ void GTest::onRequestGetUser(GSocket* _client) {
 }
 //===============================================
 void GTest::onRequestError(GSocket* _client) {
-    GERROR(eGERR, QString("Erreur cet identifiant existe deja"));
-    GERROR(eGERR, QString("Erreur le mot de passe est incorrect"));
+    GERROR_ADD(eGERR, QString("Erreur cet identifiant existe deja"));
+    GERROR_ADD(eGERR, QString("Erreur le mot de passe est incorrect"));
 }
 //===============================================
