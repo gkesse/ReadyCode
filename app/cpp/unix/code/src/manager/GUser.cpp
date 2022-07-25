@@ -51,7 +51,7 @@ void GUser::deserialize(const std::string& _data, const std::string& _code) {
     m_password = lDom.getItem(_code, "password");
     m_group = lDom.getItem(_code, "group");
     m_active = lDom.getItem(_code, "active");
-    m_isConnect = lDom.getItem(_code, "is_connect");
+    m_isConnect = GString(lDom.getItem(_code, "is_connect")).toBool();
 }
 //===============================================
 bool GUser::onModule(GSocket* _client) {
