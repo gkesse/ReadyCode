@@ -31,6 +31,8 @@ create table if not exists _user (
     unique (_pseudo)
 );
 
+insert into _user  ( _pseudo, _password )  values ( 'gkesse', '613e1c1180be8c92bc3a6cad00c113d5' );
+
 -- ==============================================
 -- _code
 -- ==============================================
