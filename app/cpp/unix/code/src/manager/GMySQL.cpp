@@ -52,7 +52,7 @@ std::string GMySQL::loadDatabase(bool _isTestEnv) const {
 }
 //===============================================
 bool GMySQL::openDatabase() {
-    openDatabase(GEnv().isTestEnv());
+    if(!openDatabase(GEnv().isTestEnv())) return false;
     return true;
 }
 //===============================================
@@ -136,7 +136,7 @@ std::string GMySQL::readData(const std::string& _sql) {
 }
 //===============================================
 std::string GMySQL::readData(const std::string& _sql, bool _isTestEnv) {
-    readQuery(_sql, _isTestEnv);
+    if(!readQuery(_sql, _isTestEnv)) return "";
     std::string lData = "";
     while(m_res->next()) {
         lData = m_res->getString(1);
@@ -151,7 +151,7 @@ std::vector<std::string> GMySQL::readCol(const std::string& _sql) {
 //===============================================
 std::vector<std::string> GMySQL::readCol(const std::string& _sql, bool _isTestEnv) {
     std::vector<std::string> lDataMap;
-    readQuery(_sql, _isTestEnv);
+    if(!readQuery(_sql, _isTestEnv)) return "";
     while(m_res->next()) {
         std::string lData = m_res->getString(1);
         lDataMap.push_back(lData);
