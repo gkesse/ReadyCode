@@ -148,7 +148,8 @@ void GRequestUi::createLayout() {
     resize(lWidth, lHeight);
     setObjectName(lStyle);
 
-    addObj("login/ui", (void*)(new GLoginUi(this)));
+    GUser lUser;
+    addObj("login/ui", (void*)(new GLoginUi(&lUser, this)));
     addObj("search/ui", (void*)(new GSearchUi(this)));
 }
 //===============================================

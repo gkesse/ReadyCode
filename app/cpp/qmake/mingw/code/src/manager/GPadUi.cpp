@@ -7,6 +7,7 @@
 #include "GStyle.h"
 #include "GPicto.h"
 #include "GLog.h"
+#include "GUser.h"
 //===============================================
 GPadUi::GPadUi(QWidget* _parent) :
 GWidget(_parent) {
@@ -104,13 +105,15 @@ void GPadUi::createLayout() {
     setWindowIcon(QIcon(GRES("img", lLogo)));
     resize(lWidth, lHeight);
     setObjectName(lStyle);
+
+    m_user = new GUser(this);
 }
 //===============================================
 void GPadUi::onEvent() {
     QString lKey = getKey(sender());
     //
     if(lKey == "header/connect") {
-        QDialog* lLoginUi = new GLoginUi(this);
+        QDialog* lLoginUi = new GLoginUi(m_user, this);
         lLoginUi->exec();
         delete lLoginUi;
     }

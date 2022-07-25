@@ -19,6 +19,7 @@ GUser::GUser()
     m_passwordMd5 = "";
     m_group = "";
     m_active = "";
+    m_isConnect = false;
 }
 //===============================================
 GUser::~GUser() {
@@ -26,29 +27,31 @@ GUser::~GUser() {
 }
 //===============================================
 std::string GUser::serialize(const std::string& _code) const {
-    GCode lReq;
-    lReq.createDoc();
-    lReq.addData(_code, "id", m_id);
-    lReq.addData(_code, "mode", m_mode);
-    lReq.addData(_code, "email", m_email);
-    lReq.addData(_code, "pseudo", m_pseudo);
-    lReq.addData(_code, "password", m_password);
-    lReq.addData(_code, "group", m_group);
-    lReq.addData(_code, "active", m_active);
-    return lReq.toStringCode(_code);
+    GCode lDom;
+    lDom.createDoc();
+    lDom.addData(_code, "id", m_id);
+    lDom.addData(_code, "mode", m_mode);
+    lDom.addData(_code, "email", m_email);
+    lDom.addData(_code, "pseudo", m_pseudo);
+    lDom.addData(_code, "password", m_password);
+    lDom.addData(_code, "group", m_group);
+    lDom.addData(_code, "active", m_active);
+    lDom.addData(_code, "is_connect", m_isConnect);
+    return lDom.toStringData();
 }
 //===============================================
 void GUser::deserialize(const std::string& _data, const std::string& _code) {
     GModule::deserialize(_data);
-    GCode lReq;
-    lReq.loadXml(_data);
-    m_id = GString(lReq.getItem(_code, "id")).toInt();
-    m_mode = lReq.getItem(_code, "mode");
-    m_email = lReq.getItem(_code, "email");
-    m_pseudo = lReq.getItem(_code, "pseudo");
-    m_password = lReq.getItem(_code, "password");
-    m_group = lReq.getItem(_code, "group");
-    m_active = lReq.getItem(_code, "active");
+    GCode lDom;
+    lDom.loadXml(_data);
+    m_id = GString(lDom.getItem(_code, "id")).toInt();
+    m_mode = lDom.getItem(_code, "mode");
+    m_email = lDom.getItem(_code, "email");
+    m_pseudo = lDom.getItem(_code, "pseudo");
+    m_password = lDom.getItem(_code, "password");
+    m_group = lDom.getItem(_code, "group");
+    m_active = lDom.getItem(_code, "active");
+    m_isConnect = lDom.getItem(_code, "is_connect");
 }
 //===============================================
 bool GUser::onModule(GSocket* _client) {
@@ -91,15 +94,16 @@ bool GUser::runConnection() {
     if(m_id == 0) {GERROR_ADD(eGERR, "Le mot de passe est incorrect."); return false;}
     loadUser();
     GLOG_ADD(eGLOG, "La connexion a réussi.");
+    m_isConnect = true;
     return true;
 }
 //===============================================
 bool GUser::createAccount() {
     if(m_pseudo == "") {GERROR_ADD(eGERR, "Le nom d'utilisateur est obligatoire."); return false;}
-    if(m_pseudo.size() < 8) {GERROR_ADD(eGERR, "Le nom d'utilisateur doit faire au minimum 8 caractères."); return false;}
+    if(m_pseudo.size() < 4) {GERROR_ADD(eGERR, "Le nom d'utilisateur doit faire au minimum 4 caractères."); return false;}
     if(m_pseudo.size() > 50) {GERROR_ADD(eGERR, "Le nom d'utilisateur doit faire au maximum 50 caractères."); return false;}
     if(m_password == "") {GERROR_ADD(eGERR, "Le mot de passe est obligatoire."); return false;}
-    if(m_password.size() < 8) {GERROR_ADD(eGERR, "Le mot de passe doit faire au minimum 8 caractères."); return false;}
+    if(m_password.size() < 4) {GERROR_ADD(eGERR, "Le mot de passe doit faire au minimum 4 caractères."); return false;}
     if(m_password.size() > 50) {GERROR_ADD(eGERR, "Le mot de passe doit faire au maximum 50 caractères."); return false;}
     loadUserPseudo();
     if(m_id != 0) {GERROR_ADD(eGERR, "Le nom d'utilisateur existe déjà."); return false;}

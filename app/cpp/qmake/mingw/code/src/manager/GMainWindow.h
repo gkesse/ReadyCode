@@ -5,7 +5,7 @@
 #include "GInclude.h"
 //===============================================
 class GCode;
-class GError;
+class GUser;
 //===============================================
 class GMainWindow : public QMainWindow {
 	Q_OBJECT
@@ -30,7 +30,6 @@ public:
 protected:
     QMap<QString, void*> m_objs;
 	QSharedPointer<GCode> m_dom;
-    QSharedPointer<GError> m_errors;
 };
 //===============================================
 #endif

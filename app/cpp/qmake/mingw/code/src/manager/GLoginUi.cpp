@@ -8,8 +8,9 @@
 #include "GLog.h"
 #include "GUser.h"
 //===============================================
-GLoginUi::GLoginUi(QWidget* _parent)
-: GDialog(_parent) {
+GLoginUi::GLoginUi(GUser* _user, QWidget* _parent)
+: GDialog(_parent)
+, m_user(_user) {
     createDoms();
     createLayout();
 }
@@ -265,11 +266,10 @@ void GLoginUi::onConnect() {
         GERROR_ADD(eGERR, "Le mot de passe est obligatoire.");
     }
     else {
-        GUser lUser;
-        lUser.setPseudo(lUsername);
-        lUser.setPassword(lPassword);
+        m_user->setPseudo(lUsername);
+        m_user->setPassword(lPassword);
 
-        if(lUser.runConnection()) {
+        if(m_user->runConnection()) {
             accept();
         }
     }

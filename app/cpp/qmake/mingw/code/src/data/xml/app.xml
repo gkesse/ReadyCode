@@ -120,6 +120,17 @@
         		</data>
         		<data>
         			<category>titlebar</category>
+        			<model>button/picto</model>
+        			<text>Connexion</text>
+        			<picto>user</picto>
+        			<picto_color>#ffffff</picto_color>
+        			<tooltip>Se connecter</tooltip>
+        			<key>connection</key>
+        			<style>flat</style>
+        			<size>20</size>
+        		</data>
+        		<data>
+        			<category>titlebar</category>
         			<model>img</model>
         			<img>fullscreen.png</img>
         			<tooltip>Plein écran</tooltip>

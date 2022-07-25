@@ -4,6 +4,8 @@
 //===============================================
 #include "GMainWindow.h"
 //===============================================
+class GUser;
+//===============================================
 class GPadMdi : public GMainWindow {
 	Q_OBJECT
 
@@ -15,6 +17,8 @@ public:
     void onConnection();
     void onAccount();
     void onCv();
+    //
+    GUser* getUser() const;
 
 public slots:
     void onEvent(QAction* _action);
@@ -22,6 +26,7 @@ public slots:
 
 private:
     QMdiArea* m_mdiArea;
+    GUser* m_user;
 };
 //===============================================
 #endif

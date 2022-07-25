@@ -12,7 +12,6 @@ set "GPROJECT_DATA=%GPROJECT_SRC%\data"
 set "GPROJECT_TMP=%GPROJECT_DATA%\tmp"
 ::===============================================
 set "GPROJECT_ENV=TEST"
-set "LANG=fr_FR.UTF8"
 ::===============================================
 set "GGIT_URL=https://github.com/gkesse/ReadyCode.git"
 set "GGIT_NAME=ReadyCode"

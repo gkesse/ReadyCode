@@ -4,11 +4,13 @@
 //===============================================
 #include "GDialog.h"
 //===============================================
+class GUser;
+//===============================================
 class GLoginUi : public GDialog {
 	Q_OBJECT
 
 public:
-	GLoginUi(QWidget* _parent = 0);
+	GLoginUi(GUser* _user, QWidget* _parent = 0);
 	~GLoginUi();
 	void createLayout();
 	void onConnect();
@@ -21,6 +23,9 @@ public:
 public slots:
     void onEvent();
     void onEvent(const QString& _text);
+
+private:
+    GUser* m_user;
 };
 //===============================================
 #endif

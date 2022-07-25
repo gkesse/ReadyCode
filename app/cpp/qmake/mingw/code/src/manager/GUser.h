@@ -21,12 +21,14 @@ public:
     //
     bool runConnection();
     bool createAccount();
+    //
+    bool isConnect() const;
 
 private:
-    static GUser* m_instance;
     int m_id;
     QString m_pseudo;
     QString m_password;
+    bool m_isConnect;
 };
 //==============================================
 #endif

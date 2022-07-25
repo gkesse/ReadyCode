@@ -1,28 +1,31 @@
 //===============================================
-#include "GTitleBar.h"
+#include "GTitleBarApp.h"
 #include "GPadMdi.h"
+#include "GLoginUi.h"
 #include "GStyle.h"
 #include "GPath.h"
 #include "GPicto.h"
+#include "GLog.h"
+#include "GUser.h"
 //===============================================
-GTitleBar::GTitleBar(QWidget* _parent) :
-GWidget(_parent) {
+GTitleBarApp::GTitleBarApp(QWidget* _parent)
+: GWidget(_parent) {
     createDoms();
     createLayout();
 }
 //===============================================
-GTitleBar::~GTitleBar() {
+GTitleBarApp::~GTitleBarApp() {
 
 }
 //===============================================
-void GTitleBar::createLayout() {
+void GTitleBarApp::createLayout() {
     int lCount = countItem("pad/mdi");
-    m_mainWindow = parentWidget();
+    m_mainWindow = (GPadMdi*)parentWidget();
     m_mainWindow->installEventFilter(this);
 
     QHBoxLayout* lMainLayout = new QHBoxLayout;
     lMainLayout->setContentsMargins(5,  5,  5,  5);
-    lMainLayout->setSpacing(0);
+    lMainLayout->setSpacing(5);
 
     for(int i = 0; i < lCount; i++) {
         QString lCategory = getItem("pad/mdi", "category", i);
@@ -35,7 +38,6 @@ void GTitleBar::createLayout() {
         QString lKey = getItem("pad/mdi", "key", i);
         int lSize = getItem("pad/mdi", "size", i).toInt();
         //
-        if(lKey == "connection") continue;
         if(lKey == "help") continue;
         //
         if(lModel == "spacer") {
@@ -116,7 +118,7 @@ void GTitleBar::createLayout() {
     m_minimizeOn = false;
 }
 //===============================================
-void GTitleBar::onEvent() {
+void GTitleBarApp::onEvent() {
     QString lKey = getKey(sender());
     //
     if(lKey == "close") {
@@ -131,17 +133,25 @@ void GTitleBar::onEvent() {
     else if(lKey == "fullscreen") {
         onFullscreen();
     }
+    else if(lKey == "connection") {
+        onConnection();
+    }
+    else {
+        onErrorKey(lKey);
+    }
+    GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGERR);
 }
 //===============================================
-void GTitleBar::onClose() {
+void GTitleBarApp::onClose() {
     m_mainWindow->close();
 }
 //===============================================
-void GTitleBar::onMinimize() {
+void GTitleBarApp::onMinimize() {
     m_mainWindow->showMinimized();
 }
 //===============================================
-void GTitleBar::onMaximize() {
+void GTitleBarApp::onMaximize() {
     QPushButton* lFullscreen = (QPushButton*)getObj("fullscreen");
     QPushButton* lMaximize = (QPushButton*)getObj("maximize");
     //
@@ -159,7 +169,7 @@ void GTitleBar::onMaximize() {
     }
 }
 //===============================================
-void GTitleBar::onFullscreen() {
+void GTitleBarApp::onFullscreen() {
     QPushButton* lFullscreen = (QPushButton*)getObj("fullscreen");
     QPushButton* lMaximize = (QPushButton*)getObj("maximize");
     //
@@ -177,7 +187,14 @@ void GTitleBar::onFullscreen() {
     }
 }
 //===============================================
-void GTitleBar::mousePressEvent(QMouseEvent* event) {
+void GTitleBarApp::onConnection() {
+    GUser* lUser = m_mainWindow->getUser();
+    if(!lUser->isConnect()) {
+        m_mainWindow->onConnection();
+    }
+}
+//===============================================
+void GTitleBarApp::mousePressEvent(QMouseEvent* event) {
     if(event->button() == Qt::LeftButton) {
         setCursor(QCursor(Qt::SizeAllCursor));
         m_pressPos = event->pos();
@@ -186,12 +203,12 @@ void GTitleBar::mousePressEvent(QMouseEvent* event) {
     }
 }
 //===============================================
-void GTitleBar::mouseReleaseEvent(QMouseEvent* event) {
+void GTitleBarApp::mouseReleaseEvent(QMouseEvent* event) {
     setCursor(QCursor(Qt::ArrowCursor));
     m_pressFlag = false;
 }
 //===============================================
-void GTitleBar::mouseMoveEvent(QMouseEvent* event) {
+void GTitleBarApp::mouseMoveEvent(QMouseEvent* event) {
     if(m_pressFlag == true) {
         QPoint lCurrentPos = event->pos();
         QPoint lDiffPos = lCurrentPos - m_pressPos;
@@ -200,7 +217,7 @@ void GTitleBar::mouseMoveEvent(QMouseEvent* event) {
     }
 }
 //===============================================
-bool GTitleBar::eventFilter(QObject* _obj, QEvent* _event) {
+bool GTitleBarApp::eventFilter(QObject* _obj, QEvent* _event) {
     QPushButton* lLogo = (QPushButton*)getObj("logo");
     QPushButton* lTitle = (QPushButton*)getObj("title");
     //

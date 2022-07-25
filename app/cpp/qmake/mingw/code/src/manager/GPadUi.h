@@ -4,6 +4,8 @@
 //===============================================
 #include "GWidget.h"
 //===============================================
+class GUser;
+//===============================================
 class GPadUi : public GWidget {
 	Q_OBJECT
 
@@ -18,6 +20,9 @@ public slots:
 
 protected:
 	bool eventFilter(QObject* _obj, QEvent* _event);
+
+private:
+	GUser* m_user;
 };
 //===============================================
 #endif

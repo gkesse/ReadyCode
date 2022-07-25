@@ -1,5 +1,6 @@
 //===============================================
 #include "GPadMdi.h"
+#include "GTitleBarApp.h"
 #include "GLoginUi.h"
 #include "GAccountUi.h"
 #include "GCvUi.h"
@@ -7,6 +8,7 @@
 #include "GPath.h"
 #include "GPicto.h"
 #include "GLog.h"
+#include "GUser.h"
 //===============================================
 GPadMdi::GPadMdi(QWidget* _parent)
 : GMainWindow(_parent) {
@@ -15,10 +17,12 @@ GPadMdi::GPadMdi(QWidget* _parent)
 }
 //===============================================
 GPadMdi::~GPadMdi() {
-
+    delete m_user;
 }
 //===============================================
 void GPadMdi::createLayout() {
+    new GTitleBarApp(this);
+
     int lCount = countItem("pad/mdi");
     QString lBgColor = getItem("pad/mdi", "bg_color");
 
@@ -68,6 +72,8 @@ void GPadMdi::createLayout() {
     resize(500, 400);
 
     connect(m_mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)), this, SLOT(onEvent(QMdiSubWindow*)));
+
+    m_user = new GUser(this);
 }
 //===============================================
 void GPadMdi::onEvent(QAction* _action) {
@@ -96,7 +102,7 @@ void GPadMdi::onEvent(QMdiSubWindow* _window) {
 }
 //===============================================
 void GPadMdi::onConnection() {
-    GLoginUi* lLoginUi = new GLoginUi(this);
+    GLoginUi* lLoginUi = new GLoginUi(m_user, this);
     lLoginUi->exec();
 }
 //===============================================
@@ -112,5 +118,9 @@ void GPadMdi::onCv() {
     m_mdiArea->addSubWindow(lSub);
     lSub->setWindowTitle("Editeur de CV");
     lSub->show();
+}
+//===============================================
+GUser* GPadMdi::getUser() const {
+    return m_user;
 }
 //===============================================

@@ -9,6 +9,7 @@ GUser::GUser(QObject* _parent)
     m_id = 0;
     m_pseudo = "";
     m_password = "";
+    m_isConnect = false;
 }
 //===============================================
 GUser::~GUser() {
@@ -21,6 +22,7 @@ QString GUser::serialize(const QString& _code) const {
     lDom.addData(_code, "id", m_id);
     lDom.addData(_code, "pseudo", m_pseudo);
     lDom.addData(_code, "password", m_password);
+    lDom.addData(_code, "is_connect", m_isConnect);
     return lDom.toStringData();
 }
 //===============================================
@@ -31,6 +33,7 @@ void GUser::deserialize(const QString& _data, const QString& _code) {
     m_id = lDom.getItem(_code, "id").toInt();
     m_pseudo = lDom.getItem(_code, "pseudo");
     m_password = lDom.getItem(_code, "password");
+    m_isConnect = lDom.getItem(_code, "is_connect").toInt();
 }
 //===============================================
 void GUser::setId(int _id) {
@@ -73,5 +76,9 @@ bool GUser::createAccount() {
     lData = lClient.callServer("user", "create_account", lData);
     deserialize(lData);
     return !GLOGI->hasErrors();
+}
+//===============================================
+bool GUser::isConnect() const {
+    return m_isConnect;
 }
 //===============================================
