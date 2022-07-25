@@ -63,15 +63,9 @@ bool GMySQL::openDatabase(bool _isTestEnv) {
 }
 //===============================================
 bool GMySQL::openDatabase(const std::string& _protocol, const std::string& _hostname, const std::string& _port, const std::string& _username, const std::string& _password, const std::string& _database) {
-    try {
-        m_driver = get_driver_instance();
-        std::string lHostname = sformat("%s://%s:%s/%s", _protocol.c_str(), _hostname.c_str(), _port.c_str(), _database.c_str());
-        m_con.reset(m_driver->connect(lHostname, _username, _password));
-    }
-    catch(...) {
-        GERROR_ADD(eGERR, "Erreur lors de l'ouverture de la base de donnees.");
-        return false;
-    }
+    m_driver = get_driver_instance();
+    std::string lHostname = sformat("%s://%s:%s/%s", _protocol.c_str(), _hostname.c_str(), _port.c_str(), _database.c_str());
+    m_con.reset(m_driver->connect(lHostname, _username, _password));
     return true;
 }
 //===============================================
@@ -82,17 +76,9 @@ bool GMySQL::execQuery(const std::string& _sql) {
 //===============================================
 bool GMySQL::execQuery(const std::string& _sql, bool _isTestEnv) {
     GLOGT(eGMSG, "%s", _sql.c_str());
-
     if(openDatabase(_isTestEnv)) return false;
-
-    try {
-        m_stmt.reset(m_con->createStatement());
-        m_stmt->execute(_sql);
-    }
-    catch(...) {
-        GERROR_ADD(eGERR, "Erreur lors de l'exécution de la requête.");
-        return false;
-    }
+    m_stmt.reset(m_con->createStatement());
+    m_stmt->execute(_sql);
 
     return true;
 }
@@ -104,18 +90,9 @@ bool GMySQL::readQuery(const std::string& _sql) {
 //===============================================
 bool GMySQL::readQuery(const std::string& _sql, bool _isTestEnv) {
     GLOGT(eGMSG, "%s", _sql.c_str());
-
     if(!openDatabase(_isTestEnv)) return false;
-
-    try {
-        m_stmt.reset(m_con->createStatement());
-        m_res.reset(m_stmt->executeQuery(_sql));
-    }
-    catch(...) {
-        GERROR_ADD(eGERR, "Erreur lors de la sélection des données.");
-        return false;
-    }
-
+    m_stmt.reset(m_con->createStatement());
+    m_res.reset(m_stmt->executeQuery(_sql));
     return true;
 }
 //===============================================
