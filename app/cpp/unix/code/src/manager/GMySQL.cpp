@@ -76,7 +76,7 @@ bool GMySQL::execQuery(const std::string& _sql) {
 //===============================================
 bool GMySQL::execQuery(const std::string& _sql, bool _isTestEnv) {
     GLOGT(eGMSG, "%s", _sql.c_str());
-    if(openDatabase(_isTestEnv)) return false;
+    if(!openDatabase(_isTestEnv)) return false;
     m_stmt.reset(m_con->createStatement());
     m_stmt->execute(_sql);
     return true;
@@ -101,7 +101,7 @@ int GMySQL::getColumnCount() const {
 }
 //===============================================
 int GMySQL::getId() {
-    m_res.reset(m_stmt->executeQuery("select last_insert_id() as id"));
+    m_res.reset(m_stmt->executeQuery("select @@identity as id"));
     m_res->next();
     int lId = (int)m_res->getInt64("id");
     return lId;
