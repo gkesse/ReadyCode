@@ -178,15 +178,13 @@ bool GUser::insertUser() {
     if(m_pseudo == "") return false;
     if(m_passwordMd5 == "") return false;
 
-    GMySQL lMySQL;
-    lMySQL.execQuery(sformat(""
+    m_id = GMySQL().execQuery(sformat(""
             " insert into _user "
             " ( _pseudo, _password ) "
             " values ( '%s', '%s' ) "
             "", m_pseudo.c_str()
             , m_passwordMd5.c_str()
-    ));
-    m_id = lMySQL.getId();
+    )).getId();
 
     return true;
 }

@@ -20,8 +20,8 @@ public:
     bool openDatabase();
     bool openDatabase(bool _isTestEnv);
     bool openDatabase(const std::string& _protocol, const std::string& _hostname, const std::string& _port, const std::string& _username, const std::string& _password, const std::string& _database);
-    bool execQuery(const std::string& _sql);
-    bool execQuery(const std::string& _sql, bool _isTestEnv);
+    GMySQL& execQuery(const std::string& _sql);
+    GMySQL& execQuery(const std::string& _sql, bool _isTestEnv);
     bool readQuery(const std::string& _sql);
     bool readQuery(const std::string& _sql, bool _isTestEnv);
     int getColumnCount() const;

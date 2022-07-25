@@ -69,17 +69,17 @@ bool GMySQL::openDatabase(const std::string& _protocol, const std::string& _host
     return true;
 }
 //===============================================
-bool GMySQL::execQuery(const std::string& _sql) {
-    if(!execQuery(_sql, GEnv().isTestEnv())) return false;
-    return true;
+GMySQL& GMySQL::execQuery(const std::string& _sql) {
+    execQuery(_sql, GEnv().isTestEnv());
+    return *this;
 }
 //===============================================
-bool GMySQL::execQuery(const std::string& _sql, bool _isTestEnv) {
+GMySQL& GMySQL::execQuery(const std::string& _sql, bool _isTestEnv) {
     GLOGT(eGMSG, "%s", _sql.c_str());
-    if(!openDatabase(_isTestEnv)) return false;
+    openDatabase(_isTestEnv);
     m_stmt.reset(m_con->createStatement());
     m_stmt->execute(_sql);
-    return true;
+    return *this;
 }
 //===============================================
 bool GMySQL::readQuery(const std::string& _sql) {
