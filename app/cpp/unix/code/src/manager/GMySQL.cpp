@@ -136,8 +136,8 @@ std::string GMySQL::readData(const std::string& _sql) {
 }
 //===============================================
 std::string GMySQL::readData(const std::string& _sql, bool _isTestEnv) {
-    if(!readQuery(_sql, _isTestEnv)) return "";
     std::string lData = "";
+    if(!readQuery(_sql, _isTestEnv)) return lData;
     while(m_res->next()) {
         lData = m_res->getString(1);
         break;
@@ -151,7 +151,7 @@ std::vector<std::string> GMySQL::readCol(const std::string& _sql) {
 //===============================================
 std::vector<std::string> GMySQL::readCol(const std::string& _sql, bool _isTestEnv) {
     std::vector<std::string> lDataMap;
-    if(!readQuery(_sql, _isTestEnv)) return "";
+    if(!readQuery(_sql, _isTestEnv)) return lDataMap;
     while(m_res->next()) {
         std::string lData = m_res->getString(1);
         lDataMap.push_back(lData);
@@ -165,7 +165,7 @@ std::vector<std::string> GMySQL::readRow(const std::string& _sql) {
 //===============================================
 std::vector<std::string> GMySQL::readRow(const std::string& _sql, bool _isTestEnv) {
     std::vector<std::string> lDataMap;
-    readQuery(_sql, _isTestEnv);
+    if(!readQuery(_sql, _isTestEnv)) return lDataMap;
     int lColumns = getColumnCount();
     while(m_res->next()) {
         for(int i = 1; i <= lColumns; i++) {
@@ -183,7 +183,7 @@ std::vector<std::vector<std::string>> GMySQL::readMap(const std::string& _sql) {
 //===============================================
 std::vector<std::vector<std::string>> GMySQL::readMap(const std::string& _sql, bool _isTestEnv) {
     std::vector<std::vector<std::string>> lDataMap;
-    readQuery(_sql, _isTestEnv);
+    if(!readQuery(_sql, _isTestEnv)) return lDataMap;
     int lColumns = getColumnCount();
     while(m_res->next()) {
         std::vector<std::string> lDataRow;
