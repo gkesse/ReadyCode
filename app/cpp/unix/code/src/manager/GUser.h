@@ -17,9 +17,11 @@ public:
     bool onModule(GSocket* _client);
     void onCreateAccount(GSocket* _client);
     void onRunConnection(GSocket* _client);
+    void onRunDisconnection(GSocket* _client);
     //
     bool runConnection();
     bool createAccount();
+    bool runDisconnection();
     //
     bool loadUserPseudo();
     bool loadUserPassword();
@@ -28,6 +30,7 @@ public:
     bool saveUser();
     bool insertUser();
     bool updateUser();
+    bool updateConnection();
 
 private:
     int m_id;

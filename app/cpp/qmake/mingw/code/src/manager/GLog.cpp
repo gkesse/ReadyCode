@@ -197,7 +197,7 @@ void GLog::showErrors(const char* _name, int _level, const char* _file, int _lin
     if(!hasErrors()) return;
     QString lErrors = toStringError();
     GMessageBox* lMsgBox = new GMessageBox(_parent);
-    lMsgBox->setWindowTitle("Messages d'erreurs");
+    lMsgBox->setWindowTitle("Erreurs");
     if(m_isClientSide) {
         lMsgBox->setIcon(QMessageBox::Warning);
     }
@@ -213,7 +213,7 @@ void GLog::showLogs(const char* _name, int _level, const char* _file, int _line,
     if(!hasLogs()) return;
     QString lLogs = toStringLog();
     GMessageBox* lMsgBox = new GMessageBox(_parent);
-    lMsgBox->setWindowTitle("Messages de logs");
+    lMsgBox->setWindowTitle("Informations");
     if(m_isClientSide) {
         lMsgBox->setIcon(QMessageBox::Information);
     }

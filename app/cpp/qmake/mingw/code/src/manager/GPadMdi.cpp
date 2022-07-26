@@ -113,6 +113,7 @@ void GPadMdi::onConnection() {
     else {
         GLogoutUi* lLogoutUi = new GLogoutUi(m_user, this);
         lLogoutUi->exec();
+        delete lLogoutUi;
         if(!m_user->isConnect()) {
             delete m_user;
             m_user = new GUser(this);

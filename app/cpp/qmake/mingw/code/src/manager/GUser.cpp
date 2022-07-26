@@ -78,6 +78,15 @@ bool GUser::createAccount() {
     return !GLOGI->hasErrors();
 }
 //===============================================
+bool GUser::runDisconnection() {
+    if(GLOGI->hasErrors()) return false;
+    GSocket lClient;
+    QString lData = serialize();
+    lData = lClient.callServer("user", "run_disconnection", lData);
+    deserialize(lData);
+    return !GLOGI->hasErrors();
+}
+//===============================================
 void GUser::setIsConnect(bool _isConnect) {
     m_isConnect = _isConnect;
 }

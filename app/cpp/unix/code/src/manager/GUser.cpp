@@ -66,6 +66,9 @@ bool GUser::onModule(GSocket* _client) {
     else if(m_method == "run_connection") {
         onRunConnection(_client);
     }
+    else if(m_method == "run_disconnection") {
+        onRunDisconnection(_client);
+    }
     else {
         onMethodUnknown(_client);
     }
@@ -84,17 +87,31 @@ void GUser::onRunConnection(GSocket* _client) {
     _client->addResponse(lData);
 }
 //===============================================
+void GUser::onRunDisconnection(GSocket* _client) {
+    runDisconnection();
+    std::string lData = serialize();
+    _client->addResponse(lData);
+}
+//===============================================
 bool GUser::runConnection() {
     if(m_pseudo == "") {GERROR_ADD(eGERR, "Le nom d'utilisateur est obligatoire."); return false;}
     if(m_password == "") {GERROR_ADD(eGERR, "Le mot de passe est obligatoire."); return false;}
-    loadUserPseudo();
+    if(!loadUserPseudo()) return false;
     if(m_id == 0) {GERROR_ADD(eGERR, "Le nom d'utilisateur n'existe pas encore."); return false;}
-    computePassword();
-    loadUserPassword();
+    if(!computePassword()) return false;
+    if(!loadUserPassword()) return false;
     if(m_id == 0) {GERROR_ADD(eGERR, "Le mot de passe est incorrect."); return false;}
-    loadUser();
+    if(!loadUser()) return false;
     GLOG_ADD(eGLOG, "La connexion a réussi.");
     m_isConnect = true;
+    if(!updateConnection()) return false;
+    return true;
+}
+//===============================================
+bool GUser::runDisconnection() {
+    if(m_id == 0) {GERROR_ADD(eGERR, "L'identifiant est obligatoire."); return false;}
+    m_isConnect = false;
+    if(!updateConnection()) return false;
     return true;
 }
 //===============================================
@@ -105,10 +122,10 @@ bool GUser::createAccount() {
     if(m_password == "") {GERROR_ADD(eGERR, "Le mot de passe est obligatoire."); return false;}
     if(m_password.size() < 4) {GERROR_ADD(eGERR, "Le mot de passe doit faire au minimum 4 caractères."); return false;}
     if(m_password.size() > 50) {GERROR_ADD(eGERR, "Le mot de passe doit faire au maximum 50 caractères."); return false;}
-    loadUserPseudo();
+    if(!loadUserPseudo()) return false;
     if(m_id != 0) {GERROR_ADD(eGERR, "Le nom d'utilisateur existe déjà."); return false;}
-    computePassword();
-    saveUser();
+    if(!computePassword()) return false;
+    if(!saveUser()) return false;
     GLOG_ADD(eGLOG, "La création compte a réussi.");
     return true;
 }
@@ -201,6 +218,20 @@ bool GUser::updateUser() {
             " where _id = %d "
             "", m_pseudo.c_str()
             , m_passwordMd5.c_str()
+            , m_id
+    ));
+
+    return true;
+}
+//===============================================
+bool GUser::updateConnection() {
+    if( m_id == 0) return false;
+
+    GMySQL().execQuery(sformat(""
+            " update _user "
+            " set _connect = '%d' "
+            " where _id = %d "
+            "", m_isConnect
             , m_id
     ));
 
