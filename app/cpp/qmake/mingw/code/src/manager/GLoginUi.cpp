@@ -235,6 +235,7 @@ void GLoginUi::onEvent() {
         onErrorKey(lKey);
     }
     GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGLOG);
 }
 //===============================================
 void GLoginUi::onEvent(const QString& _text) {

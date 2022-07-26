@@ -126,7 +126,7 @@ bool GUser::createAccount() {
     if(m_id != 0) {GERROR_ADD(eGERR, "Le nom d'utilisateur existe déjà."); return false;}
     if(!computePassword()) return false;
     if(!saveUser()) return false;
-    GLOG_ADD(eGLOG, "La création compte a réussi.");
+    GLOG_ADD(eGLOG, "La création du compte a réussi.");
     return true;
 }
 //===============================================
