@@ -230,6 +230,7 @@ bool GUser::updateConnection() {
     GMySQL().execQuery(sformat(""
             " update _user "
             " set _connect = '%d' "
+            " , _d_connect = now() "
             " where _id = %d "
             "", m_isConnect
             , m_id

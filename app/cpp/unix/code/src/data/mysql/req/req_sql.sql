@@ -25,15 +25,13 @@ create table if not exists _user (
     _email varchar(50),
     _group varchar(50) default 'user',
     _active char(1) default '1',
+    _connect char(1) default '0',
+    _d_connect datetime,
     _c_date datetime default current_timestamp,
     _u_date datetime on update current_timestamp,
     primary key (_id),
     unique (_pseudo)
 );
-
-insert into _user  ( _pseudo, _password )  values ( 'gkesse', '613e1c1180be8c92bc3a6cad00c113d5' );
-
-SELECT LAST_INSERT_ID();
 
 -- ==============================================
 -- _code

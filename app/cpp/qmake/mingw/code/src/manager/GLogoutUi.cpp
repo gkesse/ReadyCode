@@ -22,7 +22,7 @@ int GLogoutUi::exec() {
     addButton(tr("Non"), QMessageBox::NoRole);
     GMessageBox::exec();
     if(clickedButton() == lYesButton) {
-        m_user->setIsConnect(false);
+        m_user->runDisconnection();
     }
     return 0;
 }

@@ -23,7 +23,6 @@ public:
     bool createAccount();
     bool runDisconnection();
     //
-    void setIsConnect(bool _isConnect);
     bool isConnect() const;
 
 private:
