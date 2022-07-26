@@ -5,6 +5,7 @@
 #include "GMainWindow.h"
 //===============================================
 class GUser;
+class GTitleBarApp;
 //===============================================
 class GPadMdi : public GMainWindow {
 	Q_OBJECT
@@ -26,6 +27,7 @@ public slots:
 
 private:
     QMdiArea* m_mdiArea;
+    GTitleBarApp* m_titleBar;
     GUser* m_user;
 };
 //===============================================

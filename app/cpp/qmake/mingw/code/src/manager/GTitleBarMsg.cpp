@@ -97,7 +97,6 @@ void GTitleBarMsg::createLayout() {
     setMinimumHeight(40);
 
     m_mainWindow->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);
-    m_mainWindow->setAttribute(Qt::WA_DeleteOnClose);
     m_mainWindow->setContentsMargins(0,  40,  0,  0);
 
     m_pressFlag = false;

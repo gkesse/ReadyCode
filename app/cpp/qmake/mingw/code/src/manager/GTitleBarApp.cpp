@@ -188,10 +188,12 @@ void GTitleBarApp::onFullscreen() {
 }
 //===============================================
 void GTitleBarApp::onConnection() {
-    GUser* lUser = m_mainWindow->getUser();
-    if(!lUser->isConnect()) {
-        m_mainWindow->onConnection();
-    }
+    m_mainWindow->onConnection();
+}
+//===============================================
+void GTitleBarApp::setPseudo(const QString& _pseudo) {
+    QPushButton* lConnection = (QPushButton*)getObj("connection");
+    lConnection->setText(_pseudo);
 }
 //===============================================
 void GTitleBarApp::mousePressEvent(QMouseEvent* event) {

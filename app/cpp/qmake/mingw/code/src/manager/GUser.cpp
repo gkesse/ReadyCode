@@ -78,6 +78,10 @@ bool GUser::createAccount() {
     return !GLOGI->hasErrors();
 }
 //===============================================
+void GUser::setIsConnect(bool _isConnect) {
+    m_isConnect = _isConnect;
+}
+//===============================================
 bool GUser::isConnect() const {
     return m_isConnect;
 }

@@ -115,6 +115,21 @@ QPushButton#flat:pressed {
 	background-color: transparent;
 }
 /* ============================================== */
+QPushButton#small {
+	background-color: transparent;
+	border: 2px solid #aaaaff;
+	padding: 2px 5px;
+	border-radius: 5px;
+	text-align: left;
+	font-size: 16px;
+}
+QPushButton#small:hover {
+	background-color: rgba(255, 255, 255, 0.2);
+}
+QPushButton#small:pressed {
+	background-color: transparent;
+}
+/* ============================================== */
 QPushButton#bgcolor {
 	background-color: rgba(255, 255, 255, 0.2);
 	border: none;

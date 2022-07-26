@@ -22,6 +22,7 @@ public:
     bool runConnection();
     bool createAccount();
     //
+    void setIsConnect(bool _isConnect);
     bool isConnect() const;
 
 private:

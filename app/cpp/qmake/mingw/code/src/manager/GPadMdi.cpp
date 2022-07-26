@@ -2,6 +2,7 @@
 #include "GPadMdi.h"
 #include "GTitleBarApp.h"
 #include "GLoginUi.h"
+#include "GLogoutUi.h"
 #include "GAccountUi.h"
 #include "GCvUi.h"
 #include "GStyle.h"
@@ -21,7 +22,7 @@ GPadMdi::~GPadMdi() {
 }
 //===============================================
 void GPadMdi::createLayout() {
-    new GTitleBarApp(this);
+    m_titleBar = new GTitleBarApp(this);
 
     int lCount = countItem("pad/mdi");
     QString lBgColor = getItem("pad/mdi", "bg_color");
@@ -102,8 +103,22 @@ void GPadMdi::onEvent(QMdiSubWindow* _window) {
 }
 //===============================================
 void GPadMdi::onConnection() {
-    GLoginUi* lLoginUi = new GLoginUi(m_user, this);
-    lLoginUi->exec();
+    if(!m_user->isConnect()) {
+        GLoginUi* lLoginUi = new GLoginUi(m_user, this);
+        lLoginUi->exec();
+        if(m_user->isConnect()) {
+            m_titleBar->setPseudo(m_user->getPseudo());
+        }
+    }
+    else {
+        GLogoutUi* lLogoutUi = new GLogoutUi(m_user, this);
+        lLogoutUi->exec();
+        if(!m_user->isConnect()) {
+            delete m_user;
+            m_user = new GUser(this);
+            m_titleBar->setPseudo("Connexion");
+        }
+    }
 }
 //===============================================
 void GPadMdi::onAccount() {
