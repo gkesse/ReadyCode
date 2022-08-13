@@ -26,14 +26,14 @@ GRequestUi::~GRequestUi() {
 //===============================================
 void GRequestUi::createLayout() {
     QHBoxLayout* lEmissionLayout = new QHBoxLayout;
-    lEmissionLayout->setMargin(0);
+    lEmissionLayout->setContentsMargins(0, 0, 0, 0);
     lEmissionLayout->setSpacing(10);
 
     QFrame* lEmissionTab = new QFrame;
     lEmissionTab->setLayout(lEmissionLayout);
 
     QHBoxLayout* lReceptionLayout = new QHBoxLayout;
-    lReceptionLayout->setMargin(0);
+    lReceptionLayout->setContentsMargins(0, 0, 0, 0);
     lReceptionLayout->setSpacing(10);
 
     QFrame* lReceptionTab = new QFrame;
@@ -45,18 +45,18 @@ void GRequestUi::createLayout() {
     lTabWidget->addTab(lReceptionTab, "Reception");
 
     QVBoxLayout* lButtonLayout = new QVBoxLayout;
-    lButtonLayout->setMargin(0);
+    lButtonLayout->setContentsMargins(0, 0, 0, 0);
     lButtonLayout->setSpacing(10);
 
     QHBoxLayout* lCenterLayout = new QHBoxLayout;
     lCenterLayout->addWidget(lTabWidget, 1);
     lCenterLayout->addLayout(lButtonLayout);
-    lCenterLayout->setMargin(0);
+    lCenterLayout->setContentsMargins(0, 0, 0, 0);
     lCenterLayout->setSpacing(10);
 
     QVBoxLayout* lMainLayout = new QVBoxLayout;
     lMainLayout->addLayout(lCenterLayout);
-    lMainLayout->setMargin(10);
+    lMainLayout->setContentsMargins(10, 10, 10, 10);
     lMainLayout->setSpacing(10);
 
     int lCount = countItem("request");

@@ -32,17 +32,17 @@ GSearchUi::~GSearchUi() {
 //===============================================
 void GSearchUi::createLayout() {
     QHBoxLayout* lTableLayout = new QHBoxLayout;
-    lTableLayout->setMargin(0);
+    lTableLayout->setContentsMargins(0, 0, 0, 0);
     lTableLayout->setSpacing(10);
 
     QVBoxLayout* lButtonLayout = new QVBoxLayout;
-    lButtonLayout->setMargin(0);
+    lButtonLayout->setContentsMargins(0, 0, 0, 0);
     lButtonLayout->setSpacing(10);
 
     QHBoxLayout* lMainLayout = new QHBoxLayout;
     lMainLayout->addLayout(lTableLayout, 1);
     lMainLayout->addLayout(lButtonLayout);
-    lMainLayout->setMargin(10);
+    lMainLayout->setContentsMargins(10, 10, 10, 10);
     lMainLayout->setSpacing(10);
 
     int lCount = countItem("search");

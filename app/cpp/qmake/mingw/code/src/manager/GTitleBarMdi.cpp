@@ -21,7 +21,7 @@ void GTitleBarMdi::createLayout() {
     m_mdiWindow->installEventFilter(this);
 
     QHBoxLayout* lMainLayout = new QHBoxLayout;
-    lMainLayout->setMargin(5);
+    lMainLayout->setContentsMargins(5, 5, 5, 5);
     lMainLayout->setSpacing(0);
 
     for(int i = 0; i < lCount; i++) {

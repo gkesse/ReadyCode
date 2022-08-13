@@ -21,19 +21,19 @@ void GAccountUi::createLayout() {
     new GTitleBarDialog(this);
 
     QHBoxLayout* lUsernameLayout = new QHBoxLayout;
-    lUsernameLayout->setMargin(0);
+    lUsernameLayout->setContentsMargins(0, 0, 0, 0);
     lUsernameLayout->setSpacing(0);
 
     QHBoxLayout* lPasswordLayout = new QHBoxLayout;
-    lPasswordLayout->setMargin(0);
+    lPasswordLayout->setContentsMargins(0, 0, 0, 0);
     lPasswordLayout->setSpacing(0);
 
     QHBoxLayout* lConfirmLayout = new QHBoxLayout;
-    lPasswordLayout->setMargin(0);
+    lPasswordLayout->setContentsMargins(0, 0, 0, 0);
     lPasswordLayout->setSpacing(0);
 
     QHBoxLayout* lButtonLayout = new QHBoxLayout;
-    lButtonLayout->setMargin(0);
+    lButtonLayout->setContentsMargins(0, 0, 0, 0);
     lButtonLayout->setSpacing(10);
 
     QVBoxLayout* lMainLayout = new QVBoxLayout;
@@ -41,7 +41,7 @@ void GAccountUi::createLayout() {
     lMainLayout->addLayout(lPasswordLayout);
     lMainLayout->addLayout(lConfirmLayout);
     lMainLayout->addLayout(lButtonLayout);
-    lMainLayout->setMargin(10);
+    lMainLayout->setContentsMargins(10, 10, 10, 10);
     lMainLayout->setSpacing(10);
 
     int lCount = countItem("account");

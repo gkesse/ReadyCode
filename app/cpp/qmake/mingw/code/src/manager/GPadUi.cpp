@@ -22,12 +22,12 @@ GPadUi::~GPadUi() {
 //===============================================
 void GPadUi::createLayout() {
     QHBoxLayout* lHeaderLayout = new QHBoxLayout;
-    lHeaderLayout->setMargin(0);
+    lHeaderLayout->setContentsMargins(0, 0, 0, 0);
     lHeaderLayout->setSpacing(10);
 
     QVBoxLayout* lMainLayout = new QVBoxLayout;
     lMainLayout->addLayout(lHeaderLayout);
-    lMainLayout->setMargin(10);
+    lMainLayout->setContentsMargins(10, 10, 10, 10);
     lMainLayout->setSpacing(10);
 
     int lCount = countItem("pad");

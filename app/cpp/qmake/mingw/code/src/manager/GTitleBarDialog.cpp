@@ -20,7 +20,7 @@ void GTitleBarDialog::createLayout() {
     m_mainWindow->installEventFilter(this);
 
     QHBoxLayout* lMainLayout = new QHBoxLayout;
-    lMainLayout->setMargin(5);
+    lMainLayout->setContentsMargins(5, 5, 5, 5);
     lMainLayout->setSpacing(0);
 
     for(int i = 0; i < lCount; i++) {

@@ -12,7 +12,7 @@ QMAKE_CXXFLAGS +=\
     -Wno-unused-parameter \
     -Wno-deprecated-declarations \
 
-GRLIB = C:\Users\Admin\Downloads\Programs\ReadyLib\dev\mingw
+GRLIB = $$(GPROJECT_ROOT)\ReadyLib\dev\mingw
 
 include($$GRLIB\src\qtawesome\QtAwesome.pri)
 
