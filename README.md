@@ -6,7 +6,7 @@ Ingénieur en Développement Informatique C/C++/Qt, Avec à la fois des compéte
 Pour prendre contacter avec moi :  
 * Site Web : [ReadyDev](http://readydev.ovh "Accédez à mon site web (ReadyDev)")
 * Email : [tiakagerard@hotmail.com](mailto:tiakagerard@hotmail.com?subject=Contact&body=Bonjour "Me contactez par email")
-* LinkedIn : [www.linkedin.com](https://www.linkedin.com/in/tia-gerard-kesse/ "Accédez à mon site web (ReadyDev)")
+* LinkedIn : [www.linkedin.com](https://www.linkedin.com/in/tia-gerard-kesse/ "Accédez à mon profil LinkedIn (Gerard KESSE)")
 * Localité : **Strasbourg - France**
 
 # Tutoriels
