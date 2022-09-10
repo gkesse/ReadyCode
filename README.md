@@ -63,7 +63,7 @@ Le langage **C** permet de créer des programmes informatiques procéduraux.
 Pour démarrer la programmation en C :
 
 * Consulter le tutoriel sur le langage **C**  
-[Apprendre la programmation en C](./app/c)  
+[Apprendre la programmation en C](https://github.com/gkesse/ReadyCode/tree/main/app/c)  
 
 # Langage C++
 
@@ -72,4 +72,4 @@ Le langage **C++** permet de créer des programmes informatiques orientés objet
 Pour démarrer la programmation en C++ :
 
 * Consulter le tutoriel sur le langage **C++**  
-[Apprendre la programmation en C++](./app/cpp)  
+[Apprendre la programmation en C++](https://github.com/gkesse/ReadyCode/tree/main/app/cpp)  
