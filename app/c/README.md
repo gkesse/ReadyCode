@@ -12,7 +12,7 @@ Pour prendre contact avec moi :
 
 Sommaire :
 
-* [Contenu](./)
+* [Contenu](https://github.com/gkesse/ReadyCode/tree/main/app)
 * [Apprendre la programmation en C](#apprendre-la-programmation-en-c)
 
 # Apprendre la programmation en C
