@@ -1,7 +1,7 @@
 # Auteur
 
 Je suis **Gérard KESSE**,  
-Ingénieur en Développement Informatique C/C++/Qt, Avec à la fois des compétences en Système Embarqué et en Robotique. Formé à Polytech'Montpellier, Je suis un professionnel de conception de projets logiciel applicatif ou embarqué dans les secteurs de l'Aéronautique, de la Robotique, des Drones et de la Vision par Ordinateur. Aussi, Je reste ouvert à d'autres types de secteurs tels que l'Energie et les Finances.
+Ingénieur en Développement Informatique **C/C++/Qt**, Avec à la fois des compétences en **Système Embarqué** et en **Robotique**. Formé à **Polytech'Montpellier**, Je suis un professionnel de conception de projets logiciel applicatif ou embarqué dans les secteurs de l'**Aéronautique**, de la **Robotique**, des **Drones** et de la **Vision par Ordinateur**. Aussi, Je reste ouvert à d'autres types de secteurs tels que l'**Energie** et les **Finances**.
 
 Pour prendre contact avec moi :
 
@@ -12,16 +12,29 @@ Pour prendre contact avec moi :
 
 # Windows
 
-Windows fournit un système d'exploitation qui facilite le développement de programmes informatiques.
+**Windows** fournit un système d'exploitation qui facilite le développement de programmes informatiques.
 
 Pour démarrer le développement de programmes informatiques sous Windows :
 
 * Téléchargez et Installez **Notepad++**  
 [https://notepad-plus-plus.org/downloads/](https://notepad-plus-plus.org/downloads/)  
+  
 * Téléchargez et Installez **Git**  
 [https://git-scm.com/downloads](https://git-scm.com/downloads)  
+  
 * Téléchargez et Installez **TortoiseGit**  
 [https://tortoisegit.org/download/](https://tortoisegit.org/download/)  
+
+# TortoiseGit
+
+**TortoiseGit** fournit une interface graphique qui facilite la gestion de versions de projets informatiques à partir de **Git**.
+
+Pour cloner un dépôt Git :
+
+* Créez un répertoire de travail (PROJECT_ROOT)
+* Faîtes un clic droit dans le répertoire de travail
+* Ouvrez l'interface de clonage  
+`TortoiseGit -> Clone`
 
 # Tutoriels
 * [Apprendre la programmation en C++](https://readydev.ovh/Tutoriels/Software_Development/Cpp/ "Apprendre la programmation en C++")  
@@ -44,3 +57,4 @@ Pour démarrer le développement de programmes informatiques sous Windows :
 *	Scripts
 	*	Shell
 	*	Batch
+
