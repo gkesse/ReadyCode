@@ -1,4 +1,4 @@
-# Auteur
+# Apprendre la programmation en C
 
 Je suis **Gérard KESSE**,  
 Ingénieur en Développement Informatique **C/C++/Qt**, Avec à la fois des compétences en **Système Embarqué** et en **Robotique**. Formé à **Polytech'Montpellier**, Je suis un professionnel de conception de projets logiciel applicatif ou embarqué dans les secteurs de l'**Aéronautique**, de la **Robotique**, des **Drones** et de la **Vision par Ordinateur**. Aussi, Je reste ouvert à d'autres types de secteurs tels que l'**Energie** et les **Finances**.
@@ -12,9 +12,9 @@ Pour prendre contact avec moi :
 
 Sommaire :
 
-* [Apprendre la programmation en C](#apprendre-la-programmation-en-c)
+* [Langage C](#langage-c)
 
-# Apprendre la programmation en C
+# Langage C
 
 Le langage **C** permet de créer des programmes informatiques procéduraux.
 
@@ -39,7 +39,7 @@ int main(int argc, char** _argv)
 //===============================================
 ```
 
-* Ecrire un script compilation (**compile.bat**)
+* Ecrire un script de compilation (**compile.bat**)
 ```
 @echo off
 ::===============================================
@@ -52,3 +52,6 @@ gcc -o main.exe main.o
 main.exe
 ::===============================================  
 ```  
+
+* Compiler et Exécuter le programme (Terminal)  
+`compile.bat`
