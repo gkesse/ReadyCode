@@ -3,11 +3,22 @@
 Je suis **Gérard KESSE**,  
 Ingénieur en Développement Informatique C/C++/Qt, Avec à la fois des compétences en Système Embarqué et en Robotique. Formé à Polytech'Montpellier, Je suis un professionnel de conception de projets logiciel applicatif ou embarqué dans les secteurs de l'Aéronautique, de la Robotique, des Drones et de la Vision par Ordinateur. Aussi, Je reste ouvert à d'autres types de secteurs tels que l'Energie et les Finances.
 
-Pour prendre contact avec moi : 
+Pour prendre contact avec moi :
+
 * Site Web : [ReadyDev](http://readydev.ovh "Accédez à mon site web (ReadyDev)")
 * Email : [tiakagerard@hotmail.com](mailto:tiakagerard@hotmail.com?subject=Contact&body=Bonjour "Me contactez par email")
-* LinkedIn : [https://www.linkedin.com/in/tia-gerard-kesse/](https://www.linkedin.com/in/tia-gerard-kesse/ "Accédez à mon profil LinkedIn (Gerard KESSE)")
+* LinkedIn : [https://www.linkedin.com/in/tia-gerard-kesse/](https://www.linkedin.com/in/tia-gerard-kesse/ "Me contactez par LinkedIn (Gerard KESSE)")
 * Localité : **Strasbourg - France**
+
+# Windows
+
+Windows fournit un système d'exploitation qui facilite le développement de programmes informatiques.
+
+Pour démarrer le développement de programmes informatiques sous Windows :
+
+* Télécharger et Installez Notepad++
+* Télécharger et Installez Git
+* Télécharger et Installez TortoiseGit
 
 # Tutoriels
 * [Apprendre la programmation en C++](https://readydev.ovh/Tutoriels/Software_Development/Cpp/ "Apprendre la programmation en C++")  
