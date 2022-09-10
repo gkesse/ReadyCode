@@ -1,15 +1,12 @@
-# ReadyCode
-Bibliothèque C/C++ pour le développement de logiciels applicatif.
-
 # Auteur
 
-Je suis 
-[Gerard KESSE](http://readydev.ovh/Presentation/ "Accédez à mon site web (ReadyDev)"),  
-Ingénieur en Développement Informatique C/C++/Qt,  
-Avec à la fois des compétences en Systèmes Embarqués et en Robotique.  
+Je suis Gérard KESSE,
+Ingénieur en Développement Informatique C/C++/Qt, Avec à la fois des compétences en Système Embarqué et en Robotique. Formé à Polytech'Montpellier, Je suis un professionnel de conception de projets logiciel applicatif ou embarqué dans les secteurs de l'Aéronautique, de la Robotique, des Drones et de la Vision par Ordinateur. Aussi, Je reste ouvert à d'autres types de secteurs tels que l'Energie et les Finances.
 
+Pour prendre contacter avec moi :  
 * Site Web : [ReadyDev](http://readydev.ovh "Accédez à mon site web (ReadyDev)")
 * Email : [tiakagerard@hotmail.com](mailto:tiakagerard@hotmail.com?subject=Contact&body=Bonjour "Me contactez par email")
+* LinkedIn : [www.linkedin.com](https://www.linkedin.com/in/tia-gerard-kesse/ "Accédez à mon site web (ReadyDev)")
 * Localité : **Strasbourg - France**
 
 # Tutoriels
