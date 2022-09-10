@@ -19,7 +19,7 @@ Sommaire :
 
 Le langage **C** permet de créer des programmes informatiques procéduraux.
 
-Pour démarrer la programmation en C sous Windows avec WinLib :
+Pour démarrer la programmation en **C** sous **Windows** avec **WinLib** :
 
 * Télécharger et Décompresser **WinLibs** dans un répertoire (**WINLIBS_ROOT**)  
 [https://winlibs.com/#download-release](https://winlibs.com/#download-release)  

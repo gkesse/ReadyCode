@@ -21,7 +21,7 @@ Sommaire :
 
 **Windows** fournit un système d'exploitation qui facilite le développement de programmes informatiques.
 
-Pour démarrer le développement de programmes informatiques sous Windows :
+Pour démarrer le développement de programmes informatiques sous **Windows** :
 
 * Télécharger et Installer **Notepad++**  
 [https://notepad-plus-plus.org/downloads/](https://notepad-plus-plus.org/downloads/)  
@@ -39,7 +39,7 @@ Pour démarrer le développement de programmes informatiques sous Windows :
 
 **TortoiseGit** fournit une interface graphique qui facilite la gestion de versions de projets informatiques à partir de **Git**.
 
-Pour cloner un dépôt Git :
+Pour cloner un dépôt **Git** :
 
 * Créer un répertoire de travail (**PROJECT_ROOT**)
 * Faire un clic droit dans le répertoire de travail
@@ -60,7 +60,7 @@ Pour cloner un dépôt Git :
 
 Le langage **C** permet de créer des programmes informatiques procéduraux.
 
-Pour démarrer la programmation en C :
+Pour démarrer la programmation en **C** :
 
 * Consulter le tutoriel sur le langage **C**  
 [Apprendre la programmation en C](https://github.com/gkesse/ReadyCode/tree/main/app/c)  
@@ -69,7 +69,7 @@ Pour démarrer la programmation en C :
 
 Le langage **C++** permet de créer des programmes informatiques orientés objet.
 
-Pour démarrer la programmation en C++ :
+Pour démarrer la programmation en **C++** :
 
 * Consulter le tutoriel sur le langage **C++**  
 [Apprendre la programmation en C++](https://github.com/gkesse/ReadyCode/tree/main/app/cpp)  
