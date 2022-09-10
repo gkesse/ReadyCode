@@ -36,7 +36,6 @@ void GCurl::setOption(int _option)
 //===============================================
 bool GCurl::getInfo(std::string& _info)
 {
-    std::string m_info;
     CURL* lCurl;
     CURLcode lRes;
 
@@ -48,7 +47,7 @@ bool GCurl::getInfo(std::string& _info)
         if(CURLE_OK == lRes)
         {
             char* lInfo;
-            lRes = curl_easy_getinfo(lCurl, CURLINFO_CONTENT_TYPE, &lInfo);
+            lRes = curl_easy_getinfo(lCurl, (CURLINFO)m_option, &lInfo);
 
             if((CURLE_OK == lRes) && lInfo)
             {
@@ -59,6 +58,7 @@ bool GCurl::getInfo(std::string& _info)
 
         curl_easy_cleanup(lCurl);
     }
+
     return false;
 }
 //===============================================

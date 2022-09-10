@@ -22,9 +22,9 @@ void GTest::run(int _argc, char** _argv)
     {
         runDefault(_argc, _argv);
     }
-    else if(lKey == "curl")
+    else if(lKey == "curl/info/get")
     {
-        runCurl(_argc, _argv);
+        runCurlInfoGet(_argc, _argv);
     }
     else
     {
@@ -37,7 +37,7 @@ void GTest::runDefault(int _argc, char** _argv)
     printf("Aucun process n'a été sélectionné.\n");
 }
 //===============================================
-void GTest::runCurl(int _argc, char** _argv)
+void GTest::runCurlInfoGet(int _argc, char** _argv)
 {
     printf("[ INFO ] : %s\n", __PRETTY_FUNCTION__);
     GCurl lCurl;
