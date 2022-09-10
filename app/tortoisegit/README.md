@@ -18,6 +18,7 @@ Sommaire :
 * [Cloner un dépôt Git](#cloner-un-depot-git)
 * [Changer de branche](#changer-de-branche)
 * [Créer une nouvelle branche](#creer-une-nouvelle-branche)
+* [Créer une cachette de changement](#creer-une-cachette-de-changement)
 
 # Apprendre TortoiseGit
 
@@ -47,3 +48,7 @@ et **TortoiseGit** comme interface graphique de gestion de versions de projets v
 # Créer une nouvelle branche
 
 ![creer_branche.gif](./img/creer_branche.gif)
+
+# Créer une cachette de changement
+
+![creer_cachette_changement.gif](./img/creer_cachette_changement.gif)
