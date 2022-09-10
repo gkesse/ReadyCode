@@ -16,9 +16,10 @@ Windows fournit un système d'exploitation qui facilite le développement de pro
 
 Pour démarrer le développement de programmes informatiques sous Windows :
 
-* Télécharger et Installez Notepad++
-* Télécharger et Installez Git
-* Télécharger et Installez TortoiseGit
+* Téléchargez et Installez **Notepad++**
+[https://notepad-plus-plus.org/downloads/]
+* Téléchargez et Installez **Git**
+* Téléchargez et Installez **TortoiseGit**
 
 # Tutoriels
 * [Apprendre la programmation en C++](https://readydev.ovh/Tutoriels/Software_Development/Cpp/ "Apprendre la programmation en C++")  
