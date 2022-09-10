@@ -5,14 +5,16 @@ GBUILD = build
 GTARGET = bin\rdcpp.exe
 GRLIB = ../../incs
 #================================================
-GRLIB =
+GRLIB = ${GPROJECT_ROOT}\ReadyLib\dev\mingw
 #================================================
 GINCS =\
     -I$(GSRC)/manager \
     -I$(GRLIB)/include \
 	
 GLIBS =\
-	
+    -L$(GRLIB)/lib \
+    -lcurl \
+    
 GOBJS =\
     $(patsubst $(GSRC)/%.cpp, $(GBUILD)/%.o, $(wildcard $(GSRC)/*.cpp)) \
     $(patsubst $(GSRC)/manager/%.cpp, $(GBUILD)/%.o, $(wildcard $(GSRC)/manager/*.cpp)) \

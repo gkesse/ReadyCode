@@ -1,17 +1,14 @@
 //===============================================
-#ifndef _GProcess_
-#define _GProcess_
+#ifndef _GObject_
+#define _GObject_
 //===============================================
-#include "GObject.h"
+#include "GInclude.h"
 //===============================================
-class GProcess : public GObject
+class GObject
 {
 public:
-    GProcess();
-    ~GProcess();
-    void run(int _argc, char** _argv);
-    void runDefault(int _argc, char** _argv);
-    void runTest(int _argc, char** _argv);
+    GObject();
+    ~GObject();
 };
 //===============================================
 #endif

@@ -2,6 +2,7 @@
 ::===============================================
 set "PATH="
 set "PATH=C:\Users\tiaka\Downloads\eTools\eBin\winlibs\mingw64\bin;%PATH%"
+set "PATH=C:\Users\tiaka\Downloads\eTools\ePrograms\ReadyLib\dev\mingw\bin;%PATH%"
 ::===============================================
 set "GPROJECT_ROOT=C:\Users\tiaka\Downloads\eTools\ePrograms"
 set "GPROJECT_PATH=%GPROJECT_ROOT%\ReadyCode"

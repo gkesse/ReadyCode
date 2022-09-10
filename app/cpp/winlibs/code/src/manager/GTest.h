@@ -1,17 +1,17 @@
 //===============================================
-#ifndef _GProcess_
-#define _GProcess_
+#ifndef _GTest_
+#define _GTest_
 //===============================================
 #include "GObject.h"
 //===============================================
-class GProcess : public GObject
+class GTest : public GObject
 {
 public:
-    GProcess();
-    ~GProcess();
+    GTest();
+    ~GTest();
     void run(int _argc, char** _argv);
     void runDefault(int _argc, char** _argv);
-    void runTest(int _argc, char** _argv);
+    void runCurl(int _argc, char** _argv);
 };
 //===============================================
 #endif
