@@ -33,13 +33,13 @@ Pour cloner un dépôt Git :
 
 * Créer un répertoire de travail (**PROJECT_ROOT**)
 * Faire un clic droit dans le répertoire de travail
-  
+
 * Ouvrir l'interface de clonage  
 `TortoiseGit -> Clone`
 
 * Définir l'URL source  
 `URL -> https://github.com/gkesse/ReadyCode.git`
-  
+
 * Définir le répertoire de destinnation  
 `Directory -> PROJECT_ROOT\ReadyCode`
 
