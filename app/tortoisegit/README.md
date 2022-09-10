@@ -19,6 +19,7 @@ Sommaire :
 * [Changer de branche](#changer-de-branche)
 * [Créer une nouvelle branche](#créer-une-nouvelle-branche)
 * [Créer une cachette de changement](#créer-une-cachette-de-changement)
+* [Récupérer une cachette de changement](#récupérer-une-cachette-de-changement)
 
 # Apprendre TortoiseGit
 
@@ -52,3 +53,7 @@ et **TortoiseGit** comme interface graphique de gestion de versions de projets v
 # Créer une cachette de changement
 
 ![creer_cachette_changement.gif](./img/creer_cachette_changement.gif)
+
+# Récupérer une cachette de changement
+
+![recuperer_cachette_changement.gif](./img/recuperer_cachette_changement.gif)
