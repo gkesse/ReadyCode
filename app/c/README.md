@@ -12,6 +12,7 @@ Pour prendre contact avec moi :
 
 Sommaire :
 
+* [Contenu](./)
 * [Apprendre la programmation en C](#apprendre-la-programmation-en-c)
 
 # Apprendre la programmation en C
