@@ -30,7 +30,7 @@ Pour démarrer la programmation en **C** sous **Windows** avec **WinLib** :
 * Ecrire un programme C (**main.c**)  
 ```
 //===============================================
-# include <stdio.h>
+#include <stdio.h>
 //===============================================
 int main(int argc, char** _argv)
 {
