@@ -62,38 +62,8 @@ Le langage **C** permet de créer des programmes informatiques procéduraux.
 
 Pour démarrer la programmation en C sous Windows avec WinLib :
 
-* Télécharger et Décompresser **WinLibs** dans un répertoire (**WINLIBS_ROOT**)  
-[https://winlibs.com/#download-release](https://winlibs.com/#download-release)  
-
-* Télécharger et Installer **Notepad++**  
-[https://notepad-plus-plus.org/downloads/](https://notepad-plus-plus.org/downloads/)  
-
-* Ecrire un programme C (**main.c**)  
-```
-//===============================================
-# include <stdio.h>
-//===============================================
-int main(int argc, char** _argv)
-{
-    printf("Bonjour tout le monde\n");
-    return 0;
-}
-//===============================================
-```
-
-* Ecrire un script compilation (**compile.bat**)
-```
-@echo off
-::===============================================
-set "PATH="
-set "PATH=WINLIBS_ROOT\bin;%PATH%"
-::===============================================
-gcc -c main.c -o main.o
-gcc -o main.exe main.o
-::===============================================
-main.exe
-::===============================================  
-```  
+* Consulter le tutoriel sur le langage **C**  
+[Langage C](./app/c#langage-c)  
 
 # Langage C++
 
@@ -101,5 +71,5 @@ Le langage **C++** permet de créer des programmes informatiques orientés objet
 
 Pour démarrer la programmation en C++ sous Windows avec WinLib :
 
-* Télécharger et Installer **WinLib**  
-[https://winlibs.com/#download-release](https://winlibs.com/#download-release)  
+* Consulter le tutoriel sur le langage **C++**  
+[Langage C++](./app/c++#langage-c)  
