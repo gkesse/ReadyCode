@@ -36,5 +36,5 @@ et **TortoiseGit** comme interface graphique de gestion de versions de projets v
 
 # Cloner un dépôt Git
 
-![cloner_depot.gif](./img/cloner_depot.gif "cloner_depot.gif")
+![cloner_depot.gif](./img/cloner_depot.gif)
 
