@@ -23,6 +23,7 @@ Sommaire :
 
 # Apprendre TortoiseGit
 
+Le but de ce tutoriel est vous apprendre **TortoiseGit**.  
 Dans ce tutoriel, nous utiliserons **Git** comme système de gestion de versions de projets,
 **Notepad++** comme éditeur de texte par défaut de **Git**
 et **TortoiseGit** comme interface graphique de gestion de versions de projets via **Git**.
