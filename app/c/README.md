@@ -12,9 +12,9 @@ Pour prendre contact avec moi :
 
 Sommaire :
 
-* [Langage C](#langage-c)
+* [Apprendre la programmation en C](#apprendre-la-programmation-en-c)
 
-# Langage C
+# Apprendre la programmation en C
 
 Le langage **C** permet de créer des programmes informatiques procéduraux.
 

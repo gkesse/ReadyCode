@@ -63,7 +63,7 @@ Le langage **C** permet de créer des programmes informatiques procéduraux.
 Pour démarrer la programmation en C :
 
 * Consulter le tutoriel sur le langage **C**  
-[Apprendre la programmation en C](./app/c#langage-c)  
+[Apprendre la programmation en C](./app/c#apprendre-la-programmation-en-c)  
 
 # Langage C++
 
@@ -72,4 +72,4 @@ Le langage **C++** permet de créer des programmes informatiques orientés objet
 Pour démarrer la programmation en C++ :
 
 * Consulter le tutoriel sur le langage **C++**  
-[Apprendre la programmation en C](./app/c++#langage-c)  
+[Apprendre la programmation en C++](./app/cpp#apprendre-la-programmation-en-c)  
