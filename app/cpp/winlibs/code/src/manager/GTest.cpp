@@ -1,5 +1,6 @@
 //===============================================
 #include "GTest.h"
+#include "GCurl.h"
 //===============================================
 GTest::GTest()
 : GObject()
@@ -38,26 +39,14 @@ void GTest::runDefault(int _argc, char** _argv)
 //===============================================
 void GTest::runCurl(int _argc, char** _argv)
 {
-    printf("Test du module CURL.\n");
-    CURL *curl;
-    CURLcode res;
-
-    curl = curl_easy_init();
-    if(curl) {
-      curl_easy_setopt(curl, CURLOPT_URL, "https://www.example.com/");
-      res = curl_easy_perform(curl);
-
-      if(CURLE_OK == res) {
-        char *ct;
-        /* ask for the content-type */
-        res = curl_easy_getinfo(curl, CURLINFO_CONTENT_TYPE, &ct);
-
-        if((CURLE_OK == res) && ct)
-          printf("We received Content-Type: %s\n", ct);
-      }
-
-      /* always cleanup */
-      curl_easy_cleanup(curl);
+    printf("[ INFO ] : %s\n", __PRETTY_FUNCTION__);
+    GCurl lCurl;
+    lCurl.setUrl("http://web.simmons.edu/");
+    lCurl.setOption(CURLINFO_CONTENT_TYPE);
+    std::string lInfo;
+    if(lCurl.getInfo(lInfo))
+    {
+        printf("[ DATA ] : %s\n", lInfo.c_str());
     }
 }
 //===============================================
