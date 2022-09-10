@@ -1,12 +1,12 @@
 # Auteur
 
-Je suis Gérard KESSE,
+Je suis **Gérard KESSE**,  
 Ingénieur en Développement Informatique C/C++/Qt, Avec à la fois des compétences en Système Embarqué et en Robotique. Formé à Polytech'Montpellier, Je suis un professionnel de conception de projets logiciel applicatif ou embarqué dans les secteurs de l'Aéronautique, de la Robotique, des Drones et de la Vision par Ordinateur. Aussi, Je reste ouvert à d'autres types de secteurs tels que l'Energie et les Finances.
 
-Pour prendre contacter avec moi : 
+Pour prendre contact avec moi : 
 * Site Web : [ReadyDev](http://readydev.ovh "Accédez à mon site web (ReadyDev)")
 * Email : [tiakagerard@hotmail.com](mailto:tiakagerard@hotmail.com?subject=Contact&body=Bonjour "Me contactez par email")
-* LinkedIn : [www.linkedin.com](https://www.linkedin.com/in/tia-gerard-kesse/ "Accédez à mon profil LinkedIn (Gerard KESSE)")
+* LinkedIn : [https://www.linkedin.com/in/tia-gerard-kesse/](https://www.linkedin.com/in/tia-gerard-kesse/ "Accédez à mon profil LinkedIn (Gerard KESSE)")
 * Localité : **Strasbourg - France**
 
 # Tutoriels
