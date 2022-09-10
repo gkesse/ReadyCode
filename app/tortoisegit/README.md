@@ -15,10 +15,10 @@ Sommaire :
 * [Contenu](https://github.com/gkesse/ReadyCode)
 * [Apprendre TortoiseGit](#apprendre-tortoisegit)
 * [Installer TortoiseGit sous Windows](#installer-tortoisegit-sous-windows)
-* [Cloner un dépôt Git](#cloner-un-depot-git)
+* [Cloner un dépôt Git](#cloner-un-dépôt-git)
 * [Changer de branche](#changer-de-branche)
-* [Créer une nouvelle branche](#creer-une-nouvelle-branche)
-* [Créer une cachette de changement](#creer-une-cachette-de-changement)
+* [Créer une nouvelle branche](#créer-une-nouvelle-branche)
+* [Créer une cachette de changement](#créer-une-cachette-de-changement)
 
 # Apprendre TortoiseGit
 
