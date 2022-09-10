@@ -43,6 +43,9 @@ Pour cloner un dépôt Git :
 * Définir le répertoire de destinnation  
 `Directory -> PROJECT_ROOT\ReadyCode`
 
+* Démarrer le clonage 
+`OK`
+
 # Tutoriels
 * [Apprendre la programmation en C++](https://readydev.ovh/Tutoriels/Software_Development/Cpp/ "Apprendre la programmation en C++")  
 * [Programmation système embarqué avec le 8051](https://readydev.ovh/Tutoriels/Embedded_System/8051/ "Programmation système embarqué avec le 8051")  
