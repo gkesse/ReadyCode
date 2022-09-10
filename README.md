@@ -5,9 +5,9 @@ Ingénieur en Développement Informatique **C/C++/Qt**, Avec à la fois des comp
 
 Pour prendre contact avec moi :
 
-* Site Web : [ReadyDev](http://readydev.ovh "Accédez à mon site web (ReadyDev)")
-* Email : [tiakagerard@hotmail.com](mailto:tiakagerard@hotmail.com?subject=Contact&body=Bonjour "Me contactez par email")
-* LinkedIn : [https://www.linkedin.com/in/tia-gerard-kesse/](https://www.linkedin.com/in/tia-gerard-kesse/ "Me contactez par LinkedIn (Gerard KESSE)")
+* Site Web : [ReadyDev](http://readydev.ovh "Accéder à mon site web (ReadyDev)")
+* Email : [tiakagerard@hotmail.com](mailto:tiakagerard@hotmail.com?subject=Contact&body=Bonjour "Me contacter par email")
+* LinkedIn : [https://www.linkedin.com/in/tia-gerard-kesse/](https://www.linkedin.com/in/tia-gerard-kesse/ "Me contacter par LinkedIn (Gerard KESSE)")
 * Localité : **Strasbourg - France**
 
 # Windows
@@ -16,13 +16,13 @@ Pour prendre contact avec moi :
 
 Pour démarrer le développement de programmes informatiques sous Windows :
 
-* Téléchargez et Installez **Notepad++**  
+* Télécharger et Installer **Notepad++**  
 [https://notepad-plus-plus.org/downloads/](https://notepad-plus-plus.org/downloads/)  
   
-* Téléchargez et Installez **Git**  
+* Télécharger et Installer **Git**  
 [https://git-scm.com/downloads](https://git-scm.com/downloads)  
   
-* Téléchargez et Installez **TortoiseGit**  
+* Télécharger et Installer **TortoiseGit**  
 [https://tortoisegit.org/download/](https://tortoisegit.org/download/)  
 
 # TortoiseGit
@@ -31,10 +31,17 @@ Pour démarrer le développement de programmes informatiques sous Windows :
 
 Pour cloner un dépôt Git :
 
-* Créez un répertoire de travail (PROJECT_ROOT)
-* Faîtes un clic droit dans le répertoire de travail
-* Ouvrez l'interface de clonage  
+* Créer un répertoire de travail (**PROJECT_ROOT**)
+* Faire un clic droit dans le répertoire de travail
+  
+* Ouvrir l'interface de clonage  
 `TortoiseGit -> Clone`
+
+* Définir l'URL source  
+`URL -> https://github.com/gkesse/ReadyCode.git`
+  
+* Définir le répertoire de destinnation  
+`Directory -> PROJECT_ROOT\ReadyCode`
 
 # Tutoriels
 * [Apprendre la programmation en C++](https://readydev.ovh/Tutoriels/Software_Development/Cpp/ "Apprendre la programmation en C++")  
