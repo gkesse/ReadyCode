@@ -25,6 +25,10 @@ Pour démarrer le développement de programmes informatiques sous Windows :
 * Télécharger et Installer **TortoiseGit**  
 [https://tortoisegit.org/download/](https://tortoisegit.org/download/)  
 
+[lien afficher](#nomAncre)
+
+# Titre <a id="nomAncre"></a>
+
 # TortoiseGit
 
 **TortoiseGit** fournit une interface graphique qui facilite la gestion de versions de projets informatiques à partir de **Git**.
@@ -43,7 +47,7 @@ Pour cloner un dépôt Git :
 * Définir le répertoire de destinnation  
 `Directory -> PROJECT_ROOT\ReadyCode`
 
-* Démarrer le clonage 
+* Démarrer le clonage  
 `OK`
 
 # Tutoriels
