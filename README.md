@@ -10,6 +10,13 @@ Pour prendre contact avec moi :
 * LinkedIn : [https://www.linkedin.com/in/tia-gerard-kesse/](https://www.linkedin.com/in/tia-gerard-kesse/ "Me contacter par LinkedIn (Gerard KESSE)")
 * Localité : **Strasbourg - France**
 
+Sommaire :
+
+* [Windows](#windows)
+* [TortoiseGit](#tortoisegit)
+* [Langage C](#langage-c)
+* [Langage C++](#langage-c++)
+
 # Windows
 
 **Windows** fournit un système d'exploitation qui facilite le développement de programmes informatiques.
@@ -24,10 +31,6 @@ Pour démarrer le développement de programmes informatiques sous Windows :
   
 * Télécharger et Installer **TortoiseGit**  
 [https://tortoisegit.org/download/](https://tortoisegit.org/download/)  
-
-[lien afficher](#nomAncre)
-
-# Titre <a id="nomAncre"></a>
 
 # TortoiseGit
 
@@ -49,6 +52,11 @@ Pour cloner un dépôt Git :
 
 * Démarrer le clonage  
 `OK`
+
+# Langage C
+
+# Langage C++
+
 
 # Tutoriels
 * [Apprendre la programmation en C++](https://readydev.ovh/Tutoriels/Software_Development/Cpp/ "Apprendre la programmation en C++")  
