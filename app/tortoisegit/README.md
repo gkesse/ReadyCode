@@ -17,6 +17,7 @@ Sommaire :
 * [Installer TortoiseGit sous Windows](#installer-tortoisegit-sous-windows)
 * [Cloner un dépôt Git](#cloner-un-depot-git)
 * [Changer de branche](#changer-de-branche)
+* [Créer une nouvelle branche](#creer-une-nouvelle-branche)
 
 # Apprendre TortoiseGit
 
@@ -43,3 +44,6 @@ et **TortoiseGit** comme interface graphique de gestion de versions de projets v
 
 ![changer_branche.gif](./img/changer_branche.gif)
 
+# Créer une nouvelle branche
+
+![creer_branche.gif](./img/creer_branche.gif)
