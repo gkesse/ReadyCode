@@ -15,7 +15,7 @@ Sommaire :
 * [Windows](#windows)
 * [TortoiseGit](#tortoisegit)
 * [Langage C](#langage-c)
-* [Langage C++](#langage-c++)
+* [Langage C++](#langage-c1)
 
 # Windows
 
@@ -31,6 +31,9 @@ Pour démarrer le développement de programmes informatiques sous Windows :
   
 * Télécharger et Installer **TortoiseGit**  
 [https://tortoisegit.org/download/](https://tortoisegit.org/download/)  
+
+* Télécharger et Installer **7-Zip**  
+[https://www.7-zip.org/](https://www.7-zip.org/)  
 
 # TortoiseGit
 
@@ -55,28 +58,48 @@ Pour cloner un dépôt Git :
 
 # Langage C
 
+Le langage **C** permet de créer des programmes informatiques procéduraux.
+
+Pour démarrer la programmation en C sous Windows avec WinLib :
+
+* Télécharger et Décompresser **WinLibs** dans un répertoire (**WINLIBS_ROOT**) 
+[https://winlibs.com/#download-release](https://winlibs.com/#download-release)  
+
+* Télécharger et Installer **Notepad++**  
+[https://notepad-plus-plus.org/downloads/](https://notepad-plus-plus.org/downloads/)  
+
+* Ecrire un programme C (**main.c**)  
+```
+//===============================================
+# include <stdio.h>
+//===============================================
+int main(int argc, char** _argv)
+{
+    printf("Bonjour tout le monde\n");
+    return 0;
+}
+//===============================================
+```
+
+* Ecrire un script compilation (**compile.bat**)
+```
+@echo off
+::===============================================
+set "PATH="
+set "PATH=C:\Users\tiaka\Downloads\eTools\eBin\winlibs\mingw64\bin;%PATH%"
+::===============================================
+gcc -c main.c -o main.o
+gcc -o main.exe main.o
+::===============================================
+main.exe
+::===============================================  
+```  
+
 # Langage C++
 
+Le langage **C++** permet de créer des programmes informatiques orientés objet.
 
-# Tutoriels
-* [Apprendre la programmation en C++](https://readydev.ovh/Tutoriels/Software_Development/Cpp/ "Apprendre la programmation en C++")  
-* [Programmation système embarqué avec le 8051](https://readydev.ovh/Tutoriels/Embedded_System/8051/ "Programmation système embarqué avec le 8051")  
+Pour démarrer la programmation en C++ sous Windows avec WinLib :
 
-# Modules
-*	Connexion d'un utilisateur
-	*	![alt login.png](https://raw.githubusercontent.com/gkesse/ReadyCode/main/img/login.png "Connexion d'un utilisateur")
-
-# Environnements
-* 	Langage : C++
-	*	Interface Homme-Machine : Qt
-	* 	Pictogramme : QtAwesome
-	*	Manipulation de données XML : LibXml2
-	*	Vision par Ordinateur : OpenCV
-	*	Base de données : MySQL
-*	Système de gestion de versions
-	*	Git
-	*	TortoiseGit
-*	Scripts
-	*	Shell
-	*	Batch
-
+* Télécharger et Installer **WinLib**  
+[https://winlibs.com/#download-release](https://winlibs.com/#download-release)  
