@@ -38,7 +38,7 @@ void GTestPoco::runPing(int _argc, char** _argv) {
     lPoco.setKey("ping");
     lPoco.setFamily(Poco::Net::IPAddress::IPv4);
     lPoco.setRepetition(4);
-    lPoco.setHostname("readydev.ovh");
+    lPoco.setHostname("localhsot");
 
     try {
         lPoco.init(_argc, _argv);
