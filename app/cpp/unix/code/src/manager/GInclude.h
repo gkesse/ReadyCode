@@ -47,6 +47,10 @@
 #include <Poco/Net/Context.h>
 #include <Poco/Net/ICMPClient.h>
 #include <Poco/Net/IPAddress.h>
+#include <Poco/Net/TCPServer.h>
+#include <Poco/Net/TCPServerConnection.h>
+#include <Poco/Net/StreamSocket.h>
+#include <Poco/Net/TCPServerConnectionFactory.h>
 //
 #include <Poco/Util/Application.h>
 //
@@ -54,6 +58,9 @@
 #include <Poco/SharedPtr.h>
 #include <Poco/Path.h>
 #include <Poco/Exception.h>
+#include <Poco/NamedEvent.h>
+#include <Poco/Process.h>
+#include <Poco/Logger.h>
 // libs
 #include <base64.hpp>
 #include <md5.h>

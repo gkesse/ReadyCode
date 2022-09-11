@@ -7,7 +7,7 @@ GPocoApp::GPocoApp()
 : Poco::Util::Application() {
     m_key = "";
     m_family = 0;
-    m_repetition = 0;
+    m_repetitions = 0;
     //
     m_icmpClient = 0;
 }
@@ -28,8 +28,8 @@ void GPocoApp::setFamily(int _family) {
     m_family = _family;
 }
 //===============================================
-void GPocoApp::setRepetition(int _repetition) {
-    m_repetition = _repetition;
+void GPocoApp::setRepetitions(int _repetitions) {
+    m_repetitions = _repetitions;
 }
 //===============================================
 void GPocoApp::onInitPing(Poco::Util::Application& _app) {
@@ -49,7 +49,7 @@ void GPocoApp::onUninitPing() {
 }
 //===============================================
 void GPocoApp::onMainPing(const std::vector<std::string>& _args) {
-    m_icmpClient->ping(m_hostname, m_repetition);
+    m_icmpClient->ping(m_hostname, m_repetitions);
 }
 //===============================================
 void GPocoApp::onBeginPing(const void* _sender, Poco::Net::ICMPEventArgs& _args) {

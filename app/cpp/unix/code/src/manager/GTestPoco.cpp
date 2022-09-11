@@ -23,6 +23,9 @@ void GTestPoco::run(int _argc, char** _argv) {
     else if(lKey == "ping") {
         runPing(_argc, _argv);
     }
+    else if(lKey == "server/tcp") {
+        runServerTcp(_argc, _argv);
+    }
     else {
         runDefault(_argc, _argv);
     }
@@ -37,9 +40,16 @@ void GTestPoco::runPing(int _argc, char** _argv) {
     GPoco lPoco;
     lPoco.setKey("ping");
     lPoco.setFamily(Poco::Net::IPAddress::IPv4);
-    lPoco.setRepetition(4);
+    lPoco.setRepetitions(4);
     lPoco.setHostname("readydev.ovh");
     lPoco.init(_argc, _argv);
     lPoco.run();
+}
+//===============================================
+void GTestPoco::runServerTcp(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    GPoco lPoco;
+    lPoco.setPort(9001);
+    lPoco.startServerTcp();
 }
 //===============================================

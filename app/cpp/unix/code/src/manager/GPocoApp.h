@@ -12,7 +12,7 @@ public:
     void setKey(const std::string& _key);
     void setHostname(const std::string& _hostname);
     void setFamily(int _family);
-    void setRepetition(int _repetition);
+    void setRepetitions(int _repetitions);
     // ping
     void onInitPing(Poco::Util::Application& _app);
     void onUninitPing();
@@ -31,7 +31,7 @@ private:
     std::string m_key;
     std::string m_hostname;
     int m_family;
-    int m_repetition;
+    int m_repetitions;
     //
     Poco::Net::ICMPClient* m_icmpClient;
 };
