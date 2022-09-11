@@ -50,3 +50,4 @@
 /**/*.bak
 /**/Makefile
 /**/nohup.out
+/**/*.o
