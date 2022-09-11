@@ -14,18 +14,28 @@ Sommaire :
 
 * [Contenu](https://github.com/gkesse/ReadyCode)
 * [Apprendre la programmation en C](#apprendre-la-programmation-en-c)
+* [Installer WinLibs sous Windows](#installer-winlibs-sous-windows)
 
 # Apprendre la programmation en C
 
-Le langage **C** permet de créer des programmes informatiques procéduraux.
+Le but de ce tutoriel est de vous apprendre la programmation en **C**.  
+Dans ce tutoriel, nous utiliserons **WinLibs** comme outil de compilation **C**,
+**gcc** comme compilateur **C**,
+**Notepad++** comme éditeur de texte.
 
-Pour démarrer la programmation en **C** sous **Windows** avec **WinLib** :
+# Installer WinLibs sous Windows
 
-* Télécharger et Décompresser **WinLibs** dans un répertoire (**WINLIBS_ROOT**)  
+* Télécharger et Décompresser **WinLibs** 
 [https://winlibs.com/#download-release](https://winlibs.com/#download-release)  
 
 * Télécharger et Installer **Notepad++**  
 [https://notepad-plus-plus.org/downloads/](https://notepad-plus-plus.org/downloads/)  
+
+# Compiler un fichier source C
+
+![cloner_depot.gif](./img/cloner_depot.gif)
+
+# Installer WinLibs sous Windows
 
 * Ecrire un programme C (**main.c**)  
 ```
