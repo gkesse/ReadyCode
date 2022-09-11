@@ -12,6 +12,7 @@ public:
     void runDefault(int _argc, char** _argv);
     void runTest(int _argc, char** _argv);
     void runTestNetwork(int _argc, char** _argv);
+    void runTestPoco(int _argc, char** _argv);
 };
 //===============================================
 #endif

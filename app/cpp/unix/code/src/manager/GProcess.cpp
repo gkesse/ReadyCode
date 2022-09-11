@@ -2,8 +2,10 @@
 #include "GProcess.h"
 #include "GTest.h"
 #include "GTestNetwork.h"
+#include "GTestPoco.h"
 //===============================================
-GProcess::GProcess() : GObject() {
+GProcess::GProcess()
+: GObject() {
 
 }
 //===============================================
@@ -48,5 +50,9 @@ void GProcess::runTest(int _argc, char** _argv) {
 //===============================================
 void GProcess::runTestNetwork(int _argc, char** _argv) {
     GTestNetwork().run(_argc, _argv);
+}
+//===============================================
+void GProcess::runTestPoco(int _argc, char** _argv) {
+    GTestPoco().run(_argc, _argv);
 }
 //===============================================

@@ -97,6 +97,35 @@
         			<text>Editeur de CV</text>
         		</data>
 		        <!-- ============================================ -->
+		        <!-- menu/curl -->
+		        <!-- ============================================ -->
+        		<data>
+        			<category>menu</category>
+        			<text>Curl</text>
+        		</data>
+        		<data>
+        			<category>submenu</category>
+        			<key>curl/url/create</key>
+        			<text>Créer une url</text>
+        		</data>
+        		<data>
+        			<category>submenu</category>
+        			<key>curl/info/get</key>
+        			<text>Obtenir des informations</text>
+        		</data>
+		        <!-- ============================================ -->
+		        <!-- menu/poco -->
+		        <!-- ============================================ -->
+        		<data>
+        			<category>menu</category>
+        			<text>Poco</text>
+        		</data>
+        		<data>
+        			<category>submenu</category>
+        			<key>curl/poco/create</key>
+        			<text>Créer une url</text>
+        		</data>
+		        <!-- ============================================ -->
 		        <!-- titlebar -->
 		        <!-- ============================================ -->
         		<data>
