@@ -39,7 +39,15 @@ void GTestPoco::runPing(int _argc, char** _argv) {
     lPoco.setFamily(Poco::Net::IPAddress::IPv4);
     lPoco.setRepetition(4);
     lPoco.setHostname("readydev.ovh");
-    lPoco.init(_argc, _argv);
+
+    try {
+        lPoco.init(_argc, _argv);
+    }
+    catch (Poco::Exception& _e) {
+        lPoco.showLogApp(_e);
+        return;
+    }
+
     lPoco.run();
 }
 //===============================================
