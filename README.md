@@ -12,64 +12,6 @@ Pour prendre contact avec moi :
 
 Sommaire :
 
-* [Windows](#windows)
-* [TortoiseGit](#tortoisegit)
-* [Langage C](#langage-c)
-* [Langage C++](#langage-c1)
-
-# Windows
-
-**Windows** fournit un système d'exploitation qui facilite le développement de programmes informatiques.
-
-Pour démarrer le développement de programmes informatiques sous **Windows** :
-
-* Télécharger et Installer **Notepad++**  
-[https://notepad-plus-plus.org/downloads/](https://notepad-plus-plus.org/downloads/)  
-  
-* Télécharger et Installer **Git**  
-[https://git-scm.com/downloads](https://git-scm.com/downloads)  
-  
-* Télécharger et Installer **TortoiseGit**  
-[https://tortoisegit.org/download/](https://tortoisegit.org/download/)  
-
-* Télécharger et Installer **7-Zip**  
-[https://www.7-zip.org/](https://www.7-zip.org/)  
-
-# TortoiseGit
-
-**TortoiseGit** fournit une interface graphique qui facilite la gestion de versions de projets informatiques à partir de **Git**.
-
-Pour cloner un dépôt **Git** :
-
-* Créer un répertoire de travail (**PROJECT_ROOT**)
-* Faire un clic droit dans le répertoire de travail
-
-* Ouvrir l'interface de clonage  
-`TortoiseGit -> Clone`
-
-* Définir l'URL source  
-`URL -> https://github.com/gkesse/ReadyCode.git`
-
-* Définir le répertoire de destinnation  
-`Directory -> PROJECT_ROOT\ReadyCode`
-
-* Démarrer le clonage  
-`OK`
-
-# Langage C
-
-Le langage **C** permet de créer des programmes informatiques procéduraux.
-
-Pour démarrer la programmation en **C** :
-
-* Consulter le tutoriel sur le langage **C**  
-[Apprendre la programmation en C](https://github.com/gkesse/ReadyCode/tree/main/app/c)  
-
-# Langage C++
-
-Le langage **C++** permet de créer des programmes informatiques orientés objet.
-
-Pour démarrer la programmation en **C++** :
-
-* Consulter le tutoriel sur le langage **C++**  
-[Apprendre la programmation en C++](https://github.com/gkesse/ReadyCode/tree/main/app/cpp)  
+* [TortoiseGit](https://github.com/gkesse/ReadyCode/tree/main/app/tortoisegit)
+* [Langage C](https://github.com/gkesse/ReadyCode/tree/main/app/c)
+* [Langage C++](https://github.com/gkesse/ReadyCode/tree/main/app/cpp)
