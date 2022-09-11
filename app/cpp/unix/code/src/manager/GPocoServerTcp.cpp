@@ -4,7 +4,7 @@
 #include "GFormat.h"
 //===============================================
 GPocoServerTcp::GPocoServerTcp(const Poco::Net::StreamSocket& _socket)
-: Poco::Net::StreamSocket(_socket) {
+: Poco::Net::TCPServerConnection(_socket) {
 
 }
 //===============================================
