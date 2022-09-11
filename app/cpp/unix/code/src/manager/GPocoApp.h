@@ -16,7 +16,7 @@ public:
     // ping
     void onInitPing(Poco::Util::Application& _app);
     void onUninitPing();
-    void onMainPing();
+    void onMainPing(const std::vector<std::string>& _args);
     void onBeginPing(const void* _sender, Poco::Net::ICMPEventArgs& _args);
     void onReplyPing(const void* _sender, Poco::Net::ICMPEventArgs& _args);
     void onErrorPing(const void* _sender, Poco::Net::ICMPEventArgs& _args);

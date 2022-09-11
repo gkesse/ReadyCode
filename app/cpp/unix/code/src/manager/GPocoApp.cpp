@@ -47,7 +47,7 @@ void GPocoApp::onUninitPing() {
     m_icmpClient->pingEnd   -= delegate(this, &GPocoApp::onEndPing);
 }
 //===============================================
-void GPocoApp::onMainPing() {
+void GPocoApp::onMainPing(const std::vector<std::string>& _args) {
     m_icmpClient->ping(m_hostname, m_repetition);
 }
 //===============================================
@@ -101,7 +101,8 @@ void GPocoApp::uninitialize() {
 //===============================================
 int GPocoApp::main(const std::vector<std::string>& _args) {
     if(m_key == "ping") {
-        onMainPing();
+        onMainPing(_args);
     }
+    return 0;
 }
 //===============================================
