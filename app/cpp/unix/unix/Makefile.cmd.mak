@@ -45,9 +45,9 @@ $(GBUILD)/%.o: $(GRLIB)/src/%.cpp
 	@if ! [ -d $(GBUILD) ] ; then mkdir -p $(GBUILD) ; fi
 	g++ $(GCFLAGS) -c $< -o $@ $(GINCS)
 run:
-	@sudo su && source envs.sh && $(GTARGET) $(argv)
+	@sudo source envs.sh && $(GTARGET) $(argv)
 run_g:
-	@sudo su && source envs.sh && gdb -ex run --args $(GTARGET) $(argv)
+	@sudo source envs.sh && gdb -ex run --args $(GTARGET) $(argv)
 clean_exe: 
 	@if ! [ -d $(GBIN) ] ; then mkdir -p $(GBIN) ; fi
 	rm -f $(GTARGET)
