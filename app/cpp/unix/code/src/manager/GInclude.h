@@ -45,10 +45,15 @@
 #include <Poco/Net/KeyConsoleHandler.h>
 #include <Poco/Net/ConsoleCertificateHandler.h>
 #include <Poco/Net/Context.h>
+#include <Poco/Net/ICMPClient.h>
+#include <Poco/Net/IPAddress.h>
+//
+#include <Poco/Util/Application.h>
+//
+#include "Poco/Delegate.h"
 #include <Poco/SharedPtr.h>
 #include <Poco/Path.h>
 #include <Poco/Exception.h>
-#include <Poco/Util/Application.h>
 // libs
 #include <base64.hpp>
 #include <md5.h>

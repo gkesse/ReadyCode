@@ -1,58 +1,106 @@
 //===============================================
-#include "GPoco.h"
+#include "GPocoApp.h"
 #include "GLog.h"
 #include "GFormat.h"
 //===============================================
-GPoco::GPoco() : GObject() {
-
+GPocoApp::GPocoApp() : GObject() {
+    m_key = "";
+    m_family = 0;
+    m_repetition = 0;
+    //
+    m_icmpClient = 0;
 }
 //===============================================
-GPoco::~GPoco() {
-
+GPocoApp::~GPocoApp() {
+    delete m_icmpClient;
 }
 //===============================================
-void GPoco::configMail() {
-    GSSLInitializer sslInitializer;
-
-    std::string mailhost;
-    std::string sender;
-    std::string recipient;
-    std::string username;
-    std::string password;
-
-    try
-    {
-        Poco::SharedPtr<Poco::Net::InvalidCertificateHandler> pCert = new Poco::Net::ConsoleCertificateHandler(false); // ask the user via console
-        Poco::Net::Context::Ptr pContext = new Poco::Net::Context(Poco::Net::Context::CLIENT_USE, "", "", "", Poco::Net::Context::VERIFY_RELAXED, 9, true, "ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH");
-        Poco::Net::SSLManager::instance().initializeClient(0, pCert, pContext);
-
-        Poco::Net::MailMessage lMailMessage;
-        lMailMessage.setSender(sender);
-        lMailMessage.addRecipient(Poco::Net::MailRecipient(Poco::Net::MailRecipient::PRIMARY_RECIPIENT, recipient));
-        lMailMessage.setSubject("Hello from the POCO C++ Libraries");
-        std::string content;
-        content += "Hello ";
-        content += recipient;
-        content += ",\r\n\r\n";
-        content += "This is a greeting from the POCO C++ Libraries.\r\n\r\n";
-        std::string logo;
-        lMailMessage.addContent(new Poco::Net::StringPartSource(content));
-        lMailMessage.addAttachment("logo", new Poco::Net::StringPartSource(logo, "image/gif"));
-
-        Poco::Net::SecureSMTPClientSession lSession(mailhost);
-        lSession.login();
-        lSession.startTLS(pContext);
-        if (!username.empty()) {
-            lSession.login(Poco::Net::SMTPClientSession::AUTH_LOGIN, username, password);
-        }
-        lSession.sendMessage(lMailMessage);
-        lSession.close();
+void GPocoApp::setKey(const std::string& _key) {
+    m_key = _key;
+}
+//===============================================
+void GPocoApp::setHostname(const std::string& _hostname) {
+    m_hostname = _hostname;
+}
+//===============================================
+void GPocoApp::setFamily(int _family) {
+    m_family = _family;
+}
+//===============================================
+void GPocoApp::setRepetition(int _repetition) {
+    m_repetition = _repetition;
+}
+//===============================================
+void GPocoApp::onInitPing(Poco::Util::Application& _app) {
+    m_icmpClient = new Poco::Net::ICMPClient((Poco::Net::SocketAddress::Family)m_family);
+    m_icmpClient->pingBegin += delegate(this, &GPocoApp::onBeginPing);
+    m_icmpClient->pingReply += delegate(this, &GPocoApp::onReplyPing);
+    m_icmpClient->pingError += delegate(this, &GPocoApp::onErrorPing);
+    m_icmpClient->pingEnd   += delegate(this, &GPocoApp::onEndPing);
+}
+//===============================================
+void GPocoApp::onUninitPing() {
+    m_icmpClient->pingBegin -= delegate(this, &GPocoApp::onBeginPing);
+    m_icmpClient->pingReply -= delegate(this, &GPocoApp::onReplyPing);
+    m_icmpClient->pingError -= delegate(this, &GPocoApp::onErrorPing);
+    m_icmpClient->pingEnd   -= delegate(this, &GPocoApp::onEndPing);
+}
+//===============================================
+void GPocoApp::onMainPing() {
+    m_icmpClient->ping(m_hostname, m_repetition);
+}
+//===============================================
+void GPocoApp::onBeginPing(const void* _sender, Poco::Net::ICMPEventArgs& _args) {
+    std::ostringstream os;
+    os << "Pinging " << _args.hostName() << " [" << _args.hostAddress() << "] with " << _args.dataSize() << " bytes of data:"
+       << std::endl << "---------------------------------------------" << std::endl;
+    logger().information(os.str());
+}
+//===============================================
+void GPocoApp::onReplyPing(const void* _sender, Poco::Net::ICMPEventArgs& _args) {
+    std::ostringstream os;
+    os << "Reply from " << _args.hostAddress()
+       << " bytes=" << _args.dataSize()
+       << " time=" << _args.replyTime() << "ms"
+       << " TTL=" << _args.ttl();
+    logger().information(os.str());
+}
+//===============================================
+void GPocoApp::onErrorPing(const void* _sender, Poco::Net::ICMPEventArgs& _args) {
+    std::ostringstream os;
+    os << _args.error();
+    logger().information(os.str());
+}
+//===============================================
+void GPocoApp::onEndPing(const void* _sender, Poco::Net::ICMPEventArgs& _args) {
+    std::ostringstream os;
+    os << std::endl << "--- Ping statistics for " << _args.hostName() << " ---"
+       << std::endl << "Packets: Sent=" << _args.sent() << ", Received=" << _args.received()
+       << " Lost=" << _args.repetitions() - _args.received() << " (" << 100.0 - _args.percent() << "% loss),"
+       << std::endl << "Approximate round trip times in milliseconds: " << std::endl
+       << "Minimum=" << _args.minRTT() << "ms, Maximum=" << _args.maxRTT()
+       << "ms, Average=" << _args.avgRTT() << "ms"
+       << std::endl << "------------------------------------------";
+    logger().information(os.str());
+}
+//===============================================
+void GPocoApp::initialize(Poco::Util::Application& _app) {
+    loadConfiguration();
+    Poco::Util::Application::initialize(_app);
+    if(m_key == "ping") {
+        onInitPing(_app);
     }
-    catch (Poco::Exception& e) {
-        GERROR_ADD(eGERR, "Erreur lors de l'envoi de l'email.\n"
-                "error........: (%s)\n"
-                "", e.displayText().c_str()
-        );
+}
+//===============================================
+void GPocoApp::uninitialize() {
+    if(m_key == "ping") {
+        onUninitPing();
+    }
+}
+//===============================================
+int GPocoApp::main(const std::vector<std::string>& _args) {
+    if(m_key == "ping") {
+        onMainPing();
     }
 }
 //===============================================

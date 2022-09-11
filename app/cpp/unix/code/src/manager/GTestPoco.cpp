@@ -1,5 +1,6 @@
 //===============================================
 #include "GTestPoco.h"
+#include "GPoco.h"
 #include "GLog.h"
 #include "GFormat.h"
 //===============================================
@@ -33,5 +34,12 @@ void GTestPoco::runDefault(int _argc, char** _argv) {
 //===============================================
 void GTestPoco::runPing(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
+    GPoco lPoco;
+    lPoco.setKey("ping");
+    lPoco.setFamily(Poco::Net::IPAddress::IPv4);
+    lPoco.setRepetition(4);
+    lPoco.setHostname("readydev.ovh");
+    lPoco.init(_argc, _argv);
+    lPoco.run();
 }
 //===============================================
