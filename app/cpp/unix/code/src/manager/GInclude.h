@@ -48,6 +48,7 @@
 #include <Poco/SharedPtr.h>
 #include <Poco/Path.h>
 #include <Poco/Exception.h>
+#include <Poco/Util/Application.h>
 // libs
 #include <base64.hpp>
 #include <md5.h>
