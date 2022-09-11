@@ -33,36 +33,5 @@ Dans ce tutoriel, nous utiliserons **WinLibs** comme outil de compilation **C**,
 
 # Compiler un fichier source C
 
-![cloner_depot.gif](./img/cloner_depot.gif)
+![compiler_un_fichier_source.gif](./img/compiler_un_fichier_source.gif)
 
-# Installer WinLibs sous Windows
-
-* Ecrire un programme C (**main.c**)  
-```
-//===============================================
-#include <stdio.h>
-//===============================================
-int main(int argc, char** _argv)
-{
-    printf("Bonjour tout le monde\n");
-    return 0;
-}
-//===============================================
-```
-
-* Ecrire un script de compilation (**compile.bat**)
-```
-@echo off
-::===============================================
-set "PATH="
-set "PATH=WINLIBS_ROOT\bin;%PATH%"
-::===============================================
-gcc -c main.c -o main.o
-gcc -o main.exe main.o
-::===============================================
-main.exe
-::===============================================  
-```
-
-* Compiler et Exécuter le programme (**Terminal**)  
-`compile.bat`
