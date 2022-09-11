@@ -17,24 +17,18 @@ void GProcess::run(int _argc, char** _argv) {
     std::string lKey = "default";
     if(_argc > 1) lKey = _argv[1];
 
-    //===============================================
-    // default
-    //===============================================
     if(lKey == "default") {
         runDefault(_argc, _argv);
     }
-    //===============================================
-    // test
-    //===============================================
     else if(lKey == "test") {
         runTest(_argc, _argv);
     }
     else if(lKey == "test/network") {
         runTestNetwork(_argc, _argv);
     }
-    //===============================================
-    // end
-    //===============================================
+    else if(lKey == "test/poco") {
+        runTestPoco(_argc, _argv);
+    }
     else {
         runDefault(_argc, _argv);
     }
