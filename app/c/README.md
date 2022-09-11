@@ -15,6 +15,7 @@ Sommaire :
 * [Contenu](https://github.com/gkesse/ReadyCode)
 * [Apprendre la programmation en C](#apprendre-la-programmation-en-c)
 * [Installer WinLibs sous Windows](#installer-winlibs-sous-windows)
+* [Compiler un fichier source C](#compiler-un-fichier-source-c)
 
 # Apprendre la programmation en C
 
