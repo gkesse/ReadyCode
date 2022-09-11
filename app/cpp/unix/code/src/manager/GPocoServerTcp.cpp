@@ -16,6 +16,7 @@ void GPocoServerTcp::run() {
     Poco::Net::StreamSocket& lSocket = socket();
     char lBuffer[256];
     int lBytes = lSocket.receiveBytes(lBuffer, sizeof(lBuffer));
+
     while (lBytes > 0) {
         std::cout << "Received " << lBytes << " bytes:" << std::endl;
         std::string lMsg;
