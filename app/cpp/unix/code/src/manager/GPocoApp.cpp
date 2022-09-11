@@ -33,7 +33,7 @@ void GPocoApp::setRepetition(int _repetition) {
 }
 //===============================================
 void GPocoApp::onInitPing(Poco::Util::Application& _app) {
-    m_icmpClient = new Poco::Net::ICMPClient((Poco::Net::SocketAddress::Family)m_family);
+    m_icmpClient = new Poco::Net::ICMPClient(Poco::Net::IPAddress::IPv4);
     m_icmpClient->pingBegin += delegate(this, &GPocoApp::onBeginPing);
     m_icmpClient->pingReply += delegate(this, &GPocoApp::onReplyPing);
     m_icmpClient->pingError += delegate(this, &GPocoApp::onErrorPing);
