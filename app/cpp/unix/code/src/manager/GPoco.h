@@ -21,8 +21,6 @@ public:
     void showLogApp(Poco::Exception& _exception);
 
 private:
-    std::string m_hostname;
-    //
     GPocoApp* m_app;
 };
 //==============================================

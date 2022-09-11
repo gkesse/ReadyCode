@@ -3,7 +3,8 @@
 #include "GLog.h"
 #include "GFormat.h"
 //===============================================
-GPocoApp::GPocoApp() : GObject() {
+GPocoApp::GPocoApp()
+: Poco::Util::Application() {
     m_key = "";
     m_family = 0;
     m_repetition = 0;

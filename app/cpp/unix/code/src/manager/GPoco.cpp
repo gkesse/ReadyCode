@@ -14,7 +14,7 @@ GPoco::~GPoco() {
 }
 //===============================================
 void GPoco::setHostname(const std::string& _hostname) {
-    m_hostname = _hostname;
+    m_app->setHostname(_hostname);
 }
 //===============================================
 void GPoco::setFamily(int _family) {
