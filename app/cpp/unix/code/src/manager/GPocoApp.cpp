@@ -33,7 +33,9 @@ void GPocoApp::setRepetition(int _repetition) {
 }
 //===============================================
 void GPocoApp::onInitPing(Poco::Util::Application& _app) {
-    m_icmpClient = new Poco::Net::ICMPClient(Poco::Net::IPAddress::IPv4);
+    loadConfiguration();
+    Poco::Util::Application::initialize(_app);
+    m_icmpClient = new Poco::Net::ICMPClient((Poco::Net::SocketAddress::Family)m_family);
     m_icmpClient->pingBegin += delegate(this, &GPocoApp::onBeginPing);
     m_icmpClient->pingReply += delegate(this, &GPocoApp::onReplyPing);
     m_icmpClient->pingError += delegate(this, &GPocoApp::onErrorPing);
@@ -45,6 +47,7 @@ void GPocoApp::onUninitPing() {
     m_icmpClient->pingReply -= delegate(this, &GPocoApp::onReplyPing);
     m_icmpClient->pingError -= delegate(this, &GPocoApp::onErrorPing);
     m_icmpClient->pingEnd   -= delegate(this, &GPocoApp::onEndPing);
+    Poco::Util::Application::uninitialize();
 }
 //===============================================
 void GPocoApp::onMainPing(const std::vector<std::string>& _args) {
