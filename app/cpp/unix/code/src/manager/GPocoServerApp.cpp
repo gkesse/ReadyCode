@@ -8,7 +8,7 @@ GPocoServerApp::GPocoServerApp()
 : Poco::Util::ServerApplication() {
     m_module = "";
     m_port = 0;
-    m_format = 0;
+    m_format = "";
 }
 //===============================================
 GPocoServerApp::~GPocoServerApp() {
