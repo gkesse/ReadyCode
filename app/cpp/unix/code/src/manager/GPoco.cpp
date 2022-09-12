@@ -8,8 +8,8 @@
 //===============================================
 GPoco::GPoco()
 : GObject() {
-    m_app = new GPocoApp;
-    m_serverApp = new GPocoServerApp;
+    m_app = 0;
+    m_serverApp = 0;
     m_module = "";
     m_port = 0;
     m_format = "";
@@ -50,11 +50,13 @@ void GPoco::init(int _argc, char** _argv) {
 //===============================================
 void GPoco::run() {
     m_app->setModule(m_module);
+    m_app = new GPocoApp;
     m_app->run();
 }
 //===============================================
 void GPoco::run(int _argc, char** _argv) {
     m_serverApp->setModule(m_module);
+    m_serverApp = new GPocoServerApp;
     m_serverApp->run(_argc, _argv);
 }
 //===============================================
