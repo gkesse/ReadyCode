@@ -59,6 +59,7 @@ void GPoco::run(int _argc, char** _argv) {
     m_serverApp = new GPocoServerApp;
     m_serverApp->setModule(m_module);
     m_serverApp->setFormat(m_format);
+    m_serverApp->setPort(m_port);
     m_serverApp->run(_argc, _argv);
 }
 //===============================================
