@@ -18,9 +18,7 @@ void GPocoServerTcp::run() {
     int lBytes = lSocket.receiveBytes(lBuffer, BUFFER_SIZE);
 
     while (lBytes > 0) {
-        std::string lDataIn = "";
-        Poco::Logger::formatDump(lDataIn, lBuffer, lBytes);
-        printf("[ INFO ] %s\n", lDataIn.c_str());
+        printf("[ INFO ] %lBuffer\n", lDataIn.c_str());
         lBytes = lSocket.receiveBytes(lBuffer, BUFFER_SIZE);
     }
 }
