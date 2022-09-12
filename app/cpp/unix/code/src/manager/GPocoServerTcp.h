@@ -14,6 +14,9 @@ public:
 
 protected:
     void run();
+
+private:
+    static const int BUFFER_SIZE = 10;
 };
 //==============================================
 #endif

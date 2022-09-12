@@ -14,14 +14,14 @@ GPocoServerTcp::~GPocoServerTcp() {
 //===============================================
 void GPocoServerTcp::run() {
     Poco::Net::StreamSocket& lSocket = socket();
-    char lBuffer[256];
-    int lBytes = lSocket.receiveBytes(lBuffer, sizeof(lBuffer));
+    char lBuffer[BUFFER_SIZE];
+    int lBytes = lSocket.receiveBytes(lBuffer, BUFFER_SIZE);
     std::string lDataIn = "";
 
     while (lBytes > 0) {
         lBuffer[lBytes] = 0;
         std::cout << lBuffer << std::endl;
-        lBytes = lSocket.receiveBytes(lBuffer, sizeof(lBuffer));
+        lBytes = lSocket.receiveBytes(lBuffer, BUFFER_SIZE);
     }
 }
 //===============================================
