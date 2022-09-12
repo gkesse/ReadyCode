@@ -17,6 +17,7 @@ GPoco::GPoco()
 //===============================================
 GPoco::~GPoco() {
     delete m_app;
+    delete m_serverApp;
 }
 //===============================================
 void GPoco::setModule(const std::string& _module) {

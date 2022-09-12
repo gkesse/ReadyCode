@@ -4,7 +4,8 @@
 #include "GLog.h"
 #include "GFormat.h"
 //===============================================
-GPocoServerApp::GPocoServerApp() {
+GPocoServerApp::GPocoServerApp()
+: Poco::Util::ServerApplication() {
     m_module = "";
     m_port = 0;
     m_format = "";
