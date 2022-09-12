@@ -9,7 +9,7 @@ public:
     GPocoReactor(Poco::Net::StreamSocket& _socket, Poco::Net::SocketReactor& _reactor);
     ~GPocoReactor();
 
-public:
+protected:
     void onFIFOOutReadable(bool& b);
     void onFIFOInWritable(bool& b);
     void onSocketReadable(const Poco::AutoPtr<Poco::Net::ReadableNotification>& pNf);
@@ -17,6 +17,7 @@ public:
     void onSocketShutdown(const Poco::AutoPtr<Poco::Net::ShutdownNotification>& pNf);
 
 private:
+    static const int BUFFER_SIZE = 1024;
     Poco::Net::StreamSocket m_socket;
     Poco::Net::SocketReactor& m_reactor;
     Poco::FIFOBuffer m_dataIn;
