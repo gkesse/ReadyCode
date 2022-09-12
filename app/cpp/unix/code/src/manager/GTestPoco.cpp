@@ -66,3 +66,12 @@ void GTestPoco::runServerTime(int _argc, char** _argv) {
     lPoco.run(_argc, _argv);
 }
 //===============================================
+void GTestPoco::runServerEcho(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    GPoco lPoco;
+    lPoco.setModule("echo");
+    lPoco.setPort(9001);
+    lPoco.init();
+    lPoco.run(_argc, _argv);
+}
+//===============================================

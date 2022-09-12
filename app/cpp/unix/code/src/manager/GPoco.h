@@ -19,6 +19,9 @@ public:
     void setRepetitions(int _repetitions);
     void setFormat(const std::string& _format);
     //
+    void onRunTime(int _argc, char** _argv);
+    void onRunEcho(int _argc, char** _argv);
+    //
     void init(int _argc, char** _argv);
     void run();
     void run(int _argc, char** _argv);
@@ -31,6 +34,7 @@ private:
     GPocoServerApp* m_serverApp;
     std::string m_module;
     std::string m_format;
+    std::string m_hostname;
     int m_port;
 };
 //==============================================

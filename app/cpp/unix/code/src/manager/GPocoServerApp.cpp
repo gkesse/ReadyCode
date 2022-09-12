@@ -1,6 +1,7 @@
 //===============================================
 #include "GPocoServerApp.h"
 #include "GPocoFactory.h"
+#include "GPocoReactor.h"
 #include "GLog.h"
 #include "GFormat.h"
 //===============================================
@@ -38,6 +39,19 @@ void GPocoServerApp::onMainTime(const std::vector<std::string>& _args) {
     lServer.stop();
 }
 //===============================================
+void GPocoServerApp::onMainEcho(const std::vector<std::string>& _args) {
+    Poco::Net::ServerSocket svs(m_port);
+    Poco::Net::SocketReactor reactor;
+    Poco::Net::SocketAcceptor<GPocoReactor> acceptor(svs, reactor);
+    Thread thread;
+    thread.start(reactor);
+    // wait for CTRL-C or kill
+    waitForTerminationRequest();
+    // Stop the SocketReactor
+    reactor.stop();
+    thread.join();
+}
+//===============================================
 void GPocoServerApp::initialize(Poco::Util::Application& _app) {
     loadConfiguration();
     Poco::Util::ServerApplication::initialize(_app);
@@ -50,6 +64,9 @@ void GPocoServerApp::uninitialize() {
 int GPocoServerApp::main(const std::vector<std::string>& _args) {
     if(m_module == "time") {
         onMainTime(_args);
+    }
+    else if(m_module == "echo") {
+        onMainEcho(_args);
     }
     return 0;
 }

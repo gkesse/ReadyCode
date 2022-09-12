@@ -52,6 +52,9 @@
 #include <Poco/Net/StreamSocket.h>
 #include <Poco/Net/TCPServerConnectionFactory.h>
 #include <Poco/Net/ServerSocket.h>
+#include <Poco/Net/SocketReactor.h>
+#include <Poco/Net/SocketAcceptor.h>
+#include <Poco/Net/SocketNotification.h>
 //
 #include <Poco/Util/Application.h>
 #include <Poco/Util/ServerApplication.h>
@@ -66,6 +69,9 @@
 #include <Poco/Timestamp.h>
 #include <Poco/DateTimeFormat.h>
 #include <Poco/DateTimeFormatter.h>
+#include <Poco/Thread.h>
+#include <Poco/FIFOBuffer.h>
+#include <Poco/NObserver.h>
 // libs
 #include <base64.hpp>
 #include <md5.h>

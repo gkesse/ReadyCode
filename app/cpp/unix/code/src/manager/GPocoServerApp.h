@@ -14,6 +14,7 @@ public:
     void setPort(int _port);
     // time
     void onMainTime(const std::vector<std::string>& _args);
+    void onMainEcho(const std::vector<std::string>& _args);
 
 protected:
     void initialize(Poco::Util::Application& _app);

@@ -14,6 +14,7 @@ GPoco::GPoco()
     m_module = "";
     m_port = 0;
     m_format = "";
+    m_hostname = "";
 }
 //===============================================
 GPoco::~GPoco() {
@@ -45,6 +46,21 @@ void GPoco::setRepetitions(int _repetitions) {
     m_app->setRepetitions(_repetitions);
 }
 //===============================================
+void GPoco::onRunTime(int _argc, char** _argv) {
+    m_serverApp = new GPocoServerApp;
+    m_serverApp->setModule(m_module);
+    m_serverApp->setFormat(m_format);
+    m_serverApp->setPort(m_port);
+    m_serverApp->run(_argc, _argv);
+}
+//===============================================
+void GPoco::onRunEcho(int _argc, char** _argv) {
+    m_serverApp = new GPocoServerApp;
+    m_serverApp->setModule(m_module);
+    m_serverApp->setPort(m_port);
+    m_serverApp->run(_argc, _argv);
+}
+//===============================================
 void GPoco::init(int _argc, char** _argv) {
     m_app->init(_argc, _argv);
 }
@@ -56,11 +72,12 @@ void GPoco::run() {
 }
 //===============================================
 void GPoco::run(int _argc, char** _argv) {
-    m_serverApp = new GPocoServerApp;
-    m_serverApp->setModule(m_module);
-    m_serverApp->setFormat(m_format);
-    m_serverApp->setPort(m_port);
-    m_serverApp->run(_argc, _argv);
+    if(m_module == "time") {
+        onRunTime(_argc, _argv);
+    }
+    else if(m_module == "echo") {
+        onRunEcho(_argc, _argv);
+    }
 }
 //===============================================
 void GPoco::showLog(Poco::Exception& _exception) {
