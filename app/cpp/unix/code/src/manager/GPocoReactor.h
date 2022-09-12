@@ -17,7 +17,7 @@ protected:
     void onSocketShutdown(const Poco::AutoPtr<Poco::Net::ShutdownNotification>& pNf);
 
 private:
-    static const int BUFFER_SIZE = 1024;
+    static const int BUFFER_SIZE = 10;
     Poco::Net::StreamSocket m_socket;
     Poco::Net::SocketReactor& m_reactor;
     Poco::FIFOBuffer m_dataIn;

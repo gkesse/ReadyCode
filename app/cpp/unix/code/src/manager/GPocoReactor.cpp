@@ -56,6 +56,7 @@ void GPocoReactor::onSocketReadable(const Poco::AutoPtr<Poco::Net::ReadableNotif
         int len = m_socket.receiveBytes(m_dataIn);
         if (len > 0) {
             m_dataIn.drain(m_dataOut.write(m_dataIn.buffer(), m_dataIn.used()));
+            printf("[ INFO ] %s\n", m_dataIn.buffer());
         }
         else {
             delete this;
