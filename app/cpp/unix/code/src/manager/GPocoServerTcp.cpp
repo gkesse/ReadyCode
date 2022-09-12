@@ -18,7 +18,7 @@ void GPocoServerTcp::run() {
     int lBytes = lSocket.receiveBytes(lBuffer, BUFFER_SIZE);
 
     while (lBytes > 0) {
-        printf("[ INFO ] %lBuffer\n", lDataIn.c_str());
+        printf("[ INFO ] %s\n", lBuffer);
         lBytes = lSocket.receiveBytes(lBuffer, BUFFER_SIZE);
     }
 }
