@@ -19,8 +19,7 @@ void GPocoServerTcp::run() {
     std::string lDataIn = "";
 
     while (lBytes > 0) {
-        lBuffer[lBytes] = 0;
-        lDataIn += lBuffer;
+        lDataIn += std::string(lBuffer, lBytes);
         lBytes = lSocket.receiveBytes(lBuffer, BUFFER_SIZE);
     }
 
