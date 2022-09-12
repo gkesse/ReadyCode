@@ -20,8 +20,10 @@ void GPocoServerTcp::run() {
 
     while (lBytes > 0) {
         lBuffer[lBytes] = 0;
-        std::cout << lBuffer << std::endl;
+        lDataIn += lBuffer;
         lBytes = lSocket.receiveBytes(lBuffer, BUFFER_SIZE);
     }
+
+    printf("[ INFO ] %s\n", lDataIn.c_str());
 }
 //===============================================
