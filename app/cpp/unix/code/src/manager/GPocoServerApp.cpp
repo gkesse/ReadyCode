@@ -29,6 +29,7 @@ void GPocoServerApp::setPort(int _port) {
 //===============================================
 void GPocoServerApp::onMainTime(const std::vector<std::string>& _args) {
     GPocoFactory* lFactory = new GPocoFactory;
+    lFactory->setModule(m_module);
     lFactory->setFormat(m_format);
     Poco::Net::ServerSocket lSocket(m_port);
     Poco::Net::TCPServer lServer(lFactory, lSocket);

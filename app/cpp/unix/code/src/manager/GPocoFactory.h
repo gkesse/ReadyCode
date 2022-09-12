@@ -10,6 +10,8 @@ public:
     ~GPocoFactory();
     void setModule(const std::string& _module);
     void setFormat(const std::string& _format);
+    Poco::Net::TCPServerConnection* onCreateConnectionTcp(const Poco::Net::StreamSocket& _socket);
+    Poco::Net::TCPServerConnection* onCreateConnectionTime(const Poco::Net::StreamSocket& _socket);
 
 protected:
     Poco::Net::TCPServerConnection* createConnection(const Poco::Net::StreamSocket& _socket);

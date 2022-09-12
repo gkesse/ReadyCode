@@ -3,6 +3,7 @@
 #include "GPocoApp.h"
 #include "GPocoServerApp.h"
 #include "GPocoServerTcp.h"
+#include "GPocoFactory.h"
 #include "GLog.h"
 #include "GFormat.h"
 //===============================================
@@ -72,7 +73,9 @@ void GPoco::startServer() {
 //===============================================
 void GPoco::startServerTcp() {
     Poco::Event lTerminator;
-    Poco::Net::TCPServer lServer(new GPocoServerTcp::GFactory(), m_port);
+    GPocoFactory* lFactory = new GPocoFactory;
+    lFactory->setModule(m_module);
+    Poco::Net::TCPServer lServer(lFactory, m_port);
     lServer.start();
     GLOGT(eGMSG, "[ INFO ] Démarrage du serveur...");
     lTerminator.wait();
