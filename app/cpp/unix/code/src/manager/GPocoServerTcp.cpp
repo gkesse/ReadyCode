@@ -22,6 +22,8 @@ void GPocoServerTcp::run() {
         for(int i = 0; i < lBytes; i++) {
             lDataIn += lBuffer[i];
         }
+        std::string msg;
+        Poco::Logger::formatDump(msg, lBuffer, lBytes);
         lBytes = lSocket.receiveBytes(lBuffer, BUFFER_SIZE);
     }
 
