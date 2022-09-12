@@ -26,6 +26,9 @@ void GTestPoco::run(int _argc, char** _argv) {
     else if(lKey == "server/tcp") {
         runServerTcp(_argc, _argv);
     }
+    else if(lKey == "server/time") {
+        runServerTime(_argc, _argv);
+    }
     else {
         runDefault(_argc, _argv);
     }
