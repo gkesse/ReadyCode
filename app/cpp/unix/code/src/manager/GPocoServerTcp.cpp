@@ -16,13 +16,13 @@ void GPocoServerTcp::run() {
     Poco::Net::StreamSocket& lSocket = socket();
     char lBuffer[256];
     int lBytes = lSocket.receiveBytes(lBuffer, sizeof(lBuffer));
+    std::string lDataIn = "";
 
     while (lBytes > 0) {
-        std::cout << "Received " << lBytes << " bytes:" << std::endl;
-        std::string lMsg;
-        Poco::Logger::formatDump(lMsg, lBuffer, lBytes);
-        std::cout << lMsg << std::endl;
+        lDataIn += lBuffer;
         lBytes = lSocket.receiveBytes(lBuffer, sizeof(lBuffer));
     }
+
+    std::cout << lDataIn << "\n";
 }
 //===============================================

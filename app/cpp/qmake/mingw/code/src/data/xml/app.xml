@@ -122,8 +122,8 @@
         		</data>
         		<data>
         			<category>submenu</category>
-        			<key>curl/poco/create</key>
-        			<text>Créer une url</text>
+        			<key>poco/client/tcp</key>
+        			<text>Envoyer un message au serveur</text>
         		</data>
 		        <!-- ============================================ -->
 		        <!-- titlebar -->

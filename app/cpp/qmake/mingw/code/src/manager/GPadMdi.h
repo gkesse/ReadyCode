@@ -18,6 +18,7 @@ public:
     void onConnection();
     void onAccount();
     void onCv();
+    void onPocoClientTcp();
     //
     GUser* getUser() const;
 

@@ -10,6 +10,7 @@
 #include "GPicto.h"
 #include "GLog.h"
 #include "GUser.h"
+#include "GSocket2.h"
 //===============================================
 GPadMdi::GPadMdi(QWidget* _parent)
 : GMainWindow(_parent) {
@@ -91,6 +92,9 @@ void GPadMdi::onEvent(QAction* _action) {
     else if(lKey == "editor/cv") {
         onCv();
     }
+    else if(lKey == "poco/client/tcp") {
+        onPocoClientTcp();
+    }
     else {
         onErrorKey(lKey);
     }
@@ -134,6 +138,22 @@ void GPadMdi::onCv() {
     m_mdiArea->addSubWindow(lSub);
     lSub->setWindowTitle("Editeur de CV");
     lSub->show();
+}
+//===============================================
+void GPadMdi::onPocoClientTcp() {
+    GSocket2 lSocket;
+    lSocket.setMajor(2);
+    lSocket.setMinor(2);
+    lSocket.setDomain(AF_INET);
+    lSocket.setType(SOCK_STREAM);
+    lSocket.setProtocol(IPPROTO_TCP);
+    lSocket.setFamily(AF_INET);
+    lSocket.setHostname("192.168.1.45");
+    lSocket.setPort(9001);
+    lSocket.setProtocol(IPPROTO_TCP);
+    QString lDataIn = "Bonjour tout le monde";
+    QString lDataOut;
+    lSocket.callServer(lDataIn, lDataOut);
 }
 //===============================================
 GUser* GPadMdi::getUser() const {
