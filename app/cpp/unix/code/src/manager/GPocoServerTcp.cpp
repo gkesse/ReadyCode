@@ -14,7 +14,7 @@ GPocoServerTcp::~GPocoServerTcp() {
 //===============================================
 void GPocoServerTcp::run() {
     Poco::Net::StreamSocket& lSocket = socket();
-    char lBuffer[BUFFER_SIZE];
+    char lBuffer[BUFFER_SIZE + 1];
     int lBytes = lSocket.receiveBytes(lBuffer, BUFFER_SIZE);
 
     while (lBytes > 0) {
