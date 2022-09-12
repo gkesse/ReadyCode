@@ -29,6 +29,9 @@ void GTestPoco::run(int _argc, char** _argv) {
     else if(lKey == "server/time") {
         runServerTime(_argc, _argv);
     }
+    else if(lKey == "server/echo") {
+        runServerEcho(_argc, _argv);
+    }
     else {
         runDefault(_argc, _argv);
     }
@@ -71,7 +74,6 @@ void GTestPoco::runServerEcho(int _argc, char** _argv) {
     GPoco lPoco;
     lPoco.setModule("echo");
     lPoco.setPort(9001);
-    lPoco.init();
     lPoco.run(_argc, _argv);
 }
 //===============================================

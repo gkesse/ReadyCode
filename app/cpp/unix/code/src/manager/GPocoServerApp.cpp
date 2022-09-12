@@ -40,16 +40,14 @@ void GPocoServerApp::onMainTime(const std::vector<std::string>& _args) {
 }
 //===============================================
 void GPocoServerApp::onMainEcho(const std::vector<std::string>& _args) {
-    Poco::Net::ServerSocket svs(m_port);
-    Poco::Net::SocketReactor reactor;
-    Poco::Net::SocketAcceptor<GPocoReactor> acceptor(svs, reactor);
-    Thread thread;
-    thread.start(reactor);
-    // wait for CTRL-C or kill
+    Poco::Net::ServerSocket lSocket(m_port);
+    Poco::Net::SocketReactor lReactor;
+    Poco::Net::SocketAcceptor<GPocoReactor> lAcceptor(lSocket, lReactor);
+    Poco::Thread lThread;
+    lThread.start(lReactor);
     waitForTerminationRequest();
-    // Stop the SocketReactor
-    reactor.stop();
-    thread.join();
+    lReactor.stop();
+    lThread.join();
 }
 //===============================================
 void GPocoServerApp::initialize(Poco::Util::Application& _app) {
