@@ -12,7 +12,7 @@ public:
 protected:
     void onFIFOOutReadable(bool& b);
     void onFIFOInWritable(bool& b);
-    void onSocketReadable(const Poco::AutoPtr<Poco::Net::ReadableNotification>& pNf)
+    void onSocketReadable(const Poco::AutoPtr<Poco::Net::ReadableNotification>& pNf);
     void onSocketWritable(const Poco::AutoPtr<Poco::Net::WritableNotification>& pNf);
     void onSocketShutdown(const Poco::AutoPtr<Poco::Net::ShutdownNotification>& pNf);
 
