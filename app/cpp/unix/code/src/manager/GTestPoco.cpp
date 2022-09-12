@@ -61,6 +61,7 @@ void GTestPoco::runServerTime(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GPoco lPoco;
     lPoco.setModule("time");
+    lPoco.setFormat(Poco::DateTimeFormat::ISO8601_FORMAT);
     lPoco.run(_argc, _argv);
 }
 //===============================================
