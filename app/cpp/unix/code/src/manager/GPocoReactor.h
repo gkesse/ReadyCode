@@ -9,7 +9,7 @@ public:
     GPocoReactor(Poco::Net::StreamSocket& _socket, Poco::Net::SocketReactor& _reactor);
     ~GPocoReactor();
 
-protected:
+public:
     void onFIFOOutReadable(bool& b);
     void onFIFOInWritable(bool& b);
     void onSocketReadable(const Poco::AutoPtr<Poco::Net::ReadableNotification>& pNf);

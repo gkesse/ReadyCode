@@ -50,8 +50,7 @@ void GPocoReactor::onFIFOInWritable(bool& b) {
 }
 //===============================================
 void GPocoReactor::onSocketReadable(const Poco::AutoPtr<Poco::Net::ReadableNotification>& pNf) {
-    try
-    {
+    try {
         int len = m_socket.receiveBytes(m_dataIn);
         if (len > 0) {
             m_dataIn.drain(m_dataOut.write(m_dataIn.buffer(), m_dataIn.used()));
