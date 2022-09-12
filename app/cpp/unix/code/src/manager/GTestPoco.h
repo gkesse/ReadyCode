@@ -12,6 +12,7 @@ public:
     void runDefault(int _argc, char** _argv);
     void runPing(int _argc, char** _argv);
     void runServerTcp(int _argc, char** _argv);
+    void runServerTime(int _argc, char** _argv);
 
 private:
     static GTestPoco* m_test;

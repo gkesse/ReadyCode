@@ -9,7 +9,7 @@ public:
     GPocoApp();
     ~GPocoApp();
     //
-    void setKey(const std::string& _key);
+    void setModule(const std::string& _key);
     void setHostname(const std::string& _hostname);
     void setFamily(int _family);
     void setRepetitions(int _repetitions);
@@ -28,7 +28,7 @@ protected:
     int main(const std::vector<std::string>& _args);
 
 private:
-    std::string m_key;
+    std::string m_module;
     std::string m_hostname;
     int m_family;
     int m_repetitions;

@@ -5,10 +5,9 @@
 //===============================================
 GPocoApp::GPocoApp()
 : Poco::Util::Application() {
-    m_key = "";
+    m_module = "";
     m_family = 0;
     m_repetitions = 0;
-    //
     m_icmpClient = 0;
 }
 //===============================================
@@ -16,8 +15,8 @@ GPocoApp::~GPocoApp() {
     delete m_icmpClient;
 }
 //===============================================
-void GPocoApp::setKey(const std::string& _key) {
-    m_key = _key;
+void GPocoApp::setModule(const std::string& _module) {
+    m_module = _module;
 }
 //===============================================
 void GPocoApp::setHostname(const std::string& _hostname) {
@@ -89,19 +88,19 @@ void GPocoApp::onEndPing(const void* _sender, Poco::Net::ICMPEventArgs& _args) {
 void GPocoApp::initialize(Poco::Util::Application& _app) {
     loadConfiguration();
     Poco::Util::Application::initialize(_app);
-    if(m_key == "ping") {
+    if(m_module == "ping") {
         onInitPing(_app);
     }
 }
 //===============================================
 void GPocoApp::uninitialize() {
-    if(m_key == "ping") {
+    if(m_module == "ping") {
         onUninitPing();
     }
 }
 //===============================================
 int GPocoApp::main(const std::vector<std::string>& _args) {
-    if(m_key == "ping") {
+    if(m_module == "ping") {
         onMainPing(_args);
     }
     return 0;

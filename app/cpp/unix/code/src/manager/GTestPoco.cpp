@@ -38,7 +38,7 @@ void GTestPoco::runDefault(int _argc, char** _argv) {
 void GTestPoco::runPing(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GPoco lPoco;
-    lPoco.setKey("ping");
+    lPoco.setModule("ping");
     lPoco.setFamily(Poco::Net::IPAddress::IPv4);
     lPoco.setRepetitions(4);
     lPoco.setHostname("readydev.ovh");
@@ -49,7 +49,15 @@ void GTestPoco::runPing(int _argc, char** _argv) {
 void GTestPoco::runServerTcp(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GPoco lPoco;
+    lPoco.setModule("tcp");
     lPoco.setPort(9001);
-    lPoco.startServerTcp();
+    lPoco.startServer();
+}
+//===============================================
+void GTestPoco::runServerTime(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    GPoco lPoco;
+    lPoco.setModule("time");
+    lPoco.run(_argc, _argv);
 }
 //===============================================
