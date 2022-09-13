@@ -20,6 +20,7 @@ public:
     void setFamily(int _family);
     void setPort(int _port);
     void setBacklog(int _backlog);
+    bool isEnd(int _char, int& _index) const;
     //
     bool run();
 

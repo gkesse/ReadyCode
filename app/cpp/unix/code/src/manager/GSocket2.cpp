@@ -63,6 +63,27 @@ void GSocket2::setBacklog(int _backlog) {
     m_backlog = _backlog;
 }
 //===============================================
+bool GSocket2::isEnd(int _char, int& _index) const {
+    if(_index == 0) {
+        if(_char == '\r') _index++;
+    }
+    else if(_index == 1) {
+        if(_char == '\n') _index++;
+    }
+    else if(_index == 2) {
+        if(_char == '\r') _index++;
+    }
+    else if(_index == 3) {
+        if(_char == '\n') _index++;
+    }
+    else {
+        _index = 0;
+    }
+
+    if(_index == 4) return true;
+    return false;
+}
+//===============================================
 bool GSocket2::run() {
     int lSocket = socket(m_domain, m_type, m_protocol);
     if(lSocket == -1) return false;
@@ -86,22 +107,15 @@ bool GSocket2::run() {
     int lSocket2 = accept(lSocket, (struct sockaddr*)&lAddress2, &lSize);
     if(lSocket2 == -1) return false;
 
-    char lBuffer[BUFFER_SIZE + 1];
+    char lChar;
+    int lEnd = 0;
     std::string lDataIn = "";
 
     while(1) {
-        int lBytes = recv(lSocket2, lBuffer, 1, 0);
-        if(lBytes > 0) {
-            lBuffer[lBytes] = 0;
-            lDataIn += lBuffer;
-            GLOGT(eGMSG, "[%d]", lBytes);
-            if(lBytes < BUFFER_SIZE) {
-                break;
-            }
-        }
-        else {
-            break;
-        }
+        int lBytes = recv(lSocket2, &lChar, 1, 0);
+        if(lBytes <= 0) break;
+        lDataIn += lChar;
+        if(isEnd(lChar, lEnd)) break;
     }
 
     GLOGT(eGMSG, "[%s]", lDataIn.c_str());
