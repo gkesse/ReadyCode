@@ -27,7 +27,7 @@ void GPoco::setModule(const std::string& _module) {
 }
 //===============================================
 void GPoco::setHostname(const std::string& _hostname) {
-    m_app->setHostname(_hostname);
+    m_hostname = _hostname;
 }
 //===============================================
 void GPoco::setFamily(int _family) {
@@ -64,11 +64,13 @@ void GPoco::onRunEcho(int _argc, char** _argv) {
 void GPoco::onRunDns(int _argc, char** _argv) {
     const Poco::Net::HostEntry& entry = Poco::Net::DNS::hostByName(m_hostname);
     std::cout << "Canonical Name: " << entry.name() << std::endl;
+
     const Poco::Net::HostEntry::AliasList& aliases = entry.aliases();
     Poco::Net::HostEntry::AliasList::const_iterator itAlias = aliases.begin();
     for (; itAlias != aliases.end(); ++itAlias) {
         std::cout << "Alias: " << *itAlias << std::endl;
     }
+
     const Poco::Net::HostEntry::AddressList& addrs = entry.addresses();
     Poco::Net::HostEntry::AddressList::const_iterator itAddress = addrs.begin();
     for (; itAddress != addrs.end(); ++itAddress) {
@@ -81,8 +83,9 @@ void GPoco::init(int _argc, char** _argv) {
 }
 //===============================================
 void GPoco::run() {
-    m_app->setModule(m_module);
     m_app = new GPocoApp;
+    m_app->setModule(m_module);
+    m_app->setHostname(m_hostname);
     m_app->run();
 }
 //===============================================
