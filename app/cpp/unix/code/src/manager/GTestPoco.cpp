@@ -95,12 +95,12 @@ void GTestPoco::runStream(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GPoco lPoco;
     lPoco.setModule("stream");
-    lPoco.setHostname("readydev.ovh");
+    lPoco.setHostname("pratique.leparisien.fr");
     lPoco.setPort(80);
     lPoco.setRequest(""
             ""
             " GET / HTTP/1.1\r\n "
-            " Host: readydev.ovh\r\n "
+            " Host: pratique.leparisien.fr\r\n "
             " \r\n "
             "");
     lPoco.run(_argc, _argv);
