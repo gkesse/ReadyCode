@@ -98,7 +98,7 @@ bool GSocket2::run() {
         else {
             break;
         }
-        GLOGT(eGMSG, "[%s]", lDataIn.c_str());
+        GLOGT(eGMSG, "[%s][%d]", lDataIn.c_str(), lBytes);
     }
 
     GLOGT(eGMSG, "[%s]", lDataIn.c_str());
