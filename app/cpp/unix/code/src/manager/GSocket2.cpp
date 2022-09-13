@@ -83,12 +83,24 @@ bool GSocket2::isEnd(int _char, int& _index) const {
 //===============================================
 bool GSocket2::readData(int _socket, std::string& _data) {
     char lChar;
-    int lEndIndex = 0;
+    int lIndex = 0;
     while(1) {
         int lBytes = recv(_socket, &lChar, 1, 0);
-        if(lBytes <= 0) break;
+        if(lBytes <= 0) return false;
         _data += lChar;
-        if(isEnd(lChar, lEndIndex)) break;
+        if(isEnd(lChar, lIndex)) return true;
+    }
+    return true;
+}
+//===============================================
+bool GSocket2::getMethod(const std::string& _data, std::string& _method) {
+    if(_data.size() == 0) return false;
+    int lIndex = 0;
+    while(1) {
+        char lChar = _data[lIndex++];
+        if(lChar == '\0') return false;
+        _method += lChar;
+        if(lChar == ' ') return true;
     }
     return true;
 }
@@ -115,9 +127,12 @@ bool GSocket2::run() {
     socklen_t lSize = sizeof(lAddress2);
     int lSocket2 = accept(lSocket, (struct sockaddr*)&lAddress2, &lSize);
     if(lSocket2 == -1) return false;
-    std::string lDataIn = "";
-    readData(lSocket2, lDataIn);
-    GLOGT(eGMSG, "[%s]", lDataIn.c_str());
+    std::string lHeader = "";
+    std::string lMethod = "";
+    readData(lSocket2, lHeader);
+    getMethod(lHeader, lMethod);
+    GLOGT(eGMSG, "[%s]\n", lHeader.c_str());
+    GLOGT(eGMSG, "[%s]\n", lMethod.c_str());
 
     return true;
 }

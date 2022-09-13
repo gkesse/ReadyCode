@@ -23,6 +23,7 @@ public:
     //
     bool isEnd(int _char, int& _index) const;
     bool readData(int _socket, std::string& _data);
+    bool getMethod(const std::string& _data, std::string& _method);
     //
     bool run();
 
