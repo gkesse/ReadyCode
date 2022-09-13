@@ -30,6 +30,9 @@ void GProcess::run(int _argc, char** _argv) {
     else if(lKey == "test/poco") {
         runTestPoco(_argc, _argv);
     }
+    else if(lKey == "test/socket") {
+        runTestSocket(_argc, _argv);
+    }
     else {
         runDefault(_argc, _argv);
     }
