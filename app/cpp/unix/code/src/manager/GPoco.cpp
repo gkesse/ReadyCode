@@ -71,7 +71,7 @@ void GPoco::onRunDns(int _argc, char** _argv) {
     }
     const Poco::Net::HostEntry::AddressList& addrs = entry.addresses();
     Poco::Net::HostEntry::AddressList::const_iterator itAddress = addrs.begin();
-    for (; itAddress != aliases.end(); ++itAddress) {
+    for (; itAddress != addrs.end(); ++itAddress) {
         std::cout << "Address: " << itAddress->toString() << std::endl;
     }
 }
