@@ -38,6 +38,9 @@ void GTestPoco::run(int _argc, char** _argv) {
     else if(lKey == "stream") {
         runStream(_argc, _argv);
     }
+    else if(lKey == "stream/http") {
+        runStreamHttp(_argc, _argv);
+    }
     else {
         runDefault(_argc, _argv);
     }
@@ -102,6 +105,22 @@ void GTestPoco::runStream(int _argc, char** _argv) {
             " GET / HTTP/1.1\r\n "
             " Host: pratique.leparisien.fr\r\n "
             " \r\n "
+            "");
+    lPoco.run(_argc, _argv);
+}
+//===============================================
+void GTestPoco::runStreamHttp(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    GPoco lPoco;
+    lPoco.setModule("stream/http");
+    lPoco.setPort(80);
+    lPoco.setResponse(""
+            ""
+            " HTTP/1.0 200 OK\r\n "
+            " Content-Type: text/html\r\n "
+            " \r\n "
+            " <html><head><title>My 1st Web Server</title></head> "
+            " <body><h1>Bonjour tout le monde !</h1></body></html> "
             "");
     lPoco.run(_argc, _argv);
 }

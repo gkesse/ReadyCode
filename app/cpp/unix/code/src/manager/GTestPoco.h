@@ -16,6 +16,7 @@ public:
     void runServerEcho(int _argc, char** _argv);
     void runDns(int _argc, char** _argv);
     void runStream(int _argc, char** _argv);
+    void runStreamHttp(int _argc, char** _argv);
 
 private:
     static GTestPoco* m_test;

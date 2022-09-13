@@ -19,11 +19,13 @@ public:
     void setRepetitions(int _repetitions);
     void setFormat(const std::string& _format);
     void setRequest(const std::string& _request);
+    void setResponse(const std::string& _response);
     //
     void onRunTime(int _argc, char** _argv);
     void onRunEcho(int _argc, char** _argv);
     void onRunDns(int _argc, char** _argv);
     void onRunStream(int _argc, char** _argv);
+    void onRunStreamHttp(int _argc, char** _argv);
     //
     void init(int _argc, char** _argv);
     void run();
@@ -39,6 +41,7 @@ private:
     std::string m_format;
     std::string m_hostname;
     std::string m_request;
+    std::string m_response;
     int m_port;
     int m_family;
 };

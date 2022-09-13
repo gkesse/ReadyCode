@@ -17,6 +17,7 @@ GPoco::GPoco()
     m_hostname = "";
     m_family = 0;
     m_request = "";
+    m_response = "";
 }
 //===============================================
 GPoco::~GPoco() {
@@ -46,6 +47,10 @@ void GPoco::setFormat(const std::string& _format) {
 //===============================================
 void GPoco::setRequest(const std::string& _request) {
     m_request = _request;
+}
+//===============================================
+void GPoco::setResponse(const std::string& _response) {
+    m_response = _response;
 }
 //===============================================
 void GPoco::setRepetitions(int _repetitions) {
@@ -93,6 +98,15 @@ void GPoco::onRunStream(int _argc, char** _argv) {
     Poco::StreamCopier::copyStream(str, std::cout);
 }
 //===============================================
+void GPoco::onRunStreamHttp(int _argc, char** _argv) {
+    Poco::Net::ServerSocket srv(m_port);
+    for (;;) {
+        Poco::Net::StreamSocket ss = srv.acceptConnection();
+        Poco::Net::SocketStream str(ss);
+        str << m_response << std::flush;
+    }
+}
+//===============================================
 void GPoco::init(int _argc, char** _argv) {
     m_app->init(_argc, _argv);
 }
@@ -117,6 +131,9 @@ void GPoco::run(int _argc, char** _argv) {
     }
     else if(m_module == "stream") {
         onRunStream(_argc, _argv);
+    }
+    else if(m_module == "stream/http") {
+        onRunStreamHttp(_argc, _argv);
     }
 }
 //===============================================
