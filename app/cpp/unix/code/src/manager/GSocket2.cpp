@@ -81,6 +81,18 @@ bool GSocket2::isEnd(int _char, int& _index) const {
     return false;
 }
 //===============================================
+bool GSocket2::readData(int _socket, std::string& _data) {
+    char lChar;
+    int lEndIndex = 0;
+    while(1) {
+        int lBytes = recv(_socket, &lChar, 1, 0);
+        if(lBytes <= 0) break;
+        _data += lChar;
+        if(isEnd(lChar, lEndIndex)) break;
+    }
+    return true;
+}
+//===============================================
 bool GSocket2::run() {
     int lSocket = socket(m_domain, m_type, m_protocol);
     if(lSocket == -1) return false;
@@ -103,18 +115,8 @@ bool GSocket2::run() {
     socklen_t lSize = sizeof(lAddress2);
     int lSocket2 = accept(lSocket, (struct sockaddr*)&lAddress2, &lSize);
     if(lSocket2 == -1) return false;
-
-    char lChar;
-    int lEnd = 0;
     std::string lDataIn = "";
-
-    while(1) {
-        int lBytes = recv(lSocket2, &lChar, 1, 0);
-        if(lBytes <= 0) break;
-        lDataIn += lChar;
-        if(isEnd(lChar, lEnd)) break;
-    }
-
+    readData(lSocket2, lDataIn);
     GLOGT(eGMSG, "[%s]", lDataIn.c_str());
 
     return true;
