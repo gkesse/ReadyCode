@@ -94,6 +94,7 @@ bool GSocket2::run() {
         if(lBytes > 0) {
             lBuffer[lBytes] = 0;
             lDataIn += lBuffer;
+            GLOGT(eGMSG, "[%d]", lBytes);
             if(lBytes < BUFFER_SIZE) {
                 break;
             }
