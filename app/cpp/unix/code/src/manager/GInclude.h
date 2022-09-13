@@ -55,6 +55,8 @@
 #include <Poco/Net/SocketReactor.h>
 #include <Poco/Net/SocketAcceptor.h>
 #include <Poco/Net/SocketNotification.h>
+#include <Poco/Net/DNS.h>
+#include <Poco/Net/HostEntry.h>
 //
 #include <Poco/Util/Application.h>
 #include <Poco/Util/ServerApplication.h>

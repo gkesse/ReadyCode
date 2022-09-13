@@ -14,6 +14,7 @@ public:
     void runServerTcp(int _argc, char** _argv);
     void runServerTime(int _argc, char** _argv);
     void runServerEcho(int _argc, char** _argv);
+    void runDns(int _argc, char** _argv);
 
 private:
     static GTestPoco* m_test;

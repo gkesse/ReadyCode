@@ -32,6 +32,9 @@ void GTestPoco::run(int _argc, char** _argv) {
     else if(lKey == "server/echo") {
         runServerEcho(_argc, _argv);
     }
+    else if(lKey == "dns") {
+        runDns(_argc, _argv);
+    }
     else {
         runDefault(_argc, _argv);
     }
@@ -74,6 +77,14 @@ void GTestPoco::runServerEcho(int _argc, char** _argv) {
     GPoco lPoco;
     lPoco.setModule("echo");
     lPoco.setPort(9001);
+    lPoco.run(_argc, _argv);
+}
+//===============================================
+void GTestPoco::runDns(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    GPoco lPoco;
+    lPoco.setModule("dns");
+    lPoco.setHostname("readydev.ovh");
     lPoco.run(_argc, _argv);
 }
 //===============================================

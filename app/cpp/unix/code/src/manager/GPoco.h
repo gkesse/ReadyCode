@@ -21,6 +21,7 @@ public:
     //
     void onRunTime(int _argc, char** _argv);
     void onRunEcho(int _argc, char** _argv);
+    void onRunDns(int _argc, char** _argv);
     //
     void init(int _argc, char** _argv);
     void run();

@@ -61,6 +61,20 @@ void GPoco::onRunEcho(int _argc, char** _argv) {
     m_serverApp->run(_argc, _argv);
 }
 //===============================================
+void GPoco::onRunDns(int _argc, char** _argv) {
+    const Poco::Net::HostEntry& entry = Poco::Net::DNS::hostByName(m_hostname);
+    std::cout << "Canonical Name: " << entry.name() << std::endl;
+    const Poco::Net::HostEntry::AliasList& aliases = entry.aliases();
+    Poco::Net::HostEntry::AliasList::const_iterator itAlias = aliases.begin();
+    for (; itAlias != aliases.end(); ++itAlias) {
+        std::cout << "Alias: " << *itAlias << std::endl;
+    }
+    const Poco::Net::HostEntry::AddressList& addrs = entry.addresses();
+    Poco::Net::HostEntry::AddressList::const_iterator itAddress = addrs.begin();
+    for (; itAddress != aliases.end(); ++itAddress)
+    std::cout << "Address: " << itAddress->toString() << std::endl;
+}
+//===============================================
 void GPoco::init(int _argc, char** _argv) {
     m_app->init(_argc, _argv);
 }
@@ -77,6 +91,9 @@ void GPoco::run(int _argc, char** _argv) {
     }
     else if(m_module == "echo") {
         onRunEcho(_argc, _argv);
+    }
+    else if(m_module == "dns") {
+        onRunDns(_argc, _argv);
     }
 }
 //===============================================
