@@ -24,7 +24,7 @@ public:
     bool run();
 
 private:
-    static const int BUFFER_SIZE = 1024;
+    static const int BUFFER_SIZE = 20;
     std::string m_module;
     std::string m_hostname;
     std::string m_message;
