@@ -113,7 +113,7 @@ void GTestPoco::runStreamHttp(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GPoco lPoco;
     lPoco.setModule("stream/http");
-    lPoco.setPort(80);
+    lPoco.setPort(9001);
     lPoco.setResponse(""
             ""
             " HTTP/1.0 200 OK\r\n "
