@@ -83,7 +83,7 @@ bool GSocket2::run() {
 
     struct sockaddr_in lAddress2;
     socklen_t lSize = sizeof(lAddress2);
-    int lSocket2 = accept(lSocket, (struct sockaddr*)lAddress2, &lSize);
+    int lSocket2 = accept(lSocket, (struct sockaddr*)&lAddress2, &lSize);
     if(lSocket2 == -1) return false;
 
     char lBuffer[BUFFER_SIZE + 1];
