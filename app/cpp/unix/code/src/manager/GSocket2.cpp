@@ -110,7 +110,7 @@ bool GSocket2::getMethod(const std::string& _data, std::string& _method) {
     return false;
 }
 //===============================================
-bool GSocket2::getUrl(const std::string& _data, std::string& _method) {
+bool GSocket2::getUrl(const std::string& _data, std::string& _url) {
     if(_data.size() == 0) return false;
     int lPos = 0;
     int lIndex = 0;
@@ -120,15 +120,35 @@ bool GSocket2::getUrl(const std::string& _data, std::string& _method) {
         if(lChar == '\r') return false;
         if(lChar == '\n') return false;
         if(lIndex == 0) {
-            if(lChar == ' ') return false;
+            if(lChar == ' ') lIndex++;
         }
-        if(lChar == ' ') return true;
-        _method += lChar;
+        else if(lIndex == 1) {
+            if(lChar == ' ') return true;
+            _url += lChar;
+        }
     }
     return false;
 }
 //===============================================
-bool GSocket2::getVersion(const std::string& _data, std::string& _method) {
+bool GSocket2::getProtocol(const std::string& _data, std::string& _protocol) {
+    if(_data.size() == 0) return false;
+    int lPos = 0;
+    int lIndex = 0;
+    while(1) {
+        char lChar = _data[lPos++];
+        if(lChar == '\0') return false;
+        if(lIndex == 0) {
+            if(lChar == ' ') lIndex++;
+        }
+        else if(lIndex == 1) {
+            if(lChar == ' ') lIndex++;
+        }
+        else if(lIndex == 2) {
+            if(lChar == '\r') return true;
+            if(lChar == '\n') return true;
+            _protocol += lChar;
+        }
+    }
     return false;
 }
 //===============================================
@@ -171,6 +191,13 @@ bool GSocket2::run() {
 }
 //===============================================
 bool GSocket2::runGet(int _socket, const std::string& _data) {
+    std::string lUrl = "";
+    std::string lProtocol = "";
+    getUrl(_data, lUrl);
+    getProtocol(_data, lProtocol);
+    GLOGT(eGMSG, "[%s]\n", lUrl.c_str());
+    GLOGT(eGMSG, "[%s]\n", lProtocol.c_str());
+
     std::string lDataOut = ""
             "HTTP/1.0 200 OK\r\n"
             "Content-Type: text/html\r\n"
