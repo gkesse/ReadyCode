@@ -88,9 +88,9 @@ bool GSocket2::run() {
 
     char lBuffer[BUFFER_SIZE + 1];
     std::string lDataIn = "";
+    int lBytes = recv(lSocket2, lBuffer, BUFFER_SIZE, 0);
 
     while(1) {
-        int lBytes = recv(lSocket2, lBuffer, BUFFER_SIZE, 0);
         if(lBytes > 0) {
             lBuffer[lBytes] = 0;
             lDataIn += lBuffer;
@@ -98,6 +98,7 @@ bool GSocket2::run() {
         else {
             break;
         }
+        int lBytes = recv(lSocket2, lBuffer, BUFFER_SIZE, 0);
     }
 
     GLOGT(eGMSG, "[%s]", lDataIn.c_str());
