@@ -90,7 +90,7 @@ bool GSocket2::run() {
     int lBytes = recv(lSocket2, lBuffer, BUFFER_SIZE, 0);
     if(lBytes > 0) lBuffer[lBytes] = 0;
 
-    GLOGT(eGMSG, "%s", lBuffer);
+    GLOGT(eGMSG, "[%s]", lBuffer);
 
     return true;
 }
