@@ -116,11 +116,11 @@ void GTestPoco::runStreamHttp(int _argc, char** _argv) {
     lPoco.setPort(9001);
     lPoco.setResponse(""
             ""
-            " HTTP/1.0 200 OK\r\n "
-            " Content-Type: text/html\r\n "
-            " \r\n "
-            " <html><head><title>My 1st Web Server</title></head> "
-            " <body><h1>Bonjour tout le monde !</h1></body></html> "
+            "HTTP/1.0 200 OK\r\n"
+            "Content-Type: text/html\r\n"
+            "\r\n"
+            "<html><head><title>My 1st Web Server</title></head>"
+            "<body><h1>Bonjour tout le monde !</h1></body></html>"
             "");
     lPoco.run(_argc, _argv);
 }
