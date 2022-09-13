@@ -1,19 +1,21 @@
 //===============================================
-#ifndef _GProcess_
-#define _GProcess_
+#ifndef _GTestSocket_
+#define _GTestSocket_
 //===============================================
 #include "GObject.h"
 //===============================================
-class GProcess : public GObject {
+class GSocket;
+//===============================================
+class GTestSocket : public GObject {
 public:
-    GProcess();
-    ~GProcess();
+    GTestSocket();
+    ~GTestSocket();
     void run(int _argc, char** _argv);
     void runDefault(int _argc, char** _argv);
-    void runTest(int _argc, char** _argv);
-    void runTestNetwork(int _argc, char** _argv);
-    void runTestPoco(int _argc, char** _argv);
-    void runTestSocket(int _argc, char** _argv);
+    void runTcp(int _argc, char** _argv);
+
+private:
+    static GTestSocket* m_test;
 };
 //===============================================
 #endif

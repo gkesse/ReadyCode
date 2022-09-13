@@ -3,6 +3,7 @@
 #include "GTest.h"
 #include "GTestNetwork.h"
 #include "GTestPoco.h"
+#include "GTestSocket.h"
 //===============================================
 GProcess::GProcess()
 : GObject() {
@@ -48,5 +49,9 @@ void GProcess::runTestNetwork(int _argc, char** _argv) {
 //===============================================
 void GProcess::runTestPoco(int _argc, char** _argv) {
     GTestPoco().run(_argc, _argv);
+}
+//===============================================
+void GProcess::runTestSocket(int _argc, char** _argv) {
+    GTestSocket().run(_argc, _argv);
 }
 //===============================================
