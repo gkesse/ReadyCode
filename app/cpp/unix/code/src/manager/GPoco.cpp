@@ -15,6 +15,8 @@ GPoco::GPoco()
     m_port = 0;
     m_format = "";
     m_hostname = "";
+    m_family = 0;
+    m_request = "";
 }
 //===============================================
 GPoco::~GPoco() {
@@ -31,7 +33,7 @@ void GPoco::setHostname(const std::string& _hostname) {
 }
 //===============================================
 void GPoco::setFamily(int _family) {
-    m_app->setFamily(_family);
+    m_family = _family;
 }
 //===============================================
 void GPoco::setPort(int _port) {
@@ -40,6 +42,10 @@ void GPoco::setPort(int _port) {
 //===============================================
 void GPoco::setFormat(const std::string& _format) {
     m_format = _format;
+}
+//===============================================
+void GPoco::setRequest(const std::string& _request) {
+    m_request = _request;
 }
 //===============================================
 void GPoco::setRepetitions(int _repetitions) {
@@ -78,6 +84,15 @@ void GPoco::onRunDns(int _argc, char** _argv) {
     }
 }
 //===============================================
+void GPoco::onRunStream(int _argc, char** _argv) {
+    Poco::Net::SocketAddress sa(m_hostname, m_port);
+    Poco::Net::StreamSocket socket(sa);
+    Poco::Net::SocketStream str(socket);
+    str << m_request;
+    str.flush();
+    Poco::StreamCopier::copyStream(str, std::cout);
+}
+//===============================================
 void GPoco::init(int _argc, char** _argv) {
     m_app->init(_argc, _argv);
 }
@@ -86,6 +101,7 @@ void GPoco::run() {
     m_app = new GPocoApp;
     m_app->setModule(m_module);
     m_app->setHostname(m_hostname);
+    m_app->setFamily(m_family);
     m_app->run();
 }
 //===============================================
@@ -98,6 +114,9 @@ void GPoco::run(int _argc, char** _argv) {
     }
     else if(m_module == "dns") {
         onRunDns(_argc, _argv);
+    }
+    else if(m_module == "stream") {
+        onRunStream(_argc, _argv);
     }
 }
 //===============================================

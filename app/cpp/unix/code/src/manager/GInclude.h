@@ -57,6 +57,7 @@
 #include <Poco/Net/SocketNotification.h>
 #include <Poco/Net/DNS.h>
 #include <Poco/Net/HostEntry.h>
+#include <Poco/Net/SocketStream.h>
 //
 #include <Poco/Util/Application.h>
 #include <Poco/Util/ServerApplication.h>
@@ -74,6 +75,7 @@
 #include <Poco/Thread.h>
 #include <Poco/FIFOBuffer.h>
 #include <Poco/NObserver.h>
+#include <Poco/StreamCopier.h>
 // libs
 #include <base64.hpp>
 #include <md5.h>

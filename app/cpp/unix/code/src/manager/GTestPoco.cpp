@@ -35,6 +35,9 @@ void GTestPoco::run(int _argc, char** _argv) {
     else if(lKey == "dns") {
         runDns(_argc, _argv);
     }
+    else if(lKey == "stream") {
+        runStream(_argc, _argv);
+    }
     else {
         runDefault(_argc, _argv);
     }
@@ -85,6 +88,21 @@ void GTestPoco::runDns(int _argc, char** _argv) {
     GPoco lPoco;
     lPoco.setModule("dns");
     lPoco.setHostname("readydev.ovh");
+    lPoco.run(_argc, _argv);
+}
+//===============================================
+void GTestPoco::runStream(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    GPoco lPoco;
+    lPoco.setModule("stream");
+    lPoco.setHostname("readydev.ovh");
+    lPoco.setPort(80);
+    lPoco.setRequest(""
+            ""
+            " GET / HTTP/1.1\r\n "
+            " Host: readydev.ovh\r\n "
+            " \r\n "
+            "");
     lPoco.run(_argc, _argv);
 }
 //===============================================
