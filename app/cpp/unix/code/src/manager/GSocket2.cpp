@@ -87,10 +87,20 @@ bool GSocket2::run() {
     if(lSocket2 == -1) return false;
 
     char lBuffer[BUFFER_SIZE + 1];
-    int lBytes = recv(lSocket2, lBuffer, BUFFER_SIZE, 0);
-    if(lBytes > 0) lBuffer[lBytes] = 0;
+    std::string lDataIn = "";
 
-    GLOGT(eGMSG, "[%s]", lBuffer);
+    while(1) {
+        int lBytes = recv(lSocket2, lBuffer, BUFFER_SIZE, 0);
+        if(lBytes > 0) {
+            lBuffer[lBytes] = 0;
+            lDataIn += lBuffer;
+        }
+        else {
+            break;
+        }
+    }
+
+    GLOGT(eGMSG, "[%s]", lDataIn.c_str());
 
     return true;
 }
