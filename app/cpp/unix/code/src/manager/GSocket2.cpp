@@ -65,19 +65,16 @@ void GSocket2::setBacklog(int _backlog) {
 //===============================================
 bool GSocket2::isEnd(int _char, int& _index) const {
     if(_index == 0) {
-        if(_char == '\r') _index++;
+        if(_char == '\r')_index++; else _index = 0;
     }
     else if(_index == 1) {
-        if(_char == '\n') _index++;
+        if(_char == '\n') _index++; else _index = 0;
     }
     else if(_index == 2) {
-        if(_char == '\r') _index++;
+        if(_char == '\r') _index++; else _index = 0;
     }
     else if(_index == 3) {
-        if(_char == '\n') _index++;
-    }
-    else {
-        _index = 0;
+        if(_char == '\n') _index++; else _index = 0;
     }
 
     if(_index == 4) return true;
