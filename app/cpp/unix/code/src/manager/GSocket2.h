@@ -22,13 +22,16 @@ public:
     void setBacklog(int _backlog);
     //
     bool isEnd(int _char, int& _index) const;
-    bool readData(int _socket, std::string& _data);
+    bool readData(int _socket, std::string& _data, int _max = 0);
     bool getMethod(const std::string& _data, std::string& _method);
+    bool getUrl(const std::string& _data, std::string& _method);
+    bool getVersion(const std::string& _data, std::string& _method);
     //
     bool run();
+    bool runGet(int _socket, const std::string& _data);
 
 private:
-    static const int BUFFER_SIZE = 20;
+    static const int BUFFER_SIZE = 1024;
     std::string m_module;
     std::string m_hostname;
     std::string m_message;
