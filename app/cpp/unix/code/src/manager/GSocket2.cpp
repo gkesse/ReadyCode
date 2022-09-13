@@ -99,8 +99,10 @@ bool GSocket2::getMethod(const std::string& _data, std::string& _method) {
     while(1) {
         char lChar = _data[lIndex++];
         if(lChar == '\0') return false;
-        _method += lChar;
+        if(lChar == '\r') return false;
+        if(lChar == '\n') return false;
         if(lChar == ' ') return true;
+        _method += lChar;
     }
     return true;
 }
