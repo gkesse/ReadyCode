@@ -14,6 +14,7 @@ public:
     void setModule(const std::string& _module);
     void setHostname(const std::string& _hostname);
     void setMessage(const std::string& _message);
+    void setNotFound(const std::string& _notFound);
     void setDomain(int _domain);
     void setType(int _type);
     void setProtocol(int _protocol);
@@ -21,7 +22,9 @@ public:
     void setPort(int _port);
     void setBacklog(int _backlog);
     //
-    bool isEnd(int _char, int& _index) const;
+    bool analyze(int _socket, std::string& _data);
+    bool compare(const std::string& _data1, const std::string& _data2);
+    bool isGet(int _char, int& _index) const;
     bool readData(int _socket, std::string& _data, int _max = 0);
     bool getMethod(const std::string& _data, std::string& _method);
     bool getUrl(const std::string& _data, std::string& _method);
@@ -32,9 +35,12 @@ public:
 
 private:
     static const int BUFFER_SIZE = 1024;
+    static const int ANALYZE_SIZE = 10;
+    //
     std::string m_module;
     std::string m_hostname;
     std::string m_message;
+    std::string m_notFound;
     int m_domain;
     int m_type;
     int m_protocol;

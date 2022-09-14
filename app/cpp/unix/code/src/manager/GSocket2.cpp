@@ -39,6 +39,10 @@ void GSocket2::setMessage(const std::string& _message) {
     m_message = _message;
 }
 //===============================================
+void GSocket2::setNotFound(const std::string& _notFound) {
+    m_notFound = _notFound;
+}
+//===============================================
 void GSocket2::setDomain(int _domain) {
     m_domain = _domain;
 }
@@ -63,7 +67,26 @@ void GSocket2::setBacklog(int _backlog) {
     m_backlog = _backlog;
 }
 //===============================================
-bool GSocket2::isEnd(int _char, int& _index) const {
+bool GSocket2::analyze(int _socket, std::string& _data) {
+    char lBuffer[ANALYZE_SIZE + 1];
+    int lBytes = recv(_socket, lBuffer, ANALYZE_SIZE, 0);
+    if(lBytes <= 0) return false;
+    lBuffer[lBytes] = 0;
+    _data += lBuffer;
+    if(lBytes == ANALYZE_SIZE) return true;
+    return false;
+}
+//===============================================
+bool GSocket2::compare(const std::string& _data1, const std::string& _data2) {
+    if(_data1.size() == 0) return false;
+    if(_data2.size() == 0) return false;
+    for(int i = 0; i < _data2.size(); i++) {
+        if(_data1[i] != _data2[i]) return true;
+    }
+    return false;
+}
+//===============================================
+    bool GSocket2::isGet(int _char, int& _index) const {
     if(_index == 0) {
         if(_char == '\r')_index++; else _index = 0;
     }
@@ -91,7 +114,7 @@ bool GSocket2::readData(int _socket, std::string& _data, int _max) {
         lSize += lBytes;
         if(_max > 0) {if(lSize >= _max) return false;}
         _data += lChar;
-        if(isEnd(lChar, lIndex)) return true;
+        if(isGet(lChar, lIndex)) return true;
     }
     return false;
 }
@@ -175,29 +198,24 @@ bool GSocket2::run() {
     int lSocket2 = accept(lSocket, (struct sockaddr*)&lAddress2, &lSize);
     if(lSocket2 == -1) return false;
 
-    std::string lHeader = "";
-    std::string lMethod = "";
+    std::string lDataIn = "";
 
-    if(readData(lSocket2, lHeader)) {
-        if(getMethod(lHeader, lMethod)) {
-            if(lMethod == "GET") runGet(lSocket2, lHeader);
+    if(analyze(lSocket2, lDataIn)) {
+        if(compare(lDataIn, "GET")) {
+            runGet(lSocket2, lDataIn);
         }
     }
+    else {
+        int lBytes = send(lSocket2, m_notFound.c_str(), m_notFound.size(), 0);
+        if(lBytes <= 0) return false;
+    }
 
-    GLOGT(eGMSG, "[%s]\n", lHeader.c_str());
-    GLOGT(eGMSG, "[%s]\n", lMethod.c_str());
+    GLOGT(eGMSG, "[%s]\n", lDataIn.c_str());
 
     return true;
 }
 //===============================================
 bool GSocket2::runGet(int _socket, const std::string& _data) {
-    std::string lUrl = "";
-    std::string lProtocol = "";
-    getUrl(_data, lUrl);
-    getProtocol(_data, lProtocol);
-    GLOGT(eGMSG, "[%s]\n", lUrl.c_str());
-    GLOGT(eGMSG, "[%s]\n", lProtocol.c_str());
-
     std::string lDataOut = ""
             "HTTP/1.0 200 OK\r\n"
             "Content-Type: text/html\r\n"
