@@ -101,11 +101,21 @@ bool GSocket2::analyzeHeader(const std::string& _data) {
             std::string lMethod = loadWord(lLine, 0, " \r\n");
             std::string lUrl = loadWord(lLine, 1, " \r\n");
             std::string lVersion = loadWord(lLine, 2, " \r\n");
-            printf("[%s]\n", lMethod.c_str());
-            printf("[%s]\n", lUrl.c_str());
-            printf("[%s]\n", lVersion.c_str());
             lLine = "";
             break;
+        }
+    }
+    for(int i = 0; i < _data.size(); i++) {
+        char lChar = _data[i];
+        lLine += lChar;
+        if(isLine(lChar, lIndex)) {
+            if(compare(_data, "Host", ":")) {
+                std::string lHostname = loadWord(lLine, 0, " :\r\n");
+                std::string lPort = loadWord(lLine, 0, " :\r\n");
+                printf("[%s]\n", lHostname);
+                printf("[%s]\n", lPort);
+            }
+            lLine = "";
         }
     }
     return true;
@@ -140,6 +150,27 @@ std::string GSocket2::loadWord(const std::string& _data, int _pos, const std::st
         }
     }
     return "";
+}
+//===============================================
+std::string GSocket2::trimData(const std::string& _data, const std::string& _sep) {
+    int lStartPos = 0;
+    int lEndPos = _data.size() - 1;
+    std::string lData = "";
+    for(int i = 0; i < _data.size(); i++) {
+        char lChar = _data[i];
+        if(!isSep(lChar, _sep)) break;
+        lStartPos++;
+    }
+    for(int i = _data.size() - 1; i >= 0 ; i--) {
+        char lChar = _data[i];
+        if(!isSep(lChar, _sep)) break;
+        lEndPos--;
+    }
+    for(int i = lStartPos; i <= lEndPos; i++) {
+        char lChar = _data[i];
+        lData += lChar;
+    }
+    return lData;
 }
 //===============================================
 bool GSocket2::sendPageNotFound(int _socket) {

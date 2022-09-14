@@ -27,6 +27,7 @@ public:
     bool analyzeHeader(const std::string& _data);
     bool compare(const std::string& _data1, const std::string& _data2, const std::string& _sep = " ");
     std::string loadWord(const std::string& _data, int _pos, const std::string& _sep = " ");
+    std::string trimData(const std::string& _data, const std::string& _sep);
     //
     bool isHeader(char _char, int& _index) const;
     bool isLine(char _char, int& _index) const;
