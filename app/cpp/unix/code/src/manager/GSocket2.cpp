@@ -73,7 +73,7 @@ bool GSocket2::analyzeMethod(int _socket, std::string& _data) {
     if(lBytes <= 0) return false;
     lBuffer[lBytes] = 0;
     _data += lBuffer;
-    return false;
+    return true;
 }
 //===============================================
 bool GSocket2::analyzeHeader(int _socket, std::string& _data) {
