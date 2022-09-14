@@ -125,7 +125,7 @@ bool GSocket2::compare(const std::string& _data1, const std::string& _data2, con
     return true;
 }
 //===============================================
-std::string GSocket2::loadWord(const std::string& _data, int _pos, const std::string& _sep = " ") {
+std::string GSocket2::loadWord(const std::string& _data, int _pos, const std::string& _sep) {
     std::string lWord = "";
     int lPos = 0;
     for(int i = 0; i < _data.size(); i++) {
