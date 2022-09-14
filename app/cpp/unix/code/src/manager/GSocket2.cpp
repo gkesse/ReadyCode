@@ -98,8 +98,14 @@ bool GSocket2::analyzeHeader(const std::string& _data) {
         char lChar = _data[i];
         lLine += lChar;
         if(isLine(lChar, lIndex)) {
-            printf("[%s]\n", lLine.c_str());
+            std::string lMethod = loadWord(lLine, 0, " \r\n");
+            std::string lUrl = loadWord(lLine, 1, " \r\n");
+            std::string lVersion = loadWord(lLine, 2, " \r\n");
+            printf("[%s]\n", lMethod.c_str());
+            printf("[%s]\n", lUrl.c_str());
+            printf("[%s]\n", lVersion.c_str());
             lLine = "";
+            break;
         }
     }
     return true;
@@ -119,13 +125,28 @@ bool GSocket2::compare(const std::string& _data1, const std::string& _data2, con
     return true;
 }
 //===============================================
+std::string GSocket2::loadWord(const std::string& _data, int _pos, const std::string& _sep = " ") {
+    std::string lWord = "";
+    int lPos = 0;
+    for(int i = 0; i < _data.size(); i++) {
+        char lChar = _data[i];
+        if(isSep(lChar, _sep)) {
+            if(lPos == _pos) return lWord;
+            lWord = "";
+            lPos++;
+        }
+        lWord += lChar;
+    }
+    return "";
+}
+//===============================================
 bool GSocket2::sendPageNotFound(int _socket) {
     int lBytes = send(_socket, m_notFound.c_str(), m_notFound.size(), 0);
     if(lBytes <= 0) return false;
     return true;
 }
 //===============================================
-bool GSocket2::isHeader(int _char, int& _index) const {
+bool GSocket2::isHeader(char _char, int& _index) const {
     if(_index == 0) {
         if(_char == '\r')_index++; else _index = 0;
     }
@@ -143,7 +164,7 @@ bool GSocket2::isHeader(int _char, int& _index) const {
     return false;
 }
 //===============================================
-bool GSocket2::isLine(int _char, int& _index) const {
+bool GSocket2::isLine(char _char, int& _index) const {
     if(_index == 0) {
         if(_char == '\r')_index++; else _index = 0;
     }
@@ -152,6 +173,13 @@ bool GSocket2::isLine(int _char, int& _index) const {
     }
 
     if(_index == 2) {_index = 0; return true;}
+    return false;
+}
+//===============================================
+bool GSocket2::isSep(char _char, const std::string& _sep) const {
+    for(int i = 0; i < _sep.size(); i++) {
+        if(_char == _sep[i]) return true;
+    }
     return false;
 }
 //===============================================
