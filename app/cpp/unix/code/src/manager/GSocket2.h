@@ -22,10 +22,12 @@ public:
     void setPort(int _port);
     void setBacklog(int _backlog);
     //
-    bool analyzeMethod(int _socket, std::string& _data);
-    bool analyzeHeader(int _socket, std::string& _data);
+    bool readMethod(int _socket, std::string& _data);
+    bool readHeader(int _socket, std::string& _data);
+    bool analyzeHeader(const std::string& _data);
     bool compare(const std::string& _data1, const std::string& _data2, const std::string& _sep = " ");
     bool isHeader(int _char, int& _index) const;
+    bool isLine(int _char, int& _index) const;
     //
     bool sendPageNotFound(int _socket);
     //
