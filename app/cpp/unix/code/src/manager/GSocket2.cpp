@@ -135,7 +135,9 @@ std::string GSocket2::loadWord(const std::string& _data, int _pos, const std::st
             lWord = "";
             lPos++;
         }
-        lWord += lChar;
+        else {
+            lWord += lChar;
+        }
     }
     return "";
 }
