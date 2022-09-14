@@ -22,9 +22,10 @@ public:
     void setPort(int _port);
     void setBacklog(int _backlog);
     //
-    bool analyze(int _socket, std::string& _data);
-    bool compare(const std::string& _data1, const std::string& _data2);
-    bool isGet(int _char, int& _index) const;
+    bool analyzeMethod(int _socket, std::string& _data);
+    bool analyzeHeader(int _socket, std::string& _data);
+    bool compare(const std::string& _data1, const std::string& _data2, const std::string& _sep = " ");
+    bool isHeader(int _char, int& _index) const;
     //
     bool sendPageNotFound(int _socket);
     //
@@ -34,11 +35,12 @@ public:
     bool getProtocol(const std::string& _data, std::string& _protocol);
     //
     bool run();
-    bool runGet(int _socket, const std::string& _data);
+    bool runGet(int _socket, std::string& _data);
 
 private:
     static const int BUFFER_SIZE = 1024;
     static const int ANALYZE_SIZE = 10;
+    static const int HEADER_SIZE = 1024;
     //
     std::string m_module;
     std::string m_hostname;
