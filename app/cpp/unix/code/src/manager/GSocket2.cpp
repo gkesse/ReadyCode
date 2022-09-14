@@ -93,10 +93,12 @@ bool GSocket2::readHeader(int _socket, std::string& _data) {
 //===============================================
 bool GSocket2::analyzeHeader(const std::string& _data) {
     int lIndex = 0;
+    std::string lLine = "";
     for(int i = 0; i < _data.size(); i++) {
         char lChar = _data[i];
+        lLine += lChar;
         if(isLine(lChar, lIndex)) {
-            printf("oooooooooooo\n");
+            printf("%s\n", lLine.c_str());
         }
     }
     return true;
