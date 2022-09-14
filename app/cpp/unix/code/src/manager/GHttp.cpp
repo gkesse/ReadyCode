@@ -66,10 +66,6 @@ void GHttp::setConnection(const std::string& _connection) {
     m_connection = _connection;
 }
 //===============================================
-void GHttp::setConnection(const std::string& _connection) {
-    m_connection = _connection;
-}
-//===============================================
 bool GHttp::getRequest(std::string& _request) {
     return false;
 }
