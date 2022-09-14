@@ -110,8 +110,8 @@ bool GSocket2::analyzeHeader(const std::string& _data) {
         lLine += lChar;
         if(isLine(lChar, lIndex)) {
             if(compare(lLine, "Host", ":")) {
-                std::string lHostname = loadWord(lLine, 0, " :\r\n");
-                std::string lPort = loadWord(lLine, 0, " :\r\n");
+                std::string lHostname = loadWord(lLine, 1, " :\r\n");
+                std::string lPort = loadWord(lLine, 2, " :\r\n");
                 printf("[%s]\n", lHostname.c_str());
                 printf("[%s]\n", lPort.c_str());
             }
