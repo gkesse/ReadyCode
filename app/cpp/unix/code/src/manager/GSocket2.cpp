@@ -81,9 +81,15 @@ bool GSocket2::compare(const std::string& _data1, const std::string& _data2) {
     if(_data1.size() == 0) return false;
     if(_data2.size() == 0) return false;
     for(int i = 0; i < _data2.size(); i++) {
-        if(_data1[i] != _data2[i]) return true;
+        if(_data1[i] != _data2[i]) return false;
     }
-    return false;
+    return true;
+}
+//===============================================
+bool GSocket2::sendPageNotFound(int _socket) {
+    int lBytes = send(_socket, m_notFound.c_str(), m_notFound.size(), 0);
+    if(lBytes <= 0) return false;
+    return true;
 }
 //===============================================
     bool GSocket2::isGet(int _char, int& _index) const {
@@ -204,11 +210,10 @@ bool GSocket2::run() {
         if(compare(lDataIn, "GET")) {
             runGet(lSocket2, lDataIn);
         }
+        else {sendPageNotFound(lSocket2);}
     }
-    else {
-        int lBytes = send(lSocket2, m_notFound.c_str(), m_notFound.size(), 0);
-        if(lBytes <= 0) return false;
-    }
+    else {sendPageNotFound(lSocket2);}
+
 
     GLOGT(eGMSG, "[%s]\n", lDataIn.c_str());
 

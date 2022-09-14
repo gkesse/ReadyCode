@@ -25,6 +25,9 @@ public:
     bool analyze(int _socket, std::string& _data);
     bool compare(const std::string& _data1, const std::string& _data2);
     bool isGet(int _char, int& _index) const;
+    //
+    bool sendPageNotFound(int _socket);
+    //
     bool readData(int _socket, std::string& _data, int _max = 0);
     bool getMethod(const std::string& _data, std::string& _method);
     bool getUrl(const std::string& _data, std::string& _method);
