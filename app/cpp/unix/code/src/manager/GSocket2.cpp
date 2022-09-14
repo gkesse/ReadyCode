@@ -98,7 +98,8 @@ bool GSocket2::analyzeHeader(const std::string& _data) {
         char lChar = _data[i];
         lLine += lChar;
         if(isLine(lChar, lIndex)) {
-            printf("%s\n", lLine.c_str());
+            printf("[%s]\n", lLine.c_str());
+            lLine = "";
         }
     }
     return true;
