@@ -342,13 +342,13 @@ bool GSocket2::run() {
     socklen_t lSize = sizeof(lAddress2);
 
     GThread2 lThread;
-    lThread.setThreadCB(onThreadCB);
+    lThread.setThreadCB((void*)onThreadCB);
 
     while(1) {
         GSocket2* lClient = new GSocket2;
         int lSocket2 = accept(lSocket, (struct sockaddr*)&lAddress2, &lSize);
         if(lSocket2 == -1) return false;
-        lThread.setParams(lClient);
+        lThread.setParams((void*)lClient);
         if(!lThread.run()) return false;
     }
 
@@ -367,6 +367,7 @@ bool GSocket2::runGet(int _socket, std::string& _data) {
 }
 //===============================================
 static void* GSocket2::onThreadCB(void* _params) {
+    GLOGT(eGMSG, "");
     return 0;
 }
 //===============================================
