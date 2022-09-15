@@ -123,9 +123,9 @@ bool GSocket2::run() {
 //===============================================
 void* GSocket2::onThreadCB(void* _params) {
     GSocket2* lClient = (GSocket2*)_params;
-
+    GString2& lDataIn = lClient->getDataOut();
     if(lClient->readMethod()) {
-        if(m_dataIn.startBy("GET")) {
+        if(lDataIn.startBy("GET")) {
             lClient->runHttp();
         }
     }
