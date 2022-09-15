@@ -110,10 +110,29 @@ bool GSocket2::analyzeHeader(const std::string& _data) {
         lLine += lChar;
         if(isLine(lChar, lIndex)) {
             if(compare(lLine, "Host", ":")) {
-                std::string lHostname = loadWord(lLine, 1, ":\r\n");
+                std::string lHostname = trimData(loadWord(lLine, 1, ":\r\n"));
                 std::string lPort = loadWord(lLine, 2, ":\r\n");
-                printf("[%s]\n", lHostname.c_str());
-                printf("[%s]\n", lPort.c_str());
+            }
+            else if(compare(lLine, "Connection", ":")) {
+                std::string lConnection = trimData(loadWord(lLine, 1, ":\r\n"));
+            }
+            else if(compare(lLine, "Cache-Control", ":")) {
+                std::string lCacheControl = trimData(loadWord(lLine, 1, ":\r\n"));
+            }
+            else if(compare(lLine, "Upgrade-Insecure-Requests", ":")) {
+                std::string lUpgradeInsecureRequests = trimData(loadWord(lLine, 1, ":\r\n"));
+            }
+            else if(compare(lLine, "User-Agent", ":")) {
+                std::string lUserAgent = trimData(loadWord(lLine, 1, ":\r\n"));
+            }
+            else if(compare(lLine, "Accept", ":")) {
+                std::string lAccept = trimData(loadWord(lLine, 1, ":\r\n"));
+            }
+            else if(compare(lLine, "Accept-Encoding", ":")) {
+                std::string lAcceptEncoding = trimData(loadWord(lLine, 1, ":\r\n"));
+            }
+            else if(compare(lLine, "Accept-Language", ":")) {
+                std::string lAcceptLanguage = trimData(loadWord(lLine, 1, ":\r\n"));
             }
             lLine = "";
         }
