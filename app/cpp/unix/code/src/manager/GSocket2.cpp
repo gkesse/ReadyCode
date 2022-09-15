@@ -123,7 +123,9 @@ bool GSocket2::run() {
 //===============================================
 void* GSocket2::onThreadCB(void* _params) {
     GSocket2* lClient = (GSocket2*)_params;
-    GString2& lDataIn = lClient->getDataOut();
+    GString2& lDataIn = lClient->getDataIn();
+    GString2& lDataOut = lClient->getDataOut();
+
     if(lClient->readMethod()) {
         if(lDataIn.startBy("GET")) {
             lClient->runHttp();
@@ -132,10 +134,10 @@ void* GSocket2::onThreadCB(void* _params) {
 
     GLOGT(eGMSG, "[EMISSION] : (%d)\n%s", (int)m_dataOut.size(), m_dataOut.c_str());
 
-    if(m_dataOut.size() > 0) {
+    if(lDataOut.size() > 0) {
         int lIndex = 0;
-        int lSize = m_dataOut.size();
-        const char* lBuffer = m_dataOut.c_str();
+        int lSize = lDataOut.size();
+        const char* lBuffer = lDataOut.c_str();
 
         while(1) {
             int lBytes = send(lClient->m_socket, lBuffer[lIndex], lSize - lIndex, 0);
