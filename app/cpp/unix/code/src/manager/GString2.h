@@ -30,7 +30,6 @@ public:
     GString2& operator+=(const GString2& _data);
     GString2& operator+=(const std::string& _data);
     GString2& operator+=(const char* _data);
-    GString2& operator+=(int _data);
     GString2& operator+=(char _data);
     //
     bool operator==(const GString2& _data);
