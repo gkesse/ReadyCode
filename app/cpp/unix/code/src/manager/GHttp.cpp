@@ -98,7 +98,7 @@ void GHttp::runHttp() {
     if(readHeader()) {
         GLOGT(eGMSG, "[%s]", m_client->getDataIn().c_str());
         analyzeHeader();
-        lHttp.onModule();
+        onModule();
     }
 }
 //===============================================
