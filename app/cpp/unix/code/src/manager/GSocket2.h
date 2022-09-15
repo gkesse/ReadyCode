@@ -4,7 +4,7 @@
 //===============================================
 #include "GObject.h"
 //===============================================
-class GCode;
+class GHttp;
 //===============================================
 class GSocket2 : public GObject {
 public:
@@ -24,7 +24,7 @@ public:
     //
     bool readMethod(int _socket, std::string& _data);
     bool readHeader(int _socket, std::string& _data);
-    bool analyzeHeader(const std::string& _data);
+    bool analyzeHeader(const std::string& _data, GHttp& _http);
     bool compare(const std::string& _data1, const std::string& _data2, const std::string& _sep = " ");
     std::string loadWord(const std::string& _data, int _pos, const std::string& _sep = " ");
     std::string trimData(const std::string& _data, const std::string& _sep = " ");

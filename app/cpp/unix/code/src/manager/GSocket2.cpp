@@ -9,6 +9,8 @@
 #include "GString.h"
 #include "GEnv.h"
 #include "GHost.h"
+#include "GHttp.h"
+#include "GString2.h"
 //===============================================
 GSocket2::GSocket2()
 : GObject() {
@@ -91,7 +93,7 @@ bool GSocket2::readHeader(int _socket, std::string& _data) {
     return false;
 }
 //===============================================
-bool GSocket2::analyzeHeader(const std::string& _data) {
+bool GSocket2::analyzeHeader(const std::string& _data, GHttp& _http) {
     int lIndex = 0;
     std::string lLine = "";
     for(int i = 0; i < _data.size(); i++) {
@@ -101,6 +103,9 @@ bool GSocket2::analyzeHeader(const std::string& _data) {
             std::string lMethod = loadWord(lLine, 0, " \r\n");
             std::string lUrl = loadWord(lLine, 1, " \r\n");
             std::string lVersion = loadWord(lLine, 2, " \r\n");
+            _http.setMethod(lMethod);
+            _http.setUrl(lUrl);
+            _http.setVersion(lVersion);
             lLine = "";
             break;
         }
@@ -112,27 +117,36 @@ bool GSocket2::analyzeHeader(const std::string& _data) {
             if(compare(lLine, "Host", ":")) {
                 std::string lHostname = trimData(loadWord(lLine, 1, ":\r\n"));
                 std::string lPort = loadWord(lLine, 2, ":\r\n");
+                _http.setHostname(lHostname);
+                _http.setPort(std::stoi(lPort));
             }
             else if(compare(lLine, "Connection", ":")) {
                 std::string lConnection = trimData(loadWord(lLine, 1, ":\r\n"));
+                _http.setConnection(lConnection);
             }
             else if(compare(lLine, "Cache-Control", ":")) {
                 std::string lCacheControl = trimData(loadWord(lLine, 1, ":\r\n"));
+                _http.setCacheControl(lCacheControl);
             }
             else if(compare(lLine, "Upgrade-Insecure-Requests", ":")) {
                 std::string lUpgradeInsecureRequests = trimData(loadWord(lLine, 1, ":\r\n"));
+                _http.setUpgradeInsecureRequests(lUpgradeInsecureRequests);
             }
             else if(compare(lLine, "User-Agent", ":")) {
                 std::string lUserAgent = trimData(loadWord(lLine, 1, ":\r\n"));
+                _http.setUserAgent(lUserAgent);
             }
             else if(compare(lLine, "Accept", ":")) {
                 std::string lAccept = trimData(loadWord(lLine, 1, ":\r\n"));
+                _http.setAccept(lAccept);
             }
             else if(compare(lLine, "Accept-Encoding", ":")) {
                 std::string lAcceptEncoding = trimData(loadWord(lLine, 1, ":\r\n"));
+                _http.setAcceptEncoding(lAcceptEncoding);
             }
             else if(compare(lLine, "Accept-Language", ":")) {
                 std::string lAcceptLanguage = trimData(loadWord(lLine, 1, ":\r\n"));
+                _http.setAcceptLanguage(lAcceptLanguage);
             }
             lLine = "";
         }
@@ -346,8 +360,9 @@ bool GSocket2::run() {
 }
 //===============================================
 bool GSocket2::runGet(int _socket, std::string& _data) {
+    GHttp lHttp;
     if(readHeader(_socket, _data)) {
-        analyzeHeader(_data);
+        analyzeHeader(_data, lHttp);
     }
     return true;
 }
