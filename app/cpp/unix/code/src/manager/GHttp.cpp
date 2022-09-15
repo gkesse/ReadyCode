@@ -2,7 +2,6 @@
 #include "GHttp.h"
 #include "GFormat.h"
 #include "GLog.h"
-#include "GString2.h"
 //===============================================
 GHttp::GHttp()
 : GObject() {
