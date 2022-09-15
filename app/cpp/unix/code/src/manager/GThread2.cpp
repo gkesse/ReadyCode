@@ -23,7 +23,7 @@ void GThread2::setParams(void* _params) {
 bool GThread2::run() {
     if(m_threadCB == 0) return false;
     if(m_params == 0) return false;
-    pthread_create(&m_thread, 0, (GThread2_CB)m_thread, m_params);
+    pthread_create(&m_thread, 0, (GThread2_CB)m_threadCB, m_params);
     return true;
 }
 //===============================================
