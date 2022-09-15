@@ -28,19 +28,19 @@ GSocket2::~GSocket2() {
 
 }
 //===============================================
-void GSocket2::setModule(const std::string& _module) {
+void GSocket2::setModule(const GString2& _module) {
     m_module = _module;
 }
 //===============================================
-void GSocket2::setHostname(const std::string& _hostname) {
+void GSocket2::setHostname(const GString2& _hostname) {
     m_hostname = _hostname;
 }
 //===============================================
-void GSocket2::setMessage(const std::string& _message) {
+void GSocket2::setMessage(const GString2& _message) {
     m_message = _message;
 }
 //===============================================
-void GSocket2::setNotFound(const std::string& _notFound) {
+void GSocket2::setNotFound(const GString2& _notFound) {
     m_notFound = _notFound;
 }
 //===============================================
@@ -109,20 +109,39 @@ void* GSocket2::onThreadCB(void* _params) {
     GSocket2* lClient = (GSocket2*)_params;
     GSocket2* lServer = lClient->m_server;
     int lSocket = lClient->m_socket;
-    std::string lDataIn;
+    GString2 lDataIn;
 
     if(lClient->readMethod(lSocket, lDataIn)) {
-        if(lClient->compare(lDataIn, "GET")) {
+        if(lDataIn.startBy("GET")) {
             lClient->runGet(lSocket, lDataIn);
         }
         else {lClient->sendPageNotFound(lSocket);}
     }
     else {lClient->sendPageNotFound(lSocket);}
 
+    close(lSocket);
+    delete lClient;
     return 0;
 }
 //===============================================
-bool GSocket2::readMethod(int _socket, std::string& _data) {
+bool GSocket2::sendPageNotFound(int _socket) {
+    int lBytes = send(_socket, m_notFound.c_str(), m_notFound.size(), 0);
+    if(lBytes <= 0) return false;
+    return true;
+}
+//===============================================
+bool GSocket2::runGet(int _socket, GString2& _data) {
+    GHttp lHttp;
+    if(readHeader(_socket, _data)) {
+        analyzeHeader(_data, lHttp);
+        if(lHttp.getUrl() == "/") {
+
+        }
+    }
+    return true;
+}
+//===============================================
+bool GSocket2::readMethod(int _socket, GString2& _data) {
     char lBuffer[ANALYZE_SIZE + 1];
     int lBytes = recv(_socket, lBuffer, ANALYZE_SIZE, 0);
     if(lBytes <= 0) return false;
@@ -131,7 +150,7 @@ bool GSocket2::readMethod(int _socket, std::string& _data) {
     return true;
 }
 //===============================================
-bool GSocket2::readHeader(int _socket, std::string& _data) {
+bool GSocket2::readHeader(int _socket, GString2& _data) {
     char lChar;
     int lIndex = 0;
     int lSize = 0;
@@ -144,125 +163,6 @@ bool GSocket2::readHeader(int _socket, std::string& _data) {
         if(lSize >= HEADER_SIZE) return false;
     }
     return false;
-}
-//===============================================
-bool GSocket2::analyzeHeader(const std::string& _data, GHttp& _http) {
-    int lIndex = 0;
-    std::string lLine = "";
-    for(int i = 0; i < _data.size(); i++) {
-        char lChar = _data[i];
-        lLine += lChar;
-        if(isLine(lChar, lIndex)) {
-            std::string lMethod = loadWord(lLine, 0, " \r\n");
-            std::string lUrl = loadWord(lLine, 1, " \r\n");
-            std::string lVersion = loadWord(lLine, 2, " \r\n");
-            _http.setMethod(lMethod);
-            _http.setUrl(lUrl);
-            _http.setVersion(lVersion);
-            lLine = "";
-            break;
-        }
-    }
-    for(int i = 0; i < _data.size(); i++) {
-        char lChar = _data[i];
-        lLine += lChar;
-        if(isLine(lChar, lIndex)) {
-            if(compare(lLine, "Host", ":")) {
-                std::string lHostname = trimData(loadWord(lLine, 1, ":\r\n"));
-                std::string lPort = loadWord(lLine, 2, ":\r\n");
-                _http.setHostname(lHostname);
-                _http.setPort(std::stoi(lPort));
-            }
-            else if(compare(lLine, "Connection", ":")) {
-                std::string lConnection = trimData(loadWord(lLine, 1, ":\r\n"));
-                _http.setConnection(lConnection);
-            }
-            else if(compare(lLine, "Cache-Control", ":")) {
-                std::string lCacheControl = trimData(loadWord(lLine, 1, ":\r\n"));
-                _http.setCacheControl(lCacheControl);
-            }
-            else if(compare(lLine, "Upgrade-Insecure-Requests", ":")) {
-                std::string lUpgradeInsecureRequests = trimData(loadWord(lLine, 1, ":\r\n"));
-                _http.setUpgradeInsecureRequests(lUpgradeInsecureRequests);
-            }
-            else if(compare(lLine, "User-Agent", ":")) {
-                std::string lUserAgent = trimData(loadWord(lLine, 1, ":\r\n"));
-                _http.setUserAgent(lUserAgent);
-            }
-            else if(compare(lLine, "Accept", ":")) {
-                std::string lAccept = trimData(loadWord(lLine, 1, ":\r\n"));
-                _http.setAccept(lAccept);
-            }
-            else if(compare(lLine, "Accept-Encoding", ":")) {
-                std::string lAcceptEncoding = trimData(loadWord(lLine, 1, ":\r\n"));
-                _http.setAcceptEncoding(lAcceptEncoding);
-            }
-            else if(compare(lLine, "Accept-Language", ":")) {
-                std::string lAcceptLanguage = trimData(loadWord(lLine, 1, ":\r\n"));
-                _http.setAcceptLanguage(lAcceptLanguage);
-            }
-            lLine = "";
-        }
-    }
-    return true;
-}
-//===============================================
-bool GSocket2::compare(const std::string& _data1, const std::string& _data2, const std::string& _sep) {
-    if(_data1.size() == 0) return false;
-    if(_data2.size() == 0) return false;
-    if(_data1.size() < _data2.size()) return false;
-    int i = 0;
-    for(; i < _data2.size(); i++) {
-        if(_data1[i] != _data2[i]) return false;
-    }
-    for(int j = 0; j < _sep.size(); j++) {
-        if(_data1[i + j] != _sep[j]) return false;
-    }
-    return true;
-}
-//===============================================
-std::string GSocket2::loadWord(const std::string& _data, int _pos, const std::string& _sep) {
-    std::string lWord = "";
-    int lPos = 0;
-    for(int i = 0; i < _data.size(); i++) {
-        char lChar = _data[i];
-        if(isSep(lChar, _sep)) {
-            if(lPos == _pos) return lWord;
-            lWord = "";
-            lPos++;
-        }
-        else {
-            lWord += lChar;
-        }
-    }
-    return "";
-}
-//===============================================
-std::string GSocket2::trimData(const std::string& _data, const std::string& _sep) {
-    int lStartPos = 0;
-    int lEndPos = _data.size() - 1;
-    std::string lData = "";
-    for(int i = 0; i < _data.size(); i++) {
-        char lChar = _data[i];
-        if(!isSep(lChar, _sep)) break;
-        lStartPos++;
-    }
-    for(int i = _data.size() - 1; i >= 0 ; i--) {
-        char lChar = _data[i];
-        if(!isSep(lChar, _sep)) break;
-        lEndPos--;
-    }
-    for(int i = lStartPos; i <= lEndPos; i++) {
-        char lChar = _data[i];
-        lData += lChar;
-    }
-    return lData;
-}
-//===============================================
-bool GSocket2::sendPageNotFound(int _socket) {
-    int lBytes = send(_socket, m_notFound.c_str(), m_notFound.size(), 0);
-    if(lBytes <= 0) return false;
-    return true;
 }
 //===============================================
 bool GSocket2::isHeader(char _char, int& _index) const {
@@ -283,6 +183,67 @@ bool GSocket2::isHeader(char _char, int& _index) const {
     return false;
 }
 //===============================================
+bool GSocket2::analyzeHeader(const GString2& _data, GHttp& _http) {
+    int lIndex = 0;
+    GString2 lLine = "";
+    for(int i = 0; i < _data.size(); i++) {
+        char lChar = _data[i];
+        lLine += lChar;
+        if(isLine(lChar, lIndex)) {
+            GString2 lMethod = lLine.extract(0, " \r\n").trim();
+            GString2 lUrl = lLine.extract(1, " \r\n").trim();
+            GString2 lVersion = lLine.extract(2, " \r\n").trim();
+            _http.setMethod(lMethod);
+            _http.setUrl(lUrl);
+            _http.setVersion(lVersion);
+            lLine = "";
+            break;
+        }
+    }
+    for(int i = 0; i < _data.size(); i++) {
+        char lChar = _data[i];
+        lLine += lChar;
+        if(isLine(lChar, lIndex)) {
+            if(lLine.startBy("Host")) {
+                GString2 lHostname = lLine.extract(1, ":\r\n").trim();
+                GString2 lPort = lLine.extract(2, ":\r\n").trim();
+                _http.setHostname(lHostname);
+                _http.setPort(lPort.toInt());
+            }
+            else if(lLine.startBy("Connection")) {
+                GString2 lConnection = lLine.extract(1, ":\r\n").trim();
+                _http.setConnection(lConnection);
+            }
+            else if(lLine.startBy("Cache-Control")) {
+                GString2 lCacheControl = lLine.extract(1, ":\r\n").trim();
+                _http.setCacheControl(lCacheControl);
+            }
+            else if(lLine.startBy("Upgrade-Insecure-Requests")) {
+                GString2 lUpgradeInsecureRequests = lLine.extract(1, ":\r\n").trim();
+                _http.setUpgradeInsecureRequests(lUpgradeInsecureRequests);
+            }
+            else if(lLine.startBy("User-Agent")) {
+                GString2 lUserAgent = lLine.extract(1, ":\r\n").trim();
+                _http.setUserAgent(lUserAgent);
+            }
+            else if(lLine.startBy("Accept")) {
+                GString2 lAccept = lLine.extract(1, ":\r\n").trim();
+                _http.setAccept(lAccept);
+            }
+            else if(lLine.startBy("Accept-Encoding")) {
+                GString2 lAcceptEncoding = lLine.extract(1, ":\r\n").trim();
+                _http.setAcceptEncoding(lAcceptEncoding);
+            }
+            else if(lLine.startBy("Accept-Language")) {
+                GString2 lAcceptLanguage = lLine.extract(1, ":\r\n").trim();
+                _http.setAcceptLanguage(lAcceptLanguage);
+            }
+            lLine = "";
+        }
+    }
+    return true;
+}
+//===============================================
 bool GSocket2::isLine(char _char, int& _index) const {
     if(_index == 0) {
         if(_char == '\r')_index++; else _index = 0;
@@ -293,23 +254,5 @@ bool GSocket2::isLine(char _char, int& _index) const {
 
     if(_index == 2) {_index = 0; return true;}
     return false;
-}
-//===============================================
-bool GSocket2::isSep(char _char, const std::string& _sep) const {
-    for(int i = 0; i < _sep.size(); i++) {
-        if(_char == _sep[i]) return true;
-    }
-    return false;
-}
-//===============================================
-bool GSocket2::runGet(int _socket, std::string& _data) {
-    GHttp lHttp;
-    if(readHeader(_socket, _data)) {
-        analyzeHeader(_data, lHttp);
-        if(lHttp.getUrl() == "/") {
-
-        }
-    }
-    return true;
 }
 //===============================================

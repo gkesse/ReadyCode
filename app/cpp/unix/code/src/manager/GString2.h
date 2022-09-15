@@ -13,6 +13,15 @@ public:
     GString2(const GString2& _data);
     ~GString2();
 
+    const char* c_str() const;
+    std::string str() const;
+    GString2 extract(int _pos, const GString2& _sep);
+    bool isSep(char _char) const;
+    int size() const;
+    bool startBy(const GString2& _data) const;
+    GString2 trim(const GString2& _sep = " ");
+    int toInt() const;
+
     GString2& operator=(const GString2& _data);
     GString2& operator=(const std::string& _data);
     GString2& operator=(const char* _data);
