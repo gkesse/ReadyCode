@@ -15,7 +15,6 @@ public:
     void setModule(const GString2& _module);
     void setHostname(const GString2& _hostname);
     void setMessage(const GString2& _message);
-    void setNotFound(const GString2& _notFound);
     void setDomain(int _domain);
     void setType(int _type);
     void setProtocol(int _protocol);
@@ -33,7 +32,6 @@ public:
     bool runGet(int _socket, GString2& _data);
     //
     static void* onThreadCB(void* _params);
-    bool sendPageNotFound(int _socket);
 
 
 private:
@@ -44,7 +42,6 @@ private:
     GString2 m_module;
     GString2 m_hostname;
     GString2 m_message;
-    GString2 m_notFound;
     int m_domain;
     int m_type;
     int m_protocol;

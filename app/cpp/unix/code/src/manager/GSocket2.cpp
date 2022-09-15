@@ -40,10 +40,6 @@ void GSocket2::setMessage(const GString2& _message) {
     m_message = _message;
 }
 //===============================================
-void GSocket2::setNotFound(const GString2& _notFound) {
-    m_notFound = _notFound;
-}
-//===============================================
 void GSocket2::setDomain(int _domain) {
     m_domain = _domain;
 }
@@ -115,28 +111,19 @@ void* GSocket2::onThreadCB(void* _params) {
         if(lDataIn.startBy("GET")) {
             lClient->runGet(lSocket, lDataIn);
         }
-        else {lClient->sendPageNotFound(lSocket);}
     }
-    else {lClient->sendPageNotFound(lSocket);}
 
     close(lSocket);
     delete lClient;
     return 0;
 }
 //===============================================
-bool GSocket2::sendPageNotFound(int _socket) {
-    int lBytes = send(_socket, m_notFound.c_str(), m_notFound.size(), 0);
-    if(lBytes <= 0) return false;
-    return true;
-}
-//===============================================
 bool GSocket2::runGet(int _socket, GString2& _data) {
     GHttp lHttp;
+    lHttp.setSocket(m_socket);
     if(readHeader(_socket, _data)) {
         analyzeHeader(_data, lHttp);
-        if(lHttp.getUrl() == "/") {
-
-        }
+        lHttp.onModule();
     }
     return true;
 }

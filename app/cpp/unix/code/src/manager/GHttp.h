@@ -31,6 +31,10 @@ public:
     void setLastModified(const GString2& _lastModified);
     void setConnection(const GString2& _connection);
     //
+    void onModule();
+    void onIndex();
+    void setSocket(int _socket);
+    //
     bool getRequest(GString2& _request);
     bool getResponse(GString2& _response);
 
@@ -55,6 +59,8 @@ private:
     GString2 m_acceptLanguage;
     int m_contentLength;
     int m_port;
+    //
+    int m_socket;
 };
 //==============================================
 #endif

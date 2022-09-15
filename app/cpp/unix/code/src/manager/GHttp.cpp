@@ -93,6 +93,29 @@ void GHttp::setConnection(const GString2& _connection) {
     m_connection = _connection;
 }
 //===============================================
+void GHttp::onModule() {
+    if(m_url == "/") {
+        onIndex();
+    }
+}
+//===============================================
+void GHttp::onIndex() {
+    if(m_url == "/") {
+        std::string lDataOut = ""
+                "HTTP/1.0 200 OK\r\n"
+                "Content-Type: text/html\r\n"
+                "\r\n"
+                "<html><head><title>My 1st Web Server</title></head>"
+                "<body><h1>Hello, world!</h1></body></html>"
+                "";
+        send(m_socket, lDataOut.c_str(), lDataOut.size(), 0);
+    }
+}
+//===============================================
+void GHttp::setSocket(int _socket) {
+    m_socket = _socket;
+}
+//===============================================
 bool GHttp::getRequest(GString2& _request) {
     return false;
 }
