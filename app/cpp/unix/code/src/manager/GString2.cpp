@@ -171,6 +171,10 @@ bool GString2::operator==(int _data) {
     return lEqual;
 }
 //===============================================
+char GString2::operator[](int _index) {
+    return m_data[_index];
+}
+//===============================================
 GString2 operator+(const GString2& _data1, const GString2& _data2) {
     GString2 lData(_data1);
     lData += _data2;

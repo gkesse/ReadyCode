@@ -37,6 +37,8 @@ public:
     bool operator==(const char* _data);
     bool operator==(int _data);
     //
+    char operator[](int _index);
+    //
     friend GString2 operator+(const GString2& _data1, const GString2& _data2);
     //
     friend std::ostream& operator<<(std::ostream& _os, const GString2& _data);
