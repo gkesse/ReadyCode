@@ -23,6 +23,11 @@ public:
     GString2& operator+=(const char* _data);
     GString2& operator+=(int _data);
     //
+    bool operator==(const GString2& _data);
+    bool operator==(const std::string& _data);
+    bool operator==(const char* _data);
+    bool operator==(int _data);
+    //
     friend GString2 operator+(const GString2& _data1, const GString2& _data2);
     //
     friend std::ostream& operator<<(std::ostream& _os, const GString2& _data);

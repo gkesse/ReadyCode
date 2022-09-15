@@ -10,7 +10,7 @@
 #include "GEnv.h"
 #include "GHost.h"
 #include "GHttp.h"
-#include "GString2.h"
+#include "GThread2.h"
 //===============================================
 GSocket2::GSocket2()
 : GObject() {
@@ -340,21 +340,17 @@ bool GSocket2::run() {
 
     struct sockaddr_in lAddress2;
     socklen_t lSize = sizeof(lAddress2);
-    int lSocket2 = accept(lSocket, (struct sockaddr*)&lAddress2, &lSize);
-    if(lSocket2 == -1) return false;
 
-    std::string lDataIn = "";
+    GThread2 lThread;
+    lThread.setThreadCB(onThreadCB);
 
-    if(readMethod(lSocket2, lDataIn)) {
-        if(compare(lDataIn, "GET")) {
-            runGet(lSocket2, lDataIn);
-        }
-        else {sendPageNotFound(lSocket2);}
+    while(1) {
+        GSocket2* lClient = new GSocket2;
+        int lSocket2 = accept(lSocket, (struct sockaddr*)&lAddress2, &lSize);
+        if(lSocket2 == -1) return false;
+        lThread.setParams(lClient);
+        if(!lThread.run()) return false;
     }
-    else {sendPageNotFound(lSocket2);}
-
-
-    GLOGT(eGMSG, "[%s]\n", lDataIn.c_str());
 
     return true;
 }
@@ -363,7 +359,14 @@ bool GSocket2::runGet(int _socket, std::string& _data) {
     GHttp lHttp;
     if(readHeader(_socket, _data)) {
         analyzeHeader(_data, lHttp);
+        if(lHttp.getUrl() == "/") {
+
+        }
     }
     return true;
+}
+//===============================================
+static void* GSocket2::onThreadCB(void* _params) {
+    return 0;
 }
 //===============================================

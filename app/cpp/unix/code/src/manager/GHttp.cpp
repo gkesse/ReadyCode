@@ -21,6 +21,10 @@ void GHttp::setUrl(const GString2& _url) {
     m_url = _url;
 }
 //===============================================
+GString2 GHttp::getUrl() const {
+    return m_url;
+}
+//===============================================
 void GHttp::setVersion(const GString2& _version) {
     m_version = _version;
 }

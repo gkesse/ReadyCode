@@ -42,6 +42,9 @@ public:
     //
     bool run();
     bool runGet(int _socket, std::string& _data);
+    //
+    static void* onThreadCB(void* _params);
+
 
 private:
     static const int BUFFER_SIZE = 1024;

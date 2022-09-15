@@ -12,6 +12,7 @@ public:
     //
     void setMethod(const GString2& _method);
     void setUrl(const GString2& _url);
+    GString2 getUrl() const;
     void setVersion(const GString2& _version);
     void setHostname(const GString2& _hostname);
     void setPort(int _port);
