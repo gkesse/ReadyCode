@@ -140,6 +140,11 @@ GString2& GString2::operator+=(const char* _data) {
     return *this;
 }
 //===============================================
+GString2& GString2::operator+=(int _data) {
+    m_data += std::to_string(_data);
+    return *this;
+}
+//===============================================
 GString2& GString2::operator+=(char _data) {
     m_data += _data;
     return *this;
