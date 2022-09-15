@@ -111,13 +111,13 @@ void* GSocket2::onThreadCB(void* _params) {
     int lSocket = lClient->m_socket;
     std::string lDataIn;
 
-    if(readMethod(lSocket, lDataIn)) {
-        if(compare(lDataIn, "GET")) {
-            runGet(lSocket, lDataIn);
+    if(lClient->readMethod(lSocket, lDataIn)) {
+        if(lClient->compare(lDataIn, "GET")) {
+            lClient->runGet(lSocket, lDataIn);
         }
-        else {sendPageNotFound(lSocket);}
+        else {lClient->sendPageNotFound(lSocket);}
     }
-    else {sendPageNotFound(lSocket);}
+    else {lClient->sendPageNotFound(lSocket);}
 
     return 0;
 }
