@@ -38,6 +38,7 @@ public:
     bool operator==(int _data);
     //
     char& operator[](int _index);
+    const char& operator[](int _index) const;
     //
     friend GString2 operator+(const GString2& _data1, const GString2& _data2);
     //
