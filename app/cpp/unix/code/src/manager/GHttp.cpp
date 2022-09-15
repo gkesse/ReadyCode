@@ -5,7 +5,7 @@
 #include "GSocket2.h"
 //===============================================
 GHttp::GHttp()
-: GObject() {
+: GModule2() {
     m_contentLength = 0;
     m_port = 0;
 }
