@@ -35,11 +35,6 @@ public:
     //
     bool sendPageNotFound(int _socket);
     //
-    bool readData(int _socket, std::string& _data, int _max = 0);
-    bool getMethod(const std::string& _data, std::string& _method);
-    bool getUrl(const std::string& _data, std::string& _method);
-    bool getProtocol(const std::string& _data, std::string& _protocol);
-    //
     bool run();
     bool runGet(int _socket, std::string& _data);
     //
@@ -61,6 +56,9 @@ private:
     int m_family;
     int m_port;
     int m_backlog;
+    //
+    int m_socket;
+    GSocket2* m_server;
 };
 //==============================================
 #endif

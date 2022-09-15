@@ -14,15 +14,14 @@
 //===============================================
 GSocket2::GSocket2()
 : GObject() {
-    m_module = "";
-    m_hostname = "";
-    m_message = "";
     m_domain = 0;
     m_type = 0;
     m_protocol = 0;
     m_family = 0;
     m_port = 0;
     m_backlog = 0;
+    m_server = 0;
+    m_socket = 0;
 }
 //===============================================
 GSocket2::~GSocket2() {
@@ -67,6 +66,60 @@ void GSocket2::setPort(int _port) {
 //===============================================
 void GSocket2::setBacklog(int _backlog) {
     m_backlog = _backlog;
+}
+//===============================================
+bool GSocket2::run() {
+    int lSocket = socket(m_domain, m_type, m_protocol);
+    if(lSocket == -1) return false;
+
+    struct sockaddr_in lAddressIn;
+    bzero(&lAddressIn, sizeof(lAddressIn));
+    lAddressIn.sin_family = m_family;
+    lAddressIn.sin_addr.s_addr = inet_addr(m_hostname.c_str());
+    lAddressIn.sin_port = htons(m_port);
+
+    int lBind = bind(lSocket, (struct sockaddr*)&lAddressIn, sizeof(lAddressIn));
+    if(lBind == -1) return false;
+
+    int lListen = listen(lSocket, m_backlog);
+    if(lListen == -1) return false;
+
+    GLOGT(eGMSG, "%s", m_message.c_str());
+
+    struct sockaddr_in lAddress2;
+    socklen_t lSize = sizeof(lAddress2);
+
+    GThread2 lThread;
+    lThread.setThreadCB((void*)onThreadCB);
+
+    while(1) {
+        GSocket2* lClient = new GSocket2;
+        int lSocket2 = accept(lSocket, (struct sockaddr*)&lAddress2, &lSize);
+        if(lSocket2 == -1) return false;
+        lClient->m_socket = lSocket2;
+        lClient->m_server = this;
+        lThread.setParams((void*)lClient);
+        if(!lThread.run()) return false;
+    }
+
+    return true;
+}
+//===============================================
+void* GSocket2::onThreadCB(void* _params) {
+    GSocket2* lClient = (GSocket2*)_params;
+    GSocket2* lServer = lClient->m_server;
+    int lSocket = lClient->m_socket;
+    std::string lDataIn;
+
+    if(readMethod(lSocket, lDataIn)) {
+        if(compare(lDataIn, "GET")) {
+            runGet(lSocket, lDataIn);
+        }
+        else {sendPageNotFound(lSocket);}
+    }
+    else {sendPageNotFound(lSocket);}
+
+    return 0;
 }
 //===============================================
 bool GSocket2::readMethod(int _socket, std::string& _data) {
@@ -249,112 +302,6 @@ bool GSocket2::isSep(char _char, const std::string& _sep) const {
     return false;
 }
 //===============================================
-bool GSocket2::readData(int _socket, std::string& _data, int _max) {
-    char lChar;
-    int lIndex = 0;
-    int lSize = 0;
-    while(1) {
-        int lBytes = recv(_socket, &lChar, 1, 0);
-        if(lBytes <= 0) return false;
-        lSize += lBytes;
-        if(_max > 0) {if(lSize >= _max) return false;}
-        _data += lChar;
-        if(isHeader(lChar, lIndex)) return true;
-    }
-    return false;
-}
-//===============================================
-bool GSocket2::getMethod(const std::string& _data, std::string& _method) {
-    if(_data.size() == 0) return false;
-    int lPos = 0;
-    while(1) {
-        char lChar = _data[lPos++];
-        if(lChar == '\0') return false;
-        if(lChar == '\r') return false;
-        if(lChar == '\n') return false;
-        if(lChar == ' ') return true;
-        _method += lChar;
-    }
-    return false;
-}
-//===============================================
-bool GSocket2::getUrl(const std::string& _data, std::string& _url) {
-    if(_data.size() == 0) return false;
-    int lPos = 0;
-    int lIndex = 0;
-    while(1) {
-        char lChar = _data[lPos++];
-        if(lChar == '\0') return false;
-        if(lChar == '\r') return false;
-        if(lChar == '\n') return false;
-        if(lIndex == 0) {
-            if(lChar == ' ') lIndex++;
-        }
-        else if(lIndex == 1) {
-            if(lChar == ' ') return true;
-            _url += lChar;
-        }
-    }
-    return false;
-}
-//===============================================
-bool GSocket2::getProtocol(const std::string& _data, std::string& _protocol) {
-    if(_data.size() == 0) return false;
-    int lPos = 0;
-    int lIndex = 0;
-    while(1) {
-        char lChar = _data[lPos++];
-        if(lChar == '\0') return false;
-        if(lIndex == 0) {
-            if(lChar == ' ') lIndex++;
-        }
-        else if(lIndex == 1) {
-            if(lChar == ' ') lIndex++;
-        }
-        else if(lIndex == 2) {
-            if(lChar == '\r') return true;
-            if(lChar == '\n') return true;
-            _protocol += lChar;
-        }
-    }
-    return false;
-}
-//===============================================
-bool GSocket2::run() {
-    int lSocket = socket(m_domain, m_type, m_protocol);
-    if(lSocket == -1) return false;
-
-    struct sockaddr_in lAddressIn;
-    bzero(&lAddressIn, sizeof(lAddressIn));
-    lAddressIn.sin_family = m_family;
-    lAddressIn.sin_addr.s_addr = inet_addr(m_hostname.c_str());
-    lAddressIn.sin_port = htons(m_port);
-
-    int lBind = bind(lSocket, (struct sockaddr*)&lAddressIn, sizeof(lAddressIn));
-    if(lBind == -1) return false;
-
-    int lListen = listen(lSocket, m_backlog);
-    if(lListen == -1) return false;
-
-    GLOGT(eGMSG, "%s", m_message.c_str());
-
-    struct sockaddr_in lAddress2;
-    socklen_t lSize = sizeof(lAddress2);
-
-    GThread2 lThread;
-    lThread.setThreadCB((void*)onThreadCB);
-
-    while(1) {
-        GSocket2* lClient = new GSocket2;
-        int lSocket2 = accept(lSocket, (struct sockaddr*)&lAddress2, &lSize);
-        if(lSocket2 == -1) return false;
-        lThread.setParams((void*)lClient);
-        if(!lThread.run()) return false;
-    }
-
-    return true;
-}
-//===============================================
 bool GSocket2::runGet(int _socket, std::string& _data) {
     GHttp lHttp;
     if(readHeader(_socket, _data)) {
@@ -364,10 +311,5 @@ bool GSocket2::runGet(int _socket, std::string& _data) {
         }
     }
     return true;
-}
-//===============================================
-void* GSocket2::onThreadCB(void* _params) {
-    GLOGT(eGMSG, "");
-    return 0;
 }
 //===============================================
