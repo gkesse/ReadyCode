@@ -18,6 +18,11 @@ GString2::GString2(const char* _data)
     m_data = _data;
 }
 //===============================================
+GString2::GString2(char _data)
+: GObject(){
+    m_data = _data;
+}
+//===============================================
 GString2::GString2(int _data)
 : GObject(){
     m_data = std::to_string(_data);
@@ -120,6 +125,11 @@ GString2& GString2::operator=(const char* _data) {
     return *this;
 }
 //===============================================
+GString2& GString2::operator=(char _data) {
+    m_data = _data;
+    return *this;
+}
+//===============================================
 GString2& GString2::operator=(int _data) {
     m_data = std::to_string(_data);
     return *this;
@@ -166,6 +176,12 @@ bool GString2::operator==(const char* _data) {
     std::string lData = _data;
     bool lEqual = true;
     lEqual &= (m_data == lData);
+    return lEqual;
+}
+//===============================================
+bool GString2::operator==(char _data) {
+    bool lEqual = true;
+    lEqual &= (m_data[0] == _data);
     return lEqual;
 }
 //===============================================

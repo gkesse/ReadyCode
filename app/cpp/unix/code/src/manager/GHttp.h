@@ -2,10 +2,10 @@
 #ifndef _GHttp_
 #define _GHttp_
 //===============================================
-#include "GObject.h"
+#include "GModule2.h"
 #include "GString2.h"
 //===============================================
-class GHttp : public GObject {
+class GHttp : public GModule2 {
 public:
     GHttp();
     ~GHttp();
@@ -31,14 +31,21 @@ public:
     void setLastModified(const GString2& _lastModified);
     void setConnection(const GString2& _connection);
     //
+    bool isHeader(char _char, int& _index) const;
+    bool isLine(char _char, int& _index) const;
+    //
+    void runHttp();
+    bool readHeader();
+    bool analyzeHeader();
     void onModule();
     void onIndex();
-    void setSocket(int _socket);
     //
     bool getRequest(GString2& _request);
     bool getResponse(GString2& _response);
 
 private:
+    static const int HEADER_SIZE = 1024;
+    //
     GString2 m_method;
     GString2 m_url;
     GString2 m_version;
@@ -59,8 +66,6 @@ private:
     GString2 m_acceptLanguage;
     int m_contentLength;
     int m_port;
-    //
-    int m_socket;
 };
 //==============================================
 #endif

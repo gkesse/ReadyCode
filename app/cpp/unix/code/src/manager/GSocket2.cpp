@@ -64,6 +64,26 @@ void GSocket2::setBacklog(int _backlog) {
     m_backlog = _backlog;
 }
 //===============================================
+int GSocket2::getSocket() const {
+    return m_socket;
+}
+//===============================================
+GString2& GSocket2::getDataIn() {
+    return m_dataIn;
+}
+//===============================================
+const GString2& GSocket2::getDataIn() const {
+    return m_dataIn;
+}
+//===============================================
+GString2& GSocket2::getDataOut() {
+    return m_dataOut;
+}
+//===============================================
+const GString2& GSocket2::getDataOut() const {
+    return m_dataOut;
+}
+//===============================================
 bool GSocket2::run() {
     int lSocket = socket(m_domain, m_type, m_protocol);
     if(lSocket == -1) return false;
@@ -103,144 +123,56 @@ bool GSocket2::run() {
 //===============================================
 void* GSocket2::onThreadCB(void* _params) {
     GSocket2* lClient = (GSocket2*)_params;
-    GSocket2* lServer = lClient->m_server;
-    int lSocket = lClient->m_socket;
-    GString2 lDataIn;
 
-    if(lClient->readMethod(lSocket, lDataIn)) {
-        if(lDataIn.startBy("GET")) {
-            lClient->runGet(lSocket, lDataIn);
+    if(lClient->readMethod()) {
+        if(m_dataIn.startBy("GET")) {
+            lClient->runHttp();
         }
     }
 
-    close(lSocket);
+    GLOGT(eGMSG, "[EMISSION] : (%d)\n%s", (int)m_dataOut.size(), m_dataOut.c_str());
+
+    if(m_dataOut.size() > 0) {
+        int lIndex = 0;
+        int lSize = m_dataOut.size();
+        const char* lBuffer = m_dataOut.c_str();
+
+        while(1) {
+            int lBytes = send(lClient->m_socket, lBuffer[lIndex], lSize - lIndex, 0);
+            if(lBytes <= 0) break;
+            lIndex += lBytes;
+            GLOGT(eGOFF, "SIZE : %d\n", lBytes);
+        }
+    }
+
+    close(lClient->m_socket);
     delete lClient;
     return 0;
 }
 //===============================================
-bool GSocket2::runGet(int _socket, GString2& _data) {
+bool GSocket2::runHttp() {
     GHttp lHttp;
-    lHttp.setSocket(m_socket);
-    if(readHeader(_socket, _data)) {
-        GLOGT(eGMSG, "[%s]", _data.c_str());
-        analyzeHeader(_data, lHttp);
-        lHttp.onModule();
-    }
+    lHttp.setClient(this);
+    lHttp.runHttp();
     return true;
 }
 //===============================================
-bool GSocket2::readMethod(int _socket, GString2& _data) {
-    char lBuffer[ANALYZE_SIZE + 1];
-    int lBytes = recv(_socket, lBuffer, ANALYZE_SIZE, 0);
+int GSocket2::readData(char* _data, int _size) {
+    int lBytes = recv(m_socket, _data, _size, 0);
+    return lBytes;
+}
+//===============================================
+bool GSocket2::addDataIn(const GString2& _data) {
+    m_dataIn += _data;
+    return true;
+}
+//===============================================
+bool GSocket2::readMethod() {
+    char lBuffer[METHOD_SIZE + 1];
+    int lBytes = recv(m_socket, lBuffer, METHOD_SIZE, 0);
     if(lBytes <= 0) return false;
     lBuffer[lBytes] = 0;
-    _data += lBuffer;
+    m_dataIn += lBuffer;
     return true;
-}
-//===============================================
-bool GSocket2::readHeader(int _socket, GString2& _data) {
-    char lChar;
-    int lIndex = 0;
-    int lSize = 0;
-    while(1) {
-        int lBytes = recv(_socket, &lChar, 1, 0);
-        if(lBytes <= 0) return false;
-        _data += lChar;
-        if(isHeader(lChar, lIndex)) return true;
-        lSize++;
-        if(lSize >= HEADER_SIZE) return false;
-    }
-    return false;
-}
-//===============================================
-bool GSocket2::isHeader(char _char, int& _index) const {
-    if(_index == 0) {
-        if(_char == '\r')_index++; else _index = 0;
-    }
-    else if(_index == 1) {
-        if(_char == '\n') _index++; else _index = 0;
-    }
-    else if(_index == 2) {
-        if(_char == '\r') _index++; else _index = 0;
-    }
-    else if(_index == 3) {
-        if(_char == '\n') _index++; else _index = 0;
-    }
-
-    if(_index == 4) return true;
-    return false;
-}
-//===============================================
-bool GSocket2::analyzeHeader(const GString2& _data, GHttp& _http) {
-    int lIndex = 0;
-    GString2 lLine = "";
-    for(int i = 0; i < _data.size(); i++) {
-        char lChar = _data[i];
-        lLine += lChar;
-        if(isLine(lChar, lIndex)) {
-            GString2 lMethod = lLine.extract(0, " \r\n").trim();
-            GString2 lUrl = lLine.extract(1, " \r\n").trim();
-            GString2 lVersion = lLine.extract(2, " \r\n").trim();
-            _http.setMethod(lMethod);
-            _http.setUrl(lUrl);
-            _http.setVersion(lVersion);
-            lLine = "";
-            break;
-        }
-    }
-    for(int i = 0; i < _data.size(); i++) {
-        char lChar = _data[i];
-        lLine += lChar;
-        if(isLine(lChar, lIndex)) {
-            if(lLine.startBy("Host")) {
-                GString2 lHostname = lLine.extract(1, ":\r\n").trim();
-                GString2 lPort = lLine.extract(2, ":\r\n").trim();
-                _http.setHostname(lHostname);
-                _http.setPort(lPort.toInt());
-            }
-            else if(lLine.startBy("Connection")) {
-                GString2 lConnection = lLine.extract(1, ":\r\n").trim();
-                _http.setConnection(lConnection);
-            }
-            else if(lLine.startBy("Cache-Control")) {
-                GString2 lCacheControl = lLine.extract(1, ":\r\n").trim();
-                _http.setCacheControl(lCacheControl);
-            }
-            else if(lLine.startBy("Upgrade-Insecure-Requests")) {
-                GString2 lUpgradeInsecureRequests = lLine.extract(1, ":\r\n").trim();
-                _http.setUpgradeInsecureRequests(lUpgradeInsecureRequests);
-            }
-            else if(lLine.startBy("User-Agent")) {
-                GString2 lUserAgent = lLine.extract(1, ":\r\n").trim();
-                _http.setUserAgent(lUserAgent);
-            }
-            else if(lLine.startBy("Accept")) {
-                GString2 lAccept = lLine.extract(1, ":\r\n").trim();
-                _http.setAccept(lAccept);
-            }
-            else if(lLine.startBy("Accept-Encoding")) {
-                GString2 lAcceptEncoding = lLine.extract(1, ":\r\n").trim();
-                _http.setAcceptEncoding(lAcceptEncoding);
-            }
-            else if(lLine.startBy("Accept-Language")) {
-                GString2 lAcceptLanguage = lLine.extract(1, ":\r\n").trim();
-                _http.setAcceptLanguage(lAcceptLanguage);
-            }
-            lLine = "";
-        }
-    }
-    return true;
-}
-//===============================================
-bool GSocket2::isLine(char _char, int& _index) const {
-    if(_index == 0) {
-        if(_char == '\r')_index++; else _index = 0;
-    }
-    else if(_index == 1) {
-        if(_char == '\n') _index++; else _index = 0;
-    }
-
-    if(_index == 2) {_index = 0; return true;}
-    return false;
 }
 //===============================================

@@ -22,22 +22,25 @@ public:
     void setPort(int _port);
     void setBacklog(int _backlog);
     //
-    bool readMethod(int _socket, GString2& _data);
-    bool readHeader(int _socket, GString2& _data);
-    bool isHeader(char _char, int& _index) const;
-    bool analyzeHeader(const GString2& _data, GHttp& _http);
-    bool isLine(char _char, int& _index) const;
+    int getSocket() const;
+    GString2& getDataIn();
+    const GString2& getDataIn() const;
+    GString2& getDataOut();
+    const GString2& getDataOut() const;
+    //
+    int readData(char* _data, int _size);
+    bool addDataIn(const GString2& _data);
+    bool readMethod();
     //
     bool run();
-    bool runGet(int _socket, GString2& _data);
+    bool runHttp();
     //
     static void* onThreadCB(void* _params);
 
 
 private:
     static const int BUFFER_SIZE = 1024;
-    static const int ANALYZE_SIZE = 10;
-    static const int HEADER_SIZE = 1024;
+    static const int METHOD_SIZE = 20;
     //
     GString2 m_module;
     GString2 m_hostname;
@@ -51,6 +54,8 @@ private:
     //
     int m_socket;
     GSocket2* m_server;
+    GString2 m_dataIn;
+    GString2 m_dataOut;
 };
 //==============================================
 #endif
