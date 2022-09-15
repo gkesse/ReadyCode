@@ -367,7 +367,7 @@ bool GSocket2::runGet(int _socket, std::string& _data) {
 }
 //===============================================
 static void* GSocket2::onThreadCB(void* _params) {
-    GLOGT(eGMSG, "");
+    printf("ooooooooooooo");
     return 0;
 }
 //===============================================
