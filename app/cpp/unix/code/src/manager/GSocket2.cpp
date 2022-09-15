@@ -132,7 +132,8 @@ void* GSocket2::onThreadCB(void* _params) {
         }
     }
 
-    GLOGT(eGMSG, "[EMISSION] : (%d)\n%s", (int)lDataOut.size(), lDataOut.c_str());
+    GLOGT(eGMSG, "[EMISSION] : (%d)\n%s", (int)lDataIn.size(), lDataIn.c_str());
+    GLOGT(eGMSG, "[RECEPTION] : (%d)\n%s", (int)lDataOut.size(), lDataOut.c_str());
 
     if(lDataOut.size() > 0) {
         int lIndex = 0;

@@ -96,7 +96,6 @@ void GHttp::setConnection(const GString2& _connection) {
 //===============================================
 void GHttp::runHttp() {
     if(readHeader()) {
-        GLOGT(eGMSG, "[%s]", m_client->getDataIn().c_str());
         analyzeHeader();
         onModule();
     }
