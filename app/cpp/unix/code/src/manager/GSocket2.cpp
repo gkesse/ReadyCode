@@ -140,7 +140,7 @@ void* GSocket2::onThreadCB(void* _params) {
         const char* lBuffer = lDataOut.c_str();
 
         while(1) {
-            int lBytes = send(lClient->m_socket, lBuffer[lIndex], lSize - lIndex, 0);
+            int lBytes = send(lClient->m_socket, &lBuffer[lIndex], lSize - lIndex, 0);
             if(lBytes <= 0) break;
             lIndex += lBytes;
             GLOGT(eGOFF, "SIZE : %d\n", lBytes);
