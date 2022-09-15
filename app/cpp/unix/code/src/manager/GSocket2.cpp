@@ -122,6 +122,7 @@ bool GSocket2::runGet(int _socket, GString2& _data) {
     GHttp lHttp;
     lHttp.setSocket(m_socket);
     if(readHeader(_socket, _data)) {
+        GLOGT(eGMSG, "[%s]", _data.c_str());
         analyzeHeader(_data, lHttp);
         lHttp.onModule();
     }
