@@ -46,7 +46,6 @@ void GTestSocket::runTcp(int _argc, char** _argv) {
     lSocket.setFamily(AF_INET);
     lSocket.setBacklog(5);
     lSocket.setMessage("Démarrage du serveur...");
-    lSocket.setNotFound("Page non trouvée !!!");
     lSocket.run();
 }
 //===============================================
