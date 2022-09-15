@@ -171,7 +171,7 @@ bool GString2::operator==(int _data) {
     return lEqual;
 }
 //===============================================
-char GString2::operator[](int _index) {
+char& GString2::operator[](int _index) {
     return m_data[_index];
 }
 //===============================================
