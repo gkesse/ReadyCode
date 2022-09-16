@@ -11,6 +11,7 @@ public:
     void run(int _argc, char** _argv);
     void runDefault(int _argc, char** _argv);
     void runPing(int _argc, char** _argv);
+    void runHttpGet(int _argc, char** _argv);
     void runServerTcp(int _argc, char** _argv);
     void runServerTime(int _argc, char** _argv);
     void runServerEcho(int _argc, char** _argv);

@@ -1,6 +1,7 @@
 //===============================================
 #include "GTestPoco.h"
 #include "GPoco.h"
+#include "GPoco2.h"
 #include "GLog.h"
 #include "GFormat.h"
 //===============================================
@@ -22,6 +23,9 @@ void GTestPoco::run(int _argc, char** _argv) {
     }
     else if(lKey == "ping") {
         runPing(_argc, _argv);
+    }
+    else if(lKey == "http/get") {
+        runHttpGet(_argc, _argv);
     }
     else if(lKey == "server/tcp") {
         runServerTcp(_argc, _argv);
@@ -59,6 +63,15 @@ void GTestPoco::runPing(int _argc, char** _argv) {
     lPoco.setHostname("readydev.ovh");
     lPoco.init(_argc, _argv);
     lPoco.run();
+}
+//===============================================
+void GTestPoco::runHttpGet(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    GPoco2 lPoco;
+    lPoco.setUri("readydev.ovh");
+    if(lPoco.getHttp()) {
+        GLOGT(eGMSG, "%s\n", lPoco.getContent().c_str());
+    }
 }
 //===============================================
 void GTestPoco::runServerTcp(int _argc, char** _argv) {

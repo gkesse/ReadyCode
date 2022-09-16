@@ -46,7 +46,7 @@ bool GPoco2::getHttp() {
         }
     }
     catch (Poco::Exception& exc) {
-        std::cerr << exc.displayText() << std::endl;
+        m_errors = exc.displayText();
     }
     return false;
 }

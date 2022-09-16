@@ -22,6 +22,7 @@ private:
     GString2 m_username;
     GString2 m_password;
     GString2 m_content;
+    GString2 m_errors;
     Poco::Net::HTTPResponse m_header;
 };
 //==============================================
