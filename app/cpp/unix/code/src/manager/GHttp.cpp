@@ -216,13 +216,19 @@ void GHttp::onModule() {
 //===============================================
 void GHttp::onIndex() {
     GString2& lDataOut = m_client->getDataOut();
-    lDataOut = ""
-            "HTTP/1.0 200 OK\r\n"
-            "Content-Type: text/html\r\n"
-            "\r\n"
+    GString2 lContent = ""
             "<html><head><title>My 1st Web Server</title></head>"
             "<body><h1>Hello, world!</h1></body></html>"
             "";
+    lDataOut = sformat(""
+            "HTTP/1.0 200 OK\r\n"
+            "Content-Type: text/html\r\n"
+            "Content-Length: %d\r\n"
+            "Connection: Closed\r\n"
+            "\r\n"
+            "%s"
+            "", lContent.size()
+            , lContent.c_str());
 }
 //===============================================
 bool GHttp::getRequest(GString2& _request) {

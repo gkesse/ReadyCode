@@ -144,7 +144,7 @@ void* GSocket2::onThreadCB(void* _params) {
             int lBytes = send(lClient->m_socket, &lBuffer[lIndex], lSize - lIndex, 0);
             if(lBytes <= 0) break;
             lIndex += lBytes;
-            GLOGT(eGOFF, "SIZE : %d\n", lBytes);
+            if(lIndex >= lSize) break;
         }
     }
 
