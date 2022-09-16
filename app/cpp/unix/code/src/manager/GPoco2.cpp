@@ -16,18 +16,12 @@ void GPoco2::setUri(const GString2& _uri) {
     m_uri = _uri;
 }
 //===============================================
-Poco::Net::HTTPResponse& GPoco2::getHeader() {
+Poco::Net::HTTPResponse& GPoco2::getHttpHeader() {
     return m_header;
 }
 //===============================================
-GString2 GPoco2::getContent() const {
+GString2 GPoco2::getHttpResponse() const {
     return m_content;
-}
-//===============================================
-void GPoco2::run() {
-    if(m_module == "get") {
-        getHttp();
-    }
 }
 //===============================================
 bool GPoco2::getHttp() {
