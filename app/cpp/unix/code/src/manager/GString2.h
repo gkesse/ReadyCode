@@ -24,6 +24,7 @@ public:
     bool startBy(const GString2& _data) const;
     GString2 trim(const GString2& _sep = " ");
     int toInt() const;
+    bool toInt(int& _data) const;
 
     GString2& operator=(const GString2& _data);
     GString2& operator=(const std::string& _data);

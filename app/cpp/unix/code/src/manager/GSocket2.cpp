@@ -1,16 +1,9 @@
 //===============================================
 #include "GSocket2.h"
-#include "GPath.h"
 #include "GLog.h"
 #include "GFormat.h"
-#include "GXml.h"
-#include "GThread.h"
-#include "GCode.h"
-#include "GString.h"
-#include "GEnv.h"
-#include "GHost.h"
-#include "GHttp.h"
 #include "GThread2.h"
+#include "GHttp.h"
 //===============================================
 GSocket2::GSocket2()
 : GObject() {
@@ -22,6 +15,7 @@ GSocket2::GSocket2()
     m_backlog = 0;
     m_server = 0;
     m_socket = 0;
+    m_onThreadCB = (void*)m_onThreadCB;
 }
 //===============================================
 GSocket2::~GSocket2() {
@@ -62,6 +56,10 @@ void GSocket2::setPort(int _port) {
 //===============================================
 void GSocket2::setBacklog(int _backlog) {
     m_backlog = _backlog;
+}
+//===============================================
+void GSocket2::setThreadCB(void* _onThreadCB) {
+    m_onThreadCB = _onThreadCB;
 }
 //===============================================
 int GSocket2::getSocket() const {
@@ -106,7 +104,7 @@ bool GSocket2::run() {
     socklen_t lSize = sizeof(lAddress2);
 
     GThread2 lThread;
-    lThread.setThreadCB((void*)onThreadCB);
+    lThread.setThreadCB(m_onThreadCB);
 
     while(1) {
         GSocket2* lClient = new GSocket2;
@@ -153,15 +151,13 @@ void* GSocket2::onThreadCB(void* _params) {
     return 0;
 }
 //===============================================
-bool GSocket2::runHttp() {
-    GHttp lHttp;
-    lHttp.setClient(this);
-    lHttp.runHttp();
-    return true;
-}
-//===============================================
 int GSocket2::readData(char* _data, int _size) {
     int lBytes = recv(m_socket, _data, _size, 0);
+    return lBytes;
+}
+//===============================================
+int GSocket2::sendData(const char* _data, int _size) {
+    int lBytes = send(m_socket, _data, _size, 0);
     return lBytes;
 }
 //===============================================
@@ -176,6 +172,13 @@ bool GSocket2::readMethod() {
     if(lBytes <= 0) return false;
     lBuffer[lBytes] = 0;
     m_dataIn += lBuffer;
+    return true;
+}
+//===============================================
+bool GSocket2::runHttp() {
+    GHttp lHttp;
+    lHttp.setClient(this);
+    lHttp.runHttp();
     return true;
 }
 //===============================================

@@ -3,9 +3,8 @@
 #include "GLog.h"
 #include "GFormat.h"
 //===============================================
-GString2::GString2()
-: GObject() {
-    m_data = "";
+GString2::GString2() {
+
 }
 //===============================================
 GString2::GString2(const std::string& _data)
@@ -114,8 +113,18 @@ GString2 GString2::trim(const GString2& _sep) {
 }
 //===============================================
 int GString2::toInt() const {
-    int lInt = std::stoi(m_data);
-    return lInt;
+    int lData = std::stoi(m_data);
+    return lData;
+}
+//===============================================
+bool GString2::toInt(int& _data) const {
+    try {
+        _data = std::stoi(m_data);
+    }
+    catch(const std::exception& e) {
+        return false;
+    }
+    return true;
 }
 //===============================================
 GString2& GString2::operator=(const GString2& _data) {

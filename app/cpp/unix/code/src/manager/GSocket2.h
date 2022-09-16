@@ -3,7 +3,6 @@
 #define _GSocket2_
 //===============================================
 #include "GObject.h"
-#include "GString2.h"
 //===============================================
 class GHttp;
 //===============================================
@@ -21,6 +20,7 @@ public:
     void setFamily(int _family);
     void setPort(int _port);
     void setBacklog(int _backlog);
+    void setThreadCB(void* m_threadCB);
     //
     int getSocket() const;
     GString2& getDataIn();
@@ -29,6 +29,7 @@ public:
     const GString2& getDataOut() const;
     //
     int readData(char* _data, int _size);
+    int sendData(const char* _data, int _size);
     bool addDataIn(const GString2& _data);
     bool readMethod();
     //
@@ -40,7 +41,7 @@ public:
 
 private:
     static const int BUFFER_SIZE = 1024;
-    static const int METHOD_SIZE = 20;
+    static const int METHOD_SIZE = 1024;
     //
     GString2 m_module;
     GString2 m_hostname;
@@ -56,6 +57,7 @@ private:
     GSocket2* m_server;
     GString2 m_dataIn;
     GString2 m_dataOut;
+    void* m_onThreadCB;
 };
 //==============================================
 #endif

@@ -3,7 +3,6 @@
 #define _GPoco2_
 //===============================================
 #include "GObject.h"
-#include "GString2.h"
 //===============================================
 class GPoco2 : public GObject {
 public:
