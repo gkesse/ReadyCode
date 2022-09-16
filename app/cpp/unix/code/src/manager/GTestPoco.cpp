@@ -68,7 +68,7 @@ void GTestPoco::runPing(int _argc, char** _argv) {
 void GTestPoco::runHttpGet(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GPoco2 lPoco;
-    lPoco.setUri("readydev.ovh");
+    lPoco.setUri("http://shell.cas.usf.edu/mccook/uwy/hyperlinks.html");
     if(lPoco.getHttp()) {
         GLOGT(eGMSG, "%s\n", lPoco.getContent().c_str());
     }

@@ -25,6 +25,7 @@ GString2 GPoco2::getContent() const {
 }
 //===============================================
 bool GPoco2::getHttp() {
+    if(m_uri.isEmpty()) return false;
     try {
         Poco::URI lUri(m_uri.c_str());
         GString2 lPath(lUri.getPathAndQuery());
