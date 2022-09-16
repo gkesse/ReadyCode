@@ -4,7 +4,7 @@
 //===============================================
 #include "GObject.h"
 //===============================================
-class GString2 : public GObject {
+class GString2 {
 public:
     GString2();
     GString2(const std::string& _data);

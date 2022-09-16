@@ -68,6 +68,12 @@ void* GServer::onThreadCB(void* _params) {
     return 0;
 }
 //===============================================
+bool GServer::onReadyApp() {
+    if(!isReadyApp()) return false;
+    if(!readData()) return false;
+    return true;
+}
+//===============================================
 bool GServer::isReadyApp() {
     GString2& lDataIn = m_client->getDataIn();
     GString2 lApiKey = lDataIn.extract(1, ";").trim();
@@ -92,12 +98,6 @@ bool GServer::readData() {
         lSize += lBytes;
         if(lSize >= m_dSize) return false;
     }
-    return true;
-}
-//===============================================
-bool GServer::onReadyApp() {
-    if(!isReadyApp()) return false;
-    if(!readData()) return false;
     return true;
 }
 //===============================================
