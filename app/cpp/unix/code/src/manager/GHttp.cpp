@@ -6,6 +6,7 @@
 //===============================================
 GHttp::GHttp()
 : GModule2() {
+    m_status = 200;
     m_contentLength = 0;
     m_port = 0;
 }
@@ -38,12 +39,17 @@ void GHttp::setPort(int _port) {
     m_port = _port;
 }
 //===============================================
-void GHttp::setStatus(const GString2& _status) {
+void GHttp::setStatus(const int _status) {
     m_status = _status;
 }
 //===============================================
 void GHttp::setReason(const GString2& _reason) {
     m_reason = _reason;
+}
+//===============================================
+void GHttp::setContent(const GString2& _content) {
+    m_content = _content;
+    m_contentLength = m_content.size();
 }
 //===============================================
 void GHttp::setContentType(const GString2& _contentType) {
@@ -215,27 +221,39 @@ void GHttp::onModule() {
 }
 //===============================================
 void GHttp::onIndex() {
-    GString2& lDataOut = m_client->getDataOut();
+    setVersion("HTTP/1.1");
+    setStatus(200);
+    setReason("OK");
+    setContentType("text/html");
+    setConnection("Closed");
+
     GString2 lContent = ""
             "<html><head><title>My 1st Web Server</title></head>"
             "<body><h1>Hello, world!</h1></body></html>"
             "";
-    lDataOut = sformat(""
-            "HTTP/1.0 200 OK\r\n"
-            "Content-Type: text/html\r\n"
-            "Content-Length: %d\r\n"
-            "Connection: Closed\r\n"
-            "\r\n"
-            "%s"
-            "", lContent.size()
-            , lContent.c_str());
+
+    setContent(lContent);
 }
 //===============================================
-bool GHttp::getRequest(GString2& _request) {
-    return false;
-}
-//===============================================
-bool GHttp::getResponse(GString2& _response) {
-    return false;
+bool GHttp::sendResponse() {
+    if(m_version == "") return false;
+    if(m_status == 0) return false;
+    if(m_reason == "") return false;
+    if(m_content == "") return false;
+    if(m_contentType == "") return false;
+    if(m_contentLength == 0) return false;
+    GString2& lDataOut = m_client->getDataOut();
+
+    lDataOut += sformat("%s %d %s\r\n", m_version.c_str(), m_status, m_reason.c_str());
+    lDataOut += sformat("Content-Type: %s\r\n", m_contentType.c_str());
+    lDataOut += sformat("Content-Length: %d\r\n", m_contentLength);
+
+    if(m_connection != "") {
+        lDataOut += sformat("Connection: %s\r\n", m_connection.c_str());
+    }
+
+    lDataOut += sformat("\r\n");
+    lDataOut += sformat("%s", m_content.c_str());
+    return true;
 }
 //===============================================

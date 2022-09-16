@@ -16,8 +16,9 @@ public:
     void setVersion(const GString2& _version);
     void setHostname(const GString2& _hostname);
     void setPort(int _port);
-    void setStatus(const GString2& _status);
+    void setStatus(int _status);
     void setReason(const GString2& _reason);
+    void setContent(const GString2& _content);
     void setContentType(const GString2& _contentType);
     void setContentLength(int _contentLength);
     void setCacheControl(const GString2& _cacheControl);
@@ -40,8 +41,7 @@ public:
     void onModule();
     void onIndex();
     //
-    bool getRequest(GString2& _request);
-    bool getResponse(GString2& _response);
+    bool sendResponse();
 
 private:
     static const int HEADER_SIZE = 1024;
@@ -50,13 +50,12 @@ private:
     GString2 m_url;
     GString2 m_version;
     GString2 m_hostname;
-    GString2 m_status;
     GString2 m_reason;
+    GString2 m_content;
     GString2 m_contentType;
     GString2 m_date;
     GString2 m_server;
     GString2 m_lastModified;
-    GString2 m_connection;
     GString2 m_content;
     GString2 m_cacheControl;
     GString2 m_upgradeInsecureRequests;
@@ -64,6 +63,8 @@ private:
     GString2 m_accept;
     GString2 m_acceptEncoding;
     GString2 m_acceptLanguage;
+    GString2 m_connection;
+    int m_status;
     int m_contentLength;
     int m_port;
 };
