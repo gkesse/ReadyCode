@@ -51,7 +51,6 @@ private:
     GString2 m_version;
     GString2 m_hostname;
     GString2 m_reason;
-    GString2 m_content;
     GString2 m_contentType;
     GString2 m_date;
     GString2 m_server;

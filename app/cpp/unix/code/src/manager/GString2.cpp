@@ -192,6 +192,38 @@ bool GString2::operator==(int _data) {
     return lEqual;
 }
 //===============================================
+bool GString2::operator!=(const GString2& _data) {
+    bool lEqual = true;
+    lEqual &= (m_data != _data.m_data);
+    return lEqual;
+}
+//===============================================
+bool GString2::operator!=(const std::string& _data) {
+    bool lEqual = true;
+    lEqual &= (m_data != _data);
+    return lEqual;
+}
+//===============================================
+bool GString2::operator!=(const char* _data) {
+    std::string lData = _data;
+    bool lEqual = true;
+    lEqual &= (m_data != lData);
+    return lEqual;
+}
+//===============================================
+bool GString2::operator!=(char _data) {
+    bool lEqual = true;
+    lEqual &= (m_data[0] != _data);
+    return lEqual;
+}
+//===============================================
+bool GString2::operator!=(int _data) {
+    std::string lData = std::to_string(_data);
+    bool lEqual = true;
+    lEqual &= (m_data == lData);
+    return lEqual;
+}
+//===============================================
 char& GString2::operator[](int _index) {
     return m_data[_index];
 }

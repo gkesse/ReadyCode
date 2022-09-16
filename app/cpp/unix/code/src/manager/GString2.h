@@ -41,6 +41,12 @@ public:
     bool operator==(char _data);
     bool operator==(int _data);
     //
+    bool operator!=(const GString2& _data);
+    bool operator!=(const std::string& _data);
+    bool operator!=(const char* _data);
+    bool operator!=(char _data);
+    bool operator!=(int _data);
+    //
     char& operator[](int _index);
     const char& operator[](int _index) const;
     //
