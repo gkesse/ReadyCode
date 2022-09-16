@@ -233,6 +233,7 @@ void GHttp::onIndex() {
             "";
 
     setContent(lContent);
+    sendResponse();
 }
 //===============================================
 bool GHttp::sendResponse() {
