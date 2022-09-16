@@ -1,5 +1,6 @@
 //===============================================
 #include "GProcess.h"
+#include "GServer.h"
 #include "GTest.h"
 #include "GTestNetwork.h"
 #include "GTestPoco.h"
@@ -21,6 +22,9 @@ void GProcess::run(int _argc, char** _argv) {
     if(lKey == "default") {
         runDefault(_argc, _argv);
     }
+    else if(lKey == "server") {
+        runServer(_argc, _argv);
+    }
     else if(lKey == "test") {
         runTest(_argc, _argv);
     }
@@ -40,6 +44,10 @@ void GProcess::run(int _argc, char** _argv) {
 //===============================================
 void GProcess::runDefault(int _argc, char** _argv) {
     GTest().run(_argc, _argv);
+}
+//===============================================
+void GProcess::runServer(int _argc, char** _argv) {
+    GServer().run(_argc, _argv);
 }
 //===============================================
 void GProcess::runTest(int _argc, char** _argv) {

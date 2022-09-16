@@ -41,7 +41,11 @@ const char* GString2::c_str() const {
     return m_data.data();
 }
 //===============================================
-std::string GString2::str() const {
+const std::string& GString2::data() const {
+    return m_data;
+}
+//===============================================
+std::string& GString2::data() {
     return m_data;
 }
 //===============================================
@@ -60,6 +64,10 @@ GString2 GString2::extract(int _pos, const GString2& _sep) {
         }
     }
     return "";
+}
+//===============================================
+bool GString2::isEmpty() const {
+    return m_data.empty();
 }
 //===============================================
 bool GString2::isSep(char _char) const {

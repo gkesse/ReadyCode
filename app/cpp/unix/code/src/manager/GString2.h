@@ -15,8 +15,10 @@ public:
     ~GString2();
 
     const char* c_str() const;
-    std::string str() const;
+    const std::string& data() const;
+    std::string& data();
     GString2 extract(int _pos, const GString2& _sep);
+    bool isEmpty() const;
     bool isSep(char _char) const;
     int size() const;
     bool startBy(const GString2& _data) const;

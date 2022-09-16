@@ -58,6 +58,12 @@
 #include <Poco/Net/DNS.h>
 #include <Poco/Net/HostEntry.h>
 #include <Poco/Net/SocketStream.h>
+#include <Poco/Net/HTTPCredentials.h>
+#include <Poco/Net/HTTPClientSession.h>
+#include <Poco/Net/HTTPRequest.h>
+#include <Poco/Net/HTTPResponse.h>
+#include <Poco/Net/HTTPMessage.h>
+#include <Poco/NullStream.h>
 //
 #include <Poco/Util/Application.h>
 #include <Poco/Util/ServerApplication.h>
@@ -76,6 +82,7 @@
 #include <Poco/FIFOBuffer.h>
 #include <Poco/NObserver.h>
 #include <Poco/StreamCopier.h>
+#include <Poco/URI.h>
 // libs
 #include <base64.hpp>
 #include <md5.h>

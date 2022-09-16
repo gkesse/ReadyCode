@@ -228,8 +228,8 @@ void GHttp::onIndex() {
     setConnection("Closed");
 
     GString2 lContent = ""
-            "<html><head><title>My 1st Web Server</title></head>"
-            "<body><h1>Hello, world!</h1></body></html>"
+            "<html><head><title>[Echo]-ReadyDev</title></head>"
+            "<body><h1>La connexion au serveur a réussi.</h1></body></html>"
             "";
 
     setContent(lContent);
