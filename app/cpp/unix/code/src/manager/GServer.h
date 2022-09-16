@@ -18,7 +18,7 @@ public:
 
 private:
     static const int BUFFER_SIZE = 1024;
-    static std::string API_KEY = "API_KEY";
+    static const const char* API_KEY = "API_KEY";
     GString2 m_apiKey;
     int m_size;
     int m_dSize;
