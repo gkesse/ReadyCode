@@ -16,11 +16,9 @@ public:
     bool isReadyApp();
     bool readData();
 
-public:
-    static const int BUFFER_SIZE = 1024;
-    static const char* API_KEY = "API_KEY";
-
 private:
+    static const int BUFFER_SIZE = 1024;
+    static constexpr char* API_KEY = "API_KEY";
     GString2 m_apiKey;
     int m_size;
     int m_dSize;
