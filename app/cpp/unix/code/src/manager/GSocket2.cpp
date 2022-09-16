@@ -139,7 +139,7 @@ void* GSocket2::onThreadCB(void* _params) {
         const char* lBuffer = lDataOut.c_str();
 
         while(1) {
-            int lBytes = send(lClient->m_socket, &lBuffer[lIndex], lSize - lIndex, 0);
+            int lBytes = lClient->sendData(&lBuffer[lIndex], lSize - lIndex);
             if(lBytes <= 0) break;
             lIndex += lBytes;
             if(lIndex >= lSize) break;
@@ -168,11 +168,15 @@ bool GSocket2::addDataIn(const GString2& _data) {
 //===============================================
 bool GSocket2::readMethod() {
     char lBuffer[METHOD_SIZE + 1];
-    int lBytes = recv(m_socket, lBuffer, METHOD_SIZE, 0);
+    int lBytes = readData(lBuffer, METHOD_SIZE);
     if(lBytes <= 0) return false;
     lBuffer[lBytes] = 0;
     m_dataIn += lBuffer;
     return true;
+}
+//===============================================
+bool GSocket2::closeSocket() {
+    return close(m_socket);
 }
 //===============================================
 bool GSocket2::runHttp() {

@@ -63,7 +63,7 @@ void* GServer::onThreadCB(void* _params) {
         }
     }
 
-    close(lClient->m_socket);
+    lClient->closeSocket();
     delete lClient;
     return 0;
 }
