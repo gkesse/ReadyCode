@@ -61,7 +61,9 @@ void GTestSocket::runAnalyze(int _argc, char** _argv) {
         GLOGT(eGMSG, "%s", lMethod.c_str());
         GLOGT(eGMSG, "%s", lHeader.c_str());
 
-        for(int i = 0; i < lHeader.count("|"); i++) {
+        int lCount = lHeader.count("|");
+
+        for(int i = 0; i < lCount; i++) {
             GString2 lWord = lHeader.extract(i, "|");
             GLOGT(eGMSG, "%s", lWord.c_str());
         }
