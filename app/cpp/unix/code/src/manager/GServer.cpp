@@ -7,6 +7,8 @@
 GServer::GServer()
 : GModule2() {
     setApiKey(API_KEY);
+    setUsername(API_USERNAME);
+    setPassword(API_PASSWORD);
 }
 //===============================================
 GServer::~GServer() {
@@ -15,6 +17,14 @@ GServer::~GServer() {
 //===============================================
 void GServer::setApiKey(const GString2& _apiKey) {
     m_apiKey = _apiKey;
+}
+//===============================================
+void GServer::setUsername(const GString2& _username) {
+    m_username = _username;
+}
+//===============================================
+void GServer::setPassword(const GString2& _password) {
+    m_password = _password;
 }
 //===============================================
 void GServer::run(int _argc, char** _argv) {
@@ -60,13 +70,34 @@ bool GServer::onReadyApp() {
 //===============================================
 bool GServer::isReadyApp() {
     GString2& lDataIn = m_client->getDataIn();
-    GString2 l = lDataIn.extract(1, ";").trim();
-    GString2 lApiKey = lDataIn.extract(1, ";").trim();
+    GString2 lHeader = lDataIn.extract(1, ";").trim();
+    GString2 lApiKey, lUsername, lPassword, lSize;
+    int lCount = lHeader.count("|");
+
+    for(int i = 0; i < lCount; i++) {
+        GString2 lWord = lHeader.extract(i, "|").trim();
+        if(lWord.startBy("api_key")) {
+            lApiKey = lWord.extract(1, ":").trim();
+        }
+        else if(lWord.startBy("username")) {
+            lUsername = lWord.extract(1, ":").trim();
+        }
+        else if(lWord.startBy("password")) {
+            lPassword = lWord.extract(1, ":").trim();
+        }
+        else if(lWord.startBy("size")) {
+            lSize = lWord.extract(1, ":").trim();
+        }
+    }
+
     if(lApiKey != m_apiKey) return false;
-    GString2 lSize = lDataIn.extract(2, ";").trim();
+    if(lApiKey != m_apiKey) return false;
+    if(lApiKey != m_apiKey) return false;
     if(lSize.toInt(m_size)) return false;
+
     m_dSize = m_size - lDataIn.size();
     if(m_dSize < 0) return false;
+
     return true;
 }
 //===============================================

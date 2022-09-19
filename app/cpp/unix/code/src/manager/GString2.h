@@ -23,6 +23,7 @@ public:
     bool isSep(char _char) const;
     int size() const;
     bool startBy(const GString2& _data) const;
+    int sepSize(int _pos, const GString2& _sep) const;
     GString2 trim(const GString2& _sep = " ");
     int toInt() const;
     bool toInt(int& _data) const;
