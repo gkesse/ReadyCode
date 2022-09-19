@@ -13,6 +13,7 @@ public:
     void run(int _argc, char** _argv);
     void runDefault(int _argc, char** _argv);
     void runTcp(int _argc, char** _argv);
+    void runAnalyze(int _argc, char** _argv);
 
 private:
     static GTestSocket* m_test;

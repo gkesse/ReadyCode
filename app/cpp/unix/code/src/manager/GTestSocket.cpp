@@ -25,6 +25,9 @@ void GTestSocket::run(int _argc, char** _argv) {
     else if(lKey == "tcp") {
         runTcp(_argc, _argv);
     }
+    else if(lKey == "analyze") {
+        runAnalyze(_argc, _argv);
+    }
     else {
         runDefault(_argc, _argv);
     }
@@ -47,5 +50,10 @@ void GTestSocket::runTcp(int _argc, char** _argv) {
     lSocket.setBacklog(5);
     lSocket.setMessage("Démarrage du serveur...");
     lSocket.run();
+}
+//===============================================
+void GTestSocket::runAnalyze(int _argc, char** _argv) {
+    GString2 lDataIn = "RDVAPP;api_key:12345|username:porto|password:key|size:25;Bonjour tout le monde";
+    GLOGT(eGMSG, "%s", lDataIn.c_str());
 }
 //===============================================
