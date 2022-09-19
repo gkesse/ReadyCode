@@ -7,28 +7,23 @@ GString2::GString2() {
 
 }
 //===============================================
-GString2::GString2(const std::string& _data)
-: GObject() {
+GString2::GString2(const std::string& _data) {
     m_data = _data;
 }
 //===============================================
-GString2::GString2(const char* _data)
-: GObject() {
+GString2::GString2(const char* _data) {
     m_data = _data;
 }
 //===============================================
-GString2::GString2(char _data)
-: GObject(){
+GString2::GString2(char _data) {
     m_data = _data;
 }
 //===============================================
-GString2::GString2(int _data)
-: GObject(){
+GString2::GString2(int _data) {
     m_data = std::to_string(_data);
 }
 //===============================================
-GString2::GString2(const GString2& _data)
-: GObject() {
+GString2::GString2(const GString2& _data) {
     m_data = _data.m_data;
 }
 //===============================================
