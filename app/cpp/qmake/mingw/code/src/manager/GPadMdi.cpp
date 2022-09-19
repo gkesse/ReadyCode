@@ -152,8 +152,8 @@ void GPadMdi::onPocoClientTcp() {
     lSocket.setPort(9001);
     lSocket.setProtocol(IPPROTO_TCP);
     QString lDataIn = "Bonjour tout le monde";
-    QString lDataOut;
-    lSocket.callServer(lDataIn, lDataOut);
+    lSocket.setContent(lDataIn);
+    lSocket.callServer();
 }
 //===============================================
 GUser* GPadMdi::getUser() const {

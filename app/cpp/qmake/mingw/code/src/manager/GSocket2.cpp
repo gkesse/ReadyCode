@@ -11,6 +11,12 @@ GSocket2::GSocket2() {
     m_protocol = 0;
     m_family = 0;
     m_port = 0;
+    m_socket = 0;
+
+    setMethod(API_METHOD);
+    setApiKey(API_KEY);
+    setUsername(API_USERNAME);
+    setPassword(API_PASSWORD);
 }
 //===============================================
 GSocket2::~GSocket2() {
@@ -43,24 +49,84 @@ void GSocket2::setPort(int _port) {
     m_port = _port;
 }
 //===============================================
-void GSocket2::setHostname(const QString& _hostname) {
+void GSocket2::setHostname(const GString& _hostname) {
     m_hostname = _hostname;
 }
 //===============================================
-bool GSocket2::callServer(const QString& _dataIn, QString& _dataOut) {
+void GSocket2::setMethod(const GString& _method) {
+    m_method = _method;
+}
+//===============================================
+void GSocket2::setApiKey(const GString& _apiKey) {
+    m_apiKey = _apiKey;
+}
+//===============================================
+void GSocket2::setUsername(const GString& _username) {
+    m_username = _username;
+}
+//===============================================
+void GSocket2::setPassword(const GString& _password) {
+    m_password = _password;
+}
+//===============================================
+void GSocket2::setContent(const GString& _content) {
+    m_content = _content;
+}
+//===============================================
+bool GSocket2::callServer() {
+    if(m_dataIn.size() == 0) return true;
     WSADATA lWsaData;
     WSAStartup(MAKEWORD(m_major, m_minor), &lWsaData);
-    SOCKET lSocket = socket(m_domain, m_type, m_protocol);
-    if(lSocket == INVALID_SOCKET) return false;
+    m_socket = socket(m_domain, m_type, m_protocol);
+    if(m_socket == INVALID_SOCKET) return false;
     SOCKADDR_IN lAddress;
     lAddress.sin_family = m_family;
-    lAddress.sin_addr.s_addr = inet_addr(m_hostname.toStdString().c_str());
+    lAddress.sin_addr.s_addr = inet_addr(m_hostname.c_str());
     lAddress.sin_port = htons(m_port);
     memset(&lAddress.sin_zero, 0, sizeof(lAddress.sin_zero));
-    int lAnswer = connect(lSocket, (SOCKADDR*)(&lAddress), sizeof(lAddress));
+    int lAnswer = connect(m_socket, (SOCKADDR*)(&lAddress), sizeof(lAddress));
     if(lAnswer == SOCKET_ERROR) return false;
-    int lBytes = send(lSocket, _dataIn.toStdString().c_str(), _dataIn.size(), 0);
-    if(lBytes == -1) return false;
+
+    if(createData()) {
+        sendData();
+    }
+
+    closesocket(m_socket);
+    WSACleanup();
+    return true;
+}
+//===============================================
+bool GSocket2::createData() {
+    if(m_content == "") return false;
+    if(m_apiKey == "") return false;
+    if(m_username == "") return false;
+    if(m_password == "") return false;
+
+    int lSize = m_content.size();
+
+    m_dataIn = "";
+    m_dataIn += QString("%1;").arg(m_method.data());
+    m_dataIn += QString("api_key:%1|").arg(m_apiKey.data());
+    m_dataIn += QString("username:%1|").arg(m_username.data());
+    m_dataIn += QString("password:%1|").arg(m_password.data());
+    m_dataIn += QString("size:%1;").arg(lSize);
+    m_dataIn += QString("%1").arg(m_content.data());
+
+    return true;
+}
+//===============================================
+bool GSocket2::sendData() {
+    int lIndex = 0;
+    int lSize = m_dataIn.size();
+    const char* lBuffer = m_dataIn.c_str();
+
+    while(1) {
+        int lBytes = send(m_socket, &lBuffer[lIndex], lSize - lIndex, 0);
+        if(lBytes <= 0) return false;
+        lIndex += lBytes;
+        if(lIndex >= lSize) break;
+    }
+
     return true;
 }
 //===============================================

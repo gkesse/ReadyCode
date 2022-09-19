@@ -2,7 +2,7 @@
 #ifndef _GString2_
 #define _GString2_
 //===============================================
-#include "GObject.h"
+#include "GInclude.h"
 //===============================================
 class GString2 {
 public:
