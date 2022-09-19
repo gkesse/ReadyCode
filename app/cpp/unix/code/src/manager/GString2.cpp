@@ -98,16 +98,17 @@ bool GString2::startBy(const GString2& _data) const {
 }
 //===============================================
 int GString2::sepSize(int _pos, const GString2& _sep) const {
+    int lSize = 0;
     int lCount = 0;
-    int i = 0;
-    for(; i < m_data.size(); i++) {
+    for(int i = 0; i < m_data.size(); i++) {
         char lChar = m_data[i];
+        lSize++;
         if(_sep.isSep(lChar)) {
             if(lCount == _pos) break;
             lCount++;
         }
     }
-    return i;
+    return lSize;
 }
 //===============================================
 GString2 GString2::trim(const GString2& _sep) {
