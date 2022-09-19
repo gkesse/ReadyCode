@@ -54,18 +54,25 @@ void GTestSocket::runTcp(int _argc, char** _argv) {
 //===============================================
 void GTestSocket::runAnalyze(int _argc, char** _argv) {
     GString2 lDataIn = "RDVAPP;api_key:12345|username:porto|password:key|size:25;Bonjour tout le monde";
+
     if(lDataIn.startBy("RDVAPP")) {
-        GString2 lMethod = lDataIn.extract(0, ";");
-        GString2 lHeader = lDataIn.extract(1, ";");
-
-        GLOGT(eGMSG, "%s", lMethod.c_str());
-        GLOGT(eGMSG, "%s", lHeader.c_str());
-
+        GString2 lMethod = lDataIn.extract(0, ";").trim();
+        GString2 lHeader = lDataIn.extract(1, ";").trim();
         int lCount = lHeader.count("|");
-
         for(int i = 0; i < lCount; i++) {
-            GString2 lWord = lHeader.extract(i, "|");
-            GLOGT(eGMSG, "%s", lWord.c_str());
+            GString2 lWord = lHeader.extract(i, "|").trim();
+            if(lWord.startBy("api_key")) {
+                GString2 lData = lWord.extract(1, ":").trim();
+                GLOGT(eGMSG, "%s", lData.c_str());
+            }
+            else if(lWord.startBy("username")) {
+                GString2 lData = lWord.extract(1, ":").trim();
+                GLOGT(eGMSG, "%s", lData.c_str());
+            }
+            else if(lWord.startBy("size")) {
+                GString2 lData = lWord.extract(1, ":").trim();
+                GLOGT(eGMSG, "%s", lData.c_str());
+            }
         }
     }
 }

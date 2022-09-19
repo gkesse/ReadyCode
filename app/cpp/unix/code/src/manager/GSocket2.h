@@ -30,6 +30,7 @@ public:
     //
     int readData(char* _data, int _size);
     int sendData(const char* _data, int _size);
+    bool sendResponse();
     bool addDataIn(const GString2& _data);
     bool readMethod();
     bool closeSocket();
@@ -42,7 +43,7 @@ public:
 
 private:
     static const int BUFFER_SIZE = 1024;
-    static const int METHOD_SIZE = 1024;
+    static const int METHOD_SIZE = 100;
     //
     GString2 m_module;
     GString2 m_hostname;
