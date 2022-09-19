@@ -54,6 +54,11 @@ void GTestSocket::runTcp(int _argc, char** _argv) {
 //===============================================
 void GTestSocket::runAnalyze(int _argc, char** _argv) {
     GString2 lDataIn = "RDVAPP;api_key:12345|username:porto|password:key|size:25;Bonjour tout le monde";
-    GLOGT(eGMSG, "%s", lDataIn.c_str());
+    if(lDataIn.startBy("RDVAPP")) {
+        GString2 lMethod = lDataIn.extract(0, ";");
+        GString2 lHeader = lDataIn.extract(1, ";");
+        GLOGT(eGMSG, "%s", lMethod.c_str());
+        GLOGT(eGMSG, "%s", lMethod.c_str());
+    }
 }
 //===============================================
