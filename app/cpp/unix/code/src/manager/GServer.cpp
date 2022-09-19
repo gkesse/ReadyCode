@@ -64,7 +64,7 @@ void* GServer::onThreadCB(void* _params) {
 //===============================================
 bool GServer::onReadyApp() {
     if(!isReadyApp()) return false;
-    if(!readData()) return false;
+    if(!m_client->readData(m_dSize)) return false;
     return true;
 }
 //===============================================
@@ -91,29 +91,14 @@ bool GServer::isReadyApp() {
     }
 
     if(lApiKey != m_apiKey) return false;
-    if(lApiKey != m_apiKey) return false;
-    if(lApiKey != m_apiKey) return false;
+    if(lUsername != m_username) return false;
+    if(lPassword != m_password) return false;
     if(lSize.toInt(m_size)) return false;
 
-    m_dSize = m_size - lDataIn.size();
+    int lHeaderSize = lDataIn.sepSize(1, ";");
+    int lTotalSize = lHeaderSize + m_size;
+    m_dSize = lTotalSize - lDataIn.size();
     if(m_dSize < 0) return false;
-
-    return true;
-}
-//===============================================
-bool GServer::readData() {
-    if(m_dSize == 0) return true;
-    char lBuffer[BUFFER_SIZE + 1];
-    int lIndex = 0;
-    int lSize = 0;
-    while(1) {
-        int lBytes = m_client->readData(lBuffer, BUFFER_SIZE);
-        if(lBytes <= 0) return false;
-        lBuffer[lBytes] = 0;
-        m_client->addDataIn(lBuffer);
-        lSize += lBytes;
-        if(lSize >= m_dSize) return false;
-    }
     return true;
 }
 //===============================================

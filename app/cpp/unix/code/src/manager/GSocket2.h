@@ -29,6 +29,7 @@ public:
     const GString2& getDataOut() const;
     //
     int readData(char* _data, int _size);
+    bool readData(int _dSize);
     int sendData(const char* _data, int _size);
     bool sendResponse();
     bool addDataIn(const GString2& _data);
@@ -43,7 +44,7 @@ public:
 
 private:
     static const int BUFFER_SIZE = 1024;
-    static const int METHOD_SIZE = 100;
+    static const int METHOD_SIZE = 1024;
     //
     GString2 m_module;
     GString2 m_hostname;

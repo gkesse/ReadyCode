@@ -16,10 +16,8 @@ public:
     static void* onThreadCB(void* _params);
     bool onReadyApp();
     bool isReadyApp();
-    bool readData();
 
 private:
-    static const int BUFFER_SIZE = 1024;
     static constexpr const char* API_KEY = "admin";
     static constexpr const char* API_USERNAME = "admin";
     static constexpr const char* API_PASSWORD = "admin";
@@ -27,7 +25,6 @@ private:
     GString2 m_apiKey;
     GString2 m_username;
     GString2 m_password;
-
     int m_size;
     int m_dSize;
 };
