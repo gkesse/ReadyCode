@@ -62,8 +62,8 @@ GString2 GString2::extract(int _pos, const GString2& _sep) {
 //===============================================
 int GString2::count(const GString2& _sep) {
     int lCount = 0;
-    for(int i = 0; i < _sep.size(); i++) {
-        char lChar = _sep[i];
+    for(int i = 0; i < m_data.size(); i++) {
+        char lChar = m_data[i];
         if(_sep.isSep(lChar)) {
             lCount++;
         }
