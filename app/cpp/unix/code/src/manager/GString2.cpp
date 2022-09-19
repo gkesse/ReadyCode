@@ -57,7 +57,7 @@ GString2 GString2::extract(int _pos, const GString2& _sep) {
             lWord += lChar;
         }
     }
-    return "";
+    return lWord;
 }
 //===============================================
 int GString2::count(const GString2& _sep) {
