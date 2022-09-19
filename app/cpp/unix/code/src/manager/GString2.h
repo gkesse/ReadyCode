@@ -18,6 +18,7 @@ public:
     const std::string& data() const;
     std::string& data();
     GString2 extract(int _pos, const GString2& _sep);
+    int count(const GString2& _sep);
     bool isEmpty() const;
     bool isSep(char _char) const;
     int size() const;

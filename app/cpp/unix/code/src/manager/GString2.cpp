@@ -60,6 +60,17 @@ GString2 GString2::extract(int _pos, const GString2& _sep) {
     return "";
 }
 //===============================================
+int GString2::count(const GString2& _sep) {
+    int lCount = 0;
+    for(int i = 0; i < _sep.size(); i++) {
+        char lChar = _sep[i];
+        if(_sep.isSep(lChar)) {
+            lCount++;
+        }
+    }
+    return lCount;
+}
+//===============================================
 bool GString2::isEmpty() const {
     return m_data.empty();
 }

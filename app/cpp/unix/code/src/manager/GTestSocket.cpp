@@ -57,8 +57,14 @@ void GTestSocket::runAnalyze(int _argc, char** _argv) {
     if(lDataIn.startBy("RDVAPP")) {
         GString2 lMethod = lDataIn.extract(0, ";");
         GString2 lHeader = lDataIn.extract(1, ";");
+
         GLOGT(eGMSG, "%s", lMethod.c_str());
-        GLOGT(eGMSG, "%s", lMethod.c_str());
+        GLOGT(eGMSG, "%s", lHeader.c_str());
+
+        for(int i = 0; i < lHeader.count("|"); i++) {
+            GString2 lWord = lHeader.extract(i, "|");
+            GLOGT(eGMSG, "%s", lWord.c_str());
+        }
     }
 }
 //===============================================
