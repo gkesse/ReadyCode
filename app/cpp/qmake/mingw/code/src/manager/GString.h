@@ -34,31 +34,31 @@ public:
     GString& operator=(const char* _data);
     GString& operator=(char _data);
     GString& operator=(int _data);
-    //
+
     GString& operator+=(const GString& _data);
     GString& operator+=(const QString& _data);
     GString& operator+=(const std::string& _data);
     GString& operator+=(const char* _data);
     GString& operator+=(char _data);
     GString& operator+=(int _data);
-    //
+
     bool operator==(const GString& _data);
     bool operator==(const QString& _data);
     bool operator==(const std::string& _data);
     bool operator==(const char* _data);
     bool operator==(char _data);
     bool operator==(int _data);
-    //
+
     bool operator!=(const GString& _data);
     bool operator!=(const QString& _data);
     bool operator!=(const std::string& _data);
     bool operator!=(const char* _data);
     bool operator!=(char _data);
     bool operator!=(int _data);
-    //
+
     char& operator[](int _index);
     const char& operator[](int _index) const;
-    //
+
     friend GString operator+(const GString& _data1, const GString& _data2);
     //
     friend std::ostream& operator<<(std::ostream& _os, const GString& _data);

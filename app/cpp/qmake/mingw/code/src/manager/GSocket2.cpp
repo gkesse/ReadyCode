@@ -74,7 +74,7 @@ void GSocket2::setContent(const GString& _content) {
 }
 //===============================================
 bool GSocket2::callServer() {
-    if(m_dataIn.size() == 0) return true;
+    if(m_content.size() == 0) return true;
     WSADATA lWsaData;
     WSAStartup(MAKEWORD(m_major, m_minor), &lWsaData);
     m_socket = socket(m_domain, m_type, m_protocol);

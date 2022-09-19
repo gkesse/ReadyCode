@@ -6,6 +6,7 @@
 //===============================================
 GServer::GServer()
 : GModule2() {
+    setMethod(API_METHOD);
     setApiKey(API_KEY);
     setUsername(API_USERNAME);
     setPassword(API_PASSWORD);
@@ -13,6 +14,9 @@ GServer::GServer()
 //===============================================
 GServer::~GServer() {
 
+}
+void GServer::setMethod(const GString2& _method) {
+    m_method = _method;
 }
 //===============================================
 void GServer::setApiKey(const GString2& _apiKey) {
@@ -31,7 +35,7 @@ void GServer::run(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GSocket2 lSocket;
     lSocket.setModule("tcp");
-    lSocket.setHostname("192.168.1.45");
+    lSocket.setHostname("0.0.0.0");
     lSocket.setPort(9001);
     lSocket.setDomain(AF_INET);
     lSocket.setType(SOCK_STREAM);
@@ -51,7 +55,7 @@ void* GServer::onThreadCB(void* _params) {
     lMaster.setClient(lClient);
 
     if(lClient->readMethod()) {
-        if(lDataIn.startBy("RDVAPP")) {
+        if(lDataIn.startBy(API_METHOD)) {
             lMaster.onReadyApp();
         }
     }

@@ -10,7 +10,7 @@ class GSocket2 : public GObject {
 public:
     GSocket2();
     ~GSocket2();
-    //
+
     void setModule(const GString2& _module);
     void setHostname(const GString2& _hostname);
     void setMessage(const GString2& _message);
@@ -21,13 +21,13 @@ public:
     void setPort(int _port);
     void setBacklog(int _backlog);
     void setThreadCB(void* m_threadCB);
-    //
+
     int getSocket() const;
     GString2& getDataIn();
     const GString2& getDataIn() const;
     GString2& getDataOut();
     const GString2& getDataOut() const;
-    //
+
     int readData(char* _data, int _size);
     bool readData(int _dSize);
     int sendData(const char* _data, int _size);
@@ -35,17 +35,17 @@ public:
     bool addDataIn(const GString2& _data);
     bool readMethod();
     bool closeSocket();
-    //
+
     bool run();
     bool runHttp();
-    //
+
     static void* onThreadCB(void* _params);
 
 
 private:
     static const int BUFFER_SIZE = 1024;
     static const int METHOD_SIZE = 1024;
-    //
+
     GString2 m_module;
     GString2 m_hostname;
     GString2 m_message;
@@ -55,7 +55,7 @@ private:
     int m_family;
     int m_port;
     int m_backlog;
-    //
+
     int m_socket;
     GSocket2* m_server;
     GString2 m_dataIn;
