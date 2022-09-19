@@ -100,10 +100,11 @@ bool GString2::startBy(const GString2& _data) const {
 int GString2::sepSize(int _pos, const GString2& _sep) const {
     int lCount = 0;
     int i = 0;
-    for(int i = 0; i < m_data.size(); i++) {
+    for(; i < m_data.size(); i++) {
         char lChar = m_data[i];
         if(_sep.isSep(lChar)) {
             if(lCount == _pos) break;
+            lCount++;
         }
     }
     return i;
