@@ -83,6 +83,7 @@ bool GSocket2::callServer() {
     lAddress.sin_family = m_family;
     lAddress.sin_addr.s_addr = inet_addr(m_hostname.c_str());
     lAddress.sin_port = htons(m_port);
+    printf("%s===>\n", m_hostname.c_str());
     memset(&lAddress.sin_zero, 0, sizeof(lAddress.sin_zero));
     int lAnswer = connect(m_socket, (SOCKADDR*)(&lAddress), sizeof(lAddress));
     if(lAnswer == SOCKET_ERROR) return false;
@@ -105,12 +106,12 @@ bool GSocket2::createData() {
     int lSize = m_content.size();
 
     m_dataIn = "";
-    m_dataIn += QString("%1;").arg(m_method.data());
-    m_dataIn += QString("api_key:%1|").arg(m_apiKey.data());
-    m_dataIn += QString("username:%1|").arg(m_username.data());
-    m_dataIn += QString("password:%1|").arg(m_password.data());
-    m_dataIn += QString("size:%1;").arg(lSize);
-    m_dataIn += QString("%1").arg(m_content.data());
+    m_dataIn += sformat("%s;", m_method.c_str());
+    m_dataIn += sformat("api_key:%s|", m_apiKey.c_str());
+    m_dataIn += sformat("username:%s|", m_username.c_str());
+    m_dataIn += sformat("password:%s|", m_password.c_str());
+    m_dataIn += sformat("size:%d;", lSize);
+    m_dataIn += sformat("%s", m_content.c_str());
 
     return true;
 }

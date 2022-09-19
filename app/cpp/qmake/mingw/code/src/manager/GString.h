@@ -4,6 +4,10 @@
 //===============================================
 #include "GInclude.h"
 //===============================================
+#define GSTRINGI GString::Instance()
+//===============================================
+#define sformat(...) GSTRINGI->getFormat(__VA_ARGS__)
+//===============================================
 class GString {
 public:
     GString();
@@ -15,18 +19,28 @@ public:
     GString(const GString& _data);
     ~GString();
 
+    static GString* Instance();
+
     const char* c_str() const;
-    const QString& data() const;
-    QString& data();
+    const std::string& data() const;
+    std::string& data();
+
     GString extract(int _pos, const GString& _sep);
+
     int count(const GString& _sep);
+
     bool isEmpty() const;
     bool isSep(char _char) const;
+
     int size() const;
     bool startBy(const GString& _data) const;
     int sepSize(int _pos, const GString& _sep) const;
     GString trim(const GString& _sep = " ");
+
     int toInt() const;
+    bool toInt(int& _data) const;
+
+    std::string getFormat(const char* _format, ...);
 
     GString& operator=(const GString& _data);
     GString& operator=(const QString& _data);
@@ -64,7 +78,8 @@ public:
     friend std::ostream& operator<<(std::ostream& _os, const GString& _data);
 
 private:
-    QString m_data;
+    static GString* m_instance;
+    std::string m_data;
 };
 //==============================================
 #endif

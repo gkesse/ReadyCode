@@ -25,6 +25,8 @@ public:
     bool startBy(const GString2& _data) const;
     int sepSize(int _pos, const GString2& _sep) const;
     GString2 trim(const GString2& _sep = " ");
+    GString2 substr(int _pos = 0, int _size = -1);
+
     int toInt() const;
     bool toInt(int& _data) const;
 

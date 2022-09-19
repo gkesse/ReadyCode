@@ -2,12 +2,14 @@
 #include "GString.h"
 #include "GLog.h"
 //===============================================
+GString* GString::m_instance = 0;
+//===============================================
 GString::GString() {
 
 }
 //===============================================
 GString::GString(const QString& _data) {
-    m_data = _data;
+    m_data = _data.toStdString();
 }
 //===============================================
 GString::GString(const std::string& _data) {
@@ -23,7 +25,7 @@ GString::GString(char _data) {
 }
 //===============================================
 GString::GString(int _data) {
-    m_data = QString("%1").arg(_data);
+    m_data = std::to_string(_data);
 }
 //===============================================
 GString::GString(const GString& _data) {
@@ -34,15 +36,22 @@ GString::~GString() {
 
 }
 //===============================================
-const char* GString::c_str() const {
-    return m_data.toStdString().c_str();
+GString* GString::Instance() {
+    if(m_instance == 0) {
+        m_instance = new GString;
+    }
+    return m_instance;
 }
 //===============================================
-const QString& GString::data() const {
+const char* GString::c_str() const {
+    return m_data.data();
+}
+//===============================================
+const std::string& GString::data() const {
     return m_data;
 }
 //===============================================
-QString& GString::data() {
+std::string& GString::data() {
     return m_data;
 }
 //===============================================
@@ -50,7 +59,7 @@ GString GString::extract(int _pos, const GString& _sep) {
     GString lWord = "";
     int lPos = 0;
     for(int i = 0; i < m_data.size(); i++) {
-        char lChar = m_data.at(i).toLatin1();
+        char lChar = m_data.at(i);
         if(_sep.isSep(lChar)) {
             if(lPos == _pos) return lWord;
             lWord = "";
@@ -66,7 +75,7 @@ GString GString::extract(int _pos, const GString& _sep) {
 int GString::count(const GString& _sep) {
     int lCount = 1;
     for(int i = 0; i < m_data.size(); i++) {
-        char lChar = m_data.at(i).toLatin1();
+        char lChar = m_data.at(i);
         if(_sep.isSep(lChar)) {
             lCount++;
         }
@@ -75,7 +84,7 @@ int GString::count(const GString& _sep) {
 }
 //===============================================
 bool GString::isEmpty() const {
-    return m_data.isEmpty();
+    return m_data.empty();
 }
 //===============================================
 bool GString::isSep(char _char) const {
@@ -104,7 +113,7 @@ int GString::sepSize(int _pos, const GString& _sep) const {
     int lSize = 0;
     int lCount = 0;
     for(int i = 0; i < m_data.size(); i++) {
-        char lChar = m_data.at(i).toLatin1();
+        char lChar = m_data.at(i);
         lSize++;
         if(_sep.isSep(lChar)) {
             if(lCount == _pos) break;
@@ -119,25 +128,45 @@ GString GString::trim(const GString& _sep) {
     int lEndPos = m_data.size() - 1;
     GString lData = "";
     for(int i = 0; i < m_data.size(); i++) {
-        char lChar = m_data.at(i).toLatin1();
+        char lChar = m_data.at(i);
         if(!_sep.isSep(lChar)) break;
         lStartPos++;
     }
     for(int i = m_data.size() - 1; i >= 0 ; i--) {
-        char lChar = m_data.at(i).toLatin1();
+        char lChar = m_data.at(i);
         if(!_sep.isSep(lChar)) break;
         lEndPos--;
     }
     for(int i = lStartPos; i <= lEndPos; i++) {
-        char lChar = m_data.at(i).toLatin1();
+        char lChar = m_data.at(i);
         lData += lChar;
     }
     return lData;
 }
 //===============================================
 int GString::toInt() const {
-    int lData = m_data.toInt();
+    int lData = std::stoi(m_data);
     return lData;
+}
+//===============================================
+bool GString::toInt(int& _data) const {
+    try {
+        _data = std::stoi(m_data);
+    }
+    catch(const std::exception& e) {
+        return false;
+    }
+    return true;
+}
+//===============================================
+std::string GString::getFormat(const char* _format, ...) {
+    va_list lArgs;
+    va_start (lArgs, _format);
+    int lSize = vsnprintf(0, 0, _format, lArgs);
+    std::vector<char> lData(lSize + 1);
+    vsnprintf(lData.data(), lData.size(), _format, lArgs);
+    va_end(lArgs);
+    return lData.data();
 }
 //===============================================
 GString& GString::operator=(const GString& _data) {
@@ -146,7 +175,7 @@ GString& GString::operator=(const GString& _data) {
 }
 //===============================================
 GString& GString::operator=(const QString& _data) {
-    m_data = _data;
+    m_data = _data.toStdString();
     return *this;
 }
 //===============================================
@@ -166,7 +195,7 @@ GString& GString::operator=(char _data) {
 }
 //===============================================
 GString& GString::operator=(int _data) {
-    m_data = QString("%1").arg(_data);
+    m_data = std::to_string(_data);
     return *this;
 }
 //===============================================
@@ -176,7 +205,7 @@ GString& GString::operator+=(const GString& _data) {
 }
 //===============================================
 GString& GString::operator+=(const QString& _data) {
-    m_data += _data;
+    m_data += _data.toStdString();
     return *this;
 }
 //===============================================
@@ -191,7 +220,7 @@ GString& GString::operator+=(const char* _data) {
 }
 //===============================================
 GString& GString::operator+=(int _data) {
-    m_data += QString("%1").arg(_data);
+    m_data += std::to_string(_data);
     return *this;
 }
 //===============================================
@@ -208,7 +237,7 @@ bool GString::operator==(const GString& _data) {
 //===============================================
 bool GString::operator==(const QString& _data) {
     bool lEqual = true;
-    lEqual &= (m_data == _data);
+    lEqual &= (m_data == _data.toStdString());
     return lEqual;
 }
 //===============================================
@@ -219,7 +248,7 @@ bool GString::operator==(const std::string& _data) {
 }
 //===============================================
 bool GString::operator==(const char* _data) {
-    QString lData = _data;
+    std::string lData = _data;
     bool lEqual = true;
     lEqual &= (m_data == lData);
     return lEqual;
@@ -232,7 +261,7 @@ bool GString::operator==(char _data) {
 }
 //===============================================
 bool GString::operator==(int _data) {
-    QString lData = QString("%1").arg(_data);
+    std::string lData = std::to_string(_data);
     bool lEqual = true;
     lEqual &= (m_data == lData);
     return lEqual;
@@ -246,7 +275,7 @@ bool GString::operator!=(const GString& _data) {
 //===============================================
 bool GString::operator!=(const QString& _data) {
     bool lEqual = true;
-    lEqual &= (m_data != _data);
+    lEqual &= (m_data != _data.toStdString());
     return lEqual;
 }
 //===============================================
@@ -257,7 +286,7 @@ bool GString::operator!=(const std::string& _data) {
 }
 //===============================================
 bool GString::operator!=(const char* _data) {
-    QString lData = _data;
+    std::string lData = _data;
     bool lEqual = true;
     lEqual &= (m_data != lData);
     return lEqual;
@@ -265,23 +294,23 @@ bool GString::operator!=(const char* _data) {
 //===============================================
 bool GString::operator!=(char _data) {
     bool lEqual = true;
-    lEqual &= (m_data.at(0).toLatin1() != _data);
+    lEqual &= (m_data.at(0) != _data);
     return lEqual;
 }
 //===============================================
 bool GString::operator!=(int _data) {
-    QString lData = QString("%1").arg(_data);
+    std::string lData = std::to_string(_data);
     bool lEqual = true;
     lEqual &= (m_data == lData);
     return lEqual;
 }
 //===============================================
 char& GString::operator[](int _index) {
-    return m_data.toUtf8().data()[_index];
+    return m_data[_index];
 }
 //===============================================
 const char& GString::operator[](int _index) const {
-    return m_data.toUtf8().data()[_index];
+    return m_data[_index];
 }
 //===============================================
 GString operator+(const GString& _data1, const GString& _data2) {

@@ -150,7 +150,6 @@ void GPadMdi::onPocoClientTcp() {
     lSocket.setFamily(AF_INET);
     lSocket.setHostname("192.168.1.45");
     lSocket.setPort(9001);
-    lSocket.setProtocol(IPPROTO_TCP);
     QString lDataIn = "Bonjour tout le monde";
     lSocket.setContent(lDataIn);
     lSocket.callServer();

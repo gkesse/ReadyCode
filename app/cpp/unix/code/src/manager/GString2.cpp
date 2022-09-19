@@ -132,6 +132,11 @@ GString2 GString2::trim(const GString2& _sep) {
     return lData;
 }
 //===============================================
+GString2 GString2::substr(int _pos, int _size) {
+    GString2 lData = m_data.substr(_pos, _size);
+    return lData;
+}
+//===============================================
 int GString2::toInt() const {
     int lData = std::stoi(m_data);
     return lData;

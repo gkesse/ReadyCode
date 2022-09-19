@@ -77,6 +77,7 @@ void GTestSocket::runAnalyze(int _argc, char** _argv) {
     }
 
     int lSize = lDataIn.sepSize(1, ";");
-    GLOGT(eGMSG, "%d", lSize);
+    GString2 lData = lDataIn.substr(lSize);
+    GLOGT(eGMSG, "%s", lData.c_str());
 }
 //===============================================
