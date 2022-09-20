@@ -152,6 +152,10 @@ bool GString2::toInt(int& _data) const {
     return true;
 }
 //===============================================
+void GString2::print() const {
+    std::cout << m_data << "\n";
+}
+//===============================================
 GString2& GString2::operator=(const GString2& _data) {
     m_data = _data.m_data;
     return *this;

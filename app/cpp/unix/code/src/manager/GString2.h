@@ -30,6 +30,8 @@ public:
     int toInt() const;
     bool toInt(int& _data) const;
 
+    void print() const;
+
     GString2& operator=(const GString2& _data);
     GString2& operator=(const std::string& _data);
     GString2& operator=(const char* _data);

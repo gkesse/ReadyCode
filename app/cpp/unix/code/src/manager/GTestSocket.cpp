@@ -1,8 +1,9 @@
 //===============================================
 #include "GTestSocket.h"
-#include "GSocket2.h"
 #include "GLog.h"
 #include "GFormat.h"
+#include "GSocket2.h"
+#include "GXml2.h"
 //===============================================
 GTestSocket* GTestSocket::m_test = 0;
 //===============================================
@@ -27,6 +28,9 @@ void GTestSocket::run(int _argc, char** _argv) {
     }
     else if(lKey == "analyze") {
         runAnalyze(_argc, _argv);
+    }
+    else if(lKey == "xml") {
+        runXml(_argc, _argv);
     }
     else {
         runDefault(_argc, _argv);
@@ -79,5 +83,24 @@ void GTestSocket::runAnalyze(int _argc, char** _argv) {
     int lSize = lDataIn.sepSize(1, ";");
     GString2 lData = lDataIn.substr(lSize);
     GLOGT(eGMSG, "%s", lData.c_str());
+}
+//===============================================
+void GTestSocket::runXml(int _argc, char** _argv) {
+    GXml2 lXml;
+    lXml.setData(""
+            "<rdv>"
+            "<datas>"
+            "<data>"
+            "<code>menu</code>"
+            "</data>"
+            "<data>"
+            "<code>titre</code>"
+            "</data>"
+            "</datas>"
+            "</rdv>"
+            "");
+    lXml.loadData();
+    lXml.setPath("rdv/datas/data");
+    lXml.getData();
 }
 //===============================================
