@@ -141,9 +141,9 @@ int GSocket2::readData(char* _data, int _size) {
     return lBytes;
 }
 //===============================================
-bool GSocket2::readData(int _dSize) {
-    if(_dSize < 0) return false;
-    if(_dSize == 0) return true;
+bool GSocket2::readData(int _diffSize) {
+    if(_diffSize < 0) return false;
+    if(_diffSize == 0) return true;
     char lBuffer[BUFFER_SIZE + 1];
     int lIndex = 0;
     int lSize = 0;
@@ -153,7 +153,7 @@ bool GSocket2::readData(int _dSize) {
         lBuffer[lBytes] = 0;
         addDataIn(lBuffer);
         lSize += lBytes;
-        if(lSize >= _dSize) return true;
+        if(lSize >= _diffSize) return true;
     }
     return true;
 }

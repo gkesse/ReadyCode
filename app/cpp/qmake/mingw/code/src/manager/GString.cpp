@@ -159,7 +159,7 @@ bool GString::toInt(int& _data) const {
     return true;
 }
 //===============================================
-std::string GString::getFormat(const char* _format, ...) {
+GString GString::getFormat(const char* _format, ...) {
     va_list lArgs;
     va_start (lArgs, _format);
     int lSize = vsnprintf(0, 0, _format, lArgs);

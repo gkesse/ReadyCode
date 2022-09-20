@@ -20,6 +20,7 @@ public:
 
     bool onReadyApp();
     bool isReadyApp();
+    bool readRequest();
 
 private:
     static constexpr const char* API_METHOD     = "RDVAPP";
@@ -31,8 +32,12 @@ private:
     GString2 m_apiKey;
     GString2 m_username;
     GString2 m_password;
-    int m_size;
-    int m_dSize;
+
+    GString2 m_request;
+
+    int m_dataSize;
+    int m_headerSize;
+    int m_diffSize;
 };
 //==============================================
 #endif

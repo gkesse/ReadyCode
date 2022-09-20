@@ -40,7 +40,7 @@ public:
     int toInt() const;
     bool toInt(int& _data) const;
 
-    std::string getFormat(const char* _format, ...);
+    GString getFormat(const char* _format, ...);
 
     GString& operator=(const GString& _data);
     GString& operator=(const QString& _data);

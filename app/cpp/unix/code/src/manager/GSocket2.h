@@ -28,12 +28,15 @@ public:
     GString2& getDataOut();
     const GString2& getDataOut() const;
 
+    bool readMethod();
     int readData(char* _data, int _size);
-    bool readData(int _dSize);
+    bool readData(int _diffSize);
+
     int sendData(const char* _data, int _size);
     bool sendResponse();
+
     bool addDataIn(const GString2& _data);
-    bool readMethod();
+
     bool closeSocket();
 
     bool run();

@@ -68,7 +68,9 @@ void* GServer::onThreadCB(void* _params) {
 //===============================================
 bool GServer::onReadyApp() {
     if(!isReadyApp()) return false;
-    if(!m_client->readData(m_dSize)) return false;
+    if(!m_client->readData(m_diffSize)) return false;
+    if(!readRequest()) return false;
+    GLOT(eGMSG, "%s", m_request.c_str());
     return true;
 }
 //===============================================
@@ -97,12 +99,19 @@ bool GServer::isReadyApp() {
     if(lApiKey != m_apiKey) return false;
     if(lUsername != m_username) return false;
     if(lPassword != m_password) return false;
-    if(lSize.toInt(m_size)) return false;
+    if(lSize.toInt(m_dataSize)) return false;
 
-    int lHeaderSize = lDataIn.sepSize(1, ";");
-    int lTotalSize = lHeaderSize + m_size;
-    m_dSize = lTotalSize - lDataIn.size();
-    if(m_dSize < 0) return false;
+    m_headerSize = lDataIn.sepSize(1, ";");
+    int lTotalSize = m_headerSize + m_dataSize;
+    m_diffSize = lTotalSize - lDataIn.size();
+    if(m_diffSize < 0) return false;
+    return true;
+}
+//===============================================
+bool GServer::readRequest() {
+    GString2& lDataIn = m_client->getDataIn();
+    m_request = lDataIn.substr(m_headerSize);
+    if(m_request == "") return false;
     return true;
 }
 //===============================================
