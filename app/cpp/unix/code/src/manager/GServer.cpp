@@ -99,7 +99,7 @@ bool GServer::isReadyApp() {
     if(lApiKey != m_apiKey) return false;
     if(lUsername != m_username) return false;
     if(lPassword != m_password) return false;
-    if(lSize.toInt(m_dataSize)) return false;
+    if(!lSize.toInt(m_dataSize)) return false;
 
     m_headerSize = lDataIn.sepSize(1, ";");
     int lTotalSize = m_headerSize + m_dataSize;
