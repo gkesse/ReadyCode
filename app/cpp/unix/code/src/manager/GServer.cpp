@@ -70,7 +70,7 @@ bool GServer::onReadyApp() {
     if(!isReadyApp()) return false;
     if(!m_client->readData(m_diffSize)) return false;
     if(!readRequest()) return false;
-    GLOT(eGMSG, "%s", m_request.c_str());
+    GLOGT(eGMSG, "%s", m_request.c_str());
     return true;
 }
 //===============================================
