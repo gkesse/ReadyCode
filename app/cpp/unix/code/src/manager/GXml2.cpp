@@ -47,15 +47,26 @@ bool GXml2::loadFile(const GString2& _filename) {
     return true;
 }
 //===============================================
-void GXml2::createNode(const GString2& _name) {
+bool GXml2::createDoc() {
+    m_doc = xmlNewDoc(BAD_CAST "1.0");
+    if(!m_doc) {GERROR_ADD(eGERR, "Erreur lors de la création du document."); return false;}
+    m_xpath = xmlXPathNewContext(m_doc);
+    if(!m_xpath) {GERROR_ADD(eGERR, "Erreur lors de la création du xpath."); return false;}
+    return true;
+}
+//===============================================
+bool GXml2::createNode(const GString2& _name) {
     if(!m_node) {
         m_node = xmlNewNode(NULL, BAD_CAST(_name.c_str()));
+        if(!m_node) {GERROR_ADD(eGERR, "Erreur lors de la création du noeud."); return false;}
         xmlDocSetRootElement(m_doc, m_node);
     }
     else {
         m_next = xmlNewNode(NULL, BAD_CAST(_name.c_str()));
+        if(!m_next) {GERROR_ADD(eGERR, "Erreur lors de la création du noeud."); return false;}
         xmlAddChild(m_node, m_next);
     }
+    return true;
 }
 //===============================================
 GString2 GXml2::toString() const {
