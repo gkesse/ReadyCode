@@ -68,6 +68,7 @@ bool GCode2::getData(const GString2& _code, std::vector<GObject2*>& _map, GObjec
         lData.print();
         GObject2* lObj = _obj->clone();
         lObj->deserialize(lData, _code);
+        lObj->print();
         _map.push_back(lObj);
     }
     return true;

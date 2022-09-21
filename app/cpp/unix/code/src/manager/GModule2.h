@@ -11,7 +11,7 @@ public:
     GModule2();
     virtual ~GModule2();
 
-    GObject2* clone() const;
+    GObject2* clone();
 
     GString2 serialize(const GString2& _code = "request") const;
     bool deserialize(const GString2& _data, const GString2& _code = "request");
@@ -19,8 +19,6 @@ public:
     void setClient(GSocket2* _client);
     void setModule(const GString2& _module);
     void setMethod(const GString2& _method);
-
-    void print() const;
 
 protected:
     GString2 m_module;

@@ -14,7 +14,7 @@ GModule2::~GModule2() {
     clearMap(m_map);
 }
 //===============================================
-GObject2* GModule2::clone() const {
+GObject2* GModule2::clone() {
     return new GModule2;
 }
 //===============================================
@@ -44,9 +44,5 @@ void GModule2::setModule(const GString2& _module) {
 //===============================================
 void GModule2::setMethod(const GString2& _method) {
     m_method = _method;
-}
-//===============================================
-void GModule2::print() const {
-    printf("%s\n", serialize().c_str());
 }
 //===============================================
