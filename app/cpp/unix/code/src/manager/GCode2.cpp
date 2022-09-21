@@ -20,12 +20,14 @@ bool GCode2::createCode() {
 }
 //===============================================
 bool GCode2::createCode(const GString2& _code) {
-    createCode();
-    createNode("data");
-    next();
-    createNode("code");
-    next();
-    setValue(_code);
+    if(!getNode(sformat("/rdv/datas/data[code='%s']", _code.c_str()))) {
+        createCode();
+        createNode("data");
+        next();
+        createNode("code");
+        next();
+        setValue(_code);
+    }
     return true;
 }
 //===============================================
