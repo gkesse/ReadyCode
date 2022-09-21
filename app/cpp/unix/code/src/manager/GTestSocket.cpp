@@ -89,8 +89,12 @@ void GTestSocket::runXml(int _argc, char** _argv) {
     GXml2 lXml;
     lXml.createDoc();
     lXml.createNode("rdv");
+    lXml.next();
     lXml.createNode("datas");
+    lXml.next();
     lXml.createNode("data");
+    lXml.next();
+    lXml.createNode("code");
     lXml.toString().print();
 }
 //===============================================

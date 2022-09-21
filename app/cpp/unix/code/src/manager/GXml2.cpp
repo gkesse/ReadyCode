@@ -69,6 +69,12 @@ bool GXml2::createNode(const GString2& _name) {
     return true;
 }
 //===============================================
+bool GXml2::next() {
+    if(!m_next) return false;
+    m_node = next;
+    return true;
+}
+//===============================================
 GString2 GXml2::toString() const {
     if(!m_doc) return "";
     xmlChar* lBuffer = NULL;

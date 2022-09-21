@@ -17,6 +17,7 @@ public:
 
     bool createDoc();
     bool createNode(const GString2& _name);
+    bool next();
 
     GString2 toString() const;
 
