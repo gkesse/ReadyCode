@@ -5,6 +5,7 @@
 #include "GSocket2.h"
 #include "GXml2.h"
 #include "GCode2.h"
+#include "GModule2.h"
 //===============================================
 GTestSocket* GTestSocket::m_test = 0;
 //===============================================
@@ -35,6 +36,9 @@ void GTestSocket::run(int _argc, char** _argv) {
     }
     else if(lKey == "code") {
         runCode(_argc, _argv);
+    }
+    else if(lKey == "module") {
+        runModule(_argc, _argv);
     }
     else {
         runDefault(_argc, _argv);
@@ -108,5 +112,12 @@ void GTestSocket::runCode(int _argc, char** _argv) {
     lCode.addData("titre", "nom", "tia");
     lCode.addData("titre", "nom", 1000);
     lCode.toString().print();
+}
+//===============================================
+void GTestSocket::runModule(int _argc, char** _argv) {
+    GModule2 lModule;
+    lModule.setModule("opencv");
+    lModule.setMethod("create_image");
+    lModule.print();
 }
 //===============================================

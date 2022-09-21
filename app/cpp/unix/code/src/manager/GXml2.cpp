@@ -95,7 +95,7 @@ bool GXml2::next() {
     return true;
 }
 //===============================================
-bool GXml2::getNode(const GString2& _path) {
+bool GXml2::getNode(const GString2& _path) const {
     if(!m_xpath) return false;
     m_xpathObj = xmlXPathEvalExpression(BAD_CAST(_path.c_str()), m_xpath);
     if(!m_xpathObj) return false;
@@ -105,6 +105,12 @@ bool GXml2::getNode(const GString2& _path) {
     xmlXPathFreeObject(m_xpathObj);
     m_xpathObj = 0;
     return true;
+}
+//===============================================
+GString2 GXml2::getValue() const {
+    if(!m_node) return "";
+    GString2 lData = (char*)xmlNodeGetContent(m_node);
+    return lData;
 }
 //===============================================
 bool GXml2::setValue(const GString2& _value, bool _isCData) {

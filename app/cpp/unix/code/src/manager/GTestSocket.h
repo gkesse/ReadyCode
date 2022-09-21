@@ -16,6 +16,7 @@ public:
     void runAnalyze(int _argc, char** _argv);
     void runXml(int _argc, char** _argv);
     void runCode(int _argc, char** _argv);
+    void runModule(int _argc, char** _argv);
 
 private:
     static GTestSocket* m_test;
