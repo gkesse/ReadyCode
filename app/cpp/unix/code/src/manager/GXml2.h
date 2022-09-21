@@ -16,8 +16,6 @@ public:
     bool loadFile(const GString2& _filename);
 
     void createNode(const GString2& _name);
-    void createData(const GString2& _code, const GString2& _key, const GString2& _value);
-    GString2 getData(const GString2& _code, const GString2& _key);
 
     GString2 toString() const;
 

@@ -58,16 +58,6 @@ void GXml2::createNode(const GString2& _name) {
     }
 }
 //===============================================
-void GXml2::createData(const GString2& _code, const GString2& _key, const GString2& _value) {
-    xmlNodePtr lNode = xmlNewNode(NULL, BAD_CAST(_nodename.c_str()));
-}
-//===============================================
-GString2 GXml2::getData(const GString2& _code, const GString2& _key) {
-    GString2 lData;
-
-    return lData;
-}
-//===============================================
 GString2 GXml2::toString() const {
     if(!m_doc) return "";
     xmlChar* lBuffer = NULL;
