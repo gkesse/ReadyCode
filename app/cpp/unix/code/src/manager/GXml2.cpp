@@ -14,9 +14,9 @@ GXml2::GXml2()
 }
 //===============================================
 GXml2::~GXml2() {
-    xmlXPathFreeObject(m_xpathObj);
-    xmlXPathFreeContext(m_xpath);
-    xmlFreeDoc(m_doc);
+    if(m_xpathObj) xmlXPathFreeObject(m_xpathObj);
+    if(m_xpath) xmlXPathFreeContext(m_xpath);
+    if(m_doc) xmlFreeDoc(m_doc);
 }
 //===============================================
 void GXml2::initModule() {
