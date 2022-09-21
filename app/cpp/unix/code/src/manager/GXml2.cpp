@@ -4,7 +4,7 @@
 #include "GFormat.h"
 //===============================================
 GXml2::GXml2()
-: GObject() {
+: GObject2() {
     m_doc = 0;
     m_xpath = 0;
     m_xpathObj = 0;
