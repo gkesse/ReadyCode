@@ -101,9 +101,12 @@ void GTestSocket::runXml(int _argc, char** _argv) {
 void GTestSocket::runCode(int _argc, char** _argv) {
     GCode2 lCode;
     lCode.createDoc();
-    lCode.createCode("menu");
-    lCode.createCode("titre");
-    lCode.createCode("animal");
+    lCode.addData("menu", "nom", "gerard");
+    lCode.addData("menu", "nom", "gerard");
+    lCode.addData("menu", "nom", "gerard");
+    lCode.addData("titre", "nom", "gerard");
+    lCode.addData("titre", "nom", "gerard");
+    lCode.addData("titre", "nom", "gerard");
     lCode.toString().print();
 }
 //===============================================

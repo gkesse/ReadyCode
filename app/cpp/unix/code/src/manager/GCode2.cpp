@@ -31,3 +31,11 @@ bool GCode2::createCode(const GString2& _code) {
     return true;
 }
 //===============================================
+bool GCode2::addData(const GString2& _code, const GString2& _key, const GString2& _value, bool _isCData) {
+    createCode(_code);
+    createNode(_key);
+    next();
+    setValue(_value, _isCData);
+    return true;
+}
+//===============================================
