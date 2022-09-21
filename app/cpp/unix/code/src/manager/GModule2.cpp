@@ -14,7 +14,7 @@ GModule2::~GModule2() {
 
 }
 //===============================================
-GObject2* GModule2::clone() {
+GObject2* GModule2::clone() const {
     return new GModule2;
 }
 //===============================================

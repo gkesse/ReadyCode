@@ -11,7 +11,7 @@ public:
     GModule2();
     virtual ~GModule2();
 
-    GObject2* clone();
+    GObject2* clone() const;
 
     GString2 serialize(const GString2& _code = "request") const;
     bool deserialize(const GString2& _data, const GString2& _code = "request");
