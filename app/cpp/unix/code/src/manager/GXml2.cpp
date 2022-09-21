@@ -79,10 +79,11 @@ bool GXml2::getNode(const GString2& _path) {
     if(!m_xpath) return false;
     m_xpathObj = xmlXPathEvalExpression(BAD_CAST(_path.c_str()), m_xpath);
     if(!m_xpathObj) return false;
-    if(!m_xpathObj->nodesetval) {xmlXPathFreeObject(m_xpathObj); return false;}
-    if(!m_xpathObj->nodesetval->nodeNr) {xmlXPathFreeObject(m_xpathObj); return false;}
+    if(!m_xpathObj->nodesetval) {xmlXPathFreeObject(m_xpathObj); m_xpathObj = 0; return false;}
+    if(!m_xpathObj->nodesetval->nodeNr) {xmlXPathFreeObject(m_xpathObj); m_xpathObj = 0; return false;}
     m_node = m_xpathObj->nodesetval->nodeTab[0];
     xmlXPathFreeObject(m_xpathObj);
+    m_xpathObj = 0;
     return true;
 }
 //===============================================

@@ -98,7 +98,7 @@ void GTestSocket::runXml(int _argc, char** _argv) {
     lXml.next();
     lXml.setValue("menu");
 
-    lXml.getNode("rdv/datas");
+    lXml.getNode("/rdv/datas");
 
     lXml.createNode("data");
     lXml.next();
