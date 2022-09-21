@@ -53,7 +53,7 @@ GString2 GCode2::getData(const GString2& _code, const GString2& _key) {
     return getValue();
 }
 //===============================================
-bool GCode2::getData(const GString2& _code, std::vector<GObject2*>& _map) {
+bool GCode2::getData(const GString2& _code, std::vector<GObject2*>& _map, GObject2* _obj) {
     clearMap(_map);
     int lCount = countMap(_code);
     for(int i = 0; i < lCount; i++) {
@@ -64,7 +64,10 @@ bool GCode2::getData(const GString2& _code, std::vector<GObject2*>& _map) {
         lDom.createDoc();
         lDom.createCode();
         lDom.loadNode(lData);
-        lDom.print();
+        lData = lDom.toString();
+        GObject2* lObj = _obj->clone();
+        lObj->deserialize(lData, _code);
+        _map.push_back(lObj);
     }
     return true;
 }

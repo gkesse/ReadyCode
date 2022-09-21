@@ -133,7 +133,13 @@ void GTestSocket::runMap(int _argc, char** _argv) {
     lDom.addData("request", lMap);
     lDom.print();
 
-    lDom.getData(lCode, lMap);
+    lDom.getData(lCode, lMap, new GModule2);
+
+    for(int i = 0; i < lMap.size(); i++) {
+        GModule2* lModule = new GModule2;
+        lModule->serialize(lCode).print();
+    }
+
 }
 //===============================================
 void GTestSocket::runModule(int _argc, char** _argv) {

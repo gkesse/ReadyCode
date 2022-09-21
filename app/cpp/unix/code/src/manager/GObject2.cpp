@@ -21,6 +21,7 @@ void GObject2::clearMap(std::vector<GObject2*>& _map) const {
     _map.clear();
 }
 //===============================================
+GObject2* GObject2::clone() const {return new GObject2;}
 GString2 GObject2::serialize(const GString2& _code) const {return "";}
 bool GObject2::deserialize(const GString2& _data, const GString2& _code) {return false;}
 void GObject2::print() const {}

@@ -14,6 +14,10 @@ GModule2::~GModule2() {
     clearMap(m_map);
 }
 //===============================================
+GObject2* GModule2::clone() const {
+    return new GModule2;
+}
+//===============================================
 GString2 GModule2::serialize(const GString2& _code) const {
     GCode2 lDom;
     lDom.createDoc();
