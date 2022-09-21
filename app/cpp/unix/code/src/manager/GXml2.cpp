@@ -71,7 +71,7 @@ bool GXml2::createNode(const GString2& _name) {
 //===============================================
 bool GXml2::next() {
     if(!m_next) return false;
-    m_node = next;
+    m_node = m_next;
     return true;
 }
 //===============================================
