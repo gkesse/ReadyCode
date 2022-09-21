@@ -9,6 +9,8 @@ public:
     GXml2();
     virtual ~GXml2();
 
+    void release();
+
     void initModule();
     void cleanModule();
 
@@ -17,6 +19,7 @@ public:
 
     bool createDoc();
     bool createNode(const GString2& _name);
+    bool createNodePath(const GString2& _name);
     bool next();
 
     bool getNode(const GString2& _path);

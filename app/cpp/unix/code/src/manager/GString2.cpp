@@ -43,7 +43,7 @@ std::string& GString2::data() {
     return m_data;
 }
 //===============================================
-GString2 GString2::extract(int _pos, const GString2& _sep) {
+GString2 GString2::extract(int _pos, const GString2& _sep) const {
     GString2 lWord = "";
     int lPos = 0;
     for(int i = 0; i < m_data.size(); i++) {
@@ -60,7 +60,7 @@ GString2 GString2::extract(int _pos, const GString2& _sep) {
     return lWord;
 }
 //===============================================
-int GString2::count(const GString2& _sep) {
+int GString2::count(const GString2& _sep) const {
     int lCount = 1;
     for(int i = 0; i < m_data.size(); i++) {
         char lChar = m_data[i];
@@ -132,7 +132,7 @@ GString2 GString2::trim(const GString2& _sep) const {
     return lData;
 }
 //===============================================
-GString2 GString2::substr(int _pos, int _size) {
+GString2 GString2::substr(int _pos, int _size) const {
     GString2 lData = m_data.substr(_pos, _size);
     return lData;
 }

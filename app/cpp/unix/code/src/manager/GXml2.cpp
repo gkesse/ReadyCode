@@ -14,9 +14,13 @@ GXml2::GXml2()
 }
 //===============================================
 GXml2::~GXml2() {
-    if(m_xpathObj) xmlXPathFreeObject(m_xpathObj);
-    if(m_xpath) xmlXPathFreeContext(m_xpath);
-    if(m_doc) xmlFreeDoc(m_doc);
+    release();
+}
+//===============================================
+void GXml2::release() {
+    if(m_xpathObj) {xmlXPathFreeObject(m_xpathObj); m_xpathObj = 0;}
+    if(m_xpath) {xmlXPathFreeContext(m_xpath); m_xpath = 0;}
+    if(m_doc) {xmlFreeDoc(m_doc); m_doc = 0;}
 }
 //===============================================
 void GXml2::initModule() {
@@ -69,6 +73,19 @@ bool GXml2::createNode(const GString2& _name) {
     return true;
 }
 //===============================================
+bool GXml2::createNodePath(const GString2& _path) {
+    int lCount = _path.count("/");
+    GString2 lPath = "";
+    for(int i = 0; i < lCount; i++) {
+        GString2 lItem = _path.extract(i, "/");
+        if(lItem == "") continue;
+        lPath += "/";
+        lPath += lItem;
+        createNode(lItem);
+    }
+    return true;
+}
+//===============================================
 bool GXml2::next() {
     if(!m_next) return false;
     m_node = m_next;
@@ -95,7 +112,7 @@ bool GXml2::setValue(const GString2& _value, bool _isCData) {
     }
     else {
         xmlNodePtr lNode = xmlNewCDataBlock(m_doc, BAD_CAST(_value.c_str()), _value.size());
-        if(!lNode) {GERROR_ADD(eGERR, "Erreur lors de l'attribution de la valeur du noeud."); return false;}
+        if(!lNode) {GERROR_ADD(eGERR, "Erreur lors de la création du noeud."); return false;}
         xmlAddChild(m_node, lNode);
     }
     return true;

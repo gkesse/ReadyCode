@@ -17,15 +17,15 @@ public:
     const char* c_str() const;
     const std::string& data() const;
     std::string& data();
-    GString2 extract(int _pos, const GString2& _sep);
-    int count(const GString2& _sep);
+    GString2 extract(int _pos, const GString2& _sep) const;
+    int count(const GString2& _sep) const;
     bool isEmpty() const;
     bool isSep(char _char) const;
     int size() const;
     bool startBy(const GString2& _data) const;
     int sepSize(int _pos, const GString2& _sep) const;
     GString2 trim(const GString2& _sep = " ") const;
-    GString2 substr(int _pos = 0, int _size = -1);
+    GString2 substr(int _pos = 0, int _size = -1) const;
 
     int toInt() const;
     bool toInt(int& _data) const;
