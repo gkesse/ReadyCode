@@ -4,6 +4,7 @@
 #include "GFormat.h"
 #include "GSocket2.h"
 #include "GXml2.h"
+#include "GCode2.h"
 //===============================================
 GTestSocket* GTestSocket::m_test = 0;
 //===============================================
@@ -31,6 +32,9 @@ void GTestSocket::run(int _argc, char** _argv) {
     }
     else if(lKey == "xml") {
         runXml(_argc, _argv);
+    }
+    else if(lKey == "code") {
+        runCode(_argc, _argv);
     }
     else {
         runDefault(_argc, _argv);
@@ -92,5 +96,14 @@ void GTestSocket::runXml(int _argc, char** _argv) {
     lXml.createNodePath("rdv/datas");
     lXml.createNodePath("rdv/datas");
     lXml.toString().print();
+}
+//===============================================
+void GTestSocket::runCode(int _argc, char** _argv) {
+    GCode2 lCode;
+    lCode.createDoc();
+    lCode.createCode("menu");
+    lCode.createCode("menu");
+    lCode.createCode("menu");
+    lCode.toString().print();
 }
 //===============================================
