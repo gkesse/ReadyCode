@@ -75,6 +75,20 @@ bool GXml2::next() {
     return true;
 }
 //===============================================
+bool GXml2::setValue(const GString2& _value, bool _isCData) {
+    if(!m_doc) return false;
+    if(!m_node) return false;
+    if(!_isCData) {
+        xmlNodeSetContent(m_node, BAD_CAST(_value.c_str()));
+    }
+    else {
+        xmlNodePtr lNode = xmlNewCDataBlock(m_doc, BAD_CAST(_value.c_str()), _value.size());
+        if(!lNode) {GERROR_ADD(eGERR, "Erreur lors de la création du noeud."); return false;}
+        xmlAddChild(m_node, lNode);
+    }
+    return true;
+}
+//===============================================
 GString2 GXml2::toString() const {
     if(!m_doc) return "";
     xmlChar* lBuffer = NULL;
