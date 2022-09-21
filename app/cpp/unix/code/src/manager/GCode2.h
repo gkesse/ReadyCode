@@ -19,6 +19,7 @@ public:
     GString2 getData(const GString2& _code, const GString2& _key);
 
     bool addData(const GString2& _code, const GString2& _key, const GString2& _value , bool _isCData = false);
+    bool addData(const GString2& _code, const std::vector<GObject2*>& _map);
 };
 //==============================================
 #endif

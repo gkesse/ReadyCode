@@ -137,3 +137,7 @@ GString2 GXml2::toString() const {
     return lData;
 }
 //===============================================
+void GXml2::print() const {
+    printf("%s\n", toString().c_str());
+}
+//===============================================

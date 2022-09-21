@@ -2,11 +2,11 @@
 #ifndef _GModule2_
 #define _GModule2_
 //===============================================
-#include "GObject.h"
+#include "GObject2.h"
 //===============================================
 class GSocket2;
 //===============================================
-class GModule2 : public GObject {
+class GModule2 : public GObject2 {
 public:
     GModule2();
     virtual ~GModule2();
@@ -23,6 +23,7 @@ public:
 protected:
     GString2 m_module;
     GString2 m_method;
+    std::vector<GModule2*> m_map;
 
     GSocket2* m_client;
 };

@@ -2,9 +2,9 @@
 #ifndef _GXml2_
 #define _GXml2_
 //===============================================
-#include "GObject.h"
+#include "GObject2.h"
 //===============================================
-class GXml2 : public GObject {
+class GXml2 : public GObject2 {
 public:
     GXml2();
     virtual ~GXml2();
@@ -28,6 +28,7 @@ public:
     bool setValue(const GString2& _value, bool _isCData = false);
 
     GString2 toString() const;
+    void print() const;
 
 private:
     xmlDocPtr m_doc;

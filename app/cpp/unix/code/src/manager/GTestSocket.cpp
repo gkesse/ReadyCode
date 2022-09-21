@@ -37,6 +37,9 @@ void GTestSocket::run(int _argc, char** _argv) {
     else if(lKey == "code") {
         runCode(_argc, _argv);
     }
+    else if(lKey == "map") {
+        runMap(_argc, _argv);
+    }
     else if(lKey == "module") {
         runModule(_argc, _argv);
     }
@@ -112,6 +115,20 @@ void GTestSocket::runCode(int _argc, char** _argv) {
     lCode.addData("titre", "nom", "tia");
     lCode.addData("titre", "nom", 1000);
     lCode.toString().print();
+}
+//===============================================
+void GTestSocket::runMap(int _argc, char** _argv) {
+    std::vector<GObject2*> lMap;
+    for(int i = 0; i < 5; i++) {
+        GModule2* lModule = new GModule2;
+        lModule->setModule(sformat("module[%d]", i + 1));
+        lModule->setMethod(sformat("method[%d]", i + 1));
+        lMap[i] = lModule;
+    }
+    GCode2 lDom;
+    lDom.createDoc();
+    lDom.addData("request", lMap);
+    lDom.print();
 }
 //===============================================
 void GTestSocket::runModule(int _argc, char** _argv) {
