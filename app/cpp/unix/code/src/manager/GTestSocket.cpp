@@ -123,7 +123,7 @@ void GTestSocket::runMap(int _argc, char** _argv) {
         GModule2* lModule = new GModule2;
         lModule->setModule(sformat("module[%d]", i + 1));
         lModule->setMethod(sformat("method[%d]", i + 1));
-        lMap[i] = lModule;
+        lMap.push_back(lModule);
     }
     GCode2 lDom;
     lDom.createDoc();
