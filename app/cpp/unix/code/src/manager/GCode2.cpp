@@ -59,7 +59,12 @@ bool GCode2::getData(const GString2& _code, std::vector<GObject2*>& _map) {
     for(int i = 0; i < lCount; i++) {
         getMap(_code, i);
         GString2 lData = toNode();
-        lData.print();
+        lData = sformat("<rdv>%s</rdv>", lData.c_str());
+        GCode2 lDom;
+        lDom.createDoc();
+        lDom.createCode();
+        lDom.loadNode(lData);
+        lDom.print();
     }
     return true;
 }
