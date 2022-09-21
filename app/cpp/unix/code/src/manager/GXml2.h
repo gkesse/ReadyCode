@@ -19,6 +19,8 @@ public:
     bool createNode(const GString2& _name);
     bool next();
 
+    bool getNode(const GString2& _path);
+
     bool setValue(const GString2& _value, bool _isCData = false);
 
     GString2 toString() const;

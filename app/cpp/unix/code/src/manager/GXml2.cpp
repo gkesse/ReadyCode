@@ -75,6 +75,17 @@ bool GXml2::next() {
     return true;
 }
 //===============================================
+bool GXml2::getNode(const GString2& _path) {
+    if(!m_xpath) return false;
+    m_xpathObj = xmlXPathEvalExpression(BAD_CAST(_path.c_str()), m_xpath);
+    if(!m_xpathObj) return false;
+    if(!m_xpathObj->nodesetval) {xmlXPathFreeObject(m_xpathObj); return false;}
+    if(!m_xpathObj->nodesetval->nodeNr) {xmlXPathFreeObject(m_xpathObj); return false;}
+    m_node = m_xpathObj->nodesetval->nodeTab[0];
+    xmlXPathFreeObject(m_xpathObj);
+    return true;
+}
+//===============================================
 bool GXml2::setValue(const GString2& _value, bool _isCData) {
     if(!m_doc) return false;
     if(!m_node) return false;
@@ -83,7 +94,7 @@ bool GXml2::setValue(const GString2& _value, bool _isCData) {
     }
     else {
         xmlNodePtr lNode = xmlNewCDataBlock(m_doc, BAD_CAST(_value.c_str()), _value.size());
-        if(!lNode) {GERROR_ADD(eGERR, "Erreur lors de la création du noeud."); return false;}
+        if(!lNode) {GERROR_ADD(eGERR, "Erreur lors de l'attribution de la valeur du noeud."); return false;}
         xmlAddChild(m_node, lNode);
     }
     return true;
