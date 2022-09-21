@@ -63,6 +63,7 @@ bool GCode2::addData(const GString2& _code, const std::vector<GObject2*>& _map) 
     for(int i = 0; i < _map.size(); i++) {
         GObject2* lObj = _map.at(i);
         lObj->serialize(_code);
+        lObj->print();
     }
     return true;
 }
