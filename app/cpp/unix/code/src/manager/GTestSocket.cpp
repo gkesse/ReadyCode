@@ -87,7 +87,7 @@ void GTestSocket::runAnalyze(int _argc, char** _argv) {
 //===============================================
 void GTestSocket::runXml(int _argc, char** _argv) {
     GXml2 lXml;
-    lXml.setData(""
+    lXml.loadXml(""
             "<rdv>"
             "<datas>"
             "<data>"
@@ -99,8 +99,6 @@ void GTestSocket::runXml(int _argc, char** _argv) {
             "</datas>"
             "</rdv>"
             "");
-    lXml.loadData();
-    lXml.setPath("rdv/datas/data");
-    lXml.getData();
+    lXml.toString().print();
 }
 //===============================================

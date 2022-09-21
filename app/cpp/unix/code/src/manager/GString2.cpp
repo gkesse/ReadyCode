@@ -111,7 +111,7 @@ int GString2::sepSize(int _pos, const GString2& _sep) const {
     return lSize;
 }
 //===============================================
-GString2 GString2::trim(const GString2& _sep) {
+GString2 GString2::trim(const GString2& _sep) const {
     int lStartPos = 0;
     int lEndPos = m_data.size() - 1;
     GString2 lData = "";

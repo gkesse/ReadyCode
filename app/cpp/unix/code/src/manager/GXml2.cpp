@@ -8,6 +8,8 @@ GXml2::GXml2()
     m_doc = 0;
     m_xpath = 0;
     m_xpathObj = 0;
+    m_node = 0;
+    m_next = 0;
     xmlKeepBlanksDefault(0);
 }
 //===============================================
@@ -26,43 +28,53 @@ void GXml2::cleanModule() {
     xmlMemoryDump();
 }
 //===============================================
-void GXml2::setData(const GString2& _data) {
-    m_data = _data;
-}
-//===============================================
-void GXml2::setFilename(const GString2& _filename) {
-    m_filename = _filename;
-}
-//===============================================
-void GXml2::setPath(const GString2& _path) {
-    m_path = _path;
-}
-//===============================================
-bool GXml2::loadData() {
-    if(m_data == "") return false;
-    m_doc = xmlParseDoc(BAD_CAST(m_data.c_str()));
+bool GXml2::loadXml(const GString2& _xml) {
+    GString2 lXml = _xml.trim();
+    if(lXml == "") return false;
+    m_doc = xmlParseDoc(BAD_CAST(lXml.c_str()));
     if(!m_doc) {GERROR_ADD(eGERR, "Erreur lors de la création du document."); return false;}
     m_xpath = xmlXPathNewContext(m_doc);
     if(!m_xpath) {GERROR_ADD(eGERR, "Erreur lors de la création du xpath."); return false;}
     return true;
 }
 //===============================================
-bool GXml2::loadFile() {
-    if(m_filename == "") return false;
-    m_doc = xmlParseFile(m_filename.c_str());
+bool GXml2::loadFile(const GString2& _filename) {
+    if(_filename == "") return false;
+    m_doc = xmlParseFile(_filename.c_str());
     if(!m_doc) {GERROR_ADD(eGERR, "Erreur lors de la création du document."); return false;}
     m_xpath = xmlXPathNewContext(m_doc);
     if(!m_xpath) {GERROR_ADD(eGERR, "Erreur lors de la création du xpath."); return false;}
     return true;
 }
 //===============================================
-GString2 GXml2::getData() {
-    GString2 lData;
-    int lCount = m_path.count("/");
-    for(int i = 0; i < lCount; i++) {
-        GString2 lPath = m_path.extract(i, "/");
-        lPath.print();
+void GXml2::createNode(const GString2& _name) {
+    if(!m_node) {
+        m_node = xmlNewNode(NULL, BAD_CAST(_name.c_str()));
+        xmlDocSetRootElement(m_doc, m_node);
     }
+    else {
+        m_next = xmlNewNode(NULL, BAD_CAST(_name.c_str()));
+        xmlAddChild(m_node, m_next);
+    }
+}
+//===============================================
+void GXml2::createData(const GString2& _code, const GString2& _key, const GString2& _value) {
+    xmlNodePtr lNode = xmlNewNode(NULL, BAD_CAST(_nodename.c_str()));
+}
+//===============================================
+GString2 GXml2::getData(const GString2& _code, const GString2& _key) {
+    GString2 lData;
+
+    return lData;
+}
+//===============================================
+GString2 GXml2::toString() const {
+    if(!m_doc) return "";
+    xmlChar* lBuffer = NULL;
+    int lSize;
+    xmlDocDumpFormatMemoryEnc(m_doc, &lBuffer, &lSize, "UTF-8", 4);
+    GString2 lData = (char*)lBuffer;
+    xmlFree(lBuffer);
     return lData;
 }
 //===============================================

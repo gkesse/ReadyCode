@@ -12,22 +12,21 @@ public:
     void initModule();
     void cleanModule();
 
-    void setData(const GString2& _data);
-    void setFilename(const GString2& _filename);
-    void setPath(const GString2& _path);
+    bool loadXml(const GString2& _xml);
+    bool loadFile(const GString2& _filename);
 
-    bool loadData();
-    bool loadFile();
-    GString2 getData();
+    void createNode(const GString2& _name);
+    void createData(const GString2& _code, const GString2& _key, const GString2& _value);
+    GString2 getData(const GString2& _code, const GString2& _key);
+
+    GString2 toString() const;
 
 private:
-    GString2 m_data;
-    GString2 m_filename;
-    GString2 m_path;
-
     xmlDocPtr m_doc;
     xmlXPathContextPtr m_xpath;
     xmlXPathObjectPtr m_xpathObj;
+    xmlNodePtr m_node;
+    xmlNodePtr m_next;
 };
 //==============================================
 #endif
