@@ -16,7 +16,7 @@ public:
     bool getCode(const GString2& _code);
     bool getCode(const GString2& _code, const GString2& _key);
 
-    GString2 getData(const GString2& _code, const GString2& _key) const;
+    GString2 getData(const GString2& _code, const GString2& _key);
 
     bool addData(const GString2& _code, const GString2& _key, const GString2& _value , bool _isCData = false);
 };

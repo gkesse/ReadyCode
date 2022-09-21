@@ -44,7 +44,7 @@ bool GCode2::getCode(const GString2& _code, const GString2& _key) {
     return getNode(sformat("/rdv/datas/data[code='%s']/%s", _code.c_str(), _key.c_str()));
 }
 //===============================================
-GString2 GCode2::getData(const GString2& _code, const GString2& _key) const {
+GString2 GCode2::getData(const GString2& _code, const GString2& _key) {
     getCode(_code, _key);
     return getValue();
 }
