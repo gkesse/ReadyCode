@@ -134,6 +134,7 @@ void GTestSocket::runMap(int _argc, char** _argv) {
     lDom.print();
 
     lDom.getData(lCode, lMap, new GModule2);
+    lDom.getData(lCode, lMap, new GModule2);
 
     for(int i = 0; i < lMap.size(); i++) {
         GModule2* lModule = (GModule2*)lMap.at(i);
