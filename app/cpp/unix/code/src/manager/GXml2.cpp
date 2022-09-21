@@ -143,7 +143,7 @@ bool GXml2::setValue(const GString2& _value, bool _isCData) {
 int GXml2::countNode(const GString2& _path) {
     if(!m_xpath) return 0;
     m_xpathObj = xmlXPathEvalExpression(BAD_CAST(_path.c_str()), m_xpath);
-    if(!m_xpathObj) return false;
+    if(!m_xpathObj) return 0;
     if(!m_xpathObj->nodesetval) {xmlXPathFreeObject(m_xpathObj); m_xpathObj = 0; return 0;}
     xmlXPathFreeObject(m_xpathObj);
     m_xpathObj = 0;

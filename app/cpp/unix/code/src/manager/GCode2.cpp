@@ -93,7 +93,7 @@ bool GCode2::addData(const GString2& _code, const std::vector<GObject2*>& _map) 
 }
 //===============================================
 int GCode2::countMap(const GString2& _code) {
-    int lData = countNode(sformat("/rdv/datas/data[code='%1']/map/data", _code.c_str()));
+    int lData = countNode(sformat("/rdv/datas/data[code='%s']/map/data", _code.c_str()));
     return lData;
 }
 //===============================================
