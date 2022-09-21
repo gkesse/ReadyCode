@@ -12,9 +12,9 @@ public:
     bool createCode();
     bool createCode(const GString2& _code);
 
-    bool getCode() const;
-    bool getCode(const GString2& _code) const;
-    bool getCode(const GString2& _code, const GString2& _key) const;
+    bool getCode();
+    bool getCode(const GString2& _code);
+    bool getCode(const GString2& _code, const GString2& _key);
 
     GString2 getData(const GString2& _code, const GString2& _key) const;
 

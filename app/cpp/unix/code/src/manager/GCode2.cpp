@@ -32,15 +32,15 @@ bool GCode2::createCode(const GString2& _code) {
     return true;
 }
 //===============================================
-bool GCode2::getCode() const {
+bool GCode2::getCode() {
     return getNode("/rdv/datas");
 }
 //===============================================
-bool GCode2::getCode(const GString2& _code) const {
+bool GCode2::getCode(const GString2& _code) {
     return getNode(sformat("/rdv/datas/data[code='%s']", _code.c_str()));
 }
 //===============================================
-bool GCode2::getCode(const GString2& _code, const GString2& _key) const {
+bool GCode2::getCode(const GString2& _code, const GString2& _key) {
     return getNode(sformat("/rdv/datas/data[code='%s']/%s", _code.c_str(), _key.c_str()));
 }
 //===============================================

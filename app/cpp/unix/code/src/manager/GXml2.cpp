@@ -95,7 +95,7 @@ bool GXml2::next() {
     return true;
 }
 //===============================================
-bool GXml2::getNode(const GString2& _path) const {
+bool GXml2::getNode(const GString2& _path) {
     if(!m_xpath) return false;
     m_xpathObj = xmlXPathEvalExpression(BAD_CAST(_path.c_str()), m_xpath);
     if(!m_xpathObj) return false;
