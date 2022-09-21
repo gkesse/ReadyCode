@@ -23,7 +23,7 @@ public:
 protected:
     GString2 m_module;
     GString2 m_method;
-    std::vector<GModule2*> m_map;
+    std::vector<GObject2*> m_map;
 
     GSocket2* m_client;
 };

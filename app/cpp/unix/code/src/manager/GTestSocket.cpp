@@ -125,10 +125,15 @@ void GTestSocket::runMap(int _argc, char** _argv) {
         lModule->setMethod(sformat("method[%d]", i + 1));
         lMap.push_back(lModule);
     }
+
+    GString2 lCode = "request";
+
     GCode2 lDom;
     lDom.createDoc();
     lDom.addData("request", lMap);
     lDom.print();
+
+    lDom.getData(lCode, lMap);
 }
 //===============================================
 void GTestSocket::runModule(int _argc, char** _argv) {

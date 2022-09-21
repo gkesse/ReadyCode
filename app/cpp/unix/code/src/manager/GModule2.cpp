@@ -11,10 +11,7 @@ GModule2::GModule2()
 }
 //===============================================
 GModule2::~GModule2() {
-    for(int i = 0; i < m_map.size(); i++) {
-        GModule2* lObj = m_map.at(i);
-        delete lObj;
-    }
+    clearMap(m_map);
 }
 //===============================================
 GString2 GModule2::serialize(const GString2& _code) const {
