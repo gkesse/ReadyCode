@@ -54,9 +54,7 @@ bool GXml2::loadFile(const GString2& _filename) {
 bool GXml2::loadNode(const GString2& _data) {
     if(!m_node) return false;
     xmlNodePtr lNewNode;
-    GString2 lData = _data;
-    if(_isRoot) lData = "<rdv>" + _data + "</rdv>";
-    xmlParseInNodeContext(m_node, lData.c_str(), lData.size(), 0, &lNewNode);
+    xmlParseInNodeContext(m_node, _data.c_str(), _data.size(), 0, &lNewNode);
     xmlNodePtr lNode = lNewNode->children;
     while(lNode) {
         xmlAddChild(m_node, xmlCopyNode(lNode, 1));
