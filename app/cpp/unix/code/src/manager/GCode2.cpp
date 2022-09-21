@@ -46,7 +46,7 @@ bool GCode2::getCode(const GString2& _code, const GString2& _key) const {
 //===============================================
 GString2 GCode2::getData(const GString2& _code, const GString2& _key) const {
     getCode(_code, _key);
-    GString2 lData =
+    return getValue();
 }
 //===============================================
 bool GCode2::addData(const GString2& _code, const GString2& _key, const GString2& _value, bool _isCData) {
