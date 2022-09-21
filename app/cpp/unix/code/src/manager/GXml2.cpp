@@ -81,7 +81,6 @@ bool GXml2::createNodePath(const GString2& _path) {
         if(lItem == "") continue;
         lPath += "/";
         lPath += lItem;
-        lPath.print();
         if(!getNode(lPath)) {
             createNode(lItem);
             next();

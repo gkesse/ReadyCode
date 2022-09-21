@@ -102,8 +102,8 @@ void GTestSocket::runCode(int _argc, char** _argv) {
     GCode2 lCode;
     lCode.createDoc();
     lCode.createCode("menu");
-    lCode.createCode("menu");
-    lCode.createCode("menu");
+    lCode.createCode("titre");
+    lCode.createCode("animal");
     lCode.toString().print();
 }
 //===============================================
