@@ -51,6 +51,21 @@ bool GXml2::loadFile(const GString2& _filename) {
     return true;
 }
 //===============================================
+bool GXml2::loadNode(const GString2& _data) {
+    if(!m_node) return false;
+    xmlNodePtr lNewNode;
+    GString2 lData = _data;
+    if(_isRoot) lData = "<rdv>" + _data + "</rdv>";
+    xmlParseInNodeContext(m_node, lData.c_str(), lData.size(), 0, &lNewNode);
+    xmlNodePtr lNode = lNewNode->children;
+    while(lNode) {
+        xmlAddChild(m_node, xmlCopyNode(lNode, 1));
+        lNode = lNode->next;
+    }
+    xmlFreeNode(lNewNode);
+    return true;
+}
+//===============================================
 bool GXml2::createDoc() {
     m_doc = xmlNewDoc(BAD_CAST "1.0");
     if(!m_doc) {GERROR_ADD(eGERR, "Erreur lors de la création du document."); return false;}
@@ -134,6 +149,15 @@ GString2 GXml2::toString() const {
     xmlDocDumpFormatMemoryEnc(m_doc, &lBuffer, &lSize, "UTF-8", 4);
     GString2 lData = (char*)lBuffer;
     xmlFree(lBuffer);
+    return lData;
+}
+//===============================================
+GString2 GXml2::toNode() const {
+    if(!m_node) return "";
+    xmlBufferPtr lBuffer = xmlBufferCreate();
+    xmlNodeDump(lBuffer, m_doc, m_node, 0, 1);
+    GString2 lData = (char*)lBuffer->content;
+    xmlBufferFree(lBuffer);
     return lData;
 }
 //===============================================

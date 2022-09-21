@@ -16,6 +16,7 @@ public:
 
     bool loadXml(const GString2& _xml);
     bool loadFile(const GString2& _filename);
+    bool loadNode(const GString2& _data);
 
     bool createDoc();
     bool createNode(const GString2& _name);
@@ -28,6 +29,8 @@ public:
     bool setValue(const GString2& _value, bool _isCData = false);
 
     GString2 toString() const;
+    GString2 toNode() const;
+
     void print() const;
 
 private:
