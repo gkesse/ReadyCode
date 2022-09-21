@@ -145,9 +145,10 @@ int GXml2::countNode(const GString2& _path) {
     m_xpathObj = xmlXPathEvalExpression(BAD_CAST(_path.c_str()), m_xpath);
     if(!m_xpathObj) return 0;
     if(!m_xpathObj->nodesetval) {xmlXPathFreeObject(m_xpathObj); m_xpathObj = 0; return 0;}
+    int lCount = m_xpathObj->nodesetval->nodeNr;
     xmlXPathFreeObject(m_xpathObj);
     m_xpathObj = 0;
-    return m_xpathObj->nodesetval->nodeNr;
+    return lCount;
 }
 //===============================================
 GString2 GXml2::toString() const {
