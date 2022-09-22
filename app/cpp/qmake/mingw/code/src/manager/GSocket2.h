@@ -7,7 +7,7 @@
 class GSocket2 {
 public:
     GSocket2();
-    ~GSocket2();
+    virtual ~GSocket2();
     void setMajor(int _major);
     void setMinor(int _minor);
     void setDomain(int _domain);
@@ -17,23 +17,20 @@ public:
     void setPort(int _port);
     void setHostname(const GString& _hostname);
 
-    void setMethod(const GString& _method);
-    void setApiKey(const GString& _apiKey);
-    void setUsername(const GString& _username);
-    void setPassword(const GString& _password);
-    void setContent(const GString& _content);
-
     bool callServer();
-    GString callServer(const GString& _module, const GString& _method, const GString& _data);
 
-    bool createData();
+    virtual bool createData();
+    virtual bool onCallServer();
+
     bool sendData();
 
-private:
-    static constexpr const char* API_METHOD     = "RDVAPP";
-    static constexpr const char* API_KEY        = "admin";
-    static constexpr const char* API_USERNAME   = "admin";
-    static constexpr const char* API_PASSWORD   = "admin";
+    int readData(char* _data, int _size);
+    bool readData(int _diffSize);
+    bool readMethod();
+
+protected:
+    static const int BUFFER_SIZE = 1024;
+    static const int METHOD_SIZE = 1024;
 
     int m_major;
     int m_minor;
@@ -43,12 +40,6 @@ private:
     int m_family;
     int m_port;
     GString m_hostname;
-
-    GString m_method;
-    GString m_apiKey;
-    GString m_username;
-    GString m_password;
-    GString m_content;
 
     GString m_dataIn;
     GString m_dataOut;

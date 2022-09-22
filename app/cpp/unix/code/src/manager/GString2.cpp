@@ -30,6 +30,9 @@ GString2::GString2(const GString2& _data) {
 GString2::~GString2() {
 
 }
+GString2* GString2::Instance() {
+    if(m_i)
+}
 //===============================================
 const char* GString2::c_str() const {
     return m_data.data();

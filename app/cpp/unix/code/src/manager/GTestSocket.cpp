@@ -64,7 +64,7 @@ void GTestSocket::runTcp(int _argc, char** _argv) {
     lSocket.setFamily(AF_INET);
     lSocket.setBacklog(5);
     lSocket.setMessage("Démarrage du serveur...");
-    lSocket.run();
+    lSocket.runServer();
 }
 //===============================================
 void GTestSocket::runAnalyze(int _argc, char** _argv) {

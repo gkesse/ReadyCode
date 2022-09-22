@@ -10,7 +10,7 @@
 #include "GPicto.h"
 #include "GLog.h"
 #include "GUser.h"
-#include "GSocket2.h"
+#include "GClient.h"
 //===============================================
 GPadMdi::GPadMdi(QWidget* _parent)
 : GMainWindow(_parent) {
@@ -141,18 +141,7 @@ void GPadMdi::onCv() {
 }
 //===============================================
 void GPadMdi::onPocoClientTcp() {
-    GSocket2 lSocket;
-    lSocket.setMajor(2);
-    lSocket.setMinor(2);
-    lSocket.setDomain(AF_INET);
-    lSocket.setType(SOCK_STREAM);
-    lSocket.setProtocol(IPPROTO_TCP);
-    lSocket.setFamily(AF_INET);
-    lSocket.setHostname("192.168.1.45");
-    lSocket.setPort(9001);
-    QString lDataIn = "Bonjour tout le monde";
-    lSocket.setContent(lDataIn);
-    lSocket.callServer();
+    GCLIENTI->callServer("opencv", "create_image");
 }
 //===============================================
 GUser* GPadMdi::getUser() const {

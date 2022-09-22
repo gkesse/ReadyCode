@@ -4,8 +4,6 @@
 //===============================================
 #include "GObject.h"
 //===============================================
-class GHttp;
-//===============================================
 class GSocket2 : public GObject {
 public:
     GSocket2();
@@ -20,32 +18,25 @@ public:
     void setFamily(int _family);
     void setPort(int _port);
     void setBacklog(int _backlog);
-    void setThreadCB(void* m_threadCB);
 
-    int getSocket() const;
-    GString2& getDataIn();
-    const GString2& getDataIn() const;
-    GString2& getDataOut();
-    const GString2& getDataOut() const;
-
-    bool readMethod();
     int readData(char* _data, int _size);
     bool readData(int _diffSize);
+    bool readMethod();
 
     int sendData(const char* _data, int _size);
     bool sendResponse();
 
-    bool addDataIn(const GString2& _data);
-
-    bool closeSocket();
-
-    bool run();
-    bool runHttp();
+    bool runServer();
+    bool runServerTcp();
 
     static void* onThreadCB(void* _params);
+    bool runThreadCB();
+    bool runThreadTcp();
 
+    virtual bool createData();
+    virtual bool onRunServerTcp();
 
-private:
+protected:
     static const int BUFFER_SIZE = 1024;
     static const int METHOD_SIZE = 1024;
 
@@ -59,11 +50,16 @@ private:
     int m_port;
     int m_backlog;
 
+    GString2 m_method;
+    GString2 m_apiKey;
+    GString2 m_username;
+    GString2 m_password;
+    GString2 m_content;
+
     int m_socket;
     GSocket2* m_server;
     GString2 m_dataIn;
     GString2 m_dataOut;
-    void* m_onThreadCB;
 };
 //==============================================
 #endif

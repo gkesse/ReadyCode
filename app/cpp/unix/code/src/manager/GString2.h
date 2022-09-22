@@ -4,6 +4,10 @@
 //===============================================
 #include "GInclude.h"
 //===============================================
+#define GSTRINGI GFormat::Instance()
+//===============================================
+#define sformat(...) GSTRINGI->getFormat(__VA_ARGS__)
+//===============================================
 class GString2 {
 public:
     GString2();
@@ -13,6 +17,8 @@ public:
     GString2(int _data);
     GString2(const GString2& _data);
     ~GString2();
+
+    static GString2* Instance();
 
     const char* c_str() const;
     const std::string& data() const;
@@ -64,6 +70,7 @@ public:
     friend std::ostream& operator<<(std::ostream& _os, const GString2& _data);
 
 private:
+    static GString2* m_instance;
     std::string m_data;
 };
 //==============================================

@@ -38,6 +38,7 @@ bool GCode2::createRequest(const GString& _module, const GString& _method) {
 }
 //===============================================
 bool GCode2::loadData(const GString& _data) {
+    if(_data.trim() == "") return true;
     GCode2 lDom;
     lDom.loadXml(_data);
     GString lData = lDom.toData();

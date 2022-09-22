@@ -13,11 +13,6 @@ GSocket2::GSocket2() {
     m_family = 0;
     m_port = 0;
     m_socket = 0;
-
-    setMethod(API_METHOD);
-    setApiKey(API_KEY);
-    setUsername(API_USERNAME);
-    setPassword(API_PASSWORD);
 }
 //===============================================
 GSocket2::~GSocket2() {
@@ -54,28 +49,7 @@ void GSocket2::setHostname(const GString& _hostname) {
     m_hostname = _hostname;
 }
 //===============================================
-void GSocket2::setMethod(const GString& _method) {
-    m_method = _method;
-}
-//===============================================
-void GSocket2::setApiKey(const GString& _apiKey) {
-    m_apiKey = _apiKey;
-}
-//===============================================
-void GSocket2::setUsername(const GString& _username) {
-    m_username = _username;
-}
-//===============================================
-void GSocket2::setPassword(const GString& _password) {
-    m_password = _password;
-}
-//===============================================
-void GSocket2::setContent(const GString& _content) {
-    m_content = _content;
-}
-//===============================================
 bool GSocket2::callServer() {
-    if(m_content.size() == 0) return true;
     WSADATA lWsaData;
     WSAStartup(MAKEWORD(m_major, m_minor), &lWsaData);
     m_socket = socket(m_domain, m_type, m_protocol);
@@ -89,7 +63,11 @@ bool GSocket2::callServer() {
     if(lAnswer == SOCKET_ERROR) return false;
 
     if(createData()) {
-        sendData();
+        if(sendData()) {
+            if(readMethod()) {
+                onCallServer();
+            }
+        }
     }
 
     closesocket(m_socket);
@@ -97,40 +75,10 @@ bool GSocket2::callServer() {
     return true;
 }
 //===============================================
-GString GSocket2::callServer(const GString& _module, const GString& _method, const GString& _data) {
-    GCode2 lDom;
-    lDom.createDoc();
-    lDom.createRequest(_module, _method);
-    lDom.loadData(_data);
-    GString lData = lDom.toString();
-    setContent(lData);
-    callServer();
-    return lData;
-}
-//===============================================
-bool GSocket2::createData() {
-    if(m_content == "") return false;
-    if(m_apiKey == "") return false;
-    if(m_username == "") return false;
-    if(m_password == "") return false;
-
-    int lSize = m_content.size();
-
-    m_dataIn = "";
-    m_dataIn += sformat("%s;", m_method.c_str());
-    m_dataIn += sformat("api_key:%s|", m_apiKey.c_str());
-    m_dataIn += sformat("username:%s|", m_username.c_str());
-    m_dataIn += sformat("password:%s|", m_password.c_str());
-    m_dataIn += sformat("size:%d;", lSize);
-    m_dataIn += sformat("%s", m_content.c_str());
-
-    return true;
-}
-//===============================================
 bool GSocket2::sendData() {
     int lIndex = 0;
-    int lSize = m_dataIn.size();
-    const char* lBuffer = m_dataIn.c_str();
+    int lSize = m_dataOut.size();
+    const char* lBuffer = m_dataOut.c_str();
 
     while(1) {
         int lBytes = send(m_socket, &lBuffer[lIndex], lSize - lIndex, 0);
@@ -141,4 +89,37 @@ bool GSocket2::sendData() {
 
     return true;
 }
+//===============================================
+int GSocket2::readData(char* _data, int _size) {
+    int lBytes = recv(m_socket, _data, _size, 0);
+    return lBytes;
+}
+//===============================================
+bool GSocket2::readData(int _diffSize) {
+    if(_diffSize < 0) return false;
+    if(_diffSize == 0) return true;
+    char lBuffer[BUFFER_SIZE + 1];
+    int lSize = 0;
+    while(1) {
+        int lBytes = readData(lBuffer, BUFFER_SIZE);
+        if(lBytes <= 0) return false;
+        lBuffer[lBytes] = 0;
+        m_dataIn += lBuffer;
+        lSize += lBytes;
+        if(lSize >= _diffSize) return true;
+    }
+    return true;
+}
+//===============================================
+bool GSocket2::readMethod() {
+    char lBuffer[METHOD_SIZE + 1];
+    int lBytes = readData(lBuffer, METHOD_SIZE);
+    if(lBytes <= 0) return false;
+    lBuffer[lBytes] = 0;
+    m_dataIn += lBuffer;
+    return true;
+}
+//===============================================
+bool GSocket2::createData() {return false;}
+bool GSocket2::onCallServer() {return false;}
 //===============================================

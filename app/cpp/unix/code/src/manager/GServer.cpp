@@ -2,10 +2,10 @@
 #include "GServer.h"
 #include "GLog.h"
 #include "GFormat.h"
-#include "GSocket2.h"
+#include "GHttp.h"
 //===============================================
 GServer::GServer()
-: GModule2() {
+: GSocket2() {
     setMethod(API_METHOD);
     setApiKey(API_KEY);
     setUsername(API_USERNAME);
@@ -31,52 +31,42 @@ void GServer::setPassword(const GString2& _password) {
     m_password = _password;
 }
 //===============================================
-void GServer::run(int _argc, char** _argv) {
-    GLOGT(eGFUN, "");
-    GSocket2 lSocket;
-    lSocket.setModule("tcp");
-    lSocket.setHostname("0.0.0.0");
-    lSocket.setPort(9001);
-    lSocket.setDomain(AF_INET);
-    lSocket.setType(SOCK_STREAM);
-    lSocket.setProtocol(IPPROTO_TCP);
-    lSocket.setFamily(AF_INET);
-    lSocket.setBacklog(5);
-    lSocket.setMessage("Démarrage du serveur...");
-    lSocket.setThreadCB((void*)onThreadCB);
-    lSocket.run();
+void GServer::setResponse(const GString2& _response) {
+    m_response = _response;
 }
 //===============================================
-void* GServer::onThreadCB(void* _params) {
-    GSocket2* lClient = (GSocket2*)_params;
-    GString2& lDataIn = lClient->getDataIn();
-
-    GServer lMaster;
-    lMaster.setClient(lClient);
-
-    if(lClient->readMethod()) {
-        if(lDataIn.startBy(API_METHOD)) {
-            lMaster.onReadyApp();
-        }
+void GServer::run(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    setModule("tcp");
+    setHostname("0.0.0.0");
+    setPort(9001);
+    setDomain(AF_INET);
+    setType(SOCK_STREAM);
+    setProtocol(IPPROTO_TCP);
+    setFamily(AF_INET);
+    setBacklog(5);
+    setMessage("Démarrage du serveur...");
+    GSocket2::runServer();
+}
+//===============================================
+bool GServer::onRunServerTcp() {
+    if(m_dataIn.startBy(m_method)) {
+        onReadyApp();
     }
-
-    lClient->sendResponse();
-    lClient->closeSocket();
-    delete lClient;
-    return 0;
+    return true;
 }
 //===============================================
 bool GServer::onReadyApp() {
     if(!isReadyApp()) return false;
-    if(!m_client->readData(m_diffSize)) return false;
+    if(!readData(m_diffSize)) return false;
     if(!readRequest()) return false;
-    GLOGT(eGMSG, "%s", m_request.c_str());
+    setResponse(m_response);
+    m_request.print();
     return true;
 }
 //===============================================
 bool GServer::isReadyApp() {
-    GString2& lDataIn = m_client->getDataIn();
-    GString2 lHeader = lDataIn.extract(1, ";").trim();
+    GString2 lHeader = m_dataIn.extract(1, ";").trim();
     GString2 lApiKey, lUsername, lPassword, lSize;
     int lCount = lHeader.count("|");
 
@@ -101,17 +91,34 @@ bool GServer::isReadyApp() {
     if(lPassword != m_password) return false;
     if(!lSize.toInt(m_dataSize)) return false;
 
-    m_headerSize = lDataIn.sepSize(1, ";");
+    m_headerSize = m_dataIn.sepSize(1, ";");
     int lTotalSize = m_headerSize + m_dataSize;
-    m_diffSize = lTotalSize - lDataIn.size();
+    m_diffSize = lTotalSize - m_dataIn.size();
     if(m_diffSize < 0) return false;
     return true;
 }
 //===============================================
 bool GServer::readRequest() {
-    GString2& lDataIn = m_client->getDataIn();
-    m_request = lDataIn.substr(m_headerSize);
+    m_request = m_dataIn.substr(m_headerSize);
     if(m_request == "") return false;
+    return true;
+}
+//===============================================
+bool GServer::createData() {
+    if(m_response == "") return false;
+    if(m_method == "") return false;
+    if(m_apiKey == "") return false;
+    if(m_username == "") return false;
+    if(m_password == "") return false;
+
+    int lSize = m_response.size();
+
+    m_dataOut += sformat("%s;", m_method.c_str());
+    m_dataOut += sformat("api_key:%s|", m_apiKey.c_str());
+    m_dataOut += sformat("username:%s|", m_username.c_str());
+    m_dataOut += sformat("password:%s|", m_password.c_str());
+    m_dataOut += sformat("size:%d;", lSize);
+    m_dataOut += sformat("%s", m_response.c_str());
     return true;
 }
 //===============================================

@@ -15,7 +15,6 @@ GSocket2::GSocket2()
     m_backlog = 0;
     m_server = 0;
     m_socket = 0;
-    m_onThreadCB = (void*)m_onThreadCB;
 }
 //===============================================
 GSocket2::~GSocket2() {
@@ -58,10 +57,6 @@ void GSocket2::setBacklog(int _backlog) {
     m_backlog = _backlog;
 }
 //===============================================
-void GSocket2::setThreadCB(void* _onThreadCB) {
-    m_onThreadCB = _onThreadCB;
-}
-//===============================================
 int GSocket2::getSocket() const {
     return m_socket;
 }
@@ -82,7 +77,14 @@ const GString2& GSocket2::getDataOut() const {
     return m_dataOut;
 }
 //===============================================
-bool GSocket2::run() {
+bool GSocket2::runServer() {
+    if(m_module == "tcp") {
+        return runServerTcp();
+    }
+    return false;
+}
+//===============================================
+bool GSocket2::runServerTcp() {
     int lSocket = socket(m_domain, m_type, m_protocol);
     if(lSocket == -1) return false;
 
@@ -104,7 +106,7 @@ bool GSocket2::run() {
     socklen_t lSize = sizeof(lAddress2);
 
     GThread2 lThread;
-    lThread.setThreadCB(m_onThreadCB);
+    lThread.setThreadCB((void*)onThreadCB);
 
     while(1) {
         GSocket2* lClient = new GSocket2;
@@ -121,19 +123,27 @@ bool GSocket2::run() {
 //===============================================
 void* GSocket2::onThreadCB(void* _params) {
     GSocket2* lClient = (GSocket2*)_params;
-    GString2& lDataIn = lClient->getDataIn();
-    GString2& lDataOut = lClient->getDataOut();
-
-    if(lClient->readMethod()) {
-        if(lDataIn.startBy("GET")) {
-            lClient->runHttp();
-        }
+    lClient->runThreadCB();
+    return 0;
+}
+//===============================================
+bool GSocket2::runThreadCB() {
+    if(m_module == "tcp") {
+        return runThreadTcp();
+    }
+    return false;
+}
+//===============================================
+bool GSocket2::runThreadTcp() {
+    if(readMethod()) {
+        onRunServerTcp();
     }
 
-    lClient->sendResponse();
-    lClient->closeSocket();
-    delete lClient;
-    return 0;
+    createData();
+    sendResponse();
+    close(m_socket);
+    delete this;
+    return true;
 }
 //===============================================
 int GSocket2::readData(char* _data, int _size) {
@@ -151,7 +161,7 @@ bool GSocket2::readData(int _diffSize) {
         int lBytes = readData(lBuffer, BUFFER_SIZE);
         if(lBytes <= 0) return false;
         lBuffer[lBytes] = 0;
-        addDataIn(lBuffer);
+        m_dataIn += lBuffer;
         lSize += lBytes;
         if(lSize >= _diffSize) return true;
     }
@@ -164,8 +174,8 @@ int GSocket2::sendData(const char* _data, int _size) {
 }
 //===============================================
 bool GSocket2::sendResponse() {
-    GLOGT(eGMSG, "[EMISSION] : (%d)\n%s", (int)m_dataIn.size(), m_dataIn.c_str());
-    GLOGT(eGMSG, "[RECEPTION] : (%d)\n%s", (int)m_dataOut.size(), m_dataOut.c_str());
+    GLOGT(eGMSG, "[RECEPTION] : (%d)\n%s", (int)m_dataIn.size(), m_dataIn.c_str());
+    GLOGT(eGMSG, "[EMISSION] : (%d)\n%s", (int)m_dataOut.size(), m_dataOut.c_str());
 
     if(m_dataOut.size() > 0) {
         int lIndex = 0;
@@ -182,11 +192,6 @@ bool GSocket2::sendResponse() {
     return true;
 }
 //===============================================
-bool GSocket2::addDataIn(const GString2& _data) {
-    m_dataIn += _data;
-    return true;
-}
-//===============================================
 bool GSocket2::readMethod() {
     char lBuffer[METHOD_SIZE + 1];
     int lBytes = readData(lBuffer, METHOD_SIZE);
@@ -196,14 +201,6 @@ bool GSocket2::readMethod() {
     return true;
 }
 //===============================================
-bool GSocket2::closeSocket() {
-    return close(m_socket);
-}
-//===============================================
-bool GSocket2::runHttp() {
-    GHttp lHttp;
-    lHttp.setClient(this);
-    lHttp.runHttp();
-    return true;
-}
+bool GSocket2::createData() {return false;}
+bool GSocket2::onRunServerTcp() {return false;}
 //===============================================
