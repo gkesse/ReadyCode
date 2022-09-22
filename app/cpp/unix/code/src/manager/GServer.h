@@ -4,6 +4,8 @@
 //===============================================
 #include "GSocket2.h"
 //===============================================
+#define GSERVERI    GServer::Instance()
+//===============================================
 class GServer : public GSocket2 {
 public:
     GServer();
