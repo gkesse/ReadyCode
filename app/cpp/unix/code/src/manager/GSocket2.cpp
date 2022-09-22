@@ -56,23 +56,11 @@ void GSocket2::setBacklog(int _backlog) {
     m_backlog = _backlog;
 }
 //===============================================
-int GSocket2::getSocket() const {
-    return m_socket;
-}
-//===============================================
 GString2& GSocket2::getDataIn() {
     return m_dataIn;
 }
 //===============================================
-const GString2& GSocket2::getDataIn() const {
-    return m_dataIn;
-}
-//===============================================
 GString2& GSocket2::getDataOut() {
-    return m_dataOut;
-}
-//===============================================
-const GString2& GSocket2::getDataOut() const {
     return m_dataOut;
 }
 //===============================================
@@ -138,7 +126,6 @@ bool GSocket2::runThreadTcp() {
         onRunServerTcp();
     }
 
-    createData();
     sendResponse();
     close(m_socket);
     delete this;
@@ -200,6 +187,5 @@ bool GSocket2::readMethod() {
     return true;
 }
 //===============================================
-bool GSocket2::createData() {return false;}
 bool GSocket2::onRunServerTcp() {return false;}
 //===============================================

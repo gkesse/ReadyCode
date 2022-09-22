@@ -20,6 +20,8 @@ public:
     bool onRunServerTcp();
 
     bool onReadyApp();
+    bool onHttpApp();
+
     bool isReadyApp();
     bool readRequest();
 

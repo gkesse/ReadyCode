@@ -52,6 +52,9 @@ bool GServer::onRunServerTcp() {
     if(m_dataIn.startBy(m_method)) {
         onReadyApp();
     }
+    else if(m_dataIn.startBy("GET")) {
+        onHttpApp();
+    }
     return true;
 }
 //===============================================
@@ -59,8 +62,16 @@ bool GServer::onReadyApp() {
     if(!isReadyApp()) return false;
     if(!readData(m_diffSize)) return false;
     if(!readRequest()) return false;
-    setResponse(m_response);
+    setResponse(m_request);
+    createData();
     m_request.print();
+    return true;
+}
+//===============================================
+bool GServer::onHttpApp() {
+    GHttp lHttp;
+    lHttp.setClient(this);
+    lHttp.runHttp();
     return true;
 }
 //===============================================

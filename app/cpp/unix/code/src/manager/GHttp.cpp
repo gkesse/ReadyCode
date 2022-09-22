@@ -99,25 +99,15 @@ void GHttp::setConnection(const GString2& _connection) {
     m_connection = _connection;
 }
 //===============================================
-void GHttp::runHttp() {
-    if(readHeader()) {
-        analyzeHeader();
-        onModule();
+bool GHttp::isLine(char _char, int& _index) const {
+    if(_index == 0) {
+        if(_char == '\r')_index++; else _index = 0;
     }
-}
-//===============================================
-bool GHttp::readHeader() {
-    char lChar;
-    int lIndex = 0;
-    int lSize = 0;
-    while(1) {
-        int lBytes = m_client->readData(&lChar, 1);
-        if(lBytes <= 0) return false;
-        m_client->addDataIn(lChar);
-        if(isHeader(lChar, lIndex)) return true;
-        lSize++;
-        if(lSize >= HEADER_SIZE) return false;
+    else if(_index == 1) {
+        if(_char == '\n') _index++; else _index = 0;
     }
+
+    if(_index == 2) {_index = 0; return true;}
     return false;
 }
 //===============================================
@@ -139,10 +129,16 @@ bool GHttp::isHeader(char _char, int& _index) const {
     return false;
 }
 //===============================================
+void GHttp::runHttp() {
+    analyzeHeader();
+    analyzeMethod();
+}
+//===============================================
 bool GHttp::analyzeHeader() {
     int lIndex = 0;
     GString2 lLine = "";
     GString2& lDataIn = m_client->getDataIn();
+
     for(int i = 0; i < lDataIn.size(); i++) {
         char lChar = lDataIn[i];
         lLine += lChar;
@@ -201,25 +197,28 @@ bool GHttp::analyzeHeader() {
     return true;
 }
 //===============================================
-bool GHttp::isLine(char _char, int& _index) const {
-    if(_index == 0) {
-        if(_char == '\r')_index++; else _index = 0;
+bool GHttp::analyzeMethod() {
+    if(m_method == "GET") {
+        analyzeGet();
     }
-    else if(_index == 1) {
-        if(_char == '\n') _index++; else _index = 0;
+    else if(m_method == "POST") {
+        analyzePost();
     }
-
-    if(_index == 2) {_index = 0; return true;}
-    return false;
+    return true;
 }
 //===============================================
-void GHttp::onModule() {
+bool GHttp::analyzeGet() {
     if(m_url == "/") {
-        onIndex();
+        onGetIndex();
     }
+    return true;
 }
 //===============================================
-void GHttp::onIndex() {
+bool GHttp::analyzePost() {
+    return true;
+}
+//===============================================
+void GHttp::onGetIndex() {
     setVersion("HTTP/1.1");
     setStatus(200);
     setReason("OK");
@@ -232,18 +231,18 @@ void GHttp::onIndex() {
             "";
 
     setContent(lContent);
-    sendResponse();
+    createGetData();
 }
 //===============================================
-bool GHttp::sendResponse() {
+bool GHttp::createGetData() {
     if(m_version == "") return false;
     if(m_status == 0) return false;
     if(m_reason == "") return false;
     if(m_content == "") return false;
     if(m_contentType == "") return false;
     if(m_contentLength == 0) return false;
-    GString2& lDataOut = m_client->getDataOut();
 
+    GString2& lDataOut = m_client->getDataOut();
     lDataOut += sformat("%s %d %s\r\n", m_version.c_str(), m_status, m_reason.c_str());
     lDataOut += sformat("Content-Type: %s\r\n", m_contentType.c_str());
     lDataOut += sformat("Content-Length: %d\r\n", m_contentLength);

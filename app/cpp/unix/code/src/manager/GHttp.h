@@ -31,16 +31,17 @@ public:
     void setLastModified(const GString2& _lastModified);
     void setConnection(const GString2& _connection);
     //
-    bool isHeader(char _char, int& _index) const;
     bool isLine(char _char, int& _index) const;
+    bool isHeader(char _char, int& _index) const;
     //
     void runHttp();
-    bool readHeader();
     bool analyzeHeader();
-    void onModule();
-    void onIndex();
+    bool analyzeMethod();
+    bool analyzeGet();
+    bool analyzePost();
+    void onGetIndex();
     //
-    bool sendResponse();
+    bool createGetData();
 
 private:
     static const int HEADER_SIZE = 1024;

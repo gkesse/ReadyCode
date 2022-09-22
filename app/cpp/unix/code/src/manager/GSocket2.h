@@ -19,6 +19,9 @@ public:
     void setPort(int _port);
     void setBacklog(int _backlog);
 
+    GString2& getDataIn();
+    GString2& getDataOut();
+
     int readData(char* _data, int _size);
     bool readData(int _diffSize);
     bool readMethod();
@@ -33,7 +36,6 @@ public:
     bool runThreadCB();
     bool runThreadTcp();
 
-    virtual bool createData();
     virtual bool onRunServerTcp();
 
 protected:
