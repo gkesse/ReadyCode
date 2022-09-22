@@ -19,7 +19,7 @@ GServer::~GServer() {
 //===============================================
 GServer* GServer::Instance() {
     if(m_instance == 0) {
-        m_instance = new GClient;
+        m_instance = new GServer;
     }
     return m_instance;
 }
