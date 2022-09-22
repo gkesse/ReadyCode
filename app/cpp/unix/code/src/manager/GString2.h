@@ -4,7 +4,7 @@
 //===============================================
 #include "GInclude.h"
 //===============================================
-#define GSTRINGI GFormat::Instance()
+#define GSTRINGI GString2::Instance()
 //===============================================
 #define sformat(...) GSTRINGI->getFormat(__VA_ARGS__)
 //===============================================
