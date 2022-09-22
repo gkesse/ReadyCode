@@ -9,6 +9,8 @@ public:
     GSocket2();
     ~GSocket2();
 
+    virtual GSocket2* clone() const;
+
     void setModule(const GString2& _module);
     void setHostname(const GString2& _hostname);
     void setMessage(const GString2& _message);

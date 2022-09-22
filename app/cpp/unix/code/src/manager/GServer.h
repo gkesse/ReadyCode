@@ -12,6 +12,7 @@ public:
     ~GServer();
 
     static GServer* Instance();
+    GSocket2* clone() const;
 
     void setMethod(const GString2& _method);
     void setApiKey(const GString2& _apiKey);

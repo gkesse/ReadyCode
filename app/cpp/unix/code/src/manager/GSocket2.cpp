@@ -186,5 +186,6 @@ bool GSocket2::readMethod() {
     return true;
 }
 //===============================================
+GSocket2* GSocket2::clone() const {return new GSocket2;}
 bool GSocket2::onRunServerTcp() {return false;}
 //===============================================

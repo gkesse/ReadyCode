@@ -24,6 +24,10 @@ GServer* GServer::Instance() {
     return m_instance;
 }
 //===============================================
+GSocket2* GServer::clone() const {
+    return new GServer;
+}
+//===============================================
 void GServer::setMethod(const GString2& _method) {
     m_method = _method;
 }
