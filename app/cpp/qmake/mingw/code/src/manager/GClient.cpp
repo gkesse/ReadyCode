@@ -24,6 +24,26 @@ GClient* GClient::Instance() {
     return m_instance;
 }
 //===============================================
+void GClient::setMethod(const GString& _method) {
+    m_method = _method;
+}
+//===============================================
+void GClient::setApiKey(const GString& _apiKey) {
+    m_apiKey = _apiKey;
+}
+//===============================================
+void GClient::setUsername(const GString& _username) {
+    m_username = _username;
+}
+//===============================================
+void GClient::setPassword(const GString& _password) {
+    m_password = _password;
+}
+//===============================================
+void GClient::setRequest(const GString& _request) {
+    m_request = _request;
+}
+//===============================================
 GString GClient::callServer(const GString& _module, const GString& _method, const GString& _data) {
     setMajor(2);
     setMinor(2);

@@ -47,7 +47,7 @@ void GProcess::runDefault(int _argc, char** _argv) {
 }
 //===============================================
 void GProcess::runServer(int _argc, char** _argv) {
-    GServer().run(_argc, _argv);
+    GSrun(_argc, _argv);
 }
 //===============================================
 void GProcess::runTest(int _argc, char** _argv) {

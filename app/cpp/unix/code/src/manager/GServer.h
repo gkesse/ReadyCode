@@ -9,6 +9,8 @@ public:
     GServer();
     ~GServer();
 
+    static GServer* Instance();
+
     void setMethod(const GString2& _method);
     void setApiKey(const GString2& _apiKey);
     void setUsername(const GString2& _username);
@@ -32,6 +34,8 @@ private:
     static constexpr const char* API_KEY        = "admin";
     static constexpr const char* API_USERNAME   = "admin";
     static constexpr const char* API_PASSWORD   = "admin";
+
+    static GServer* m_instance;
 
     GString2 m_method;
     GString2 m_apiKey;

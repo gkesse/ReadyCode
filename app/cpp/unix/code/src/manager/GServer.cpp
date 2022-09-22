@@ -3,6 +3,8 @@
 #include "GLog.h"
 #include "GHttp.h"
 //===============================================
+GServer* GServer::m_instance = 0;
+//===============================================
 GServer::GServer()
 : GSocket2() {
     setMethod(API_METHOD);
@@ -14,6 +16,14 @@ GServer::GServer()
 GServer::~GServer() {
 
 }
+//===============================================
+GServer* GServer::Instance() {
+    if(m_instance == 0) {
+        m_instance = new GClient;
+    }
+    return m_instance;
+}
+//===============================================
 void GServer::setMethod(const GString2& _method) {
     m_method = _method;
 }
