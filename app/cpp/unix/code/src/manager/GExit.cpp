@@ -1,7 +1,6 @@
 //===============================================
 #include "GExit.h"
 #include "GLog.h"
-#include "GFormat.h"
 //===============================================
 GExit::GExit() : GObject() {
 

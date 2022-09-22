@@ -6,7 +6,7 @@
 //===============================================
 #define GFORMAT GFormat::Instance()
 //===============================================
-#define sformat(...) GFORMAT->getFormat(__VA_ARGS__)
+#define sformat2(...) GFORMAT->getFormat(__VA_ARGS__)
 //===============================================
 class GFormat : public GObject {
 public:

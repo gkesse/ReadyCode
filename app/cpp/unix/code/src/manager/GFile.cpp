@@ -1,6 +1,5 @@
 //===============================================
 #include "GFile.h"
-#include "GFormat.h"
 #include "GShell.h"
 #include "GEnv.h"
 #include "GDate.h"

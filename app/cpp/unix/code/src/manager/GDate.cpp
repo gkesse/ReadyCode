@@ -1,7 +1,6 @@
 //===============================================
 #include "GDate.h"
 #include "GLog.h"
-#include "GFormat.h"
 //===============================================
 GDate::GDate() : GObject() {
 

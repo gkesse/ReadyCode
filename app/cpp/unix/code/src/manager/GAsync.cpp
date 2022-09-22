@@ -4,7 +4,6 @@
 #include "GTimer.h"
 #include "GCode.h"
 #include "GString.h"
-#include "GFormat.h"
 #include "GMySQL.h"
 #include "GLog.h"
 //===============================================
