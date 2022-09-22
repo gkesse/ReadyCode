@@ -96,10 +96,6 @@ bool GSocket2::callServer() {
     WSACleanup();
     return true;
 }
-bool GSocket2::callServer(const GString& _data) {
-    setContent(_data);
-    return callServer();
-}
 //===============================================
 GString GSocket2::callServer(const GString& _module, const GString& _method, const GString& _data) {
     GCode2 lDom;
@@ -107,8 +103,9 @@ GString GSocket2::callServer(const GString& _module, const GString& _method, con
     lDom.createRequest(_module, _method);
     lDom.loadData(_data);
     GString lData = lDom.toString();
-    GString lDataOut = callServer(lData);
-    return lDataOut;
+    setContent(lData);
+    callServer();
+    return lData;
 }
 //===============================================
 bool GSocket2::createData() {
