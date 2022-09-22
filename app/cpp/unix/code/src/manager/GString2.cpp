@@ -1,7 +1,8 @@
 //===============================================
 #include "GString2.h"
 #include "GLog.h"
-#include "GFormat.h"
+//===============================================
+GString2* GString2::m_instance = 0;
 //===============================================
 GString2::GString2() {
 
@@ -30,8 +31,12 @@ GString2::GString2(const GString2& _data) {
 GString2::~GString2() {
 
 }
+//===============================================
 GString2* GString2::Instance() {
-    if(m_i)
+    if(m_instance == 0) {
+        m_instance = new GString2;
+    }
+    return m_instance;
 }
 //===============================================
 const char* GString2::c_str() const {
@@ -44,6 +49,16 @@ const std::string& GString2::data() const {
 //===============================================
 std::string& GString2::data() {
     return m_data;
+}
+//===============================================
+GString2 GString2::getFormat(const char* _format, ...) {
+    va_list lArgs;
+    va_start (lArgs, _format);
+    int lSize = vsnprintf(0, 0, _format, lArgs);
+    std::vector<char> lData(lSize + 1);
+    vsnprintf(lData.data(), lData.size(), _format, lArgs);
+    va_end(lArgs);
+    return lData.data();
 }
 //===============================================
 GString2 GString2::extract(int _pos, const GString2& _sep) const {

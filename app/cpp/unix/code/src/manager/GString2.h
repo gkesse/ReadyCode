@@ -23,6 +23,9 @@ public:
     const char* c_str() const;
     const std::string& data() const;
     std::string& data();
+
+    GString2 getFormat(const char* _format, ...);
+
     GString2 extract(int _pos, const GString2& _sep) const;
     int count(const GString2& _sep) const;
     bool isEmpty() const;
