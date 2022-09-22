@@ -5,7 +5,6 @@
 #include "GPocoServerTcp.h"
 #include "GPocoFactory.h"
 #include "GLog.h"
-#include "GFormat.h"
 //===============================================
 GPoco::GPoco()
 : GObject() {

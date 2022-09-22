@@ -1,7 +1,6 @@
 //===============================================
 #include "GHost.h"
 #include "GLog.h"
-#include "GFormat.h"
 #include "GSocket.h"
 //===============================================
 GHost::GHost() : GModule() {

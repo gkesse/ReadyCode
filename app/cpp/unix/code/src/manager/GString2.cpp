@@ -51,7 +51,7 @@ std::string& GString2::data() {
     return m_data;
 }
 //===============================================
-GString2 GString2::getFormat(const char* _format, ...) {
+std::string GString2::getFormat(const char* _format, ...) {
     va_list lArgs;
     va_start (lArgs, _format);
     int lSize = vsnprintf(0, 0, _format, lArgs);

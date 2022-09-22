@@ -1,7 +1,6 @@
 //===============================================
 #include "GString.h"
 #include "GLog.h"
-#include "GFormat.h"
 //===============================================
 GString::GString()
 : GObject() {

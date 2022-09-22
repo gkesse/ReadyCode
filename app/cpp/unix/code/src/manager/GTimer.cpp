@@ -1,7 +1,6 @@
 //===============================================
 #include "GTimer.h"
 #include "GLog.h"
-#include "GFormat.h"
 //===============================================
 GTimer::GTimer() : GObject() {
     m_running = true;

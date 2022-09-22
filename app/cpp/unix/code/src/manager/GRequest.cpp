@@ -1,7 +1,6 @@
 //===============================================
 #include "GRequest.h"
 #include "GLog.h"
-#include "GFormat.h"
 #include "GMySQL.h"
 #include "GCode.h"
 #include "GUser.h"

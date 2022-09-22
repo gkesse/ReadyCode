@@ -1,7 +1,6 @@
 //===============================================
 #include "GMaj.h"
 #include "GMySQL.h"
-#include "GFormat.h"
 #include "GString.h"
 #include "GLog.h"
 #include "GShell.h"

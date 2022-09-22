@@ -1,7 +1,6 @@
 //===============================================
 #include "GSocket2.h"
 #include "GLog.h"
-#include "GFormat.h"
 #include "GThread2.h"
 #include "GHttp.h"
 //===============================================

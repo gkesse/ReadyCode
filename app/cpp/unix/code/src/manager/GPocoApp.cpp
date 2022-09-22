@@ -1,7 +1,6 @@
 //===============================================
 #include "GPocoApp.h"
 #include "GLog.h"
-#include "GFormat.h"
 //===============================================
 GPocoApp::GPocoApp()
 : Poco::Util::Application() {

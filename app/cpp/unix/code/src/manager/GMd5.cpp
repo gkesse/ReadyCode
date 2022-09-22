@@ -3,7 +3,6 @@
 #include "GCode.h"
 #include "GSocket.h"
 #include "GLog.h"
-#include "GFormat.h"
 //===============================================
 GMd5::GMd5() : GModule() {
     m_dataIn = "";

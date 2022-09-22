@@ -1,7 +1,6 @@
 //===============================================
 #include "GPath.h"
 #include "GLog.h"
-#include "GFormat.h"
 #include "GEnv.h"
 //===============================================
 GPath* GPath::m_instance = 0;

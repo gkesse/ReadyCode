@@ -3,7 +3,6 @@
 #include "GPocoFactory.h"
 #include "GPocoReactor.h"
 #include "GLog.h"
-#include "GFormat.h"
 //===============================================
 GPocoServerApp::GPocoServerApp()
 : Poco::Util::ServerApplication() {

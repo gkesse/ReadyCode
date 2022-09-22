@@ -1,7 +1,6 @@
 //===============================================
 #include "GServer.h"
 #include "GLog.h"
-#include "GFormat.h"
 #include "GHttp.h"
 //===============================================
 GServer::GServer()

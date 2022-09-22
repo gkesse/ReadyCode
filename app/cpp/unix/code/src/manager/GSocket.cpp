@@ -2,7 +2,6 @@
 #include "GSocket.h"
 #include "GPath.h"
 #include "GLog.h"
-#include "GFormat.h"
 #include "GXml.h"
 #include "GThread.h"
 #include "GCode.h"

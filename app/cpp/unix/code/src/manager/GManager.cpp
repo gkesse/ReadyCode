@@ -1,7 +1,6 @@
 //===============================================
 #include "GManager.h"
 #include "GLog.h"
-#include "GFormat.h"
 #include "GCode.h"
 #include "GMySQL.h"
 #include "GSocket.h"

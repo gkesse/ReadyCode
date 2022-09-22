@@ -3,7 +3,6 @@
 #include "GPoco.h"
 #include "GPoco2.h"
 #include "GLog.h"
-#include "GFormat.h"
 //===============================================
 GTestPoco::GTestPoco()
 : GObject() {

@@ -1,7 +1,6 @@
 //===============================================
 #include "GMaster.h"
 #include "GLog.h"
-#include "GFormat.h"
 #include "GXml.h"
 #include "GUser.h"
 #include "GSocket.h"

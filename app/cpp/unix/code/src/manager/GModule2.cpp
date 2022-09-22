@@ -1,7 +1,6 @@
 //===============================================
 #include "GModule2.h"
 #include "GLog.h"
-#include "GFormat.h"
 #include "GSocket2.h"
 #include "GCode2.h"
 //===============================================

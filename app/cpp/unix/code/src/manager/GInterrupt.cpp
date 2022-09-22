@@ -1,7 +1,6 @@
 //===============================================
 #include "GInterrupt.h"
 #include "GLog.h"
-#include "GFormat.h"
 //===============================================
 GInterrupt::GInterrupt() : GObject() {
 

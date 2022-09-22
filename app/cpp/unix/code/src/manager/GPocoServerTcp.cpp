@@ -1,7 +1,6 @@
 //===============================================
 #include "GPocoServerTcp.h"
 #include "GLog.h"
-#include "GFormat.h"
 //===============================================
 GPocoServerTcp::GPocoServerTcp(const Poco::Net::StreamSocket& _socket)
 : Poco::Net::TCPServerConnection(_socket) {

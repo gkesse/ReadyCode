@@ -2,7 +2,6 @@
 #include "GPocoFactory.h"
 #include "GPocoServerTcp.h"
 #include "GLog.h"
-#include "GFormat.h"
 //===============================================
 GPocoFactory::GPocoFactory()
 : Poco::Net::TCPServerConnectionFactory() {

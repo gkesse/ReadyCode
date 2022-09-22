@@ -4,7 +4,6 @@
 #include "GXml.h"
 #include "GCode.h"
 #include "GLog.h"
-#include "GFormat.h"
 #include "GSocket.h"
 #include "GFile.h"
 #include "GThread.h"

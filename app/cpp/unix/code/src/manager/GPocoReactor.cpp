@@ -1,7 +1,6 @@
 //===============================================
 #include "GPocoReactor.h"
 #include "GLog.h"
-#include "GFormat.h"
 //===============================================
 GPocoReactor::GPocoReactor(Poco::Net::StreamSocket& _socket, Poco::Net::SocketReactor& _reactor)
 : GObject()
