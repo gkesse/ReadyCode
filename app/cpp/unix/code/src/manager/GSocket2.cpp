@@ -95,7 +95,7 @@ bool GSocket2::runServerTcp() {
     lThread.setThreadCB((void*)onThreadCB);
 
     while(1) {
-        GSocket2* lClient = new GSocket2;
+        GSocket2* lClient = clone();
         int lSocket2 = accept(lSocket, (struct sockaddr*)&lAddress2, &lSize);
         if(lSocket2 == -1) return false;
         lClient->m_module = m_module;
