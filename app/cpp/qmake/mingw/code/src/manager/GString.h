@@ -25,9 +25,9 @@ public:
     const std::string& data() const;
     std::string& data();
 
-    GString extract(int _pos, const GString& _sep);
+    GString extract(int _pos, const GString& _sep) const;
 
-    int count(const GString& _sep);
+    int count(const GString& _sep) const;
 
     bool isEmpty() const;
     bool isSep(char _char) const;
@@ -35,7 +35,7 @@ public:
     int size() const;
     bool startBy(const GString& _data) const;
     int sepSize(int _pos, const GString& _sep) const;
-    GString trim(const GString& _sep = " ");
+    GString trim(const GString& _sep = " ") const;
 
     int toInt() const;
     bool toInt(int& _data) const;
@@ -56,19 +56,19 @@ public:
     GString& operator+=(char _data);
     GString& operator+=(int _data);
 
-    bool operator==(const GString& _data);
-    bool operator==(const QString& _data);
-    bool operator==(const std::string& _data);
-    bool operator==(const char* _data);
-    bool operator==(char _data);
-    bool operator==(int _data);
+    bool operator==(const GString& _data) const;
+    bool operator==(const QString& _data) const;
+    bool operator==(const std::string& _data) const;
+    bool operator==(const char* _data) const;
+    bool operator==(char _data) const;
+    bool operator==(int _data) const;
 
-    bool operator!=(const GString& _data);
-    bool operator!=(const QString& _data);
-    bool operator!=(const std::string& _data);
-    bool operator!=(const char* _data);
-    bool operator!=(char _data);
-    bool operator!=(int _data);
+    bool operator!=(const GString& _data) const;
+    bool operator!=(const QString& _data) const;
+    bool operator!=(const std::string& _data) const;
+    bool operator!=(const char* _data) const;
+    bool operator!=(char _data) const;
+    bool operator!=(int _data) const;
 
     char& operator[](int _index);
     const char& operator[](int _index) const;

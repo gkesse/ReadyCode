@@ -140,7 +140,6 @@ void GTestSocket::runMap(int _argc, char** _argv) {
         GModule2* lModule = (GModule2*)lMap.at(i);
         lModule->serialize().print();
     }
-
 }
 //===============================================
 void GTestSocket::runModule(int _argc, char** _argv) {

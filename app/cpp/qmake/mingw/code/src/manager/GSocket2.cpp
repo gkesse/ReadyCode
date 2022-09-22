@@ -2,6 +2,7 @@
 #include "GSocket2.h"
 #include "GLog.h"
 #include "GPath.h"
+#include "GCode2.h"
 //===============================================
 GSocket2::GSocket2() {
     m_major = 0;
@@ -95,6 +96,16 @@ bool GSocket2::callServer() {
     closesocket(m_socket);
     WSACleanup();
     return true;
+}
+//===============================================
+GString GSocket2::callServer(const GString& _module, const GString& _method, const GString& _data) {
+    GCode2 lDom;
+    lDom.createDoc();
+    lDom.createRequest(_module, _method);
+    lDom.loadNode(_data);
+    GString lData = lDom.toString();
+    GString lDataOut = callServer(lData);
+    return lDataOut;
 }
 //===============================================
 bool GSocket2::createData() {

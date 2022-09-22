@@ -55,10 +55,10 @@ std::string& GString::data() {
     return m_data;
 }
 //===============================================
-GString GString::extract(int _pos, const GString& _sep) {
+GString GString::extract(int _pos, const GString& _sep) const {
     GString lWord = "";
     int lPos = 0;
-    for(int i = 0; i < m_data.size(); i++) {
+    for(int i = 0; i < (int)m_data.size(); i++) {
         char lChar = m_data.at(i);
         if(_sep.isSep(lChar)) {
             if(lPos == _pos) return lWord;
@@ -72,9 +72,9 @@ GString GString::extract(int _pos, const GString& _sep) {
     return lWord;
 }
 //===============================================
-int GString::count(const GString& _sep) {
+int GString::count(const GString& _sep) const {
     int lCount = 1;
-    for(int i = 0; i < m_data.size(); i++) {
+    for(int i = 0; i < (int)m_data.size(); i++) {
         char lChar = m_data.at(i);
         if(_sep.isSep(lChar)) {
             lCount++;
@@ -88,20 +88,20 @@ bool GString::isEmpty() const {
 }
 //===============================================
 bool GString::isSep(char _char) const {
-    for(int i = 0; i < m_data.size(); i++) {
+    for(int i = 0; i < (int)m_data.size(); i++) {
         if(m_data[i] == _char) return true;
     }
     return false;
 }
 //===============================================
 int GString::size() const {
-    return m_data.size();
+    return (int)m_data.size();
 }
 //===============================================
 bool GString::startBy(const GString& _data) const {
-    if(m_data.size() == 0) return false;
+    if((int)m_data.size() == 0) return false;
     if(_data.size() == 0) return false;
-    if(m_data.size() < _data.size()) return false;
+    if((int)m_data.size() < _data.size()) return false;
     int i = 0;
     for(; i < _data.size(); i++) {
         if(m_data[i] != _data[i]) return false;
@@ -112,7 +112,7 @@ bool GString::startBy(const GString& _data) const {
 int GString::sepSize(int _pos, const GString& _sep) const {
     int lSize = 0;
     int lCount = 0;
-    for(int i = 0; i < m_data.size(); i++) {
+    for(int i = 0; i < (int)m_data.size(); i++) {
         char lChar = m_data.at(i);
         lSize++;
         if(_sep.isSep(lChar)) {
@@ -123,16 +123,16 @@ int GString::sepSize(int _pos, const GString& _sep) const {
     return lSize;
 }
 //===============================================
-GString GString::trim(const GString& _sep) {
+GString GString::trim(const GString& _sep) const {
     int lStartPos = 0;
-    int lEndPos = m_data.size() - 1;
+    int lEndPos = (int)m_data.size() - 1;
     GString lData = "";
-    for(int i = 0; i < m_data.size(); i++) {
+    for(int i = 0; i < (int)m_data.size(); i++) {
         char lChar = m_data.at(i);
         if(!_sep.isSep(lChar)) break;
         lStartPos++;
     }
-    for(int i = m_data.size() - 1; i >= 0 ; i--) {
+    for(int i = (int)m_data.size() - 1; i >= 0 ; i--) {
         char lChar = m_data.at(i);
         if(!_sep.isSep(lChar)) break;
         lEndPos--;
@@ -229,76 +229,76 @@ GString& GString::operator+=(char _data) {
     return *this;
 }
 //===============================================
-bool GString::operator==(const GString& _data) {
+bool GString::operator==(const GString& _data) const {
     bool lEqual = true;
     lEqual &= (m_data == _data.m_data);
     return lEqual;
 }
 //===============================================
-bool GString::operator==(const QString& _data) {
+bool GString::operator==(const QString& _data) const {
     bool lEqual = true;
     lEqual &= (m_data == _data.toStdString());
     return lEqual;
 }
 //===============================================
-bool GString::operator==(const std::string& _data) {
+bool GString::operator==(const std::string& _data) const {
     bool lEqual = true;
     lEqual &= (m_data == _data.c_str());
     return lEqual;
 }
 //===============================================
-bool GString::operator==(const char* _data) {
+bool GString::operator==(const char* _data) const {
     std::string lData = _data;
     bool lEqual = true;
     lEqual &= (m_data == lData);
     return lEqual;
 }
 //===============================================
-bool GString::operator==(char _data) {
+bool GString::operator==(char _data) const {
     bool lEqual = true;
     lEqual &= (m_data[0] == _data);
     return lEqual;
 }
 //===============================================
-bool GString::operator==(int _data) {
+bool GString::operator==(int _data) const {
     std::string lData = std::to_string(_data);
     bool lEqual = true;
     lEqual &= (m_data == lData);
     return lEqual;
 }
 //===============================================
-bool GString::operator!=(const GString& _data) {
+bool GString::operator!=(const GString& _data) const {
     bool lEqual = true;
     lEqual &= (m_data != _data.m_data);
     return lEqual;
 }
 //===============================================
-bool GString::operator!=(const QString& _data) {
+bool GString::operator!=(const QString& _data) const {
     bool lEqual = true;
     lEqual &= (m_data != _data.toStdString());
     return lEqual;
 }
 //===============================================
-bool GString::operator!=(const std::string& _data) {
+bool GString::operator!=(const std::string& _data) const {
     bool lEqual = true;
     lEqual &= (m_data != _data.c_str());
     return lEqual;
 }
 //===============================================
-bool GString::operator!=(const char* _data) {
+bool GString::operator!=(const char* _data) const {
     std::string lData = _data;
     bool lEqual = true;
     lEqual &= (m_data != lData);
     return lEqual;
 }
 //===============================================
-bool GString::operator!=(char _data) {
+bool GString::operator!=(char _data) const {
     bool lEqual = true;
     lEqual &= (m_data.at(0) != _data);
     return lEqual;
 }
 //===============================================
-bool GString::operator!=(int _data) {
+bool GString::operator!=(int _data) const {
     std::string lData = std::to_string(_data);
     bool lEqual = true;
     lEqual &= (m_data == lData);
