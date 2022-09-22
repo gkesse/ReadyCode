@@ -42,6 +42,7 @@ public:
     bool toInt(int& _data) const;
 
     GString getFormat(const char* _format, ...);
+    void print() const;
 
     GString& operator=(const GString& _data);
     GString& operator=(const QString& _data);

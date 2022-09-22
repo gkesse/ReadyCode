@@ -95,7 +95,6 @@ bool GClient::onReadyApp() {
     if(!isReadyApp()) return false;
     if(!readData(m_diffSize)) return false;
     if(!readResponse()) return false;
-
     return true;
 }
 //===============================================

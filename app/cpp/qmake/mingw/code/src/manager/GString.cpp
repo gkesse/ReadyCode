@@ -174,6 +174,10 @@ GString GString::getFormat(const char* _format, ...) {
     return lData.data();
 }
 //===============================================
+void GString::print() const {
+    printf("%s\n", m_data.c_str());
+}
+//===============================================
 GString& GString::operator=(const GString& _data) {
     m_data = _data.m_data;
     return *this;
