@@ -59,7 +59,6 @@ protected:
     GString2 m_content;
 
     int m_socket;
-    GSocket2* m_server;
     GString2 m_dataIn;
     GString2 m_dataOut;
 };

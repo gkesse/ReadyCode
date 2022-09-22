@@ -12,7 +12,6 @@ GSocket2::GSocket2()
     m_family = 0;
     m_port = 0;
     m_backlog = 0;
-    m_server = 0;
     m_socket = 0;
 }
 //===============================================
@@ -99,8 +98,8 @@ bool GSocket2::runServerTcp() {
         GSocket2* lClient = new GSocket2;
         int lSocket2 = accept(lSocket, (struct sockaddr*)&lAddress2, &lSize);
         if(lSocket2 == -1) return false;
+        lClient->m_module = m_module;
         lClient->m_socket = lSocket2;
-        lClient->m_server = this;
         lThread.setParams((void*)lClient);
         if(!lThread.run()) return false;
     }
