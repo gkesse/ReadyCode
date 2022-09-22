@@ -24,6 +24,7 @@ public:
     void setContent(const GString& _content);
 
     bool callServer();
+    bool callServer(const GString& _data);
     GString callServer(const GString& _module, const GString& _method, const GString& _data);
 
     bool createData();

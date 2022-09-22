@@ -84,7 +84,6 @@ bool GSocket2::callServer() {
     lAddress.sin_family = m_family;
     lAddress.sin_addr.s_addr = inet_addr(m_hostname.c_str());
     lAddress.sin_port = htons(m_port);
-    printf("%s===>\n", m_hostname.c_str());
     memset(&lAddress.sin_zero, 0, sizeof(lAddress.sin_zero));
     int lAnswer = connect(m_socket, (SOCKADDR*)(&lAddress), sizeof(lAddress));
     if(lAnswer == SOCKET_ERROR) return false;
@@ -97,12 +96,16 @@ bool GSocket2::callServer() {
     WSACleanup();
     return true;
 }
+bool GSocket2::callServer(const GString& _data) {
+    setContent(_data);
+    return callServer();
+}
 //===============================================
 GString GSocket2::callServer(const GString& _module, const GString& _method, const GString& _data) {
     GCode2 lDom;
     lDom.createDoc();
     lDom.createRequest(_module, _method);
-    lDom.loadNode(_data);
+    lDom.loadData(_data);
     GString lData = lDom.toString();
     GString lDataOut = callServer(lData);
     return lDataOut;
