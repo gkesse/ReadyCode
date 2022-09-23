@@ -2,11 +2,11 @@
 #include "GLogoutUi.h"
 #include "GPicto.h"
 #include "GLog.h"
-#include "GUser.h"
+#include "GConnection.h"
 //===============================================
-GLogoutUi::GLogoutUi(GUser* _user, QWidget* _parent)
+GLogoutUi::GLogoutUi(GConnection* _connection, QWidget* _parent)
 : GMessageBox(_parent)
-, m_user(_user) {
+, m_connection(_connection) {
 
 }
 //===============================================
@@ -22,7 +22,7 @@ int GLogoutUi::exec() {
     addButton(tr("Non"), QMessageBox::NoRole);
     GMessageBox::exec();
     if(clickedButton() == lYesButton) {
-        m_user->runDisconnection();
+        m_connection->runDisconnection();
     }
     return 0;
 }

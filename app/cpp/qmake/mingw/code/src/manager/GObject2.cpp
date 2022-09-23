@@ -2,7 +2,8 @@
 #include "GObject2.h"
 #include "GLog.h"
 //===============================================
-GObject2::GObject2() {
+GObject2::GObject2(QObject* _parent)
+: QObject(_parent) {
 
 }
 //===============================================

@@ -4,7 +4,7 @@
 //===============================================
 #include "GWidget.h"
 //===============================================
-class GUser;
+class GConnection;
 //===============================================
 class GPadUi : public GWidget {
 	Q_OBJECT
@@ -22,7 +22,7 @@ protected:
 	bool eventFilter(QObject* _obj, QEvent* _event);
 
 private:
-	GUser* m_user;
+	GConnection* m_connection;
 };
 //===============================================
 #endif

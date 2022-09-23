@@ -6,7 +6,7 @@
 #include "GXml.h"
 #include "GPicto.h"
 #include "GLog.h"
-#include "GUser.h"
+#include "GConnection.h"
 #include "GCode.h"
 #include "GSocket.h"
 #include "GRequest.h"
@@ -148,8 +148,8 @@ void GRequestUi::createLayout() {
     resize(lWidth, lHeight);
     setObjectName(lStyle);
 
-    GUser lUser;
-    addObj("login/ui", (void*)(new GLoginUi(&lUser, this)));
+    GConnection lConnection;
+    addObj("login/ui", (void*)(new GLoginUi(&lConnection, this)));
     addObj("search/ui", (void*)(new GSearchUi(this)));
 }
 //===============================================

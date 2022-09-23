@@ -8,7 +8,7 @@ class GSocket2;
 //===============================================
 class GModule2 : public GObject2 {
 public:
-    GModule2();
+    GModule2(QObject* _parent = 0);
     virtual ~GModule2();
 
     GObject2* clone() const;

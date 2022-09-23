@@ -4,7 +4,7 @@
 //===============================================
 #include "GMainWindow.h"
 //===============================================
-class GUser;
+class GConnection;
 class GTitleBarApp;
 //===============================================
 class GPadMdi : public GMainWindow {
@@ -15,12 +15,12 @@ public:
 	~GPadMdi();
     void createLayout();
     //
-    void onConnection();
+    void onRunConnection();
     void onAccount();
     void onCv();
     void onPocoClientTcp();
     //
-    GUser* getUser() const;
+    GConnection* getConnection() const;
 
 public slots:
     void onEvent(QAction* _action);
@@ -29,7 +29,7 @@ public slots:
 private:
     QMdiArea* m_mdiArea;
     GTitleBarApp* m_titleBar;
-    GUser* m_user;
+    GConnection* m_connection;
 };
 //===============================================
 #endif

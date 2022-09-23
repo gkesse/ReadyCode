@@ -72,12 +72,12 @@
 		        <!-- ============================================ -->
         		<data>
         			<category>menu</category>
-        			<text>Managers</text>
+        			<text>Connexion</text>
         		</data>
         		<data>
         			<category>submenu</category>
-        			<key>manager/connection</key>
-        			<text>Manager de connexion</text>
+        			<key>connection/run_connection</key>
+        			<text>Connexion</text>
         		</data>
         		<data>
         			<category>submenu</category>

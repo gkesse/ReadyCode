@@ -4,8 +4,8 @@
 #include "GSocket2.h"
 #include "GCode2.h"
 //===============================================
-GModule2::GModule2()
-: GObject2() {
+GModule2::GModule2(QObject* _parent)
+: GObject2(_parent) {
     m_client = 0;
 }
 //===============================================

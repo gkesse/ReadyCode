@@ -40,6 +40,7 @@ public:
 
     int toInt() const;
     bool toInt(int& _data) const;
+    QString toQString() const;
 
     GString getFormat(const char* _format, ...);
     void print() const;

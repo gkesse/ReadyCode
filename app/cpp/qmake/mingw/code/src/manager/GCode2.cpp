@@ -42,6 +42,7 @@ bool GCode2::loadData(const GString& _data) {
     GCode2 lDom;
     lDom.loadXml(_data);
     GString lData = lDom.toData();
+    createCode();
     loadNode(lData);
     return true;
 }

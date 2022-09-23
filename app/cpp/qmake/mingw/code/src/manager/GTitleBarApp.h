@@ -18,7 +18,7 @@ public:
     void onMaximize();
     void onFullscreen();
     void onConnection();
-    void setPseudo(const QString& _pseudo);
+    void setPseudo(const GString& _pseudo);
 
 public slots:
     void onEvent();

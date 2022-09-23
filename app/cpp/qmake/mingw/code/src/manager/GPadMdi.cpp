@@ -9,7 +9,7 @@
 #include "GPath.h"
 #include "GPicto.h"
 #include "GLog.h"
-#include "GUser.h"
+#include "GConnection.h"
 #include "GClient.h"
 //===============================================
 GPadMdi::GPadMdi(QWidget* _parent)
@@ -19,7 +19,7 @@ GPadMdi::GPadMdi(QWidget* _parent)
 }
 //===============================================
 GPadMdi::~GPadMdi() {
-    delete m_user;
+    delete m_connection;
 }
 //===============================================
 void GPadMdi::createLayout() {
@@ -75,15 +75,15 @@ void GPadMdi::createLayout() {
 
     connect(m_mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)), this, SLOT(onEvent(QMdiSubWindow*)));
 
-    m_user = new GUser(this);
+    m_connection = new GConnection(this);
 }
 //===============================================
 void GPadMdi::onEvent(QAction* _action) {
     QAction* lAction = _action;
     QString lKey = lAction->data().toString();
     // manager
-    if(lKey == "manager/connection") {
-        onConnection();
+    if(lKey == "connection/run_connection") {
+        onRunConnection();
     }
     else if(lKey == "manager/account") {
         onAccount();
@@ -106,21 +106,21 @@ void GPadMdi::onEvent(QMdiSubWindow* _window) {
 
 }
 //===============================================
-void GPadMdi::onConnection() {
-    if(!m_user->isConnect()) {
-        GLoginUi* lLoginUi = new GLoginUi(m_user, this);
+void GPadMdi::onRunConnection() {
+    if(!m_connection->isConnect()) {
+        GLoginUi* lLoginUi = new GLoginUi(m_connection, this);
         lLoginUi->exec();
-        if(m_user->isConnect()) {
-            m_titleBar->setPseudo(m_user->getPseudo());
+        if(m_connection->isConnect()) {
+            m_titleBar->setPseudo(m_connection->getPseudo());
         }
     }
     else {
-        GLogoutUi* lLogoutUi = new GLogoutUi(m_user, this);
+        GLogoutUi* lLogoutUi = new GLogoutUi(m_connection, this);
         lLogoutUi->exec();
         delete lLogoutUi;
-        if(!m_user->isConnect()) {
-            delete m_user;
-            m_user = new GUser(this);
+        if(!m_connection->isConnect()) {
+            delete m_connection;
+            m_connection = new GConnection(this);
             m_titleBar->setPseudo("Connexion");
         }
     }
@@ -144,7 +144,7 @@ void GPadMdi::onPocoClientTcp() {
     GCLIENTI->callServer("opencv", "create_image");
 }
 //===============================================
-GUser* GPadMdi::getUser() const {
-    return m_user;
+GConnection* GPadMdi::getConnection() const {
+    return m_connection;
 }
 //===============================================

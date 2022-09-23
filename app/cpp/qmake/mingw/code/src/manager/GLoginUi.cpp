@@ -6,11 +6,11 @@
 #include "GXml.h"
 #include "GPicto.h"
 #include "GLog.h"
-#include "GUser.h"
+#include "GConnection.h"
 //===============================================
-GLoginUi::GLoginUi(GUser* _user, QWidget* _parent)
+GLoginUi::GLoginUi(GConnection* _connection, QWidget* _parent)
 : GDialog(_parent)
-, m_user(_user) {
+, m_connection(_connection) {
     createDoms();
     createLayout();
 }
@@ -267,10 +267,10 @@ void GLoginUi::onConnect() {
         GERROR_ADD(eGERR, "Le mot de passe est obligatoire.");
     }
     else {
-        m_user->setPseudo(lUsername);
-        m_user->setPassword(lPassword);
+        m_connection->setPseudo(lUsername);
+        m_connection->setPassword(lPassword);
 
-        if(m_user->runConnection()) {
+        if(m_connection->runConnection()) {
             accept();
         }
     }

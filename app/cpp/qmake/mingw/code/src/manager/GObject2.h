@@ -7,9 +7,9 @@
 //===============================================
 class GCode;
 //===============================================
-class GObject2 {
+class GObject2 : public QObject {
 public:
-    GObject2();
+    GObject2(QObject* _parent = 0);
     virtual ~GObject2();
     virtual GObject2* clone() const;
     virtual GString serialize(const GString& _code = "object") const;
