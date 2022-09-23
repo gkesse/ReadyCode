@@ -13,10 +13,6 @@ GConnection::GConnection(GModule2* _module)
 : GModule2(_module) {
 
 }
-GConnection::GConnection(const GConnection& _connection)
-: GModule2() {
-
-}
 //===============================================
 GConnection::~GConnection() {
 
