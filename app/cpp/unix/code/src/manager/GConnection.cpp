@@ -122,7 +122,7 @@ bool GConnection::loadUser() {
     m_password = lRow.at(i++);
     m_email = lRow.at(i++);
     m_group = lRow.at(i++);
-    m_active = lRow.at(i++);
+    m_active = lRow.at(i++).toChar();
     return true;
 }
 //===============================================
