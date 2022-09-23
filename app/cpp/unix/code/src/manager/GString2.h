@@ -40,7 +40,7 @@ public:
     bool toBool() const;
     char toChar() const;
     int toInt() const;
-    bool toInt(int& _data) const;
+    bool toInt(int& _data, int _defaultValue = 0) const;
 
     void print() const;
 

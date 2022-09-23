@@ -169,15 +169,17 @@ char GString2::toChar() const {
 }
 //===============================================
 int GString2::toInt() const {
-    int lData = std::stoi(m_data);
+    int lData;
+    toInt(lData);
     return lData;
 }
 //===============================================
-bool GString2::toInt(int& _data) const {
+bool GString2::toInt(int& _data, int _defaultValue) const {
     try {
         _data = std::stoi(m_data);
     }
     catch(const std::exception& e) {
+        _data = _defaultValue;
         return false;
     }
     return true;
