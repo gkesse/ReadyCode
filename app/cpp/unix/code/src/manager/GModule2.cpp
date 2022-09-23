@@ -34,7 +34,7 @@ bool GModule2::deserialize(const GString2& _data, const GString2& _code) {
     return true;
 }
 //===============================================
-void GModule2::setClient(GSocket2* _client) {
+void GModule2::setClient(GServer* _client) {
     m_client = _client;
 }
 //===============================================
