@@ -48,6 +48,10 @@ void GServer::setResponse(const GString2& _response) {
     m_response = _response;
 }
 //===============================================
+GString2 GServer::getRequest() const {
+    return m_request;
+}
+//===============================================
 void GServer::run(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     setModule("tcp");
@@ -78,7 +82,6 @@ bool GServer::onReadyApp() {
     if(!readRequest()) return false;
     setResponse(m_request);
     createData();
-    m_request.print();
     return true;
 }
 //===============================================
@@ -125,6 +128,13 @@ bool GServer::isReadyApp() {
 bool GServer::readRequest() {
     m_request = m_dataIn.substr(m_headerSize);
     if(m_request == "") return false;
+    return true;
+}
+//===============================================
+bool GServer::analyzeRequest() {
+    GModule2 lModule;
+    lModule.setClient(this);
+    lModule.onModule();
     return true;
 }
 //===============================================

@@ -20,6 +20,8 @@ public:
     void setPassword(const GString2& _password);
     void setResponse(const GString2& _response);
 
+    GString2 getRequest() const;
+
     void run(int _argc, char** _argv);
 
     bool onRunServerTcp();
@@ -29,7 +31,7 @@ public:
 
     bool isReadyApp();
     bool readRequest();
-
+    bool analyzeRequest();
     bool createData();
 
 private:
