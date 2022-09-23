@@ -38,6 +38,7 @@ public:
     GString2 substr(int _pos = 0, int _size = -1) const;
 
     bool toBool() const;
+    char toChar() const;
     int toInt() const;
     bool toInt(int& _data) const;
 

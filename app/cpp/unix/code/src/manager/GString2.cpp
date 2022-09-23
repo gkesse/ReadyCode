@@ -163,6 +163,11 @@ bool GString2::toBool() const {
     return (m_data == "1");
 }
 //===============================================
+char GString2::toChar() const {
+    if(m_data.size() == 0) return 0;
+    return m_data.at(0);
+}
+//===============================================
 int GString2::toInt() const {
     int lData = std::stoi(m_data);
     return lData;
