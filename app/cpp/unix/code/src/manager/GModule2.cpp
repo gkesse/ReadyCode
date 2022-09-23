@@ -10,6 +10,21 @@ GModule2::GModule2()
     m_client = 0;
 }
 //===============================================
+GModule2::GModule2(const GModule2& _module)
+: GObject2() {
+    m_client = _module.m_client;
+}
+//===============================================
+GModule2::GModule2(GModule2* _module)
+: GObject2() {
+    m_client = _module->m_client;
+}
+//===============================================
+GModule2::GModule2(GServer* _client)
+: GObject2() {
+    m_client = _client;
+}
+//===============================================
 GModule2::~GModule2() {
 
 }
@@ -55,9 +70,23 @@ bool GModule2::onModule() {
 }
 //===============================================
 bool GModule2::onConnection() {
-    GConnection lConnect;
-    lConnect.setClient(m_client);
+    GConnection lConnect = this;
     lConnect.onModule();
     return true;
+}
+//===============================================
+GModule2& GModule2::operator=(const GModule2& _module) {
+    m_client = _module.m_client;
+    return *this;
+}
+//===============================================
+GModule2& GModule2::operator=(GModule2* _module) {
+    m_client = _module->m_client;
+    return *this;
+}
+//===============================================
+GModule2& GModule2::operator=(GServer* _client) {
+    m_client = _client;
+    return *this;
 }
 //===============================================

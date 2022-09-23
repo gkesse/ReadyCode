@@ -9,6 +9,9 @@ class GServer;
 class GModule2 : public GObject2 {
 public:
     GModule2();
+    GModule2(const GModule2& _module);
+    GModule2(GModule2* _module);
+    GModule2(GServer* _client);
     virtual ~GModule2();
 
     GObject2* clone() const;
@@ -22,6 +25,10 @@ public:
 
     bool onModule();
     bool onConnection();
+
+    GModule2& operator=(const GModule2& _module);
+    GModule2& operator=(GModule2* _module);
+    GModule2& operator=(GServer* _client);
 
 protected:
     GString2 m_module;

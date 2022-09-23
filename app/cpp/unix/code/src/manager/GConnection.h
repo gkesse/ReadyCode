@@ -9,6 +9,7 @@ class GServer;
 class GConnection : public GModule2 {
 public:
     GConnection();
+    GConnection(GModule2* _module);
     virtual ~GConnection();
 
     GObject2* clone() const;

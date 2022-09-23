@@ -80,6 +80,7 @@ bool GServer::onReadyApp() {
     if(!isReadyApp()) return false;
     if(!readData(m_diffSize)) return false;
     if(!readRequest()) return false;
+    analyzeRequest();
     setResponse(m_request);
     createData();
     return true;
@@ -132,8 +133,7 @@ bool GServer::readRequest() {
 }
 //===============================================
 bool GServer::analyzeRequest() {
-    GModule2 lModule;
-    lModule.setClient(this);
+    GModule2 lModule = this;
     lModule.onModule();
     return true;
 }
