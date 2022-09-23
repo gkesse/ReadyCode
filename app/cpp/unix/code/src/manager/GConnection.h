@@ -20,10 +20,23 @@ public:
     bool onModule();
     bool onRunConnection();
 
+    bool loadUserPseudo();
+    bool loadUserPassword();
+    bool loadUser();
+    bool computePassword();
+    bool saveUser();
+    bool insertUser();
+    bool updateUser();
+    bool updateConnection();
+
 protected:
     int m_id;
     GString2 m_pseudo;
     GString2 m_password;
+    GString2 m_passwordMd5;
+    GString2 m_email;
+    GString2 m_group;
+    char m_active;
     bool m_isConnect;
 };
 //==============================================

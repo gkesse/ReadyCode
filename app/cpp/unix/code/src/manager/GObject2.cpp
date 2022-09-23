@@ -1,7 +1,7 @@
 //===============================================
 #include "GObject2.h"
 #include "GLog.h"
-#include "GCode.h"
+#include "GCode2.h"
 #include "GPath.h"
 //===============================================
 GObject2::GObject2() {
@@ -10,6 +10,12 @@ GObject2::GObject2() {
 //===============================================
 GObject2::~GObject2() {
 
+}
+//===============================================
+bool GObject2::createDoms() {
+    m_dom.reset(new GCode2);
+    m_dom->loadFile(GRES("xml", "pad.xml"));
+    return true;
 }
 //===============================================
 void GObject2::clearMap(std::vector<GObject2*>& _map) const {
