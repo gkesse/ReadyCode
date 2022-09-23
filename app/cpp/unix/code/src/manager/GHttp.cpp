@@ -1,7 +1,7 @@
 //===============================================
 #include "GHttp.h"
 #include "GLog.h"
-#include "GSocket2.h"
+#include "GServer.h"
 //===============================================
 GHttp::GHttp()
 : GModule2() {
