@@ -20,6 +20,10 @@ GString2::GString2(char _data) {
     m_data = _data;
 }
 //===============================================
+GString2::GString2(bool _data) {
+    m_data = (_data ? "1" : "0");
+}
+//===============================================
 GString2::GString2(int _data) {
     m_data = std::to_string(_data);
 }
@@ -195,6 +199,11 @@ GString2& GString2::operator=(const char* _data) {
 //===============================================
 GString2& GString2::operator=(char _data) {
     m_data = _data;
+    return *this;
+}
+//===============================================
+GString2& GString2::operator=(bool _data) {
+    m_data = (_data ? "1" : "0");
     return *this;
 }
 //===============================================

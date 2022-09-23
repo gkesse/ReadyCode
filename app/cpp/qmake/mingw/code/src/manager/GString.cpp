@@ -24,6 +24,10 @@ GString::GString(char _data) {
     m_data = _data;
 }
 //===============================================
+GString::GString(bool _data) {
+    m_data = (_data ? "1" : "0");
+}
+//===============================================
 GString::GString(int _data) {
     m_data = std::to_string(_data);
 }
@@ -208,6 +212,11 @@ GString& GString::operator=(const char* _data) {
 //===============================================
 GString& GString::operator=(char _data) {
     m_data = _data;
+    return *this;
+}
+//===============================================
+GString& GString::operator=(bool _data) {
+    m_data = (_data ? "1" : "0");
     return *this;
 }
 //===============================================

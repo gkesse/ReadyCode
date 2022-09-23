@@ -15,6 +15,7 @@ public:
     GString(const std::string& _data);
     GString(const char* _data);
     GString(char _data);
+    GString(bool _data);
     GString(int _data);
     GString(const GString& _data);
     ~GString();
@@ -51,6 +52,7 @@ public:
     GString& operator=(const std::string& _data);
     GString& operator=(const char* _data);
     GString& operator=(char _data);
+    GString& operator=(bool _data);
     GString& operator=(int _data);
 
     GString& operator+=(const GString& _data);

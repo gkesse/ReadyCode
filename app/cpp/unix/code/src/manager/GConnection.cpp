@@ -27,8 +27,10 @@ GObject2* GConnection::clone() const {
 GString2 GConnection::serialize(const GString2& _code) const {
     GCode2 lDom;
     lDom.createDoc();
+    lDom.addData(_code, "id", m_id);
     lDom.addData(_code, "pseudo", m_pseudo);
     lDom.addData(_code, "password", m_password);
+    lDom.addData(_code, "is_connect", m_isConnect);
     return lDom.toString();
 }
 //===============================================
@@ -45,7 +47,7 @@ bool GConnection::deserialize(const GString2& _data, const GString2& _code) {
 //===============================================
 bool GConnection::onModule() {
     deserialize(m_client->getRequest());
-    if(m_password == "run_connection") {
+    if(m_method == "run_connection") {
         onRunConnection();
     }
     return true;
