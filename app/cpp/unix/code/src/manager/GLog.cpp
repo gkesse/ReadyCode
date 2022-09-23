@@ -1,6 +1,6 @@
 //===============================================
 #include "GLog.h"
-#include "GCode.h"
+#include "GCode2.h"
 #include "GDate.h"
 #include "GEnv.h"
 #include "GFile.h"
@@ -11,7 +11,7 @@
 GLog* GLog::m_instance = 0;
 //===============================================
 GLog::GLog()
-: GObject() {
+: GObject2() {
     createDoms();
     m_file = 0;
     m_type = "";
@@ -30,29 +30,24 @@ GLog* GLog::Instance() {
     return m_instance;
 }
 //===============================================
-std::string GLog::serialize(const std::string& _code) const {
-    GCode lDom;
+GString2 GLog::serialize(const GString2& _code) const {
+    GCode2 lDom;
     lDom.createDoc();
     lDom.addData(_code, "type", m_type);
     lDom.addData(_code, "side", m_side);
     lDom.addData(_code, "msg", m_msg);
     lDom.addData(_code, m_map);
-    return lDom.toStringData();
+    return lDom.toString();
 }
 //===============================================
-void GLog::deserialize(const std::string& _data, const std::string& _code) {
-    clearMap(m_map);
-    GCode lDom;
+bool GLog::deserialize(const GString2& _data, const GString2& _code) {
+    GCode2 lDom;
     lDom.loadXml(_data);
-    m_type = lDom.getItem(_code, "type");
-    m_side = lDom.getItem(_code, "side");
-    m_msg = lDom.getItem(_code, "msg");
-    lDom.getItem(_code, m_map, this);
-}
-//===============================================
-void GLog::createDoms() {
-    m_dom.reset(new GCode);
-    m_dom->loadFile(GRES("xml", "pad.xml"));
+    m_type = lDom.getData(_code, "type");
+    m_side = lDom.getData(_code, "side");
+    m_msg = lDom.getData(_code, "msg");
+    lDom.getData(_code, m_map, this);
+    return true;
 }
 //===============================================
 bool GLog::isDebug() const {
@@ -74,22 +69,22 @@ bool GLog::isFileLog(bool _isTestEnv) const {
 }
 //===============================================
 bool GLog::isTestFileLog() const {
-    bool lFileOn = (getItem("log", "test_file_on") == "1");
+    bool lFileOn = (m_dom->getData("log", "test_file_on") == "1");
     return lFileOn;
 }
 //===============================================
 bool GLog::isProdFileLog() const {
-    bool lFileOn = (getItem("log", "prod_file_on") == "1");
+    bool lFileOn = (m_dom->getData("log", "prod_file_on") == "1");
     return lFileOn;
 }
 //===============================================
 bool GLog::isTestLog() const {
-    bool lLogOn = (getItem("log", "test_on") == "1");
+    bool lLogOn = (m_dom->getData("log", "test_on") == "1");
     return lLogOn;
 }
 //===============================================
 bool GLog::isProdLog() const {
-    bool lLogOn = (getItem("log", "prod_on") == "1");
+    bool lLogOn = (m_dom->getData("log", "prod_on") == "1");
     return lLogOn;
 }
 //===============================================
@@ -112,9 +107,9 @@ void GLog::closeLogFile() {
 }
 //===============================================
 void GLog::catLogFile() {
-    std::string lLogFile = GFile().getLogFullname();
+    GString2 lLogFile = GFile().getLogFullname();
     GFile lFileObj(lLogFile);
-    std::string lData = sformat(""
+    GString2 lData = sformat(""
             "Erreur le fichier log n'existe pas.\n"
             "fichier......: (%s)\n"
             "", lLogFile.c_str());
@@ -125,9 +120,9 @@ void GLog::catLogFile() {
 }
 //===============================================
 void GLog::tailLogFile(bool _isTestEnv) {
-    std::string lLogFile = GFile().getLogFullname(_isTestEnv);
+    GString2 lLogFile = GFile().getLogFullname(_isTestEnv);
     GFile lFileObj(lLogFile);
-    std::string lData = sformat(""
+    GString2 lData = sformat(""
             "Erreur le fichier log n'existe pas.\n"
             "fichier......: (%s)\n"
             "", lLogFile.c_str());
@@ -139,7 +134,7 @@ void GLog::tailLogFile(bool _isTestEnv) {
     }
 }
 //===============================================
-void GLog::addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _error) {
+void GLog::addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString2& _error) {
     traceLog(_name, _level, _file, _line, _func, _error);
     GLog* lLog = new GLog;
     lLog->m_type = "error";
@@ -148,7 +143,7 @@ void GLog::addError(const char* _name, int _level, const char* _file, int _line,
     m_map.push_back(lLog);
 }
 //===============================================
-void GLog::addLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _log) {
+void GLog::addLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString2& _log) {
     traceLog(_name, _level, _file, _line, _func, _log);
     GLog* lLog = new GLog;
     lLog->m_type = "log";
@@ -164,7 +159,7 @@ void GLog::showErrors() {
 void GLog::showErrors(bool _isDebug, bool _isFileLog) {
     if(!_isDebug) return;
     if(!hasErrors()) return;
-    std::string lErrors = "";
+    GString2 lErrors = "";
     for(int i = 0; i < (int)m_map.size(); i++) {
         GLog* lLog = (GLog*)m_map.at(i);
         if(lLog->m_type == "error") {
@@ -215,30 +210,30 @@ void GLog::clearLogs() {
     }
 }
 //===============================================
-void GLog::loadErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _data) {
+void GLog::loadErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString2& _data) {
     deserialize(_data);
     showErrors();
 }
 //===============================================
-void GLog::writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _log) {
+void GLog::writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString2& _log) {
     writeLog(_name, _level, _file, _line, _func, isDebug(), isFileLog(), _log);
 }
 //===============================================
-void GLog::writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const std::string& _log) {
+void GLog::writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const GString2& _log) {
     if(_level == 0) return;
     if(!_isDebug) return;
     fprintf(getOutput(_isFileLog), "%s\n", _log.c_str());
     closeLogFile();
 }
 //===============================================
-void GLog::traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _data) {
+void GLog::traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString2& _data) {
     traceLog(_name, _level, _file, _line, _func, isDebug(), isFileLog(), _data);
 }
 //===============================================
-void GLog::traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const std::string& _data) {
+void GLog::traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const GString2& _data) {
     if(_level == 0) return;
     if(!_isDebug) return;
-    std::string lDate = GDate().getDate(GDate().getDateTimeLogFormat());
+    GString2 lDate = GDate().getDate(GDate().getDateTimeLogFormat());
     fprintf(getOutput(_isFileLog), "===> [%s] : %d : %s : %s : [%d] : %s :\n%s\n", _name, _level, lDate.c_str(), _file, _line, _func, _data.c_str());
     closeLogFile();
 }
@@ -252,8 +247,8 @@ const char* GLog::toString(const GString& _data) const {
     return _data.c_str();
 }
 //===============================================
-std::string GLog::toString(const std::vector<std::string>& _data) const {
-    std::string lData = "";
+GString2 GLog::toString(const std::vector<GString2>& _data) const {
+    GString2 lData = "";
     for(size_t i = 0; i < _data.size(); i++) {
         if(i != 0) lData += "\n";
         lData += _data.at((int)i);
@@ -261,11 +256,11 @@ std::string GLog::toString(const std::vector<std::string>& _data) const {
     return lData;
 }
 //===============================================
-std::string GLog::toString(const std::vector<std::vector<std::string>>& _data) const {
-    std::string lData = "";
+GString2 GLog::toString(const std::vector<std::vector<GString2>>& _data) const {
+    GString2 lData = "";
     for(size_t i = 0; i < _data.size(); i++) {
         if(i != 0) lData += "\n";
-        std::vector<std::string> lDataRow = _data.at((int)i);
+        std::vector<GString2> lDataRow = _data.at((int)i);
         for(size_t j = 0; j < lDataRow.size(); j++) {
             if(j != 0) lData += "\n";
             lData += lDataRow.at((int)j);
