@@ -36,6 +36,7 @@ public:
     GString2 trim(const GString2& _sep = " ") const;
     GString2 substr(int _pos = 0, int _size = -1) const;
 
+    bool toBool() const;
     int toInt() const;
     bool toInt(int& _data) const;
 

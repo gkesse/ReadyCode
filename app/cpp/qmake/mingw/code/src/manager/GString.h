@@ -38,6 +38,7 @@ public:
     GString trim(const GString& _sep = " ") const;
     GString substr(int _pos, int _size = -1) const;
 
+    bool toBool() const;
     int toInt() const;
     bool toInt(int& _data) const;
     QString toQString() const;

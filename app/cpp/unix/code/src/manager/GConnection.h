@@ -21,8 +21,10 @@ public:
     bool onRunConnection();
 
 protected:
-    GString2 m_psedudo;
+    int m_id;
+    GString2 m_pseudo;
     GString2 m_password;
+    bool m_isConnect;
 };
 //==============================================
 #endif

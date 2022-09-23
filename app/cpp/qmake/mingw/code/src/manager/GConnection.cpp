@@ -33,7 +33,7 @@ bool GConnection::deserialize(const GString& _data, const GString& _code) {
     m_id = lDom.getData(_code, "id").toInt();
     m_pseudo = lDom.getData(_code, "pseudo");
     m_password = lDom.getData(_code, "password");
-    m_isConnect = lDom.getData(_code, "is_connect").toInt();
+    m_isConnect = lDom.getData(_code, "is_connect").toBool();
     return true;
 }
 //===============================================
@@ -64,7 +64,7 @@ GString GConnection::getPassword() const {
 bool GConnection::runConnection() {
     if(GLOGI->hasErrors()) return false;
     GString lData = serialize();
-    lData = GCLIENTI->callServer("user", "run_connection", lData);
+    lData = GCLIENTI->callServer("connection", "run_connection", lData);
     deserialize(lData);
     return !GLOGI->hasErrors();
 }
@@ -72,7 +72,7 @@ bool GConnection::runConnection() {
 bool GConnection::createAccount() {
     if(GLOGI->hasErrors()) return false;
     GString lData = serialize();
-    lData = GCLIENTI->callServer("user", "create_account", lData);
+    lData = GCLIENTI->callServer("connection", "create_account", lData);
     deserialize(lData);
     return !GLOGI->hasErrors();
 }
@@ -80,7 +80,7 @@ bool GConnection::createAccount() {
 bool GConnection::runDisconnection() {
     if(GLOGI->hasErrors()) return false;
     GString lData = serialize();
-    lData = GCLIENTI->callServer("user", "run_disconnection", lData);
+    lData = GCLIENTI->callServer("connection", "run_disconnection", lData);
     deserialize(lData);
     return !GLOGI->hasErrors();
 }

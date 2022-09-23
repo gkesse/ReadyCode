@@ -155,6 +155,10 @@ GString2 GString2::substr(int _pos, int _size) const {
     return lData;
 }
 //===============================================
+bool GString2::toBool() const {
+    return (m_data == "1");
+}
+//===============================================
 int GString2::toInt() const {
     int lData = std::stoi(m_data);
     return lData;
