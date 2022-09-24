@@ -4,8 +4,6 @@
 //===============================================
 #include "GObject2.h"
 //===============================================
-class GString;
-//===============================================
 #define eGOFF   0, __FILE__, __LINE__, __PRETTY_FUNCTION__
 #define eGFUN   1, __FILE__, __LINE__, __PRETTY_FUNCTION__
 #define eGINF   2, __FILE__, __LINE__, __PRETTY_FUNCTION__
@@ -33,7 +31,6 @@ public:
     GString2 serialize(const GString2& _code = "logs") const;
     bool deserialize(const GString2& _data, const GString2& _code = "logs");
     //
-    void createDoms();
     bool isDebug() const;
     bool isDebug(bool _isTestEnv) const;
     bool isFileLog() const;
