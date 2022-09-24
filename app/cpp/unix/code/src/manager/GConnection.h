@@ -38,7 +38,7 @@ protected:
     GString2 m_passwordMd5;
     GString2 m_email;
     GString2 m_group;
-    char m_active;
+    GString2 m_active;
     bool m_isConnect;
 };
 //==============================================
