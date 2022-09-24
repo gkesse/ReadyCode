@@ -10,8 +10,8 @@ GHttp::GHttp()
     m_port = 0;
 }
 //===============================================
-GHttp::GHttp(GModule2* _module)
-: GModule2(_module) {
+GHttp::GHttp(GServer* _server)
+: GModule2(_server) {
     m_status = 200;
     m_contentLength = 0;
     m_port = 0;
