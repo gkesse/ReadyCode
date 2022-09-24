@@ -60,7 +60,7 @@ bool GConnection::onModule() {
     if(m_method == "run_connection") {
         onRunConnection();
     }
-    m_client->addResponse(this);
+    m_client->addResponse(serialize());
     return true;
 }
 //===============================================
