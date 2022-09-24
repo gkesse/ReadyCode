@@ -166,5 +166,12 @@ void GTestSocket::runResponse(int _argc, char** _argv) {
     lDom.print();
     lCount = lDom.countNode(lPath);
     printf("%d\n", lCount);
+
+    lDom.addData("person", "name", "Gerard KESSE");
+    lDom.addData("person", "id", "123456");
+
+    lDom.print();
+    lCount = lDom.countNode(lPath);
+    printf("%d\n", lCount);
 }
 //===============================================
