@@ -10,12 +10,14 @@ GFile2::GFile2()
     m_openType = "";
 }
 //===============================================
-GFile2::GFile2(const GString2& _filename) : GObject() {
+GFile2::GFile2(const GString2& _filename)
+: GObject2() {
     m_filename = _filename;
     m_openType = "";
 }
 //===============================================
-GFile2::GFile2(const GString2& _filename, const GString2& _openType) : GObject() {
+GFile2::GFile2(const GString2& _filename, const GString2& _openType)
+: GObject2() {
     m_filename = _filename;
     m_openType = _openType;
 }
