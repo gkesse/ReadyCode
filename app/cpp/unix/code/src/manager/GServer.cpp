@@ -21,6 +21,7 @@ GServer::~GServer() {
 //===============================================
 bool GServer::createDoms() {
     m_domResponse.reset(new GCode2);
+    m_domResponse->createDoc();
     return true;
 }
 //===============================================
@@ -169,8 +170,8 @@ bool GServer::createData() {
     return true;
 }
 //===============================================
-bool GServer::addResponse(const GString2& _dom) {
-    m_domResponse->loadData(_dom);
+bool GServer::addResponse(GObject2* _obj) {
+    m_domResponse->loadData(_obj->serialize());
     return true;
 }
 //===============================================
