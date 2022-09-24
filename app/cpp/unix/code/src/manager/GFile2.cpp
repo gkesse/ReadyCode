@@ -92,7 +92,7 @@ GString2 GFile2::getFullname(const GString2& _path, const GString2& _filename) c
     return lFilename;
 }
 //===============================================
-FILE* GFile2::openLoGFile2() {
+FILE* GFile2::openLogFile() {
     FILE* lFile = openFile(getLogFullname(), getAppendType());
     return lFile;
 }

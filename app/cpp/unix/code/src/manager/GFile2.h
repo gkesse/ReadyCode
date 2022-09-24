@@ -24,7 +24,7 @@ public:
     GString2 getDateFilename(const GString2& _key, const GString2& _ext) const;
     GString2 getFilename(const GString2& _key, const GString2& _date, const GString2& _ext) const;
     GString2 getFullname(const GString2& _path, const GString2& _filename) const;
-    FILE* openLoGFile2();
+    FILE* openLogFile();
     FILE* openFile();
     FILE* openFile(const GString2& _openType);
     FILE* openFile(const GString2& _filename, const GString2& _openType);
