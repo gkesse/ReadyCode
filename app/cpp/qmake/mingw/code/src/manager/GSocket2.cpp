@@ -70,8 +70,8 @@ bool GSocket2::callServer() {
         }
     }
 
-    m_dataIn.print();
     m_dataOut.print();
+    m_dataIn.print();
 
     closesocket(m_socket);
     WSACleanup();
