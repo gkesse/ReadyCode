@@ -36,7 +36,7 @@ GString2 GLog2::serialize(const GString2& _code) const {
     return lDom.toString();
 }
 //===============================================
-void GLog2::deserialize(const GString2& _data, const GString2& _code) {
+bool GLog2::deserialize(const GString2& _data, const GString2& _code) {
     clearMap(m_map);
     GCode2 lDom;
     lDom.loadXml(_data);
@@ -44,6 +44,7 @@ void GLog2::deserialize(const GString2& _data, const GString2& _code) {
     m_side = lDom.getData(_code, "side");
     m_msg = lDom.getData(_code, "msg");
     lDom.getData(_code, m_map, this);
+    return true;
 }
 //===============================================
 bool GLog2::isDebug() const {

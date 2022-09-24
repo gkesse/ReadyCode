@@ -31,7 +31,7 @@ public:
     static GLog2* Instance();
     //
     GString2 serialize(const GString2& _code = "logs") const;
-    void deserialize(const GString2& _data, const GString2& _code = "logs");
+    bool deserialize(const GString2& _data, const GString2& _code = "logs");
     //
     void createDoms();
     bool isDebug() const;
