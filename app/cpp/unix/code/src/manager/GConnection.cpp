@@ -189,3 +189,7 @@ bool GConnection::updateConnection() {
     return true;
 }
 //===============================================
+void GConnection::print() const {
+    printf("%s\n", serialize().c_str());
+}
+//===============================================

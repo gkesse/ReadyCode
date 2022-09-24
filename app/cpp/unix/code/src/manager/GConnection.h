@@ -29,6 +29,8 @@ public:
     bool updateUser();
     bool updateConnection();
 
+    void print() const;
+
 protected:
     int m_id;
     GString2 m_pseudo;
