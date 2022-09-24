@@ -27,6 +27,7 @@ public:
     bool addData(const GString2& _code, const std::vector<GObject2*>& _map);
 
     int countMap(const GString2& _code);
+    bool hasCode();
 
     GString2 toData();
 };

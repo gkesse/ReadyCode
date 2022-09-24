@@ -2,11 +2,13 @@
 #include "GServer.h"
 #include "GLog.h"
 #include "GHttp.h"
+#include "GCode2.h"
 //===============================================
 GServer* GServer::m_instance = 0;
 //===============================================
 GServer::GServer()
 : GSocket2() {
+    createDoms();
     setMethod(API_METHOD);
     setApiKey(API_KEY);
     setUsername(API_USERNAME);
@@ -15,6 +17,11 @@ GServer::GServer()
 //===============================================
 GServer::~GServer() {
 
+}
+//===============================================
+bool GServer::createDoms() {
+    m_domResponse.reset(new GCode2);
+    return true;
 }
 //===============================================
 GServer* GServer::Instance() {
@@ -81,7 +88,7 @@ bool GServer::onReadyApp() {
     if(!readData(m_diffSize)) return false;
     if(!readRequest()) return false;
     analyzeRequest();
-    setResponse(m_request);
+    createResponse();
     createData();
     return true;
 }
@@ -138,6 +145,12 @@ bool GServer::analyzeRequest() {
     return true;
 }
 //===============================================
+bool GServer::createResponse() {
+    if(!m_domResponse->hasCode()) return false;
+    setResponse(m_domResponse->toString());
+    return true;
+}
+//===============================================
 bool GServer::createData() {
     if(m_response == "") return false;
     if(m_method == "") return false;
@@ -153,6 +166,11 @@ bool GServer::createData() {
     m_dataOut += sformat("password:%s|", m_password.c_str());
     m_dataOut += sformat("size:%d;", lSize);
     m_dataOut += sformat("%s", m_response.c_str());
+    return true;
+}
+//===============================================
+bool GServer::addResponse(GObject2* _obj) {
+    m_domResponse->loadData(_obj->serialize());
     return true;
 }
 //===============================================

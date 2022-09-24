@@ -115,6 +115,11 @@ int GCode2::countMap(const GString2& _code) {
     return lData;
 }
 //===============================================
+bool GCode2::hasCode() {
+    int lCount = countNode(sformat("/rdv/datas/data[code]"));
+    return (lCount != 0);
+}
+//===============================================
 GString2 GCode2::toData() {
     GString2 lData = "";
     if(getCode()) {

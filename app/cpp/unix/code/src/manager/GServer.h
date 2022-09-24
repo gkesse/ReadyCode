@@ -11,6 +11,7 @@ public:
     GServer();
     ~GServer();
 
+    bool createDoms();
     static GServer* Instance();
     GSocket2* clone() const;
 
@@ -32,7 +33,10 @@ public:
     bool isReadyApp();
     bool readRequest();
     bool analyzeRequest();
+    bool createResponse();
     bool createData();
+
+    bool addResponse(GObject2* _obj);
 
 private:
     static constexpr const char* API_METHOD     = "RDVAPP";
@@ -48,6 +52,8 @@ private:
     GString2 m_password;
     GString2 m_request;
     GString2 m_response;
+
+    std::shared_ptr<GCode2> m_domResponse;
 
     int m_dataSize;
     int m_headerSize;
