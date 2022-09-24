@@ -88,7 +88,7 @@ bool GCode2::getData(const GString2& _code, std::vector<GObject2*>& _map, GObjec
 //===============================================
 bool GCode2::addData(const GString2& _code, const GString2& _key, const GString2& _value, bool _isCData) {
     if(_value.isEmpty()) return false;
-    if(_value.size() == 1 && _value[0] == "0") return false;
+    if(_value.size() == 1 && _value == "0") return false;
     createCode(_code);
     if(!getCode(_code, _key)) {
         createNode(_key);
