@@ -42,6 +42,9 @@ void GTestSocket::run(int _argc, char** _argv) {
     else if(lKey == "module") {
         runModule(_argc, _argv);
     }
+    else if(lKey == "response") {
+        runResponse(_argc, _argv);
+    }
     else {
         runDefault(_argc, _argv);
     }
@@ -146,5 +149,22 @@ void GTestSocket::runModule(int _argc, char** _argv) {
     lModule.setModule("opencv");
     lModule.setMethod("create_image");
     lModule.print();
+}
+//===============================================
+void GTestSocket::runResponse(int _argc, char** _argv) {
+    GCode2 lDom;
+    lDom.createDoc();
+
+    lDom.print();
+    GString2 lPath = "/rdv/datas/data[code]";
+    int lCount = lDom.countNode(lPath);
+    printf("%d\n", lCount);
+
+    lDom.addData("user", "name", "Gerard KESSE");
+    lDom.addData("user", "id", "123456");
+
+    lDom.print();
+    lCount = lDom.countNode(lPath);
+    printf("%d\n", lCount);
 }
 //===============================================

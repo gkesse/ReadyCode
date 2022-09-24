@@ -18,6 +18,7 @@ public:
     void runCode(int _argc, char** _argv);
     void runMap(int _argc, char** _argv);
     void runModule(int _argc, char** _argv);
+    void runResponse(int _argc, char** _argv);
 
 private:
     static GTestSocket* m_test;
