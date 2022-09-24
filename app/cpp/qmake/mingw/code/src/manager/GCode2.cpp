@@ -64,7 +64,7 @@ bool GCode2::getMap(const GString& _code, int _index) {
 }
 //===============================================
 GString GCode2::getData(const GString& _code, const GString& _key) {
-    getCode(_code, _key);
+    if(!getCode(_code, _key)) return "";
     return getValue();
 }
 //===============================================
@@ -88,6 +88,8 @@ bool GCode2::getData(const GString& _code, std::vector<GObject2*>& _map, GObject
 }
 //===============================================
 bool GCode2::addData(const GString& _code, const GString& _key, const GString& _value, bool _isCData) {
+    if(_value.isEmpty()) return false;
+    if(_value.size() == 1 && _value[0] == "0") return false;
     createCode(_code);
     if(!getCode(_code, _key)) {
         createNode(_key);
