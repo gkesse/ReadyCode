@@ -11,7 +11,7 @@
 GLog* GLog::m_instance = 0;
 //===============================================
 GLog::GLog()
-: GObject2() {
+: GObject() {
     createDoms();
     m_file = 0;
     m_type = "";

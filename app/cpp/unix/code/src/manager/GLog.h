@@ -30,8 +30,8 @@ public:
     ~GLog();
     static GLog* Instance();
     //
-    GString2 serialize(const GString2& _code = "logs") const;
-    void deserialize(const GString2& _data, const GString2& _code = "logs");
+    std::string serialize(const std::string& _code = "logs") const;
+    void deserialize(const std::string& _data, const std::string& _code = "logs");
     //
     void createDoms();
     bool isDebug() const;
@@ -48,32 +48,32 @@ public:
     void catLogFile();
     void tailLogFile(bool _isTestEnv);
     //
-    void addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString2& _error);
-    void addLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString2& _error);
+    void addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _error);
+    void addLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _error);
     void showErrors();
     void showErrors(bool _isDebug, bool _isFileLog);
     bool hasErrors() const;
     bool hasLogs() const;
     void clearErrors();
     void clearLogs();
-    void loadErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString2& _data);
+    void loadErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _data);
     //
-    void writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString2& _log);
-    void writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const GString2& _log);
-    void traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString2& _data = "");
-    void traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const GString2& _data = "");
+    void writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _log);
+    void writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const std::string& _log);
+    void traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _data = "");
+    void traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const std::string& _data = "");
     //
     const char* toString(bool _data) const;
     const char* toString(const GString& _data) const;
-    GString2 toString(const std::vector<GString2>& _data) const;
-    GString2 toString(const std::vector<std::vector<GString2>>& _data) const;
+    std::string toString(const std::vector<std::string>& _data) const;
+    std::string toString(const std::vector<std::vector<std::string>>& _data) const;
 
 private:
     static GLog* m_instance;
     //
-    GString2 m_type;
-    GString2 m_side;
-    GString2 m_msg;
+    std::string m_type;
+    std::string m_side;
+    std::string m_msg;
     std::vector<GObject*> m_map;
     //
     FILE* m_file;
