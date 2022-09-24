@@ -38,6 +38,7 @@ bool GCode2::createRequest(const GString2& _module, const GString2& _method) {
 }
 //===============================================
 bool GCode2::loadData(const GString2& _data) {
+    if(_data.trim().isEmpty()) return false;
     GCode2 lDom;
     lDom.loadXml(_data);
     GString2 lData = lDom.toData();

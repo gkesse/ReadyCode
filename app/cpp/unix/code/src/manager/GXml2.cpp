@@ -51,6 +51,7 @@ bool GXml2::loadFile(const GString2& _filename) {
 }
 //===============================================
 bool GXml2::loadNode(const GString2& _data) {
+    if(_data.trim().isEmpty()) return false;
     if(!m_node) return false;
     xmlNodePtr lNewNode;
     xmlParseInNodeContext(m_node, _data.c_str(), _data.size(), 0, &lNewNode);

@@ -170,6 +170,7 @@ bool GServer::createData() {
 }
 //===============================================
 bool GServer::addResponse(const GString2& _data) {
+    m_domResponse->createCode();
     m_domResponse->loadData(_data);
     return true;
 }
