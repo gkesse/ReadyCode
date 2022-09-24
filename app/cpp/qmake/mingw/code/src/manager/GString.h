@@ -41,7 +41,7 @@ public:
 
     bool toBool() const;
     int toInt() const;
-    bool toInt(int& _data) const;
+    bool toInt(int& _data, int _defaultValue = 0) const;
     QString toQString() const;
 
     GString getFormat(const char* _format, ...);

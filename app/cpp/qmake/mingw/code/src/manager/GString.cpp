@@ -158,15 +158,17 @@ bool GString::toBool() const {
 }
 //===============================================
 int GString::toInt() const {
-    int lData = std::stoi(m_data);
+    int lData = 0;
+    toInt(lData);
     return lData;
 }
 //===============================================
-bool GString::toInt(int& _data) const {
+bool GString::toInt(int& _data, int _defaultValue) const {
     try {
         _data = std::stoi(m_data);
     }
     catch(const std::exception& e) {
+        _data = _defaultValue;
         return false;
     }
     return true;

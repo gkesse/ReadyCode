@@ -36,6 +36,7 @@ public:
     bool createResponse();
     bool createData();
 
+    bool addResponse(const GString2& _dom);
     bool addResponse(GObject2* _obj);
 
 private:
