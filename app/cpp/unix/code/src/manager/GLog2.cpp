@@ -10,7 +10,7 @@
 GLog2* GLog2::m_instance = 0;
 //===============================================
 GLog2::GLog2()
-: GObject() {
+: GObject2() {
     createDoms();
     m_file = 0;
 }
