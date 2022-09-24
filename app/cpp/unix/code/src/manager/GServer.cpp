@@ -95,8 +95,7 @@ bool GServer::onReadyApp() {
 }
 //===============================================
 bool GServer::onHttpApp() {
-    GHttp lHttp;
-    lHttp.setClient(this);
+    GHttp lHttp = this;
     lHttp.runHttp();
     return true;
 }

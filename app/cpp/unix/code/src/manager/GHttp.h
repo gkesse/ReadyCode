@@ -7,6 +7,7 @@
 class GHttp : public GModule2 {
 public:
     GHttp();
+    GHttp(GModule2* _module);
     ~GHttp();
     //
     void setMethod(const GString2& _method);

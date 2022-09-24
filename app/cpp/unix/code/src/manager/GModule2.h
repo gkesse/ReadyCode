@@ -19,7 +19,6 @@ public:
     GString2 serialize(const GString2& _code = "request") const;
     bool deserialize(const GString2& _data, const GString2& _code = "request");
 
-    void setClient(GServer* _client);
     void setModule(const GString2& _module);
     void setMethod(const GString2& _method);
 
@@ -33,7 +32,7 @@ public:
 protected:
     GString2 m_module;
     GString2 m_method;
-    GServer* m_client;
+    GServer* m_server;
 };
 //==============================================
 #endif
