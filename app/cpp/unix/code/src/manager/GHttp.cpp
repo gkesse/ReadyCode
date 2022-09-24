@@ -95,7 +95,7 @@ void GHttp::setDate(const GString2& _date) {
 }
 //===============================================
 void GHttp::setServer(const GString2& _server) {
-    m_server = _server;
+    m_servers = _server;
 }
 //===============================================
 void GHttp::setLastModified(const GString2& _lastModified) {
@@ -144,7 +144,7 @@ void GHttp::runHttp() {
 bool GHttp::analyzeHeader() {
     int lIndex = 0;
     GString2 lLine = "";
-    GString2& lDataIn = m_client->getDataIn();
+    GString2& lDataIn = m_server->getDataIn();
 
     for(int i = 0; i < lDataIn.size(); i++) {
         char lChar = lDataIn[i];
@@ -249,7 +249,7 @@ bool GHttp::createGetData() {
     if(m_contentType == "") return false;
     if(m_contentLength == 0) return false;
 
-    GString2& lDataOut = m_client->getDataOut();
+    GString2& lDataOut = m_server->getDataOut();
     lDataOut += sformat("%s %d %s\r\n", m_version.c_str(), m_status, m_reason.c_str());
     lDataOut += sformat("Content-Type: %s\r\n", m_contentType.c_str());
     lDataOut += sformat("Content-Length: %d\r\n", m_contentLength);

@@ -7,22 +7,22 @@
 //===============================================
 GModule2::GModule2()
 : GObject2() {
-    m_client = 0;
+    m_server = 0;
 }
 //===============================================
 GModule2::GModule2(const GModule2& _module)
 : GObject2() {
-    m_client = _module.m_client;
+    m_server = _module.m_server;
 }
 //===============================================
 GModule2::GModule2(GModule2* _module)
 : GObject2() {
-    m_client = _module->m_client;
+    m_server = _module->m_server;
 }
 //===============================================
 GModule2::GModule2(GServer* _client)
 : GObject2() {
-    m_client = _client;
+    m_server = _client;
 }
 //===============================================
 GModule2::~GModule2() {
@@ -58,7 +58,7 @@ void GModule2::setMethod(const GString2& _method) {
 }
 //===============================================
 bool GModule2::onModule() {
-    deserialize(m_client->getRequest());
+    deserialize(m_server->getRequest());
     if(m_module == "connection") {
         onConnection();
     }
@@ -72,17 +72,17 @@ bool GModule2::onConnection() {
 }
 //===============================================
 GModule2& GModule2::operator=(const GModule2& _module) {
-    m_client = _module.m_client;
+    m_server = _module.m_server;
     return *this;
 }
 //===============================================
 GModule2& GModule2::operator=(GModule2* _module) {
-    m_client = _module->m_client;
+    m_server = _module->m_server;
     return *this;
 }
 //===============================================
 GModule2& GModule2::operator=(GServer* _client) {
-    m_client = _client;
+    m_server = _client;
     return *this;
 }
 //===============================================

@@ -24,7 +24,7 @@ protected:
     GString m_module;
     GString m_method;
 
-    GSocket2* m_client;
+    GSocket2* m_server;
 };
 //==============================================
 #endif

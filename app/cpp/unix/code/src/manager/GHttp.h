@@ -54,7 +54,7 @@ private:
     GString2 m_reason;
     GString2 m_contentType;
     GString2 m_date;
-    GString2 m_server;
+    GString2 m_servers;
     GString2 m_lastModified;
     GString2 m_content;
     GString2 m_cacheControl;

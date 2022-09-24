@@ -6,7 +6,7 @@
 //===============================================
 GModule2::GModule2(QObject* _parent)
 : GObject2(_parent) {
-    m_client = 0;
+    m_server = 0;
 }
 //===============================================
 GModule2::~GModule2() {
@@ -34,7 +34,7 @@ bool GModule2::deserialize(const GString& _data, const GString& _code) {
 }
 //===============================================
 void GModule2::setClient(GSocket2* _client) {
-    m_client = _client;
+    m_server = _client;
 }
 //===============================================
 void GModule2::setModule(const GString& _module) {
