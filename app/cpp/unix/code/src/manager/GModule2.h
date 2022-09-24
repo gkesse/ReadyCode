@@ -32,7 +32,7 @@ public:
 protected:
     GString2 m_module;
     GString2 m_method;
-    GServer* m_server;
+    GServer* m_client;
 };
 //==============================================
 #endif

@@ -7,22 +7,22 @@
 //===============================================
 GModule2::GModule2()
 : GObject2() {
-    m_server = 0;
+    m_client = 0;
 }
 //===============================================
 GModule2::GModule2(const GModule2& _module)
 : GObject2() {
-    m_server = _module.m_server;
+    m_client = _module.m_client;
 }
 //===============================================
 GModule2::GModule2(GModule2* _module)
 : GObject2() {
-    m_server = _module->m_server;
+    m_client = _module->m_client;
 }
 //===============================================
 GModule2::GModule2(GServer* _client)
 : GObject2() {
-    m_server = _client;
+    m_client = _client;
 }
 //===============================================
 GModule2::~GModule2() {
@@ -49,10 +49,6 @@ bool GModule2::deserialize(const GString2& _data, const GString2& _code) {
     return true;
 }
 //===============================================
-void GModule2::setClient(GServer* _client) {
-    m_server = _client;
-}
-//===============================================
 void GModule2::setModule(const GString2& _module) {
     m_module = _module;
 }
@@ -62,7 +58,7 @@ void GModule2::setMethod(const GString2& _method) {
 }
 //===============================================
 bool GModule2::onModule() {
-    deserialize(m_server->getRequest());
+    deserialize(m_client->getRequest());
     if(m_module == "connection") {
         onConnection();
     }
@@ -76,17 +72,17 @@ bool GModule2::onConnection() {
 }
 //===============================================
 GModule2& GModule2::operator=(const GModule2& _module) {
-    m_server = _module.m_server;
+    m_client = _module.m_client;
     return *this;
 }
 //===============================================
 GModule2& GModule2::operator=(GModule2* _module) {
-    m_server = _module->m_server;
+    m_client = _module->m_client;
     return *this;
 }
 //===============================================
 GModule2& GModule2::operator=(GServer* _client) {
-    m_server = _client;
+    m_client = _client;
     return *this;
 }
 //===============================================

@@ -56,11 +56,11 @@ bool GConnection::deserialize(const GString2& _data, const GString2& _code) {
 }
 //===============================================
 bool GConnection::onModule() {
-    deserialize(m_server->getRequest());
+    deserialize(m_client->getRequest());
     if(m_method == "run_connection") {
         onRunConnection();
     }
-    m_server->addResponse(this);
+    m_client->addResponse(this);
     return true;
 }
 //===============================================
