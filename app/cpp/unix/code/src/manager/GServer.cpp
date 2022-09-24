@@ -169,13 +169,8 @@ bool GServer::createData() {
     return true;
 }
 //===============================================
-bool GServer::addResponse(const GString2& _dom) {
-    m_domResponse->loadData(_dom);
-    return true;
-}
-//===============================================
-bool GServer::addResponse(GObject2* _obj) {
-    addResponse(_obj->serialize());
+bool GServer::addResponse(const GString2& _data) {
+    m_domResponse->loadData(_data);
     return true;
 }
 //===============================================
