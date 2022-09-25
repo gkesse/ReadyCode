@@ -1,6 +1,6 @@
 //===============================================
 #include "GConnection.h"
-#include "GLog.h"
+#include "GLog2.h"
 #include "GServer.h"
 #include "GCode2.h"
 #include "GMySQL2.h"
@@ -9,12 +9,14 @@
 GConnection::GConnection()
 : GModule2() {
     m_id = 0;
+    m_active = 0;
     m_isConnect = false;
 }
 //===============================================
 GConnection::GConnection(GModule2* _module)
 : GModule2(_module) {
     m_id = 0;
+    m_active = 0;
     m_isConnect = false;
 }
 //===============================================
@@ -48,7 +50,7 @@ bool GConnection::deserialize(const GString2& _data, const GString2& _code) {
     m_password = lDom.getData(_code, "password");
     m_email = lDom.getData(_code, "email");
     m_group = lDom.getData(_code, "group");
-    m_active = lDom.getData(_code, "active");
+    m_active = lDom.getData(_code, "active").toChar();
     m_isConnect = lDom.getData(_code, "is_connect").toBool();
     return true;
 }

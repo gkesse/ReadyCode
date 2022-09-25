@@ -1,6 +1,6 @@
 //===============================================
 #include "GServer.h"
-#include "GLog.h"
+#include "GLog2.h"
 #include "GHttp.h"
 #include "GCode2.h"
 //===============================================
@@ -142,6 +142,11 @@ bool GServer::readRequest() {
 bool GServer::analyzeRequest() {
     GModule2 lModule = this;
     lModule.onModule();
+    return true;
+}
+//===============================================
+bool GServer::integrateErrors() {
+    addResponse(GLOGI->serialize());
     return true;
 }
 //===============================================

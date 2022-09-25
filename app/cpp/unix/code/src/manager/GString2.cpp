@@ -17,6 +17,7 @@ GString2::GString2(const char* _data) {
 }
 //===============================================
 GString2::GString2(char _data) {
+    if(_data <= 0) _data = '';
     m_data = _data;
 }
 //===============================================
@@ -205,6 +206,7 @@ GString2& GString2::operator=(const char* _data) {
 }
 //===============================================
 GString2& GString2::operator=(char _data) {
+    if(_data <= 0) _data = '';
     m_data = _data;
     return *this;
 }

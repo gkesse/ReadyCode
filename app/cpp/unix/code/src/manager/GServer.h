@@ -33,6 +33,7 @@ public:
     bool isReadyApp();
     bool readRequest();
     bool analyzeRequest();
+    bool integrateErrors();
     bool createResponse();
     bool createData();
 
