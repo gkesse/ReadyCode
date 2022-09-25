@@ -64,7 +64,7 @@ GString GConnection::getPassword() const {
 bool GConnection::runConnection() {
     if(GLOGI->hasErrors()) return false;
     GString lData = serialize();
-    lData = GCLIENTI->callServer("connection", "run_connection", lData);
+    lData = GSERVER_CALL("connection", "run_connection", lData);
     deserialize(lData);
     return !GLOGI->hasErrors();
 }
