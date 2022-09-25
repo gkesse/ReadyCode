@@ -11,7 +11,7 @@ public:
     GModule2();
     GModule2(const GModule2& _module);
     GModule2(GModule2* _module);
-    GModule2(GServer* _client);
+    GModule2(GServer* _server);
     virtual ~GModule2();
 
     GObject2* clone() const;

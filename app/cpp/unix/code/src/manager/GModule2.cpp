@@ -20,9 +20,9 @@ GModule2::GModule2(GModule2* _module)
     m_server = _module->m_server;
 }
 //===============================================
-GModule2::GModule2(GServer* _client)
+GModule2::GModule2(GServer* _server)
 : GObject2() {
-    m_server = _client;
+    m_server = _server;
 }
 //===============================================
 GModule2::~GModule2() {
