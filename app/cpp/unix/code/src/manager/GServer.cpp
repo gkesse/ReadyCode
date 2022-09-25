@@ -61,7 +61,7 @@ GString2 GServer::getRequest() const {
 }
 //===============================================
 void GServer::run(int _argc, char** _argv) {
-    GLOGT(eGFUN, "");
+    GLOGT2(eGFUN, "");
     setModule("tcp");
     setHostname("0.0.0.0");
     setPort(9001);
