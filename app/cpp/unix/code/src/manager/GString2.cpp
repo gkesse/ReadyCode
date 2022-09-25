@@ -17,8 +17,7 @@ GString2::GString2(const char* _data) {
 }
 //===============================================
 GString2::GString2(char _data) {
-    if(_data <= 0) m_data = '';
-    else m_data = _data;
+    if(_data > 0) m_data = _data;
 }
 //===============================================
 GString2::GString2(bool _data) {
@@ -206,8 +205,7 @@ GString2& GString2::operator=(const char* _data) {
 }
 //===============================================
 GString2& GString2::operator=(char _data) {
-    if(_data <= 0) m_data = '';
-    else m_data = _data;
+    if(_data > 0) m_data = _data;
     return *this;
 }
 //===============================================
@@ -242,7 +240,7 @@ GString2& GString2::operator+=(int _data) {
 }
 //===============================================
 GString2& GString2::operator+=(char _data) {
-    m_data += _data;
+    if(_data > 0) m_data += _data;
     return *this;
 }
 //===============================================
@@ -266,6 +264,7 @@ bool GString2::operator==(const char* _data) const {
 }
 //===============================================
 bool GString2::operator==(char _data) const {
+    if(_data <= 0) return m_data.empty();
     bool lEqual = true;
     lEqual &= (m_data[0] == _data);
     return lEqual;
@@ -298,6 +297,7 @@ bool GString2::operator!=(const char* _data) const {
 }
 //===============================================
 bool GString2::operator!=(char _data) const {
+    if(_data <= 0) return !m_data.empty();
     bool lEqual = true;
     lEqual &= (m_data[0] != _data);
     return lEqual;
