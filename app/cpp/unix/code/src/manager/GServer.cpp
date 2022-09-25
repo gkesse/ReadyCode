@@ -146,7 +146,7 @@ bool GServer::analyzeRequest() {
 }
 //===============================================
 bool GServer::integrateErrors() {
-    addResponse(GLOGI->serialize());
+    addResponse(GLOG_SERIALIZE2());
     return true;
 }
 //===============================================
