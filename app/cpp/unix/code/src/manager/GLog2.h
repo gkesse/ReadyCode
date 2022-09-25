@@ -14,13 +14,13 @@
 #define eGFAT   7, __FILE__, __LINE__, __PRETTY_FUNCTION__
 #define eGLOG   8, __FILE__, __LINE__, __PRETTY_FUNCTION__
 //===============================================
-#define GLOGI GLog2::Instance()
-#define GERROR_ADD(x, ...)  GLOGI->addError(#x, x, sformat(__VA_ARGS__))
-#define GLOG_ADD(x, ...)    GLOGI->addLog(#x, x, sformat(__VA_ARGS__))
-#define GERROR_LOAD(x, y)   GLOGI->loadErrors(#x, x, y)
-#define GLOGT(x, ...)       GLOGI->traceLog(#x, x, sformat(__VA_ARGS__))
-#define GLOGW(x, ...)       GLOGI->writeLog(#x, x, sformat(__VA_ARGS__))
-#define GSTRC               GLOGI->toString
+#define GLOGI2 GLog2::Instance()
+#define GERROR_ADD2(x, ...)  GLOGI2->addError(#x, x, sformat(__VA_ARGS__))
+#define GLOG_ADD2(x, ...)    GLOGI2->addLog(#x, x, sformat(__VA_ARGS__))
+#define GERROR_LOAD2(x, y)   GLOGI2->loadErrors(#x, x, y)
+#define GLOGT2(x, ...)       GLOGI2->traceLog(#x, x, sformat(__VA_ARGS__))
+#define GLOGW2(x, ...)       GLOGI2->writeLog(#x, x, sformat(__VA_ARGS__))
+#define GSTRC2               GLOGI2->toString
 //===============================================
 class GLog2 : public GObject2 {
 public:

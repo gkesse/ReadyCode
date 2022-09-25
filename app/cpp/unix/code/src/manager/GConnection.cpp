@@ -65,15 +65,15 @@ bool GConnection::onModule() {
 }
 //===============================================
 bool GConnection::onRunConnection() {
-    if(m_pseudo == "") {GERROR_ADD(eGERR, "Le nom d'utilisateur est obligatoire."); return false;}
-    if(m_password == "") {GERROR_ADD(eGERR, "Le mot de passe est obligatoire."); return false;}
+    if(m_pseudo == "") {GERROR_ADD2(eGERR, "Le nom d'utilisateur est obligatoire."); return false;}
+    if(m_password == "") {GERROR_ADD2(eGERR, "Le mot de passe est obligatoire."); return false;}
     if(!loadUserPseudo()) return false;
-    if(m_id == 0) {GERROR_ADD(eGERR, "Le nom d'utilisateur n'existe pas encore."); return false;}
+    if(m_id == 0) {GERROR_ADD2(eGERR, "Le nom d'utilisateur n'existe pas encore."); return false;}
     if(!computePassword()) return false;
     if(!loadUserPassword()) return false;
-    if(m_id == 0) {GERROR_ADD(eGERR, "Le mot de passe est incorrect."); return false;}
+    if(m_id == 0) {GERROR_ADD2(eGERR, "Le mot de passe est incorrect."); return false;}
     if(!loadUser()) return false;
-    GLOG_ADD(eGLOG, "La connexion a réussi.");
+    GLOG_ADD2(eGLOG, "La connexion a réussi.");
     m_isConnect = true;
     if(!updateConnection()) return false;
     return true;
