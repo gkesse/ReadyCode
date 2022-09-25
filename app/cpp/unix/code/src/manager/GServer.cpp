@@ -89,6 +89,7 @@ bool GServer::onReadyApp() {
     if(!readData(m_diffSize)) return false;
     if(!readRequest()) return false;
     analyzeRequest();
+    integrateErrors();
     createResponse();
     createData();
     return true;
