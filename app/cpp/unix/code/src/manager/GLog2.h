@@ -21,7 +21,6 @@
 #define GLOGT2(x, ...)      GLOGI2->traceLog(#x, x, GFORMAT(__VA_ARGS__))
 #define GLOGW2(x, ...)      GLOGI2->writeLog(#x, x, GFORMAT(__VA_ARGS__))
 #define GSTRC2              GLOGI2->toString
-#define GLOG_SERIALIZE2()   GLOGI2->serialize()
 //===============================================
 class GLog2 : public GObject2 {
 public:
@@ -52,6 +51,7 @@ public:
     void showErrors(bool _isDebug, bool _isFileLog);
     bool hasErrors() const;
     bool hasLogs() const;
+    void clearMaps();
     void clearErrors();
     void clearLogs();
     void loadErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString2& _data);

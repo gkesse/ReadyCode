@@ -187,6 +187,10 @@ bool GLog2::hasLogs() const {
     return false;
 }
 //===============================================
+void GLog2::clearMaps() {
+    clearMap(m_map);
+}
+//===============================================
 void GLog2::clearErrors() {
     for(int i = 0; i < (int)m_map.size(); i++) {
         GLog2* lLog = (GLog2*)m_map.at(i);

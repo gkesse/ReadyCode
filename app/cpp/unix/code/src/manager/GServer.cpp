@@ -147,7 +147,8 @@ bool GServer::analyzeRequest() {
 }
 //===============================================
 bool GServer::integrateErrors() {
-    addResponse(GLOG_SERIALIZE2());
+    addResponse(GLOGI2->serialize());
+    GLOGI2->clearMaps();
     return true;
 }
 //===============================================
