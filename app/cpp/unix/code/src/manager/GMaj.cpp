@@ -125,7 +125,7 @@ void GMaj::loadId() {
 void GMaj::loadId(bool _isTestEnv) {
     if(m_code == "") return;
 
-    std::string lId = GMySQL().readData(sformat(""
+    std::string lId = GMySQL().readData(GFORMAT(""
             " select _id "
             " from maj "
             " where _code = '%s' "
@@ -151,7 +151,7 @@ void GMaj::insertData(bool _isTestEnv) {
     if(m_code == "") return;
     if(m_filename == "") return;
 
-    GMySQL().execQuery(sformat(""
+    GMySQL().execQuery(GFORMAT(""
             " insert into maj "
             " ( _code, _filename ) "
             " values ( '%s', '%s' ) "
@@ -165,7 +165,7 @@ void GMaj::updateData(bool _isTestEnv) {
     if(m_code == "") return;
     if(m_filename == "") return;
 
-    GMySQL().execQuery(sformat(""
+    GMySQL().execQuery(GFORMAT(""
             " update maj "
             " set _code = '%s' "
             " , _filename = '%s' "
@@ -182,7 +182,7 @@ void GMaj::runMaj() {
 //===============================================
 void GMaj::runMaj(bool _isTestEnv) {
     if(!m_id) {
-        std::string lFilename = sformat("%s/%s"
+        std::string lFilename = GFORMAT("%s/%s"
                 , m_path.c_str()
                 , m_filename.c_str());
         runMaj(lFilename, _isTestEnv);
@@ -192,7 +192,7 @@ void GMaj::runMaj(bool _isTestEnv) {
 void GMaj::runMaj(const std::string& _filename, bool _isTestEnv) {
     if(_filename == "") return;
     std::string lDatabase = GMySQL().loadDatabase(_isTestEnv);
-    std::string lCommand = sformat(""
+    std::string lCommand = GFORMAT(""
             " chmod a+x %s \n"
             " %s %s \n"
             "", _filename.c_str()

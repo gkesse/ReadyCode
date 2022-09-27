@@ -2,7 +2,7 @@
 #include "GEnv.h"
 #include "GLog.h"
 //===============================================
-GEnv::GEnv(QObject* _parent) : GObject(_parent) {
+GEnv::GEnv(QObject* _parent): GObject(_parent) {
 
 }
 //===============================================

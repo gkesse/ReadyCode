@@ -77,7 +77,7 @@ void GRequest::loadId() {
     if(m_module == "") return;
     if(m_method == "") return;
 
-    std::string lId = GMySQL().readData(sformat(""
+    std::string lId = GMySQL().readData(GFORMAT(""
             " select r._id "
             " from request r, user u "
             " where r._u_id = u._id "
@@ -94,7 +94,7 @@ void GRequest::loadId() {
 //===============================================
 void GRequest::loadRequestCount(GSocket* _client) {
     if(m_userId == 0) return;
-    std::string lData = GMySQL().readData(sformat(""
+    std::string lData = GMySQL().readData(GFORMAT(""
             " select count(*) "
             " from request r, user u "
             " where r._u_id = u._id "
@@ -108,7 +108,7 @@ void GRequest::loadRequestList(GSocket* _client) {
     if(m_userId == 0) return;
     if(!m_dataSize) return;
 
-    std::vector<std::vector<std::string>> lReq = GMySQL().readMap(sformat(""
+    std::vector<std::vector<std::string>> lReq = GMySQL().readMap(GFORMAT(""
             " select r._id, r._module, r._method, r._msg "
             " from request r, user u "
             " where r._u_id = u._id "
@@ -155,7 +155,7 @@ void GRequest::insertData() {
     if(m_method == "") return;
     if(m_msg == "") return;
 
-    GMySQL().execQuery(sformat(""
+    GMySQL().execQuery(GFORMAT(""
             " insert into request "
             " ( _u_id, _module, _method, _msg ) "
             " values ( %d, '%s', '%s', '%s' ) "
@@ -173,7 +173,7 @@ void GRequest::updateData() {
     if(m_method == "") return;
     if(m_msg == "") return;
 
-    GMySQL().execQuery(sformat(""
+    GMySQL().execQuery(GFORMAT(""
             " update request "
             " set _u_id = %d "
             " , _module = '%s' "

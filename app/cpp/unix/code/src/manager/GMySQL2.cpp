@@ -66,7 +66,7 @@ bool GMySQL2::openDatabase(bool _isTestEnv) {
 //===============================================
 bool GMySQL2::openDatabase(const GString2& _protocol, const GString2& _hostname, const GString2& _port, const GString2& _username, const GString2& _password, const GString2& _database) {
     m_driver = get_driver_instance();
-    GString2 lHostname = sformat("%s://%s:%s/%s", _protocol.c_str(), _hostname.c_str(), _port.c_str(), _database.c_str());
+    GString2 lHostname = GFORMAT("%s://%s:%s/%s", _protocol.c_str(), _hostname.c_str(), _port.c_str(), _database.c_str());
     m_con.reset(m_driver->connect(lHostname.c_str(), _username.c_str(), _password.c_str()));
     return true;
 }

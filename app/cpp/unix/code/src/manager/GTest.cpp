@@ -329,7 +329,7 @@ void GTest::runIntStringVector(int _argc, char** _argv) {
     std::string lData = lBuffer.data();
     int lNumber = std::stoi(lData);
     int lSize = lData.size();
-    std::string lFormat = sformat("%-*d", BUFFER_SIZE, lInt);
+    std::string lFormat = GFORMAT("%-*d", BUFFER_SIZE, lInt);
 
     GLOGT(eGINF, ""
             "int.....: [%d]\n"
@@ -439,7 +439,7 @@ void GTest::runPath(int _argc, char** _argv) {
 //===============================================
 void GTest::runFormat(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
-    GLOGT(eGINF, "%s\n", sformat("app : %s - v%s", "ReadyPad", "1.0").c_str());
+    GLOGT(eGINF, "%s\n", GFORMAT("app : %s - v%s", "ReadyPad", "1.0").c_str());
 }
 //===============================================
 void GTest::runXml(int _argc, char** _argv) {
@@ -990,7 +990,7 @@ void GTest::runMysql(int _argc, char** _argv) {
 //===============================================
 void GTest::runMysqlShell(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
-    std::string lCommand = sformat(""
+    std::string lCommand = GFORMAT(""
             " GUSER=admin \n"
             " GPASSWORD=xKCQY7GiGTVJ4l334QxN87@TKg \n"
             " ps_sql() { \n"
@@ -1006,7 +1006,7 @@ void GTest::runMysqlShell(int _argc, char** _argv) {
 //===============================================
 void GTest::runMysqlShellConfig(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
-    std::string lCommand = sformat(""
+    std::string lCommand = GFORMAT(""
             " GCONFIG=mysql/conf/pkg_config.cnf \n"
             " GCONFIG=$GPROJECT_DATA/$GCONFIG \n"
             " ps_sql() { \n"
@@ -1022,7 +1022,7 @@ void GTest::runMysqlShellConfig(int _argc, char** _argv) {
 //===============================================
 void GTest::runMysqlShellFile(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
-    std::string lCommand = sformat(""
+    std::string lCommand = GFORMAT(""
             " . $GPROJECT_DATA/mysql/pkg/pkg_var.sh \n"
             " . $GPKG/pkg_mysql.sh \n"
             " ps_sql \"show databases;\" \n"
@@ -1033,7 +1033,7 @@ void GTest::runMysqlShellFile(int _argc, char** _argv) {
 //===============================================
 void GTest::runMysqlShellScript(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
-    std::string lCommand = sformat(""
+    std::string lCommand = GFORMAT(""
             " $GPROJECT_DATA/mysql/pkg/pkg_maj.sh %s \n"
             "", "pad");
     std::string lOutput = GShell().runSystem(lCommand);
@@ -1042,7 +1042,7 @@ void GTest::runMysqlShellScript(int _argc, char** _argv) {
 //===============================================
 void GTest::runMysqlDB(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
-    std::string lCommand = sformat(""
+    std::string lCommand = GFORMAT(""
             " $GPROJECT_DATA/mysql/pkg/pkg_database.sh \n"
             "");
     std::string lOutput = GShell().runSystem(lCommand);
@@ -1083,8 +1083,8 @@ void GTest::runMysqlMajProd(int _argc, char** _argv) {
 void GTest::runShellSystem(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     std::string lCommand = "";
-    lCommand += sformat("echo \"Bonjour tout le monde\"\n");
-    lCommand += sformat("ls -l $HOME\n");
+    lCommand += GFORMAT("echo \"Bonjour tout le monde\"\n");
+    lCommand += GFORMAT("ls -l $HOME\n");
     std::string lData = GShell().runSystem(lCommand);
     GLOGT(eGINF, "%s", lData.c_str());
 }
@@ -1092,7 +1092,7 @@ void GTest::runShellSystem(int _argc, char** _argv) {
 void GTest::runEnv(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     std::string lTmp = GEnv().getEnv("GPROJECT_TMP");
-    std::string lCommand = sformat("if ! [ -d %s ] ; then mkdir -p %s ; fi", lTmp.c_str(), lTmp.c_str());
+    std::string lCommand = GFORMAT("if ! [ -d %s ] ; then mkdir -p %s ; fi", lTmp.c_str(), lTmp.c_str());
     GLOGT(eGINF, "%s", lCommand.c_str());
 }
 //===============================================
@@ -1119,12 +1119,12 @@ void GTest::runLog(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     std::string lDate = GDate().getDate(GDate().getDateTimeLogFormat());
     std::string lLog = "";
-    lLog += sformat("__FILE__.............: %s\n", __FILE__);
-    lLog += sformat("__LINE__.............: %d\n", __LINE__);
-    lLog += sformat("__FUNCTION__.........: %s\n", __FUNCTION__);
-    lLog += sformat("__PRETTY_FUNCTION__..: %s\n", __PRETTY_FUNCTION__);
-    lLog += sformat("__func__.............: %s\n", __func__);
-    lLog += sformat("=====> [%s] : %s : %s : [%d] : %s :\n%s", "INFO", lDate.c_str(), __FILE__, __LINE__, __PRETTY_FUNCTION__, "Bonjour tout le monde");
+    lLog += GFORMAT("__FILE__.............: %s\n", __FILE__);
+    lLog += GFORMAT("__LINE__.............: %d\n", __LINE__);
+    lLog += GFORMAT("__FUNCTION__.........: %s\n", __FUNCTION__);
+    lLog += GFORMAT("__PRETTY_FUNCTION__..: %s\n", __PRETTY_FUNCTION__);
+    lLog += GFORMAT("__func__.............: %s\n", __func__);
+    lLog += GFORMAT("=====> [%s] : %s : %s : [%d] : %s :\n%s", "INFO", lDate.c_str(), __FILE__, __LINE__, __PRETTY_FUNCTION__, "Bonjour tout le monde");
     GLOGT(eGINF, "%s", lLog.c_str());
 }
 //===============================================
@@ -1191,8 +1191,8 @@ void GTest::runMd5Key(int _argc, char** _argv) {
 
     std::string lData1 = "hello";
     std::string lData2 = GMd5().encodeData(lData1);
-    std::string lData3 = sformat("%s;%d", lData2.c_str(), 350);
-    std::string lData4 = sformat("%-*s", 100, lData3.c_str());
+    std::string lData3 = GFORMAT("%s;%d", lData2.c_str(), 350);
+    std::string lData4 = GFORMAT("%-*s", 100, lData3.c_str());
 
     GLOGT(eGINF, ""
             "1............: (%s)\n"

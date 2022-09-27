@@ -4,9 +4,8 @@
 //===============================================
 #include "GInclude.h"
 //===============================================
-#define GSTRINGI GString::Instance()
-//===============================================
-#define sformat(...) GSTRINGI->getFormat(__VA_ARGS__)
+#define GSTRINGI        GString::Instance()
+#define GFORMAT(...)    GSTRINGI->getFormat(__VA_ARGS__)
 //===============================================
 class GString {
 public:

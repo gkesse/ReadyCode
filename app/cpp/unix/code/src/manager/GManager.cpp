@@ -134,11 +134,11 @@ bool GManager::createCode() {
 //===============================================
 bool GManager::searchCode() {
     if(m_id != 0) {
-        m_where += sformat(" and _id = %d ", m_id);
+        m_where += GFORMAT(" and _id = %d ", m_id);
     }
     else {
         if(m_code != "") {
-            m_where += sformat(" and _code like lower('%%%s%%') ", m_code.c_str());
+            m_where += GFORMAT(" and _code like lower('%%%s%%') ", m_code.c_str());
         }
     }
     //
@@ -156,7 +156,7 @@ bool GManager::searchCode() {
 //===============================================
 bool GManager::updateCode() {
     if(m_id == 0) {GERROR_ADD(eGERR, "L'identifiant n'est pas défini."); return false;}
-    GMySQL().execQuery(sformat(""
+    GMySQL().execQuery(GFORMAT(""
             " update _code "
             " set _code = '%s' "
             " , _label = '%s' "
@@ -169,7 +169,7 @@ bool GManager::updateCode() {
 //===============================================
 bool GManager::deleteCode() {
     if(m_id == 0) {GERROR_ADD(eGERR, "L'identifiant n'est pas défini."); return false;}
-    GMySQL().execQuery(sformat(""
+    GMySQL().execQuery(GFORMAT(""
             " delete from _code "
             " where _id = %d "
             "", m_id));
@@ -178,7 +178,7 @@ bool GManager::deleteCode() {
 //===============================================
 bool GManager::loadId() {
     if(m_code == "") return false;
-    std::string lData = GMySQL().readData(sformat(""
+    std::string lData = GMySQL().readData(GFORMAT(""
             " select _id "
             " from _code "
             " where _code = lower('%s') "
@@ -189,7 +189,7 @@ bool GManager::loadId() {
 }
 //===============================================
 bool GManager::loadLastId() {
-    std::string lLastId = GMySQL().readData(sformat(""
+    std::string lLastId = GMySQL().readData(GFORMAT(""
             " select _id "
             " from _code "
             " order by _id desc "
@@ -202,7 +202,7 @@ bool GManager::loadLastId() {
 }
 //===============================================
 bool GManager::loadDataCount() {
-    std::string lCount = GMySQL().readData(sformat(""
+    std::string lCount = GMySQL().readData(GFORMAT(""
             " select count(*) "
             " from _code "
             " %s "
@@ -215,7 +215,7 @@ bool GManager::loadDataCount() {
 }
 //===============================================
 bool GManager::loadDataMap() {
-    std::vector<std::vector<std::string>> lMap = GMySQL().readMap(sformat(""
+    std::vector<std::vector<std::string>> lMap = GMySQL().readMap(GFORMAT(""
             " select _id, _code, _label "
             " from _code "
             " %s "
@@ -254,7 +254,7 @@ bool GManager::insertData() {
     if(m_id != 0) return false;
     if(m_code == "") return false;
 
-    m_id = GMySQL().execQuery(sformat(""
+    m_id = GMySQL().execQuery(GFORMAT(""
             " insert into _code "
             " ( _code, _label ) "
             " values ( lower('%s'), '%s' ) "
@@ -269,7 +269,7 @@ bool GManager::updateData() {
     if( m_id == 0) return false;
     if(m_code == "") return false;
 
-    GMySQL().execQuery(sformat(""
+    GMySQL().execQuery(GFORMAT(""
             " update _user "
             " set _code = '%s' "
             " , _label = '%s' "

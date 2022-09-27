@@ -25,15 +25,16 @@
 #define GLOGT2(x, y)        GLOGI2->traceLog(#x, x, y)
 #define GLOGW2(x, y)        GLOGI2->writeLog(#x, x, y)
 #define GSTRC2              GLOGI2->toString
+#define GLOG_DESERIALIZE2   GLOGI2->deserialize
 //===============================================
 class GLog2 : public GObject2 {
 public:
     GLog2(QObject* _parent = 0);
     ~GLog2();
     static GLog2* Instance();
-    GObject* clone();
+    GObject2* clone() const;
     GString serialize(const GString& _code = "logs") const;
-    void deserialize(const GString& _data, const GString& _code = "logs");
+    bool deserialize(const GString& _data, const GString& _code = "logs");
     //
     bool isDebug() const;
     bool isDebug(bool _isTestEnv) const;
@@ -75,8 +76,8 @@ public:
     GString toStringError();
     GString toStringLog();
     GString toString(bool _data) const;
-    GString toString(const QVector<GString>& _data) const;
-    GString toString(const QVector<QVector<GString>>& _data) const;
+    GString toString(const std::vector<GString>& _data) const;
+    GString toString(const std::vector<std::vector<GString>>& _data) const;
 
 private:
     static GLog2* m_instance;
@@ -84,7 +85,7 @@ private:
     GString m_type;
     GString m_side;
     GString m_msg;
-    QVector<GObject*> m_map;
+    std::vector<GObject2*> m_map;
     //
     FILE* m_file;
     bool m_isConnectionError;

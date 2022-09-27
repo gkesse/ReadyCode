@@ -130,7 +130,7 @@ bool GUser::createAccount() {
 }
 //===============================================
 bool GUser::loadUserPseudo() {
-    std::string lData = GMySQL().readData(sformat(""
+    std::string lData = GMySQL().readData(GFORMAT(""
             " select _id "
             " from _user "
             " where _pseudo = '%s' "
@@ -144,7 +144,7 @@ bool GUser::loadUserPseudo() {
 bool GUser::loadUserPassword() {
     if(m_id == 0) return false;
     if(m_passwordMd5 == "") return false;
-    std::string lData = GMySQL().readData(sformat(""
+    std::string lData = GMySQL().readData(GFORMAT(""
             " select _id "
             " from _user "
             " where _id = %d "
@@ -160,7 +160,7 @@ bool GUser::loadUserPassword() {
 bool GUser::loadUser() {
     if(m_id == 0) return false;
 
-    std::vector<std::string> lRow = GMySQL().readRow(sformat(""
+    std::vector<std::string> lRow = GMySQL().readRow(GFORMAT(""
             " select _email, _pseudo, _group, _active "
             " from _user "
             " where _id = %d "
@@ -179,7 +179,7 @@ bool GUser::loadUser() {
 bool GUser::computePassword() {
     if(m_pseudo == "") return false;
     if(m_password == "") return false;
-    m_passwordMd5 = sformat("%s|%s", m_pseudo.c_str(), m_password.c_str());
+    m_passwordMd5 = GFORMAT("%s|%s", m_pseudo.c_str(), m_password.c_str());
     m_passwordMd5 = GMd5().encodeData(m_passwordMd5);
     return true;
 }
@@ -194,7 +194,7 @@ bool GUser::insertUser() {
     if(m_pseudo == "") return false;
     if(m_passwordMd5 == "") return false;
 
-    m_id = GMySQL().execQuery(sformat(""
+    m_id = GMySQL().execQuery(GFORMAT(""
             " insert into _user "
             " ( _pseudo, _password ) "
             " values ( '%s', '%s' ) "
@@ -210,7 +210,7 @@ bool GUser::updateUser() {
     if(m_pseudo == "") return false;
     if(m_password == "") return false;
 
-    GMySQL().execQuery(sformat(""
+    GMySQL().execQuery(GFORMAT(""
             " update _user "
             " set _pseudo = '%s' "
             " , _password = '%s' "
@@ -226,7 +226,7 @@ bool GUser::updateUser() {
 bool GUser::updateConnection() {
     if( m_id == 0) return false;
 
-    GMySQL().execQuery(sformat(""
+    GMySQL().execQuery(GFORMAT(""
             " update _user "
             " set _connect = '%d' "
             " , _d_connect = now() "

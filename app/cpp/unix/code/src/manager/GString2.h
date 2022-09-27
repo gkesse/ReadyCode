@@ -6,7 +6,7 @@
 //===============================================
 #define GSTRINGI GString2::Instance()
 //===============================================
-#define sformat(...) GSTRINGI->getFormat(__VA_ARGS__)
+#define GFORMAT(...) GSTRINGI->getFormat(__VA_ARGS__)
 //===============================================
 class GString2 {
 public:

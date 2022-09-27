@@ -17,19 +17,19 @@ void GCode::createReq(const std::string& _module, const std::string& _method) {
 }
 //===============================================
 bool GCode::hasCode() {
-    queryXPath(sformat("/rdv/datas/data[code]"));
+    queryXPath(GFORMAT("/rdv/datas/data[code]"));
     int lCount = countXPath();
     return (lCount != 0);
 }
 //===============================================
 bool GCode::hasCode(const std::string& _code) {
-    queryXPath(sformat("/rdv/datas/data[code='%s']", _code.c_str()));
+    queryXPath(GFORMAT("/rdv/datas/data[code='%s']", _code.c_str()));
     int lCount = countXPath();
     return (lCount != 0);
 }
 //===============================================
 bool GCode::hasCode(const std::string& _code, const std::string& _key) {
-    queryXPath(sformat("/rdv/datas/data[code='%s']/%s", _code.c_str(), _key.c_str()));
+    queryXPath(GFORMAT("/rdv/datas/data[code='%s']/%s", _code.c_str(), _key.c_str()));
     int lCount = countXPath();
     return (lCount != 0);
 }
@@ -93,24 +93,24 @@ bool GCode::addData(const std::string& _code, const std::vector<GObject*>& _data
 }
 //===============================================
 bool GCode::getCode(const std::string& _code) {
-    getXPath(sformat("/rdv/datas/data[code='%s']", _code.c_str()));
+    getXPath(GFORMAT("/rdv/datas/data[code='%s']", _code.c_str()));
     return true;
 }
 //===============================================
 bool GCode::getCode(const std::string& _code, const std::string& _key) {
-    getXPath(sformat("/rdv/datas/data[code='%s']/%s", _code.c_str(), _key.c_str()));
+    getXPath(GFORMAT("/rdv/datas/data[code='%s']/%s", _code.c_str(), _key.c_str()));
     return true;
 }
 //===============================================
 std::string GCode::getItem(const std::string& _code, const std::string& _key) {
-    queryXPath(sformat("/rdv/datas/data[code='%s']/%s", _code.c_str(), _key.c_str()));
+    queryXPath(GFORMAT("/rdv/datas/data[code='%s']/%s", _code.c_str(), _key.c_str()));
     getNodeXPath();
     std::string lData = getNodeValue();
     return lData;
 }
 //===============================================
 std::string GCode::getItem(const std::string& _code, const std::string& _key, int _index) {
-    getXPath(sformat("/rdv/datas/data[code='%s']/map/data[position()=%d]/%s", _code.c_str(), _index + 1, _key.c_str()));
+    getXPath(GFORMAT("/rdv/datas/data[code='%s']/map/data[position()=%d]/%s", _code.c_str(), _index + 1, _key.c_str()));
     std::string lData = getNodeValue();
     return lData;
 }
@@ -128,7 +128,7 @@ bool GCode::getItem(const std::string& _code, std::vector<GObject*>& _datas, GOb
 }
 //===============================================
 std::string GCode::getMap(const std::string& _code, int _index) {
-    getXPath(sformat("/rdv/datas/data[code='%s']/map/data[position()=%d]", _code.c_str(), _index + 1));
+    getXPath(GFORMAT("/rdv/datas/data[code='%s']/map/data[position()=%d]", _code.c_str(), _index + 1));
     std::string lData = toStringNode();
     GCode lDom;
     lDom.createDoc();
@@ -138,7 +138,7 @@ std::string GCode::getMap(const std::string& _code, int _index) {
 }
 //===============================================
 int GCode::countItem(const std::string& _code) {
-    queryXPath(sformat("/rdv/datas/data[code='%s']/map/data", _code.c_str()));
+    queryXPath(GFORMAT("/rdv/datas/data[code='%s']/map/data", _code.c_str()));
     int lData = countXPath();
     return lData;
 }
@@ -151,7 +151,7 @@ bool GCode::loadCode(const std::string& _data, bool _isRoot) {
 }
 //===============================================
 std::string GCode::toStringCode(const std::string& _code) {
-    queryXPath(sformat("/rdv/datas/data[code='%s']", _code.c_str()));
+    queryXPath(GFORMAT("/rdv/datas/data[code='%s']", _code.c_str()));
     getNodeXPath();
     std::string lData = toStringNode();
     return lData;
@@ -160,7 +160,7 @@ std::string GCode::toStringCode(const std::string& _code) {
 std::string GCode::toStringData() {
     std::string lData = "";
     if(hasCode()) {
-        queryXPath(sformat("/rdv/datas/data"));
+        queryXPath(GFORMAT("/rdv/datas/data"));
         int lCount = countXPath();
         for(int i = 0; i < lCount; i++) {
             getNodeXPath(i);

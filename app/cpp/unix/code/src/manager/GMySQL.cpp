@@ -63,7 +63,7 @@ bool GMySQL::openDatabase(bool _isTestEnv) {
 //===============================================
 bool GMySQL::openDatabase(const std::string& _protocol, const std::string& _hostname, const std::string& _port, const std::string& _username, const std::string& _password, const std::string& _database) {
     m_driver = get_driver_instance();
-    std::string lHostname = sformat("%s://%s:%s/%s", _protocol.c_str(), _hostname.c_str(), _port.c_str(), _database.c_str());
+    std::string lHostname = GFORMAT("%s://%s:%s/%s", _protocol.c_str(), _hostname.c_str(), _port.c_str(), _database.c_str());
     m_con.reset(m_driver->connect(lHostname, _username, _password));
     return true;
 }

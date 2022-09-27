@@ -51,15 +51,15 @@ bool GCode2::getCode() {
 }
 //===============================================
 bool GCode2::getCode(const GString2& _code) {
-    return getNode(sformat("/rdv/datas/data[code='%s']", _code.c_str()));
+    return getNode(GFORMAT("/rdv/datas/data[code='%s']", _code.c_str()));
 }
 //===============================================
 bool GCode2::getCode(const GString2& _code, const GString2& _key) {
-    return getNode(sformat("/rdv/datas/data[code='%s']/%s", _code.c_str(), _key.c_str()));
+    return getNode(GFORMAT("/rdv/datas/data[code='%s']/%s", _code.c_str(), _key.c_str()));
 }
 //===============================================
 bool GCode2::getMap(const GString2& _code, int _index) {
-    return getNode(sformat("/rdv/datas/data[code='%s']/map/data[position()=%d]", _code.c_str(), _index + 1));
+    return getNode(GFORMAT("/rdv/datas/data[code='%s']/map/data[position()=%d]", _code.c_str(), _index + 1));
 }
 //===============================================
 GString2 GCode2::getData(const GString2& _code, const GString2& _key) {
@@ -73,7 +73,7 @@ bool GCode2::getData(const GString2& _code, std::vector<GObject2*>& _map, GObjec
     for(int i = 0; i < lCount; i++) {
         getMap(_code, i);
         GString2 lData = toNode();
-        lData = sformat("<rdv>%s</rdv>", lData.c_str());
+        lData = GFORMAT("<rdv>%s</rdv>", lData.c_str());
         GCode2 lDom;
         lDom.createDoc();
         lDom.createCode();
@@ -114,12 +114,12 @@ bool GCode2::addData(const GString2& _code, const std::vector<GObject2*>& _map) 
 }
 //===============================================
 int GCode2::countMap(const GString2& _code) {
-    int lData = countNode(sformat("/rdv/datas/data[code='%s']/map/data", _code.c_str()));
+    int lData = countNode(GFORMAT("/rdv/datas/data[code='%s']/map/data", _code.c_str()));
     return lData;
 }
 //===============================================
 bool GCode2::hasCode() {
-    int lCount = countNode(sformat("/rdv/datas/data[code]"));
+    int lCount = countNode(GFORMAT("/rdv/datas/data[code]"));
     return (lCount != 0);
 }
 //===============================================

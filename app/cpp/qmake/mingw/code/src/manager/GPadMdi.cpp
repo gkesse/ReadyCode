@@ -8,7 +8,7 @@
 #include "GStyle.h"
 #include "GPath.h"
 #include "GPicto.h"
-#include "GLog.h"
+#include "GLog2.h"
 #include "GConnection.h"
 #include "GClient.h"
 //===============================================
@@ -98,8 +98,8 @@ void GPadMdi::onEvent(QAction* _action) {
     else {
         onErrorKey(lKey);
     }
-    GERROR_SHOWG(eGERR);
-    GLOG_SHOWG(eGERR);
+    GERROR_SHOWG2(eGERR);
+    GLOG_SHOWG2(eGERR);
 }
 //===============================================
 void GPadMdi::onEvent(QMdiSubWindow* _window) {

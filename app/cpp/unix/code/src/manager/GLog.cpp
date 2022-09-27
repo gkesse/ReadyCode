@@ -114,7 +114,7 @@ void GLog::closeLogFile() {
 void GLog::catLogFile() {
     std::string lLogFile = GFile().getLogFullname();
     GFile lFileObj(lLogFile);
-    std::string lData = sformat(""
+    std::string lData = GFORMAT(""
             "Erreur le fichier log n'existe pas.\n"
             "fichier......: (%s)\n"
             "", lLogFile.c_str());
@@ -127,7 +127,7 @@ void GLog::catLogFile() {
 void GLog::tailLogFile(bool _isTestEnv) {
     std::string lLogFile = GFile().getLogFullname(_isTestEnv);
     GFile lFileObj(lLogFile);
-    std::string lData = sformat(""
+    std::string lData = GFORMAT(""
             "Erreur le fichier log n'existe pas.\n"
             "fichier......: (%s)\n"
             "", lLogFile.c_str());

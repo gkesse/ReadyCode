@@ -81,13 +81,13 @@ std::string GFile::getDateFilename(const std::string& _key, const std::string& _
 }
 //===============================================
 std::string GFile::getFilename(const std::string& _key, const std::string& _date, const std::string& _ext) const {
-    std::string lFilename = sformat("%s%s%s", _key.c_str(), _date.c_str(), _ext.c_str());
+    std::string lFilename = GFORMAT("%s%s%s", _key.c_str(), _date.c_str(), _ext.c_str());
     return lFilename;
 }
 //===============================================
 std::string GFile::getFullname(const std::string& _path, const std::string& _filename) const {
     GShell().createDir(_path);
-    std::string lFilename = sformat("%s/%s", _path.c_str(), _filename.c_str());
+    std::string lFilename = GFORMAT("%s/%s", _path.c_str(), _filename.c_str());
     return lFilename;
 }
 //===============================================

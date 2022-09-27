@@ -1,6 +1,6 @@
 //===============================================
 #include "GClient.h"
-#include "GLog.h"
+#include "GLog2.h"
 #include "GCode2.h"
 //===============================================
 GClient* GClient::m_instance = 0;
@@ -61,6 +61,7 @@ GString GClient::callServer(const GString& _module, const GString& _method, cons
     GString lData = lDom.toString();
     setRequest(lData);
     GSocket2::callServer();
+    GLOG_DESERIALIZE2(m_response);
     return m_response;
 }
 //===============================================
@@ -74,12 +75,12 @@ bool GClient::createData() {
     int lSize = m_request.size();
 
     m_dataOut = "";
-    m_dataOut += sformat("%s;", m_method.c_str());
-    m_dataOut += sformat("api_key:%s|", m_apiKey.c_str());
-    m_dataOut += sformat("username:%s|", m_username.c_str());
-    m_dataOut += sformat("password:%s|", m_password.c_str());
-    m_dataOut += sformat("size:%d;", lSize);
-    m_dataOut += sformat("%s", m_request.c_str());
+    m_dataOut += GFORMAT("%s;", m_method.c_str());
+    m_dataOut += GFORMAT("api_key:%s|", m_apiKey.c_str());
+    m_dataOut += GFORMAT("username:%s|", m_username.c_str());
+    m_dataOut += GFORMAT("password:%s|", m_password.c_str());
+    m_dataOut += GFORMAT("size:%d;", lSize);
+    m_dataOut += GFORMAT("%s", m_request.c_str());
 
     return true;
 }
@@ -132,6 +133,12 @@ bool GClient::isReadyApp() {
 }
 //===============================================
 bool GClient::readResponse() {
+    m_response = m_dataIn.substr(m_headerSize);
+    if(m_response == "") return false;
+    return true;
+}
+//===============================================
+bool GClient::loadErrors() {
     m_response = m_dataIn.substr(m_headerSize);
     if(m_response == "") return false;
     return true;

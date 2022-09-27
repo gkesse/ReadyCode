@@ -1,23 +1,23 @@
 //===============================================
 #include "GFile2.h"
 #include "GShell2.h"
-#include "GEnv.h"
-#include "GDate.h"
+#include "GEnv2.h"
+#include "GDate2.h"
 //===============================================
-GFile2::GFile2()
-: GObject2() {
+GFile2::GFile2(QObject* _parent)
+: GObject2(_parent) {
     m_filename = "";
     m_openType = "";
 }
 //===============================================
-GFile2::GFile2(const GString2& _filename)
-: GObject2() {
+GFile2::GFile2(const GString& _filename, QObject* _parent)
+: GObject2(_parent) {
     m_filename = _filename;
     m_openType = "";
 }
 //===============================================
-GFile2::GFile2(const GString2& _filename, const GString2& _openType)
-: GObject2() {
+GFile2::GFile2(const GString& _filename, const GString& _openType, QObject* _parent)
+: GObject2(_parent) {
     m_filename = _filename;
     m_openType = _openType;
 }
@@ -28,69 +28,69 @@ GFile2::~GFile2() {
 //===============================================
 bool GFile2::existFile() const {
     if(m_filename == "") return false;
-    struct stat lBuffer;
-    return (stat(m_filename.c_str(), &lBuffer) == 0);
+    std::ifstream lFile(m_filename.data());
+    return lFile.good();
 }
 //===============================================
-GString2 GFile2::getContent() const {
+GString GFile2::getContent() const {
     if(m_filename == "") return "";
     if(!existFile()) return "";
     std::ifstream lFile(m_filename.data());
     std::stringstream lBuffer;
     lBuffer << lFile.rdbuf();
-    return lBuffer.str();
+    return lBuffer.str().c_str();
 }
 //===============================================
-void GFile2::setContent(const GString2& _data) {
+void GFile2::setContent(const GString& _data) {
     if(m_filename == "") return;
     std::ofstream lFile(m_filename.data());
-    lFile << _data;
+    lFile << _data.data();
 }
 //===============================================
-GString2 GFile2::getAppendType() const {
+GString GFile2::getAppendType() const {
     return "a+";
 }
 //===============================================
-GString2 GFile2::getLogFullname() const {
-    return getLogFullname(GEnv().isTestEnv());
+GString GFile2::getLogFullname() const {
+    return getLogFullname(GEnv2().isTestEnv());
 }
 //===============================================
-GString2 GFile2::getLogFullname(bool _isTestEnv) const {
-    GString2 lFilename = getDateFullname("log_prod_", ".txt");
+GString GFile2::getLogFullname(bool _isTestEnv) const {
+    GString lFilename = getDateFullname("log_prod_", ".txt");
     if(_isTestEnv) lFilename = getDateFullname("log_test_", ".txt");
     return lFilename;
 }
 //===============================================
-GString2 GFile2::getScriptInFilename() const {
-    GString2 lFilename = getDateFilename("script_", "_in.txt");
+GString GFile2::getScriptInFilename() const {
+    GString lFilename = getDateFilename("script_", "_in.txt");
     return lFilename;
 }
 //===============================================
-GString2 GFile2::getScriptOutFilename() const {
-    GString2 lFilename = getDateFilename("script_", "_out.txt");
+GString GFile2::getScriptOutFilename() const {
+    GString lFilename = getDateFilename("script_", "_out.txt");
     return lFilename;
 }
 //===============================================
-GString2 GFile2::getDateFullname(const GString2& _key, const GString2& _ext) const {
-    GString2 lTmpDir = GEnv().getTmpDir();
-    GString2 lFilename = getDateFilename(_key, _ext);
+GString GFile2::getDateFullname(const GString& _key, const GString& _ext) const {
+    GString lTmpDir = GEnv2().getTmpDir();
+    GString lFilename = getDateFilename(_key, _ext);
     lFilename = getFullname(lTmpDir, lFilename);
     return lFilename;
 }
 //===============================================
-GString2 GFile2::getDateFilename(const GString2& _key, const GString2& _ext) const {
-    GString2 lDate = GDate().getDate(GDate().getDateFileFormat());
+GString GFile2::getDateFilename(const GString& _key, const GString& _ext) const {
+    GString lDate = GDate2().getDate(GDate2().getDateFileFormat());
     return getFilename(_key, lDate, _ext);
 }
 //===============================================
-GString2 GFile2::getFilename(const GString2& _key, const GString2& _date, const GString2& _ext) const {
-    GString2 lFilename = GFORMAT("%s%s%s", _key.c_str(), _date.c_str(), _ext.c_str());
+GString GFile2::getFilename(const GString& _key, const GString& _date, const GString& _ext) const {
+    GString lFilename = GFORMAT("%s%s%s", _key.c_str(), _date.c_str(), _ext.c_str());
     return lFilename;
 }
 //===============================================
-GString2 GFile2::getFullname(const GString2& _path, const GString2& _filename) const {
+GString GFile2::getFullname(const GString& _path, const GString& _filename) const {
     GShell2().createDir(_path);
-    GString2 lFilename = GFORMAT("%s/%s", _path.c_str(), _filename.c_str());
+    GString lFilename = GFORMAT("%s/%s", _path.c_str(), _filename.c_str());
     return lFilename;
 }
 //===============================================
@@ -106,13 +106,13 @@ FILE* GFile2::openFile() {
     return lFile;
 }
 //===============================================
-FILE* GFile2::openFile(const GString2& _openType) {
+FILE* GFile2::openFile(const GString& _openType) {
     if(m_filename == "") return 0;
     FILE* lFile = fopen(m_filename.c_str(), _openType.c_str());
     return lFile;
 }
 //===============================================
-FILE* GFile2::openFile(const GString2& _filename, const GString2& _openType) {
+FILE* GFile2::openFile(const GString& _filename, const GString& _openType) {
     FILE* lFile = fopen(_filename.c_str(), _openType.c_str());
     m_filename = _filename;
     m_openType = _openType;

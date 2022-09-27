@@ -123,8 +123,8 @@ void GTestSocket::runMap(int _argc, char** _argv) {
     std::vector<GObject2*> lMap;
     for(int i = 0; i < 5; i++) {
         GModule2* lModule = new GModule2;
-        lModule->setModule(sformat("module[%d]", i + 1));
-        lModule->setMethod(sformat("method[%d]", i + 1));
+        lModule->setModule(GFORMAT("module[%d]", i + 1));
+        lModule->setMethod(GFORMAT("method[%d]", i + 1));
         lMap.push_back(lModule);
     }
 

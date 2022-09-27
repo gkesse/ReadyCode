@@ -27,6 +27,7 @@ public:
     bool onReadyApp();
     bool isReadyApp();
     bool readResponse();
+    bool loadErrors();
 
 private:
     static const int BUFFER_SIZE = 1024;

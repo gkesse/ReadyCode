@@ -86,7 +86,7 @@ void GAsync::insertData() {
     if(m_title == "") return;
     if(m_status == "") return;
 
-    m_id = GMySQL().execQuery(sformat(""
+    m_id = GMySQL().execQuery(GFORMAT(""
             " insert into async "
             " ( _u_id, _title, _status, _data ) "
             " values ( %d, '%s', '%s', '%s' ) "
@@ -103,7 +103,7 @@ void GAsync::updateData() {
     if(m_title == "") return;
     if(m_status == "") return;
 
-    GMySQL().execQuery(sformat(""
+    GMySQL().execQuery(GFORMAT(""
             " update async "
             " set _u_id = %d "
             " , _title = '%s' "

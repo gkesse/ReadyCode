@@ -19,7 +19,7 @@ std::vector<std::string> GDir::openDir(const std::string& _path, bool _fullOn, b
             std::string lFile = lEntry->d_name;
             if(!_dotOn && lFile == ".") continue;
             if(!_dotOn && lFile == "..") continue;
-            if(_fullOn) lFile = sformat("%s/%s", _path.c_str(), lFile.c_str());
+            if(_fullOn) lFile = GFORMAT("%s/%s", _path.c_str(), lFile.c_str());
             lFiles.push_back(lFile);
         }
         closedir(lDir);

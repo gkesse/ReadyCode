@@ -106,7 +106,7 @@ void GLog2::closeLogFile() {
 void GLog2::catLogFile() {
     GString2 lLogFile = GFile2().getLogFullname();
     GFile2 lFileObj(lLogFile);
-    GString2 lData = sformat(""
+    GString2 lData = GFORMAT(""
             "Erreur le fichier log n'existe pas.\n"
             "fichier......: (%s)\n"
             "", lLogFile.c_str());
@@ -119,7 +119,7 @@ void GLog2::catLogFile() {
 void GLog2::tailLogFile(bool _isTestEnv) {
     GString2 lLogFile = GFile2().getLogFullname(_isTestEnv);
     GFile2 lFileObj(lLogFile);
-    GString2 lData = sformat(""
+    GString2 lData = GFORMAT(""
             "Erreur le fichier log n'existe pas.\n"
             "fichier......: (%s)\n"
             "", lLogFile.c_str());
@@ -164,7 +164,7 @@ void GLog2::showErrors(bool _isDebug, bool _isFileLog) {
             lErrors += lLog->m_msg;
         }
     }
-    GLOGT(eGERR, "%s", lErrors.c_str());
+    GLOGT2(eGERR, "%s", lErrors.c_str());
 }
 //===============================================
 bool GLog2::hasErrors() const {

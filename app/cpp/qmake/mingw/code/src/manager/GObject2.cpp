@@ -1,5 +1,7 @@
 //===============================================
 #include "GObject2.h"
+#include "GCode2.h"
+#include "GPath2.h"
 //===============================================
 GObject2::GObject2(QObject* _parent)
 : QObject(_parent) {
@@ -8,6 +10,12 @@ GObject2::GObject2(QObject* _parent)
 //===============================================
 GObject2::~GObject2() {
 
+}
+//===============================================
+bool GObject2::createDoms() {
+    m_dom.reset(new GCode2);
+    m_dom->loadFile(GPATH("xml", "app.xml"));
+    return true;
 }
 //===============================================
 void GObject2::clearMap(std::vector<GObject2*>& _map) const {

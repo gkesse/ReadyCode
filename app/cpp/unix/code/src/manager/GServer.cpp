@@ -166,12 +166,12 @@ bool GServer::createData() {
 
     int lSize = m_response.size();
 
-    m_dataOut += sformat("%s;", m_method.c_str());
-    m_dataOut += sformat("api_key:%s|", m_apiKey.c_str());
-    m_dataOut += sformat("username:%s|", m_username.c_str());
-    m_dataOut += sformat("password:%s|", m_password.c_str());
-    m_dataOut += sformat("size:%d;", lSize);
-    m_dataOut += sformat("%s", m_response.c_str());
+    m_dataOut += GFORMAT("%s;", m_method.c_str());
+    m_dataOut += GFORMAT("api_key:%s|", m_apiKey.c_str());
+    m_dataOut += GFORMAT("username:%s|", m_username.c_str());
+    m_dataOut += GFORMAT("password:%s|", m_password.c_str());
+    m_dataOut += GFORMAT("size:%d;", lSize);
+    m_dataOut += GFORMAT("%s", m_response.c_str());
     return true;
 }
 //===============================================

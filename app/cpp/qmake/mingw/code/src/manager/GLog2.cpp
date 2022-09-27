@@ -1,12 +1,12 @@
 //===============================================
 #include "GLog2.h"
 #include "GMessageBox.h"
-#include "GCode.h"
-#include "GDate.h"
-#include "GEnv.h"
-#include "GFile.h"
-#include "GPath.h"
-#include "GShell.h"
+#include "GCode2.h"
+#include "GDate2.h"
+#include "GEnv2.h"
+#include "GFile2.h"
+#include "GPath2.h"
+#include "GShell2.h"
 //===============================================
 GLog2* GLog2::m_instance = 0;
 //===============================================
@@ -33,32 +33,32 @@ GLog2* GLog2::Instance() {
     return m_instance;
 }
 //===============================================
-GObject* GLog2::clone() {
+GObject2* GLog2::clone() const {
     return new GLog2;
 }
 //===============================================
-QString GLog2::serialize(const QString& _code) const {
-    GCode lDom;
+GString GLog2::serialize(const GString& _code) const {
+    GCode2 lDom;
     lDom.createDoc();
     lDom.addData(_code, "type", m_type);
     lDom.addData(_code, "side", m_side);
     lDom.addData(_code, "msg", m_msg);
     lDom.addData(_code, m_map);
-    return lDom.toStringData();
+    return lDom.toString();
 }
 //===============================================
-void GLog2::deserialize(const QString& _data, const QString& _code) {
-    clearMap(m_map);
-    GCode lDom;
+bool GLog2::deserialize(const GString& _data, const GString& _code) {
+    GCode2 lDom;
     lDom.loadXml(_data);
-    m_type = lDom.getItem(_code, "type");
-    m_side = lDom.getItem(_code, "side");
-    m_msg = lDom.getItem(_code, "msg");
-    lDom.getItem(_code, m_map, this);
+    m_type = lDom.getData(_code, "type");
+    m_side = lDom.getData(_code, "side");
+    m_msg = lDom.getData(_code, "msg");
+    lDom.getData(_code, m_map, this);
+    return true;
 }
 //===============================================
 bool GLog2::isDebug() const {
-    return isDebug(GEnv().isTestEnv());
+    return isDebug(GEnv2().isTestEnv());
 }
 //===============================================
 bool GLog2::isDebug(bool _isTestEnv) const {
@@ -67,7 +67,7 @@ bool GLog2::isDebug(bool _isTestEnv) const {
 }
 //===============================================
 bool GLog2::isFileLog() const {
-    return isFileLog(GEnv().isTestEnv());
+    return isFileLog(GEnv2().isTestEnv());
 }
 //===============================================
 bool GLog2::isFileLog(bool _isTestEnv) const {
@@ -76,22 +76,22 @@ bool GLog2::isFileLog(bool _isTestEnv) const {
 }
 //===============================================
 bool GLog2::isTestFileLog() const {
-    bool lFileOn = (getItem("log", "test_file_on") == "1");
+    bool lFileOn = (m_dom->getData("log", "test_file_on") == "1");
     return lFileOn;
 }
 //===============================================
 bool GLog2::isProdFileLog() const {
-    bool lFileOn = (getItem("log", "prod_file_on") == "1");
+    bool lFileOn = (m_dom->getData("log", "prod_file_on") == "1");
     return lFileOn;
 }
 //===============================================
 bool GLog2::isTestLog() const {
-    bool lLogOn = (getItem("log", "test_on") == "1");
+    bool lLogOn = (m_dom->getData("log", "test_on") == "1");
     return lLogOn;
 }
 //===============================================
 bool GLog2::isProdLog() const {
-    bool lLogOn = (getItem("log", "prod_on") == "1");
+    bool lLogOn = (m_dom->getData("log", "prod_on") == "1");
     return lLogOn;
 }
 //===============================================
@@ -110,45 +110,40 @@ FILE* GLog2::getOutput(bool _isFileLog) {
 }
 //===============================================
 FILE* GLog2::getOutputFile() {
-    FILE* lFile = GFile().openLogFile();
+    FILE* lFile = GFile2().openLogFile();
     m_file = lFile;
     return lFile;
 }
 //===============================================
 void GLog2::closeLogFile() {
     if(!m_file) return;
-    GFile().closeFile(m_file);
+    GFile2().closeFile(m_file);
     m_file = 0;
 }
 //===============================================
 void GLog2::catLogFile() {
-    QString lLogFile = GFile().getLogFullname();
-    GFile lFileObj(lLogFile);
-    QString lData = QString(""
-            "Erreur le fichier log n'existe pas.\n"
-            "fichier......: (%1)\n").arg(lLogFile);
+    GString lLogFile = GFile2().getLogFullname();
+    GFile2 lFileObj(lLogFile);
+    GString lData = GFORMAT("Le fichier log n'existe pas :\n(%s)", lLogFile.c_str());
     if(lFileObj.existFile()) {
         lData = lFileObj.getContent();
     }
-    printf("%s\n", lData.toStdString().c_str());
+    printf("%s\n", lData.c_str());
 }
 //===============================================
 void GLog2::tailLogFile(bool _isTestEnv) {
-    QString lLogFile = GFile().getLogFullname(_isTestEnv);
-    GFile lFileObj(lLogFile);
-    QString lData = QString(""
-            "Erreur le fichier log n'existe pas.\n"
-            "fichier......: (%1)\n"
-            "").arg(lLogFile);
+    GString lLogFile = GFile2().getLogFullname(_isTestEnv);
+    GFile2 lFileObj(lLogFile);
+    GString lData = GFORMAT("Le fichier log n'existe pas :\n(%1)", lLogFile.c_str());
     if(lFileObj.existFile()) {
-        GShell().tailFile(lLogFile);
+        GShell2().tailFile(lLogFile);
     }
     else {
-        printf("%s\n", lData.toStdString().c_str());
+        printf("%s\n", lData.c_str());
     }
 }
 //===============================================
-void GLog2::addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _error) {
+void GLog2::addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _error) {
     traceLog(_name, _level, _file, _line, _func, _error);
     GLog2* lLog = new GLog2;
     lLog->m_type = "error";
@@ -168,7 +163,7 @@ void GLog2::showLogs(const char* _name, int _level, const char* _file, int _line
 void GLog2::showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog) {
     if(!_isDebug) return;
     if(!hasErrors()) return;
-    QString lErrors = "";
+    GString lErrors = "";
     for(int i = 0; i < (int)m_map.size(); i++) {
         GLog2* lLog = (GLog2*)m_map.at(i);
         if(lLog->m_type == "error") {
@@ -182,7 +177,7 @@ void GLog2::showErrors(const char* _name, int _level, const char* _file, int _li
 void GLog2::showLogs(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog) {
     if(!_isDebug) return;
     if(!hasLogs()) return;
-    QString lLogs = "";
+    GString lLogs = "";
     for(int i = 0; i < (int)m_map.size(); i++) {
         GLog2* lLog = (GLog2*)m_map.at(i);
         if(lLog->m_type == "log") {
@@ -195,7 +190,7 @@ void GLog2::showLogs(const char* _name, int _level, const char* _file, int _line
 //===============================================
 void GLog2::showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, QWidget* _parent) {
     if(!hasErrors()) return;
-    QString lErrors = toStringError();
+    GString lErrors = toStringError();
     GMessageBox* lMsgBox = new GMessageBox(_parent);
     lMsgBox->setWindowTitle("Erreurs");
     if(m_isClientSide) {
@@ -204,14 +199,14 @@ void GLog2::showErrors(const char* _name, int _level, const char* _file, int _li
     else {
         lMsgBox->setIcon(QMessageBox::Critical);
     }
-    lMsgBox->setText(lErrors);
+    lMsgBox->setText(lErrors.toQString());
     lMsgBox->exec();
     clearErrors();
 }
 //===============================================
 void GLog2::showLogs(const char* _name, int _level, const char* _file, int _line, const char* _func, QWidget* _parent) {
     if(!hasLogs()) return;
-    QString lLogs = toStringLog();
+    GString lLogs = toStringLog();
     GMessageBox* lMsgBox = new GMessageBox(_parent);
     lMsgBox->setWindowTitle("Informations");
     if(m_isClientSide) {
@@ -220,43 +215,43 @@ void GLog2::showLogs(const char* _name, int _level, const char* _file, int _line
     else {
         lMsgBox->setIcon(QMessageBox::Information);
     }
-    lMsgBox->setText(lLogs);
+    lMsgBox->setText(lLogs.toQString());
     lMsgBox->exec();
     clearLogs();
 }
 //===============================================
-void GLog2::loadErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _data) {
+void GLog2::loadErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _data) {
     if(_data == "") return;
     deserialize(_data);
     showErrors(_name, _level, _file, _line, _func);
 }
 //===============================================
-void GLog2::loadLogs(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _data) {
+void GLog2::loadLogs(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _data) {
     if(_data == "") return;
     deserialize(_data);
     showLogs(_name, _level, _file, _line, _func);
 }
 //===============================================
-void GLog2::writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _log) {
+void GLog2::writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _log) {
     writeLog(_name, _level, _file, _line, _func, isDebug(), isFileLog(), _log);
 }
 //===============================================
-void GLog2::writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const QString& _log) {
+void GLog2::writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const GString& _log) {
     if(_level == 0) return;
     if(!_isDebug) return;
-    fprintf(getOutput(_isFileLog), "%s\n", _log.toStdString().c_str());
+    fprintf(getOutput(_isFileLog), "%s\n", _log.c_str());
     closeLogFile();
 }
 //===============================================
-void GLog2::traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _data) {
+void GLog2::traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _data) {
     traceLog(_name, _level, _file, _line, _func, isDebug(), isFileLog(), _data);
 }
 //===============================================
-void GLog2::traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const QString& _data) {
+void GLog2::traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const GString& _data) {
     if(_level == 0) return;
     if(!_isDebug) return;
-    QString lDate = GDate().getDate(GDate().getDateTimeLogFormat());
-    fprintf(getOutput(_isFileLog), "===> [%s] : %d : %s : %s : [%d] : %s :\n%s\n", _name, _level, lDate.toStdString().c_str(), _file, _line, _func, _data.toStdString().c_str());
+    GString lDate = GDate2().getDate(GDate2().getDateTimeLogFormat());
+    fprintf(getOutput(_isFileLog), "===> [%s] : %d : %s : %s : [%d] : %s :\n%s\n", _name, _level, lDate.c_str(), _file, _line, _func, _data.c_str());
     closeLogFile();
 }
 //===============================================
@@ -300,10 +295,10 @@ void GLog2::clearLogs() {
     }
 }
 //===============================================
-QString GLog2::toStringError() {
+GString GLog2::toStringError() {
     if(!hasErrors()) return "";
     m_isClientSide = true;
-    QString lErrors = "";
+    GString lErrors = "";
     for(int i = 0; i < (int)m_map.size(); i++) {
         GLog2* lLog = (GLog2*)m_map.at(i);
         if(lLog->m_type == "error") {
@@ -315,10 +310,10 @@ QString GLog2::toStringError() {
     return lErrors;
 }
 //===============================================
-QString GLog2::toStringLog() {
+GString GLog2::toStringLog() {
     if(!hasLogs()) return "";
     m_isClientSide = true;
-    QString lLogs = "";
+    GString lLogs = "";
     for(int i = 0; i < (int)m_map.size(); i++) {
         GLog2* lLog = (GLog2*)m_map.at(i);
         if(lLog->m_type == "log") {
@@ -330,26 +325,26 @@ QString GLog2::toStringLog() {
     return lLogs;
 }
 //===============================================
-QString GLog2::toString(bool _data) const {
+GString GLog2::toString(bool _data) const {
     if(_data) return "true";
     return "false";
 }
 //===============================================
-QString GLog2::toString(const QVector<QString>& _data) const {
-    QString lData = "";
-    for(int i = 0; i < _data.size(); i++) {
+GString GLog2::toString(const std::vector<GString>& _data) const {
+    GString lData = "";
+    for(int i = 0; i < (int)_data.size(); i++) {
         if(i != 0) lData += "\n";
         lData += _data.at((int)i);
     }
     return lData;
 }
 //===============================================
-QString GLog2::toString(const QVector<QVector<QString>>& _data) const {
-    QString lData = "";
-    for(int i = 0; i < _data.size(); i++) {
+GString GLog2::toString(const std::vector<std::vector<GString>>& _data) const {
+    GString lData = "";
+    for(int i = 0; i < (int)_data.size(); i++) {
         if(i != 0) lData += "\n";
-        QVector<QString> lDataRow = _data.at((int)i);
-        for(int j = 0; j < lDataRow.size(); j++) {
+        std::vector<GString> lDataRow = _data.at((int)i);
+        for(int j = 0; j < (int)lDataRow.size(); j++) {
             if(j != 0) lData += "\n";
             lData += lDataRow.at((int)j);
         }

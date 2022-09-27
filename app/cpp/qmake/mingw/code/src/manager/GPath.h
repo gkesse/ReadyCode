@@ -4,8 +4,8 @@
 //===============================================
 #include "GObject.h"
 //===============================================
-#define GPATH GPath::Instance()
-#define GRES(x, y) GPATH->getPath(x, y)
+#define GPATHI  GPath::Instance()
+#define GRES    GPATHI->getPath
 //===============================================
 class GPath : public GObject {
 	Q_OBJECT

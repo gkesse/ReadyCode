@@ -52,15 +52,15 @@ bool GCode2::getCode() {
 }
 //===============================================
 bool GCode2::getCode(const GString& _code) {
-    return getNode(sformat("/rdv/datas/data[code='%s']", _code.c_str()));
+    return getNode(GFORMAT("/rdv/datas/data[code='%s']", _code.c_str()));
 }
 //===============================================
 bool GCode2::getCode(const GString& _code, const GString& _key) {
-    return getNode(sformat("/rdv/datas/data[code='%s']/%s", _code.c_str(), _key.c_str()));
+    return getNode(GFORMAT("/rdv/datas/data[code='%s']/%s", _code.c_str(), _key.c_str()));
 }
 //===============================================
 bool GCode2::getMap(const GString& _code, int _index) {
-    return getNode(sformat("/rdv/datas/data[code='%s']/map/data[position()=%d]", _code.c_str(), _index + 1));
+    return getNode(GFORMAT("/rdv/datas/data[code='%s']/map/data[position()=%d]", _code.c_str(), _index + 1));
 }
 //===============================================
 GString GCode2::getData(const GString& _code, const GString& _key) {
@@ -74,7 +74,7 @@ bool GCode2::getData(const GString& _code, std::vector<GObject2*>& _map, GObject
     for(int i = 0; i < lCount; i++) {
         getMap(_code, i);
         GString lData = toNode();
-        lData = sformat("<rdv>%s</rdv>", lData.c_str());
+        lData = GFORMAT("<rdv>%s</rdv>", lData.c_str());
         GCode2 lDom;
         lDom.createDoc();
         lDom.createCode();
@@ -118,7 +118,7 @@ bool GCode2::addData(const GString& _code, const std::vector<GObject2*>& _map) {
 }
 //===============================================
 int GCode2::countMap(const GString& _code) {
-    int lData = countNode(sformat("/rdv/datas/data[code='%s']/map/data", _code.c_str()));
+    int lData = countNode(GFORMAT("/rdv/datas/data[code='%s']/map/data", _code.c_str()));
     return lData;
 }
 //===============================================

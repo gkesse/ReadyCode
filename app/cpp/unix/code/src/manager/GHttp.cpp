@@ -250,16 +250,16 @@ bool GHttp::createGetData() {
     if(m_contentLength == 0) return false;
 
     GString2& lDataOut = m_server->getDataOut();
-    lDataOut += sformat("%s %d %s\r\n", m_version.c_str(), m_status, m_reason.c_str());
-    lDataOut += sformat("Content-Type: %s\r\n", m_contentType.c_str());
-    lDataOut += sformat("Content-Length: %d\r\n", m_contentLength);
+    lDataOut += GFORMAT("%s %d %s\r\n", m_version.c_str(), m_status, m_reason.c_str());
+    lDataOut += GFORMAT("Content-Type: %s\r\n", m_contentType.c_str());
+    lDataOut += GFORMAT("Content-Length: %d\r\n", m_contentLength);
 
     if(m_connection != "") {
-        lDataOut += sformat("Connection: %s\r\n", m_connection.c_str());
+        lDataOut += GFORMAT("Connection: %s\r\n", m_connection.c_str());
     }
 
-    lDataOut += sformat("\r\n");
-    lDataOut += sformat("%s", m_content.c_str());
+    lDataOut += GFORMAT("\r\n");
+    lDataOut += GFORMAT("%s", m_content.c_str());
     return true;
 }
 //===============================================

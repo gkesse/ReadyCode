@@ -26,17 +26,17 @@ std::string GShell::getTmpOutFilename() const {
 }
 //===============================================
 void GShell::createDir(const std::string& _dir) {
-    std::string lCommand = sformat("if ! [ -d %s ] ; then mkdir -p %s ; fi", _dir.c_str(), _dir.c_str());
+    std::string lCommand = GFORMAT("if ! [ -d %s ] ; then mkdir -p %s ; fi", _dir.c_str(), _dir.c_str());
     runCommand(lCommand);
 }
 //===============================================
 void GShell::tailFile(const std::string& _file) {
-    std::string lCommand = sformat("if [ -e %s ] ; then tail -f %s ; fi", _file.c_str(), _file.c_str());
+    std::string lCommand = GFORMAT("if [ -e %s ] ; then tail -f %s ; fi", _file.c_str(), _file.c_str());
     runCommand(lCommand);
 }
 //===============================================
 void GShell::cleanDir(const std::string& _dir) {
-    std::string lCommand = sformat("if [ -d %s ] ; then rm -rf %s/* ; fi", _dir.c_str(), _dir.c_str());
+    std::string lCommand = GFORMAT("if [ -d %s ] ; then rm -rf %s/* ; fi", _dir.c_str(), _dir.c_str());
     runCommand(lCommand);
 }
 //===============================================
@@ -53,10 +53,10 @@ std::string GShell::runSystem(const std::string& _command) {
 //===============================================
 std::string GShell::runSystem(const std::string& _command, const std::string& _tmpDir, const std::string& _tmpInFile, const std::string& _tmpOutFile) {
     createDir(_tmpDir);
-    std::string lFilenameIn = sformat("%s/%s", _tmpDir.c_str(), _tmpInFile.c_str());
-    std::string lFilenameOut = sformat("%s/%s", _tmpDir.c_str(), _tmpOutFile.c_str());
+    std::string lFilenameIn = GFORMAT("%s/%s", _tmpDir.c_str(), _tmpInFile.c_str());
+    std::string lFilenameOut = GFORMAT("%s/%s", _tmpDir.c_str(), _tmpOutFile.c_str());
     GFile(lFilenameIn).setContent(_command);
-    std::string lCommand = sformat(". %s > %s", lFilenameIn.c_str(), lFilenameOut.c_str());
+    std::string lCommand = GFORMAT(". %s > %s", lFilenameIn.c_str(), lFilenameOut.c_str());
     runCommand(lCommand);
     std::string lData = GFile(lFilenameOut).getContent();
     return lData;

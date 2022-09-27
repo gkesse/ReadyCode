@@ -33,22 +33,22 @@ std::string GPath::getPath() const {
 std::string GPath::getResourcePath(const std::string& _res, const std::string& _filename) const {
     std::string lPath = "";
     if(getPath() != "") {
-        lPath += sformat("%s", getPath().c_str());
+        lPath += GFORMAT("%s", getPath().c_str());
     }
     if(_res != "") {
         if(lPath != "") {
-            lPath += sformat("/%s", _res.c_str());
+            lPath += GFORMAT("/%s", _res.c_str());
         }
         else {
-            lPath += sformat("%s", _res.c_str());
+            lPath += GFORMAT("%s", _res.c_str());
         }
     }
     if(_filename != "") {
         if(lPath != "") {
-            lPath += sformat("/%s", _filename.c_str());
+            lPath += GFORMAT("/%s", _filename.c_str());
         }
         else {
-            lPath += sformat("%s", _filename.c_str());
+            lPath += GFORMAT("%s", _filename.c_str());
         }
     }
     return lPath;
