@@ -3,9 +3,8 @@
 #include "GTitleBarDialog.h"
 #include "GAccountUi.h"
 #include "GPath.h"
-#include "GXml.h"
 #include "GPicto.h"
-#include "GLog.h"
+#include "GLog2.h"
 #include "GConnection.h"
 //===============================================
 GLoginUi::GLoginUi(GConnection* _connection, QWidget* _parent)
@@ -88,7 +87,7 @@ void GLoginUi::createLayout() {
         }
         else {
             onErrorCategory(lCategory);
-            GERROR_SHOWG(eGERR);
+            GERROR_SHOWG2(eGERR);
             continue;
         }
 
@@ -198,7 +197,7 @@ void GLoginUi::createLayout() {
         }
         else {
             onErrorType(lCategory, lType);
-            GERROR_SHOWG(eGERR);
+            GERROR_SHOWG2(eGERR);
             continue;
         }
     }
@@ -234,8 +233,8 @@ void GLoginUi::onEvent() {
     else {
         onErrorKey(lKey);
     }
-    GERROR_SHOWG(eGERR);
-    GLOG_SHOWG(eGLOG);
+    GERROR_SHOWG2(eGERR);
+    GLOG_SHOWG2(eGLOG);
 }
 //===============================================
 void GLoginUi::onEvent(const QString& _text) {
@@ -250,7 +249,8 @@ void GLoginUi::onEvent(const QString& _text) {
     else {
         onErrorKey(lKey);
     }
-    GERROR_SHOWG(eGERR);
+    GERROR_SHOWG2(eGERR);
+    GLOG_SHOWG2(eGLOG);
 }
 //===============================================
 void GLoginUi::onConnect() {
@@ -261,10 +261,10 @@ void GLoginUi::onConnect() {
     QString lPassword = lPasswordEdit->text();
 
     if(lUsername == "") {
-        GERROR_ADD(eGERR, "Le nom d'utilisateur est obligatoire.");
+        GERROR_ADD2(eGERR, "Le nom d'utilisateur est obligatoire.");
     }
     else if(lPassword == "") {
-        GERROR_ADD(eGERR, "Le mot de passe est obligatoire.");
+        GERROR_ADD2(eGERR, "Le mot de passe est obligatoire.");
     }
     else {
         m_connection->setPseudo(lUsername);

@@ -18,9 +18,11 @@ public:
     bool getCode();
     bool getCode(const GString& _code);
     bool getCode(const GString& _code, const GString& _key);
+    bool getCode(const GString& _code, int _index);
     bool getMap(const GString& _code, int _index);
 
     GString getData(const GString& _code, const GString& _key);
+    GString getData(const GString& _code, int _index);
     bool getData(const GString& _code, std::vector<GObject2*>& _map, GObject2* _obj);
 
     bool addData(const GString& _code, const GString& _key, const GString& _value , bool _isCData = false);

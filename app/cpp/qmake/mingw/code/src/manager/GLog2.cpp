@@ -295,6 +295,27 @@ void GLog2::clearLogs() {
     }
 }
 //===============================================
+void GLog2::onErrorKey(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _key) {
+    addError(_name, _level, _file, _line, _func, GFORMAT(""
+            "Erreur la clé (%s) n'existe pas."
+            "", _key.c_str())
+    );
+}
+//===============================================
+void GLog2::onErrorCategory(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _category) {
+    addError(_name, _level, _file, _line, _func, GFORMAT(""
+            "Erreur la catégorie (%s) n'existe pas."
+            "", _category.c_str())
+    );
+}
+//===============================================
+void GLog2::onErrorType(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _category, const GString& _type) {
+    addError(_name, _level, _file, _line, _func, GFORMAT(""
+            "Erreur le type (%s : %s) n'existe pas."
+            "", _category.c_str(), _type.c_str())
+    );
+}
+//===============================================
 GString GLog2::toStringError() {
     if(!hasErrors()) return "";
     m_isClientSide = true;

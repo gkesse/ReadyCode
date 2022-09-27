@@ -16,6 +16,7 @@ public:
     void createLayout();
     //
     void onRunConnection();
+    void onCreateGroup();
     void onAccount();
     void onCv();
     void onPocoClientTcp();

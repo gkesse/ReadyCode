@@ -59,12 +59,21 @@ bool GCode2::getCode(const GString& _code, const GString& _key) {
     return getNode(GFORMAT("/rdv/datas/data[code='%s']/%s", _code.c_str(), _key.c_str()));
 }
 //===============================================
+bool GCode2::getCode(const GString& _code, int _index) {
+    return getNode(GFORMAT("/rdv/datas/data[code='%s']/map/data[position()=%d]", _code.c_str(), _index + 1));
+}
+//===============================================
 bool GCode2::getMap(const GString& _code, int _index) {
     return getNode(GFORMAT("/rdv/datas/data[code='%s']/map/data[position()=%d]", _code.c_str(), _index + 1));
 }
 //===============================================
 GString GCode2::getData(const GString& _code, const GString& _key) {
     if(!getCode(_code, _key)) return "";
+    return getValue();
+}
+//===============================================
+GString GCode2::getData(const GString& _code, int _index) {
+    if(!getCode(_code, _index)) return "";
     return getValue();
 }
 //===============================================

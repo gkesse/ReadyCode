@@ -25,7 +25,10 @@
 #define GLOGT2(x, y)        GLOGI2->traceLog(#x, x, y)
 #define GLOGW2(x, y)        GLOGI2->writeLog(#x, x, y)
 #define GSTRC2              GLOGI2->toString
-#define GLOG_DESERIALIZE2   GLOGI2->deserialize
+//===============================================
+#define GERROR_KEY(x, y)    GLOGI2->onErrorKey(#x, x, y)
+#define GERROR_CAT(x, y)    GLOGI2->onErrorCategory(#x, x, y)
+#define GERROR_TYPE(x, y)   GLOGI2->onErrorKey(#x, x, y)
 //===============================================
 class GLog2 : public GObject2 {
 public:
@@ -72,7 +75,11 @@ public:
     bool hasLogs() const;
     void clearErrors();
     void clearLogs();
-    //
+
+    void onErrorKey(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _key);
+    void onErrorCategory(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _category);
+    void onErrorType(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _category, const GString& _type);
+
     GString toStringError();
     GString toStringLog();
     GString toString(bool _data) const;

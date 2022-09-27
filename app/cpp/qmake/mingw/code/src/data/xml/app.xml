@@ -68,7 +68,7 @@
         	<bg_color>#111133</bg_color>
         	<map>
 		        <!-- ============================================ -->
-		        <!-- menu/manager -->
+		        <!-- menu/connection -->
 		        <!-- ============================================ -->
         		<data>
         			<category>menu</category>
@@ -78,6 +78,11 @@
         			<category>submenu</category>
         			<key>connection/run_connection</key>
         			<text>Connexion</text>
+        		</data>
+        		<data>
+        			<category>submenu</category>
+        			<key>connection/create_group</key>
+        			<text>Créer un groupe</text>
         		</data>
         		<data>
         			<category>submenu</category>

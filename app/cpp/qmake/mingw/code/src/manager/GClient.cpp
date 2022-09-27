@@ -61,7 +61,7 @@ GString GClient::callServer(const GString& _module, const GString& _method, cons
     GString lData = lDom.toString();
     setRequest(lData);
     GSocket2::callServer();
-    GLOG_DESERIALIZE2(m_response);
+    GLOGI2->serialize(m_response);
     return m_response;
 }
 //===============================================

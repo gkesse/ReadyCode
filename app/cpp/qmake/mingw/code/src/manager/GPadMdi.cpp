@@ -81,9 +81,12 @@ void GPadMdi::createLayout() {
 void GPadMdi::onEvent(QAction* _action) {
     QAction* lAction = _action;
     QString lKey = lAction->data().toString();
-    // manager
+    // connection
     if(lKey == "connection/run_connection") {
         onRunConnection();
+    }
+    else if(lKey == "connection/create_group") {
+        onCreateGroup();
     }
     else if(lKey == "manager/account") {
         onAccount();
@@ -124,6 +127,10 @@ void GPadMdi::onRunConnection() {
             m_titleBar->setPseudo("Connexion");
         }
     }
+}
+//===============================================
+void GPadMdi::onCreateGroup() {
+
 }
 //===============================================
 void GPadMdi::onAccount() {

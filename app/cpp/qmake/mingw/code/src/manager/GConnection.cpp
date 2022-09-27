@@ -2,7 +2,7 @@
 #include "GConnection.h"
 #include "GCode2.h"
 #include "GClient.h"
-#include "GLog.h"
+#include "GLog2.h"
 //===============================================
 GConnection::GConnection(QObject* _parent)
 : GModule2(_parent) {
@@ -62,27 +62,27 @@ GString GConnection::getPassword() const {
 }
 //===============================================
 bool GConnection::runConnection() {
-    if(GLOGI->hasErrors()) return false;
+    if(GLOGI2->hasErrors()) return false;
     GString lData = serialize();
     lData = GSERVER_CALL("connection", "run_connection", lData);
     deserialize(lData);
-    return !GLOGI->hasErrors();
+    return !GLOGI2->hasErrors();
 }
 //===============================================
 bool GConnection::createAccount() {
-    if(GLOGI->hasErrors()) return false;
+    if(GLOGI2->hasErrors()) return false;
     GString lData = serialize();
     lData = GCLIENTI->callServer("connection", "create_account", lData);
     deserialize(lData);
-    return !GLOGI->hasErrors();
+    return !GLOGI2->hasErrors();
 }
 //===============================================
 bool GConnection::runDisconnection() {
-    if(GLOGI->hasErrors()) return false;
+    if(GLOGI2->hasErrors()) return false;
     GString lData = serialize();
     lData = GCLIENTI->callServer("connection", "run_disconnection", lData);
     deserialize(lData);
-    return !GLOGI->hasErrors();
+    return !GLOGI2->hasErrors();
 }
 //===============================================
 bool GConnection::isConnect() const {

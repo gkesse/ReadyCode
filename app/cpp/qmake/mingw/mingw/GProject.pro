@@ -18,6 +18,7 @@ include($$GRLIB\src\qtawesome\QtAwesome.pri)
 
 INCLUDEPATH +=\
     ..\code\src\manager \
+    ..\build \
     $$GRLIB\include \
     $$GRLIB\include\libxml2 \
 
@@ -27,6 +28,9 @@ SOURCES +=\
     
 HEADERS +=\
     $$files(..\code\src\manager\*.h) \
+
+FORMS +=\
+    $$files(..\code\src\manager\*.ui) \
 
 LIBS +=\
     -L$$GRLIB\lib \
