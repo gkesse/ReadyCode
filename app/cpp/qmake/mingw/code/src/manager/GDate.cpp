@@ -2,7 +2,8 @@
 #include "GDate.h"
 #include "GLog.h"
 //===============================================
-GDate::GDate(QObject* _parent) : GObject(_parent) {
+GDate::GDate()
+: GObject() {
 
 }
 //===============================================

@@ -16,7 +16,10 @@ GWindow::~GWindow() {
 //===============================================
 void GWindow::on_actionEnregistrerFichier_triggered() {
     GFile3 lFile;
-    lFile.setKey("fic");
+    GFile3 lFile2;
+    lFile.setFullname("C:\\Users\\tiaka\\Downloads\\eTools\\eDoc\\bryan\\bryan_lettre_absence.pdf");
+    lFile2.setFullname("C:\\Users\\tiaka\\Downloads\\eTools\\eDoc\\bryan\\bryan_lettre_absence_2.pdf");
+    lFile2.setContentBin(lFile.getContentBin());
     lFile.setFilename("mon_fichier.pdf");
     lFile.setContent("mon_fichier.pdf");
     lFile.saveFile();

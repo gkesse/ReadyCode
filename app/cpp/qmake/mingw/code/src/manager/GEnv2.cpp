@@ -2,8 +2,8 @@
 #include "GEnv2.h"
 #include "GLog2.h"
 //===============================================
-GEnv2::GEnv2(QObject* _parent)
-: GObject2(_parent) {
+GEnv2::GEnv2()
+: GObject2() {
 
 }
 //===============================================

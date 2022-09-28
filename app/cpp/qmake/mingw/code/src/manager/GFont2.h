@@ -8,10 +8,8 @@
 #define GFONT_LOAD  GFONTI->loadFont
 //===============================================
 class GFont2 : public GObject2 {
-	Q_OBJECT
-
 public:
-    GFont2(QObject* _parent = 0);
+    GFont2();
     ~GFont2();
     static GFont2* Instance();
     bool loadFont();

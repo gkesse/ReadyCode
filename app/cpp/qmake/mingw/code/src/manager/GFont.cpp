@@ -3,8 +3,8 @@
 #include "GPath.h"
 #include "GLog.h"
 //===============================================
-GFont::GFont(QObject* _parent) :
-GObject(_parent) {
+GFont::GFont() :
+GObject() {
     createDoms();
 }
 //===============================================

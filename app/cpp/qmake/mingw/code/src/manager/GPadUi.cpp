@@ -106,7 +106,7 @@ void GPadUi::createLayout() {
     resize(lWidth, lHeight);
     setObjectName(lStyle);
 
-    m_connection = new GConnection(this);
+    m_connection = new GConnection();
 }
 //===============================================
 void GPadUi::onEvent() {

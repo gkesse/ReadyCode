@@ -5,10 +5,8 @@
 #include "GObject.h"
 //===============================================
 class GEnv : public GObject {
-    Q_OBJECT
-
 public:
-    GEnv(QObject* _parent = 0);
+    GEnv();
     ~GEnv();
     bool isProdEnv() const;
     bool isTestEnv() const;

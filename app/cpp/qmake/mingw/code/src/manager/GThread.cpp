@@ -1,7 +1,8 @@
 //===============================================
 #include "GThread.h"
 //===============================================
-GThread::GThread(QObject* _parent) : GObject(_parent) {
+GThread::GThread()
+: GObject() {
     m_threadID = 0;
     m_handleID = 0;
 }

@@ -4,8 +4,8 @@
 #include "GClient.h"
 #include "GLog2.h"
 //===============================================
-GConnection::GConnection(QObject* _parent)
-: GModule2(_parent) {
+GConnection::GConnection()
+: GModule2() {
     m_id = 0;
     m_pseudo = "";
     m_password = "";

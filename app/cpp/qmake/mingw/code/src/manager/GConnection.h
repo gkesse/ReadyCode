@@ -6,7 +6,7 @@
 //===============================================
 class GConnection : public GModule2 {
 public:
-    GConnection(QObject* _parent = 0);
+    GConnection();
     ~GConnection();
     GString serialize(const GString& _code = "connection") const;
     bool deserialize(const GString& _data, const GString& _code = "connection");

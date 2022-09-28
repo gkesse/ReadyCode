@@ -4,7 +4,8 @@
 #include "GPath.h"
 #include "GCode2.h"
 //===============================================
-GSocket2::GSocket2() {
+GSocket2::GSocket2()
+: GObject2() {
     m_major = 0;
     m_minor = 0;
     m_domain = 0;

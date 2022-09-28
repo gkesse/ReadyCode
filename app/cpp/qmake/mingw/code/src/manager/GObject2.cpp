@@ -3,8 +3,7 @@
 #include "GCode2.h"
 #include "GPath2.h"
 //===============================================
-GObject2::GObject2(QObject* _parent)
-: QObject(_parent) {
+GObject2::GObject2() {
 
 }
 //===============================================

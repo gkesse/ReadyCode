@@ -75,7 +75,7 @@ void GPadMdi::createLayout() {
 
     connect(m_mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)), this, SLOT(onEvent(QMdiSubWindow*)));
 
-    m_connection = new GConnection(this);
+    m_connection = new GConnection();
 }
 //===============================================
 void GPadMdi::onEvent(QAction* _action) {
@@ -123,7 +123,7 @@ void GPadMdi::onRunConnection() {
         delete lLogoutUi;
         if(!m_connection->isConnect()) {
             delete m_connection;
-            m_connection = new GConnection(this);
+            m_connection = new GConnection();
             m_titleBar->setPseudo("Connexion");
         }
     }

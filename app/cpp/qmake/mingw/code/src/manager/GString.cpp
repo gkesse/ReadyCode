@@ -33,8 +33,13 @@ GString::GString(int _data) {
     m_data = std::to_string(_data);
 }
 //===============================================
+GString::GString(const std::vector<char>& _data) {
+    m_datas = _data;
+}
+//===============================================
 GString::GString(const GString& _data) {
     m_data = _data.m_data;
+    m_datas = _data.m_datas;
 }
 //===============================================
 GString::~GString() {
@@ -175,6 +180,14 @@ bool GString::toInt(int& _data, int _defaultValue) const {
     return true;
 }
 //===============================================
+std::vector<char>& GString::toVector() {
+    return m_datas;
+}
+//===============================================
+const std::vector<char>& GString::toVector() const {
+    return m_datas;
+}
+//===============================================
 QString GString::toQString() const {
     return m_data.data();
 }
@@ -195,11 +208,17 @@ void GString::print() const {
 //===============================================
 GString& GString::operator=(const GString& _data) {
     m_data = _data.m_data;
+    m_datas = _data.m_datas;
     return *this;
 }
 //===============================================
 GString& GString::operator=(const QString& _data) {
     m_data = _data.toStdString();
+    return *this;
+}
+//===============================================
+GString& GString::operator=(const std::vector<char>& _data) {
+    m_datas = _data;
     return *this;
 }
 //===============================================

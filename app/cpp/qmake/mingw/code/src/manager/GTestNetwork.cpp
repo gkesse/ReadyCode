@@ -4,7 +4,8 @@
 //===============================================
 GTestNetwork* GTestNetwork::m_test = 0;
 //===============================================
-GTestNetwork::GTestNetwork() : GModule() {
+GTestNetwork::GTestNetwork()
+: GModule() {
 
 }
 //===============================================

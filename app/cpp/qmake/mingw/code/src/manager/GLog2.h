@@ -32,7 +32,7 @@
 //===============================================
 class GLog2 : public GObject2 {
 public:
-    GLog2(QObject* _parent = 0);
+    GLog2();
     ~GLog2();
     static GLog2* Instance();
     GObject2* clone() const;

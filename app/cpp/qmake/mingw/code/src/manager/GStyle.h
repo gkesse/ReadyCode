@@ -8,10 +8,8 @@
 #define GSTYLE(x) GSTYLEI->loadStyle(x)
 //===============================================
 class GStyle : public GObject {
-	Q_OBJECT
-
 public:
-    GStyle(QObject* _parent = 0);
+    GStyle();
     ~GStyle();
     static GStyle* Instance();
     bool loadStyle();

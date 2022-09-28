@@ -8,10 +8,8 @@
 #define GRES    GPATHI->getPath
 //===============================================
 class GPath : public GObject {
-	Q_OBJECT
-
 public:
-    GPath(QObject* _parent = 0);
+    GPath();
     ~GPath();
     static GPath* Instance();
     QString getDataPath() const;

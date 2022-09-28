@@ -5,10 +5,8 @@
 #include "GXml.h"
 //===============================================
 class GCode : public GXml {
-    Q_OBJECT
-
 public:
-    GCode(QObject* _parent = 0);
+    GCode();
     ~GCode();
     //
     void createReq(const QString& _module, const QString& _method);

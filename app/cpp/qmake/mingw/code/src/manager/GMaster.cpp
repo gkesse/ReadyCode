@@ -6,8 +6,8 @@
 #include "GTest.h"
 #include "GSocket.h"
 //===============================================
-GMaster::GMaster(QObject* _parent)
-: GModule(_parent) {
+GMaster::GMaster()
+: GModule() {
     m_validateXml = false;
     m_validateReq = false;
 }

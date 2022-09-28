@@ -8,10 +8,8 @@
 #define GPATH   GPATHI2->getResourcePath
 //===============================================
 class GPath2 : public GObject2 {
-	Q_OBJECT
-
 public:
-    GPath2(QObject* _parent = 0);
+    GPath2();
     ~GPath2();
     static GPath2* Instance();
     GString getDataPath() const;

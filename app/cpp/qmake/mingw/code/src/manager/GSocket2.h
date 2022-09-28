@@ -2,9 +2,9 @@
 #ifndef _GSocket2_
 #define _GSocket2_
 //===============================================
-#include "GObject.h"
+#include "GObject2.h"
 //===============================================
-class GSocket2 {
+class GSocket2 : public GObject2 {
 public:
     GSocket2();
     virtual ~GSocket2();

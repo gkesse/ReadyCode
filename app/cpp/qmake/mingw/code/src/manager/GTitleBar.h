@@ -5,10 +5,8 @@
 #include "GWidget.h"
 //===============================================
 class GTitleBar : public GWidget {
-    Q_OBJECT
-
 public:
-    GTitleBar(QWidget* _parent = 0);
+    GTitleBar();
     ~GTitleBar();
     void createLayout();
     void onClose();

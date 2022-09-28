@@ -4,17 +4,20 @@
 #include "GEnv.h"
 #include "GDate.h"
 //===============================================
-GFile::GFile(QObject* _parent) : GObject(_parent) {
+GFile::GFile()
+: GObject() {
     m_filename = "";
     m_openType = "";
 }
 //===============================================
-GFile::GFile(const QString& _filename, QObject* _parent) : GObject(_parent) {
+GFile::GFile(const QString& _filename)
+: GObject() {
     m_filename = _filename;
     m_openType = "";
 }
 //===============================================
-GFile::GFile(const QString& _filename, const QString& _openType, QObject* _parent) : GObject(_parent) {
+GFile::GFile(const QString& _filename, const QString& _openType)
+: GObject() {
     m_filename = _filename;
     m_openType = _openType;
 }

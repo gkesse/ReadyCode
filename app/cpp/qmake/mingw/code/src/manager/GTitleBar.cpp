@@ -5,8 +5,8 @@
 #include "GPath.h"
 #include "GPicto.h"
 //===============================================
-GTitleBar::GTitleBar(QWidget* _parent) :
-GWidget(_parent) {
+GTitleBar::GTitleBar() :
+GWidget() {
     createDoms();
     createLayout();
 }

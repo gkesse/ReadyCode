@@ -2,8 +2,8 @@
 #include "GXml.h"
 #include "GLog.h"
 //===============================================
-GXml::GXml(QObject* _parent)
-: GObject(_parent) {
+GXml::GXml()
+: GObject() {
     m_node = 0;
     m_queryNode = 0;
     m_doc = 0;

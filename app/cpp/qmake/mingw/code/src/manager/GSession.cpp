@@ -2,8 +2,8 @@
 #include "GSession.h"
 #include "GCode.h"
 //===============================================
-GSession::GSession(QObject* _parent)
-: GObject(_parent) {
+GSession::GSession()
+: GObject() {
     m_userId = 0;
 }
 //===============================================

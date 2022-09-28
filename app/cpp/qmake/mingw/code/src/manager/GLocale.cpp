@@ -2,8 +2,8 @@
 #include "GLocale.h"
 #include "GCode.h"
 //===============================================
-GLocale::GLocale(QObject* _parent)
-: GObject(_parent) {
+GLocale::GLocale()
+: GObject() {
     createDoms();
     deserializeDom();
 }

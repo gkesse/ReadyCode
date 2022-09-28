@@ -7,10 +7,8 @@
 class GSocket;
 //===============================================
 class GMaster : public GModule {
-    Q_OBJECT
-
 public:
-    GMaster(QObject* _parent = 0);
+    GMaster();
     ~GMaster();
     //
     QString serialize(const QString& _code = "server") const;

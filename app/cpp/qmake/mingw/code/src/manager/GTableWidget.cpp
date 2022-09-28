@@ -1,7 +1,8 @@
 //===============================================
 #include "GTableWidget.h"
 //===============================================
-GTableWidget::GTableWidget(QObject* _parent) : GObject(_parent) {
+GTableWidget::GTableWidget()
+: GObject() {
     m_tableWidget = 0;
     m_rows = 0;
     m_cols = 0;
@@ -10,7 +11,8 @@ GTableWidget::GTableWidget(QObject* _parent) : GObject(_parent) {
     m_indexCol = 0;
 }
 //===============================================
-GTableWidget::GTableWidget(int _rows, int _cols, QTableWidget* _tableWidget, QObject* _parent) : GObject(_parent) {
+GTableWidget::GTableWidget(int _rows, int _cols, QTableWidget* _tableWidget)
+: GObject() {
     _tableWidget->clear();
     m_tableWidget = _tableWidget;
     m_rows = _rows;

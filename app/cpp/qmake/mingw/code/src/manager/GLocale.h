@@ -6,7 +6,7 @@
 //===============================================
 class GLocale : public GObject {
 public:
-    GLocale(QObject* _parent = 0);
+    GLocale();
     ~GLocale();
     void deserialize(const QString& _data, const QString& _code = "locale");
     void deserializeDom(const QString& _code = "locale");

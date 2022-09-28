@@ -5,8 +5,8 @@
 #include "GFile2.h"
 #include "GDate2.h"
 //===============================================
-GShell2::GShell2(QObject* _parent)
-: GObject2(_parent) {
+GShell2::GShell2()
+: GObject2() {
 
 }
 //===============================================

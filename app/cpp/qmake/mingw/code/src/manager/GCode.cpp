@@ -3,8 +3,8 @@
 #include "GLog.h"
 #include "GUser.h"
 //===============================================
-GCode::GCode(QObject* _parent)
-: GXml(_parent) {
+GCode::GCode()
+: GXml() {
 
 }
 //===============================================

@@ -5,10 +5,8 @@
 #include "GObject2.h"
 //===============================================
 class GShell2 : public GObject2 {
-    Q_OBJECT
-
 public:
-    GShell2(QObject* _parent = 0);
+    GShell2();
     ~GShell2();
     GString getTmpDir() const;
     GString getTmpInFilename() const;

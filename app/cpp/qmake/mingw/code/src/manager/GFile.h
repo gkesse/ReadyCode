@@ -5,12 +5,10 @@
 #include "GObject.h"
 //===============================================
 class GFile : public GObject {
-    Q_OBJECT
-
 public:
-    GFile(QObject* _parent = 0);
-    GFile(const QString& _filename, QObject* _parent = 0);
-    GFile(const QString& _filename, const QString& _openType, QObject* _parent = 0);
+    GFile();
+    GFile(const QString& _filename);
+    GFile(const QString& _filename, const QString& _openType);
     ~GFile();
     //
     bool existFile() const;

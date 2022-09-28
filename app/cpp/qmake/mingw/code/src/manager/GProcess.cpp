@@ -8,8 +8,8 @@
 #include "GLog.h"
 #include "GWindow.h"
 //===============================================
-GProcess::GProcess(QObject* _parent)
-: GObject(_parent) {
+GProcess::GProcess()
+: GObject() {
 
 }
 //===============================================

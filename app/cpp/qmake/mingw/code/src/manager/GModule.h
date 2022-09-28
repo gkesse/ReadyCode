@@ -7,10 +7,8 @@
 class GSocket;
 //===============================================
 class GModule : public GSession {
-    Q_OBJECT
-
 public:
-    GModule(QObject* _parent = 0);
+    GModule();
     virtual ~GModule();
     //
     virtual QString serialize(const QString& _code = "request") const;

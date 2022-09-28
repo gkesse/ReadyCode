@@ -8,10 +8,8 @@
 class GCode;
 //===============================================
 class GObject : public QObject {
-	Q_OBJECT
-
 public:
-    GObject(QObject* _parent = 0);
+    GObject();
 	virtual ~GObject();
     virtual GObject* clone();
     virtual QString serialize(const QString& _code = "object");

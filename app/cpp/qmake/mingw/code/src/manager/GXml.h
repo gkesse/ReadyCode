@@ -5,10 +5,8 @@
 #include "GObject.h"
 //===============================================
 class GXml : public GObject {
-    Q_OBJECT
-
 public:
-    GXml(QObject* _parent = 0);
+    GXml();
     virtual ~GXml();
     //
     void initModule();

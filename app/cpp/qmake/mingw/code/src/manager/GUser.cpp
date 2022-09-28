@@ -4,8 +4,8 @@
 #include "GSocket.h"
 #include "GLog.h"
 //===============================================
-GUser::GUser(QObject* _parent)
-: GModule(_parent) {
+GUser::GUser()
+: GModule() {
     m_id = 0;
     m_pseudo = "";
     m_password = "";

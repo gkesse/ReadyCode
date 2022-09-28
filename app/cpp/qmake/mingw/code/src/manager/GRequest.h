@@ -5,10 +5,8 @@
 #include "GModule.h"
 //===============================================
 class GRequest : public GModule {
-    Q_OBJECT
-
 public:
-    GRequest(QObject* _parent = 0);
+    GRequest();
     ~GRequest();
     QString serialize(const QString& _code = "request") const;
     void deserialize(const QString& _data, const QString& _code = "request");

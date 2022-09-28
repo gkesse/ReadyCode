@@ -5,12 +5,10 @@
 #include "GObject2.h"
 //===============================================
 class GFile2 : public GObject2 {
-    Q_OBJECT
-
 public:
-    GFile2(QObject* _parent = 0);
-    GFile2(const GString& _filename, QObject* _parent = 0);
-    GFile2(const GString& _filename, const GString& _openType, QObject* _parent = 0);
+    GFile2();
+    GFile2(const GString& _filename);
+    GFile2(const GString& _filename, const GString& _openType);
     ~GFile2();
     //
     bool existFile() const;

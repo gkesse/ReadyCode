@@ -6,15 +6,15 @@
 #include "GCode2.h"
 #include "GClient.h"
 //===============================================
-GFile3::GFile3(QObject* _parent)
-: GModule2(_parent) {
+GFile3::GFile3()
+: GModule2() {
     m_id = 0;
 }
 //===============================================
-GFile3::GFile3(const GString& _filename, QObject* _parent)
-: GModule2(_parent) {
+GFile3::GFile3(const GString& _fullname)
+: GModule2() {
     m_id = 0;
-    m_filename = _filename;
+    m_fullname = _fullname;
 }
 //===============================================
 GFile3::~GFile3() {
@@ -25,7 +25,6 @@ GString GFile3::serialize(const GString& _code) const {
     GCode2 lDom;
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
-    lDom.addData(_code, "key", m_key);
     lDom.addData(_code, "filename", m_filename);
     lDom.addData(_code, "content", m_content);
     return lDom.toString();
@@ -36,14 +35,13 @@ bool GFile3::deserialize(const GString& _data, const GString& _code) {
     GCode2 lDom;
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
-    m_key = lDom.getData(_code, "key");
     m_filename = lDom.getData(_code, "filename");
     m_content = lDom.getData(_code, "content");
     return true;
 }
 //===============================================
-void GFile3::setKey(const GString& _key) {
-    m_key = _key;
+void GFile3::setFullname(const GString& _fullname) {
+    m_fullname = _fullname;
 }
 //===============================================
 void GFile3::setFilename(const GString& _filename) {
@@ -61,23 +59,37 @@ void GFile3::saveFile() {
 }
 //===============================================
 bool GFile3::existFile() const {
-    if(m_filename == "") return false;
-    std::ifstream lFile(m_filename.data());
+    if(m_fullname == "") return false;
+    std::ifstream lFile(m_fullname.data());
     return lFile.good();
 }
 //===============================================
 GString GFile3::getContents() const {
-    if(m_filename == "") return "";
+    if(m_fullname == "") return "";
     if(!existFile()) return "";
-    std::ifstream lFile(m_filename.data());
+    std::ifstream lFile(m_fullname.data());
     std::stringstream lBuffer;
     lBuffer << lFile.rdbuf();
     return lBuffer.str().c_str();
 }
 //===============================================
+GString GFile3::getContentBin() const {
+    if(m_fullname == "") return "";
+    if(!existFile()) return "";
+    std::ifstream lFile(m_fullname.data(), std::ios::in | std::ios::binary);
+    std::vector<char> lData = std::vector<char>(std::istreambuf_iterator<char>(lFile), std::istreambuf_iterator<char>());
+    return lData;
+}
+//===============================================
 void GFile3::setContents(const GString& _data) {
-    if(m_filename == "") return;
-    std::ofstream lFile(m_filename.data());
+    if(m_fullname == "") return;
+    std::ofstream lFile(m_fullname.data());
     lFile << _data.data();
+}
+//===============================================
+void GFile3::setContentBin(const GString& _data) {
+    if(m_fullname == "") return;
+    std::ofstream lFile(m_fullname.data(), std::ios::out | std::ios::binary);
+    lFile.write(_data.toVector().data(), _data.toVector().size());
 }
 //===============================================

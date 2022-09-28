@@ -1,14 +1,19 @@
 //===============================================
-#ifndef _GFont_
-#define _GFont_
+#ifndef _GBase64_
+#define _GBase64_
 //===============================================
-#include "GObject.h"
+#include "GObject2.h"
 //===============================================
-class GFont : public GObject {
+class GBase64 : public GObject2 {
 public:
-    GFont();
-    ~GFont();
-    bool loadFont();
+    GBase64();
+    GBase64(const GString& _data);
+    ~GBase64();
+    GString encodeData() const;
+    GString decodeData() const;
+
+private:
+    GString m_data;
 };
 //==============================================
 #endif

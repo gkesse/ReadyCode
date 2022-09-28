@@ -10,8 +10,8 @@
 //===============================================
 GLog* GLog::m_instance = 0;
 //===============================================
-GLog::GLog(QObject* _parent)
-: GObject(_parent) {
+GLog::GLog()
+: GObject() {
     createDoms();
     m_type = "";
     m_side = "";

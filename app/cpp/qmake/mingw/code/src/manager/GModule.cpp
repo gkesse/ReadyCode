@@ -4,8 +4,8 @@
 #include "GCode.h"
 #include "GSocket.h"
 //===============================================
-GModule::GModule(QObject* _parent)
-: GSession(_parent) {
+GModule::GModule()
+: GSession() {
     m_module = "";
     m_method = "";
 }

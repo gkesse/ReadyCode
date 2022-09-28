@@ -4,20 +4,20 @@
 #include "GEnv2.h"
 #include "GDate2.h"
 //===============================================
-GFile2::GFile2(QObject* _parent)
-: GObject2(_parent) {
+GFile2::GFile2()
+: GObject2() {
     m_filename = "";
     m_openType = "";
 }
 //===============================================
-GFile2::GFile2(const GString& _filename, QObject* _parent)
-: GObject2(_parent) {
+GFile2::GFile2(const GString& _filename)
+: GObject2() {
     m_filename = _filename;
     m_openType = "";
 }
 //===============================================
-GFile2::GFile2(const GString& _filename, const GString& _openType, QObject* _parent)
-: GObject2(_parent) {
+GFile2::GFile2(const GString& _filename, const GString& _openType)
+: GObject2() {
     m_filename = _filename;
     m_openType = _openType;
 }

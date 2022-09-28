@@ -5,7 +5,8 @@
 #include "GFile.h"
 #include "GDate.h"
 //===============================================
-GShell::GShell(QObject* _parent) : GObject(_parent) {
+GShell::GShell()
+: GObject() {
 
 }
 //===============================================

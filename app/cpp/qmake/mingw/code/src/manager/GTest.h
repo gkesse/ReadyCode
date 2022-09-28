@@ -7,10 +7,8 @@
 class GSocket;
 //===============================================
 class GTest : public GModule {
-	Q_OBJECT
-
 public:
-	GTest(QObject* _parent = 0);
+	GTest();
 	~GTest();
 	void run(int _argc, char** _argv);
     void runDefault(int _argc, char** _argv);

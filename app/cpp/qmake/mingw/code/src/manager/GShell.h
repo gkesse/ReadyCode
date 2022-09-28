@@ -5,10 +5,8 @@
 #include "GObject.h"
 //===============================================
 class GShell : public GObject {
-    Q_OBJECT
-
 public:
-    GShell(QObject* _parent = 0);
+    GShell();
     ~GShell();
     QString getTmpDir() const;
     QString getTmpInFilename() const;

@@ -5,10 +5,8 @@
 #include "GObject.h"
 //===============================================
 class GDate : public GObject {
-    Q_OBJECT
-
 public:
-    GDate(QObject* _parent = 0);
+    GDate();
     ~GDate();
     QString getDateTimeLogFormat() const;
     QString getDateTimeFileFormat() const;

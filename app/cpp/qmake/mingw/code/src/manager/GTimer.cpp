@@ -1,7 +1,8 @@
 //===============================================
 #include "GTimer.h"
 //===============================================
-GTimer::GTimer(GObject* _parent) : GObject(_parent) {
+GTimer::GTimer()
+: GObject() {
     m_running = true;
 }
 //===============================================

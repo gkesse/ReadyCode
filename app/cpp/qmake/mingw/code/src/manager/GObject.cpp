@@ -4,8 +4,8 @@
 #include "GCode.h"
 #include "GPath.h"
 //===============================================
-GObject::GObject(QObject* _parent)
-: QObject(_parent) {
+GObject::GObject()
+: QObject() {
     m_isParent = true;
 }
 //===============================================

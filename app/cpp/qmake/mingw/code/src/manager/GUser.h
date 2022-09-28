@@ -6,7 +6,7 @@
 //===============================================
 class GUser : public GModule {
 public:
-    GUser(QObject* _parent = 0);
+    GUser();
     ~GUser();
     QString serialize(const QString& _code = "user") const;
     void deserialize(const QString& _data, const QString& _code = "user");

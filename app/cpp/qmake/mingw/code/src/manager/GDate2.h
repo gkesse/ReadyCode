@@ -5,10 +5,8 @@
 #include "GObject2.h"
 //===============================================
 class GDate2 : public GObject2 {
-    Q_OBJECT
-
 public:
-    GDate2(QObject* _parent = 0);
+    GDate2();
     ~GDate2();
     GString getDateTimeLogFormat() const;
     GString getDateTimeFileFormat() const;

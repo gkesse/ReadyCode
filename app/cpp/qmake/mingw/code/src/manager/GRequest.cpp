@@ -4,8 +4,8 @@
 #include "GCode.h"
 #include "GSocket.h"
 //===============================================
-GRequest::GRequest(QObject* _parent)
-: GModule(_parent) {
+GRequest::GRequest()
+: GModule() {
     m_id = 0;
     m_msg = "";
     m_dataOffset = 0;

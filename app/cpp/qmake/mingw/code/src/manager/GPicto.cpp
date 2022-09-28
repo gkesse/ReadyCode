@@ -3,8 +3,8 @@
 //===============================================
 GPicto* GPicto::m_instance = 0;
 //===============================================
-GPicto::GPicto(QObject* _parent) :
-GObject(_parent) {
+GPicto::GPicto() :
+GObject() {
     m_QtAwesome = new QtAwesome(qApp);
     m_QtAwesome->initFontAwesome();
 }

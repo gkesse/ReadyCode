@@ -7,9 +7,9 @@
 //===============================================
 class GCode2;
 //===============================================
-class GObject2 : public QObject {
+class GObject2 {
 public:
-    GObject2(QObject* _parent = 0);
+    GObject2();
     virtual ~GObject2();
     virtual GObject2* clone() const;
     virtual bool createDoms();

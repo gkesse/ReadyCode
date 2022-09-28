@@ -28,7 +28,7 @@
 //===============================================
 class GLog : public GObject {
 public:
-    GLog(QObject* _parent = 0);
+    GLog();
     ~GLog();
     static GLog* Instance();
     GObject* clone();
