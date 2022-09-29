@@ -15,6 +15,7 @@ QMAKE_CXXFLAGS +=\
 GRLIB = $$(GPROJECT_ROOT)\ReadyLib\dev\mingw
 
 include($$GRLIB\src\qtawesome\QtAwesome.pri)
+include($$GRLIB\src\base64\GBase64.pri)
 
 INCLUDEPATH +=\
     ..\code\src\manager \

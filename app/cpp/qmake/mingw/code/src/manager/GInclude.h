@@ -19,6 +19,8 @@
 #include <sqlite3.h>
 // opencv
 #include <opencv2/opencv.hpp>
+// base64
+#include <base64.h>
 //===============================================
 #endif
 //===============================================

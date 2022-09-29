@@ -199,7 +199,7 @@ void GLog2::showErrors(const char* _name, int _level, const char* _file, int _li
     else {
         lMsgBox->setIcon(QMessageBox::Critical);
     }
-    lMsgBox->setText(lErrors.toQString());
+    lMsgBox->setText(lErrors.c_str());
     lMsgBox->exec();
     clearErrors();
 }
@@ -215,7 +215,7 @@ void GLog2::showLogs(const char* _name, int _level, const char* _file, int _line
     else {
         lMsgBox->setIcon(QMessageBox::Information);
     }
-    lMsgBox->setText(lLogs.toQString());
+    lMsgBox->setText(lLogs.c_str());
     lMsgBox->exec();
     clearLogs();
 }

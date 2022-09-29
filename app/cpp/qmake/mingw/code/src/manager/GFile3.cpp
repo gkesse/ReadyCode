@@ -26,7 +26,7 @@ GString GFile3::serialize(const GString& _code) const {
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
     lDom.addData(_code, "filename", m_filename);
-    lDom.addData(_code, "content", m_content);
+    lDom.addData(_code, "content", m_content, true);
     return lDom.toString();
 }
 //===============================================
@@ -76,20 +76,20 @@ GString GFile3::getContents() const {
 GString GFile3::getContentBin() const {
     if(m_fullname == "") return "";
     if(!existFile()) return "";
-    std::ifstream lFile(m_fullname.data(), std::ios::in | std::ios::binary);
+    std::ifstream lFile(m_fullname.c_str(), std::ios::in | std::ios::binary);
     std::vector<char> lData = std::vector<char>(std::istreambuf_iterator<char>(lFile), std::istreambuf_iterator<char>());
     return lData;
 }
 //===============================================
 void GFile3::setContents(const GString& _data) {
     if(m_fullname == "") return;
-    std::ofstream lFile(m_fullname.data());
-    lFile << _data.data();
+    std::ofstream lFile(m_fullname.c_str());
+    lFile << _data.c_str();
 }
 //===============================================
 void GFile3::setContentBin(const GString& _data) {
     if(m_fullname == "") return;
-    std::ofstream lFile(m_fullname.data(), std::ios::out | std::ios::binary);
-    lFile.write(_data.toVector().data(), _data.toVector().size());
+    std::ofstream lFile(m_fullname.c_str(), std::ios::out | std::ios::binary);
+    lFile.write(_data.data(), _data.size());
 }
 //===============================================

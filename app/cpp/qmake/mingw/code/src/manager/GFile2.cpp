@@ -28,14 +28,14 @@ GFile2::~GFile2() {
 //===============================================
 bool GFile2::existFile() const {
     if(m_filename == "") return false;
-    std::ifstream lFile(m_filename.data());
+    std::ifstream lFile(m_filename.c_str());
     return lFile.good();
 }
 //===============================================
 GString GFile2::getContent() const {
     if(m_filename == "") return "";
     if(!existFile()) return "";
-    std::ifstream lFile(m_filename.data());
+    std::ifstream lFile(m_filename.c_str());
     std::stringstream lBuffer;
     lBuffer << lFile.rdbuf();
     return lBuffer.str().c_str();
@@ -43,8 +43,8 @@ GString GFile2::getContent() const {
 //===============================================
 void GFile2::setContent(const GString& _data) {
     if(m_filename == "") return;
-    std::ofstream lFile(m_filename.data());
-    lFile << _data.data();
+    std::ofstream lFile(m_filename.c_str());
+    lFile << _data.c_str();
 }
 //===============================================
 GString GFile2::getAppendType() const {

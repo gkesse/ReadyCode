@@ -193,7 +193,7 @@ void GTitleBarApp::onConnection() {
 //===============================================
 void GTitleBarApp::setPseudo(const GString& _pseudo) {
     QPushButton* lConnection = (QPushButton*)getObj("connection");
-    lConnection->setText(_pseudo.toQString());
+    lConnection->setText(_pseudo.c_str());
 }
 //===============================================
 void GTitleBarApp::mousePressEvent(QMouseEvent* event) {

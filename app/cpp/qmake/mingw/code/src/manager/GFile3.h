@@ -7,7 +7,7 @@
 class GFile3 : public GModule2 {
 public:
     GFile3();
-    GFile3(const GString& _filename);
+    GFile3(const GString& _fullname);
     ~GFile3();
 
     GString serialize(const GString& _code = "file") const;

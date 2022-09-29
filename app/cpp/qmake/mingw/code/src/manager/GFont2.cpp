@@ -26,7 +26,7 @@ bool GFont2::loadFont() {
     for(int i = 0; i < lCount; i++) {
         GString lFont = m_dom->getData("fonts", i);
         GString lFile = GPATH("fonts", lFont);
-        QFontDatabase::addApplicationFont(lFile.toQString());
+        QFontDatabase::addApplicationFont(lFile.c_str());
     }
     return true;
 }

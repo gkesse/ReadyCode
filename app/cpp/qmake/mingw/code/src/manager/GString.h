@@ -17,14 +17,27 @@ public:
     GString(bool _data);
     GString(int _data);
     GString(const std::vector<char>& _data);
+    GString(const std::vector<uchar>& _data);
     GString(const GString& _data);
     ~GString();
 
     static GString* Instance();
 
+    void clear();
+    bool allocate(int _size);
+    void create(const QString& _data);
+    void create(const std::string& _data);
+    void create(const char* _data);
+    void create(char _data);
+    void create(bool _data);
+    void create(int _data);
+    void create(const std::vector<char>& _data);
+    void create(const std::vector<uchar>& _data);
+    void create(const GString& _data);
+
+    char*& data();
+    const char* data() const;
     const char* c_str() const;
-    const std::string& data() const;
-    std::string& data();
 
     GString extract(int _pos, const GString& _sep) const;
 
@@ -42,9 +55,7 @@ public:
     bool toBool() const;
     int toInt() const;
     bool toInt(int& _data, int _defaultValue = 0) const;
-    std::vector<char>& toVector();
-    const std::vector<char>& toVector() const;
-    QString toQString() const;
+    std::vector<char> toVector() const;
 
     GString getFormat(const char* _format, ...);
     void print() const;
@@ -52,6 +63,7 @@ public:
     GString& operator=(const GString& _data);
     GString& operator=(const QString& _data);
     GString& operator=(const std::vector<char>& _data);
+    GString& operator=(const std::vector<uchar>& _data);
     GString& operator=(const std::string& _data);
     GString& operator=(const char* _data);
     GString& operator=(char _data);
@@ -88,8 +100,8 @@ public:
 
 private:
     static GString* m_instance;
-    std::string m_data;
-    std::vector<char> m_datas;
+    char* m_data;
+    int m_size;
 };
 //==============================================
 #endif
