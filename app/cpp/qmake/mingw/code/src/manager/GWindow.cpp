@@ -4,6 +4,8 @@
 #include "GLog2.h"
 #include "GFile3.h"
 #include "GBase64.h"
+#include "GOption.h"
+#include "GPath2.h"
 //===============================================
 GWindow::GWindow(QWidget* _parent)
 : QMainWindow(_parent)
@@ -15,25 +17,92 @@ GWindow::~GWindow() {
 
 }
 //===============================================
-void GWindow::on_actionEnregistrerFichier_triggered() {
-    GFile3 lFile;
-    GFile3 lFile2;
-    GFile3 lFile3;
-    lFile.setFullname("C:\\Users\\tiaka\\Downloads\\eTools\\eDoc\\bryan\\bryan_lettre_absence.pdf");
-    lFile2.setFullname("C:\\Users\\tiaka\\Downloads\\eTools\\eDoc\\bryan\\bryan_lettre_absence_2.pdf");
-    lFile3.setFullname("C:\\Users\\tiaka\\Downloads\\eTools\\eDoc\\bryan\\bryan_lettre_absence_3.pdf");
+// file
+//===============================================
+void GWindow::on_actionStartConnection_triggered() {
+    GLOGT2(eGFUN, "");
+
+}
+//===============================================
+// file
+//===============================================
+void GWindow::on_actionSaveFile_triggered() {
+    GLOGT2(eGFUN, "");
+    GString lFullname(GPATH("pdf", "mon_fichier_send.pdf"));
+    GFile3 lFile(lFullname);
     GString lDataBin(lFile.getContentBin());
-    GLOGT2(eGMSG, GFORMAT("size : %d", lDataBin.size()));
-    lFile2.setContentBin(lDataBin);
-    lFile.setFilename("mon_fichier.pdf");
-    GString lData64 = GBase64(lDataBin).encodeData();
-    lDataBin = GBase64(lData64).decodeData();
-    lFile3.setContentBin(lDataBin);
-    lFile.setContent("9nV/c8R5A9y1o/+X+XX177r7x9lJgDY/jPPf2X7ZP+M7RF28CtrQHQH3Rtj3n76r9Vn4YWPMVAHrx/L69e6");
+    GString lData64(GBase64(lDataBin).encodeData());
+    lFile.setFilename(lFullname.getFilename());
+    lFile.setContent(lData64);
     lFile.saveFile();
 }
 //===============================================
-void GWindow::on_actionTelechargerFichier_triggered() {
+void GWindow::on_actionDownloadFile_triggered() {
     GLOGT2(eGFUN, "");
+    GString lFullname(GPATH("pdf", "mon_fichier_recv.pdf"));
+    GFile3 lFile(lFullname);
+    lFile.setId(1);
+    lFile.downloadFile();
+    GString lData64(lFile.getContent());
+    GString lDataBin(GBase64(lData64).decodeData());
+    lFile.setContentBin(lDataBin);
+}
+//===============================================
+// options
+//===============================================
+void GWindow::on_actionCreateOption_triggered() {
+    GOption lOption;
+    lOption.setName("enable_logs");
+    lOption.createOption();
+    GERROR_SHOWG2(eGERR);
+    GLOG_SHOWG2(eGLOG);
+}
+//===============================================
+void GWindow::on_actionEnableOption_triggered() {
+    GOption lOption;
+    lOption.setName("enable_logs");
+    lOption.enableOption();
+    GERROR_SHOWG2(eGERR);
+    GLOG_SHOWG2(eGLOG);
+}
+//===============================================
+void GWindow::on_actionDisableOption_triggered() {
+    GOption lOption;
+    lOption.setName("enable_logs");
+    lOption.disableOption();
+    GERROR_SHOWG2(eGERR);
+    GLOG_SHOWG2(eGLOG);
+}
+//===============================================
+void GWindow::on_actionReadOption_triggered() {
+    GOption lOption;
+    lOption.setName("enable_logs");
+    lOption.readOption();
+    GERROR_SHOWG2(eGERR);
+    GLOG_SHOWG2(eGLOG);
+}
+//===============================================
+void GWindow::on_actionUpdateOption_triggered() {
+    GOption lOption;
+    lOption.setName("enable_logs");
+    lOption.setState(true);
+    lOption.updateOption();
+    GERROR_SHOWG2(eGERR);
+    GLOG_SHOWG2(eGLOG);
+}
+//===============================================
+void GWindow::on_actionDeleteOption_triggered() {
+    GOption lOption;
+    lOption.setName("enable_logs");
+    lOption.deleteOption();
+    GERROR_SHOWG2(eGERR);
+    GLOG_SHOWG2(eGLOG);
+}
+//===============================================
+void GWindow::on_actionSearchOption_triggered() {
+    GOption lOption;
+    lOption.setName("enable_log");
+    GERROR_SHOWG2(eGERR);
+    GLOG_SHOWG2(eGLOG);
 }
 //===============================================

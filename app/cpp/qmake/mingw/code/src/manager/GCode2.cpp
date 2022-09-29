@@ -78,7 +78,6 @@ GString GCode2::getData(const GString& _code, int _index) {
 }
 //===============================================
 bool GCode2::getData(const GString& _code, std::vector<GObject2*>& _map, GObject2* _obj) {
-    clearMap(_map);
     int lCount = countMap(_code);
     for(int i = 0; i < lCount; i++) {
         getMap(_code, i);

@@ -60,8 +60,9 @@ GString GClient::callServer(const GString& _module, const GString& _method, cons
     lDom.loadData(_data);
     GString lData = lDom.toString();
     setRequest(lData);
+    GLOGT2(eGMSG, lData.c_str());
     GSocket2::callServer();
-    GLOGI2->serialize(m_response);
+    GLOGI2->deserialize(m_response);
     return m_response;
 }
 //===============================================
@@ -102,7 +103,7 @@ bool GClient::onReadyApp() {
 bool GClient::isReadyApp() {
     GString lHeader = m_dataIn.extract(1, ";").trim();
     GString lApiKey, lUsername, lPassword, lSize;
-    int lCount = lHeader.count("|");
+    int lCount = lHeader.countSep("|");
 
     for(int i = 0; i < lCount; i++) {
         GString lWord = lHeader.extract(i, "|").trim();

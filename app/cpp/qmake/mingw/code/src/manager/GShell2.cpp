@@ -49,7 +49,7 @@ void GShell2::runCommand(const GString& _command) {
 }
 //===============================================
 GString GShell2::runSystem(const GString& _command) {
-    GLOGT2(eGINF, _command);
+    GLOGT2(eGINF, _command.c_str());
     return runSystem(_command, getTmpDir(), getTmpInFilename(), getTmpOutFilename());
 }
 //===============================================

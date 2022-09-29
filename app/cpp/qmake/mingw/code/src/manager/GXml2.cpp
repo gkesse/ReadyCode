@@ -86,7 +86,7 @@ bool GXml2::createNode(const GString& _name) {
 }
 //===============================================
 bool GXml2::createNodePath(const GString& _path) {
-    int lCount = _path.count("/");
+    int lCount = _path.countSep("/");
     GString lPath = "";
     for(int i = 0; i < lCount; i++) {
         GString lItem = _path.extract(i, "/");
@@ -152,6 +152,7 @@ int GXml2::countNode(const GString& _path) {
 //===============================================
 GString GXml2::toString() const {
     if(!m_doc) return "";
+    if(!m_node) return "";
     xmlChar* lBuffer = NULL;
     int lSize;
     xmlDocDumpFormatMemoryEnc(m_doc, &lBuffer, &lSize, "UTF-8", 4);
@@ -161,6 +162,7 @@ GString GXml2::toString() const {
 }
 //===============================================
 GString GXml2::toNode() const {
+    if(!m_doc) return "";
     if(!m_node) return "";
     xmlBufferPtr lBuffer = xmlBufferCreate();
     xmlNodeDump(lBuffer, m_doc, m_node, 0, 1);

@@ -27,26 +27,146 @@
     <property name="title">
      <string>Test</string>
     </property>
-    <widget class="QMenu" name="menuFichier">
+    <widget class="QMenu" name="menuFile">
      <property name="title">
       <string>Fichier</string>
      </property>
-     <addaction name="actionEnregistrerFichier"/>
-     <addaction name="actionTelechargerFichier"/>
+     <addaction name="actionSaveFile"/>
+     <addaction name="actionDownloadFile"/>
     </widget>
-    <addaction name="menuFichier"/>
+    <widget class="QMenu" name="menuOptions">
+     <property name="title">
+      <string>Options</string>
+     </property>
+     <addaction name="actionCreateOption"/>
+     <addaction name="actionEnableOption"/>
+     <addaction name="actionDisableOption"/>
+     <addaction name="actionReadOption"/>
+     <addaction name="actionUpdateOption"/>
+     <addaction name="actionDeleteOption"/>
+     <addaction name="actionSearchOption"/>
+    </widget>
+    <widget class="QMenu" name="menuConnection">
+     <property name="title">
+      <string>Connexion</string>
+     </property>
+     <addaction name="actionStartConnection"/>
+     <addaction name="actionCcreateAccount"/>
+     <addaction name="actionEnableAccount"/>
+     <addaction name="actionDisableAccount"/>
+     <addaction name="actionRechercher_un_compte"/>
+     <addaction name="actionModifier_un_compte"/>
+     <addaction name="actionSupprimer_un_compte"/>
+     <addaction name="actionCreateGroup"/>
+     <addaction name="actionSearchGroup"/>
+     <addaction name="actionDeleteAccount"/>
+     <addaction name="actionUpdateGroup"/>
+    </widget>
+    <addaction name="menuFile"/>
+    <addaction name="menuOptions"/>
+    <addaction name="menuConnection"/>
    </widget>
    <addaction name="menuTest"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionEnregistrerFichier">
+  <action name="actionSaveFile">
    <property name="text">
     <string>Enregistrer un fichier</string>
    </property>
   </action>
-  <action name="actionTelechargerFichier">
+  <action name="actionDownloadFile">
    <property name="text">
     <string>Télécharger un fichier</string>
+   </property>
+  </action>
+  <action name="actionCreateOption">
+   <property name="text">
+    <string>Créer une option</string>
+   </property>
+  </action>
+  <action name="actionEnableOption">
+   <property name="text">
+    <string>Activer une option</string>
+   </property>
+  </action>
+  <action name="actionDisableOption">
+   <property name="text">
+    <string>Désactiver une option</string>
+   </property>
+  </action>
+  <action name="actionReadOption">
+   <property name="text">
+    <string>Lire une option</string>
+   </property>
+  </action>
+  <action name="actionUpdateOption">
+   <property name="text">
+    <string>Modifier une option</string>
+   </property>
+  </action>
+  <action name="actionDeleteOption">
+   <property name="text">
+    <string>Supprimer une option</string>
+   </property>
+  </action>
+  <action name="actionSearchOption">
+   <property name="text">
+    <string>Rechercher une option</string>
+   </property>
+  </action>
+  <action name="actionStartConnection">
+   <property name="text">
+    <string>Démarrer une connexion</string>
+   </property>
+  </action>
+  <action name="actionCcreateAccount">
+   <property name="text">
+    <string>Créer un compte</string>
+   </property>
+  </action>
+  <action name="actionCreateGroup">
+   <property name="text">
+    <string>Créer un groupe</string>
+   </property>
+  </action>
+  <action name="actionSearchGroup">
+   <property name="text">
+    <string>Rechercher un groupe</string>
+   </property>
+  </action>
+  <action name="actionDeleteAccount">
+   <property name="text">
+    <string>Supprimer un groupe</string>
+   </property>
+  </action>
+  <action name="actionUpdateGroup">
+   <property name="text">
+    <string>Modifier un groupe</string>
+   </property>
+  </action>
+  <action name="actionEnableAccount">
+   <property name="text">
+    <string>Activer un compte</string>
+   </property>
+  </action>
+  <action name="actionDisableAccount">
+   <property name="text">
+    <string>Désactiver un compte</string>
+   </property>
+  </action>
+  <action name="actionRechercher_un_compte">
+   <property name="text">
+    <string>Rechercher un compte</string>
+   </property>
+  </action>
+  <action name="actionModifier_un_compte">
+   <property name="text">
+    <string>Modifier un compte</string>
+   </property>
+  </action>
+  <action name="actionSupprimer_un_compte">
+   <property name="text">
+    <string>Supprimer un compte</string>
    </property>
   </action>
  </widget>

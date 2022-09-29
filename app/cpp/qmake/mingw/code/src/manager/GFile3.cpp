@@ -40,8 +40,8 @@ bool GFile3::deserialize(const GString& _data, const GString& _code) {
     return true;
 }
 //===============================================
-void GFile3::setFullname(const GString& _fullname) {
-    m_fullname = _fullname;
+void GFile3::setId(int _id) {
+    m_id = _id;
 }
 //===============================================
 void GFile3::setFilename(const GString& _filename) {
@@ -52,10 +52,12 @@ void GFile3::setContent(const GString& _content) {
     m_content = _content;
 }
 //===============================================
-void GFile3::saveFile() {
-    GString lData = serialize();
-    lData = GCLIENTI->callServer("file", "save_file", lData);
-    deserialize(lData);
+GString GFile3::getContent() const {
+    return m_content;
+}
+//===============================================
+void GFile3::setFullname(const GString& _fullname) {
+    m_fullname = _fullname;
 }
 //===============================================
 bool GFile3::existFile() const {
@@ -91,5 +93,17 @@ void GFile3::setContentBin(const GString& _data) {
     if(m_fullname == "") return;
     std::ofstream lFile(m_fullname.c_str(), std::ios::out | std::ios::binary);
     lFile.write(_data.data(), _data.size());
+}
+//===============================================
+void GFile3::saveFile() {
+    GString lData = serialize();
+    lData = GCLIENTI->callServer("file", "save_file", lData);
+    deserialize(lData);
+}
+//===============================================
+void GFile3::downloadFile() {
+    GString lData = serialize();
+    lData = GCLIENTI->callServer("file", "download_file", lData);
+    deserialize(lData);
 }
 //===============================================

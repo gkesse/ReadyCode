@@ -41,7 +41,7 @@ public:
 
     GString extract(int _pos, const GString& _sep) const;
 
-    int count(const GString& _sep) const;
+    int countSep(const GString& _sep) const;
 
     bool isEmpty() const;
     bool isSep(char _char) const;
@@ -57,7 +57,8 @@ public:
     bool toInt(int& _data, int _defaultValue = 0) const;
     std::vector<char> toVector() const;
 
-    GString getFormat(const char* _format, ...);
+    GString getFormat(const char* _format, ...) const;
+    GString getFilename() const;
     void print() const;
 
     GString& operator=(const GString& _data);

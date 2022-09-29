@@ -242,7 +242,7 @@ GString GString::extract(int _pos, const GString& _sep) const {
     return lWord;
 }
 //===============================================
-int GString::count(const GString& _sep) const {
+int GString::countSep(const GString& _sep) const {
     int lCount = 1;
     for(int i = 0; i < m_size; i++) {
         char lChar = m_data[i];
@@ -372,15 +372,22 @@ std::vector<char> GString::toVector() const {
     return lData;
 }
 //===============================================
-GString GString::getFormat(const char* _format, ...) {
+GString GString::getFormat(const char* _format, ...) const {
     va_list lArgs;
     va_start (lArgs, _format);
     int lSize = vsnprintf(0, 0, _format, lArgs);
+    if(lSize == 0) return "";
     GString lData;
     lData.allocate(lSize);
     vsnprintf(lData.m_data, lData.m_size + 1, _format, lArgs);
     va_end(lArgs);
     return lData;
+}
+//===============================================
+GString GString::getFilename() const {
+    if(isEmpty()) return "";
+    int lCount = countSep("/\\");
+    return extract(lCount - 1, "/\\");
 }
 //===============================================
 void GString::print() const {

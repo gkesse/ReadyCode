@@ -13,16 +13,21 @@ public:
     GString serialize(const GString& _code = "file") const;
     bool deserialize(const GString& _data, const GString& _code = "file");
 
-    void setFullname(const GString& _fullname);
+    void setId(int _id);
     void setFilename(const GString& _filename);
     void setContent(const GString& _content);
-    void saveFile();
+    GString getContent() const;
+
+    void setFullname(const GString& _fullname);
 
     bool existFile() const;
     GString getContents() const;
     GString getContentBin() const;
     void setContents(const GString& _data);
     void setContentBin(const GString& _data);
+
+    void saveFile();
+    void downloadFile();
 
 private:
     int m_id;

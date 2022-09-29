@@ -7,6 +7,7 @@
 #include "GFile2.h"
 #include "GPath2.h"
 #include "GShell2.h"
+#include "GClient.h"
 //===============================================
 GLog2* GLog2::m_instance = 0;
 //===============================================
@@ -371,5 +372,17 @@ GString GLog2::toString(const std::vector<std::vector<GString>>& _data) const {
         }
     }
     return lData;
+}
+//===============================================
+void GLog2::enableLogs() {
+    GString lData = serialize();
+    lData = GCLIENTI->callServer("logs", "enable_logs", lData);
+    deserialize(lData);
+}
+//===============================================
+void GLog2::disableLogs() {
+    GString lData = serialize();
+    lData = GCLIENTI->callServer("logs", "disable_logs", lData);
+    deserialize(lData);
 }
 //===============================================

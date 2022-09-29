@@ -16,8 +16,19 @@ public:
     ~GWindow();
 
 public slots:
-    void on_actionEnregistrerFichier_triggered();
-    void on_actionTelechargerFichier_triggered();
+    // connection
+    void on_actionStartConnection_triggered();
+    // file
+    void on_actionSaveFile_triggered();
+    void on_actionDownloadFile_triggered();
+    // options
+    void on_actionCreateOption_triggered();
+    void on_actionEnableOption_triggered();
+    void on_actionDisableOption_triggered();
+    void on_actionReadOption_triggered();
+    void on_actionUpdateOption_triggered();
+    void on_actionDeleteOption_triggered();
+    void on_actionSearchOption_triggered();
 
 private:
     Ui::GWindow *ui;

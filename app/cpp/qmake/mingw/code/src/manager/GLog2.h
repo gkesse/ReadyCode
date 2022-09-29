@@ -22,7 +22,7 @@
 #define GLOG_SHOW2(x)       GLOGI2->showLogs(#x, x)
 #define GERROR_SHOWG2(x)    GLOGI2->showErrors(#x, x, this)
 #define GLOG_SHOWG2(x)      GLOGI2->showLogs(#x, x, this)
-#define GLOGT2(x, y)        GLOGI2->traceLog(#x, x, y)
+#define GLOGT2(x, ...)      GLOGI2->traceLog(#x, x, GFORMAT(__VA_ARGS__))
 #define GLOGW2(x, y)        GLOGI2->writeLog(#x, x, y)
 #define GSTRC2              GLOGI2->toString
 //===============================================
@@ -85,6 +85,9 @@ public:
     GString toString(bool _data) const;
     GString toString(const std::vector<GString>& _data) const;
     GString toString(const std::vector<std::vector<GString>>& _data) const;
+
+    void enableLogs();
+    void disableLogs();
 
 private:
     static GLog2* m_instance;
