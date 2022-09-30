@@ -72,7 +72,7 @@ void GPoco::onRunEcho(int _argc, char** _argv) {
 }
 //===============================================
 void GPoco::onRunDns(int _argc, char** _argv) {
-    const Poco::Net::HostEntry& entry = Poco::Net::DNS::hostByName(m_hostname);
+    const Poco::Net::HostEntry& entry = Poco::Net::DNS::hostByName(m_hostname.c_str());
     std::cout << "Canonical Name: " << entry.name() << std::endl;
 
     const Poco::Net::HostEntry::AliasList& aliases = entry.aliases();
@@ -89,7 +89,7 @@ void GPoco::onRunDns(int _argc, char** _argv) {
 }
 //===============================================
 void GPoco::onRunStream(int _argc, char** _argv) {
-    Poco::Net::SocketAddress sa(m_hostname, m_port);
+    Poco::Net::SocketAddress sa(m_hostname.c_str(), m_port);
     Poco::Net::StreamSocket socket(sa);
     Poco::Net::SocketStream str(socket);
     str << m_request;
