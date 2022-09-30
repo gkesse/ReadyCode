@@ -23,14 +23,13 @@ public:
 
     void clear();
     bool allocate(int _size);
-    void create(const GString& _data);
-    void create(const char* _data);
-    void create(char _data);
-    void create(bool _data);
-    void create(int _data);
-    void create(const std::vector<char>& _data);
-    void create(const std::vector<uchar>& _data);
-    void create(const GString& _data);
+    void assign(const GString& _data);
+    void assign(const char* _data);
+    void assign(char _data);
+    void assign(bool _data);
+    void assign(int _data);
+    void assign(const std::vector<char>& _data);
+    void assign(const std::vector<uchar>& _data);
 
     char*& data();
     const char* data() const;

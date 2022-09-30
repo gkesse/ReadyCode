@@ -14,49 +14,49 @@ GString::GString() {
 GString::GString(const GString& _data) {
     m_data = 0;
     m_size = 0;
-    create(_data);
+    assign(_data);
 }
 //===============================================
 GString::GString(const char* _data) {
     m_data = 0;
     m_size = 0;
-    create(_data);
+    assign(_data);
 }
 //===============================================
 GString::GString(char _data) {
     m_data = 0;
     m_size = 0;
-    create(_data);
+    assign(_data);
 }
 //===============================================
 GString::GString(bool _data) {
     m_data = 0;
     m_size = 0;
-    create(_data);
+    assign(_data);
 }
 //===============================================
 GString::GString(int _data) {
     m_data = 0;
     m_size = 0;
-    create(_data);
+    assign(_data);
 }
 //===============================================
 GString::GString(const std::vector<char>& _data) {
     m_data = 0;
     m_size = 0;
-    create(_data);
+    assign(_data);
 }
 //===============================================
 GString::GString(const std::vector<uchar>& _data) {
     m_data = 0;
     m_size = 0;
-    create(_data);
+    assign(_data);
 }
 //===============================================
 GString::GString(const GString& _data) {
     m_data = 0;
     m_size = 0;
-    create(_data);
+    assign(_data);
 }
 //===============================================
 GString::~GString() {
@@ -84,7 +84,7 @@ bool GString::allocate(int _size) {
     return true;
 }
 //===============================================
-void GString::create(const GString& _data) {
+void GString::assign(const GString& _data) {
     clear();
     m_size = (int)_data.size();
     if(m_size == 0) return;
@@ -96,7 +96,7 @@ void GString::create(const GString& _data) {
     m_data[m_size] = '\0';
 }
 //===============================================
-void GString::create(const char* _data) {
+void GString::assign(const char* _data) {
     clear();
     if(_data == 0) return;
     m_size = (int)strlen(_data);
@@ -109,7 +109,7 @@ void GString::create(const char* _data) {
     m_data[m_size] = '\0';
 }
 //===============================================
-void GString::create(char _data) {
+void GString::assign(char _data) {
     clear();
     m_size = 1;
     m_data = new char[m_size + 1];
@@ -117,7 +117,7 @@ void GString::create(char _data) {
     m_data[m_size] = '\0';
 }
 //===============================================
-void GString::create(bool _data) {
+void GString::assign(bool _data) {
     clear();
     char lData = (_data ? '1' : '0');
     m_size = 1;
@@ -126,7 +126,7 @@ void GString::create(bool _data) {
     m_data[m_size] = '\0';
 }
 //===============================================
-void GString::create(int _data) {
+void GString::assign(int _data) {
     clear();
     int lDivisor = 1;
     int lBufferLength = 1;
@@ -159,7 +159,7 @@ void GString::create(int _data) {
     m_data[lBufferIndex] = '\0';
 }
 //===============================================
-void GString::create(const std::vector<char>& _data) {
+void GString::assign(const std::vector<char>& _data) {
     clear();
     m_size = (int)_data.size();
     if(m_size == 0) return;
@@ -171,7 +171,7 @@ void GString::create(const std::vector<char>& _data) {
     m_data[m_size] = '\0';
 }
 //===============================================
-void GString::create(const std::vector<uchar>& _data) {
+void GString::assign(const std::vector<uchar>& _data) {
     clear();
     m_size = (int)_data.size();
     if(m_size == 0) return;
@@ -183,7 +183,7 @@ void GString::create(const std::vector<uchar>& _data) {
     m_data[m_size] = '\0';
 }
 //===============================================
-void GString::create(const GString& _data) {
+void GString::assign(const GString& _data) {
     clear();
     m_size = _data.m_size;
     if(m_size == 0) return;
@@ -377,42 +377,42 @@ void GString::print() const {
 }
 //===============================================
 GString& GString::operator=(const GString& _data) {
-    create(_data);
+    assign(_data);
     return *this;
 }
 //===============================================
 GString& GString::operator=(const std::vector<char>& _data) {
-    create(_data);
+    assign(_data);
     return *this;
 }
 //===============================================
 GString& GString::operator=(const std::vector<uchar>& _data) {
-    create(_data);
+    assign(_data);
     return *this;
 }
 //===============================================
 GString& GString::operator=(const GString& _data) {
-    create(_data);
+    assign(_data);
     return *this;
 }
 //===============================================
 GString& GString::operator=(const char* _data) {
-    create(_data);
+    assign(_data);
     return *this;
 }
 //===============================================
 GString& GString::operator=(char _data) {
-    create(_data);
+    assign(_data);
     return *this;
 }
 //===============================================
 GString& GString::operator=(bool _data) {
-    create(_data);
+    assign(_data);
     return *this;
 }
 //===============================================
 GString& GString::operator=(int _data) {
-    create(_data);
+    assign(_data);
     return *this;
 }
 //===============================================
