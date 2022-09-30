@@ -50,7 +50,7 @@ bool GConnection::deserialize(const GString& _data, const GString& _code) {
     m_password = lDom.getData(_code, "password");
     m_email = lDom.getData(_code, "email");
     m_group = lDom.getData(_code, "group");
-    m_active = lDom.getData(_code, "active").toChar();
+    m_active = lDom.getData(_code, "active").toBool();
     m_isConnect = lDom.getData(_code, "is_connect").toBool();
     return true;
 }
@@ -123,7 +123,7 @@ bool GConnection::loadUser() {
     m_password = lRow.at(i++);
     m_email = lRow.at(i++);
     m_group = lRow.at(i++);
-    m_active = lRow.at(i++).toChar();
+    m_active = lRow.at(i++).toBool();
     return true;
 }
 //===============================================
