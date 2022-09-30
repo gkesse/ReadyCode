@@ -107,15 +107,8 @@ void GMaj::createDB(bool _isTestEnv) {
 //===============================================
 void GMaj::loadCode() {
     if(m_filename == "") return;
-
-    m_code = GString(m_filename).splitData('-').at(0);
-
-    GLOGT(eGOFF, ""
-            "code.........: (%s)\n"
-            "filename.....: (%s)\n"
-            "", m_code.c_str()
-            , m_filename.c_str()
-    );
+    m_code = GString(m_filename).extract(0, "-");
+    GLOGT(eGMSG, "%s : %s", m_code.c_str(), m_filename.c_str());
 }
 //===============================================
 void GMaj::loadId() {
@@ -134,7 +127,7 @@ void GMaj::loadId(bool _isTestEnv) {
 
     m_id = GString(lId).toInt();
 
-    GLOGT(eGOFF, "m_id.........: %d", m_id);
+    GLOGT(eGOFF, "%d", m_id);
 }
 //===============================================
 void GMaj::saveData() {
