@@ -2,7 +2,7 @@
 #ifndef _GPocoServerTcp_
 #define _GPocoServerTcp_
 //===============================================
-#include "GInclude.h"
+#include "GObject.h"
 //===============================================
 class GPocoServerTcp : public Poco::Net::TCPServerConnection {
 public:

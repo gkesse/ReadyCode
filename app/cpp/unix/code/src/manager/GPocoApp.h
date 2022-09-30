@@ -2,7 +2,7 @@
 #ifndef _GPocoApp_
 #define _GPocoApp_
 //===============================================
-#include "GInclude.h"
+#include "GObject.h"
 //===============================================
 class GPocoApp : public Poco::Util::Application {
 public:

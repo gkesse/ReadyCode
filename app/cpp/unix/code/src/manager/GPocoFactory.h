@@ -2,7 +2,7 @@
 #ifndef _GPocoFactory_
 #define _GPocoFactory_
 //===============================================
-#include "GInclude.h"
+#include "GObject.h"
 //===============================================
 class GPocoFactory : public Poco::Net::TCPServerConnectionFactory {
 public:
