@@ -10,13 +10,12 @@ GPocoReactor::GPocoReactor(Poco::Net::StreamSocket& _socket, Poco::Net::SocketRe
 , m_dataOut(BUFFER_SIZE, true) {
     Poco::Util::Application& lApp = Poco::Util::Application::instance();
     m_hostname = m_socket.peerAddress().toString();
-    lApp.logger().information("Connection from " + m_hostname.c_str());
+    lApp.logger().information(GFORMAT("Connection from %", m_hostname.c_str()).c_str());
 
     m_reactor.addEventHandler(m_socket, Poco::NObserver<GPocoReactor, Poco::Net::ReadableNotification>(*this, &GPocoReactor::onSocketReadable));
     m_reactor.addEventHandler(m_socket, Poco::NObserver<GPocoReactor, Poco::Net::ShutdownNotification>(*this, &GPocoReactor::onSocketShutdown));
     m_dataOut.readable += Poco::delegate(this, &GPocoReactor::onFIFOOutReadable);
     m_dataIn.writable += Poco::delegate(this, &GPocoReactor::onFIFOInWritable);
-
 }
 //===============================================
 GPocoReactor::~GPocoReactor() {
