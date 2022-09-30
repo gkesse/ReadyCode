@@ -515,22 +515,6 @@ bool GString::operator<(const GString& _data) const {
     return false;
 }
 //===============================================
-bool GString::operator!=(const std::string& _data) const {
-    return !(*this == GString(_data));
-}
-//===============================================
-bool GString::operator!=(const char* _data) const {
-    return !(*this == GString(_data));
-}
-//===============================================
-bool GString::operator!=(char _data) const {
-    return !(*this == GString(_data));
-}
-//===============================================
-bool GString::operator!=(int _data) const {
-    return !(*this == GString(_data));
-}
-//===============================================
 char& GString::operator[](int _index) {
     return m_data[_index];
 }
