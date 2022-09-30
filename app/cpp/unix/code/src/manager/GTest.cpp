@@ -310,7 +310,7 @@ void GTest::runIntString(int _argc, char** _argv) {
 
     sprintf(lBuffer, "%*d", BUFFER_SIZE, lInt);
     GString lString = lBuffer;
-    int lNumber = std::stoi(lString);
+    int lNumber = std::stoi(lString.c_str());
     int lSize = lString.size();
 
     GLOGT(eGINF, "int.....: [%d]\n", lInt);
@@ -327,7 +327,7 @@ void GTest::runIntStringVector(int _argc, char** _argv) {
     std::vector<char> lBuffer(BUFFER_SIZE + 1);
     snprintf(lBuffer.data(), lBuffer.size(), "%*d", BUFFER_SIZE, lInt);
     GString lData = lBuffer.data();
-    int lNumber = std::stoi(lData);
+    int lNumber = std::stoi(lData.c_str());
     int lSize = lData.size();
     GString lFormat = GFORMAT("%-*d", BUFFER_SIZE, lInt);
 
@@ -700,7 +700,7 @@ void GTest::runSocketServer(int _argc, char** _argv) {
     int lFamily = lServer.loadFamily();
     GString lClientIp = lServer.getItem("socket", "client_ip");
     int lPort = lServer.loadPort();
-    int lBacklog = std::stoi(lServer.getItem("socket", "backlog"));
+    int lBacklog = std::stoi(lServer.getItem("socket", "backlog").c_str());
 
     lServer.createSocket(lDomain, lType, lProtocol);
     lServer.createAddress(lFamily, lClientIp, lPort);
