@@ -496,6 +496,31 @@ bool GString::operator!=(int _data) const {
     return !(*this == GString(_data));
 }
 //===============================================
+bool GString::operator<(const GString& _data) const {
+    if(isEmpty() && _data.isEmpty()) return false;
+    if(isEmpty()) return true;
+    if(_data.isEmpty()) return false;
+    int lCompare = strcmp(m_data, _data.m_data);
+    if(lCompare < 0) return true;
+    return false;
+}
+//===============================================
+bool GString::operator!=(const std::string& _data) const {
+    return !(*this == GString(_data));
+}
+//===============================================
+bool GString::operator!=(const char* _data) const {
+    return !(*this == GString(_data));
+}
+//===============================================
+bool GString::operator!=(char _data) const {
+    return !(*this == GString(_data));
+}
+//===============================================
+bool GString::operator!=(int _data) const {
+    return !(*this == GString(_data));
+}
+//===============================================
 char& GString::operator[](int _index) {
     return m_data[_index];
 }
