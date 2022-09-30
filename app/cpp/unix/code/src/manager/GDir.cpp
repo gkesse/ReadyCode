@@ -1,7 +1,8 @@
 //===============================================
 #include "GDir.h"
 //===============================================
-GDir::GDir() : GObject() {
+GDir::GDir()
+: GObject() {
 
 }
 //===============================================
@@ -9,7 +10,7 @@ GDir::~GDir() {
 
 }
 //===============================================
-std::vector<GString> GDir::openDir(const GString& _path, bool _fullOn, bool _dotOn) const {
+/*std::vector<GString> GDir::openDir(const GString& _path, bool _fullOn, bool _dotOn) const {
     struct dirent* lEntry = 0;
     DIR* lDir = opendir(_path.c_str());
     std::vector<GString> lFiles;
@@ -26,5 +27,5 @@ std::vector<GString> GDir::openDir(const GString& _path, bool _fullOn, bool _dot
     }
     std::sort(lFiles.begin(), lFiles.end());
     return lFiles;
-}
+}*/
 //===============================================
