@@ -38,6 +38,7 @@ public:
     const char* c_str() const;
 
     GString extract(int _pos, const GString& _sep) const;
+    std::vector<GString> split(const GString& _sep = ";") const;
 
     int countSep(const GString& _sep) const;
 

@@ -66,8 +66,8 @@ int GSocket::loadPort() const {
 }
 //===============================================
 int GSocket::loadPort(int _isTestEnv) const {
-    int lPort = std::stoi(getItem("socket", "prod_port"));
-    if(_isTestEnv) lPort = std::stoi(getItem("socket", "test_port"));
+    int lPort = std::stoi(getItem("socket", "prod_port").c_str());
+    if(_isTestEnv) lPort = std::stoi(getItem("socket", "test_port").c_str());
     return lPort;
 }
 //===============================================
@@ -188,8 +188,8 @@ int GSocket::readData(GString& _data) {
     int lSize = recvData(lBuffer, BUFFER_NDATA_SIZE);
     GLOGT(eGMSG, "[%s]", lBuffer.c_str());
     if(lSize != BUFFER_NDATA_SIZE) return -1;
-    lBuffer = GString(lBuffer).trimData();
-    std::vector<GString> lMap = GString(lBuffer).splitData(';');
+    lBuffer = GString(lBuffer).trim();
+    std::vector<GString> lMap = GString(lBuffer).split(';');
     if(lMap.size() != 2) return -1;
     lBuffer = lMap.at(0);
     GString lKey = getItem("socket", "api_key");

@@ -222,6 +222,16 @@ GString GString::extract(int _pos, const GString& _sep) const {
     return lWord;
 }
 //===============================================
+std::vector<GString> GString::split(const GString& _sep) const {
+    std::vector<GString> lMap;
+    int lCount = countSep(_sep);
+    for(int i = 0; i < lCount; i++) {
+        GString lData = extract(i, _sep);
+        lMap.push_back(lData);
+    }
+    return lMap;
+}
+//===============================================
 int GString::countSep(const GString& _sep) const {
     int lCount = 1;
     for(int i = 0; i < m_size; i++) {
