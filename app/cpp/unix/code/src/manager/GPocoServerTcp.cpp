@@ -35,7 +35,7 @@ void GPocoServerTcp::onRunTcp() {
 void GPocoServerTcp::onRunTime() {
     m_hostname = this->socket().peerAddress().toString();
     Poco::Util::Application& lApp = Poco::Util::Application::instance();
-    lApp.logger().information("Request from " + m_hostname.c_str());
+    lApp.logger().information(GFORMAT("Request from %s", m_hostname.c_str()).c_str());
     try {
         Poco::Timestamp lNow;
         GString lTime(Poco::DateTimeFormatter::format(lNow, m_format.c_str()));
