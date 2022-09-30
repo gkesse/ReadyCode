@@ -22,7 +22,7 @@ GPocoReactor::~GPocoReactor() {
     Poco::Util::Application& lApp = Poco::Util::Application::instance();
     try {
         m_hostname = m_socket.peerAddress().toString();
-        lApp.logger().information("Disconnecting " + m_hostname.c_str());
+        lApp.logger().information(GFORMAT("Disconnecting %s", m_hostname.c_str()).c_str());
     }
     catch (...) {
     }
