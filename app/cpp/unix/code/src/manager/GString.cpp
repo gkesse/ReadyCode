@@ -321,7 +321,7 @@ GString GString::substr(int _pos, int _size) const {
 
     int lLength = m_size - _pos;
 
-    if (_size > lLength) {
+    if (_size < 0 || _size > lLength) {
         _size = lLength;
     }
 
