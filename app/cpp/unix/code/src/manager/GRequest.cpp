@@ -125,7 +125,7 @@ void GRequest::loadRequestList(GSocket* _client) {
         std::vector<GString> lDataRow = lReq.at(i);
         int j = 0;
         GRequest lReqObj;
-        lReqObj.m_id = std::stoi(lDataRow.at(j++));
+        lReqObj.m_id = lDataRow.at(j++).toInt();
         lReqObj.m_module = lDataRow.at(j++);
         lReqObj.m_method = lDataRow.at(j++);
         lReqObj.m_msg = lDataRow.at(j++);
