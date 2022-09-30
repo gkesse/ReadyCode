@@ -87,7 +87,7 @@ bool GXml2::createNode(const GString& _name) {
 }
 //===============================================
 bool GXml2::createNodePath(const GString& _path) {
-    int lCount = _path.count("/");
+    int lCount = _path.countSep("/");
     GString lPath = "";
     for(int i = 0; i < lCount; i++) {
         GString lItem = _path.extract(i, "/");
