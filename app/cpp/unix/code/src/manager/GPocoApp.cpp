@@ -47,7 +47,7 @@ void GPocoApp::onUninitPing() {
 }
 //===============================================
 void GPocoApp::onMainPing(const std::vector<GString>& _args) {
-    m_icmpClient->ping(m_hostname, m_repetitions);
+    m_icmpClient->ping(m_hostname.c_str(), m_repetitions);
 }
 //===============================================
 void GPocoApp::onBeginPing(const void* _sender, Poco::Net::ICMPEventArgs& _args) {
