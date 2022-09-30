@@ -36,27 +36,27 @@ GSocket2* GServer::clone() const {
     return new GServer;
 }
 //===============================================
-void GServer::setMethod(const GString2& _method) {
+void GServer::setMethod(const GString& _method) {
     m_method = _method;
 }
 //===============================================
-void GServer::setApiKey(const GString2& _apiKey) {
+void GServer::setApiKey(const GString& _apiKey) {
     m_apiKey = _apiKey;
 }
 //===============================================
-void GServer::setUsername(const GString2& _username) {
+void GServer::setUsername(const GString& _username) {
     m_username = _username;
 }
 //===============================================
-void GServer::setPassword(const GString2& _password) {
+void GServer::setPassword(const GString& _password) {
     m_password = _password;
 }
 //===============================================
-void GServer::setResponse(const GString2& _response) {
+void GServer::setResponse(const GString& _response) {
     m_response = _response;
 }
 //===============================================
-GString2 GServer::getRequest() const {
+GString GServer::getRequest() const {
     return m_request;
 }
 //===============================================
@@ -102,12 +102,12 @@ bool GServer::onHttpApp() {
 }
 //===============================================
 bool GServer::isReadyApp() {
-    GString2 lHeader = m_dataIn.extract(1, ";").trim();
-    GString2 lApiKey, lUsername, lPassword, lSize;
+    GString lHeader = m_dataIn.extract(1, ";").trim();
+    GString lApiKey, lUsername, lPassword, lSize;
     int lCount = lHeader.count("|");
 
     for(int i = 0; i < lCount; i++) {
-        GString2 lWord = lHeader.extract(i, "|").trim();
+        GString lWord = lHeader.extract(i, "|").trim();
         if(lWord.startBy("api_key")) {
             lApiKey = lWord.extract(1, ":").trim();
         }
@@ -178,7 +178,7 @@ bool GServer::createData() {
     return true;
 }
 //===============================================
-bool GServer::addResponse(const GString2& _data) {
+bool GServer::addResponse(const GString& _data) {
     m_domResponse->createCode();
     m_domResponse->loadData(_data);
     return true;

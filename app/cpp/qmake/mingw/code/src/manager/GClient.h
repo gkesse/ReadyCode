@@ -5,7 +5,7 @@
 #include "GSocket2.h"
 //===============================================
 #define GCLIENTI        GClient::Instance()
-#define GSERVER_CALL    GCLIENTI->callServer
+#define GCALL_SERVER    GCLIENTI->callServer
 //===============================================
 class GClient : public GSocket2 {
 public:

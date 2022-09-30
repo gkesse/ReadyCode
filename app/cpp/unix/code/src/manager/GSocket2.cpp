@@ -19,15 +19,15 @@ GSocket2::~GSocket2() {
 
 }
 //===============================================
-void GSocket2::setModule(const GString2& _module) {
+void GSocket2::setModule(const GString& _module) {
     m_module = _module;
 }
 //===============================================
-void GSocket2::setHostname(const GString2& _hostname) {
+void GSocket2::setHostname(const GString& _hostname) {
     m_hostname = _hostname;
 }
 //===============================================
-void GSocket2::setMessage(const GString2& _message) {
+void GSocket2::setMessage(const GString& _message) {
     m_message = _message;
 }
 //===============================================
@@ -55,11 +55,11 @@ void GSocket2::setBacklog(int _backlog) {
     m_backlog = _backlog;
 }
 //===============================================
-GString2& GSocket2::getDataIn() {
+GString& GSocket2::getDataIn() {
     return m_dataIn;
 }
 //===============================================
-GString2& GSocket2::getDataOut() {
+GString& GSocket2::getDataOut() {
     return m_dataOut;
 }
 //===============================================

@@ -15,13 +15,13 @@ public:
     static GServer* Instance();
     GSocket2* clone() const;
 
-    void setMethod(const GString2& _method);
-    void setApiKey(const GString2& _apiKey);
-    void setUsername(const GString2& _username);
-    void setPassword(const GString2& _password);
-    void setResponse(const GString2& _response);
+    void setMethod(const GString& _method);
+    void setApiKey(const GString& _apiKey);
+    void setUsername(const GString& _username);
+    void setPassword(const GString& _password);
+    void setResponse(const GString& _response);
 
-    GString2 getRequest() const;
+    GString getRequest() const;
 
     void run(int _argc, char** _argv);
 
@@ -37,7 +37,7 @@ public:
     bool createResponse();
     bool createData();
 
-    bool addResponse(const GString2& _data);
+    bool addResponse(const GString& _data);
 
 private:
     static constexpr const char* API_METHOD     = "RDVAPP";
@@ -47,12 +47,12 @@ private:
 
     static GServer* m_instance;
 
-    GString2 m_method;
-    GString2 m_apiKey;
-    GString2 m_username;
-    GString2 m_password;
-    GString2 m_request;
-    GString2 m_response;
+    GString m_method;
+    GString m_apiKey;
+    GString m_username;
+    GString m_password;
+    GString m_request;
+    GString m_response;
 
     std::shared_ptr<GCode2> m_domResponse;
 

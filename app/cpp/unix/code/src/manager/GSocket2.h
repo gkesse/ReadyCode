@@ -11,9 +11,9 @@ public:
 
     virtual GSocket2* clone() const;
 
-    void setModule(const GString2& _module);
-    void setHostname(const GString2& _hostname);
-    void setMessage(const GString2& _message);
+    void setModule(const GString& _module);
+    void setHostname(const GString& _hostname);
+    void setMessage(const GString& _message);
     void setDomain(int _domain);
     void setType(int _type);
     void setProtocol(int _protocol);
@@ -21,8 +21,8 @@ public:
     void setPort(int _port);
     void setBacklog(int _backlog);
 
-    GString2& getDataIn();
-    GString2& getDataOut();
+    GString& getDataIn();
+    GString& getDataOut();
 
     int readData(char* _data, int _size);
     bool readData(int _diffSize);
@@ -44,9 +44,9 @@ protected:
     static const int BUFFER_SIZE = 1024;
     static const int METHOD_SIZE = 1024;
 
-    GString2 m_module;
-    GString2 m_hostname;
-    GString2 m_message;
+    GString m_module;
+    GString m_hostname;
+    GString m_message;
     int m_domain;
     int m_type;
     int m_protocol;
@@ -54,15 +54,15 @@ protected:
     int m_port;
     int m_backlog;
 
-    GString2 m_method;
-    GString2 m_apiKey;
-    GString2 m_username;
-    GString2 m_password;
-    GString2 m_content;
+    GString m_method;
+    GString m_apiKey;
+    GString m_username;
+    GString m_password;
+    GString m_content;
 
     int m_socket;
-    GString2 m_dataIn;
-    GString2 m_dataOut;
+    GString m_dataIn;
+    GString m_dataOut;
 };
 //==============================================
 #endif

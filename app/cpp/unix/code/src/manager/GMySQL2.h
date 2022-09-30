@@ -11,29 +11,29 @@ public:
     GMySQL2();
     ~GMySQL2();
     //
-    GString2 serialize(const GString2& _code = "mysql") const;
-    bool deserialize(const GString2& _data, const GString2& _code = "mysql");
-    bool deserializeDom(const GString2& _code = "mysql");
+    GString serialize(const GString& _code = "mysql") const;
+    bool deserialize(const GString& _data, const GString& _code = "mysql");
+    bool deserializeDom(const GString& _code = "mysql");
     //
-    GString2 loadDatabase(bool _isTestEnv) const;
+    GString loadDatabase(bool _isTestEnv) const;
     //
     bool openDatabase();
     bool openDatabase(bool _isTestEnv);
-    bool openDatabase(const GString2& _protocol, const GString2& _hostname, const GString2& _port, const GString2& _username, const GString2& _password, const GString2& _database);
-    GMySQL2& execQuery(const GString2& _sql);
-    GMySQL2& execQuery(const GString2& _sql, bool _isTestEnv);
-    bool readQuery(const GString2& _sql);
-    bool readQuery(const GString2& _sql, bool _isTestEnv);
+    bool openDatabase(const GString& _protocol, const GString& _hostname, const GString& _port, const GString& _username, const GString& _password, const GString& _database);
+    GMySQL2& execQuery(const GString& _sql);
+    GMySQL2& execQuery(const GString& _sql, bool _isTestEnv);
+    bool readQuery(const GString& _sql);
+    bool readQuery(const GString& _sql, bool _isTestEnv);
     int getColumnCount() const;
     int getId();
-    GString2 readData(const GString2& _sql);
-    GString2 readData(const GString2& _sql, bool _isTestEnv);
-    std::vector<GString2> readCol(const GString2& _sql);
-    std::vector<GString2> readCol(const GString2& _sql, bool _isTestEnv);
-    std::vector<GString2> readRow(const GString2& _sql);
-    std::vector<GString2> readRow(const GString2& _sql, bool _isTestEnv);
-    std::vector<std::vector<GString2>> readMap(const GString2& _sql);
-    std::vector<std::vector<GString2>> readMap(const GString2& _sql, bool _isTestEnv);
+    GString readData(const GString& _sql);
+    GString readData(const GString& _sql, bool _isTestEnv);
+    std::vector<GString> readCol(const GString& _sql);
+    std::vector<GString> readCol(const GString& _sql, bool _isTestEnv);
+    std::vector<GString> readRow(const GString& _sql);
+    std::vector<GString> readRow(const GString& _sql, bool _isTestEnv);
+    std::vector<std::vector<GString>> readMap(const GString& _sql);
+    std::vector<std::vector<GString>> readMap(const GString& _sql, bool _isTestEnv);
 
 private:
     sql::Driver* m_driver;
@@ -41,13 +41,13 @@ private:
     std::shared_ptr<sql::Statement> m_stmt;
     std::shared_ptr<sql::ResultSet> m_res;
     //
-    GString2 m_protocol;
-    GString2 m_hostname;
-    GString2 m_port;
-    GString2 m_username;
-    GString2 m_password;
-    GString2 m_databaseTest;
-    GString2 m_databaseProd;
+    GString m_protocol;
+    GString m_hostname;
+    GString m_port;
+    GString m_username;
+    GString m_password;
+    GString m_databaseTest;
+    GString m_databaseProd;
 };
 //==============================================
 #endif

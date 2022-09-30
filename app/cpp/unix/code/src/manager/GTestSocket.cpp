@@ -70,31 +70,31 @@ void GTestSocket::runTcp(int _argc, char** _argv) {
 }
 //===============================================
 void GTestSocket::runAnalyze(int _argc, char** _argv) {
-    GString2 lDataIn = "RDVAPP;api_key:12345|username:porto|password:key|size:25;Bonjour tout le monde";
+    GString lDataIn = "RDVAPP;api_key:12345|username:porto|password:key|size:25;Bonjour tout le monde";
 
     if(lDataIn.startBy("RDVAPP")) {
-        GString2 lMethod = lDataIn.extract(0, ";").trim();
-        GString2 lHeader = lDataIn.extract(1, ";").trim();
+        GString lMethod = lDataIn.extract(0, ";").trim();
+        GString lHeader = lDataIn.extract(1, ";").trim();
         int lCount = lHeader.count("|");
         for(int i = 0; i < lCount; i++) {
-            GString2 lWord = lHeader.extract(i, "|").trim();
+            GString lWord = lHeader.extract(i, "|").trim();
             if(lWord.startBy("api_key")) {
-                GString2 lData = lWord.extract(1, ":").trim();
+                GString lData = lWord.extract(1, ":").trim();
                 GLOGT(eGMSG, "%s", lData.c_str());
             }
             else if(lWord.startBy("username")) {
-                GString2 lData = lWord.extract(1, ":").trim();
+                GString lData = lWord.extract(1, ":").trim();
                 GLOGT(eGMSG, "%s", lData.c_str());
             }
             else if(lWord.startBy("size")) {
-                GString2 lData = lWord.extract(1, ":").trim();
+                GString lData = lWord.extract(1, ":").trim();
                 GLOGT(eGMSG, "%s", lData.c_str());
             }
         }
     }
 
     int lSize = lDataIn.sepSize(1, ";");
-    GString2 lData = lDataIn.substr(lSize);
+    GString lData = lDataIn.substr(lSize);
     GLOGT(eGMSG, "%s", lData.c_str());
 }
 //===============================================
@@ -128,7 +128,7 @@ void GTestSocket::runMap(int _argc, char** _argv) {
         lMap.push_back(lModule);
     }
 
-    GString2 lCode = "request";
+    GString lCode = "request";
 
     GCode2 lDom;
     lDom.createDoc();
@@ -156,7 +156,7 @@ void GTestSocket::runResponse(int _argc, char** _argv) {
     lDom.createDoc();
 
     lDom.print();
-    GString2 lPath = "/rdv/datas/data[code]";
+    GString lPath = "/rdv/datas/data[code]";
     int lCount = lDom.countNode(lPath);
     printf("%d\n", lCount);
 

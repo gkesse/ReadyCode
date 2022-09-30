@@ -84,8 +84,10 @@
 #include <Poco/StreamCopier.h>
 #include <Poco/URI.h>
 // libs
-#include <base64.hpp>
+#include <base64.h>
 #include <md5.h>
+//===============================================
+typedef unsigned char uchar;
 //===============================================
 #endif
 //===============================================

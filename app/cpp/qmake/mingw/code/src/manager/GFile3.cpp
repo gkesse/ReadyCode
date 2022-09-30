@@ -97,13 +97,13 @@ void GFile3::setContentBin(const GString& _data) {
 //===============================================
 void GFile3::saveFile() {
     GString lData = serialize();
-    lData = GCLIENTI->callServer("file", "save_file", lData);
+    lData = GCALL_SERVER("file", "save_file", lData);
     deserialize(lData);
 }
 //===============================================
 void GFile3::downloadFile() {
     GString lData = serialize();
-    lData = GCLIENTI->callServer("file", "download_file", lData);
+    lData = GCALL_SERVER("file", "download_file", lData);
     deserialize(lData);
 }
 //===============================================

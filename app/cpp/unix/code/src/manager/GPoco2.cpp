@@ -11,7 +11,7 @@ GPoco2::~GPoco2() {
 
 }
 //===============================================
-void GPoco2::setUri(const GString2& _uri) {
+void GPoco2::setUri(const GString& _uri) {
     m_uri = _uri;
 }
 //===============================================
@@ -19,7 +19,7 @@ Poco::Net::HTTPResponse& GPoco2::getHeader() {
     return m_header;
 }
 //===============================================
-GString2 GPoco2::getContent() const {
+GString GPoco2::getContent() const {
     return m_content;
 }
 //===============================================
@@ -27,7 +27,7 @@ bool GPoco2::getHttp() {
     if(m_uri.isEmpty()) return false;
     try {
         Poco::URI lUri(m_uri.c_str());
-        GString2 lPath(lUri.getPathAndQuery());
+        GString lPath(lUri.getPathAndQuery());
         if(lPath.isEmpty()) lPath = "/";
         Poco::Net::HTTPCredentials::extractCredentials(lUri, m_username.data(), m_password.data());
         Poco::Net::HTTPCredentials lCredentials(m_username.data(), m_password.data());

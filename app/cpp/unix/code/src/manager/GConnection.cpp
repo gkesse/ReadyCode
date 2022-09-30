@@ -28,7 +28,7 @@ GObject2* GConnection::clone() const {
     return new GConnection;
 }
 //===============================================
-GString2 GConnection::serialize(const GString2& _code) const {
+GString GConnection::serialize(const GString& _code) const {
     GCode2 lDom;
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
@@ -41,7 +41,7 @@ GString2 GConnection::serialize(const GString2& _code) const {
     return lDom.toString();
 }
 //===============================================
-bool GConnection::deserialize(const GString2& _data, const GString2& _code) {
+bool GConnection::deserialize(const GString& _data, const GString& _code) {
     GModule2::deserialize(_data);
     GCode2 lDom;
     lDom.loadXml(_data);
@@ -80,7 +80,7 @@ bool GConnection::onRunConnection() {
 }
 //===============================================
 bool GConnection::loadUserPseudo() {
-    GString2 lData = GMySQL2().readData(GFORMAT(""
+    GString lData = GMySQL2().readData(GFORMAT(""
             " select _id "
             " from _user "
             " where _pseudo = '%s' "
@@ -94,7 +94,7 @@ bool GConnection::loadUserPseudo() {
 bool GConnection::loadUserPassword() {
     if(m_id == 0) return false;
     if(m_passwordMd5 == "") return false;
-    GString2 lData = GMySQL2().readData(GFORMAT(""
+    GString lData = GMySQL2().readData(GFORMAT(""
             " select _id "
             " from _user "
             " where _id = %d "
@@ -110,7 +110,7 @@ bool GConnection::loadUserPassword() {
 bool GConnection::loadUser() {
     if(m_id == 0) return false;
 
-    std::vector<GString2> lRow = GMySQL2().readRow(GFORMAT(""
+    std::vector<GString> lRow = GMySQL2().readRow(GFORMAT(""
             " select _pseudo, _password, _email, _group, _active "
             " from _user "
             " where _id = %d "

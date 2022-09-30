@@ -14,52 +14,52 @@ GShell2::~GShell2() {
 
 }
 //===============================================
-GString2 GShell2::getTmpDir() const {
+GString GShell2::getTmpDir() const {
     return GEnv().getTmpDir();
 }
 //===============================================
-GString2 GShell2::getTmpInFilename() const {
+GString GShell2::getTmpInFilename() const {
     return GFile2().getScriptInFilename();
 }
 //===============================================
-GString2 GShell2::getTmpOutFilename() const {
+GString GShell2::getTmpOutFilename() const {
     return GFile2().getScriptOutFilename();
 }
 //===============================================
-void GShell2::createDir(const GString2& _dir) {
-    GString2 lCommand = GFORMAT("if ! [ -d %s ] ; then mkdir -p %s ; fi", _dir.c_str(), _dir.c_str());
+void GShell2::createDir(const GString& _dir) {
+    GString lCommand = GFORMAT("if ! [ -d %s ] ; then mkdir -p %s ; fi", _dir.c_str(), _dir.c_str());
     runCommand(lCommand);
 }
 //===============================================
-void GShell2::tailFile(const GString2& _file) {
-    GString2 lCommand = GFORMAT("if [ -e %s ] ; then tail -f %s ; fi", _file.c_str(), _file.c_str());
+void GShell2::tailFile(const GString& _file) {
+    GString lCommand = GFORMAT("if [ -e %s ] ; then tail -f %s ; fi", _file.c_str(), _file.c_str());
     runCommand(lCommand);
 }
 //===============================================
-void GShell2::cleanDir(const GString2& _dir) {
-    GString2 lCommand = GFORMAT("if [ -d %s ] ; then rm -rf %s/* ; fi", _dir.c_str(), _dir.c_str());
+void GShell2::cleanDir(const GString& _dir) {
+    GString lCommand = GFORMAT("if [ -d %s ] ; then rm -rf %s/* ; fi", _dir.c_str(), _dir.c_str());
     runCommand(lCommand);
 }
 //===============================================
-void GShell2::runCommand(const GString2& _command) {
+void GShell2::runCommand(const GString& _command) {
     if(_command == "") return;
     GLOGT(eGOFF, "%s", _command.c_str());
     system(_command.c_str());
 }
 //===============================================
-GString2 GShell2::runSystem(const GString2& _command) {
+GString GShell2::runSystem(const GString& _command) {
     GLOGT(eGINF, "%s", _command.c_str());
     return runSystem(_command, getTmpDir(), getTmpInFilename(), getTmpOutFilename());
 }
 //===============================================
-GString2 GShell2::runSystem(const GString2& _command, const GString2& _tmpDir, const GString2& _tmpInFile, const GString2& _tmpOutFile) {
+GString GShell2::runSystem(const GString& _command, const GString& _tmpDir, const GString& _tmpInFile, const GString& _tmpOutFile) {
     createDir(_tmpDir);
-    GString2 lFilenameIn = GFORMAT("%s/%s", _tmpDir.c_str(), _tmpInFile.c_str());
-    GString2 lFilenameOut = GFORMAT("%s/%s", _tmpDir.c_str(), _tmpOutFile.c_str());
+    GString lFilenameIn = GFORMAT("%s/%s", _tmpDir.c_str(), _tmpInFile.c_str());
+    GString lFilenameOut = GFORMAT("%s/%s", _tmpDir.c_str(), _tmpOutFile.c_str());
     GFile2(lFilenameIn).setContent(_command);
-    GString2 lCommand = GFORMAT(". %s > %s", lFilenameIn.c_str(), lFilenameOut.c_str());
+    GString lCommand = GFORMAT(". %s > %s", lFilenameIn.c_str(), lFilenameOut.c_str());
     runCommand(lCommand);
-    GString2 lData = GFile2(lFilenameOut).getContent();
+    GString lData = GFile2(lFilenameOut).getContent();
     return lData;
 }
 //===============================================

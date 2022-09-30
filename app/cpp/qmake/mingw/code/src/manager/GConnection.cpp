@@ -1,19 +1,31 @@
 //===============================================
 #include "GConnection.h"
+#include "GLog2.h"
 #include "GCode2.h"
 #include "GClient.h"
-#include "GLog2.h"
+//===============================================
+GConnection* GConnection::m_instance = 0;
 //===============================================
 GConnection::GConnection()
-: GModule2() {
+: GObject2() {
     m_id = 0;
-    m_pseudo = "";
-    m_password = "";
-    m_isConnect = false;
 }
 //===============================================
 GConnection::~GConnection() {
 
+}
+//===============================================
+GConnection* GConnection::Instance() {
+    if(m_instance == 0) {
+        m_instance = new GConnection;
+    }
+    return m_instance;
+}
+//===============================================
+void GConnection::assign(const GConnection& _connect) {
+    m_id = _connect.m_id;
+    m_pseudo = _connect.m_pseudo;
+    m_password = _connect.m_password;
 }
 //===============================================
 GString GConnection::serialize(const GString& _code) const {
@@ -22,18 +34,15 @@ GString GConnection::serialize(const GString& _code) const {
     lDom.addData(_code, "id", m_id);
     lDom.addData(_code, "pseudo", m_pseudo);
     lDom.addData(_code, "password", m_password);
-    lDom.addData(_code, "is_connect", m_isConnect);
     return lDom.toString();
 }
 //===============================================
 bool GConnection::deserialize(const GString& _data, const GString& _code) {
-    GModule2::deserialize(_data);
     GCode2 lDom;
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
     m_pseudo = lDom.getData(_code, "pseudo");
     m_password = lDom.getData(_code, "password");
-    m_isConnect = lDom.getData(_code, "is_connect").toBool();
     return true;
 }
 //===============================================
@@ -61,31 +70,17 @@ GString GConnection::getPassword() const {
     return m_password;
 }
 //===============================================
-bool GConnection::runConnection() {
-    if(GLOGI2->hasErrors()) return false;
-    GString lData = serialize();
-    lData = GSERVER_CALL("connection", "run_connection", lData);
-    deserialize(lData);
-    return !GLOGI2->hasErrors();
-}
-//===============================================
-bool GConnection::createAccount() {
-    if(GLOGI2->hasErrors()) return false;
-    GString lData = serialize();
-    lData = GCLIENTI->callServer("connection", "create_account", lData);
-    deserialize(lData);
-    return !GLOGI2->hasErrors();
-}
-//===============================================
-bool GConnection::runDisconnection() {
-    if(GLOGI2->hasErrors()) return false;
-    GString lData = serialize();
-    lData = GCLIENTI->callServer("connection", "run_disconnection", lData);
-    deserialize(lData);
-    return !GLOGI2->hasErrors();
-}
-//===============================================
 bool GConnection::isConnect() const {
-    return m_isConnect;
+    return (m_id != 0);
+}
+//===============================================
+void GConnection::runConnection() {
+    GString lData = serialize();
+    lData = GCALL_SERVER("connection", "run_connection", lData);
+    deserialize(lData);
+}
+//===============================================
+void GConnection::runDisconnection() {
+    assign(GConnection());
 }
 //===============================================

@@ -9,19 +9,19 @@ public:
     GPoco2();
     ~GPoco2();
 
-    void setUri(const GString2& _uri);
+    void setUri(const GString& _uri);
 
     Poco::Net::HTTPResponse& getHeader();
-    GString2 getContent() const;
+    GString getContent() const;
 
     bool getHttp();
 
 private:
-    GString2 m_uri;
-    GString2 m_username;
-    GString2 m_password;
-    GString2 m_content;
-    GString2 m_errors;
+    GString m_uri;
+    GString m_username;
+    GString m_password;
+    GString m_content;
+    GString m_errors;
     Poco::Net::HTTPResponse m_header;
 };
 //==============================================

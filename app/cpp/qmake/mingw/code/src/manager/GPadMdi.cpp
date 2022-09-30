@@ -148,7 +148,7 @@ void GPadMdi::onCv() {
 }
 //===============================================
 void GPadMdi::onPocoClientTcp() {
-    GSERVER_CALL("opencv", "create_image");
+    GCALL_SERVER("opencv", "create_image");
 }
 //===============================================
 GConnection* GPadMdi::getConnection() const {

@@ -9,7 +9,7 @@ public:
     GMd5_2();
     ~GMd5_2();
 
-    GString2 encodeData(const GString2& _data) const;
+    GString encodeData(const GString& _data) const;
 };
 //==============================================
 #endif

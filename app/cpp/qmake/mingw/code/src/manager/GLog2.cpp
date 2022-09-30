@@ -252,7 +252,12 @@ void GLog2::traceLog(const char* _name, int _level, const char* _file, int _line
     if(_level == 0) return;
     if(!_isDebug) return;
     GString lDate = GDate2().getDate(GDate2().getDateTimeLogFormat());
-    fprintf(getOutput(_isFileLog), "===> [%s] : %d : %s : %s : [%d] : %s :\n%s\n", _name, _level, lDate.c_str(), _file, _line, _func, _data.c_str());
+    if(_data.isEmpty()) {
+        fprintf(getOutput(_isFileLog), "===> [%s] : %d : %s : %s : [%d] : %s :\n", _name, _level, lDate.c_str(), _file, _line, _func);
+    }
+    else {
+        fprintf(getOutput(_isFileLog), "===> [%s] : %d : %s : %s : [%d] : %s :\n%s\n", _name, _level, lDate.c_str(), _file, _line, _func, _data.c_str());
+    }
     closeLogFile();
 }
 //===============================================
@@ -376,13 +381,13 @@ GString GLog2::toString(const std::vector<std::vector<GString>>& _data) const {
 //===============================================
 void GLog2::enableLogs() {
     GString lData = serialize();
-    lData = GCLIENTI->callServer("logs", "enable_logs", lData);
+    lData = GCALL_SERVER("logs", "enable_logs", lData);
     deserialize(lData);
 }
 //===============================================
 void GLog2::disableLogs() {
     GString lData = serialize();
-    lData = GCLIENTI->callServer("logs", "disable_logs", lData);
+    lData = GCALL_SERVER("logs", "disable_logs", lData);
     deserialize(lData);
 }
 //===============================================

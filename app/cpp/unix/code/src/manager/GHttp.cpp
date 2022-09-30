@@ -21,23 +21,23 @@ GHttp::~GHttp() {
 
 }
 //===============================================
-void GHttp::setMethod(const GString2& _method) {
+void GHttp::setMethod(const GString& _method) {
     m_method = _method;
 }
 //===============================================
-void GHttp::setUrl(const GString2& _url) {
+void GHttp::setUrl(const GString& _url) {
     m_url = _url;
 }
 //===============================================
-GString2 GHttp::getUrl() const {
+GString GHttp::getUrl() const {
     return m_url;
 }
 //===============================================
-void GHttp::setVersion(const GString2& _version) {
+void GHttp::setVersion(const GString& _version) {
     m_version = _version;
 }
 //===============================================
-void GHttp::setHostname(const GString2& _hostname) {
+void GHttp::setHostname(const GString& _hostname) {
     m_hostname =_hostname;
 }
 //===============================================
@@ -49,16 +49,16 @@ void GHttp::setStatus(const int _status) {
     m_status = _status;
 }
 //===============================================
-void GHttp::setReason(const GString2& _reason) {
+void GHttp::setReason(const GString& _reason) {
     m_reason = _reason;
 }
 //===============================================
-void GHttp::setContent(const GString2& _content) {
+void GHttp::setContent(const GString& _content) {
     m_content = _content;
     m_contentLength = m_content.size();
 }
 //===============================================
-void GHttp::setContentType(const GString2& _contentType) {
+void GHttp::setContentType(const GString& _contentType) {
     m_contentType = _contentType;
 }
 //===============================================
@@ -66,43 +66,43 @@ void GHttp::setContentLength(int _contentLength) {
     m_contentLength = _contentLength;
 }
 //===============================================
-void GHttp::setCacheControl(const GString2& _cacheControl) {
+void GHttp::setCacheControl(const GString& _cacheControl) {
     m_cacheControl = _cacheControl;
 }
 //===============================================
-void GHttp::setUpgradeInsecureRequests(const GString2& _upgradeInsecureRequests) {
+void GHttp::setUpgradeInsecureRequests(const GString& _upgradeInsecureRequests) {
     m_upgradeInsecureRequests = _upgradeInsecureRequests;
 }
 //===============================================
-void GHttp::setUserAgent(const GString2& _userAgent) {
+void GHttp::setUserAgent(const GString& _userAgent) {
     m_userAgent = _userAgent;
 }
 //===============================================
-void GHttp::setAccept(const GString2& _accept) {
+void GHttp::setAccept(const GString& _accept) {
     m_accept = _accept;
 }
 //===============================================
-void GHttp::setAcceptEncoding(const GString2& _acceptEncoding) {
+void GHttp::setAcceptEncoding(const GString& _acceptEncoding) {
     m_acceptEncoding = _acceptEncoding;
 }
 //===============================================
-void GHttp::setAcceptLanguage(const GString2& _acceptLanguage) {
+void GHttp::setAcceptLanguage(const GString& _acceptLanguage) {
     m_acceptLanguage = _acceptLanguage;
 }
 //===============================================
-void GHttp::setDate(const GString2& _date) {
+void GHttp::setDate(const GString& _date) {
     m_date = _date;
 }
 //===============================================
-void GHttp::setServer(const GString2& _server) {
+void GHttp::setServer(const GString& _server) {
     m_servers = _server;
 }
 //===============================================
-void GHttp::setLastModified(const GString2& _lastModified) {
+void GHttp::setLastModified(const GString& _lastModified) {
     m_lastModified = _lastModified;
 }
 //===============================================
-void GHttp::setConnection(const GString2& _connection) {
+void GHttp::setConnection(const GString& _connection) {
     m_connection = _connection;
 }
 //===============================================
@@ -143,16 +143,16 @@ void GHttp::runHttp() {
 //===============================================
 bool GHttp::analyzeHeader() {
     int lIndex = 0;
-    GString2 lLine = "";
-    GString2& lDataIn = m_server->getDataIn();
+    GString lLine = "";
+    GString& lDataIn = m_server->getDataIn();
 
     for(int i = 0; i < lDataIn.size(); i++) {
         char lChar = lDataIn[i];
         lLine += lChar;
         if(isLine(lChar, lIndex)) {
-            GString2 lMethod = lLine.extract(0, " \r\n").trim();
-            GString2 lUrl = lLine.extract(1, " \r\n").trim();
-            GString2 lVersion = lLine.extract(2, " \r\n").trim();
+            GString lMethod = lLine.extract(0, " \r\n").trim();
+            GString lUrl = lLine.extract(1, " \r\n").trim();
+            GString lVersion = lLine.extract(2, " \r\n").trim();
             setMethod(lMethod);
             setUrl(lUrl);
             setVersion(lVersion);
@@ -165,37 +165,37 @@ bool GHttp::analyzeHeader() {
         lLine += lChar;
         if(isLine(lChar, lIndex)) {
             if(lLine.startBy("Host")) {
-                GString2 lHostname = lLine.extract(1, ":\r\n").trim();
-                GString2 lPort = lLine.extract(2, ":\r\n").trim();
+                GString lHostname = lLine.extract(1, ":\r\n").trim();
+                GString lPort = lLine.extract(2, ":\r\n").trim();
                 setHostname(lHostname);
                 setPort(lPort.toInt());
             }
             else if(lLine.startBy("Connection")) {
-                GString2 lConnection = lLine.extract(1, ":\r\n").trim();
+                GString lConnection = lLine.extract(1, ":\r\n").trim();
                 setConnection(lConnection);
             }
             else if(lLine.startBy("Cache-Control")) {
-                GString2 lCacheControl = lLine.extract(1, ":\r\n").trim();
+                GString lCacheControl = lLine.extract(1, ":\r\n").trim();
                 setCacheControl(lCacheControl);
             }
             else if(lLine.startBy("Upgrade-Insecure-Requests")) {
-                GString2 lUpgradeInsecureRequests = lLine.extract(1, ":\r\n").trim();
+                GString lUpgradeInsecureRequests = lLine.extract(1, ":\r\n").trim();
                 setUpgradeInsecureRequests(lUpgradeInsecureRequests);
             }
             else if(lLine.startBy("User-Agent")) {
-                GString2 lUserAgent = lLine.extract(1, ":\r\n").trim();
+                GString lUserAgent = lLine.extract(1, ":\r\n").trim();
                 setUserAgent(lUserAgent);
             }
             else if(lLine.startBy("Accept")) {
-                GString2 lAccept = lLine.extract(1, ":\r\n").trim();
+                GString lAccept = lLine.extract(1, ":\r\n").trim();
                 setAccept(lAccept);
             }
             else if(lLine.startBy("Accept-Encoding")) {
-                GString2 lAcceptEncoding = lLine.extract(1, ":\r\n").trim();
+                GString lAcceptEncoding = lLine.extract(1, ":\r\n").trim();
                 setAcceptEncoding(lAcceptEncoding);
             }
             else if(lLine.startBy("Accept-Language")) {
-                GString2 lAcceptLanguage = lLine.extract(1, ":\r\n").trim();
+                GString lAcceptLanguage = lLine.extract(1, ":\r\n").trim();
                 setAcceptLanguage(lAcceptLanguage);
             }
             lLine = "";
@@ -232,7 +232,7 @@ void GHttp::onGetIndex() {
     setContentType("text/html");
     setConnection("Closed");
 
-    GString2 lContent = ""
+    GString lContent = ""
             "<html><head><title>[Echo]-ReadyDev</title></head>"
             "<body><h1>La connexion au serveur a réussi.</h1></body></html>"
             "";
@@ -249,7 +249,7 @@ bool GHttp::createGetData() {
     if(m_contentType == "") return false;
     if(m_contentLength == 0) return false;
 
-    GString2& lDataOut = m_server->getDataOut();
+    GString& lDataOut = m_server->getDataOut();
     lDataOut += GFORMAT("%s %d %s\r\n", m_version.c_str(), m_status, m_reason.c_str());
     lDataOut += GFORMAT("Content-Type: %s\r\n", m_contentType.c_str());
     lDataOut += GFORMAT("Content-Length: %d\r\n", m_contentLength);

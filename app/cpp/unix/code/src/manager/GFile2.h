@@ -7,32 +7,32 @@
 class GFile2 : public GObject2 {
 public:
     GFile2();
-    GFile2(const GString2& _filename);
-    GFile2(const GString2& _filename, const GString2& _openType);
+    GFile2(const GString& _filename);
+    GFile2(const GString& _filename, const GString& _openType);
     ~GFile2();
     //
     bool existFile() const;
-    GString2 getContent() const;
-    void setContent(const GString2& _data);
+    GString getContent() const;
+    void setContent(const GString& _data);
     //
-    GString2 getAppendType() const;
-    GString2 getLogFullname() const;
-    GString2 getLogFullname(bool _isTestEnv) const;
-    GString2 getScriptInFilename() const;
-    GString2 getScriptOutFilename() const;
-    GString2 getDateFullname(const GString2& _key, const GString2& _ext) const;
-    GString2 getDateFilename(const GString2& _key, const GString2& _ext) const;
-    GString2 getFilename(const GString2& _key, const GString2& _date, const GString2& _ext) const;
-    GString2 getFullname(const GString2& _path, const GString2& _filename) const;
+    GString getAppendType() const;
+    GString getLogFullname() const;
+    GString getLogFullname(bool _isTestEnv) const;
+    GString getScriptInFilename() const;
+    GString getScriptOutFilename() const;
+    GString getDateFullname(const GString& _key, const GString& _ext) const;
+    GString getDateFilename(const GString& _key, const GString& _ext) const;
+    GString getFilename(const GString& _key, const GString& _date, const GString& _ext) const;
+    GString getFullname(const GString& _path, const GString& _filename) const;
     FILE* openLogFile();
     FILE* openFile();
-    FILE* openFile(const GString2& _openType);
-    FILE* openFile(const GString2& _filename, const GString2& _openType);
+    FILE* openFile(const GString& _openType);
+    FILE* openFile(const GString& _filename, const GString& _openType);
     void closeFile(FILE* _file);
 
 private:
-    GString2 m_filename;
-    GString2 m_openType;
+    GString m_filename;
+    GString m_openType;
 };
 //==============================================
 #endif

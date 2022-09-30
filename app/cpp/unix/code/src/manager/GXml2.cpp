@@ -31,8 +31,8 @@ void GXml2::cleanModule() {
     xmlMemoryDump();
 }
 //===============================================
-bool GXml2::loadXml(const GString2& _xml) {
-    GString2 lXml = _xml.trim();
+bool GXml2::loadXml(const GString& _xml) {
+    GString lXml = _xml.trim();
     if(lXml == "") return false;
     m_doc = xmlParseDoc(BAD_CAST(lXml.c_str()));
     if(!m_doc) {GERROR_ADD(eGERR, "Erreur lors de la création du document."); return false;}
@@ -41,7 +41,7 @@ bool GXml2::loadXml(const GString2& _xml) {
     return true;
 }
 //===============================================
-bool GXml2::loadFile(const GString2& _filename) {
+bool GXml2::loadFile(const GString& _filename) {
     if(_filename == "") return false;
     m_doc = xmlParseFile(_filename.c_str());
     if(!m_doc) {GERROR_ADD(eGERR, "Erreur lors de la création du document."); return false;}
@@ -50,7 +50,7 @@ bool GXml2::loadFile(const GString2& _filename) {
     return true;
 }
 //===============================================
-bool GXml2::loadNode(const GString2& _data) {
+bool GXml2::loadNode(const GString& _data) {
     if(_data.trim().isEmpty()) return false;
     if(!m_node) return false;
     xmlNodePtr lNewNode;
@@ -72,7 +72,7 @@ bool GXml2::createDoc() {
     return true;
 }
 //===============================================
-bool GXml2::createNode(const GString2& _name) {
+bool GXml2::createNode(const GString& _name) {
     if(!m_node) {
         m_node = xmlNewNode(NULL, BAD_CAST(_name.c_str()));
         if(!m_node) {GERROR_ADD(eGERR, "Erreur lors de la création du noeud."); return false;}
@@ -86,11 +86,11 @@ bool GXml2::createNode(const GString2& _name) {
     return true;
 }
 //===============================================
-bool GXml2::createNodePath(const GString2& _path) {
+bool GXml2::createNodePath(const GString& _path) {
     int lCount = _path.count("/");
-    GString2 lPath = "";
+    GString lPath = "";
     for(int i = 0; i < lCount; i++) {
-        GString2 lItem = _path.extract(i, "/");
+        GString lItem = _path.extract(i, "/");
         if(lItem == "") continue;
         lPath += "/";
         lPath += lItem;
@@ -108,7 +108,7 @@ bool GXml2::next() {
     return true;
 }
 //===============================================
-bool GXml2::getNode(const GString2& _path) {
+bool GXml2::getNode(const GString& _path) {
     if(!m_xpath) return false;
     m_xpathObj = xmlXPathEvalExpression(BAD_CAST(_path.c_str()), m_xpath);
     if(!m_xpathObj) return false;
@@ -120,13 +120,13 @@ bool GXml2::getNode(const GString2& _path) {
     return true;
 }
 //===============================================
-GString2 GXml2::getValue() const {
+GString GXml2::getValue() const {
     if(!m_node) return "";
-    GString2 lData = (char*)xmlNodeGetContent(m_node);
+    GString lData = (char*)xmlNodeGetContent(m_node);
     return lData;
 }
 //===============================================
-bool GXml2::setValue(const GString2& _value, bool _isCData) {
+bool GXml2::setValue(const GString& _value, bool _isCData) {
     if(!m_doc) return false;
     if(!m_node) return false;
     if(!_isCData) {
@@ -140,7 +140,7 @@ bool GXml2::setValue(const GString2& _value, bool _isCData) {
     return true;
 }
 //===============================================
-int GXml2::countNode(const GString2& _path) {
+int GXml2::countNode(const GString& _path) {
     if(!m_xpath) return 0;
     m_xpathObj = xmlXPathEvalExpression(BAD_CAST(_path.c_str()), m_xpath);
     if(!m_xpathObj) return 0;
@@ -151,21 +151,21 @@ int GXml2::countNode(const GString2& _path) {
     return lCount;
 }
 //===============================================
-GString2 GXml2::toString() const {
+GString GXml2::toString() const {
     if(!m_doc) return "";
     xmlChar* lBuffer = NULL;
     int lSize;
     xmlDocDumpFormatMemoryEnc(m_doc, &lBuffer, &lSize, "UTF-8", 4);
-    GString2 lData = (char*)lBuffer;
+    GString lData = (char*)lBuffer;
     xmlFree(lBuffer);
     return lData;
 }
 //===============================================
-GString2 GXml2::toNode() const {
+GString GXml2::toNode() const {
     if(!m_node) return "";
     xmlBufferPtr lBuffer = xmlBufferCreate();
     xmlNodeDump(lBuffer, m_doc, m_node, 0, 1);
-    GString2 lData = (char*)lBuffer->content;
+    GString lData = (char*)lBuffer->content;
     xmlBufferFree(lBuffer);
     return lData;
 }

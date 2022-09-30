@@ -62,43 +62,43 @@ const std::vector<GObject2*>& GOption::getOptionMap() const {
 //===============================================
 void GOption::createOption() {
     GString lData = serialize();
-    lData = GCLIENTI->callServer("option", "create_option", lData);
+    lData = GCALL_SERVER("option", "create_option", lData);
     deserialize(lData);
 }
 //===============================================
 void GOption::enableOption() {
     GString lData = serialize();
-    lData = GCLIENTI->callServer("option", "enable_option", lData);
+    lData = GCALL_SERVER("option", "enable_option", lData);
     deserialize(lData);
 }
 //===============================================
 void GOption::disableOption() {
     GString lData = serialize();
-    lData = GCLIENTI->callServer("option", "disable_option", lData);
+    lData = GCALL_SERVER("option", "disable_option", lData);
     deserialize(lData);
 }
 //===============================================
 void GOption::readOption() {
     GString lData = serialize();
-    lData = GCLIENTI->callServer("option", "read_option", lData);
+    lData = GCALL_SERVER("option", "read_option", lData);
     deserialize(lData);
 }
 //===============================================
 void GOption::updateOption() {
     GString lData = serialize();
-    lData = GCLIENTI->callServer("option", "update_option", lData);
+    lData = GCALL_SERVER("option", "update_option", lData);
     deserialize(lData);
 }
 //===============================================
 void GOption::deleteOption() {
     GString lData = serialize();
-    lData = GCLIENTI->callServer("option", "delete_option", lData);
+    lData = GCALL_SERVER("option", "delete_option", lData);
     deserialize(lData);
 }
 //===============================================
 void GOption::searchOption() {
     GString lData = serialize();
-    lData = GCLIENTI->callServer("option", "search_option", lData);
+    lData = GCALL_SERVER("option", "search_option", lData);
     deserialize(lData);
 }
 //===============================================

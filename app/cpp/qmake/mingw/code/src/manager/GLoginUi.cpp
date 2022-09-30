@@ -269,8 +269,9 @@ void GLoginUi::onConnect() {
     else {
         m_connection->setPseudo(lUsername);
         m_connection->setPassword(lPassword);
+        m_connection->runConnection();
 
-        if(m_connection->runConnection()) {
+        if(m_connection->isConnect()) {
             accept();
         }
     }

@@ -16,22 +16,18 @@ public:
 
     GObject2* clone() const;
 
-    GString2 serialize(const GString2& _code = "request") const;
-    bool deserialize(const GString2& _data, const GString2& _code = "request");
+    GString serialize(const GString& _code = "request") const;
+    bool deserialize(const GString& _data, const GString& _code = "request");
 
-    void setModule(const GString2& _module);
-    void setMethod(const GString2& _method);
+    void setModule(const GString& _module);
+    void setMethod(const GString& _method);
 
     bool onModule();
     bool onConnection();
 
-    GModule2& operator=(const GModule2& _module);
-    GModule2& operator=(GModule2* _module);
-    GModule2& operator=(GServer* _client);
-
 protected:
-    GString2 m_module;
-    GString2 m_method;
+    GString m_module;
+    GString m_method;
     GServer* m_server;
 };
 //==============================================

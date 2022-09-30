@@ -10,10 +10,10 @@ GMd5_2::~GMd5_2() {
 
 }
 //===============================================
-GString2 GMd5_2::encodeData(const GString2& _data) const {
+GString GMd5_2::encodeData(const GString& _data) const {
     if(_data == "") return "";
     MD5 lMd5;
-    GString2 lData = lMd5(_data.data());
+    GString lData = lMd5(_data.data());
     return lData;
 }
 //===============================================

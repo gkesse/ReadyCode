@@ -32,39 +32,54 @@
       <string>Fichier</string>
      </property>
      <addaction name="actionSaveFile"/>
+     <addaction name="actionSearchFile"/>
      <addaction name="actionDownloadFile"/>
+     <addaction name="actionDeleteFile"/>
     </widget>
     <widget class="QMenu" name="menuOptions">
      <property name="title">
       <string>Options</string>
      </property>
      <addaction name="actionCreateOption"/>
+     <addaction name="actionSearchOption"/>
      <addaction name="actionEnableOption"/>
      <addaction name="actionDisableOption"/>
      <addaction name="actionReadOption"/>
      <addaction name="actionUpdateOption"/>
      <addaction name="actionDeleteOption"/>
-     <addaction name="actionSearchOption"/>
+    </widget>
+    <widget class="QMenu" name="menuAccount">
+     <property name="title">
+      <string>Compte</string>
+     </property>
+     <addaction name="actionCreateAccount"/>
+     <addaction name="actionSearchAccount"/>
+     <addaction name="actionEnableAccount"/>
+     <addaction name="actionDisableAccount"/>
+     <addaction name="actionUpdateAccount"/>
+     <addaction name="actionDeleteAccount"/>
+    </widget>
+    <widget class="QMenu" name="menuGroupe">
+     <property name="title">
+      <string>Groupe</string>
+     </property>
+     <addaction name="actionCreateGroup"/>
+     <addaction name="actionSearchGroup"/>
+     <addaction name="actionUpdateGroup"/>
+     <addaction name="actionDeleteGroup"/>
     </widget>
     <widget class="QMenu" name="menuConnection">
      <property name="title">
       <string>Connexion</string>
      </property>
      <addaction name="actionStartConnection"/>
-     <addaction name="actionCcreateAccount"/>
-     <addaction name="actionEnableAccount"/>
-     <addaction name="actionDisableAccount"/>
-     <addaction name="actionRechercher_un_compte"/>
-     <addaction name="actionModifier_un_compte"/>
-     <addaction name="actionSupprimer_un_compte"/>
-     <addaction name="actionCreateGroup"/>
-     <addaction name="actionSearchGroup"/>
-     <addaction name="actionDeleteAccount"/>
-     <addaction name="actionUpdateGroup"/>
+     <addaction name="actionStartDisconnection"/>
     </widget>
+    <addaction name="menuConnection"/>
+    <addaction name="menuAccount"/>
+    <addaction name="menuGroupe"/>
     <addaction name="menuFile"/>
     <addaction name="menuOptions"/>
-    <addaction name="menuConnection"/>
    </widget>
    <addaction name="menuTest"/>
   </widget>
@@ -114,34 +129,9 @@
     <string>Rechercher une option</string>
    </property>
   </action>
-  <action name="actionStartConnection">
-   <property name="text">
-    <string>Démarrer une connexion</string>
-   </property>
-  </action>
-  <action name="actionCcreateAccount">
+  <action name="actionCreateAccount">
    <property name="text">
     <string>Créer un compte</string>
-   </property>
-  </action>
-  <action name="actionCreateGroup">
-   <property name="text">
-    <string>Créer un groupe</string>
-   </property>
-  </action>
-  <action name="actionSearchGroup">
-   <property name="text">
-    <string>Rechercher un groupe</string>
-   </property>
-  </action>
-  <action name="actionDeleteAccount">
-   <property name="text">
-    <string>Supprimer un groupe</string>
-   </property>
-  </action>
-  <action name="actionUpdateGroup">
-   <property name="text">
-    <string>Modifier un groupe</string>
    </property>
   </action>
   <action name="actionEnableAccount">
@@ -154,19 +144,59 @@
     <string>Désactiver un compte</string>
    </property>
   </action>
-  <action name="actionRechercher_un_compte">
+  <action name="actionSearchAccount">
    <property name="text">
     <string>Rechercher un compte</string>
    </property>
   </action>
-  <action name="actionModifier_un_compte">
+  <action name="actionUpdateAccount">
    <property name="text">
     <string>Modifier un compte</string>
    </property>
   </action>
-  <action name="actionSupprimer_un_compte">
+  <action name="actionDeleteAccount">
    <property name="text">
     <string>Supprimer un compte</string>
+   </property>
+  </action>
+  <action name="actionCreateGroup">
+   <property name="text">
+    <string>Créer un groupe</string>
+   </property>
+  </action>
+  <action name="actionSearchGroup">
+   <property name="text">
+    <string>Rechercher un groupe</string>
+   </property>
+  </action>
+  <action name="actionUpdateGroup">
+   <property name="text">
+    <string>Modifier un groupe</string>
+   </property>
+  </action>
+  <action name="actionDeleteGroup">
+   <property name="text">
+    <string>Supprimer un groupe</string>
+   </property>
+  </action>
+  <action name="actionStartConnection">
+   <property name="text">
+    <string>Démarrer une connexion</string>
+   </property>
+  </action>
+  <action name="actionStartDisconnection">
+   <property name="text">
+    <string>Démarrer une déconnexion</string>
+   </property>
+  </action>
+  <action name="actionSearchFile">
+   <property name="text">
+    <string>Rechercher un fichier</string>
+   </property>
+  </action>
+  <action name="actionDeleteFile">
+   <property name="text">
+    <string>Supprimer un fichier</string>
    </property>
   </action>
  </widget>
