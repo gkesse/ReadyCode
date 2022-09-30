@@ -262,7 +262,7 @@ void GSocket::startServer(void* _onServerTcp) {
     int lFamily = loadFamily();
     GString lClientIp = getItem("socket", "client_ip");
     int lPort = loadPort();
-    int lBacklog = std::stoi(getItem("socket", "backlog"));
+    int lBacklog = std::stoi(getItem("socket", "backlog").c_str());
 
     GLOGT(eGMSG, ""
             "domain.......: %d\n"
