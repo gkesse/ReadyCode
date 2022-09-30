@@ -9,14 +9,14 @@ GDir::~GDir() {
 
 }
 //===============================================
-std::vector<std::string> GDir::openDir(const std::string& _path, bool _fullOn, bool _dotOn) const {
+std::vector<GString> GDir::openDir(const GString& _path, bool _fullOn, bool _dotOn) const {
     struct dirent* lEntry = 0;
     DIR* lDir = opendir(_path.c_str());
-    std::vector<std::string> lFiles;
+    std::vector<GString> lFiles;
 
     if(lDir != 0) {
         while((lEntry = readdir(lDir))) {
-            std::string lFile = lEntry->d_name;
+            GString lFile = lEntry->d_name;
             if(!_dotOn && lFile == ".") continue;
             if(!_dotOn && lFile == "..") continue;
             if(_fullOn) lFile = GFORMAT("%s/%s", _path.c_str(), lFile.c_str());

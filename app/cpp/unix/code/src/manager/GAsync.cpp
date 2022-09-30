@@ -21,7 +21,7 @@ GAsync::~GAsync() {
 
 }
 //===============================================
-std::string GAsync::serialize(const std::string& _code) const {
+GString GAsync::serialize(const GString& _code) const {
     GCode lReq;
     lReq.createDoc();
     lReq.addData(_code, "id", m_id);
@@ -31,7 +31,7 @@ std::string GAsync::serialize(const std::string& _code) const {
     return lReq.toStringCode("async");
 }
 //===============================================
-void GAsync::deserialize(const std::string& _req, const std::string& _code) {
+void GAsync::deserialize(const GString& _req, const GString& _code) {
     GModule::deserialize(_req);
     GCode lReq;
     lReq.loadXml(_req);
@@ -41,19 +41,19 @@ void GAsync::deserialize(const std::string& _req, const std::string& _code) {
     m_data = lReq.getItem(_code, "data");
 }
 //===============================================
-void GAsync::setTitle(const std::string& _title) {
+void GAsync::setTitle(const GString& _title) {
     m_title = _title;
 }
 //===============================================
-void GAsync::setStatus(const std::string& _status) {
+void GAsync::setStatus(const GString& _status) {
     m_status = _status;
 }
 //===============================================
-void GAsync::setData(const std::string& _data) {
+void GAsync::setData(const GString& _data) {
     m_data = _data;
 }
 //===============================================
-void GAsync::addData(const std::string& _data) {
+void GAsync::addData(const GString& _data) {
     m_data += _data;
 }
 //===============================================
@@ -125,7 +125,7 @@ void GAsync::exec(void* _onThreadCB, void* _params) {
     lThread.joinThread(0);
 }
 //===============================================
-void GAsync::maj(const std::string& _status) {
+void GAsync::maj(const GString& _status) {
     setStatus(_status);
     onMajAsync();
 }

@@ -18,7 +18,7 @@ GTestSocket::~GTestSocket() {
 }
 //===============================================
 void GTestSocket::run(int _argc, char** _argv) {
-    std::string lKey = "default";
+    GString lKey = "default";
     if(_argc > 2) lKey = _argv[2];
 
     if(lKey == "default") {

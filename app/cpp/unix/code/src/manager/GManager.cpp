@@ -22,7 +22,7 @@ GObject* GManager::clone() {
     return new GManager;
 }
 //===============================================
-std::string GManager::serialize(const std::string& _code) {
+GString GManager::serialize(const GString& _code) {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
@@ -35,7 +35,7 @@ std::string GManager::serialize(const std::string& _code) {
     return lDom.toStringData();
 }
 //===============================================
-void GManager::deserialize(const std::string& _data, const std::string& _code) {
+void GManager::deserialize(const GString& _data, const GString& _code) {
     clearMap(m_map);
     GSearch::deserialize(_data);
     GCode lDom;
@@ -88,35 +88,35 @@ bool GManager::onModule(GSocket* _client) {
 //===============================================
 bool GManager::onCreateCode(GSocket* _client) {
     createCode();
-    std::string lData = serialize();
+    GString lData = serialize();
     _client->addResponse(lData);
     return true;
 }
 //===============================================
 bool GManager::onSearchCode(GSocket* _client) {
     searchCode();
-    std::string lData = serialize();
+    GString lData = serialize();
     _client->addResponse(lData);
     return true;
 }
 //===============================================
 bool GManager::onNextCode(GSocket* _client) {
     searchCode();
-    std::string lData = serialize();
+    GString lData = serialize();
     _client->addResponse(lData);
     return true;
 }
 //===============================================
 bool GManager::onUpdateCode(GSocket* _client) {
     updateCode();
-    std::string lData = serialize();
+    GString lData = serialize();
     _client->addResponse(lData);
     return true;
 }
 //===============================================
 bool GManager::onDeleteCode(GSocket* _client) {
     deleteCode();
-    std::string lData = serialize();
+    GString lData = serialize();
     _client->addResponse(lData);
     return true;
 }
@@ -178,7 +178,7 @@ bool GManager::deleteCode() {
 //===============================================
 bool GManager::loadId() {
     if(m_code == "") return false;
-    std::string lData = GMySQL().readData(GFORMAT(""
+    GString lData = GMySQL().readData(GFORMAT(""
             " select _id "
             " from _code "
             " where _code = lower('%s') "
@@ -189,7 +189,7 @@ bool GManager::loadId() {
 }
 //===============================================
 bool GManager::loadLastId() {
-    std::string lLastId = GMySQL().readData(GFORMAT(""
+    GString lLastId = GMySQL().readData(GFORMAT(""
             " select _id "
             " from _code "
             " order by _id desc "
@@ -202,7 +202,7 @@ bool GManager::loadLastId() {
 }
 //===============================================
 bool GManager::loadDataCount() {
-    std::string lCount = GMySQL().readData(GFORMAT(""
+    GString lCount = GMySQL().readData(GFORMAT(""
             " select count(*) "
             " from _code "
             " %s "
@@ -215,7 +215,7 @@ bool GManager::loadDataCount() {
 }
 //===============================================
 bool GManager::loadDataMap() {
-    std::vector<std::vector<std::string>> lMap = GMySQL().readMap(GFORMAT(""
+    std::vector<std::vector<GString>> lMap = GMySQL().readMap(GFORMAT(""
             " select _id, _code, _label "
             " from _code "
             " %s "
@@ -229,7 +229,7 @@ bool GManager::loadDataMap() {
 
     int lSize = (int)lMap.size();
     for(int i = 0; i < lSize; i++) {
-        std::vector<std::string> lRow = lMap.at(i);
+        std::vector<GString> lRow = lMap.at(i);
         GManager* lManager = new GManager;
         int j = 0;
         lManager->m_id = GString(lRow.at(j++)).toInt();

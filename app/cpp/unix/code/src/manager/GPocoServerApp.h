@@ -9,21 +9,21 @@ public:
     GPocoServerApp();
     ~GPocoServerApp();
     //
-    void setModule(const std::string& _module);
-    void setFormat(const std::string& _format);
+    void setModule(const GString& _module);
+    void setFormat(const GString& _format);
     void setPort(int _port);
     // time
-    void onMainTime(const std::vector<std::string>& _args);
-    void onMainEcho(const std::vector<std::string>& _args);
+    void onMainTime(const std::vector<GString>& _args);
+    void onMainEcho(const std::vector<GString>& _args);
 
 protected:
     void initialize(Poco::Util::Application& _app);
     void uninitialize();
-    int main(const std::vector<std::string>& _args);
+    int main(const std::vector<GString>& _args);
 
 private:
-    std::string m_module;
-    std::string m_format;
+    GString m_module;
+    GString m_format;
     int m_port;
 };
 //==============================================

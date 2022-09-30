@@ -19,7 +19,7 @@ GMaj::GMaj() : GModule() {
     m_filename = "";
 }
 //===============================================
-GMaj::GMaj(const std::string& _path, const std::string& _filename) : GModule() {
+GMaj::GMaj(const GString& _path, const GString& _filename) : GModule() {
     m_id = 0;
     m_code = "";
     m_path = _path;
@@ -30,7 +30,7 @@ GMaj::~GMaj() {
 
 }
 //===============================================
-std::string GMaj::serialize(const std::string& _code) const {
+GString GMaj::serialize(const GString& _code) const {
     GCode lReq;
     lReq.createDoc();
     lReq.addData(_code, "id", m_id);
@@ -40,7 +40,7 @@ std::string GMaj::serialize(const std::string& _code) const {
     return lReq.toStringCode(_code);
 }
 //===============================================
-void GMaj::deserialize(const std::string& _req, const std::string& _code) {
+void GMaj::deserialize(const GString& _req, const GString& _code) {
     GModule::deserialize(_req);
     GCode lReq;
     lReq.loadXml(_req);
@@ -77,13 +77,13 @@ void GMaj::onUpdateDatabase(GSocket* _client) {
 void GMaj::onUpdateDatabaseThread(void* _params) {
     std::shared_ptr<GAsync> lAsync((GAsync*)_params);
     GSocket* lClient = lAsync->getClient();
-    std::string lPath = GRES("mysql", "maj");
-    std::vector<std::string> lFiles = GDir().openDir(lPath, false, false);
+    GString lPath = GRES("mysql", "maj");
+    std::vector<GString> lFiles = GDir().openDir(lPath, false, false);
 
     GLOGT(eGMSG, "%s\n", GSTRC(lFiles));
 
     for(int i = 0; i < (int)lFiles.size(); i++) {
-        std::string lFile = lFiles.at(i);
+        GString lFile = lFiles.at(i);
         GMaj lMaj(lPath, lFile);
         lMaj.createDB();
         lMaj.loadCode();
@@ -93,7 +93,7 @@ void GMaj::onUpdateDatabaseThread(void* _params) {
     }
 
     lAsync->finish();
-    std::string lData = lAsync->serialize();
+    GString lData = lAsync->serialize();
     lClient->addResponse(lData);
 }
 //===============================================
@@ -125,7 +125,7 @@ void GMaj::loadId() {
 void GMaj::loadId(bool _isTestEnv) {
     if(m_code == "") return;
 
-    std::string lId = GMySQL().readData(GFORMAT(""
+    GString lId = GMySQL().readData(GFORMAT(""
             " select _id "
             " from maj "
             " where _code = '%s' "
@@ -182,17 +182,17 @@ void GMaj::runMaj() {
 //===============================================
 void GMaj::runMaj(bool _isTestEnv) {
     if(!m_id) {
-        std::string lFilename = GFORMAT("%s/%s"
+        GString lFilename = GFORMAT("%s/%s"
                 , m_path.c_str()
                 , m_filename.c_str());
         runMaj(lFilename, _isTestEnv);
     }
 }
 //===============================================
-void GMaj::runMaj(const std::string& _filename, bool _isTestEnv) {
+void GMaj::runMaj(const GString& _filename, bool _isTestEnv) {
     if(_filename == "") return;
-    std::string lDatabase = GMySQL().loadDatabase(_isTestEnv);
-    std::string lCommand = GFORMAT(""
+    GString lDatabase = GMySQL().loadDatabase(_isTestEnv);
+    GString lCommand = GFORMAT(""
             " chmod a+x %s \n"
             " %s %s \n"
             "", _filename.c_str()

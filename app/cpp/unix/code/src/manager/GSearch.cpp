@@ -20,7 +20,7 @@ GSearch::~GSearch() {
 
 }
 //===============================================
-std::string GSearch::serialize(const std::string& _code) {
+GString GSearch::serialize(const GString& _code) {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "last_id", m_lastId);
@@ -30,7 +30,7 @@ std::string GSearch::serialize(const std::string& _code) {
     return lDom.toStringData();
 }
 //===============================================
-void GSearch::deserialize(const std::string& _data, const std::string& _code) {
+void GSearch::deserialize(const GString& _data, const GString& _code) {
     GModule::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);

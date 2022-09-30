@@ -36,7 +36,7 @@ GString GFile2::getContent() const {
     if(m_filename == "") return "";
     if(!existFile()) return "";
     std::ifstream lFile(m_filename.data());
-    std::stringstream lBuffer;
+    GStringstream lBuffer;
     lBuffer << lFile.rdbuf();
     return lBuffer.str();
 }

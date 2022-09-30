@@ -21,7 +21,7 @@ GRequest::~GRequest() {
 
 }
 //===============================================
-std::string GRequest::serialize(const std::string& _code) const {
+GString GRequest::serialize(const GString& _code) const {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
@@ -31,7 +31,7 @@ std::string GRequest::serialize(const std::string& _code) const {
     return lDom.toStringData();
 }
 //===============================================
-void GRequest::deserialize(const std::string& _data, const std::string& _code) {
+void GRequest::deserialize(const GString& _data, const GString& _code) {
     GModule::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
@@ -68,7 +68,7 @@ void GRequest::onGetRequestList(GSocket* _client) {
     deserialize(_client->toReq());
     loadRequestCount(_client);
     loadRequestList(_client);
-    std::string lData = serialize();
+    GString lData = serialize();
     _client->addResponse(lData);
 }
 //===============================================
@@ -77,7 +77,7 @@ void GRequest::loadId() {
     if(m_module == "") return;
     if(m_method == "") return;
 
-    std::string lId = GMySQL().readData(GFORMAT(""
+    GString lId = GMySQL().readData(GFORMAT(""
             " select r._id "
             " from request r, user u "
             " where r._u_id = u._id "
@@ -94,7 +94,7 @@ void GRequest::loadId() {
 //===============================================
 void GRequest::loadRequestCount(GSocket* _client) {
     if(m_userId == 0) return;
-    std::string lData = GMySQL().readData(GFORMAT(""
+    GString lData = GMySQL().readData(GFORMAT(""
             " select count(*) "
             " from request r, user u "
             " where r._u_id = u._id "
@@ -108,7 +108,7 @@ void GRequest::loadRequestList(GSocket* _client) {
     if(m_userId == 0) return;
     if(!m_dataSize) return;
 
-    std::vector<std::vector<std::string>> lReq = GMySQL().readMap(GFORMAT(""
+    std::vector<std::vector<GString>> lReq = GMySQL().readMap(GFORMAT(""
             " select r._id, r._module, r._method, r._msg "
             " from request r, user u "
             " where r._u_id = u._id "
@@ -122,7 +122,7 @@ void GRequest::loadRequestList(GSocket* _client) {
     ));
 
     for(int i = 0; i < (int)lReq.size(); i++) {
-        std::vector<std::string> lDataRow = lReq.at(i);
+        std::vector<GString> lDataRow = lReq.at(i);
         int j = 0;
         GRequest lReqObj;
         lReqObj.m_id = std::stoi(lDataRow.at(j++));

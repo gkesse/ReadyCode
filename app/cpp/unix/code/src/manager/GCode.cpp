@@ -11,7 +11,7 @@ GCode::~GCode() {
 
 }
 //===============================================
-void GCode::createReq(const std::string& _module, const std::string& _method) {
+void GCode::createReq(const GString& _module, const GString& _method) {
     addData("request", "module", _module);
     addData("request", "method", _method);
 }
@@ -22,19 +22,19 @@ bool GCode::hasCode() {
     return (lCount != 0);
 }
 //===============================================
-bool GCode::hasCode(const std::string& _code) {
+bool GCode::hasCode(const GString& _code) {
     queryXPath(GFORMAT("/rdv/datas/data[code='%s']", _code.c_str()));
     int lCount = countXPath();
     return (lCount != 0);
 }
 //===============================================
-bool GCode::hasCode(const std::string& _code, const std::string& _key) {
+bool GCode::hasCode(const GString& _code, const GString& _key) {
     queryXPath(GFORMAT("/rdv/datas/data[code='%s']/%s", _code.c_str(), _key.c_str()));
     int lCount = countXPath();
     return (lCount != 0);
 }
 //===============================================
-bool GCode::createCode(const std::string& _code) {
+bool GCode::createCode(const GString& _code) {
     if(!hasCode(_code)) {
         createXNode("/rdv/datas");
         createNode("data");
@@ -43,7 +43,7 @@ bool GCode::createCode(const std::string& _code) {
     return true;
 }
 //===============================================
-bool GCode::addData(const std::string& _code, const std::string& _key, const std::string& _value, bool _isCData) {
+bool GCode::addData(const GString& _code, const GString& _key, const GString& _value, bool _isCData) {
     if(_value == "") return false;
     createCode(_code);
     if(!hasCode(_code, _key)) {
@@ -57,19 +57,19 @@ bool GCode::addData(const std::string& _code, const std::string& _key, const std
     return true;
 }
 //===============================================
-bool GCode::addData(const std::string& _code, const std::string& _key, int _value, bool _isCData) {
-    std::string lData = std::to_string(_value);
+bool GCode::addData(const GString& _code, const GString& _key, int _value, bool _isCData) {
+    GString lData = std::to_string(_value);
     addData(_code, _key, lData, _isCData);
     return true;
 }
 //===============================================
-bool GCode::addData(const std::string& _code, const std::vector<std::string>& _datas, bool _isCData) {
+bool GCode::addData(const GString& _code, const std::vector<GString>& _datas, bool _isCData) {
     if(!_datas.size()) return false;
     createCode(_code);
     getCode(_code);
     createXNode("map");
     for(int i = 0; i < (int)_datas.size(); i++) {
-        std::string lData = _datas[i];
+        GString lData = _datas[i];
         saveNode();
         createNode("data");
         setNodeValue(lData, _isCData);
@@ -78,7 +78,7 @@ bool GCode::addData(const std::string& _code, const std::vector<std::string>& _d
     return true;
 }
 //===============================================
-bool GCode::addData(const std::string& _code, const std::vector<GObject*>& _datas) {
+bool GCode::addData(const GString& _code, const std::vector<GObject*>& _datas) {
     if(!_datas.size()) return false;
     createCode(_code);
     getCode(_code);
@@ -86,40 +86,40 @@ bool GCode::addData(const std::string& _code, const std::vector<GObject*>& _data
     for(int i = 0; i < (int)_datas.size(); i++) {
         GObject* lObj = _datas[i];
         lObj->setIsParent(false);
-        std::string lData = lObj->serialize(_code);
+        GString lData = lObj->serialize(_code);
         loadNode(lData);
     }
     return true;
 }
 //===============================================
-bool GCode::getCode(const std::string& _code) {
+bool GCode::getCode(const GString& _code) {
     getXPath(GFORMAT("/rdv/datas/data[code='%s']", _code.c_str()));
     return true;
 }
 //===============================================
-bool GCode::getCode(const std::string& _code, const std::string& _key) {
+bool GCode::getCode(const GString& _code, const GString& _key) {
     getXPath(GFORMAT("/rdv/datas/data[code='%s']/%s", _code.c_str(), _key.c_str()));
     return true;
 }
 //===============================================
-std::string GCode::getItem(const std::string& _code, const std::string& _key) {
+GString GCode::getItem(const GString& _code, const GString& _key) {
     queryXPath(GFORMAT("/rdv/datas/data[code='%s']/%s", _code.c_str(), _key.c_str()));
     getNodeXPath();
-    std::string lData = getNodeValue();
+    GString lData = getNodeValue();
     return lData;
 }
 //===============================================
-std::string GCode::getItem(const std::string& _code, const std::string& _key, int _index) {
+GString GCode::getItem(const GString& _code, const GString& _key, int _index) {
     getXPath(GFORMAT("/rdv/datas/data[code='%s']/map/data[position()=%d]/%s", _code.c_str(), _index + 1, _key.c_str()));
-    std::string lData = getNodeValue();
+    GString lData = getNodeValue();
     return lData;
 }
 //===============================================
-bool GCode::getItem(const std::string& _code, std::vector<GObject*>& _datas, GObject* _obj) {
+bool GCode::getItem(const GString& _code, std::vector<GObject*>& _datas, GObject* _obj) {
     int lCount = countItem(_code);
 
     for(int i = 0; i < lCount; i++) {
-        std::string lData = getMap(_code, i);
+        GString lData = getMap(_code, i);
         GObject* lObj = _obj->clone();
         lObj->deserialize(lData, _code);
         _datas.push_back(lObj);
@@ -127,9 +127,9 @@ bool GCode::getItem(const std::string& _code, std::vector<GObject*>& _datas, GOb
     return true;
 }
 //===============================================
-std::string GCode::getMap(const std::string& _code, int _index) {
+GString GCode::getMap(const GString& _code, int _index) {
     getXPath(GFORMAT("/rdv/datas/data[code='%s']/map/data[position()=%d]", _code.c_str(), _index + 1));
-    std::string lData = toStringNode();
+    GString lData = toStringNode();
     GCode lDom;
     lDom.createDoc();
     lDom.createXNode("/rdv/datas");
@@ -137,28 +137,28 @@ std::string GCode::getMap(const std::string& _code, int _index) {
     return lDom.toString();
 }
 //===============================================
-int GCode::countItem(const std::string& _code) {
+int GCode::countItem(const GString& _code) {
     queryXPath(GFORMAT("/rdv/datas/data[code='%s']/map/data", _code.c_str()));
     int lData = countXPath();
     return lData;
 }
 //===============================================
-bool GCode::loadCode(const std::string& _data, bool _isRoot) {
+bool GCode::loadCode(const GString& _data, bool _isRoot) {
     if(_data == "") return false;
     createXNode("/rdv/datas");
     loadNode(_data, _isRoot);
     return true;
 }
 //===============================================
-std::string GCode::toStringCode(const std::string& _code) {
+GString GCode::toStringCode(const GString& _code) {
     queryXPath(GFORMAT("/rdv/datas/data[code='%s']", _code.c_str()));
     getNodeXPath();
-    std::string lData = toStringNode();
+    GString lData = toStringNode();
     return lData;
 }
 //===============================================
-std::string GCode::toStringData() {
-    std::string lData = "";
+GString GCode::toStringData() {
+    GString lData = "";
     if(hasCode()) {
         queryXPath(GFORMAT("/rdv/datas/data"));
         int lCount = countXPath();

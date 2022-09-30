@@ -12,11 +12,11 @@ GPocoFactory::~GPocoFactory() {
 
 }
 //===============================================
-void GPocoFactory::setModule(const std::string& _module) {
+void GPocoFactory::setModule(const GString& _module) {
     m_module = _module;
 }
 //===============================================
-void GPocoFactory::setFormat(const std::string& _format) {
+void GPocoFactory::setFormat(const GString& _format) {
     m_format = _format;
 }
 //===============================================

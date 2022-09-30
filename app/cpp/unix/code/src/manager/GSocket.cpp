@@ -27,7 +27,7 @@ void GSocket::createDoms() {
 //===============================================
 int GSocket::loadDomain() const {
     int lDomain = AF_INET;
-    std::string lName = getItem("socket", "domain");
+    GString lName = getItem("socket", "domain");
     if(lName == "AF_INET") {
         lDomain = AF_INET;
     }
@@ -36,7 +36,7 @@ int GSocket::loadDomain() const {
 //===============================================
 int GSocket::loadType() const {
     int lType = SOCK_STREAM;
-    std::string lName = getItem("socket", "type");
+    GString lName = getItem("socket", "type");
     if(lName == "SOCK_STREAM") {
         lType = SOCK_STREAM;
     }
@@ -45,7 +45,7 @@ int GSocket::loadType() const {
 //===============================================
 int GSocket::loadProtocol() const {
     int lProtocol = IPPROTO_TCP;
-    std::string lName = getItem("socket", "protocol");
+    GString lName = getItem("socket", "protocol");
     if(lName == "IPPROTO_TCP") {
         lProtocol = IPPROTO_TCP;
     }
@@ -54,7 +54,7 @@ int GSocket::loadProtocol() const {
 //===============================================
 int GSocket::loadFamily() const {
     int lFamily = AF_INET;
-    std::string lName = getItem("socket", "family");
+    GString lName = getItem("socket", "family");
     if(lName == "AF_INET") {
         lFamily = AF_INET;
     }
@@ -83,7 +83,7 @@ void GSocket::createSocket(int _domain, int _type, int _protocol) {
     }
 }
 //===============================================
-void GSocket::createAddress(int _family, std::string _ip, int _port) {
+void GSocket::createAddress(int _family, GString _ip, int _port) {
     bzero(&m_address, sizeof(m_address));
     m_address.sin_family = _family;
     m_address.sin_addr.s_addr = inet_addr(_ip.c_str());
@@ -156,11 +156,11 @@ void GSocket::acceptSocket(GSocket* _socket) {
     }
 }
 //===============================================
-int GSocket::recvData(std::string& _data) {
+int GSocket::recvData(GString& _data) {
     return recvData(_data, BUFFER_DATA_SIZE);
 }
 //===============================================
-int GSocket::recvData(std::string& _data, int _size) {
+int GSocket::recvData(GString& _data, int _size) {
     _data.clear();
     char lBuffer[BUFFER_DATA_SIZE + 1];
     int lBytes = recv(m_socket, lBuffer, _size, 0);
@@ -171,7 +171,7 @@ int GSocket::recvData(std::string& _data, int _size) {
     return lBytes;
 }
 //===============================================
-int GSocket::recvData(GSocket& _socket, std::string& _data) {
+int GSocket::recvData(GSocket& _socket, GString& _data) {
     _data.clear();
     char lBuffer[BUFFER_DATA_SIZE + 1];
     int lSize = sizeof(_socket.m_address);
@@ -182,17 +182,17 @@ int GSocket::recvData(GSocket& _socket, std::string& _data) {
     return lBytes;
 }
 //===============================================
-int GSocket::readData(std::string& _data) {
+int GSocket::readData(GString& _data) {
     _data.clear();
-    std::string lBuffer;
+    GString lBuffer;
     int lSize = recvData(lBuffer, BUFFER_NDATA_SIZE);
     GLOGT(eGMSG, "[%s]", lBuffer.c_str());
     if(lSize != BUFFER_NDATA_SIZE) return -1;
     lBuffer = GString(lBuffer).trimData();
-    std::vector<std::string> lMap = GString(lBuffer).splitData(';');
+    std::vector<GString> lMap = GString(lBuffer).splitData(';');
     if(lMap.size() != 2) return -1;
     lBuffer = lMap.at(0);
-    std::string lKey = getItem("socket", "api_key");
+    GString lKey = getItem("socket", "api_key");
     if(lBuffer != lKey) return -1;
     lBuffer = lMap.at(1);
     lSize = GString(lBuffer).toInt();
@@ -212,25 +212,25 @@ int GSocket::readData(std::string& _data) {
     return lBytes;
 }
 //===============================================
-int GSocket::sendData(const std::string& _data) {
+int GSocket::sendData(const GString& _data) {
     int lBytes = send(m_socket, _data.c_str(), _data.size(), 0);
     GLOGT(eGOFF, "SIZE.........: %d\n", lBytes);
     if(lBytes == -1) {GERROR_ADD(eGERR, "Erreur l'envoi des donnees."); return -1;}
     return lBytes;
 }
 //===============================================
-int GSocket::sendData(GSocket& _socket, const std::string& _data) {
+int GSocket::sendData(GSocket& _socket, const GString& _data) {
     int lSize = sizeof(_socket.m_address);
     int lBytes = sendto(m_socket, _data.c_str(), _data.size(), 0, (struct sockaddr*)&_socket.m_address, lSize);
     if(lBytes == -1) {GERROR_ADD(eGERR, "Erreur l'envoi des donnees."); return -1;}
     return lBytes;
 }
 //===============================================
-int GSocket::writeData(const std::string& _data) {
+int GSocket::writeData(const GString& _data) {
     int lBytes = 0;
     int lSize = _data.size();
-    std::string lKey = getItem("socket", "api_key");
-    std::string lBuffer = GFORMAT("%s;%d", lKey.c_str(), lSize);
+    GString lKey = getItem("socket", "api_key");
+    GString lBuffer = GFORMAT("%s;%d", lKey.c_str(), lSize);
     lBuffer = GFORMAT("%-*s", BUFFER_NDATA_SIZE, lBuffer.c_str());
     GLOGT(eGMSG, "[%s]", lBuffer.c_str());
     sendData(lBuffer);
@@ -260,7 +260,7 @@ void GSocket::startServer(void* _onServerTcp) {
     int lType = loadType();
     int lProtocol = loadProtocol();
     int lFamily = loadFamily();
-    std::string lClientIp = getItem("socket", "client_ip");
+    GString lClientIp = getItem("socket", "client_ip");
     int lPort = loadPort();
     int lBacklog = std::stoi(getItem("socket", "backlog"));
 
@@ -308,7 +308,7 @@ void* GSocket::onServerThread(GSocket* _client) {
     GHost lHost;
     lHost.saveHostname(lClient);
 
-    std::string lData;
+    GString lData;
     if(lClient->readData(lData) == -1) {
         delete lClient;
         return 0;
@@ -319,19 +319,19 @@ void* GSocket::onServerThread(GSocket* _client) {
     return 0;
 }
 //===============================================
-std::string GSocket::callServer(const std::string& _dataIn) {
+GString GSocket::callServer(const GString& _dataIn) {
     int lDomain = loadDomain();
     int lType = loadType();
     int lProtocol = loadProtocol();
     int lFamily = loadFamily();
-    std::string lServerIp = getItem("socket", "server_ip");
+    GString lServerIp = getItem("socket", "server_ip");
     int lPort = loadPort();
 
     createSocket(lDomain, lType, lProtocol);
     createAddress(lFamily, lServerIp, lPort);
     connectSocket();
 
-    std::string lDataOut;
+    GString lDataOut;
     writeData(_dataIn);
     readData(lDataOut);
 
@@ -340,11 +340,11 @@ std::string GSocket::callServer(const std::string& _dataIn) {
     return lDataOut;
 }
 //===============================================
-void GSocket::setReq(const std::string& _req) {
+void GSocket::setReq(const GString& _req) {
     m_req = _req;
 }
 //===============================================
-std::string GSocket::toReq() const {
+GString GSocket::toReq() const {
     return m_req;
 }
 //===============================================
@@ -352,7 +352,7 @@ std::queue<GSocket*>& GSocket::getClientIns() {
     return m_clientIns;
 }
 //===============================================
-void GSocket::addResponse(const std::string& _data, bool _isRoot) {
+void GSocket::addResponse(const GString& _data, bool _isRoot) {
     if(_data == "") return;
     m_res->loadCode(_data, _isRoot);
 }
@@ -375,7 +375,7 @@ bool GSocket::addErrors() {
 }
 //===============================================
 void GSocket::sendResponse() {
-    std::string lData = m_res->toString();
+    GString lData = m_res->toString();
     int lSize = lData.size();
     writeData(lData);
     GLOGT(eGMSG, "[EMISSION]...: (%d)\n(%s)\n", lSize, lData.c_str());
@@ -383,8 +383,8 @@ void GSocket::sendResponse() {
     delete this;
 }
 //===============================================
-std::string GSocket::readAddressIp() const {
-    std::string lAddressIp = inet_ntoa(m_address.sin_addr);
+GString GSocket::readAddressIp() const {
+    GString lAddressIp = inet_ntoa(m_address.sin_addr);
     return lAddressIp;
 }
 //===============================================

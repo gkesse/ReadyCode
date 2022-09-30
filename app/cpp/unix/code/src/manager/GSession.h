@@ -11,8 +11,8 @@ class GSession : public GObject {
 public:
     GSession();
     virtual ~GSession();
-    virtual std::string serialize(const std::string& _code = "session") const;
-    virtual void deserialize(const std::string& _data, const std::string& _code = "session");
+    virtual GString serialize(const GString& _code = "session") const;
+    virtual void deserialize(const GString& _data, const GString& _code = "session");
 
 protected:
     int m_userId;

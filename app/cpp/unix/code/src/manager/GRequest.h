@@ -11,8 +11,8 @@ public:
     GRequest();
     ~GRequest();
     //
-    std::string serialize(const std::string& _code = "req") const;
-    void deserialize(const std::string& _data, const std::string& _code = "req");
+    GString serialize(const GString& _code = "req") const;
+    void deserialize(const GString& _data, const GString& _code = "req");
     //
     void onModule(GSocket* _client);
     void onSaveRequest(GSocket* _client);
@@ -27,7 +27,7 @@ public:
 
 private:
     int m_id;
-    std::string m_msg;
+    GString m_msg;
     int m_dataOffset;
     int m_dataSize;
     int m_dataCount;

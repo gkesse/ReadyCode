@@ -8,8 +8,8 @@ class GPocoFactory : public Poco::Net::TCPServerConnectionFactory {
 public:
     GPocoFactory();
     ~GPocoFactory();
-    void setModule(const std::string& _module);
-    void setFormat(const std::string& _format);
+    void setModule(const GString& _module);
+    void setFormat(const GString& _format);
     Poco::Net::TCPServerConnection* onCreateConnectionTcp(const Poco::Net::StreamSocket& _socket);
     Poco::Net::TCPServerConnection* onCreateConnectionTime(const Poco::Net::StreamSocket& _socket);
 
@@ -17,8 +17,8 @@ protected:
     Poco::Net::TCPServerConnection* createConnection(const Poco::Net::StreamSocket& _socket);
 
 private:
-    std::string m_module;
-    std::string m_format;
+    GString m_module;
+    GString m_format;
 };
 //==============================================
 #endif

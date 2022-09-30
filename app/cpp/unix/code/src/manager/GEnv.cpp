@@ -11,7 +11,7 @@ GEnv::~GEnv() {
 }
 //===============================================
 bool GEnv::isProdEnv() const {
-    std::string lType = getEnvType();
+    GString lType = getEnvType();
     if(lType == "PROD") return true;
     return false;
 }
@@ -21,22 +21,22 @@ bool GEnv::isTestEnv() const {
     return true;
 }
 //===============================================
-std::string GEnv::getEnvType() const {
-    std::string lData = getEnv("GPROJECT_ENV");
+GString GEnv::getEnvType() const {
+    GString lData = getEnv("GPROJECT_ENV");
     return lData;
 }
 //===============================================
-std::string GEnv::getDataPath() const {
-    std::string lData = getEnv("GPROJECT_DATA");
+GString GEnv::getDataPath() const {
+    GString lData = getEnv("GPROJECT_DATA");
     return lData;
 }
 //===============================================
-std::string GEnv::getTmpDir() const {
-    std::string lData = getEnv("GPROJECT_TMP");
+GString GEnv::getTmpDir() const {
+    GString lData = getEnv("GPROJECT_TMP");
     return lData;
 }
 //===============================================
-std::string GEnv::getEnv(const std::string& _env, const std::string& _defaultValue) const {
+GString GEnv::getEnv(const GString& _env, const GString& _defaultValue) const {
     char* lEnv = getenv(_env.c_str());
     if(lEnv == 0) return _defaultValue;
     return lEnv;

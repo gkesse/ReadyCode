@@ -14,11 +14,11 @@ GPocoApp::~GPocoApp() {
     delete m_icmpClient;
 }
 //===============================================
-void GPocoApp::setModule(const std::string& _module) {
+void GPocoApp::setModule(const GString& _module) {
     m_module = _module;
 }
 //===============================================
-void GPocoApp::setHostname(const std::string& _hostname) {
+void GPocoApp::setHostname(const GString& _hostname) {
     m_hostname = _hostname;
 }
 //===============================================
@@ -46,7 +46,7 @@ void GPocoApp::onUninitPing() {
     Poco::Util::Application::uninitialize();
 }
 //===============================================
-void GPocoApp::onMainPing(const std::vector<std::string>& _args) {
+void GPocoApp::onMainPing(const std::vector<GString>& _args) {
     m_icmpClient->ping(m_hostname, m_repetitions);
 }
 //===============================================
@@ -98,7 +98,7 @@ void GPocoApp::uninitialize() {
     }
 }
 //===============================================
-int GPocoApp::main(const std::vector<std::string>& _args) {
+int GPocoApp::main(const std::vector<GString>& _args) {
     if(m_module == "ping") {
         onMainPing(_args);
     }

@@ -10,10 +10,10 @@ public:
     ~GEnv();
     bool isProdEnv() const;
     bool isTestEnv() const;
-    std::string getEnvType() const;
-    std::string getDataPath() const;
-    std::string getTmpDir() const;
-    std::string getEnv(const std::string& _env, const std::string& _defaultValue = "") const;
+    GString getEnvType() const;
+    GString getDataPath() const;
+    GString getTmpDir() const;
+    GString getEnv(const GString& _env, const GString& _defaultValue = "") const;
 };
 //==============================================
 #endif

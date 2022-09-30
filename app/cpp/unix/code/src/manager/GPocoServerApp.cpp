@@ -15,11 +15,11 @@ GPocoServerApp::~GPocoServerApp() {
 
 }
 //===============================================
-void GPocoServerApp::setModule(const std::string& _module) {
+void GPocoServerApp::setModule(const GString& _module) {
     m_module = _module;
 }
 //===============================================
-void GPocoServerApp::setFormat(const std::string& _format) {
+void GPocoServerApp::setFormat(const GString& _format) {
     m_format = _format;
 }
 //===============================================
@@ -27,7 +27,7 @@ void GPocoServerApp::setPort(int _port) {
     m_port = _port;
 }
 //===============================================
-void GPocoServerApp::onMainTime(const std::vector<std::string>& _args) {
+void GPocoServerApp::onMainTime(const std::vector<GString>& _args) {
     GPocoFactory* lFactory = new GPocoFactory;
     lFactory->setModule(m_module);
     lFactory->setFormat(m_format);
@@ -38,7 +38,7 @@ void GPocoServerApp::onMainTime(const std::vector<std::string>& _args) {
     lServer.stop();
 }
 //===============================================
-void GPocoServerApp::onMainEcho(const std::vector<std::string>& _args) {
+void GPocoServerApp::onMainEcho(const std::vector<GString>& _args) {
     Poco::Net::ServerSocket lSocket(m_port);
     Poco::Net::SocketReactor lReactor;
     Poco::Net::SocketAcceptor<GPocoReactor> lAcceptor(lSocket, lReactor);
@@ -58,7 +58,7 @@ void GPocoServerApp::uninitialize() {
     Poco::Util::ServerApplication::uninitialize();
 }
 //===============================================
-int GPocoServerApp::main(const std::vector<std::string>& _args) {
+int GPocoServerApp::main(const std::vector<GString>& _args) {
     if(m_module == "time") {
         onMainTime(_args);
     }

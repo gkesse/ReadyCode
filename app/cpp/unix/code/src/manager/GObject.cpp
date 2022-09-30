@@ -17,15 +17,15 @@ void GObject::createDoms() {
     m_dom->loadFile(GRES("xml", "pad.xml"));
 }
 //===============================================
-std::string GObject::getItem(const std::string& _code, const std::string& _key) const {
+GString GObject::getItem(const GString& _code, const GString& _key) const {
     return m_dom->getItem(_code, _key);
 }
 //===============================================
-std::string GObject::getItem(const std::string& _code, const std::string& _key, int _index) const {
+GString GObject::getItem(const GString& _code, const GString& _key, int _index) const {
     return m_dom->getItem(_code, _key, _index);
 }
 //===============================================
-int GObject::countItem(const std::string& _code) const {
+int GObject::countItem(const GString& _code) const {
     return m_dom->countItem(_code);
 }
 //===============================================
@@ -43,6 +43,6 @@ void GObject::setIsParent(bool _isParent) {
 }
 //===============================================
 GObject* GObject::clone() {return new GObject;}
-std::string GObject::serialize(const std::string& _code) const {return "";}
-void GObject::deserialize(const std::string& _data, const std::string& _code) {}
+GString GObject::serialize(const GString& _code) const {return "";}
+void GObject::deserialize(const GString& _data, const GString& _code) {}
 //===============================================

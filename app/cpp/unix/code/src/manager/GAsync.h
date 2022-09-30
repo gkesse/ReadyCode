@@ -11,13 +11,13 @@ public:
     GAsync();
     ~GAsync();
     //
-    std::string serialize(const std::string& _code = "async") const;
-    void deserialize(const std::string& _req, const std::string& _code = "async");
+    GString serialize(const GString& _code = "async") const;
+    void deserialize(const GString& _req, const GString& _code = "async");
     //
-    void setTitle(const std::string& _title);
-    void setStatus(const std::string& _status);
-    void setData(const std::string& _data);
-    void addData(const std::string& _data);
+    void setTitle(const GString& _title);
+    void setStatus(const GString& _status);
+    void setData(const GString& _data);
+    void addData(const GString& _data);
     void setClient(GSocket* _socket);
     GSocket* getClient();
     //
@@ -28,14 +28,14 @@ public:
     void updateData();
     //
     void exec(void* _onThreadCB, void* _params);
-    void maj(const std::string& _status);
+    void maj(const GString& _status);
     void finish();
 
 private:
     int m_id;
-    std::string m_title;
-    std::string m_status;
-    std::string m_data;
+    GString m_title;
+    GString m_status;
+    GString m_data;
     //
     GSocket* m_client;
     bool m_running;

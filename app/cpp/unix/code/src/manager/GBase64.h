@@ -7,13 +7,13 @@
 class GBase64 : public GObject {
 public:
     GBase64();
-    GBase64(const std::string& _data);
+    GBase64(const GString& _data);
     ~GBase64();
-    std::string encodeData() const;
-    std::string decodeData() const;
+    GString encodeData() const;
+    GString decodeData() const;
 
 private:
-    std::string m_data;
+    GString m_data;
 };
 //==============================================
 #endif

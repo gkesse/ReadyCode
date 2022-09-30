@@ -16,7 +16,7 @@ GProcess::~GProcess() {
 }
 //===============================================
 void GProcess::run(int _argc, char** _argv) {
-    std::string lKey = "default";
+    GString lKey = "default";
     if(_argc > 1) lKey = _argv[1];
 
     if(lKey == "default") {

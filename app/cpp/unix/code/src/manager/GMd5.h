@@ -10,15 +10,15 @@ class GMd5 : public GModule {
 public:
     GMd5();
     ~GMd5();
-    std::string serialize(const std::string& _code = "md5") const;
-    void deserialize(const std::string& _data, const std::string& _code = "md5");
+    GString serialize(const GString& _code = "md5") const;
+    void deserialize(const GString& _data, const GString& _code = "md5");
     bool onModule(GSocket* _client);
     bool onEncodeData(GSocket* _client);
-    std::string encodeData(const std::string& _data) const;
+    GString encodeData(const GString& _data) const;
 
 private:
-    std::string m_dataIn;
-    std::string m_dataOut;
+    GString m_dataIn;
+    GString m_dataOut;
 };
 //==============================================
 #endif

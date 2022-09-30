@@ -12,8 +12,8 @@ public:
     ~GManager();
     GObject* clone();
     //
-    std::string serialize(const std::string& _code = "manager");
-    void deserialize(const std::string& _data, const std::string& _code = "manager");
+    GString serialize(const GString& _code = "manager");
+    void deserialize(const GString& _data, const GString& _code = "manager");
     //
     bool onModule(GSocket* _client);
     bool onCreateCode(GSocket* _client);
@@ -38,8 +38,8 @@ public:
 
 private:
     int m_id;
-    std::string m_code;
-    std::string m_label;
+    GString m_code;
+    GString m_label;
     std::vector<GObject*> m_map;
 };
 //==============================================

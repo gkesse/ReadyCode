@@ -24,11 +24,11 @@ GPoco::~GPoco() {
     delete m_serverApp;
 }
 //===============================================
-void GPoco::setModule(const std::string& _module) {
+void GPoco::setModule(const GString& _module) {
     m_module = _module;
 }
 //===============================================
-void GPoco::setHostname(const std::string& _hostname) {
+void GPoco::setHostname(const GString& _hostname) {
     m_hostname = _hostname;
 }
 //===============================================
@@ -40,15 +40,15 @@ void GPoco::setPort(int _port) {
     m_port = _port;
 }
 //===============================================
-void GPoco::setFormat(const std::string& _format) {
+void GPoco::setFormat(const GString& _format) {
     m_format = _format;
 }
 //===============================================
-void GPoco::setRequest(const std::string& _request) {
+void GPoco::setRequest(const GString& _request) {
     m_request = _request;
 }
 //===============================================
-void GPoco::setResponse(const std::string& _response) {
+void GPoco::setResponse(const GString& _response) {
     m_response = _response;
 }
 //===============================================

@@ -12,11 +12,11 @@ GPocoServerTcp::~GPocoServerTcp() {
 
 }
 //===============================================
-void GPocoServerTcp::setModule(const std::string& _module) {
+void GPocoServerTcp::setModule(const GString& _module) {
     m_module = _module;
 }
 //===============================================
-void GPocoServerTcp::setFormat(const std::string& _format) {
+void GPocoServerTcp::setFormat(const GString& _format) {
     m_format = _format;
 }
 //===============================================
@@ -38,7 +38,7 @@ void GPocoServerTcp::onRunTime() {
     lApp.logger().information("Request from " + m_hostname);
     try {
         Poco::Timestamp lNow;
-        std::string lTime(Poco::DateTimeFormatter::format(lNow, m_format));
+        GString lTime(Poco::DateTimeFormatter::format(lNow, m_format));
         lTime.append("\r\n");
         socket().sendBytes(lTime.data(), (int)lTime.length());
     }

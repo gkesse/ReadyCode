@@ -11,8 +11,8 @@ public:
 public:
     GPocoServerTcp(const Poco::Net::StreamSocket& _socket);
     ~GPocoServerTcp();
-    void setModule(const std::string& _key);
-    void setFormat(const std::string& _format);
+    void setModule(const GString& _key);
+    void setFormat(const GString& _format);
     void onRunTcp();
     void onRunTime();
 
@@ -21,9 +21,9 @@ protected:
 
 private:
     static const int BUFFER_SIZE = 10;
-    std::string m_module;
-    std::string m_hostname;
-    std::string m_format;
+    GString m_module;
+    GString m_hostname;
+    GString m_format;
 };
 //==============================================
 #endif

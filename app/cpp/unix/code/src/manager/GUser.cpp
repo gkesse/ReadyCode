@@ -25,7 +25,7 @@ GUser::~GUser() {
 
 }
 //===============================================
-std::string GUser::serialize(const std::string& _code) const {
+GString GUser::serialize(const GString& _code) const {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
@@ -39,7 +39,7 @@ std::string GUser::serialize(const std::string& _code) const {
     return lDom.toStringData();
 }
 //===============================================
-void GUser::deserialize(const std::string& _data, const std::string& _code) {
+void GUser::deserialize(const GString& _data, const GString& _code) {
     GModule::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
@@ -76,19 +76,19 @@ bool GUser::onModule(GSocket* _client) {
 //===============================================
 void GUser::onCreateAccount(GSocket* _client) {
     createAccount();
-    std::string lData = serialize();
+    GString lData = serialize();
     _client->addResponse(lData);
 }
 //===============================================
 void GUser::onRunConnection(GSocket* _client) {
     runConnection();
-    std::string lData = serialize();
+    GString lData = serialize();
     _client->addResponse(lData);
 }
 //===============================================
 void GUser::onRunDisconnection(GSocket* _client) {
     runDisconnection();
-    std::string lData = serialize();
+    GString lData = serialize();
     _client->addResponse(lData);
 }
 //===============================================
@@ -130,7 +130,7 @@ bool GUser::createAccount() {
 }
 //===============================================
 bool GUser::loadUserPseudo() {
-    std::string lData = GMySQL().readData(GFORMAT(""
+    GString lData = GMySQL().readData(GFORMAT(""
             " select _id "
             " from _user "
             " where _pseudo = '%s' "
@@ -144,7 +144,7 @@ bool GUser::loadUserPseudo() {
 bool GUser::loadUserPassword() {
     if(m_id == 0) return false;
     if(m_passwordMd5 == "") return false;
-    std::string lData = GMySQL().readData(GFORMAT(""
+    GString lData = GMySQL().readData(GFORMAT(""
             " select _id "
             " from _user "
             " where _id = %d "
@@ -160,7 +160,7 @@ bool GUser::loadUserPassword() {
 bool GUser::loadUser() {
     if(m_id == 0) return false;
 
-    std::vector<std::string> lRow = GMySQL().readRow(GFORMAT(""
+    std::vector<GString> lRow = GMySQL().readRow(GFORMAT(""
             " select _email, _pseudo, _group, _active "
             " from _user "
             " where _id = %d "

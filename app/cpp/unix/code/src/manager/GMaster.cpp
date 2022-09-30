@@ -21,11 +21,11 @@ GMaster::~GMaster() {
 
 }
 //===============================================
-std::string GMaster::serialize(const std::string& _code) const {
+GString GMaster::serialize(const GString& _code) const {
     return "";
 }
 //===============================================
-void GMaster::deserialize(const std::string& _data, const std::string& _code) {
+void GMaster::deserialize(const GString& _data, const GString& _code) {
     GModule::deserialize(_data);
 }
 //===============================================
@@ -109,8 +109,8 @@ void GMaster::onManager(GSocket* _client) {
     lManager.onModule(_client);
 }
 //===============================================
-bool GMaster::isValidXml(const std::string& _data) {
-    std::string lData = GString(_data).trimData();
+bool GMaster::isValidXml(const GString& _data) {
+    GString lData = GString(_data).trimData();
     if(lData == "") return false;
     GCode lReq;
     lReq.loadXml(_data);

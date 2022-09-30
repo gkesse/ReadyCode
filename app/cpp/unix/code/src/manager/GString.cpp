@@ -11,7 +11,7 @@ GString::GString() {
     clear();
 }
 //===============================================
-GString::GString(const std::string& _data) {
+GString::GString(const GString& _data) {
     m_data = 0;
     m_size = 0;
     create(_data);
@@ -84,7 +84,7 @@ bool GString::allocate(int _size) {
     return true;
 }
 //===============================================
-void GString::create(const std::string& _data) {
+void GString::create(const GString& _data) {
     clear();
     m_size = (int)_data.size();
     if(m_size == 0) return;
@@ -391,7 +391,7 @@ GString& GString::operator=(const std::vector<uchar>& _data) {
     return *this;
 }
 //===============================================
-GString& GString::operator=(const std::string& _data) {
+GString& GString::operator=(const GString& _data) {
     create(_data);
     return *this;
 }
@@ -434,7 +434,7 @@ GString& GString::operator+=(const GString& _data) {
     return *this;
 }
 //===============================================
-GString& GString::operator+=(const std::string& _data) {
+GString& GString::operator+=(const GString& _data) {
     *this += GString(_data);
     return *this;
 }
@@ -462,7 +462,7 @@ bool GString::operator==(const GString& _data) const {
     return true;
 }
 //===============================================
-bool GString::operator==(const std::string& _data) const {
+bool GString::operator==(const GString& _data) const {
     return (*this == GString(_data));
 }
 //===============================================
@@ -482,7 +482,7 @@ bool GString::operator!=(const GString& _data) const {
     return !(*this == _data);
 }
 //===============================================
-bool GString::operator!=(const std::string& _data) const {
+bool GString::operator!=(const GString& _data) const {
     return !(*this == GString(_data));
 }
 //===============================================

@@ -9,12 +9,12 @@ GFile::GFile() : GObject() {
     m_openType = "";
 }
 //===============================================
-GFile::GFile(const std::string& _filename) : GObject() {
+GFile::GFile(const GString& _filename) : GObject() {
     m_filename = _filename;
     m_openType = "";
 }
 //===============================================
-GFile::GFile(const std::string& _filename, const std::string& _openType) : GObject() {
+GFile::GFile(const GString& _filename, const GString& _openType) : GObject() {
     m_filename = _filename;
     m_openType = _openType;
 }
@@ -29,65 +29,65 @@ bool GFile::existFile() const {
     return (stat(m_filename.c_str(), &lBuffer) == 0);
 }
 //===============================================
-std::string GFile::getContent() const {
+GString GFile::getContent() const {
     if(m_filename == "") return "";
     if(!existFile()) return "";
     std::ifstream lFile(m_filename);
-    std::stringstream lBuffer;
+    GStringstream lBuffer;
     lBuffer << lFile.rdbuf();
     return lBuffer.str();
 }
 //===============================================
-void GFile::setContent(const std::string& _data) {
+void GFile::setContent(const GString& _data) {
     if(m_filename == "") return;
     std::ofstream lFile(m_filename);
     lFile << _data;
 }
 //===============================================
-std::string GFile::getAppendType() const {
+GString GFile::getAppendType() const {
     return "a+";
 }
 //===============================================
-std::string GFile::getLogFullname() const {
+GString GFile::getLogFullname() const {
     return getLogFullname(GEnv().isTestEnv());
 }
 //===============================================
-std::string GFile::getLogFullname(bool _isTestEnv) const {
-    std::string lFilename = getDateFullname("log_prod_", ".txt");
+GString GFile::getLogFullname(bool _isTestEnv) const {
+    GString lFilename = getDateFullname("log_prod_", ".txt");
     if(_isTestEnv) lFilename = getDateFullname("log_test_", ".txt");
     return lFilename;
 }
 //===============================================
-std::string GFile::getScriptInFilename() const {
-    std::string lFilename = getDateFilename("script_", "_in.txt");
+GString GFile::getScriptInFilename() const {
+    GString lFilename = getDateFilename("script_", "_in.txt");
     return lFilename;
 }
 //===============================================
-std::string GFile::getScriptOutFilename() const {
-    std::string lFilename = getDateFilename("script_", "_out.txt");
+GString GFile::getScriptOutFilename() const {
+    GString lFilename = getDateFilename("script_", "_out.txt");
     return lFilename;
 }
 //===============================================
-std::string GFile::getDateFullname(const std::string& _key, const std::string& _ext) const {
-    std::string lTmpDir = GEnv().getTmpDir();
-    std::string lFilename = getDateFilename(_key, _ext);
+GString GFile::getDateFullname(const GString& _key, const GString& _ext) const {
+    GString lTmpDir = GEnv().getTmpDir();
+    GString lFilename = getDateFilename(_key, _ext);
     lFilename = getFullname(lTmpDir, lFilename);
     return lFilename;
 }
 //===============================================
-std::string GFile::getDateFilename(const std::string& _key, const std::string& _ext) const {
-    std::string lDate = GDate().getDate(GDate().getDateFileFormat());
+GString GFile::getDateFilename(const GString& _key, const GString& _ext) const {
+    GString lDate = GDate().getDate(GDate().getDateFileFormat());
     return getFilename(_key, lDate, _ext);
 }
 //===============================================
-std::string GFile::getFilename(const std::string& _key, const std::string& _date, const std::string& _ext) const {
-    std::string lFilename = GFORMAT("%s%s%s", _key.c_str(), _date.c_str(), _ext.c_str());
+GString GFile::getFilename(const GString& _key, const GString& _date, const GString& _ext) const {
+    GString lFilename = GFORMAT("%s%s%s", _key.c_str(), _date.c_str(), _ext.c_str());
     return lFilename;
 }
 //===============================================
-std::string GFile::getFullname(const std::string& _path, const std::string& _filename) const {
+GString GFile::getFullname(const GString& _path, const GString& _filename) const {
     GShell().createDir(_path);
-    std::string lFilename = GFORMAT("%s/%s", _path.c_str(), _filename.c_str());
+    GString lFilename = GFORMAT("%s/%s", _path.c_str(), _filename.c_str());
     return lFilename;
 }
 //===============================================
@@ -103,13 +103,13 @@ FILE* GFile::openFile() {
     return lFile;
 }
 //===============================================
-FILE* GFile::openFile(const std::string& _openType) {
+FILE* GFile::openFile(const GString& _openType) {
     if(m_filename == "") return 0;
     FILE* lFile = fopen(m_filename.c_str(), _openType.c_str());
     return lFile;
 }
 //===============================================
-FILE* GFile::openFile(const std::string& _filename, const std::string& _openType) {
+FILE* GFile::openFile(const GString& _filename, const GString& _openType) {
     FILE* lFile = fopen(_filename.c_str(), _openType.c_str());
     m_filename = _filename;
     m_openType = _openType;

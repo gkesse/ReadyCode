@@ -11,8 +11,8 @@ public:
     GMaster();
     ~GMaster();
     //
-    std::string serialize(const std::string& _code = "server") const;
-    void deserialize(const std::string& _data, const std::string& _code = "server");
+    GString serialize(const GString& _code = "server") const;
+    void deserialize(const GString& _data, const GString& _code = "server");
     //
     bool onModule(GSocket* _client);
     //
@@ -23,7 +23,7 @@ public:
     void onMd5(GSocket* _client);
     void onManager(GSocket* _client);
     //
-    bool isValidXml(const std::string& _data);
+    bool isValidXml(const GString& _data);
     bool isValidReq();
 
 private:

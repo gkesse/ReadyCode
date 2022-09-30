@@ -12,8 +12,8 @@ public:
     GPath();
     ~GPath();
     static GPath* Instance();
-    std::string getPath() const;
-    std::string getResourcePath(const std::string& _res, const std::string& _filename) const;
+    GString getPath() const;
+    GString getResourcePath(const GString& _res, const GString& _filename) const;
 
 private:
     static GPath* m_instance;

@@ -11,8 +11,8 @@ public:
     GUser();
     ~GUser();
     //
-    std::string serialize(const std::string& _code = "user") const;
-    void deserialize(const std::string& _data, const std::string& _code = "user");
+    GString serialize(const GString& _code = "user") const;
+    void deserialize(const GString& _data, const GString& _code = "user");
     //
     bool onModule(GSocket* _client);
     void onCreateAccount(GSocket* _client);
@@ -34,15 +34,15 @@ public:
 
 private:
     int m_id;
-    std::string m_mode;
-    std::string m_pseudo;
-    std::string m_password;
-    std::string m_email;
-    std::string m_group;
-    std::string m_active;
+    GString m_mode;
+    GString m_pseudo;
+    GString m_password;
+    GString m_email;
+    GString m_group;
+    GString m_active;
     bool m_isConnect;
     //
-    std::string m_passwordMd5;
+    GString m_passwordMd5;
 };
 //==============================================
 #endif

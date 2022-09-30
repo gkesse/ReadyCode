@@ -8,15 +8,15 @@ class GShell : public GObject {
 public:
     GShell();
     ~GShell();
-    std::string getTmpDir() const;
-    std::string getTmpInFilename() const;
-    std::string getTmpOutFilename() const;
-    void createDir(const std::string& _dir);
-    void tailFile(const std::string& _file);
-    void cleanDir(const std::string& _dir);
-    void runCommand(const std::string& _command);
-    std::string runSystem(const std::string& _command);
-    std::string runSystem(const std::string& _command, const std::string& _tmpDir, const std::string& _tmpInFile, const std::string& _tmpOutFile);
+    GString getTmpDir() const;
+    GString getTmpInFilename() const;
+    GString getTmpOutFilename() const;
+    void createDir(const GString& _dir);
+    void tailFile(const GString& _file);
+    void cleanDir(const GString& _dir);
+    void runCommand(const GString& _command);
+    GString runSystem(const GString& _command);
+    GString runSystem(const GString& _command, const GString& _tmpDir, const GString& _tmpInFile, const GString& _tmpOutFile);
 };
 //==============================================
 #endif

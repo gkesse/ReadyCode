@@ -15,7 +15,7 @@ GMySQL::~GMySQL() {
 
 }
 //===============================================
-std::string GMySQL::serialize(const std::string& _code) const {
+GString GMySQL::serialize(const GString& _code) const {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "protocol", m_protocol);
@@ -28,7 +28,7 @@ std::string GMySQL::serialize(const std::string& _code) const {
     return lDom.toStringData();
 }
 //===============================================
-void GMySQL::deserialize(const std::string& _data, const std::string& _code) {
+void GMySQL::deserialize(const GString& _data, const GString& _code) {
     GCode lDom;
     lDom.loadXml(_data);
     m_protocol = lDom.getItem(_code, "protocol");
@@ -40,12 +40,12 @@ void GMySQL::deserialize(const std::string& _data, const std::string& _code) {
     m_databaseTest = lDom.getItem(_code, "test_database");
 }
 //===============================================
-void GMySQL::deserializeDom(const std::string& _code) {
-    std::string lData = m_dom->toString();
+void GMySQL::deserializeDom(const GString& _code) {
+    GString lData = m_dom->toString();
     deserialize(lData, _code);
 }
 //===============================================
-std::string GMySQL::loadDatabase(bool _isTestEnv) const {
+GString GMySQL::loadDatabase(bool _isTestEnv) const {
     if(_isTestEnv) return m_databaseTest;
     return m_databaseProd;
 }
@@ -56,41 +56,41 @@ bool GMySQL::openDatabase() {
 }
 //===============================================
 bool GMySQL::openDatabase(bool _isTestEnv) {
-    std::string lDatabase = loadDatabase(_isTestEnv);
+    GString lDatabase = loadDatabase(_isTestEnv);
     if(!openDatabase(m_protocol, m_hostname, m_port, m_username, m_password, lDatabase)) return false;
     return true;
 }
 //===============================================
-bool GMySQL::openDatabase(const std::string& _protocol, const std::string& _hostname, const std::string& _port, const std::string& _username, const std::string& _password, const std::string& _database) {
+bool GMySQL::openDatabase(const GString& _protocol, const GString& _hostname, const GString& _port, const GString& _username, const GString& _password, const GString& _database) {
     m_driver = get_driver_instance();
-    std::string lHostname = GFORMAT("%s://%s:%s/%s", _protocol.c_str(), _hostname.c_str(), _port.c_str(), _database.c_str());
-    m_con.reset(m_driver->connect(lHostname, _username, _password));
+    GString lHostname = GFORMAT("%s://%s:%s/%s", _protocol.c_str(), _hostname.c_str(), _port.c_str(), _database.c_str());
+    m_con.reset(m_driver->connect(lHostname.c_str(), _username.c_str(), _password.c_str()));
     return true;
 }
 //===============================================
-GMySQL& GMySQL::execQuery(const std::string& _sql) {
+GMySQL& GMySQL::execQuery(const GString& _sql) {
     execQuery(_sql, GEnv().isTestEnv());
     return *this;
 }
 //===============================================
-GMySQL& GMySQL::execQuery(const std::string& _sql, bool _isTestEnv) {
+GMySQL& GMySQL::execQuery(const GString& _sql, bool _isTestEnv) {
     GLOGT(eGMSG, "%s", _sql.c_str());
     openDatabase(_isTestEnv);
     m_stmt.reset(m_con->createStatement());
-    m_stmt->execute(_sql);
+    m_stmt->execute(_sql.c_str());
     return *this;
 }
 //===============================================
-bool GMySQL::readQuery(const std::string& _sql) {
+bool GMySQL::readQuery(const GString& _sql) {
     if(!readQuery(_sql, GEnv().isTestEnv())) return false;
     return true;
 }
 //===============================================
-bool GMySQL::readQuery(const std::string& _sql, bool _isTestEnv) {
+bool GMySQL::readQuery(const GString& _sql, bool _isTestEnv) {
     GLOGT(eGMSG, "%s", _sql.c_str());
     if(!openDatabase(_isTestEnv)) return false;
     m_stmt.reset(m_con->createStatement());
-    m_res.reset(m_stmt->executeQuery(_sql));
+    m_res.reset(m_stmt->executeQuery(_sql.c_str()));
     return true;
 }
 //===============================================
@@ -106,12 +106,12 @@ int GMySQL::getId() {
     return lId;
 }
 //===============================================
-std::string GMySQL::readData(const std::string& _sql) {
+GString GMySQL::readData(const GString& _sql) {
     return readData(_sql, GEnv().isTestEnv());
 }
 //===============================================
-std::string GMySQL::readData(const std::string& _sql, bool _isTestEnv) {
-    std::string lData = "";
+GString GMySQL::readData(const GString& _sql, bool _isTestEnv) {
+    GString lData = "";
     if(!readQuery(_sql, _isTestEnv)) return lData;
     while(m_res->next()) {
         lData = m_res->getString(1);
@@ -120,31 +120,31 @@ std::string GMySQL::readData(const std::string& _sql, bool _isTestEnv) {
     return lData;
 }
 //===============================================
-std::vector<std::string> GMySQL::readCol(const std::string& _sql) {
+std::vector<GString> GMySQL::readCol(const GString& _sql) {
     return readCol(_sql, GEnv().isTestEnv());
 }
 //===============================================
-std::vector<std::string> GMySQL::readCol(const std::string& _sql, bool _isTestEnv) {
-    std::vector<std::string> lDataMap;
+std::vector<GString> GMySQL::readCol(const GString& _sql, bool _isTestEnv) {
+    std::vector<GString> lDataMap;
     if(!readQuery(_sql, _isTestEnv)) return lDataMap;
     while(m_res->next()) {
-        std::string lData = m_res->getString(1);
+        GString lData = m_res->getString(1).c_str();
         lDataMap.push_back(lData);
     }
     return lDataMap;
 }
 //===============================================
-std::vector<std::string> GMySQL::readRow(const std::string& _sql) {
+std::vector<GString> GMySQL::readRow(const GString& _sql) {
     return readRow(_sql, GEnv().isTestEnv());
 }
 //===============================================
-std::vector<std::string> GMySQL::readRow(const std::string& _sql, bool _isTestEnv) {
-    std::vector<std::string> lDataMap;
+std::vector<GString> GMySQL::readRow(const GString& _sql, bool _isTestEnv) {
+    std::vector<GString> lDataMap;
     if(!readQuery(_sql, _isTestEnv)) return lDataMap;
     int lColumns = getColumnCount();
     while(m_res->next()) {
         for(int i = 1; i <= lColumns; i++) {
-            std::string lData = m_res->getString(i);
+            GString lData = m_res->getString(i).c_str();
             lDataMap.push_back(lData);
         }
         break;
@@ -152,18 +152,18 @@ std::vector<std::string> GMySQL::readRow(const std::string& _sql, bool _isTestEn
     return lDataMap;
 }
 //===============================================
-std::vector<std::vector<std::string>> GMySQL::readMap(const std::string& _sql) {
+std::vector<std::vector<GString>> GMySQL::readMap(const GString& _sql) {
     return readMap(_sql, GEnv().isTestEnv());
 }
 //===============================================
-std::vector<std::vector<std::string>> GMySQL::readMap(const std::string& _sql, bool _isTestEnv) {
-    std::vector<std::vector<std::string>> lDataMap;
+std::vector<std::vector<GString>> GMySQL::readMap(const GString& _sql, bool _isTestEnv) {
+    std::vector<std::vector<GString>> lDataMap;
     if(!readQuery(_sql, _isTestEnv)) return lDataMap;
     int lColumns = getColumnCount();
     while(m_res->next()) {
-        std::vector<std::string> lDataRow;
+        std::vector<GString> lDataRow;
         for(int i = 1; i <= lColumns; i++) {
-            std::string lData = m_res->getString(i);
+            GString lData = m_res->getString(i).c_str();
             lDataRow.push_back(lData);
         }
         lDataMap.push_back(lDataRow);

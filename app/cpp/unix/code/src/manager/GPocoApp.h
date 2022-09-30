@@ -9,14 +9,14 @@ public:
     GPocoApp();
     ~GPocoApp();
     //
-    void setModule(const std::string& _key);
-    void setHostname(const std::string& _hostname);
+    void setModule(const GString& _key);
+    void setHostname(const GString& _hostname);
     void setFamily(int _family);
     void setRepetitions(int _repetitions);
     // ping
     void onInitPing(Poco::Util::Application& _app);
     void onUninitPing();
-    void onMainPing(const std::vector<std::string>& _args);
+    void onMainPing(const std::vector<GString>& _args);
     void onBeginPing(const void* _sender, Poco::Net::ICMPEventArgs& _args);
     void onReplyPing(const void* _sender, Poco::Net::ICMPEventArgs& _args);
     void onErrorPing(const void* _sender, Poco::Net::ICMPEventArgs& _args);
@@ -25,11 +25,11 @@ public:
 protected:
     void initialize(Poco::Util::Application& _app);
     void uninitialize();
-    int main(const std::vector<std::string>& _args);
+    int main(const std::vector<GString>& _args);
 
 private:
-    std::string m_module;
-    std::string m_hostname;
+    GString m_module;
+    GString m_hostname;
     int m_family;
     int m_repetitions;
     //

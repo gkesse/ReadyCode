@@ -9,12 +9,12 @@ class GSocket;
 class GMaj : public GModule {
 public:
     GMaj();
-    GMaj(const std::string& _path, const std::string& _filename);
+    GMaj(const GString& _path, const GString& _filename);
     ~GMaj();
     static GMaj* Instance();
     //
-    std::string serialize(const std::string& _code = "maj") const;
-    void deserialize(const std::string& _req, const std::string& _code = "maj");
+    GString serialize(const GString& _code = "maj") const;
+    void deserialize(const GString& _req, const GString& _code = "maj");
     //
     void onModule(GSocket* _client);
     void onUpdateDatabase(GSocket* _client);
@@ -31,13 +31,13 @@ public:
     void updateData(bool _isTestEnv);
     void runMaj();
     void runMaj(bool _isTestEnv);
-    void runMaj(const std::string& _filename, bool _isTestEnv);
+    void runMaj(const GString& _filename, bool _isTestEnv);
 
 private:
     int m_id;
-    std::string m_code;
-    std::string m_path;
-    std::string m_filename;
+    GString m_code;
+    GString m_path;
+    GString m_filename;
 };
 //==============================================
 #endif

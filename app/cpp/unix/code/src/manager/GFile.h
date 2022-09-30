@@ -7,32 +7,32 @@
 class GFile : public GObject {
 public:
     GFile();
-    GFile(const std::string& _filename);
-    GFile(const std::string& _filename, const std::string& _openType);
+    GFile(const GString& _filename);
+    GFile(const GString& _filename, const GString& _openType);
     ~GFile();
     //
     bool existFile() const;
-    std::string getContent() const;
-    void setContent(const std::string& _data);
+    GString getContent() const;
+    void setContent(const GString& _data);
     //
-    std::string getAppendType() const;
-    std::string getLogFullname() const;
-    std::string getLogFullname(bool _isTestEnv) const;
-    std::string getScriptInFilename() const;
-    std::string getScriptOutFilename() const;
-    std::string getDateFullname(const std::string& _key, const std::string& _ext) const;
-    std::string getDateFilename(const std::string& _key, const std::string& _ext) const;
-    std::string getFilename(const std::string& _key, const std::string& _date, const std::string& _ext) const;
-    std::string getFullname(const std::string& _path, const std::string& _filename) const;
+    GString getAppendType() const;
+    GString getLogFullname() const;
+    GString getLogFullname(bool _isTestEnv) const;
+    GString getScriptInFilename() const;
+    GString getScriptOutFilename() const;
+    GString getDateFullname(const GString& _key, const GString& _ext) const;
+    GString getDateFilename(const GString& _key, const GString& _ext) const;
+    GString getFilename(const GString& _key, const GString& _date, const GString& _ext) const;
+    GString getFullname(const GString& _path, const GString& _filename) const;
     FILE* openLogFile();
     FILE* openFile();
-    FILE* openFile(const std::string& _openType);
-    FILE* openFile(const std::string& _filename, const std::string& _openType);
+    FILE* openFile(const GString& _openType);
+    FILE* openFile(const GString& _filename, const GString& _openType);
     void closeFile(FILE* _file);
 
 private:
-    std::string m_filename;
-    std::string m_openType;
+    GString m_filename;
+    GString m_openType;
 };
 //==============================================
 #endif

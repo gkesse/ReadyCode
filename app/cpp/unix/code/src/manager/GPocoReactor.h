@@ -22,7 +22,7 @@ private:
     Poco::Net::SocketReactor& m_reactor;
     Poco::FIFOBuffer m_dataIn;
     Poco::FIFOBuffer m_dataOut;
-    std::string m_hostname;
+    GString m_hostname;
 };
 //==============================================
 #endif

@@ -12,14 +12,14 @@ public:
     GPoco();
     ~GPoco();
     //
-    void setModule(const std::string& _key);
-    void setHostname(const std::string& _hostname);
+    void setModule(const GString& _key);
+    void setHostname(const GString& _hostname);
     void setFamily(int _family);
     void setPort(int _port);
     void setRepetitions(int _repetitions);
-    void setFormat(const std::string& _format);
-    void setRequest(const std::string& _request);
-    void setResponse(const std::string& _response);
+    void setFormat(const GString& _format);
+    void setRequest(const GString& _request);
+    void setResponse(const GString& _response);
     //
     void onRunTime(int _argc, char** _argv);
     void onRunEcho(int _argc, char** _argv);
@@ -37,11 +37,11 @@ public:
 private:
     GPocoApp* m_app;
     GPocoServerApp* m_serverApp;
-    std::string m_module;
-    std::string m_format;
-    std::string m_hostname;
-    std::string m_request;
-    std::string m_response;
+    GString m_module;
+    GString m_format;
+    GString m_hostname;
+    GString m_request;
+    GString m_response;
     int m_port;
     int m_family;
 };
