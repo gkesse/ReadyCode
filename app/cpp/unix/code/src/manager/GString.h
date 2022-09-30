@@ -17,7 +17,6 @@ public:
     GString(int _data);
     GString(const std::vector<char>& _data);
     GString(const std::vector<uchar>& _data);
-    GString(const GString& _data);
     ~GString();
 
     static GString* Instance();
@@ -62,25 +61,21 @@ public:
     GString& operator=(const GString& _data);
     GString& operator=(const std::vector<char>& _data);
     GString& operator=(const std::vector<uchar>& _data);
-    GString& operator=(const GString& _data);
     GString& operator=(const char* _data);
     GString& operator=(char _data);
     GString& operator=(bool _data);
     GString& operator=(int _data);
 
     GString& operator+=(const GString& _data);
-    GString& operator+=(const GString& _data);
     GString& operator+=(const char* _data);
     GString& operator+=(char _data);
     GString& operator+=(int _data);
 
     bool operator==(const GString& _data) const;
-    bool operator==(const GString& _data) const;
     bool operator==(const char* _data) const;
     bool operator==(char _data) const;
     bool operator==(int _data) const;
 
-    bool operator!=(const GString& _data) const;
     bool operator!=(const GString& _data) const;
     bool operator!=(const char* _data) const;
     bool operator!=(char _data) const;

@@ -434,11 +434,6 @@ GString& GString::operator+=(const GString& _data) {
     return *this;
 }
 //===============================================
-GString& GString::operator+=(const GString& _data) {
-    *this += GString(_data);
-    return *this;
-}
-//===============================================
 GString& GString::operator+=(const char* _data) {
     *this += GString(_data);
     return *this;
@@ -462,10 +457,6 @@ bool GString::operator==(const GString& _data) const {
     return true;
 }
 //===============================================
-bool GString::operator==(const GString& _data) const {
-    return (*this == GString(_data));
-}
-//===============================================
 bool GString::operator==(const char* _data) const {
     return (*this == GString(_data));
 }
@@ -480,10 +471,6 @@ bool GString::operator==(int _data) const {
 //===============================================
 bool GString::operator!=(const GString& _data) const {
     return !(*this == _data);
-}
-//===============================================
-bool GString::operator!=(const GString& _data) const {
-    return !(*this == GString(_data));
 }
 //===============================================
 bool GString::operator!=(const char* _data) const {
