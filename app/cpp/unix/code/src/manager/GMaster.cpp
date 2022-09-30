@@ -110,7 +110,7 @@ void GMaster::onManager(GSocket* _client) {
 }
 //===============================================
 bool GMaster::isValidXml(const GString& _data) {
-    GString lData = GString(_data).trimData();
+    GString lData = GString(_data).trim();
     if(lData == "") return false;
     GCode lReq;
     lReq.loadXml(_data);

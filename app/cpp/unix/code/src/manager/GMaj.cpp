@@ -127,7 +127,7 @@ void GMaj::loadId(bool _isTestEnv) {
 
     m_id = GString(lId).toInt();
 
-    GLOGT(eGOFF, "%d", m_id);
+    GLOGT(eGMSG, "%d", m_id);
 }
 //===============================================
 void GMaj::saveData() {
