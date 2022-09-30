@@ -104,7 +104,7 @@ bool GServer::onHttpApp() {
 bool GServer::isReadyApp() {
     GString lHeader = m_dataIn.extract(1, ";").trim();
     GString lApiKey, lUsername, lPassword, lSize;
-    int lCount = lHeader.count("|");
+    int lCount = lHeader.countSep("|");
 
     for(int i = 0; i < lCount; i++) {
         GString lWord = lHeader.extract(i, "|").trim();
