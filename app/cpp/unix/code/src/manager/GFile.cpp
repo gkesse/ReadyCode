@@ -32,7 +32,7 @@ bool GFile::existFile() const {
 GString GFile::getContent() const {
     if(m_filename == "") return "";
     if(!existFile()) return "";
-    std::ifstream lFile(m_filename);
+    std::ifstream lFile(m_filename.c_str());
     std::stringstream lBuffer;
     lBuffer << lFile.rdbuf();
     return lBuffer.str();
@@ -40,7 +40,7 @@ GString GFile::getContent() const {
 //===============================================
 void GFile::setContent(const GString& _data) {
     if(m_filename == "") return;
-    std::ofstream lFile(m_filename);
+    std::ofstream lFile(m_filename.c_str());
     lFile << _data;
 }
 //===============================================
