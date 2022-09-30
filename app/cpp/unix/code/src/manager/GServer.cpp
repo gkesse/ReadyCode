@@ -1,6 +1,6 @@
 //===============================================
 #include "GServer.h"
-#include "GLog2.h"
+#include "GLog.h"
 #include "GHttp.h"
 #include "GCode2.h"
 //===============================================

@@ -1,6 +1,6 @@
 //===============================================
 #include "GMySQL2.h"
-#include "GLog2.h"
+#include "GLog.h"
 #include "GPath.h"
 #include "GCode2.h"
 #include "GEnv.h"

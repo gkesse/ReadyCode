@@ -1,5 +1,5 @@
 //===============================================
-#include "GLog2.h"
+#include "GLog.h"
 #include "GCode2.h"
 #include "GDate.h"
 #include "GEnv.h"

@@ -1,6 +1,6 @@
 //===============================================
 #include "GString.h"
-#include "GLog2.h"
+#include "GLog.h"
 #include "GEnv.h"
 //===============================================
 GString* GString::m_instance = 0;

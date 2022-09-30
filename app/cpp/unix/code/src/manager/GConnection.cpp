@@ -1,6 +1,6 @@
 //===============================================
 #include "GConnection.h"
-#include "GLog2.h"
+#include "GLog.h"
 #include "GServer.h"
 #include "GCode2.h"
 #include "GMySQL2.h"
