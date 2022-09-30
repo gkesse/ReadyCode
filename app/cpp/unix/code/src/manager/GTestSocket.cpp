@@ -75,7 +75,7 @@ void GTestSocket::runAnalyze(int _argc, char** _argv) {
     if(lDataIn.startBy("RDVAPP")) {
         GString lMethod = lDataIn.extract(0, ";").trim();
         GString lHeader = lDataIn.extract(1, ";").trim();
-        int lCount = lHeader.count("|");
+        int lCount = lHeader.countSep("|");
         for(int i = 0; i < lCount; i++) {
             GString lWord = lHeader.extract(i, "|").trim();
             if(lWord.startBy("api_key")) {
