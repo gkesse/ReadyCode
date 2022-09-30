@@ -755,7 +755,7 @@ void GTest::runSocketServerFile(int _argc, char** _argv) {
     int lFamily = lServer.loadFamily();
     GString lClientIp = lServer.getItem("socket", "client_ip");
     int lPort = lServer.loadPort();
-    int lBacklog = std::stoi(lServer.getItem("socket", "backlog"));
+    int lBacklog = std::stoi(lServer.getItem("socket", "backlog").c_str());
 
     lServer.createSocket(lDomain, lType, lProtocol);
     lServer.createAddress(lFamily, lClientIp, lPort);
