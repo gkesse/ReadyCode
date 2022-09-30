@@ -8,7 +8,7 @@ class GDir : public GObject {
 public:
     GDir();
     ~GDir();
-    //std::vector<GString> openDir(const GString& _path, bool _fullOn, bool _dotOn) const;
+    std::vector<GString> openDir(const GString& _path, bool _fullOn, bool _dotOn) const;
 };
 //==============================================
 #endif
