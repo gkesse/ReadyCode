@@ -54,14 +54,14 @@ bool GSocket2::callServer() {
     WSADATA lWsaData;
     WSAStartup(MAKEWORD(m_major, m_minor), &lWsaData);
     m_socket = socket(m_domain, m_type, m_protocol);
-    if(m_socket == INVALID_SOCKET) {GERROR_ADD2(eGERR, "Erreur lors de la connexion au serveur."); return false;}
+    if(m_socket == INVALID_SOCKET) {GERROR_ADD(eGERR, "Erreur lors de la connexion au serveur."); return false;}
     SOCKADDR_IN lAddress;
     lAddress.sin_family = m_family;
     lAddress.sin_addr.s_addr = inet_addr(m_hostname.c_str());
     lAddress.sin_port = htons(m_port);
     memset(&lAddress.sin_zero, 0, sizeof(lAddress.sin_zero));
     int lAnswer = connect(m_socket, (SOCKADDR*)(&lAddress), sizeof(lAddress));
-    if(lAnswer == SOCKET_ERROR) {GERROR_ADD2(eGERR, "Erreur lors de la connexion au serveur."); return false;}
+    if(lAnswer == SOCKET_ERROR) {GERROR_ADD(eGERR, "Erreur lors de la connexion au serveur."); return false;}
 
     if(createData()) {
         if(sendData()) {

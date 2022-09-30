@@ -21,26 +21,26 @@ GWindow::~GWindow() {
 // connection
 //===============================================
 void GWindow::on_actionStartConnection_triggered() {
-    GLOGT2(eGFUN, "");
+    GLOGT(eGFUN, "");
     if(!GCONNECT->isConnect()) {
         GCONNECT->setPseudo("admin");
         GCONNECT->setPassword("password");
         GCONNECT->runConnection();
     }
     else {
-        GERROR_ADD2(eGERR, "Vous êtes déjà connectés.");
+        GERROR_ADD(eGERR, "Vous êtes déjà connectés.");
     }
     GERROR_SHOWG2(eGERR);
     GLOG_SHOWG2(eGLOG);
 }
 //===============================================
 void GWindow::on_actionStartDisconnection_triggered() {
-    GLOGT2(eGFUN, "");
+    GLOGT(eGFUN, "");
     if(GCONNECT->isConnect()) {
         GCONNECT->runDisconnection();
     }
     else {
-        GERROR_ADD2(eGERR, "Vous êtes déjà déconnectés.");
+        GERROR_ADD(eGERR, "Vous êtes déjà déconnectés.");
     }
     GERROR_SHOWG2(eGERR);
     GLOG_SHOWG2(eGLOG);
@@ -49,37 +49,37 @@ void GWindow::on_actionStartDisconnection_triggered() {
 // account
 //===============================================
 void GWindow::on_actionCreateAccount_triggered() {
-    GLOGT2(eGFUN, "");
+    GLOGT(eGFUN, "");
     GERROR_SHOWG2(eGERR);
     GLOG_SHOWG2(eGLOG);
 }
 //===============================================
 void GWindow::on_actionSearchAccount_triggered() {
-    GLOGT2(eGFUN, "");
+    GLOGT(eGFUN, "");
     GERROR_SHOWG2(eGERR);
     GLOG_SHOWG2(eGLOG);
 }
 //===============================================
 void GWindow::on_actionEnableAccount_triggered() {
-    GLOGT2(eGFUN, "");
+    GLOGT(eGFUN, "");
     GERROR_SHOWG2(eGERR);
     GLOG_SHOWG2(eGLOG);
 }
 //===============================================
 void GWindow::on_actionDisableAccount_triggered() {
-    GLOGT2(eGFUN, "");
+    GLOGT(eGFUN, "");
     GERROR_SHOWG2(eGERR);
     GLOG_SHOWG2(eGLOG);
 }
 //===============================================
 void GWindow::on_actionUpdateAccount_triggered() {
-    GLOGT2(eGFUN, "");
+    GLOGT(eGFUN, "");
     GERROR_SHOWG2(eGERR);
     GLOG_SHOWG2(eGLOG);
 }
 //===============================================
 void GWindow::on_actionDeleteAccount_triggered() {
-    GLOGT2(eGFUN, "");
+    GLOGT(eGFUN, "");
     GERROR_SHOWG2(eGERR);
     GLOG_SHOWG2(eGLOG);
 }
@@ -87,25 +87,25 @@ void GWindow::on_actionDeleteAccount_triggered() {
 // group
 //===============================================
 void GWindow::on_actionCreateGroup_triggered() {
-    GLOGT2(eGFUN, "");
+    GLOGT(eGFUN, "");
     GERROR_SHOWG2(eGERR);
     GLOG_SHOWG2(eGLOG);
 }
 //===============================================
 void GWindow::on_actionSearchGroup_triggered() {
-    GLOGT2(eGFUN, "");
+    GLOGT(eGFUN, "");
     GERROR_SHOWG2(eGERR);
     GLOG_SHOWG2(eGLOG);
 }
 //===============================================
 void GWindow::on_actionUpdateGroup_triggered() {
-    GLOGT2(eGFUN, "");
+    GLOGT(eGFUN, "");
     GERROR_SHOWG2(eGERR);
     GLOG_SHOWG2(eGLOG);
 }
 //===============================================
 void GWindow::on_actionDeleteGroup_triggered() {
-    GLOGT2(eGFUN, "");
+    GLOGT(eGFUN, "");
     GERROR_SHOWG2(eGERR);
     GLOG_SHOWG2(eGLOG);
 }
@@ -113,7 +113,7 @@ void GWindow::on_actionDeleteGroup_triggered() {
 // file
 //===============================================
 void GWindow::on_actionSaveFile_triggered() {
-    GLOGT2(eGFUN, "");
+    GLOGT(eGFUN, "");
     GString lFullname(GPATH("pdf", "mon_fichier_send.pdf"));
     GFile3 lFile(lFullname);
     GString lDataBin(lFile.getContentBin());
@@ -126,13 +126,13 @@ void GWindow::on_actionSaveFile_triggered() {
 }
 //===============================================
 void GWindow::on_actionSearchFile_triggered() {
-    GLOGT2(eGFUN, "");
+    GLOGT(eGFUN, "");
     GERROR_SHOWG2(eGERR);
     GLOG_SHOWG2(eGLOG);
 }
 //===============================================
 void GWindow::on_actionDownloadFile_triggered() {
-    GLOGT2(eGFUN, "");
+    GLOGT(eGFUN, "");
     GString lFullname(GPATH("pdf", "mon_fichier_recv.pdf"));
     GFile3 lFile(lFullname);
     lFile.setId(1);
@@ -145,7 +145,7 @@ void GWindow::on_actionDownloadFile_triggered() {
 }
 //===============================================
 void GWindow::on_actionDeleteFile_triggered() {
-    GLOGT2(eGFUN, "");
+    GLOGT(eGFUN, "");
     GERROR_SHOWG2(eGERR);
     GLOG_SHOWG2(eGLOG);
 }

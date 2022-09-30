@@ -24,7 +24,7 @@ GPath2* GPath2::Instance() {
 GString GPath2::getDataPath() const {
     GEnv2 lEnv;
     GString lPath = lEnv.getEnv("GPROJECT_DATA");
-    if(lPath == "") {GERROR_ADD2(eGERR, "Le chemin des données n'est pas définie."); return "";}
+    if(lPath == "") {GERROR_ADD(eGERR, "Le chemin des données n'est pas définie."); return "";}
     return lPath;
 }
 //===============================================

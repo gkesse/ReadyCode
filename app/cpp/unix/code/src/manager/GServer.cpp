@@ -61,7 +61,7 @@ GString GServer::getRequest() const {
 }
 //===============================================
 void GServer::run(int _argc, char** _argv) {
-    GLOGT2(eGFUN, "");
+    GLOGT(eGFUN, "");
     setModule("tcp");
     setHostname("0.0.0.0");
     setPort(9001);
@@ -147,9 +147,9 @@ bool GServer::analyzeRequest() {
 }
 //===============================================
 bool GServer::integrateErrors() {
-    if(GLOGI2->hasErrors()) {
-        addResponse(GLOGI2->serialize());
-        GLOGI2->clearMaps();
+    if(GLOGI->hasErrors()) {
+        addResponse(GLOGI->serialize());
+        GLOGI->clearMaps();
     }
     return true;
 }
