@@ -1,6 +1,6 @@
 //===============================================
 #include "GMySQL2.h"
-#include "GLog.h"
+#include "GLog2.h"
 #include "GPath.h"
 #include "GCode2.h"
 #include "GEnv.h"
@@ -77,7 +77,7 @@ GMySQL2& GMySQL2::execQuery(const GString& _sql) {
 }
 //===============================================
 GMySQL2& GMySQL2::execQuery(const GString& _sql, bool _isTestEnv) {
-    GLOGT(eGMSG, "%s", _sql.c_str());
+    GLOGT2(eGMSG, "%s", _sql.c_str());
     openDatabase(_isTestEnv);
     m_stmt.reset(m_con->createStatement());
     m_stmt->execute(_sql.c_str());
@@ -90,7 +90,7 @@ bool GMySQL2::readQuery(const GString& _sql) {
 }
 //===============================================
 bool GMySQL2::readQuery(const GString& _sql, bool _isTestEnv) {
-    GLOGT(eGMSG, "%s", _sql.c_str());
+    GLOGT2(eGMSG, "%s", _sql.c_str());
     if(!openDatabase(_isTestEnv)) return false;
     m_stmt.reset(m_con->createStatement());
     m_res.reset(m_stmt->executeQuery(_sql.c_str()));
