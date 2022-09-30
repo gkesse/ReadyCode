@@ -10,26 +10,28 @@
 class GString {
 public:
     GString();
-    GString(const GString& _data);
+    GString(const std::string& _data);
     GString(const char* _data);
     GString(char _data);
     GString(bool _data);
     GString(int _data);
     GString(const std::vector<char>& _data);
     GString(const std::vector<uchar>& _data);
+    GString(const GString& _data);
     ~GString();
 
     static GString* Instance();
 
     void clear();
     bool allocate(int _size);
-    void assign(const GString& _data);
+    void assign(const std::string& _data);
     void assign(const char* _data);
     void assign(char _data);
     void assign(bool _data);
     void assign(int _data);
     void assign(const std::vector<char>& _data);
     void assign(const std::vector<uchar>& _data);
+    void assign(const GString& _data);
 
     char*& data();
     const char* data() const;
@@ -60,22 +62,26 @@ public:
     GString& operator=(const GString& _data);
     GString& operator=(const std::vector<char>& _data);
     GString& operator=(const std::vector<uchar>& _data);
+    GString& operator=(const std::string& _data);
     GString& operator=(const char* _data);
     GString& operator=(char _data);
     GString& operator=(bool _data);
     GString& operator=(int _data);
 
     GString& operator+=(const GString& _data);
+    GString& operator+=(const std::string& _data);
     GString& operator+=(const char* _data);
     GString& operator+=(char _data);
     GString& operator+=(int _data);
 
     bool operator==(const GString& _data) const;
+    bool operator==(const std::string& _data) const;
     bool operator==(const char* _data) const;
     bool operator==(char _data) const;
     bool operator==(int _data) const;
 
     bool operator!=(const GString& _data) const;
+    bool operator!=(const std::string& _data) const;
     bool operator!=(const char* _data) const;
     bool operator!=(char _data) const;
     bool operator!=(int _data) const;

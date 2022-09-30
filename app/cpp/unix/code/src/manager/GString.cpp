@@ -1,7 +1,5 @@
 //===============================================
 #include "GString.h"
-#include "GLog.h"
-#include "GEnv.h"
 //===============================================
 GString* GString::m_instance = 0;
 //===============================================
@@ -11,7 +9,7 @@ GString::GString() {
     clear();
 }
 //===============================================
-GString::GString(const GString& _data) {
+GString::GString(const std::string& _data) {
     m_data = 0;
     m_size = 0;
     assign(_data);
@@ -84,7 +82,7 @@ bool GString::allocate(int _size) {
     return true;
 }
 //===============================================
-void GString::assign(const GString& _data) {
+void GString::assign(const std::string& _data) {
     clear();
     m_size = (int)_data.size();
     if(m_size == 0) return;
@@ -391,7 +389,7 @@ GString& GString::operator=(const std::vector<uchar>& _data) {
     return *this;
 }
 //===============================================
-GString& GString::operator=(const GString& _data) {
+GString& GString::operator=(const std::string& _data) {
     assign(_data);
     return *this;
 }
@@ -434,6 +432,11 @@ GString& GString::operator+=(const GString& _data) {
     return *this;
 }
 //===============================================
+GString& GString::operator+=(const std::string& _data) {
+    *this += GString(_data);
+    return *this;
+}
+//===============================================
 GString& GString::operator+=(const char* _data) {
     *this += GString(_data);
     return *this;
@@ -457,6 +460,10 @@ bool GString::operator==(const GString& _data) const {
     return true;
 }
 //===============================================
+bool GString::operator==(const std::string& _data) const {
+    return (*this == GString(_data));
+}
+//===============================================
 bool GString::operator==(const char* _data) const {
     return (*this == GString(_data));
 }
@@ -471,6 +478,10 @@ bool GString::operator==(int _data) const {
 //===============================================
 bool GString::operator!=(const GString& _data) const {
     return !(*this == _data);
+}
+//===============================================
+bool GString::operator!=(const std::string& _data) const {
+    return !(*this == GString(_data));
 }
 //===============================================
 bool GString::operator!=(const char* _data) const {

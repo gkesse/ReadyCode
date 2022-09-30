@@ -33,7 +33,7 @@ public:
     void assign(int _data);
     void assign(const std::vector<char>& _data);
     void assign(const std::vector<uchar>& _data);
-    void create(const GString& _data);
+    void assign(const GString& _data);
 
     char*& data();
     const char* data() const;
