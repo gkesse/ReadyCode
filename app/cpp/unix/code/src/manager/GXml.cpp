@@ -30,7 +30,7 @@ void GXml::cleanModule() {
 }
 //===============================================
 bool GXml::loadXml(const GString& _data) {
-    GString lData = GString(_data).trimData();
+    GString lData = GString(_data).trim();
     if(lData == "") return false;
     m_doc = xmlParseDoc(BAD_CAST(lData.c_str()));
     if(!m_doc) {GERROR_ADD(eGERR, "Erreur lors de la création du document."); return false;}
@@ -89,18 +89,18 @@ GString GXml::getNodeValue() const {
 }
 //===============================================
 bool GXml::createXNode(const GString& _path, const GString& _value, bool _isCData) {
-    GString lPath = GString(_path).trimData();
+    GString lPath = GString(_path).trim();
     if(lPath == "") return false;
     char lChar = lPath[0];
     bool lRootOn = (lChar == '/');
-    std::vector<GString> lMap = GString(lPath).splitData('/');
+    std::vector<GString> lMap = GString(lPath).split("/");
     lPath = "";
 
     m_queryNode = m_node;
 
     for(int i = 0; i < (int)lMap.size(); i++) {
         GString lItem = lMap[i];
-        lItem = GString(lItem).trimData();
+        lItem = GString(lItem).trim();
         if(lItem == "") continue;
         if(lPath != "" || lRootOn) lPath += "/";
         lPath += lItem;
