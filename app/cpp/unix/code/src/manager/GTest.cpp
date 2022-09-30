@@ -471,11 +471,11 @@ void GTest::runXmlMap(int _argc, char** _argv) {
     char lChar;
 
     GLOGT(eGMSG, "(%s)", lPath.c_str());
-    lPath = GString(lPath).trimData();
+    lPath = GString(lPath).trim();
     GLOGT(eGMSG, "(%s)", lPath.c_str());
     lChar = lPath[0];
     GLOGT(eGMSG, "(%c)", lChar);
-    lMap = GString(lPath).splitData('/');
+    lMap = GString(lPath).split("/");
     GLOGT(eGMSG, "(%s)", GSTRC(lMap).c_str());
     GLOGT(eGMSG, "(%s)", GSTRC(true));
     GLOGT(eGMSG, "(%s)", GSTRC(false));
