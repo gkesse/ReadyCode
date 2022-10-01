@@ -71,12 +71,12 @@ bool GMySQL2::openDatabase(const GString& _protocol, const GString& _hostname, c
     return true;
 }
 //===============================================
-GMySQL2& GMySQL2::execQuery(const GString& _sql) {
-    execQuery(_sql, GEnv().isTestEnv());
-    return *this;
+bool GMySQL2::execQuery(const GString& _sql) {
+    if(!execQuery(_sql, GEnv().isTestEnv())) return false;
+    return true;
 }
 //===============================================
-GMySQL2& GMySQL2::execQuery(const GString& _sql, bool _isTestEnv) {
+bool GMySQL2::execQuery(const GString& _sql, bool _isTestEnv) {
     GLOGT(eGMSG, "%s", _sql.c_str());
     openDatabase(_isTestEnv);
     try {
@@ -85,8 +85,9 @@ GMySQL2& GMySQL2::execQuery(const GString& _sql, bool _isTestEnv) {
     }
     catch (sql::SQLException &e) {
         GERROR_ADD(eGERR, "Error lors de l'exécution de la requête SQL.\n%s : %d : %s", e.what(), e.getErrorCode(), e.getSQLStateCStr());
+        return false;
     }
-    return *this;
+    return true;
 }
 //===============================================
 bool GMySQL2::readQuery(const GString& _sql) {
@@ -97,8 +98,14 @@ bool GMySQL2::readQuery(const GString& _sql) {
 bool GMySQL2::readQuery(const GString& _sql, bool _isTestEnv) {
     GLOGT(eGMSG, "%s", _sql.c_str());
     if(!openDatabase(_isTestEnv)) return false;
-    m_stmt.reset(m_con->createStatement());
-    m_res.reset(m_stmt->executeQuery(_sql.c_str()));
+    try {
+        m_stmt.reset(m_con->createStatement());
+        m_res.reset(m_stmt->executeQuery(_sql.c_str()));
+    }
+    catch (sql::SQLException &e) {
+        GERROR_ADD(eGERR, "Error lors de l'exécution de la requête SQL.\n%s : %d : %s", e.what(), e.getErrorCode(), e.getSQLStateCStr());
+        return false;
+    }
     return true;
 }
 //===============================================
@@ -108,9 +115,15 @@ int GMySQL2::getColumnCount() const {
 }
 //===============================================
 int GMySQL2::getId() {
-    m_res.reset(m_stmt->executeQuery("select @@identity as id"));
-    m_res->next();
-    int lId = (int)m_res->getInt64("id");
+    int lId = 0;
+    try {
+        m_res.reset(m_stmt->executeQuery("select @@identity as id"));
+        m_res->next();
+        lId = (int)m_res->getInt64("id");
+    }
+    catch (sql::SQLException &e) {
+        GERROR_ADD(eGERR, "Error lors de l'exécution de la requête SQL.\n%s : %d : %s", e.what(), e.getErrorCode(), e.getSQLStateCStr());
+    }
     return lId;
 }
 //===============================================

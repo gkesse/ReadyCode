@@ -20,8 +20,8 @@ public:
     bool openDatabase();
     bool openDatabase(bool _isTestEnv);
     bool openDatabase(const GString& _protocol, const GString& _hostname, const GString& _port, const GString& _username, const GString& _password, const GString& _database);
-    GMySQL2& execQuery(const GString& _sql);
-    GMySQL2& execQuery(const GString& _sql, bool _isTestEnv);
+    bool execQuery(const GString& _sql);
+    bool execQuery(const GString& _sql, bool _isTestEnv);
     bool readQuery(const GString& _sql);
     bool readQuery(const GString& _sql, bool _isTestEnv);
     int getColumnCount() const;

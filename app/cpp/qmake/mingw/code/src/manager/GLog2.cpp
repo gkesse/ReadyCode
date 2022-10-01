@@ -252,12 +252,7 @@ void GLog2::traceLog(const char* _name, int _level, const char* _file, int _line
     if(_level == 0) return;
     if(!_isDebug) return;
     GString lDate = GDate2().getDate(GDate2().getDateTimeLogFormat());
-    if(_data.isEmpty()) {
-        fprintf(getOutput(_isFileLog), "===> [%s] : %d : %s : %s : [%d] : %s :\n", _name, _level, lDate.c_str(), _file, _line, _func);
-    }
-    else {
-        fprintf(getOutput(_isFileLog), "===> [%s] : %d : %s : %s : [%d] : %s :\n%s\n", _name, _level, lDate.c_str(), _file, _line, _func, _data.c_str());
-    }
+    fprintf(getOutput(_isFileLog), "===> [%s] : %d : %s : %s : [%d] : %s :\n%s\n", _name, _level, lDate.c_str(), _file, _line, _func, _data.c_str());
     closeLogFile();
 }
 //===============================================
