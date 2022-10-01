@@ -144,7 +144,7 @@ void GSearchUi::createLayout() {
     setLayout(lMainLayout);
     setObjectName(lStyle);
     setWindowTitle(lTitle);
-    setWindowIcon(QIcon(GRES("img", lLogo)));
+    setWindowIcon(QIcon(GPATH("img", lLogo)));
     resize(lWidth, lHeight);
 }
 //===============================================

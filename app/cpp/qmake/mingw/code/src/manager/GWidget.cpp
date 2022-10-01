@@ -15,7 +15,7 @@ GWidget::~GWidget() {
 //===============================================
 void GWidget::createDoms() {
     m_dom.reset(new GCode);
-    m_dom->loadFile(GRES("xml", "app.xml"));
+    m_dom->loadFile(GPATH("xml", "app.xml"));
 }
 //===============================================
 QString GWidget::getItem(const QString& _code, const QString& _key) const {

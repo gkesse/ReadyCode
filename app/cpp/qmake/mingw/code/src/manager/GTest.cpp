@@ -142,14 +142,14 @@ void GTest::runTest(int _argc, char** _argv) {
 //===============================================
 void GTest::runPath(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
-    QString lPath = GRES("xml", "app.xml");
+    QString lPath = GPATH("xml", "app.xml");
     GLOGT(eGINF, lPath);
 }
 //===============================================
 void GTest::runXml(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GXml lXml;
-    lXml.loadFile(GRES("xml", "pad.xml"));
+    lXml.loadFile(GPATH("xml", "pad.xml"));
     lXml.queryXPath(QString("/rdv/datas/data[code='pad']/title"));
     lXml.getNodeXPath();
     QString lData = lXml.getNodeValue();
@@ -293,7 +293,7 @@ void GTest::runSocketClientWrite(int _argc, char** _argv) {
     lClient.connectSocket();
 
     QString lData;
-    lClient.writeData(GFile(GRES("xml", "pad.xml")).getContent());
+    lClient.writeData(GFile(GPATH("xml", "pad.xml")).getContent());
     lClient.readData(lData);
 
     GLOGT(eGINF, lData);
@@ -338,7 +338,7 @@ void GTest::runSocketClientStart(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GSocket lClient;
 
-    QString lData = GFile(GRES("xml", "pad.xml")).getContent();
+    QString lData = GFile(GPATH("xml", "pad.xml")).getContent();
     lData = lClient.callServer(lData);
 
     GLOGT(eGINF, QString("[RECEPTION]..: (%1)\n(%1)").arg(lData.size()).arg(lData));

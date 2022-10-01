@@ -144,7 +144,7 @@ void GRequestUi::createLayout() {
 
     setLayout(lMainLayout);
     setWindowTitle(lTitle);
-    setWindowIcon(QIcon(GRES("img", lLogo)));
+    setWindowIcon(QIcon(GPATH("img", lLogo)));
     resize(lWidth, lHeight);
     setObjectName(lStyle);
 

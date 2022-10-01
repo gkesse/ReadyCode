@@ -85,7 +85,7 @@ void GTitleBarApp::createLayout() {
             QPushButton* lButton = new QPushButton;
             addObj(lKey, lButton);
             lButton->setObjectName(lStyle);
-            lButton->setIcon(QIcon(GRES("img", lImg)));
+            lButton->setIcon(QIcon(GPATH("img", lImg)));
             lButton->setIconSize(QSize(lSize, lSize));
             lButton->setCursor(Qt::PointingHandCursor);
             lMainLayout->addWidget(lButton);
@@ -95,7 +95,7 @@ void GTitleBarApp::createLayout() {
             QPushButton* lButton = new QPushButton;
             addObj(lKey, lButton);
             lButton->setObjectName(lStyle);
-            QIcon lIcon = QIcon(GRES("img", lImg));
+            QIcon lIcon = QIcon(GPATH("img", lImg));
             lButton->setIcon(lIcon);
             lButton->setIconSize(QSize(lSize, lSize));
             lButton->setCursor(Qt::PointingHandCursor);
@@ -156,13 +156,13 @@ void GTitleBarApp::onMaximize() {
     QPushButton* lMaximize = (QPushButton*)getObj("maximize");
     //
     if(m_windowState != "maximize") {
-        lFullscreen->setIcon(QIcon(GRES("img", "fullscreen")));
+        lFullscreen->setIcon(QIcon(GPATH("img", "fullscreen")));
         lMaximize->setIcon(GPICTO("windowrestore", "#ffffff"));
         m_windowState = "maximize";
         m_mainWindow->showMaximized();
     }
     else {
-        lFullscreen->setIcon(QIcon(GRES("img", "fullscreen")));
+        lFullscreen->setIcon(QIcon(GPATH("img", "fullscreen")));
         lMaximize->setIcon(GPICTO("windowmaximize", "#ffffff"));
         m_windowState = "normal";
         m_mainWindow->showNormal();
@@ -174,13 +174,13 @@ void GTitleBarApp::onFullscreen() {
     QPushButton* lMaximize = (QPushButton*)getObj("maximize");
     //
     if(m_windowState != "fullscreen") {
-        lFullscreen->setIcon(QIcon(GRES("img", "fullscreen_exit")));
+        lFullscreen->setIcon(QIcon(GPATH("img", "fullscreen_exit")));
         lMaximize->setIcon(GPICTO("windowmaximize", "#ffffff"));
         m_windowState = "fullscreen";
         m_mainWindow->showFullScreen();
     }
     else {
-        lFullscreen->setIcon(QIcon(GRES("img", "fullscreen")));
+        lFullscreen->setIcon(QIcon(GPATH("img", "fullscreen")));
         lMaximize->setIcon(GPICTO("windowmaximize", "#ffffff"));
         m_windowState = "normal";
         m_mainWindow->showNormal();
@@ -238,12 +238,12 @@ bool GTitleBarApp::eventFilter(QObject* _obj, QEvent* _event) {
             QPushButton* lMaximize = (QPushButton*)getObj("maximize");
             //
             if(m_mainWindow->isMaximized()) {
-                lFullscreen->setIcon(QIcon(GRES("img", "fullscreen")));
+                lFullscreen->setIcon(QIcon(GPATH("img", "fullscreen")));
                 lMaximize->setIcon(GPICTO("windowrestore", "#ffffff"));
                 m_windowState = "maximize";
             }
             else if(m_mainWindow->isFullScreen()) {
-                lFullscreen->setIcon(QIcon(GRES("img", "fullscreen_exit")));
+                lFullscreen->setIcon(QIcon(GPATH("img", "fullscreen_exit")));
                 lMaximize->setIcon(GPICTO("windowmaximize", "#ffffff"));
                 m_windowState = "fullscreen";
             }

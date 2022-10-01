@@ -20,7 +20,7 @@ GPath* GPath::Instance() {
     return m_instance;
 }
 //===============================================
-GString GPath::getPath() const {
+GString GPath::getDataPath() const {
     GEnv lEnv;
     GString lPath = lEnv.getEnv("GPROJECT_DATA");
     if(lPath == "") {
@@ -31,9 +31,13 @@ GString GPath::getPath() const {
 }
 //===============================================
 GString GPath::getResourcePath(const GString& _res, const GString& _filename) const {
+    return getResourcePath(getDataPath(), _res, _filename);
+}
+//===============================================
+GString GPath::getResourcePath(const GString& _root, const GString& _res, const GString& _filename) const {
     GString lPath = "";
-    if(getPath() != "") {
-        lPath += GFORMAT("%s", getPath().c_str());
+    if(_root != "") {
+        lPath += GFORMAT("%s", _root.c_str());
     }
     if(_res != "") {
         if(lPath != "") {

@@ -74,7 +74,7 @@ void GTitleBarMsg::createLayout() {
             QPushButton* lButton = new QPushButton;
             addObj(lKey, lButton);
             lButton->setObjectName(lStyle);
-            lButton->setIcon(QIcon(GRES("img", lImg)));
+            lButton->setIcon(QIcon(GPATH("img", lImg)));
             lButton->setIconSize(QSize(lSize, lSize));
             lButton->setCursor(Qt::PointingHandCursor);
             lMainLayout->addWidget(lButton);
@@ -84,7 +84,7 @@ void GTitleBarMsg::createLayout() {
             QPushButton* lButton = new QPushButton;
             addObj(lKey, lButton);
             lButton->setObjectName(lStyle);
-            QIcon lIcon = QIcon(GRES("img", lImg));
+            QIcon lIcon = QIcon(GPATH("img", lImg));
             lButton->setIcon(lIcon);
             lButton->setIconSize(QSize(lSize, lSize));
             lMainLayout->addWidget(lButton);

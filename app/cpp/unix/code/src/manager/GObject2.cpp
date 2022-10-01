@@ -14,7 +14,7 @@ GObject2::~GObject2() {
 //===============================================
 bool GObject2::createDoms() {
     m_dom.reset(new GCode2);
-    m_dom->loadFile(GRES("xml", "pad.xml"));
+    m_dom->loadFile(GPATH("xml", "pad.xml"));
     return true;
 }
 //===============================================

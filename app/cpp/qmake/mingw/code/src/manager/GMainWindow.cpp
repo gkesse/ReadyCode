@@ -14,7 +14,7 @@ GMainWindow::~GMainWindow() {
 //===============================================
 void GMainWindow::createDoms() {
     m_dom.reset(new GCode);
-    m_dom->loadFile(GRES("xml", "app.xml"));
+    m_dom->loadFile(GPATH("xml", "app.xml"));
 }
 //===============================================
 QString GMainWindow::getItem(const QString& _code, const QString& _key) const {

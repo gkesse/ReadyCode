@@ -1,9 +1,11 @@
 //===============================================
 #include "GFile3.h"
 #include "GLog.h"
+#include "GPath.h"
 #include "GShell2.h"
 #include "GEnv2.h"
 #include "GCode2.h"
+#include "GBase64.h"
 #include "GServer.h"
 #include "GMySQL2.h"
 //===============================================
@@ -121,22 +123,47 @@ bool GFile3::onSaveFile() {
 //===============================================
 bool GFile3::saveFile() {
     if(!insertFile()) return false;
+    if(!updateFile()) return false;
+    if(!saveContent()) return false;
+    return true;
+}
+//===============================================
+bool GFile3::initFile() {
+    m_rootPath = "/usr/local/share/readydev/file";
+    GShell2().createDir(m_rootPath);
     return true;
 }
 //===============================================
 bool GFile3::insertFile() {
     if(m_id != 0) return false;
-    if(m_filename == "") return false;
-    if(m_content == "") return false;
-
+    initFile();
     m_id = GMySQL2().execQuery(GFORMAT(""
             " insert into _file "
-            " ( _filename, _content ) "
-            " values ( '%s', '%s' ) "
+            " ( _filename ) "
+            " values ( '%s' ) "
             "", m_filename.c_str()
-            , m_content.c_str()
     )).getId();
-
+    if(m_id == 0) return false;
+    return true;
+}
+//===============================================
+bool GFile3::updateFile() {
+    if(m_id == 0) return false;
+    m_fullname = GFORMAT("%s/%d_%s", m_rootPath.c_str(), m_id, m_filename.c_str());
+    GMySQL2().execQuery(GFORMAT(""
+            " update _file "
+            " set _fullname = '%s' "
+            " where _id = %d "
+            "", m_id
+    ));
+    return true;
+}
+//===============================================
+bool GFile3::saveContent() {
+    if(m_id == 0) return false;
+    GFile3 lFile(m_fullname);
+    GString lDataBin(GBase64(m_content).decodeData());
+    lFile.setContentBin(lDataBin);
     return true;
 }
 //===============================================

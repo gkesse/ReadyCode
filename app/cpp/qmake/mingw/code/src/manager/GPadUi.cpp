@@ -11,7 +11,7 @@
 //===============================================
 GPadUi::GPadUi(QWidget* _parent) :
 GWidget(_parent) {
-    GSTYLE(GRES("css", "style.css"));
+    GSTYLE(GPATH("css", "style.css"));
     createDoms();
     createLayout();
 }
@@ -102,7 +102,7 @@ void GPadUi::createLayout() {
 
     setLayout(lMainLayout);
     setWindowTitle(lTitle);
-    setWindowIcon(QIcon(GRES("img", lLogo)));
+    setWindowIcon(QIcon(GPATH("img", lLogo)));
     resize(lWidth, lHeight);
     setObjectName(lStyle);
 

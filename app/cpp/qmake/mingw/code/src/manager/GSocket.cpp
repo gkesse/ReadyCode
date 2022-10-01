@@ -17,9 +17,9 @@ GSocket::~GSocket() {
 //===============================================
 void GSocket::createDoms() {
     m_dom.reset(new GCode);
-    m_dom->loadFile(GRES("xml", "app.xml"));
+    m_dom->loadFile(GPATH("xml", "app.xml"));
     m_domWsaError.reset(new GCode);
-    m_domWsaError->loadFile(GRES("xml", "wsa_error.xml"));
+    m_domWsaError->loadFile(GPATH("xml", "wsa_error.xml"));
     m_res.reset(new GCode);
     m_res->createDoc();
 }

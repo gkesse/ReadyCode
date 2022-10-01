@@ -77,7 +77,7 @@ void GMaj::onUpdateDatabase(GSocket* _client) {
 void GMaj::onUpdateDatabaseThread(void* _params) {
     std::shared_ptr<GAsync> lAsync((GAsync*)_params);
     GSocket* lClient = lAsync->getClient();
-    GString lPath = GRES("mysql", "maj");
+    GString lPath = GPATH("mysql", "maj");
     std::vector<GString> lFiles = GDir().openDir(lPath, false, false);
 
     GLOGT(eGMSG, "%s\n", GSTRC(lFiles));

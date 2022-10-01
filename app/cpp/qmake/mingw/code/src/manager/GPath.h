@@ -5,7 +5,7 @@
 #include "GObject.h"
 //===============================================
 #define GPATHI  GPath::Instance()
-#define GRES    GPATHI->getPath
+#define GPATH    GPATHI->getPath
 //===============================================
 class GPath : public GObject {
 public:

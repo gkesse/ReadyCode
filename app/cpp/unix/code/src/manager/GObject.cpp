@@ -14,7 +14,7 @@ GObject::~GObject() {
 //===============================================
 void GObject::createDoms() {
     m_dom.reset(new GCode);
-    m_dom->loadFile(GRES("xml", "pad.xml"));
+    m_dom->loadFile(GPATH("xml", "pad.xml"));
 }
 //===============================================
 GString GObject::getItem(const GString& _code, const GString& _key) const {

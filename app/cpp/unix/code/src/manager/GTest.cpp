@@ -347,7 +347,7 @@ void GTest::runIntStringVector(int _argc, char** _argv) {
 //===============================================
 void GTest::runString(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
-    GString lFilename = GRES("file", "test.txt");
+    GString lFilename = GPATH("file", "test.txt");
     GString lContent = GFile(lFilename).getContent();
     int lLength = lContent.size();
     int BUFFER_DATA_SIZE = 1024;
@@ -433,7 +433,7 @@ void GTest::runStringClass(int _argc, char** _argv) {
 //===============================================
 void GTest::runPath(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
-    GString lPath = GRES("xml", "pad.xml");
+    GString lPath = GPATH("xml", "pad.xml");
     GLOGT(eGINF, "%s\n", lPath.c_str());
 }
 //===============================================
@@ -445,7 +445,7 @@ void GTest::runFormat(int _argc, char** _argv) {
 void GTest::runXml(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     m_dom.reset(new GCode);
-    m_dom->loadFile(GRES("xml", "pad.xml"));
+    m_dom->loadFile(GPATH("xml", "pad.xml"));
     GLOGT(eGINF, "app_name.....: (%s)\n", getItem("pad", "app_name").c_str());
     GLOGT(eGINF, "app_version..: (%s)\n", getItem("pad", "app_version").c_str());
 }
@@ -791,7 +791,7 @@ void GTest::runSocketClientFile(int _argc, char** _argv) {
     lClient.createAddress(lFamily, lServerIp, lPort);
     lClient.connectSocket();
 
-    GString lFilename = GRES("file", "test.txt");
+    GString lFilename = GPATH("file", "test.txt");
     GString lData = GFile(lFilename).getContent();
 
     lClient.writeData(lData);
@@ -840,7 +840,7 @@ void GTest::onSocketServerStartTimer(int _signo) {
 void GTest::runSocketClientStart(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
 
-    GString lFilename = GRES("file", "test.txt");
+    GString lFilename = GPATH("file", "test.txt");
     GString lData = GFile(lFilename).getContent();
 
     GSocket lClient;
@@ -1050,7 +1050,7 @@ void GTest::runMysqlDB(int _argc, char** _argv) {
 //===============================================
 void GTest::runMysqlMaj(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
-    GString lPath = GRES("mysql", "maj");
+    GString lPath = GPATH("mysql", "maj");
     std::vector<GString> lFiles = GDir().openDir(lPath, false, false);
     GLOGT(eGMSG, "%s\n", GSTRC(lFiles).c_str());
     for(int i = 0; i < (int)lFiles.size(); i++) {
@@ -1066,7 +1066,7 @@ void GTest::runMysqlMaj(int _argc, char** _argv) {
 //===============================================
 void GTest::runMysqlMajProd(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
-    GString lPath = GRES("mysql", "maj");
+    GString lPath = GPATH("mysql", "maj");
     std::vector<GString> lFiles = GDir().openDir(lPath, false, false);
     GLOGT(eGMSG, "%s\n", GSTRC(lFiles).c_str());
     for(int i = 0; i < (int)lFiles.size(); i++) {
@@ -1161,7 +1161,7 @@ void GTest::runFile(int _argc, char** _argv) {
 //===============================================
 void GTest::runDir(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
-    GLOGT(eGINF, "%s", GSTRC(GDir().openDir(GRES("mysql", "maj"), true, false)).c_str());
+    GLOGT(eGINF, "%s", GSTRC(GDir().openDir(GPATH("mysql", "maj"), true, false)).c_str());
 }
 //===============================================
 void GTest::runBase64(int _argc, char** _argv) {
