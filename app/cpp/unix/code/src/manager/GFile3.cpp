@@ -139,12 +139,12 @@ bool GFile3::insertFile() {
     if(m_id != 0) return false;
     initFile();
     GMySQL2 lMySQL2;
-    lMySQL2.execQuery(GFORMAT(""
+    if(!lMySQL2.execQuery(GFORMAT(""
             " insert into _file "
             " ( _filename ) "
             " values ( '%s' ) "
             "", m_filename.c_str()
-    ));
+    ))) return false;
     m_id = lMySQL2.getId();
     if(m_id == 0) return false;
     return true;
