@@ -157,7 +157,8 @@ bool GFile3::updateFile() {
             " update _file "
             " set _fullname = '%s' "
             " where _id = %d "
-            "", m_id
+            "", m_fullname.c_str()
+            , m_id
     ))) return false;
     return true;
 }
