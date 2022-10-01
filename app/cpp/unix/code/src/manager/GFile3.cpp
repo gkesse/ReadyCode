@@ -129,7 +129,8 @@ bool GFile3::saveFile() {
 }
 //===============================================
 bool GFile3::initFile() {
-    m_filePath = "/usr/local/share/readydev/file";
+    m_homePath = GShell2().runSystem("echo -n $HOME");
+    m_filePath = GFORMAT("%s/.readydev/file", m_homePath.c_str());
     GShell2().createDir(m_filePath);
     return true;
 }

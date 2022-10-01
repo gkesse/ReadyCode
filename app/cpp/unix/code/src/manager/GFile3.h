@@ -37,6 +37,7 @@ public:
 
 private:
     int m_id;
+    GString m_homePath;
     GString m_filePath;
     GString m_fullname;
     GString m_filename;

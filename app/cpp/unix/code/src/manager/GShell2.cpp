@@ -26,6 +26,10 @@ GString GShell2::getTmpOutFilename() const {
     return GFile2().getScriptOutFilename();
 }
 //===============================================
+GString GShell2::getHomeDir() const {
+    return GFile2().getScriptOutFilename();
+}
+//===============================================
 void GShell2::createDir(const GString& _dir) {
     GString lCommand = GFORMAT("if ! [ -d %s ] ; then mkdir -p %s ; fi", _dir.c_str(), _dir.c_str());
     runCommand(lCommand);

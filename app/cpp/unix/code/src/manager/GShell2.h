@@ -11,6 +11,7 @@ public:
     GString getTmpDir() const;
     GString getTmpInFilename() const;
     GString getTmpOutFilename() const;
+    GString getHomeDir() const;
     void createDir(const GString& _dir);
     void tailFile(const GString& _file);
     void cleanDir(const GString& _dir);
