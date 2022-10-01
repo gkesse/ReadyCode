@@ -164,6 +164,7 @@ bool GFile3::saveContent() {
     GFile3 lFile(m_fullname);
     GString lDataBin(GBase64(m_content).decodeData());
     lFile.setContentBin(lDataBin);
+    GLOG_ADD(eGLOG, "Le fichier a bien été enregistré.");
     return true;
 }
 //===============================================
