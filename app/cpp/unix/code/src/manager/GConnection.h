@@ -9,16 +9,12 @@ class GServer;
 class GConnection : public GModule2 {
 public:
     GConnection();
-    GConnection(GModule2* _module);
-    virtual ~GConnection();
+    ~GConnection();
 
     GObject2* clone() const;
 
     GString serialize(const GString& _code = "connection") const;
     bool deserialize(const GString& _data, const GString& _code = "connection");
-
-    bool onModule();
-    bool onRunConnection();
 
     bool loadUserPseudo();
     bool loadUserPassword();
@@ -30,6 +26,9 @@ public:
     bool updateConnection();
 
     void print() const;
+
+    bool onModule();
+    bool onRunConnection();
 
 protected:
     int m_id;

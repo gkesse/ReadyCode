@@ -13,13 +13,6 @@ GConnection::GConnection()
     m_isConnect = false;
 }
 //===============================================
-GConnection::GConnection(GModule2* _module)
-: GModule2(_module) {
-    m_id = 0;
-    m_active = 0;
-    m_isConnect = false;
-}
-//===============================================
 GConnection::~GConnection() {
 
 }
@@ -52,30 +45,6 @@ bool GConnection::deserialize(const GString& _data, const GString& _code) {
     m_group = lDom.getData(_code, "group");
     m_active = lDom.getData(_code, "active").toBool();
     m_isConnect = lDom.getData(_code, "is_connect").toBool();
-    return true;
-}
-//===============================================
-bool GConnection::onModule() {
-    deserialize(m_server->getRequest());
-    if(m_method == "run_connection") {
-        onRunConnection();
-    }
-    m_server->addResponse(serialize());
-    return true;
-}
-//===============================================
-bool GConnection::onRunConnection() {
-    if(m_pseudo == "") {GERROR_ADD(eGERR, "Le nom d'utilisateur est obligatoire."); return false;}
-    if(m_password == "") {GERROR_ADD(eGERR, "Le mot de passe est obligatoire."); return false;}
-    if(!loadUserPseudo()) return false;
-    if(m_id == 0) {GERROR_ADD(eGERR, "Le nom d'utilisateur n'existe pas encore."); return false;}
-    if(!computePassword()) return false;
-    if(!loadUserPassword()) return false;
-    if(m_id == 0) {GERROR_ADD(eGERR, "Le mot de passe est incorrect."); return false;}
-    if(!loadUser()) return false;
-    GLOG_ADD(eGLOG, "La connexion a réussi.");
-    m_isConnect = true;
-    if(!updateConnection()) return false;
     return true;
 }
 //===============================================
@@ -191,5 +160,35 @@ bool GConnection::updateConnection() {
 //===============================================
 void GConnection::print() const {
     printf("%s\n", serialize().c_str());
+}
+//===============================================
+bool GConnection::onModule() {
+    deserialize(m_server->getRequest());
+    if(m_method == "") {
+        GMETHOD_REQUIRED();
+    }
+    else if(m_method == "run_connection") {
+        onRunConnection();
+    }
+    else {
+        GMETHOD_UNKNOWN();
+    }
+    m_server->addResponse(serialize());
+    return true;
+}
+//===============================================
+bool GConnection::onRunConnection() {
+    if(m_pseudo == "") {GERROR_ADD(eGERR, "Le nom d'utilisateur est obligatoire."); return false;}
+    if(m_password == "") {GERROR_ADD(eGERR, "Le mot de passe est obligatoire."); return false;}
+    if(!loadUserPseudo()) return false;
+    if(m_id == 0) {GERROR_ADD(eGERR, "Le nom d'utilisateur n'existe pas encore."); return false;}
+    if(!computePassword()) return false;
+    if(!loadUserPassword()) return false;
+    if(m_id == 0) {GERROR_ADD(eGERR, "Le mot de passe est incorrect."); return false;}
+    if(!loadUser()) return false;
+    GLOG_ADD(eGLOG, "La connexion a réussi.");
+    m_isConnect = true;
+    if(!updateConnection()) return false;
+    return true;
 }
 //===============================================

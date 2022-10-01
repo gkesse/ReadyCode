@@ -4,6 +4,7 @@
 #include "GServer.h"
 #include "GCode2.h"
 #include "GConnection.h"
+#include "GFile3.h"
 //===============================================
 GModule2::GModule2()
 : GObject2() {
@@ -12,17 +13,17 @@ GModule2::GModule2()
 //===============================================
 GModule2::GModule2(const GModule2& _module)
 : GObject2() {
-    m_server = _module.m_server;
+    assign(_module);
 }
 //===============================================
 GModule2::GModule2(GModule2* _module)
 : GObject2() {
-    m_server = _module->m_server;
+    assign(_module);
 }
 //===============================================
 GModule2::GModule2(GServer* _server)
 : GObject2() {
-    m_server = _server;
+    assign(_server);
 }
 //===============================================
 GModule2::~GModule2() {
@@ -31,6 +32,18 @@ GModule2::~GModule2() {
 //===============================================
 GObject2* GModule2::clone() const {
     return new GModule2;
+}
+//===============================================
+void GModule2::assign(const GModule2& _module) {
+    assign(_module.m_server);
+}
+//===============================================
+void GModule2::assign(GModule2* _module) {
+    assign(_module->m_server);
+}
+//===============================================
+void GModule2::assign(GServer* _server) {
+    m_server = _server;
 }
 //===============================================
 GString GModule2::serialize(const GString& _code) const {
@@ -60,20 +73,31 @@ void GModule2::setMethod(const GString& _method) {
 bool GModule2::onModule() {
     deserialize(m_server->getRequest());
     if(m_module == "") {
-        GERROR_ADD(eGERR, "Le module est obligatoire.");
+        GMODULE_REQUIRED();
     }
     else if(m_module == "connection") {
         onConnection();
     }
+    else if(m_module == "file") {
+        onFile();
+    }
     else {
-        GERROR_ADD(eGERR, "Le module (%s) est inconnu.", m_module.c_str());
+        GMODULE_UNKNOWN();
     }
     return true;
 }
 //===============================================
 bool GModule2::onConnection() {
-    GConnection lConnect(this);
+    GConnection lConnect;
+    lConnect.assign(this);
     lConnect.onModule();
+    return true;
+}
+//===============================================
+bool GModule2::onFile() {
+    GFile3 lFile;
+    lFile.assign(this);
+    lFile.onModule();
     return true;
 }
 //===============================================
