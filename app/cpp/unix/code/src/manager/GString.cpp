@@ -1,5 +1,6 @@
 //===============================================
 #include "GString.h"
+#include "GLog.h"
 //===============================================
 GString* GString::m_instance = 0;
 //===============================================
@@ -321,7 +322,14 @@ std::vector<char> GString::toVector() const {
 GString GString::getFormat(const char* _format, ...) const {
     va_list lArgs;
     va_start (lArgs, _format);
-    int lSize = vsnprintf(0, 0, _format, lArgs);
+    int lSize = 0;
+    try {
+        lSize = vsnprintf(0, 0, _format, lArgs);
+    }
+    catch(...) {
+        GERROR_ADD(eGERR, "Erreur lors du formatage des arguments.");
+        return "";
+    }
     if(lSize == 0) return "";
     GString lData;
     lData.allocate(lSize);
