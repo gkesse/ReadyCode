@@ -22,16 +22,16 @@ public:
 
     static GString* Instance();
 
-    void clear();
-    bool allocate(int _size);
-    void assign(const std::string& _data);
-    void assign(const char* _data);
-    void assign(char _data);
-    void assign(bool _data);
-    void assign(int _data);
-    void assign(const std::vector<char>& _data);
-    void assign(const std::vector<uchar>& _data);
-    void assign(const GString& _data);
+    void clear(bool _isNew = false);
+    bool allocate(int _size, bool _isNew = false);
+    void assign(const std::string& _data, bool _isNew = false);
+    void assign(const char* _data, bool _isNew = false);
+    void assign(char _data, bool _isNew = false);
+    void assign(bool _data, bool _isNew = false);
+    void assign(int _data, bool _isNew = false);
+    void assign(const std::vector<char>& _data, bool _isNew = false);
+    void assign(const std::vector<uchar>& _data, bool _isNew = false);
+    void assign(const GString& _data, bool _isNew = false);
 
     char*& data();
     const char* data() const;
