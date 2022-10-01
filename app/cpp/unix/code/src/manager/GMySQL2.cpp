@@ -67,7 +67,13 @@ bool GMySQL2::openDatabase(bool _isTestEnv) {
 bool GMySQL2::openDatabase(const GString& _protocol, const GString& _hostname, const GString& _port, const GString& _username, const GString& _password, const GString& _database) {
     m_driver = get_driver_instance();
     GString lHostname = GFORMAT("%s://%s:%s/%s", _protocol.c_str(), _hostname.c_str(), _port.c_str(), _database.c_str());
-    m_con.reset(m_driver->connect(lHostname.c_str(), _username.c_str(), _password.c_str()));
+    try {
+        m_con.reset(m_driver->connect(lHostname.c_str(), _username.c_str(), _password.c_str()));
+    }
+    catch (sql::SQLException &e) {
+        GERROR_ADD(eGERR, "Error lors de l'exécution de la requête SQL.\n%s : %d : %s", e.what(), e.getErrorCode(), e.getSQLStateCStr());
+        return false;
+    }
     return true;
 }
 //===============================================
