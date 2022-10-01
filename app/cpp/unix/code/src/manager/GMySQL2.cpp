@@ -67,13 +67,7 @@ bool GMySQL2::openDatabase(bool _isTestEnv) {
 bool GMySQL2::openDatabase(const GString& _protocol, const GString& _hostname, const GString& _port, const GString& _username, const GString& _password, const GString& _database) {
     m_driver = get_driver_instance();
     GString lHostname = GFORMAT("%s://%s:%s/%s", _protocol.c_str(), _hostname.c_str(), _port.c_str(), _database.c_str());
-    try {
-        m_con.reset(m_driver->connect(lHostname.c_str(), _username.c_str(), _password.c_str()));
-    }
-    catch (sql::SQLException &e) {
-        GERROR_ADD(eGERR, "Error lors de l'exécution de la requête SQL.\n%s : %d : %s", e.what(), e.getErrorCode(), e.getSQLStateCStr());
-        return false;
-    }
+    m_con.reset(m_driver->connect(lHostname.c_str(), _username.c_str(), _password.c_str()));
     return true;
 }
 //===============================================
@@ -84,8 +78,8 @@ bool GMySQL2::execQuery(const GString& _sql) {
 //===============================================
 bool GMySQL2::execQuery(const GString& _sql, bool _isTestEnv) {
     GLOGT(eGMSG, "%s", _sql.c_str());
-    openDatabase(_isTestEnv);
     try {
+        openDatabase(_isTestEnv);
         m_stmt.reset(m_con->createStatement());
         m_stmt->execute(_sql.c_str());
     }
@@ -103,8 +97,8 @@ bool GMySQL2::readQuery(const GString& _sql) {
 //===============================================
 bool GMySQL2::readQuery(const GString& _sql, bool _isTestEnv) {
     GLOGT(eGMSG, "%s", _sql.c_str());
-    if(!openDatabase(_isTestEnv)) return false;
     try {
+        openDatabase(_isTestEnv);
         m_stmt.reset(m_con->createStatement());
         m_res.reset(m_stmt->executeQuery(_sql.c_str()));
     }
