@@ -66,7 +66,7 @@ bool GModule2::onModule() {
         onConnection();
     }
     else {
-
+        GERROR_ADD(eGERR, "Le module (%s) est inconnu.", m_module.c_str());
     }
     return true;
 }
