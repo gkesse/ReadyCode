@@ -37,11 +37,10 @@ public:
 
 private:
     int m_id;
-    GString m_rootPath;
+    GString m_filePath;
     GString m_fullname;
     GString m_filename;
     GString m_content;
-    GString m_fullname;
 };
 //==============================================
 #endif

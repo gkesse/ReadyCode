@@ -129,8 +129,8 @@ bool GFile3::saveFile() {
 }
 //===============================================
 bool GFile3::initFile() {
-    m_rootPath = "/usr/local/share/readydev/file";
-    GShell2().createDir(m_rootPath);
+    m_filePath = "/usr/local/share/readydev/file";
+    GShell2().createDir(m_filePath);
     return true;
 }
 //===============================================
@@ -149,7 +149,7 @@ bool GFile3::insertFile() {
 //===============================================
 bool GFile3::updateFile() {
     if(m_id == 0) return false;
-    m_fullname = GFORMAT("%s/%d_%s", m_rootPath.c_str(), m_id, m_filename.c_str());
+    m_fullname = GFORMAT("%s/%d_%s", m_filePath.c_str(), m_id, m_filename.c_str());
     GMySQL2().execQuery(GFORMAT(""
             " update _file "
             " set _fullname = '%s' "
