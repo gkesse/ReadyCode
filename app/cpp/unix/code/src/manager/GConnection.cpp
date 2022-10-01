@@ -113,24 +113,21 @@ bool GConnection::insertUser() {
     if(m_id != 0) return false;
     if(m_pseudo == "") return false;
     if(m_passwordMd5 == "") return false;
-
-    m_id = GMySQL2().execQuery(GFORMAT(""
+    GMySQL2 lMySQL2;
+    if(!GMySQL2().execQuery(GFORMAT(""
             " insert into _user "
             " ( _pseudo, _password ) "
             " values ( '%s', '%s' ) "
             "", m_pseudo.c_str()
             , m_passwordMd5.c_str()
-    )).getId();
-
+    ))) return false;
+    m_id = lMySQL2.getId();
     return true;
 }
 //===============================================
 bool GConnection::updateUser() {
     if( m_id == 0) return false;
-    if(m_pseudo == "") return false;
-    if(m_password == "") return false;
-
-    GMySQL2().execQuery(GFORMAT(""
+    if(!GMySQL2().execQuery(GFORMAT(""
             " update _user "
             " set _pseudo = '%s' "
             " , _password = '%s' "
@@ -138,23 +135,20 @@ bool GConnection::updateUser() {
             "", m_pseudo.c_str()
             , m_passwordMd5.c_str()
             , m_id
-    ));
-
+    ))) return false;
     return true;
 }
 //===============================================
 bool GConnection::updateConnection() {
     if( m_id == 0) return false;
-
-    GMySQL2().execQuery(GFORMAT(""
+    if(!GMySQL2().execQuery(GFORMAT(""
             " update _user "
             " set _connect = '%d' "
             " , _d_connect = now() "
             " where _id = %d "
             "", m_isConnect
             , m_id
-    ));
-
+    ))) return false;
     return true;
 }
 //===============================================
