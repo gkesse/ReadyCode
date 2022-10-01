@@ -71,8 +71,8 @@ bool GSocket2::callServer() {
         }
     }
 
-    m_dataOut.print();
-    m_dataIn.print();
+    GLOGT(eGMSG, "[EMISSION] : (%d)\n%s", (int)m_dataOut.size(), m_dataOut.c_str());
+    GLOGT(eGMSG, "[RECEPTION] : (%d)\n%s", (int)m_dataIn.size(), m_dataIn.c_str());
 
     closesocket(m_socket);
     WSACleanup();

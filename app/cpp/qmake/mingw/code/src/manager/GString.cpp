@@ -4,63 +4,43 @@
 GString* GString::m_instance = 0;
 //===============================================
 GString::GString() {
-    m_data = 0;
-    m_size = 0;
-    clear();
+    clear(true);
 }
 //===============================================
 GString::GString(const QString& _data) {
-    m_data = 0;
-    m_size = 0;
-    assign(_data);
+    assign(_data.toStdString().c_str(), true);
 }
 //===============================================
 GString::GString(const std::string& _data) {
-    m_data = 0;
-    m_size = 0;
-    assign(_data);
+    assign(_data.c_str(), true);
 }
 //===============================================
 GString::GString(const char* _data) {
-    m_data = 0;
-    m_size = 0;
-    assign(_data);
+    assign(_data, true);
 }
 //===============================================
 GString::GString(char _data) {
-    m_data = 0;
-    m_size = 0;
-    assign(_data);
+    assign(_data, true);
 }
 //===============================================
 GString::GString(bool _data) {
-    m_data = 0;
-    m_size = 0;
-    assign(_data);
+    assign(_data, true);
 }
 //===============================================
 GString::GString(int _data) {
-    m_data = 0;
-    m_size = 0;
-    assign(_data);
+    assign(_data, true);
 }
 //===============================================
 GString::GString(const std::vector<char>& _data) {
-    m_data = 0;
-    m_size = 0;
-    assign(_data);
+    assign(_data, true);
 }
 //===============================================
 GString::GString(const std::vector<uchar>& _data) {
-    m_data = 0;
-    m_size = 0;
-    assign(_data);
+    assign(_data, true);
 }
 //===============================================
 GString::GString(const GString& _data) {
-    m_data = 0;
-    m_size = 0;
-    assign(_data);
+    assign(_data, true);
 }
 //===============================================
 GString::~GString() {
@@ -74,76 +54,41 @@ GString* GString::Instance() {
     return m_instance;
 }
 //===============================================
-void GString::clear() {
-    if(m_data) delete[] m_data;
-    m_data = 0;
-    m_size = 0;
+void GString::clear(bool _isNew) {
+    allocate(0, _isNew);
 }
 //===============================================
-bool GString::allocate(int _size) {
-    clear();
+bool GString::allocate(int _size, bool _isNew) {
+    if(!_isNew) delete[] m_data;
+    if(_size < 0) m_size = 0;
     m_size = _size;
-    if(!m_size) return false;
     m_data = new char[m_size + 1];
-    return true;
-}
-//===============================================
-void GString::assign(const QString& _data) {
-    clear();
-    m_size = (int)_data.size();
-    if(m_size == 0) return;
-    m_data = new char[m_size + 1];
-    for(int i = 0; i < m_size; i++) {
-        char lChar = (char)_data.at(i).toLatin1();
-        m_data[i] = lChar;
-    }
     m_data[m_size] = '\0';
+    return (m_size != 0);
 }
 //===============================================
-void GString::assign(const std::string& _data) {
-    clear();
-    m_size = (int)_data.size();
-    if(m_size == 0) return;
-    m_data = new char[m_size + 1];
-    for(int i = 0; i < m_size; i++) {
-        char lChar = _data[i];
-        m_data[i] = lChar;
-    }
-    m_data[m_size] = '\0';
-}
-//===============================================
-void GString::assign(const char* _data) {
-    clear();
-    if(_data == 0) return;
+void GString::assign(const char* _data, bool _isNew) {
     m_size = (int)strlen(_data);
-    if(m_size == 0) return;
-    m_data = new char[m_size + 1];
+    allocate(m_size, _isNew);
     for(int i = 0; i < m_size; i++) {
         char lChar = _data[i];
         m_data[i] = lChar;
     }
-    m_data[m_size] = '\0';
 }
 //===============================================
-void GString::assign(char _data) {
-    clear();
+void GString::assign(char _data, bool _isNew) {
     m_size = 1;
-    m_data = new char[m_size + 1];
+    allocate(m_size, _isNew);
     m_data[0] = _data;
-    m_data[m_size] = '\0';
 }
 //===============================================
-void GString::assign(bool _data) {
-    clear();
+void GString::assign(bool _data, bool _isNew) {
     char lData = (_data ? '1' : '0');
-    m_size = 1;
-    m_data = new char[m_size + 1];
-    m_data[0] = lData;
-    m_data[m_size] = '\0';
+    assign(lData, _isNew);
 }
 //===============================================
-void GString::assign(int _data) {
-    clear();
+void GString::assign(int _data, bool _isNew) {
+    clear(_isNew);
     int lDivisor = 1;
     int lBufferLength = 1;
     int lIsNegative = 0;
@@ -161,7 +106,7 @@ void GString::assign(int _data) {
     }
 
     m_size = lBufferLength + lIsNegative;
-    m_data = new char[m_size + 1];
+    allocate(m_size, _isNew);
     m_data[0] = (lIsNegative ? '-' : '\0');
 
     while(lBufferLength > 0) {
@@ -171,44 +116,41 @@ void GString::assign(int _data) {
         lBufferIndex++;
         lBufferLength--;
     }
-
-    m_data[lBufferIndex] = '\0';
 }
 //===============================================
-void GString::assign(const std::vector<char>& _data) {
-    clear();
+void GString::assign(const std::vector<char>& _data, bool _isNew) {
     m_size = (int)_data.size();
-    if(m_size == 0) return;
-    m_data = new char[m_size + 1];
+    allocate(m_size, _isNew);
     for(int i = 0; i < m_size; i++) {
         char lChar = _data[i];
         m_data[i] = lChar;
     }
-    m_data[m_size] = '\0';
 }
 //===============================================
-void GString::assign(const std::vector<uchar>& _data) {
-    clear();
+void GString::assign(const std::vector<uchar>& _data, bool _isNew) {
     m_size = (int)_data.size();
-    if(m_size == 0) return;
-    m_data = new char[m_size + 1];
+    allocate(m_size, _isNew);
     for(int i = 0; i < m_size; i++) {
         char lChar = _data[i];
         m_data[i] = lChar;
     }
-    m_data[m_size] = '\0';
 }
 //===============================================
-void GString::assign(const GString& _data) {
-    clear();
+void GString::assign(const std::string& _data, bool _isNew) {
+    assign(_data.c_str(), _isNew);
+}
+//===============================================
+void GString::assign(const QString& _data, bool _isNew) {
+    assign(_data.toStdString().c_str(), _isNew);
+}
+//===============================================
+void GString::assign(const GString& _data, bool _isNew) {
     m_size = _data.m_size;
-    if(m_size == 0) return;
-    m_data = new char[m_size + 1];
+    allocate(m_size, _isNew);
     for(int i = 0; i < m_size; i++) {
         char lChar = _data.m_data[i];
         m_data[i] = lChar;
     }
-    m_data[m_size] = '\0';
 }
 //===============================================
 char*& GString::data() {
@@ -240,6 +182,16 @@ GString GString::extract(int _pos, const GString& _sep) const {
     return lWord;
 }
 //===============================================
+std::vector<GString> GString::split(const GString& _sep) const {
+    std::vector<GString> lMap;
+    int lCount = countSep(_sep);
+    for(int i = 0; i < lCount; i++) {
+        GString lData = extract(i, _sep);
+        lMap.push_back(lData);
+    }
+    return lMap;
+}
+//===============================================
 int GString::countSep(const GString& _sep) const {
     int lCount = 1;
     for(int i = 0; i < m_size; i++) {
@@ -268,11 +220,10 @@ int GString::size() const {
 }
 //===============================================
 bool GString::startBy(const GString& _data) const {
-    if((int)m_size == 0) return false;
+    if(m_size == 0) return false;
     if(_data.size() == 0) return false;
-    if((int)m_size < _data.size()) return false;
-    int i = 0;
-    for(; i < _data.size(); i++) {
+    if(m_size < _data.size()) return false;
+    for(int i = 0; i < _data.size(); i++) {
         if(m_data[i] != _data[i]) return false;
     }
     return true;
@@ -329,7 +280,7 @@ GString GString::substr(int _pos, int _size) const {
 
     int lLength = m_size - _pos;
 
-    if (_size > lLength) {
+    if (_size < 0 || _size > lLength) {
         _size = lLength;
     }
 
@@ -397,17 +348,17 @@ GString& GString::operator=(const GString& _data) {
     return *this;
 }
 //===============================================
-GString& GString::operator=(const QString& _data) {
-    assign(_data);
-    return *this;
-}
-//===============================================
 GString& GString::operator=(const std::vector<char>& _data) {
     assign(_data);
     return *this;
 }
 //===============================================
 GString& GString::operator=(const std::vector<uchar>& _data) {
+    assign(_data);
+    return *this;
+}
+//===============================================
+GString& GString::operator=(const QString& _data) {
     assign(_data);
     return *this;
 }
@@ -530,6 +481,15 @@ bool GString::operator!=(char _data) const {
 //===============================================
 bool GString::operator!=(int _data) const {
     return !(*this == GString(_data));
+}
+//===============================================
+bool GString::operator<(const GString& _data) const {
+    if(isEmpty() && _data.isEmpty()) return false;
+    if(isEmpty()) return true;
+    if(_data.isEmpty()) return false;
+    int lCompare = strcmp(m_data, _data.m_data);
+    if(lCompare < 0) return true;
+    return false;
 }
 //===============================================
 char& GString::operator[](int _index) {
