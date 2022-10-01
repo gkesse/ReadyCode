@@ -5,6 +5,7 @@
 #include "GEnv2.h"
 #include "GCode2.h"
 #include "GServer.h"
+#include "GMySQL2.h"
 //===============================================
 GFile3::GFile3()
 : GModule2() {
@@ -111,11 +112,30 @@ bool GFile3::onModule() {
 }
 //===============================================
 bool GFile3::onSaveFile() {
-
+    if(m_id != 0) {GERROR_ADD(eGERR, "Le fichier est déjà enregistré."); return false;}
+    if(m_filename == "") {GERROR_ADD(eGERR, "Le nom du fichier est obligatoire."); return false;}
+    if(m_content == "") {GERROR_ADD(eGERR, "Le contenu du fichier est vide."); return false;}
+    if(!saveFile()) return false;
     return true;
 }
 //===============================================
 bool GFile3::saveFile() {
+    if(!insertFile()) return false;
+    return true;
+}
+//===============================================
+bool GFile3::insertFile() {
+    if(m_id != 0) return false;
+    if(m_filename == "") return false;
+    if(m_content == "") return false;
+
+    m_id = GMySQL2().execQuery(GFORMAT(""
+            " insert into _file "
+            " ( _filename, _content ) "
+            " values ( '%s', '%s' ) "
+            "", m_filename.c_str()
+            , m_content.c_str()
+    )).getId();
 
     return true;
 }

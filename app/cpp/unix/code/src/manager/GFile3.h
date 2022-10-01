@@ -28,6 +28,7 @@ public:
 
     bool onModule();
     bool onSaveFile();
+    bool insertFile();
     bool saveFile();
     bool downloadFile();
 
