@@ -79,8 +79,13 @@ GMySQL2& GMySQL2::execQuery(const GString& _sql) {
 GMySQL2& GMySQL2::execQuery(const GString& _sql, bool _isTestEnv) {
     GLOGT(eGMSG, "%s", _sql.c_str());
     openDatabase(_isTestEnv);
-    m_stmt.reset(m_con->createStatement());
-    m_stmt->execute(_sql.c_str());
+    try {
+        m_stmt.reset(m_con->createStatement());
+        m_stmt->execute(_sql.c_str());
+    }
+    catch (sql::SQLException &e) {
+        GERROR_ADD(eGERR, "%s : %s : %s", e.what(), e.getErrorCode(), e.getSQLStateCStr());
+   }
     return *this;
 }
 //===============================================
