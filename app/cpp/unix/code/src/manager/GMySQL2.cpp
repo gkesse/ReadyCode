@@ -83,8 +83,8 @@ GMySQL2& GMySQL2::execQuery(const GString& _sql, bool _isTestEnv) {
         m_stmt.reset(m_con->createStatement());
         m_stmt->execute(_sql.c_str());
     }
-    catch (sql::SQLException &e) {
-        GERROR_ADD(eGERR, "%s : %s : %s", e.what(), e.getErrorCode(), e.getSQLStateCStr());
+    catch (...) {
+        GERROR_ADD(eGERR, "Error lors de l'exécution de la requête SQL");
    }
     return *this;
 }
