@@ -4,11 +4,12 @@
 //===============================================
 #include <QMainWindow>
 //===============================================
+class GConnection;
+class GFile3;
+//===============================================
 namespace Ui {
     class GWindow;
 }
-//===============================================
-class GConnection;
 //===============================================
 class GWindow : public QMainWindow {
     Q_OBJECT
@@ -49,6 +50,7 @@ public slots:
 
 private:
     Ui::GWindow *ui;
+    GFile3* m_file;
 };
 //==============================================
 #endif

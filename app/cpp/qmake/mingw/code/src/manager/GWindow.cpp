@@ -12,10 +12,11 @@ GWindow::GWindow(QWidget* _parent)
 : QMainWindow(_parent)
 , ui(new Ui::GWindow){
     ui->setupUi(this);
+    m_file = new GFile3;
 }
 //===============================================
 GWindow::~GWindow() {
-
+    delete m_file;
 }
 //===============================================
 // connection
@@ -115,12 +116,12 @@ void GWindow::on_actionDeleteGroup_triggered() {
 void GWindow::on_actionSaveFile_triggered() {
     GLOGT(eGFUN, "");
     GString lFullname(GPATH("pdf", "mon_fichier_send.pdf"));
-    GFile3 lFile(lFullname);
-    GString lDataBin(lFile.getContentBin());
+    m_file->setFullname(lFullname);
+    GString lDataBin(m_file->getContentBin());
     GString lData64(GBase64(lDataBin).encodeData());
-    lFile.setFilename(lFullname.getFilename());
-    lFile.setContent(lData64);
-    lFile.saveFile();
+    m_file->setFilename(lFullname.getFilename());
+    m_file->setContent(lData64);
+    m_file->saveFile();
     GERROR_SHOWG2(eGERR);
     GLOG_SHOWG2(eGLOG);
 }

@@ -153,6 +153,7 @@ int GXml2::countNode(const GString& _path) {
 //===============================================
 GString GXml2::toString() const {
     if(!m_doc) return "";
+    if(!m_node) return "";
     xmlChar* lBuffer = NULL;
     int lSize;
     xmlDocDumpFormatMemoryEnc(m_doc, &lBuffer, &lSize, "UTF-8", 4);
