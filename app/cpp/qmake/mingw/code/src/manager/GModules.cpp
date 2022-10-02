@@ -25,7 +25,6 @@ GString GModules::serialize(const GString& _code) const {
 }
 //===============================================
 bool GModules::deserialize(const GString& _data, const GString& _code) {
-    GModule2::deserialize(_data);
     GCode2 lDom;
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
