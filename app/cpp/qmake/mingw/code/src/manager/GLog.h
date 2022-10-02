@@ -1,6 +1,6 @@
 //===============================================
-#ifndef _GLog2_
-#define _GLog2_
+#ifndef _GLog_
+#define _GLog_
 //===============================================
 #include "GObject.h"
 //===============================================
@@ -14,21 +14,21 @@
 #define eGFAT   7, __FILE__, __LINE__, __PRETTY_FUNCTION__
 #define eGLOG   8, __FILE__, __LINE__, __PRETTY_FUNCTION__
 //===============================================
-#define GLOGI2              GLog2::Instance()
-#define GERROR_ADD(x, y)    GLOGI2->addError(#x, x, y)
-#define GERROR_LOAD(x, y)   GLOGI2->loadErrors(#x, x, y)
-#define GLOG_LOAD2(x, y)    GLOGI2->loadLogs(#x, x, y)
-#define GERROR_SHOW2(x)     GLOGI2->showErrors(#x, x)
-#define GLOG_SHOW2(x)       GLOGI2->showLogs(#x, x)
-#define GERROR_SHOWG2(x)    GLOGI2->showErrors(#x, x, this)
-#define GLOG_SHOWG2(x)      GLOGI2->showLogs(#x, x, this)
-#define GLOGT(x, ...)       GLOGI2->traceLog(#x, x, GFORMAT(__VA_ARGS__))
-#define GLOGW(x, y)         GLOGI2->writeLog(#x, x, y)
-#define GSTRC               GLOGI2->toString
+#define GLOGI               GLog::Instance()
+#define GERROR_ADD(x, y)    GLOGI->addError(#x, x, y)
+#define GERROR_LOAD(x, y)   GLOGI->loadErrors(#x, x, y)
+#define GLOG_LOAD(x, y)     GLOGI->loadLogs(#x, x, y)
+#define GERROR_SHOW(x)      GLOGI->showErrors(#x, x)
+#define GLOG_SHOW(x)        GLOGI->showLogs(#x, x)
+#define GERROR_SHOWG(x)     GLOGI->showErrors(#x, x, this)
+#define GLOG_SHOWG(x)       GLOGI->showLogs(#x, x, this)
+#define GLOGT(x, ...)       GLOGI->traceLog(#x, x, GFORMAT(__VA_ARGS__))
+#define GLOGW(x, y)         GLOGI->writeLog(#x, x, y)
+#define GSTRC               GLOGI->toString
 //===============================================
-#define GERROR_KEY(x, y)    GLOGI2->onErrorKey(#x, x, y)
-#define GERROR_CAT(x, y)    GLOGI2->onErrorCategory(#x, x, y)
-#define GERROR_TYPE(x, y)   GLOGI2->onErrorKey(#x, x, y)
+#define GERROR_KEY(x, y)    GLOGI->onErrorKey(#x, x, y)
+#define GERROR_CAT(x, y)    GLOGI->onErrorCategory(#x, x, y)
+#define GERROR_TYPE(x, y)   GLOGI->onErrorKey(#x, x, y)
 //===============================================
 class GLog : public GObject {
 public:

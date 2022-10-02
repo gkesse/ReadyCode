@@ -62,7 +62,7 @@ GString GClient::callServer(const GString& _module, const GString& _method, cons
     setRequest(lData);
     GLOGT(eGOFF, lData.c_str());
     GSocket2::callServer();
-    GLOGI2->deserialize(m_response);
+    GLOGI->deserialize(m_response);
     GLOGT(eGOFF, m_response.c_str());
     return m_response;
 }

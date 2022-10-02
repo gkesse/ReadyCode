@@ -1,6 +1,6 @@
 //===============================================
-#ifndef _GObject2_
-#define _GObject2_
+#ifndef _GObject_
+#define _GObject_
 //===============================================
 #include "GInclude.h"
 #include "GString.h"
