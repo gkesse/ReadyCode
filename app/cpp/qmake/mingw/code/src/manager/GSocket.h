@@ -1,13 +1,13 @@
 //===============================================
-#ifndef _GSocket2_
-#define _GSocket2_
+#ifndef _GSocket_
+#define _GSocket_
 //===============================================
 #include "GObject.h"
 //===============================================
-class GSocket2 : public GObject {
+class GSocket : public GObject {
 public:
-    GSocket2();
-    virtual ~GSocket2();
+    GSocket();
+    virtual ~GSocket();
     void setMajor(int _major);
     void setMinor(int _minor);
     void setDomain(int _domain);

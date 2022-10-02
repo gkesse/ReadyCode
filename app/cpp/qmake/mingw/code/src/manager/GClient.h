@@ -2,12 +2,12 @@
 #ifndef _GClient_
 #define _GClient_
 //===============================================
-#include "GSocket2.h"
+#include "GSocket.h"
 //===============================================
 #define GCLIENTI        GClient::Instance()
 #define GCALL_SERVER    GCLIENTI->callServer
 //===============================================
-class GClient : public GSocket2 {
+class GClient : public GSocket {
 public:
     GClient();
     ~GClient();

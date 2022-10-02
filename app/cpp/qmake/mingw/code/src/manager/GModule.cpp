@@ -1,7 +1,7 @@
 //===============================================
 #include "GModule.h"
 #include "GLog.h"
-#include "GSocket2.h"
+#include "GSocket.h"
 #include "GCode.h"
 //===============================================
 GModule::GModule()
@@ -33,7 +33,7 @@ bool GModule::deserialize(const GString& _data, const GString& _code) {
     return true;
 }
 //===============================================
-void GModule::setClient(GSocket2* _client) {
+void GModule::setClient(GSocket* _client) {
     m_server = _client;
 }
 //===============================================

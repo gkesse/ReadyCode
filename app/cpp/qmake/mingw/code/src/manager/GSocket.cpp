@@ -1,10 +1,10 @@
 //===============================================
 #include "GLog.h"
-#include "GSocket2.h"
+#include "GSocket.h"
 #include "GPath.h"
 #include "GCode.h"
 //===============================================
-GSocket2::GSocket2()
+GSocket::GSocket()
 : GObject() {
     m_major = 0;
     m_minor = 0;
@@ -16,41 +16,41 @@ GSocket2::GSocket2()
     m_socket = 0;
 }
 //===============================================
-GSocket2::~GSocket2() {
+GSocket::~GSocket() {
 
 }
-void GSocket2::setMajor(int _major) {
+void GSocket::setMajor(int _major) {
     m_major = _major;
 }
 //===============================================
-void GSocket2::setMinor(int _minor) {
+void GSocket::setMinor(int _minor) {
     m_minor = _minor;
 }
 //===============================================
-void GSocket2::setDomain(int _domain) {
+void GSocket::setDomain(int _domain) {
     m_domain = _domain;
 }
 //===============================================
-void GSocket2::setType(int _type) {
+void GSocket::setType(int _type) {
     m_type = _type;
 }
 //===============================================
-void GSocket2::setProtocol(int _protocol) {
+void GSocket::setProtocol(int _protocol) {
     m_protocol = _protocol;
 }
-void GSocket2::setFamily(int _family) {
+void GSocket::setFamily(int _family) {
     m_family = _family;
 }
 //===============================================
-void GSocket2::setPort(int _port) {
+void GSocket::setPort(int _port) {
     m_port = _port;
 }
 //===============================================
-void GSocket2::setHostname(const GString& _hostname) {
+void GSocket::setHostname(const GString& _hostname) {
     m_hostname = _hostname;
 }
 //===============================================
-bool GSocket2::callServer() {
+bool GSocket::callServer() {
     WSADATA lWsaData;
     WSAStartup(MAKEWORD(m_major, m_minor), &lWsaData);
     m_socket = socket(m_domain, m_type, m_protocol);
@@ -82,7 +82,7 @@ bool GSocket2::callServer() {
     return true;
 }
 //===============================================
-bool GSocket2::sendData() {
+bool GSocket::sendData() {
     int lIndex = 0;
     int lSize = m_dataOut.size();
     const char* lBuffer = m_dataOut.c_str();
@@ -97,12 +97,12 @@ bool GSocket2::sendData() {
     return true;
 }
 //===============================================
-int GSocket2::readData(char* _data, int _size) {
+int GSocket::readData(char* _data, int _size) {
     int lBytes = recv(m_socket, _data, _size, 0);
     return lBytes;
 }
 //===============================================
-bool GSocket2::readData(int _diffSize) {
+bool GSocket::readData(int _diffSize) {
     if(_diffSize < 0) return false;
     if(_diffSize == 0) return true;
     char lBuffer[BUFFER_SIZE + 1];
@@ -118,7 +118,7 @@ bool GSocket2::readData(int _diffSize) {
     return true;
 }
 //===============================================
-bool GSocket2::readMethod() {
+bool GSocket::readMethod() {
     char lBuffer[METHOD_SIZE + 1];
     int lBytes = readData(lBuffer, METHOD_SIZE);
     if(lBytes <= 0) return false;
@@ -127,6 +127,6 @@ bool GSocket2::readMethod() {
     return true;
 }
 //===============================================
-bool GSocket2::createData() {return false;}
-bool GSocket2::onCallServer() {return false;}
+bool GSocket::createData() {return false;}
+bool GSocket::onCallServer() {return false;}
 //===============================================

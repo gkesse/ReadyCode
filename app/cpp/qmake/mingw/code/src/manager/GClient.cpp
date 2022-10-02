@@ -6,7 +6,7 @@
 GClient* GClient::m_instance = 0;
 //===============================================
 GClient::GClient()
-: GSocket2() {
+: GSocket() {
     setMethod(API_METHOD);
     setApiKey(API_KEY);
     setUsername(API_USERNAME);
@@ -61,7 +61,7 @@ GString GClient::callServer(const GString& _module, const GString& _method, cons
     GString lData = lDom.toString();
     setRequest(lData);
     GLOGT(eGOFF, lData.c_str());
-    GSocket2::callServer();
+    GSocket::callServer();
     GLOGI->deserialize(m_response);
     GLOGT(eGOFF, m_response.c_str());
     return m_response;

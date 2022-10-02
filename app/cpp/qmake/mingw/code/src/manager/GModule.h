@@ -4,7 +4,7 @@
 //===============================================
 #include "GObject.h"
 //===============================================
-class GSocket2;
+class GSocket;
 //===============================================
 class GModule : public GObject {
 public:
@@ -16,14 +16,14 @@ public:
     GString serialize(const GString& _code = "request") const;
     bool deserialize(const GString& _data, const GString& _code = "request");
 
-    void setClient(GSocket2* _client);
+    void setClient(GSocket* _client);
     void setModule(const GString& _module);
     void setMethod(const GString& _method);
 
 protected:
     GString m_module;
     GString m_method;
-    GSocket2* m_server;
+    GSocket* m_server;
 };
 //==============================================
 #endif
