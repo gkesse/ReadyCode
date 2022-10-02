@@ -82,7 +82,7 @@ bool GModule2::onModule() {
     else if(m_module == "file") {
         onFile();
     }
-    else if(m_module == "modules") {
+    else if(m_module == "module") {
         onModules();
     }
     else {
