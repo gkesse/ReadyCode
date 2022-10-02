@@ -38,7 +38,7 @@ void GModules::setName(const GString& _name) {
 //===============================================
 void GModules::createModule() {
     GString lData = serialize();
-    lData = GCALL_SERVER("modules", "create_module", lData);
+    lData = GCALL_SERVER("module", "create_module", lData);
     deserialize(lData);
 }
 //===============================================
