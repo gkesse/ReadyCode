@@ -1,5 +1,5 @@
 //===============================================
-#include <GLog.h>
+#include "GLog.h"
 #include "GPadMdi.h"
 #include "GTitleBarApp.h"
 #include "GLoginUi.h"

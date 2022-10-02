@@ -1,5 +1,5 @@
 //===============================================
-#include <GLog.h>
+#include "GLog.h"
 #include "GShell2.h"
 #include "GEnv2.h"
 #include "GFile2.h"

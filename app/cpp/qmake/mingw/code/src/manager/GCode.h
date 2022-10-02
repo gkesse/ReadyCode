@@ -2,9 +2,9 @@
 #ifndef _GCode_
 #define _GCode_
 //===============================================
-#include "GXml2.h"
+#include "GXml.h"
 //===============================================
-class GCode : public GXml2 {
+class GCode : public GXml {
 public:
     GCode();
     ~GCode();

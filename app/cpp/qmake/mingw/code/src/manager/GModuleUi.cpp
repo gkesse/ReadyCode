@@ -1,5 +1,5 @@
 //===============================================
-#include <GLog.h>
+#include "GLog.h"
 #include "GModuleUi.h"
 #include "ui_GModuleUi.h"
 #include "GModules.h"

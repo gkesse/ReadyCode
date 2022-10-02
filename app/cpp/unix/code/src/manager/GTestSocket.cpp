@@ -99,7 +99,7 @@ void GTestSocket::runAnalyze(int _argc, char** _argv) {
 }
 //===============================================
 void GTestSocket::runXml(int _argc, char** _argv) {
-    GXml2 lXml;
+    GXml lXml;
     lXml.createDoc();
     lXml.createNodePath("rdv/datas");
     lXml.createNodePath("rdv/datas");

@@ -1,5 +1,5 @@
 //===============================================
-#include <GLog.h>
+#include "GLog.h"
 #include "GWindowUi.h"
 #include "ui_GWindowUi.h"
 #include "GPath.h"
