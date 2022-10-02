@@ -2,9 +2,9 @@
 #ifndef _GDate2_
 #define _GDate2_
 //===============================================
-#include "GObject2.h"
+#include "GObject.h"
 //===============================================
-class GDate2 : public GObject2 {
+class GDate2 : public GObject {
 public:
     GDate2();
     ~GDate2();

@@ -2,9 +2,9 @@
 #ifndef _GBase64_
 #define _GBase64_
 //===============================================
-#include "GObject2.h"
+#include "GObject.h"
 //===============================================
-class GBase64 : public GObject2 {
+class GBase64 : public GObject {
 public:
     GBase64();
     GBase64(const GString& _data);

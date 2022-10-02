@@ -1,6 +1,6 @@
 //===============================================
+#include <GLog.h>
 #include "GClient.h"
-#include "GLog2.h"
 #include "GCode2.h"
 //===============================================
 GClient* GClient::m_instance = 0;

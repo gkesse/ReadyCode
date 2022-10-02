@@ -3,7 +3,7 @@
 #include "GLog.h"
 //===============================================
 GXml2::GXml2()
-: GObject2() {
+: GObject() {
     m_doc = 0;
     m_xpath = 0;
     m_xpathObj = 0;

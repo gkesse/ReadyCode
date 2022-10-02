@@ -5,7 +5,7 @@
 #include "GCode2.h"
 //===============================================
 GModule2::GModule2()
-: GObject2() {
+: GObject() {
     m_server = 0;
 }
 //===============================================
@@ -13,7 +13,7 @@ GModule2::~GModule2() {
 
 }
 //===============================================
-GObject2* GModule2::clone() const {
+GObject* GModule2::clone() const {
     return new GModule2;
 }
 //===============================================

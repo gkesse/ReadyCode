@@ -1,11 +1,11 @@
 //===============================================
+#include <GLog.h>
 #include "GSocket2.h"
-#include "GLog2.h"
 #include "GPath.h"
 #include "GCode2.h"
 //===============================================
 GSocket2::GSocket2()
-: GObject2() {
+: GObject() {
     m_major = 0;
     m_minor = 0;
     m_domain = 0;

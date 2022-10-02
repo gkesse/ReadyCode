@@ -2,12 +2,12 @@
 #ifndef _GStyle2_
 #define _GStyle2_
 //===============================================
-#include "GObject2.h"
+#include "GObject.h"
 //===============================================
 #define GSTYLEI         GStyle2::Instance()
 #define GSTYLE_LOAD     GSTYLEI->loadStyle
 //===============================================
-class GStyle2 : public GObject2 {
+class GStyle2 : public GObject {
 public:
     GStyle2();
     ~GStyle2();

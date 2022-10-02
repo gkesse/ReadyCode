@@ -1,6 +1,6 @@
 //===============================================
-#ifndef _GLog_
-#define _GLog_
+#ifndef _GLog2_
+#define _GLog2_
 //===============================================
 #include "GObject.h"
 //===============================================
@@ -14,26 +14,30 @@
 #define eGFAT   7, __FILE__, __LINE__, __PRETTY_FUNCTION__
 #define eGLOG   8, __FILE__, __LINE__, __PRETTY_FUNCTION__
 //===============================================
-#define GLOGI               GLog::Instance()
-#define GERROR_ADD(x, y)    GLOGI->addError(#x, x, y)
-#define GERROR_LOAD(x, y)   GLOGI->loadErrors(#x, x, y)
-#define GLOG_LOAD(x, y)     GLOGI->loadLogs(#x, x, y)
-#define GERROR_SHOW(x)      GLOGI->showErrors(#x, x)
-#define GLOG_SHOW(x)        GLOGI->showLogs(#x, x)
-#define GERROR_SHOWG(x)     GLOGI->showErrors(#x, x, this)
-#define GLOG_SHOWG(x)       GLOGI->showLogs(#x, x, this)
-#define GLOGT(x, y)         GLOGI->traceLog(#x, x, y)
-#define GLOGW(x, y)         GLOGI->writeLog(#x, x, y)
-#define GSTRC               GLOGI->toString
+#define GLOGI2              GLog2::Instance()
+#define GERROR_ADD(x, y)    GLOGI2->addError(#x, x, y)
+#define GERROR_LOAD(x, y)   GLOGI2->loadErrors(#x, x, y)
+#define GLOG_LOAD2(x, y)    GLOGI2->loadLogs(#x, x, y)
+#define GERROR_SHOW2(x)     GLOGI2->showErrors(#x, x)
+#define GLOG_SHOW2(x)       GLOGI2->showLogs(#x, x)
+#define GERROR_SHOWG2(x)    GLOGI2->showErrors(#x, x, this)
+#define GLOG_SHOWG2(x)      GLOGI2->showLogs(#x, x, this)
+#define GLOGT(x, ...)       GLOGI2->traceLog(#x, x, GFORMAT(__VA_ARGS__))
+#define GLOGW(x, y)         GLOGI2->writeLog(#x, x, y)
+#define GSTRC               GLOGI2->toString
+//===============================================
+#define GERROR_KEY(x, y)    GLOGI2->onErrorKey(#x, x, y)
+#define GERROR_CAT(x, y)    GLOGI2->onErrorCategory(#x, x, y)
+#define GERROR_TYPE(x, y)   GLOGI2->onErrorKey(#x, x, y)
 //===============================================
 class GLog : public GObject {
 public:
     GLog();
     ~GLog();
     static GLog* Instance();
-    GObject* clone();
-    QString serialize(const QString& _code = "logs") const;
-    void deserialize(const QString& _data, const QString& _code = "logs");
+    GObject* clone() const;
+    GString serialize(const GString& _code = "logs") const;
+    bool deserialize(const GString& _data, const GString& _code = "logs");
     //
     bool isDebug() const;
     bool isDebug(bool _isTestEnv) const;
@@ -52,39 +56,46 @@ public:
     void catLogFile();
     void tailLogFile(bool _isTestEnv);
     //
-    void addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _error);
+    void addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _error);
     void showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func);
     void showLogs(const char* _name, int _level, const char* _file, int _line, const char* _func);
     void showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, QWidget* _parent);
     void showLogs(const char* _name, int _level, const char* _file, int _line, const char* _func, QWidget* _parent);
     void showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog);
     void showLogs(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog);
-    void loadErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _data);
-    void loadLogs(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _data);
+    void loadErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _data);
+    void loadLogs(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _data);
     //
-    void writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _log);
-    void writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const QString& _log);
-    void traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _data = "");
-    void traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const QString& _data = "");
+    void writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _log);
+    void writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const GString& _log);
+    void traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _data = "");
+    void traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const GString& _data = "");
     //
     bool hasErrors() const;
     bool hasLogs() const;
     void clearErrors();
     void clearLogs();
-    //
-    QString toStringError();
-    QString toStringLog();
-    QString toString(bool _data) const;
-    QString toString(const QVector<QString>& _data) const;
-    QString toString(const QVector<QVector<QString>>& _data) const;
+
+    void onErrorKey(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _key);
+    void onErrorCategory(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _category);
+    void onErrorType(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _category, const GString& _type);
+
+    GString toStringError();
+    GString toStringLog();
+    GString toString(bool _data) const;
+    GString toString(const std::vector<GString>& _data) const;
+    GString toString(const std::vector<std::vector<GString>>& _data) const;
+
+    void enableLogs();
+    void disableLogs();
 
 private:
     static GLog* m_instance;
     //
-    QString m_type;
-    QString m_side;
-    QString m_msg;
-    QVector<GObject*> m_map;
+    GString m_type;
+    GString m_side;
+    GString m_msg;
+    std::vector<GObject*> m_map;
     //
     FILE* m_file;
     bool m_isConnectionError;

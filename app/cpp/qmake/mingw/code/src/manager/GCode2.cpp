@@ -77,7 +77,7 @@ GString GCode2::getData(const GString& _code, int _index) {
     return getValue();
 }
 //===============================================
-bool GCode2::getData(const GString& _code, std::vector<GObject2*>& _map, GObject2* _obj) {
+bool GCode2::getData(const GString& _code, std::vector<GObject*>& _map, GObject* _obj) {
     int lCount = countMap(_code);
     for(int i = 0; i < lCount; i++) {
         getMap(_code, i);
@@ -88,7 +88,7 @@ bool GCode2::getData(const GString& _code, std::vector<GObject2*>& _map, GObject
         lDom.createCode();
         lDom.loadNode(lData);
         lData = lDom.toString();
-        GObject2* lObj = _obj->clone();
+        GObject* lObj = _obj->clone();
         lObj->deserialize(lData, _code);
         _map.push_back(lObj);
     }
@@ -107,7 +107,7 @@ bool GCode2::addData(const GString& _code, const GString& _key, const GString& _
     return true;
 }
 //===============================================
-bool GCode2::addData(const GString& _code, const std::vector<GObject2*>& _map) {
+bool GCode2::addData(const GString& _code, const std::vector<GObject*>& _map) {
     if(_map.size() == 0) return false;
     createCode(_code);
     if(!getCode(_code, "map")) {
@@ -115,7 +115,7 @@ bool GCode2::addData(const GString& _code, const std::vector<GObject2*>& _map) {
         next();
     }
     for(int i = 0; i < (int)_map.size(); i++) {
-        GObject2* lObj = _map.at(i);
+        GObject* lObj = _map.at(i);
         GString lData = lObj->serialize(_code);
         GCode2 lDom;
         lDom.loadXml(lData);

@@ -9,14 +9,19 @@ public:
     GModules();
     ~GModules();
 
-    GObject2* clone() const;
+    GObject* clone() const;
 
     GString serialize(const GString& _code = "module") const;
     bool deserialize(const GString& _data, const GString& _code = "module");
 
+    void assign(const GModules& _modules);
+
     void setName(const GString& _name);
+    GString getName() const;
 
     void createModule();
+    void searchModule();
+    void deleteModule();
 
 protected:
     int m_id;

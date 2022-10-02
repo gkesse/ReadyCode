@@ -2,11 +2,11 @@
 #ifndef _GConnection_
 #define _GConnection_
 //===============================================
-#include "GObject2.h"
+#include "GObject.h"
 //===============================================
 #define GCONNECT    GConnection::Instance()
 //===============================================
-class GConnection : public GObject2 {
+class GConnection : public GObject {
 public:
     GConnection();
     ~GConnection();

@@ -11,7 +11,6 @@
 #include "GLog.h"
 #include "GFont.h"
 #include "GStyle.h"
-#include "GMessageBox.h"
 #include "GPadMdi.h"
 //===============================================
 GTest* GTest::m_test = 0;

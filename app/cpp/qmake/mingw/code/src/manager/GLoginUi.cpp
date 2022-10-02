@@ -1,10 +1,10 @@
 //===============================================
+#include <GLog.h>
 #include "GLoginUi.h"
 #include "GTitleBarDialog.h"
 #include "GAccountUi.h"
 #include "GPath.h"
 #include "GPicto.h"
-#include "GLog2.h"
 #include "GConnection.h"
 //===============================================
 GLoginUi::GLoginUi(GConnection* _connection, QWidget* _parent)

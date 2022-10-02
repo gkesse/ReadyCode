@@ -2,12 +2,12 @@
 #ifndef _GFont2_
 #define _GFont2_
 //===============================================
-#include "GObject2.h"
+#include "GObject.h"
 //===============================================
 #define GFONTI      GFont2::Instance()
 #define GFONT_LOAD  GFONTI->loadFont
 //===============================================
-class GFont2 : public GObject2 {
+class GFont2 : public GObject {
 public:
     GFont2();
     ~GFont2();

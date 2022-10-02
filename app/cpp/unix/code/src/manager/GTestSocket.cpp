@@ -120,7 +120,7 @@ void GTestSocket::runCode(int _argc, char** _argv) {
 }
 //===============================================
 void GTestSocket::runMap(int _argc, char** _argv) {
-    std::vector<GObject2*> lMap;
+    std::vector<GObject*> lMap;
     for(int i = 0; i < 5; i++) {
         GModule2* lModule = new GModule2;
         lModule->setModule(GFORMAT("module[%d]", i + 1));

@@ -1,30 +1,32 @@
 //===============================================
-#include "GWindow.h"
-#include "ui_GWindow.h"
-#include "GLog2.h"
-#include "GPath2.h"
+#include <GLog.h>
+#include "GWindowUi.h"
+#include "ui_GWindowUi.h"
+#include "GPath.h"
 #include "GFile3.h"
 #include "GBase64.h"
 #include "GOption.h"
 #include "GConnection.h"
 #include "GModules.h"
+#include "GModuleUi.h"
 //===============================================
-GWindow::GWindow(QWidget* _parent)
+GWindowUi::GWindowUi(QWidget* _parent)
 : QMainWindow(_parent)
-, ui(new Ui::GWindow){
+, ui(new Ui::GWindowUi){
     ui->setupUi(this);
     m_file = new GFile3;
     m_modules = new GModules;
+    setWindowIcon(QIcon(GPATH("img", "readydev.png")));
 }
 //===============================================
-GWindow::~GWindow() {
+GWindowUi::~GWindowUi() {
     delete m_file;
     delete m_modules;
 }
 //===============================================
 // connection
 //===============================================
-void GWindow::on_actionStartConnection_triggered() {
+void GWindowUi::on_actionStartConnection_triggered() {
     GLOGT(eGFUN, "");
     if(!GCONNECT->isConnect()) {
         GCONNECT->setPseudo("admin");
@@ -38,7 +40,7 @@ void GWindow::on_actionStartConnection_triggered() {
     GLOG_SHOWG2(eGLOG);
 }
 //===============================================
-void GWindow::on_actionStartDisconnection_triggered() {
+void GWindowUi::on_actionStartDisconnection_triggered() {
     GLOGT(eGFUN, "");
     if(GCONNECT->isConnect()) {
         GCONNECT->runDisconnection();
@@ -52,37 +54,37 @@ void GWindow::on_actionStartDisconnection_triggered() {
 //===============================================
 // account
 //===============================================
-void GWindow::on_actionCreateAccount_triggered() {
+void GWindowUi::on_actionCreateAccount_triggered() {
     GLOGT(eGFUN, "");
     GERROR_SHOWG2(eGERR);
     GLOG_SHOWG2(eGLOG);
 }
 //===============================================
-void GWindow::on_actionSearchAccount_triggered() {
+void GWindowUi::on_actionSearchAccount_triggered() {
     GLOGT(eGFUN, "");
     GERROR_SHOWG2(eGERR);
     GLOG_SHOWG2(eGLOG);
 }
 //===============================================
-void GWindow::on_actionEnableAccount_triggered() {
+void GWindowUi::on_actionEnableAccount_triggered() {
     GLOGT(eGFUN, "");
     GERROR_SHOWG2(eGERR);
     GLOG_SHOWG2(eGLOG);
 }
 //===============================================
-void GWindow::on_actionDisableAccount_triggered() {
+void GWindowUi::on_actionDisableAccount_triggered() {
     GLOGT(eGFUN, "");
     GERROR_SHOWG2(eGERR);
     GLOG_SHOWG2(eGLOG);
 }
 //===============================================
-void GWindow::on_actionUpdateAccount_triggered() {
+void GWindowUi::on_actionUpdateAccount_triggered() {
     GLOGT(eGFUN, "");
     GERROR_SHOWG2(eGERR);
     GLOG_SHOWG2(eGLOG);
 }
 //===============================================
-void GWindow::on_actionDeleteAccount_triggered() {
+void GWindowUi::on_actionDeleteAccount_triggered() {
     GLOGT(eGFUN, "");
     GERROR_SHOWG2(eGERR);
     GLOG_SHOWG2(eGLOG);
@@ -90,25 +92,25 @@ void GWindow::on_actionDeleteAccount_triggered() {
 //===============================================
 // group
 //===============================================
-void GWindow::on_actionCreateGroup_triggered() {
+void GWindowUi::on_actionCreateGroup_triggered() {
     GLOGT(eGFUN, "");
     GERROR_SHOWG2(eGERR);
     GLOG_SHOWG2(eGLOG);
 }
 //===============================================
-void GWindow::on_actionSearchGroup_triggered() {
+void GWindowUi::on_actionSearchGroup_triggered() {
     GLOGT(eGFUN, "");
     GERROR_SHOWG2(eGERR);
     GLOG_SHOWG2(eGLOG);
 }
 //===============================================
-void GWindow::on_actionUpdateGroup_triggered() {
+void GWindowUi::on_actionUpdateGroup_triggered() {
     GLOGT(eGFUN, "");
     GERROR_SHOWG2(eGERR);
     GLOG_SHOWG2(eGLOG);
 }
 //===============================================
-void GWindow::on_actionDeleteGroup_triggered() {
+void GWindowUi::on_actionDeleteGroup_triggered() {
     GLOGT(eGFUN, "");
     GERROR_SHOWG2(eGERR);
     GLOG_SHOWG2(eGLOG);
@@ -116,7 +118,7 @@ void GWindow::on_actionDeleteGroup_triggered() {
 //===============================================
 // file
 //===============================================
-void GWindow::on_actionSaveFile_triggered() {
+void GWindowUi::on_actionSaveFile_triggered() {
     GLOGT(eGFUN, "");
     GString lFullname(GPATH("pdf", "mon_fichier_send.pdf"));
     m_file->setFullname(lFullname);
@@ -129,13 +131,13 @@ void GWindow::on_actionSaveFile_triggered() {
     GLOG_SHOWG2(eGLOG);
 }
 //===============================================
-void GWindow::on_actionSearchFile_triggered() {
+void GWindowUi::on_actionSearchFile_triggered() {
     GLOGT(eGFUN, "");
     GERROR_SHOWG2(eGERR);
     GLOG_SHOWG2(eGLOG);
 }
 //===============================================
-void GWindow::on_actionDownloadFile_triggered() {
+void GWindowUi::on_actionDownloadFile_triggered() {
     GLOGT(eGFUN, "");
     GString lFullname(GPATH("pdf", "mon_fichier_recv.pdf"));
     GFile3 lFile(lFullname);
@@ -148,7 +150,7 @@ void GWindow::on_actionDownloadFile_triggered() {
     GLOG_SHOWG2(eGLOG);
 }
 //===============================================
-void GWindow::on_actionDeleteFile_triggered() {
+void GWindowUi::on_actionDeleteFile_triggered() {
     GLOGT(eGFUN, "");
     GERROR_SHOWG2(eGERR);
     GLOG_SHOWG2(eGLOG);
@@ -156,7 +158,16 @@ void GWindow::on_actionDeleteFile_triggered() {
 //===============================================
 // module
 //===============================================
-void GWindow::on_actionCreateModule_triggered() {
+void GWindowUi::on_actionManageModule_triggered() {
+    GLOGT(eGFUN, "");
+    GModuleUi* lModuleUi = new GModuleUi;
+    ui->mdiArea->addSubWindow(lModuleUi);
+    lModuleUi->show();
+    GERROR_SHOWG2(eGERR);
+    GLOG_SHOWG2(eGLOG);
+}
+//===============================================
+void GWindowUi::on_actionCreateModule_triggered() {
     GLOGT(eGFUN, "");
     m_modules->setName("mysql");
     m_modules->createModule();
@@ -164,19 +175,19 @@ void GWindow::on_actionCreateModule_triggered() {
     GLOG_SHOWG2(eGLOG);
 }
 //===============================================
-void GWindow::on_actionSearchModule_triggered() {
+void GWindowUi::on_actionSearchModule_triggered() {
     GLOGT(eGFUN, "");
     GERROR_SHOWG2(eGERR);
     GLOG_SHOWG2(eGLOG);
 }
 //===============================================
-void GWindow::on_actionUpdateModule_triggered() {
+void GWindowUi::on_actionUpdateModule_triggered() {
     GLOGT(eGFUN, "");
     GERROR_SHOWG2(eGERR);
     GLOG_SHOWG2(eGLOG);
 }
 //===============================================
-void GWindow::on_actionDeleteModule_triggered() {
+void GWindowUi::on_actionDeleteModule_triggered() {
     GLOGT(eGFUN, "");
     GERROR_SHOWG2(eGERR);
     GLOG_SHOWG2(eGLOG);
@@ -184,7 +195,7 @@ void GWindow::on_actionDeleteModule_triggered() {
 //===============================================
 // options
 //===============================================
-void GWindow::on_actionCreateOption_triggered() {
+void GWindowUi::on_actionCreateOption_triggered() {
     GOption lOption;
     lOption.setName("enable_logs");
     lOption.createOption();
@@ -192,14 +203,14 @@ void GWindow::on_actionCreateOption_triggered() {
     GLOG_SHOWG2(eGLOG);
 }
 //===============================================
-void GWindow::on_actionSearchOption_triggered() {
+void GWindowUi::on_actionSearchOption_triggered() {
     GOption lOption;
     lOption.setName("enable_log");
     GERROR_SHOWG2(eGERR);
     GLOG_SHOWG2(eGLOG);
 }
 //===============================================
-void GWindow::on_actionEnableOption_triggered() {
+void GWindowUi::on_actionEnableOption_triggered() {
     GOption lOption;
     lOption.setName("enable_logs");
     lOption.enableOption();
@@ -207,7 +218,7 @@ void GWindow::on_actionEnableOption_triggered() {
     GLOG_SHOWG2(eGLOG);
 }
 //===============================================
-void GWindow::on_actionDisableOption_triggered() {
+void GWindowUi::on_actionDisableOption_triggered() {
     GOption lOption;
     lOption.setName("enable_logs");
     lOption.disableOption();
@@ -215,7 +226,7 @@ void GWindow::on_actionDisableOption_triggered() {
     GLOG_SHOWG2(eGLOG);
 }
 //===============================================
-void GWindow::on_actionReadOption_triggered() {
+void GWindowUi::on_actionReadOption_triggered() {
     GOption lOption;
     lOption.setName("enable_logs");
     lOption.readOption();
@@ -223,7 +234,7 @@ void GWindow::on_actionReadOption_triggered() {
     GLOG_SHOWG2(eGLOG);
 }
 //===============================================
-void GWindow::on_actionUpdateOption_triggered() {
+void GWindowUi::on_actionUpdateOption_triggered() {
     GOption lOption;
     lOption.setName("enable_logs");
     lOption.setState(true);
@@ -232,7 +243,7 @@ void GWindow::on_actionUpdateOption_triggered() {
     GLOG_SHOWG2(eGLOG);
 }
 //===============================================
-void GWindow::on_actionDeleteOption_triggered() {
+void GWindowUi::on_actionDeleteOption_triggered() {
     GOption lOption;
     lOption.setName("enable_logs");
     lOption.deleteOption();

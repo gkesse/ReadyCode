@@ -3,10 +3,9 @@
 #include "GFont2.h"
 #include "GStyle2.h"
 #include "GTest.h"
-#include "GPadUi.h"
 #include "GPadMdi.h"
 #include "GLog.h"
-#include "GWindow.h"
+#include "GWindowUi.h"
 //===============================================
 GProcess::GProcess()
 : GObject() {
@@ -29,9 +28,6 @@ void GProcess::run(int _argc, char** _argv) {
     //===============================================
     // pad
     //===============================================
-    else if(lKey == "pad") {
-        runPad(_argc, _argv);
-    }
     else if(lKey == "pad/mdi") {
         runPadMdi(_argc, _argv);
     }
@@ -55,13 +51,6 @@ void GProcess::runTest(int _argc, char** _argv) {
     lTest.run(_argc, _argv);
 }
 //===============================================
-void GProcess::runPad(int _argc, char** _argv) {
-    QApplication lApp(_argc, _argv);
-    GPadUi* lPad = new GPadUi;
-    lPad->show();
-    lApp.exec();
-}
-//===============================================
 void GProcess::runPadMdi(int _argc, char** _argv) {
     QApplication lApp(_argc, _argv);
     if(!GFONT_LOAD()) return;
@@ -75,7 +64,7 @@ void GProcess::runMainPad(int _argc, char** _argv) {
     QApplication lApp(_argc, _argv);
     if(!GFONT_LOAD()) return;
     if(!GSTYLE_LOAD()) return;
-    GWindow* lWindow = new GWindow;
+    GWindowUi* lWindow = new GWindowUi;
     lWindow->show();
     lApp.exec();
 }

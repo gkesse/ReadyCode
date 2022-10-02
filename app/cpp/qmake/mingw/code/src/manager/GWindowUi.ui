@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>GWindow</class>
- <widget class="QMainWindow" name="GWindow">
+ <class>GWindowUi</class>
+ <widget class="QMainWindow" name="GWindowUi">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,9 +11,22 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>ReadyPad</string>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QMdiArea" name="mdiArea">
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAsNeeded</enum>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAsNeeded</enum>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
@@ -79,6 +92,7 @@
      <property name="title">
       <string>Module</string>
      </property>
+     <addaction name="actionManageModule"/>
      <addaction name="actionCreateModule"/>
      <addaction name="actionSearchModule"/>
      <addaction name="actionUpdateModule"/>
@@ -227,6 +241,11 @@
   <action name="actionDeleteModule">
    <property name="text">
     <string>Supprimer un module</string>
+   </property>
+  </action>
+  <action name="actionManageModule">
+   <property name="text">
+    <string>Gérer un module</string>
    </property>
   </action>
  </widget>

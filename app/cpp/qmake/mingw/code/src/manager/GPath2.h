@@ -2,12 +2,12 @@
 #ifndef _GPath2_
 #define _GPath2_
 //===============================================
-#include "GObject2.h"
+#include "GObject.h"
 //===============================================
 #define GPATHI2 GPath2::Instance()
 #define GPATH   GPATHI2->getResourcePath
 //===============================================
-class GPath2 : public GObject2 {
+class GPath2 : public GObject {
 public:
     GPath2();
     ~GPath2();

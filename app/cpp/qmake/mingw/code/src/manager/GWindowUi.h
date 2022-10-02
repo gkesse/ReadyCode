@@ -1,6 +1,6 @@
 //===============================================
-#ifndef _GWindow_
-#define _GWindow_
+#ifndef _GWindowUi_
+#define _GWindowUi_
 //===============================================
 #include <QMainWindow>
 //===============================================
@@ -9,15 +9,15 @@ class GFile3;
 class GModules;
 //===============================================
 namespace Ui {
-    class GWindow;
+    class GWindowUi;
 }
 //===============================================
-class GWindow : public QMainWindow {
+class GWindowUi : public QMainWindow {
     Q_OBJECT
 
 public:
-    GWindow(QWidget* parent = 0);
-    ~GWindow();
+    GWindowUi(QWidget* parent = 0);
+    ~GWindowUi();
 
 public slots:
     // connection
@@ -41,6 +41,7 @@ public slots:
     void on_actionDownloadFile_triggered();
     void on_actionDeleteFile_triggered();
     // module
+    void on_actionManageModule_triggered();
     void on_actionCreateModule_triggered();
     void on_actionSearchModule_triggered();
     void on_actionUpdateModule_triggered();
@@ -55,7 +56,7 @@ public slots:
     void on_actionDeleteOption_triggered();
 
 private:
-    Ui::GWindow *ui;
+    Ui::GWindowUi *ui;
     GFile3* m_file;
     GModules* m_modules;
 };

@@ -4,7 +4,7 @@
 #include "GClient.h"
 //===============================================
 GOption::GOption()
-: GObject2() {
+: GObject() {
     m_id = 0;
     m_state = false;
 }
@@ -13,7 +13,7 @@ GOption::~GOption() {
 
 }
 //===============================================
-GObject2* GOption::clone() const {
+GObject* GOption::clone() const {
     return new GOption;
 }
 //===============================================
@@ -52,11 +52,11 @@ bool GOption::getState() const {
     return m_state;
 }
 //===============================================
-std::vector<GObject2*>& GOption::getOptionMap() {
+std::vector<GObject*>& GOption::getOptionMap() {
     return m_map;
 }
 //===============================================
-const std::vector<GObject2*>& GOption::getOptionMap() const {
+const std::vector<GObject*>& GOption::getOptionMap() const {
     return m_map;
 }
 //===============================================

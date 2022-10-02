@@ -2,9 +2,9 @@
 #ifndef _GFile2_
 #define _GFile2_
 //===============================================
-#include "GObject2.h"
+#include "GObject.h"
 //===============================================
-class GFile2 : public GObject2 {
+class GFile2 : public GObject {
 public:
     GFile2();
     GFile2(const GString& _filename);

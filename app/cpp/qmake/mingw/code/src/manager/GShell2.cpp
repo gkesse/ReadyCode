@@ -1,12 +1,12 @@
 //===============================================
+#include <GLog.h>
 #include "GShell2.h"
-#include "GLog2.h"
 #include "GEnv2.h"
 #include "GFile2.h"
 #include "GDate2.h"
 //===============================================
 GShell2::GShell2()
-: GObject2() {
+: GObject() {
 
 }
 //===============================================

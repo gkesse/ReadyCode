@@ -1,13 +1,13 @@
 //===============================================
+#include <GLog.h>
 #include "GConnection.h"
-#include "GLog2.h"
 #include "GCode2.h"
 #include "GClient.h"
 //===============================================
 GConnection* GConnection::m_instance = 0;
 //===============================================
 GConnection::GConnection()
-: GObject2() {
+: GObject() {
     m_id = 0;
 }
 //===============================================

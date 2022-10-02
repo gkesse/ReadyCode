@@ -2,13 +2,13 @@
 #ifndef _GOption_
 #define _GOption_
 //===============================================
-#include "GObject2.h"
+#include "GObject.h"
 //===============================================
-class GOption : public GObject2 {
+class GOption : public GObject {
 public:
     GOption();
     ~GOption();
-    GObject2* clone() const;
+    GObject* clone() const;
     GString serialize(const GString& _code = "option") const;
     bool deserialize(const GString& _data, const GString& _code = "option");
 
@@ -16,8 +16,8 @@ public:
     void setName(const GString& _name);
     void setState(bool _state);
     bool getState() const;
-    std::vector<GObject2*>& getOptionMap();
-    const std::vector<GObject2*>& getOptionMap() const;
+    std::vector<GObject*>& getOptionMap();
+    const std::vector<GObject*>& getOptionMap() const;
 
     void createOption();
     void enableOption();
@@ -31,7 +31,7 @@ private:
     int m_id;
     GString m_name;
     bool m_state;
-    std::vector<GObject2*> m_map;
+    std::vector<GObject*> m_map;
 };
 //==============================================
 #endif

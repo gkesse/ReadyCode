@@ -1,4 +1,5 @@
 //===============================================
+#include <GLog.h>
 #include "GPadMdi.h"
 #include "GTitleBarApp.h"
 #include "GLoginUi.h"
@@ -8,7 +9,6 @@
 #include "GStyle.h"
 #include "GPath.h"
 #include "GPicto.h"
-#include "GLog2.h"
 #include "GConnection.h"
 #include "GClient.h"
 //===============================================

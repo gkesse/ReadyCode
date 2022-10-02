@@ -2,16 +2,16 @@
 #ifndef _GModule2_
 #define _GModule2_
 //===============================================
-#include "GObject2.h"
+#include "GObject.h"
 //===============================================
 class GSocket2;
 //===============================================
-class GModule2 : public GObject2 {
+class GModule2 : public GObject {
 public:
     GModule2();
     virtual ~GModule2();
 
-    GObject2* clone() const;
+    GObject* clone() const;
 
     GString serialize(const GString& _code = "request") const;
     bool deserialize(const GString& _data, const GString& _code = "request");

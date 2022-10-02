@@ -2,9 +2,9 @@
 #ifndef _GEnv2_
 #define _GEnv2_
 //===============================================
-#include "GObject2.h"
+#include "GObject.h"
 //===============================================
-class GEnv2 : public GObject2 {
+class GEnv2 : public GObject {
 public:
     GEnv2();
     ~GEnv2();
