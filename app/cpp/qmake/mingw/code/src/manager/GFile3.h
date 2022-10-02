@@ -2,7 +2,7 @@
 #ifndef _GFile3_
 #define _GFile3_
 //===============================================
-#include "GModule2.h"
+#include "GModule.h"
 //===============================================
 class GFile3 : public GModule {
 public:

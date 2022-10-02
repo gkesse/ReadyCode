@@ -2,7 +2,7 @@
 #ifndef _GModules_
 #define _GModules_
 //===============================================
-#include "GModule2.h"
+#include "GModule.h"
 //===============================================
 class GModules : public GModule {
 public:
