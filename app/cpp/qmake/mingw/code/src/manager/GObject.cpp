@@ -1,7 +1,8 @@
 //===============================================
+#include "GPath.h"
+
 #include "GObject2.h"
 #include "GCode.h"
-#include "GPath2.h"
 //===============================================
 GObject::GObject() {
 

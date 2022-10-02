@@ -1,7 +1,7 @@
 //===============================================
+#include "GStyle.h"
 #include "GFont.h"
 #include "GProcess.h"
-#include "GStyle2.h"
 #include "GTest.h"
 #include "GPadMdi.h"
 #include "GLog.h"

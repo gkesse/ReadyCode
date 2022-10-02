@@ -5,7 +5,7 @@
 #include <QMainWindow>
 //===============================================
 class GConnection;
-class GFile3;
+class GFile;
 class GModules;
 //===============================================
 namespace Ui {
@@ -57,7 +57,7 @@ public slots:
 
 private:
     Ui::GWindowUi *ui;
-    GFile3* m_file;
+    GFile* m_file;
     GModules* m_modules;
 };
 //==============================================

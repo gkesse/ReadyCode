@@ -101,8 +101,8 @@ void GPadMdi::onEvent(QAction* _action) {
     else {
         onErrorKey(lKey);
     }
-    GERROR_SHOWG2(eGERR);
-    GLOG_SHOWG2(eGERR);
+    GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGERR);
 }
 //===============================================
 void GPadMdi::onEvent(QMdiSubWindow* _window) {

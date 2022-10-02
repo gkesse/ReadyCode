@@ -1,22 +1,22 @@
 //===============================================
-#ifndef _GPath2_
-#define _GPath2_
+#ifndef _GPath_
+#define _GPath_
 //===============================================
 #include "GObject.h"
 //===============================================
-#define GPATHI2 GPath2::Instance()
-#define GPATH   GPATHI2->getResourcePath
+#define GPATHI  GPath::Instance()
+#define GPATH   GPATHI->getResourcePath
 //===============================================
-class GPath2 : public GObject {
+class GPath : public GObject {
 public:
-    GPath2();
-    ~GPath2();
-    static GPath2* Instance();
+    GPath();
+    ~GPath();
+    static GPath* Instance();
     GString getDataPath() const;
     GString getResourcePath(const GString& _res, const GString& _filename) const;
 
 private:
-    static GPath2* m_instance;
+    static GPath* m_instance;
 };
 //==============================================
 #endif

@@ -1,13 +1,13 @@
 //===============================================
-#ifndef _GEnv2_
-#define _GEnv2_
+#ifndef _GEnv_
+#define _GEnv_
 //===============================================
 #include "GObject.h"
 //===============================================
-class GEnv2 : public GObject {
+class GEnv : public GObject {
 public:
-    GEnv2();
-    ~GEnv2();
+    GEnv();
+    ~GEnv();
     bool isProdEnv() const;
     bool isTestEnv() const;
     GString getEnvType() const;

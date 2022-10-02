@@ -1,11 +1,11 @@
 //===============================================
+#include "GPath.h"
 #include "GDate.h"
 #include "GLog.h"
 #include "GCode.h"
-#include "GEnv2.h"
-#include "GFile2.h"
-#include "GPath2.h"
-#include "GShell2.h"
+#include "GEnv.h"
+#include "GFile.h"
+#include "GShell.h"
 #include "GClient.h"
 //===============================================
 GLog* GLog::m_instance = 0;
@@ -58,7 +58,7 @@ bool GLog::deserialize(const GString& _data, const GString& _code) {
 }
 //===============================================
 bool GLog::isDebug() const {
-    return isDebug(GEnv2().isTestEnv());
+    return isDebug(GEnv().isTestEnv());
 }
 //===============================================
 bool GLog::isDebug(bool _isTestEnv) const {
@@ -67,7 +67,7 @@ bool GLog::isDebug(bool _isTestEnv) const {
 }
 //===============================================
 bool GLog::isFileLog() const {
-    return isFileLog(GEnv2().isTestEnv());
+    return isFileLog(GEnv().isTestEnv());
 }
 //===============================================
 bool GLog::isFileLog(bool _isTestEnv) const {
@@ -136,7 +136,7 @@ void GLog::tailLogFile(bool _isTestEnv) {
     GFile2 lFileObj(lLogFile);
     GString lData = GFORMAT("Le fichier log n'existe pas :\n(%1)", lLogFile.c_str());
     if(lFileObj.existFile()) {
-        GShell2().tailFile(lLogFile);
+        GShell().tailFile(lLogFile);
     }
     else {
         printf("%s\n", lData.c_str());

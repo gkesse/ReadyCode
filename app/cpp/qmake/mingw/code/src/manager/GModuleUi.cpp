@@ -28,21 +28,21 @@ void GModuleUi::on_btnSave_clicked() {
     GLOGT(eGFUN, "");
     readData();
     m_modules->createModule();
-    GERROR_SHOWG2(eGERR);
-    GLOG_SHOWG2(eGLOG);
+    GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGLOG);
 }
 //===============================================
 void GModuleUi::on_btnSearch_clicked() {
     GLOGT(eGFUN, "");
-    GERROR_SHOWG2(eGERR);
-    GLOG_SHOWG2(eGLOG);
+    GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGLOG);
 }
 //===============================================
 void GModuleUi::on_btnNew_clicked() {
     GLOGT(eGFUN, "");
     m_modules->assign(GModules());
     writeData();
-    GERROR_SHOWG2(eGERR);
-    GLOG_SHOWG2(eGLOG);
+    GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGLOG);
 }
 //===============================================

@@ -1,34 +1,34 @@
 //===============================================
+#include "GPath.h"
 #include "GLog.h"
-#include "GPath2.h"
-#include "GEnv2.h"
+#include "GEnv.h"
 //===============================================
-GPath2* GPath2::m_instance = 0;
+GPath* GPath::m_instance = 0;
 //===============================================
-GPath2::GPath2()
+GPath::GPath()
 : GObject() {
 
 }
 //===============================================
-GPath2::~GPath2() {
+GPath::~GPath() {
 
 }
 //===============================================
-GPath2* GPath2::Instance() {
+GPath* GPath::Instance() {
     if(m_instance == 0) {
-        m_instance = new GPath2;
+        m_instance = new GPath;
     }
     return m_instance;
 }
 //===============================================
-GString GPath2::getDataPath() const {
-    GEnv2 lEnv;
+GString GPath::getDataPath() const {
+    GEnv lEnv;
     GString lPath = lEnv.getEnv("GPROJECT_DATA");
     if(lPath == "") {GERROR_ADD(eGERR, "Le chemin des données n'est pas définie."); return "";}
     return lPath;
 }
 //===============================================
-GString GPath2::getResourcePath(const GString& _res, const GString& _filename) const {
+GString GPath::getResourcePath(const GString& _res, const GString& _filename) const {
 	GString lPath = "";
 	if(getDataPath() != "") {
 		lPath += GFORMAT("%s", getDataPath().c_str());

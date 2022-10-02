@@ -87,7 +87,7 @@ void GLoginUi::createLayout() {
         }
         else {
             onErrorCategory(lCategory);
-            GERROR_SHOWG2(eGERR);
+            GERROR_SHOWG(eGERR);
             continue;
         }
 
@@ -197,7 +197,7 @@ void GLoginUi::createLayout() {
         }
         else {
             onErrorType(lCategory, lType);
-            GERROR_SHOWG2(eGERR);
+            GERROR_SHOWG(eGERR);
             continue;
         }
     }
@@ -233,8 +233,8 @@ void GLoginUi::onEvent() {
     else {
         onErrorKey(lKey);
     }
-    GERROR_SHOWG2(eGERR);
-    GLOG_SHOWG2(eGLOG);
+    GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGLOG);
 }
 //===============================================
 void GLoginUi::onEvent(const QString& _text) {
@@ -249,8 +249,8 @@ void GLoginUi::onEvent(const QString& _text) {
     else {
         onErrorKey(lKey);
     }
-    GERROR_SHOWG2(eGERR);
-    GLOG_SHOWG2(eGLOG);
+    GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGLOG);
 }
 //===============================================
 void GLoginUi::onConnect() {
