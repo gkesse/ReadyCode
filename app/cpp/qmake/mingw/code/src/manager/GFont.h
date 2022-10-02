@@ -1,21 +1,21 @@
 //===============================================
-#ifndef _GFont2_
-#define _GFont2_
+#ifndef _GFont_
+#define _GFont_
 //===============================================
 #include "GObject.h"
 //===============================================
 #define GFONTI      GFont2::Instance()
 #define GFONT_LOAD  GFONTI->loadFont
 //===============================================
-class GFont2 : public GObject {
+class GFont : public GObject {
 public:
-    GFont2();
-    ~GFont2();
-    static GFont2* Instance();
+    GFont();
+    ~GFont();
+    static GFont* Instance();
     bool loadFont();
 
 private:
-    static GFont2* m_instance;
+    static GFont* m_instance;
 };
 //==============================================
 #endif

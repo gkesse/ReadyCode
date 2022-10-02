@@ -1,18 +1,18 @@
 //===============================================
+#include "GDate.h"
 #include "GFile3.h"
 #include "GShell2.h"
 #include "GEnv2.h"
-#include "GDate2.h"
 #include "GCode.h"
 #include "GClient.h"
 //===============================================
 GFile3::GFile3()
-: GModule2() {
+: GModule() {
     m_id = 0;
 }
 //===============================================
 GFile3::GFile3(const GString& _fullname)
-: GModule2() {
+: GModule() {
     m_id = 0;
     m_fullname = _fullname;
 }
@@ -31,7 +31,7 @@ GString GFile3::serialize(const GString& _code) const {
 }
 //===============================================
 bool GFile3::deserialize(const GString& _data, const GString& _code) {
-    GModule2::deserialize(_data);
+    GModule::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();

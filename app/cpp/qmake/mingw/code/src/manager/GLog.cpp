@@ -1,7 +1,7 @@
 //===============================================
+#include "GDate.h"
 #include "GLog.h"
 #include "GCode.h"
-#include "GDate2.h"
 #include "GEnv2.h"
 #include "GFile2.h"
 #include "GPath2.h"
@@ -250,7 +250,7 @@ void GLog::traceLog(const char* _name, int _level, const char* _file, int _line,
 void GLog::traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const GString& _data) {
     if(_level == 0) return;
     if(!_isDebug) return;
-    GString lDate = GDate2().getDate(GDate2().getDateTimeLogFormat());
+    GString lDate = GDate().getDate(GDate().getDateTimeLogFormat());
     fprintf(getOutput(_isFileLog), "===> [%s] : %d : %s : %s : [%d] : %s :\n%s\n", _name, _level, lDate.c_str(), _file, _line, _func, _data.c_str());
     closeLogFile();
 }

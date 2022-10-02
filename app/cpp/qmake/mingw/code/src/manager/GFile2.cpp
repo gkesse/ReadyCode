@@ -1,8 +1,8 @@
 //===============================================
+#include "GDate.h"
 #include "GFile2.h"
 #include "GShell2.h"
 #include "GEnv2.h"
-#include "GDate2.h"
 //===============================================
 GFile2::GFile2()
 : GObject() {
@@ -79,7 +79,7 @@ GString GFile2::getDateFullname(const GString& _key, const GString& _ext) const 
 }
 //===============================================
 GString GFile2::getDateFilename(const GString& _key, const GString& _ext) const {
-    GString lDate = GDate2().getDate(GDate2().getDateFileFormat());
+    GString lDate = GDate().getDate(GDate().getDateFileFormat());
     return getFilename(_key, lDate, _ext);
 }
 //===============================================

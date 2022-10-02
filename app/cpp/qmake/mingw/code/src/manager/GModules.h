@@ -4,7 +4,7 @@
 //===============================================
 #include "GModule2.h"
 //===============================================
-class GModules : public GModule2 {
+class GModules : public GModule {
 public:
     GModules();
     ~GModules();

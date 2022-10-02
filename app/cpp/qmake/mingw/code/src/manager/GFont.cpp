@@ -1,27 +1,27 @@
 //===============================================
-#include "GFont2.h"
+#include "GFont.h"
 #include "GPath2.h"
 #include "GCode.h"
 //===============================================
-GFont2* GFont2::m_instance = 0;
+GFont* GFont::m_instance = 0;
 //===============================================
-GFont2::GFont2() :
+GFont::GFont() :
 GObject() {
     createDoms();
 }
 //===============================================
-GFont2::~GFont2() {
+GFont::~GFont() {
 
 }
 //===============================================
-GFont2* GFont2::Instance() {
+GFont* GFont::Instance() {
     if(m_instance == 0) {
-        m_instance = new GFont2;
+        m_instance = new GFont;
     }
     return m_instance;
 }
 //===============================================
-bool GFont2::loadFont() {
+bool GFont::loadFont() {
     int lCount = m_dom->countMap("fonts");
     for(int i = 0; i < lCount; i++) {
         GString lFont = m_dom->getData("fonts", i);

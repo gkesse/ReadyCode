@@ -1,6 +1,6 @@
 //===============================================
+#include "GFont.h"
 #include "GProcess.h"
-#include "GFont2.h"
 #include "GStyle2.h"
 #include "GTest.h"
 #include "GPadMdi.h"

@@ -8,10 +8,10 @@ class GDate : public GObject {
 public:
     GDate();
     ~GDate();
-    QString getDateTimeLogFormat() const;
-    QString getDateTimeFileFormat() const;
-    QString getDateFileFormat() const;
-    QString getDate(const QString& _format) const;
+    GString getDateTimeLogFormat() const;
+    GString getDateTimeFileFormat() const;
+    GString getDateFileFormat() const;
+    GString getDate(const GString& _format) const;
 };
 //==============================================
 #endif
