@@ -1,6 +1,6 @@
 //===============================================
 #include "GObject2.h"
-#include "GCode2.h"
+#include "GCode.h"
 #include "GPath2.h"
 //===============================================
 GObject::GObject() {
@@ -12,7 +12,7 @@ GObject::~GObject() {
 }
 //===============================================
 bool GObject::createDoms() {
-    m_dom.reset(new GCode2);
+    m_dom.reset(new GCode);
     m_dom->loadFile(GPATH("xml", "app.xml"));
     return true;
 }

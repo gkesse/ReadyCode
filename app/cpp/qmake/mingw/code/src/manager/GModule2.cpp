@@ -2,7 +2,7 @@
 #include "GModule2.h"
 #include "GLog.h"
 #include "GSocket2.h"
-#include "GCode2.h"
+#include "GCode.h"
 //===============================================
 GModule2::GModule2()
 : GObject() {
@@ -18,7 +18,7 @@ GObject* GModule2::clone() const {
 }
 //===============================================
 GString GModule2::serialize(const GString& _code) const {
-    GCode2 lDom;
+    GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "module", m_module);
     lDom.addData(_code, "method", m_method);
@@ -26,7 +26,7 @@ GString GModule2::serialize(const GString& _code) const {
 }
 //===============================================
 bool GModule2::deserialize(const GString& _data, const GString& _code) {
-    GCode2 lDom;
+    GCode lDom;
     lDom.loadXml(_data);
     m_module = lDom.getData(_code, "module");
     m_method = lDom.getData(_code, "method");

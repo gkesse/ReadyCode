@@ -1,6 +1,6 @@
 //===============================================
 #include "GModules.h"
-#include "GCode2.h"
+#include "GCode.h"
 #include "GClient.h"
 //===============================================
 GModules::GModules()
@@ -17,7 +17,7 @@ GObject* GModules::clone() const {
 }
 //===============================================
 GString GModules::serialize(const GString& _code) const {
-    GCode2 lDom;
+    GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
     lDom.addData(_code, "name", m_name);
@@ -25,7 +25,7 @@ GString GModules::serialize(const GString& _code) const {
 }
 //===============================================
 bool GModules::deserialize(const GString& _data, const GString& _code) {
-    GCode2 lDom;
+    GCode lDom;
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
     m_name = lDom.getData(_code, "name");

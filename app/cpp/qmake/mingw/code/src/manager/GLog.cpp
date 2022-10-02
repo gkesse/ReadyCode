@@ -1,6 +1,6 @@
 //===============================================
 #include <GLog.h>
-#include "GCode2.h"
+#include "GCode.h"
 #include "GDate2.h"
 #include "GEnv2.h"
 #include "GFile2.h"
@@ -38,7 +38,7 @@ GObject* GLog::clone() const {
 }
 //===============================================
 GString GLog::serialize(const GString& _code) const {
-    GCode2 lDom;
+    GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "type", m_type);
     lDom.addData(_code, "side", m_side);
@@ -48,7 +48,7 @@ GString GLog::serialize(const GString& _code) const {
 }
 //===============================================
 bool GLog::deserialize(const GString& _data, const GString& _code) {
-    GCode2 lDom;
+    GCode lDom;
     lDom.loadXml(_data);
     m_type = lDom.getData(_code, "type");
     m_side = lDom.getData(_code, "side");

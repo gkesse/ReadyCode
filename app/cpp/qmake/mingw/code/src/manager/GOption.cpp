@@ -1,6 +1,6 @@
 //===============================================
 #include "GOption.h"
-#include "GCode2.h"
+#include "GCode.h"
 #include "GClient.h"
 //===============================================
 GOption::GOption()
@@ -18,7 +18,7 @@ GObject* GOption::clone() const {
 }
 //===============================================
 GString GOption::serialize(const GString& _code) const {
-    GCode2 lDom;
+    GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
     lDom.addData(_code, "name", m_name);
@@ -28,7 +28,7 @@ GString GOption::serialize(const GString& _code) const {
 }
 //===============================================
 bool GOption::deserialize(const GString& _data, const GString& _code) {
-    GCode2 lDom;
+    GCode lDom;
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
     m_name = lDom.getData(_code, "name");

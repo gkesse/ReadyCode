@@ -1,7 +1,7 @@
 //===============================================
 #include <GLog.h>
 #include "GClient.h"
-#include "GCode2.h"
+#include "GCode.h"
 //===============================================
 GClient* GClient::m_instance = 0;
 //===============================================
@@ -54,7 +54,7 @@ GString GClient::callServer(const GString& _module, const GString& _method, cons
     setHostname("192.168.1.45");
     setPort(9001);
 
-    GCode2 lDom;
+    GCode lDom;
     lDom.createDoc();
     lDom.createRequest(_module, _method);
     lDom.loadData(_data);

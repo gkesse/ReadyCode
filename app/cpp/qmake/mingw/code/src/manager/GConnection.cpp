@@ -1,7 +1,7 @@
 //===============================================
 #include <GLog.h>
 #include "GConnection.h"
-#include "GCode2.h"
+#include "GCode.h"
 #include "GClient.h"
 //===============================================
 GConnection* GConnection::m_instance = 0;
@@ -29,7 +29,7 @@ void GConnection::assign(const GConnection& _connect) {
 }
 //===============================================
 GString GConnection::serialize(const GString& _code) const {
-    GCode2 lDom;
+    GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
     lDom.addData(_code, "pseudo", m_pseudo);
@@ -38,7 +38,7 @@ GString GConnection::serialize(const GString& _code) const {
 }
 //===============================================
 bool GConnection::deserialize(const GString& _data, const GString& _code) {
-    GCode2 lDom;
+    GCode lDom;
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
     m_pseudo = lDom.getData(_code, "pseudo");

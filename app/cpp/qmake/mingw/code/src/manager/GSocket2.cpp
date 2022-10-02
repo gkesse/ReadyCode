@@ -2,7 +2,7 @@
 #include <GLog.h>
 #include "GSocket2.h"
 #include "GPath.h"
-#include "GCode2.h"
+#include "GCode.h"
 //===============================================
 GSocket2::GSocket2()
 : GObject() {

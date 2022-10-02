@@ -1,13 +1,13 @@
 //===============================================
-#ifndef _GCode2_
-#define _GCode2_
+#ifndef _GCode_
+#define _GCode_
 //===============================================
 #include "GXml2.h"
 //===============================================
-class GCode2 : public GXml2 {
+class GCode : public GXml2 {
 public:
-    GCode2();
-    ~GCode2();
+    GCode();
+    ~GCode();
 
     bool createCode();
     bool createCode(const GString& _code);

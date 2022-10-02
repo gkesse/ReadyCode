@@ -5,7 +5,7 @@
 #include "GInclude.h"
 #include "GString.h"
 //===============================================
-class GCode2;
+class GCode;
 //===============================================
 class GObject {
 public:
@@ -19,7 +19,7 @@ public:
     virtual void print() const;
 
 protected:
-    std::shared_ptr<GCode2> m_dom;
+    std::shared_ptr<GCode> m_dom;
 };
 //===============================================
 #endif
