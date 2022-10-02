@@ -63,6 +63,9 @@ bool GSocket2::callServer() {
     int lAnswer = connect(m_socket, (SOCKADDR*)(&lAddress), sizeof(lAddress));
     if(lAnswer == SOCKET_ERROR) {GERROR_ADD(eGERR, "Erreur lors de la connexion au serveur."); return false;}
 
+    m_dataOut = "";
+    m_dataIn = "";
+
     if(createData()) {
         if(sendData()) {
             if(readMethod()) {

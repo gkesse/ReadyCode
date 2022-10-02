@@ -75,11 +75,21 @@
      <addaction name="actionStartConnection"/>
      <addaction name="actionStartDisconnection"/>
     </widget>
+    <widget class="QMenu" name="menuModule">
+     <property name="title">
+      <string>Module</string>
+     </property>
+     <addaction name="actionCreateModule"/>
+     <addaction name="actionSearchModule"/>
+     <addaction name="actionUpdateModule"/>
+     <addaction name="actionDeleteModule"/>
+    </widget>
     <addaction name="menuConnection"/>
     <addaction name="menuAccount"/>
     <addaction name="menuGroupe"/>
     <addaction name="menuFile"/>
     <addaction name="menuOptions"/>
+    <addaction name="menuModule"/>
    </widget>
    <addaction name="menuTest"/>
   </widget>
@@ -197,6 +207,26 @@
   <action name="actionDeleteFile">
    <property name="text">
     <string>Supprimer un fichier</string>
+   </property>
+  </action>
+  <action name="actionCreateModule">
+   <property name="text">
+    <string>Créer un module</string>
+   </property>
+  </action>
+  <action name="actionSearchModule">
+   <property name="text">
+    <string>Rechercher un module</string>
+   </property>
+  </action>
+  <action name="actionUpdateModule">
+   <property name="text">
+    <string>Modifier un module</string>
+   </property>
+  </action>
+  <action name="actionDeleteModule">
+   <property name="text">
+    <string>Supprimer un module</string>
    </property>
   </action>
  </widget>

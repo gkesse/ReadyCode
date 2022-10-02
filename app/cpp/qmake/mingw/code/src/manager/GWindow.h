@@ -6,6 +6,7 @@
 //===============================================
 class GConnection;
 class GFile3;
+class GModules;
 //===============================================
 namespace Ui {
     class GWindow;
@@ -39,6 +40,11 @@ public slots:
     void on_actionSearchFile_triggered();
     void on_actionDownloadFile_triggered();
     void on_actionDeleteFile_triggered();
+    // module
+    void on_actionCreateModule_triggered();
+    void on_actionSearchModule_triggered();
+    void on_actionUpdateModule_triggered();
+    void on_actionDeleteModule_triggered();
     // options
     void on_actionCreateOption_triggered();
     void on_actionSearchOption_triggered();
@@ -51,6 +57,7 @@ public slots:
 private:
     Ui::GWindow *ui;
     GFile3* m_file;
+    GModules* m_modules;
 };
 //==============================================
 #endif

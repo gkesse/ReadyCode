@@ -34,6 +34,7 @@ public:
     bool onModule();
     bool onConnection();
     bool onFile();
+    bool onModules();
 
 protected:
     GString m_module;

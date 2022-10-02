@@ -7,16 +7,19 @@
 #include "GBase64.h"
 #include "GOption.h"
 #include "GConnection.h"
+#include "GModules.h"
 //===============================================
 GWindow::GWindow(QWidget* _parent)
 : QMainWindow(_parent)
 , ui(new Ui::GWindow){
     ui->setupUi(this);
     m_file = new GFile3;
+    m_modules = new GModules;
 }
 //===============================================
 GWindow::~GWindow() {
     delete m_file;
+    delete m_modules;
 }
 //===============================================
 // connection
@@ -146,6 +149,34 @@ void GWindow::on_actionDownloadFile_triggered() {
 }
 //===============================================
 void GWindow::on_actionDeleteFile_triggered() {
+    GLOGT(eGFUN, "");
+    GERROR_SHOWG2(eGERR);
+    GLOG_SHOWG2(eGLOG);
+}
+//===============================================
+// module
+//===============================================
+void GWindow::on_actionCreateModule_triggered() {
+    GLOGT(eGFUN, "");
+    m_modules->setName("mysql");
+    m_modules->createModule();
+    GERROR_SHOWG2(eGERR);
+    GLOG_SHOWG2(eGLOG);
+}
+//===============================================
+void GWindow::on_actionSearchModule_triggered() {
+    GLOGT(eGFUN, "");
+    GERROR_SHOWG2(eGERR);
+    GLOG_SHOWG2(eGLOG);
+}
+//===============================================
+void GWindow::on_actionUpdateModule_triggered() {
+    GLOGT(eGFUN, "");
+    GERROR_SHOWG2(eGERR);
+    GLOG_SHOWG2(eGLOG);
+}
+//===============================================
+void GWindow::on_actionDeleteModule_triggered() {
     GLOGT(eGFUN, "");
     GERROR_SHOWG2(eGERR);
     GLOG_SHOWG2(eGLOG);

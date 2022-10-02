@@ -38,6 +38,8 @@ bool GXml2::loadXml(const GString& _xml) {
     if(!m_doc) {GERROR_ADD(eGERR, "Erreur lors de la création du document."); return false;}
     m_xpath = xmlXPathNewContext(m_doc);
     if(!m_xpath) {GERROR_ADD(eGERR, "Erreur lors de la création du xpath."); return false;}
+    m_node = xmlDocGetRootElement(m_doc);
+    if(!m_node) {GERROR_ADD(eGERR, "Erreur lors de la lecture du noeud racine."); return false;}
     return true;
 }
 //===============================================
@@ -47,6 +49,8 @@ bool GXml2::loadFile(const GString& _filename) {
     if(!m_doc) {GERROR_ADD(eGERR, "Erreur lors de la création du document."); return false;}
     m_xpath = xmlXPathNewContext(m_doc);
     if(!m_xpath) {GERROR_ADD(eGERR, "Erreur lors de la création du xpath."); return false;}
+    m_node = xmlDocGetRootElement(m_doc);
+    if(!m_node) {GERROR_ADD(eGERR, "Erreur lors de la lecture du noeud racine."); return false;}
     return true;
 }
 //===============================================

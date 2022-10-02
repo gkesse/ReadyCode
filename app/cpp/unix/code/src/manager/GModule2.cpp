@@ -5,6 +5,7 @@
 #include "GCode2.h"
 #include "GConnection.h"
 #include "GFile3.h"
+#include "GModules.h"
 //===============================================
 GModule2::GModule2()
 : GObject2() {
@@ -81,6 +82,9 @@ bool GModule2::onModule() {
     else if(m_module == "file") {
         onFile();
     }
+    else if(m_module == "modules") {
+        onModules();
+    }
     else {
         GMODULE_UNKNOWN();
     }
@@ -98,6 +102,13 @@ bool GModule2::onFile() {
     GFile3 lFile;
     lFile.assign(this);
     lFile.onModule();
+    return true;
+}
+//===============================================
+bool GModule2::onModules() {
+    GModules lModules;
+    lModules.assign(this);
+    lModules.onModule();
     return true;
 }
 //===============================================
