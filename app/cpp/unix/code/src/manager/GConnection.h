@@ -2,11 +2,11 @@
 #ifndef _GConnection_
 #define _GConnection_
 //===============================================
-#include "GModule2.h"
+#include "GModule.h"
 //===============================================
 class GServer;
 //===============================================
-class GConnection : public GModule2 {
+class GConnection : public GModule {
 public:
     GConnection();
     ~GConnection();

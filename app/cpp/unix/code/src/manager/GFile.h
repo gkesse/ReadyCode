@@ -1,14 +1,14 @@
 //===============================================
-#ifndef _GFile3_
-#define _GFile3_
+#ifndef _GFile_
+#define _GFile_
 //===============================================
-#include "GModule2.h"
+#include "GModule.h"
 //===============================================
-class GFile3 : public GModule2 {
+class GFile : public GModule {
 public:
-    GFile3();
-    GFile3(const GString& _fullname);
-    ~GFile3();
+    GFile();
+    GFile(const GString& _fullname);
+    ~GFile();
 
     GString serialize(const GString& _code = "file") const;
     bool deserialize(const GString& _data, const GString& _code = "file");

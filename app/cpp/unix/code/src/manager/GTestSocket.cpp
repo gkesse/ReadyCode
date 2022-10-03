@@ -1,10 +1,10 @@
 //===============================================
-#include <GCode.h>
+#include "GModule.h"
+#include "GCode.h"
 #include "GXml.h"
 #include "GTestSocket.h"
 #include "GLog.h"
 #include "GSocket2.h"
-#include "GModule2.h"
 //===============================================
 GTestSocket* GTestSocket::m_test = 0;
 //===============================================
@@ -122,7 +122,7 @@ void GTestSocket::runCode(int _argc, char** _argv) {
 void GTestSocket::runMap(int _argc, char** _argv) {
     std::vector<GObject*> lMap;
     for(int i = 0; i < 5; i++) {
-        GModule2* lModule = new GModule2;
+        GModule* lModule = new GModule;
         lModule->setModule(GFORMAT("module[%d]", i + 1));
         lModule->setMethod(GFORMAT("method[%d]", i + 1));
         lMap.push_back(lModule);
@@ -135,17 +135,17 @@ void GTestSocket::runMap(int _argc, char** _argv) {
     lDom.addData("request", lMap);
     lDom.print();
 
-    lDom.getData(lCode, lMap, new GModule2);
-    lDom.getData(lCode, lMap, new GModule2);
+    lDom.getData(lCode, lMap, new GModule);
+    lDom.getData(lCode, lMap, new GModule);
 
     for(int i = 0; i < lMap.size(); i++) {
-        GModule2* lModule = (GModule2*)lMap.at(i);
+        GModule* lModule = (GModule*)lMap.at(i);
         lModule->serialize().print();
     }
 }
 //===============================================
 void GTestSocket::runModule(int _argc, char** _argv) {
-    GModule2 lModule;
+    GModule lModule;
     lModule.setModule("opencv");
     lModule.setMethod("create_image");
     lModule.print();

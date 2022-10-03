@@ -4,33 +4,39 @@
 //===============================================
 GEnv::GEnv()
 : GObject() {
-    initEnv();
+
 }
 //===============================================
 GEnv::~GEnv() {
 
 }
 //===============================================
-void GEnv::initEnv() {
-    m_envType   = getEnv("GPROJECT_ENV");
-    m_dataPath  = getEnv("GPROJECT_DATA");
-    m_tmpPath   = getEnv("GPROJECT_TMP");
-    m_isProdEnv = (m_envType == "PROD");
-    m_isTestEnv = !m_isProdEnv;
+bool GEnv::isProdEnv() const {
+    GString lType = getEnvType();
+    if(lType == "PROD") return true;
+    return false;
+}
+//===============================================
+bool GEnv::isTestEnv() const {
+    if(isProdEnv()) return false;
+    return true;
 }
 //===============================================
 GString GEnv::getEnvType() const {
-    return m_envType;
+    GString lData = getEnv("GPROJECT_ENV");
+    return lData;
 }
 //===============================================
 GString GEnv::getDataPath() const {
-    return m_dataPath;
+    GString lData = getEnv("GPROJECT_DATA");
+    return lData;
 }
 //===============================================
 GString GEnv::getTmpDir() const {
-    return m_tmpPath;
+    GString lData = getEnv("GPROJECT_TMP");
+    return lData;
 }
-//===============================================
+//===============================================   1
 GString GEnv::getEnv(const GString& _env, const GString& _defaultValue) const {
     char* lEnv = getenv(_env.c_str());
     if(lEnv == 0) return _defaultValue;

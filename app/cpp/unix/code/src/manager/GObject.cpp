@@ -1,5 +1,5 @@
 //===============================================
-#include <GCode.h>
+#include "GCode.h"
 #include "GObject.h"
 #include "GLog.h"
 #include "GPath.h"

@@ -1,30 +1,30 @@
 //===============================================
-#include <GCode.h>
-#include "GFile3.h"
+#include "GCode.h"
+#include "GFile.h"
+#include "GEnv.h"
 #include "GLog.h"
 #include "GPath.h"
 #include "GShell2.h"
-#include "GEnv2.h"
 #include "GBase64.h"
 #include "GServer.h"
 #include "GMySQL2.h"
 //===============================================
-GFile3::GFile3()
-: GModule2() {
+GFile::GFile()
+: GModule() {
     m_id = 0;
 }
 //===============================================
-GFile3::GFile3(const GString& _fullname)
-: GModule2() {
+GFile::GFile(const GString& _fullname)
+: GModule() {
     m_id = 0;
     m_fullname = _fullname;
 }
 //===============================================
-GFile3::~GFile3() {
+GFile::~GFile() {
 
 }
 //===============================================
-GString GFile3::serialize(const GString& _code) const {
+GString GFile::serialize(const GString& _code) const {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
@@ -33,8 +33,8 @@ GString GFile3::serialize(const GString& _code) const {
     return lDom.toString();
 }
 //===============================================
-bool GFile3::deserialize(const GString& _data, const GString& _code) {
-    GModule2::deserialize(_data);
+bool GFile::deserialize(const GString& _data, const GString& _code) {
+    GModule::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
@@ -43,33 +43,33 @@ bool GFile3::deserialize(const GString& _data, const GString& _code) {
     return true;
 }
 //===============================================
-void GFile3::setId(int _id) {
+void GFile::setId(int _id) {
     m_id = _id;
 }
 //===============================================
-void GFile3::setFilename(const GString& _filename) {
+void GFile::setFilename(const GString& _filename) {
     m_filename = _filename;
 }
 //===============================================
-void GFile3::setContent(const GString& _content) {
+void GFile::setContent(const GString& _content) {
     m_content = _content;
 }
 //===============================================
-GString GFile3::getContent() const {
+GString GFile::getContent() const {
     return m_content;
 }
 //===============================================
-void GFile3::setFullname(const GString& _fullname) {
+void GFile::setFullname(const GString& _fullname) {
     m_fullname = _fullname;
 }
 //===============================================
-bool GFile3::existFile() const {
+bool GFile::existFile() const {
     if(m_fullname == "") return false;
     std::ifstream lFile(m_fullname.data());
     return lFile.good();
 }
 //===============================================
-GString GFile3::getContents() const {
+GString GFile::getContents() const {
     if(m_fullname == "") return "";
     if(!existFile()) return "";
     std::ifstream lFile(m_fullname.data());
@@ -78,7 +78,7 @@ GString GFile3::getContents() const {
     return lBuffer.str().c_str();
 }
 //===============================================
-GString GFile3::getContentBin() const {
+GString GFile::getContentBin() const {
     if(m_fullname == "") return "";
     if(!existFile()) return "";
     std::ifstream lFile(m_fullname.c_str(), std::ios::in | std::ios::binary);
@@ -86,19 +86,19 @@ GString GFile3::getContentBin() const {
     return lData;
 }
 //===============================================
-void GFile3::setContents(const GString& _data) {
+void GFile::setContents(const GString& _data) {
     if(m_fullname == "") return;
     std::ofstream lFile(m_fullname.c_str());
     lFile << _data.c_str();
 }
 //===============================================
-void GFile3::setContentBin(const GString& _data) {
+void GFile::setContentBin(const GString& _data) {
     if(m_fullname == "") return;
     std::ofstream lFile(m_fullname.c_str(), std::ios::out | std::ios::binary);
     lFile.write(_data.data(), _data.size());
 }
 //===============================================
-bool GFile3::onModule() {
+bool GFile::onModule() {
     deserialize(m_server->getRequest());
     if(m_method == "") {
         GMETHOD_REQUIRED();
@@ -113,7 +113,7 @@ bool GFile3::onModule() {
     return true;
 }
 //===============================================
-bool GFile3::onSaveFile() {
+bool GFile::onSaveFile() {
     if(m_id != 0) {GERROR_ADD(eGERR, "Le fichier est déjà enregistré."); return false;}
     if(m_filename == "") {GERROR_ADD(eGERR, "Le nom du fichier est obligatoire."); return false;}
     if(m_content == "") {GERROR_ADD(eGERR, "Le contenu du fichier est vide."); return false;}
@@ -121,22 +121,22 @@ bool GFile3::onSaveFile() {
     return true;
 }
 //===============================================
-bool GFile3::saveFile() {
+bool GFile::saveFile() {
     if(!insertFile()) return false;
     if(!updateFile()) return false;
     if(!saveContent()) return false;
     return true;
 }
 //===============================================
-bool GFile3::initFile() {
-    m_homePath = GEnv2().getEnv("HOME");
+bool GFile::initFile() {
+    m_homePath = GEnv().getEnv("HOME");
     m_filePath = GFORMAT("%s/.readydev/file", m_homePath.c_str());
     GShell2().createDir(m_filePath);
     m_filePath.print();
     return true;
 }
 //===============================================
-bool GFile3::insertFile() {
+bool GFile::insertFile() {
     if(m_id != 0) return false;
     initFile();
     GMySQL2 lMySQL2;
@@ -150,7 +150,7 @@ bool GFile3::insertFile() {
     return true;
 }
 //===============================================
-bool GFile3::updateFile() {
+bool GFile::updateFile() {
     if(m_id == 0) return false;
     m_fullname = GFORMAT("%s/%d_%s", m_filePath.c_str(), m_id, m_filename.c_str());
     if(!GMySQL2().execQuery(GFORMAT(""
@@ -163,16 +163,16 @@ bool GFile3::updateFile() {
     return true;
 }
 //===============================================
-bool GFile3::saveContent() {
+bool GFile::saveContent() {
     if(m_id == 0) return false;
-    GFile3 lFile(m_fullname);
+    GFile lFile(m_fullname);
     GString lDataBin(GBase64(m_content).decodeData());
     lFile.setContentBin(lDataBin);
     GLOG_ADD(eGLOG, "Le fichier a bien été enregistré.");
     return true;
 }
 //===============================================
-bool GFile3::downloadFile() {
+bool GFile::downloadFile() {
 
     return true;
 }

@@ -1,5 +1,5 @@
 //===============================================
-#include <GCode.h>
+#include "GCode.h"
 #include "GServer.h"
 #include "GLog.h"
 #include "GHttp.h"
@@ -141,7 +141,7 @@ bool GServer::readRequest() {
 }
 //===============================================
 bool GServer::analyzeRequest() {
-    GModule2 lModule = this;
+    GModule lModule = this;
     lModule.onModule();
     return true;
 }

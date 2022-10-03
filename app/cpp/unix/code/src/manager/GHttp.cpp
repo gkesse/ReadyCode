@@ -4,14 +4,14 @@
 #include "GServer.h"
 //===============================================
 GHttp::GHttp()
-: GModule2() {
+: GModule() {
     m_status = 200;
     m_contentLength = 0;
     m_port = 0;
 }
 //===============================================
 GHttp::GHttp(GServer* _server)
-: GModule2(_server) {
+: GModule(_server) {
     m_status = 200;
     m_contentLength = 0;
     m_port = 0;

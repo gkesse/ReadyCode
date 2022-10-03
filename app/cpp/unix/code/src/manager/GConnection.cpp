@@ -1,5 +1,5 @@
 //===============================================
-#include <GCode.h>
+#include "GCode.h"
 #include "GConnection.h"
 #include "GLog.h"
 #include "GServer.h"
@@ -7,7 +7,7 @@
 #include "GMd5_2.h"
 //===============================================
 GConnection::GConnection()
-: GModule2() {
+: GModule() {
     m_id = 0;
     m_active = 0;
     m_isConnect = false;
@@ -35,7 +35,7 @@ GString GConnection::serialize(const GString& _code) const {
 }
 //===============================================
 bool GConnection::deserialize(const GString& _data, const GString& _code) {
-    GModule2::deserialize(_data);
+    GModule::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
@@ -100,7 +100,7 @@ bool GConnection::computePassword() {
     if(m_pseudo == "") return false;
     if(m_password == "") return false;
     m_passwordMd5 = GFORMAT("%s|%s", m_pseudo.c_str(), m_password.c_str());
-    m_passwordMd5 = GMd5_2().encodeData(m_passwordMd5);
+    m_passwordMd5 = GMd5().encodeData(m_passwordMd5);
     return true;
 }
 //===============================================

@@ -1,16 +1,16 @@
 //===============================================
 #include "GMd5_2.h"
 //===============================================
-GMd5_2::GMd5_2()
-: GModule2() {
+GMd5::GMd5()
+: GModule() {
 
 }
 //===============================================
-GMd5_2::~GMd5_2() {
+GMd5::~GMd5() {
 
 }
 //===============================================
-GString GMd5_2::encodeData(const GString& _data) const {
+GString GMd5::encodeData(const GString& _data) const {
     if(_data == "") return "";
     MD5 lMd5;
     GString lData = lMd5(_data.c_str());

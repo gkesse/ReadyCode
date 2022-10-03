@@ -1,6 +1,6 @@
 //===============================================
-#ifndef _GModule2_
-#define _GModule2_
+#ifndef _GModule_
+#define _GModule_
 //===============================================
 #include "GObject.h"
 //===============================================
@@ -11,18 +11,18 @@
 //===============================================
 class GServer;
 //===============================================
-class GModule2 : public GObject {
+class GModule : public GObject {
 public:
-    GModule2();
-    GModule2(const GModule2& _module);
-    GModule2(GModule2* _module);
-    GModule2(GServer* _server);
-    virtual ~GModule2();
+    GModule();
+    GModule(const GModule& _module);
+    GModule(GModule* _module);
+    GModule(GServer* _server);
+    virtual ~GModule();
 
     GObject* clone() const;
 
-    void assign(const GModule2& _module);
-    void assign(GModule2* _module);
+    void assign(const GModule& _module);
+    void assign(GModule* _module);
     void assign(GServer* _server);
 
     GString serialize(const GString& _code = "request") const;

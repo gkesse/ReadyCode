@@ -1,13 +1,13 @@
 //===============================================
-#ifndef _GMd5_2_
-#define _GMd5_2_
+#ifndef _GMd5_
+#define _GMd5_
 //===============================================
-#include "GModule2.h"
+#include "GModule.h"
 //===============================================
-class GMd5_2 : public GModule2 {
+class GMd5 : public GModule {
 public:
-    GMd5_2();
-    ~GMd5_2();
+    GMd5();
+    ~GMd5();
 
     GString encodeData(const GString& _data) const;
 };

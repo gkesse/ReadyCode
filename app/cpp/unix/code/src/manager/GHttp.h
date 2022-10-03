@@ -2,9 +2,9 @@
 #ifndef _GHttp_
 #define _GHttp_
 //===============================================
-#include "GModule2.h"
+#include "GModule.h"
 //===============================================
-class GHttp : public GModule2 {
+class GHttp : public GModule {
 public:
     GHttp();
     GHttp(GServer* _server);
