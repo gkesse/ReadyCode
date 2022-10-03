@@ -1,7 +1,7 @@
 //===============================================
+#include "GPoco.h"
 #include "GTestPoco.h"
 #include "GPoco.h"
-#include "GPoco2.h"
 #include "GLog.h"
 //===============================================
 GTestPoco::GTestPoco()
@@ -66,7 +66,7 @@ void GTestPoco::runPing(int _argc, char** _argv) {
 //===============================================
 void GTestPoco::runHttpGet(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
-    GPoco2 lPoco;
+    GPoco lPoco;
     lPoco.setUri("http://shell.cas.usf.edu/mccook/uwy/hyperlinks.html");
     if(lPoco.getHttp()) {
         GLOGT(eGMSG, "%s\n", lPoco.getContent().c_str());

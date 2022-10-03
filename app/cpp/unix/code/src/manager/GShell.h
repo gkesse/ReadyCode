@@ -1,13 +1,13 @@
 //===============================================
-#ifndef _GShell2_
-#define _GShell2_
+#ifndef _GShell_
+#define _GShell_
 //===============================================
 #include "GObject.h"
 //===============================================
-class GShell2 : public GObject {
+class GShell : public GObject {
 public:
-    GShell2();
-    ~GShell2();
+    GShell();
+    ~GShell();
     GString getTmpDir() const;
     GString getTmpInFilename() const;
     GString getTmpOutFilename() const;

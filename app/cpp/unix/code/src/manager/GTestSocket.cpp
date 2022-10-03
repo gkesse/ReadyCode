@@ -1,10 +1,10 @@
 //===============================================
+#include "GSocket.h"
 #include "GModule.h"
 #include "GCode.h"
 #include "GXml.h"
 #include "GTestSocket.h"
 #include "GLog.h"
-#include "GSocket2.h"
 //===============================================
 GTestSocket* GTestSocket::m_test = 0;
 //===============================================
@@ -56,7 +56,7 @@ void GTestSocket::runDefault(int _argc, char** _argv) {
 //===============================================
 void GTestSocket::runTcp(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
-    GSocket2 lSocket;
+    GSocket lSocket;
     lSocket.setModule("tcp");
     lSocket.setHostname("192.168.1.45");
     lSocket.setPort(9001);

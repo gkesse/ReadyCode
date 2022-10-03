@@ -1,13 +1,13 @@
 //===============================================
-#ifndef _GPoco2_
-#define _GPoco2_
+#ifndef _GPoco_
+#define _GPoco_
 //===============================================
 #include "GObject.h"
 //===============================================
-class GPoco2 : public GObject {
+class GPoco : public GObject {
 public:
-    GPoco2();
-    ~GPoco2();
+    GPoco();
+    ~GPoco();
 
     void setUri(const GString& _uri);
 

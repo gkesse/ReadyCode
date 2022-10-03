@@ -7,7 +7,7 @@
 GServer* GServer::m_instance = 0;
 //===============================================
 GServer::GServer()
-: GSocket2() {
+: GSocket() {
     createDoms();
     setMethod(API_METHOD);
     setApiKey(API_KEY);
@@ -32,7 +32,7 @@ GServer* GServer::Instance() {
     return m_instance;
 }
 //===============================================
-GSocket2* GServer::clone() const {
+GSocket* GServer::clone() const {
     return new GServer;
 }
 //===============================================
@@ -71,7 +71,7 @@ void GServer::run(int _argc, char** _argv) {
     setFamily(AF_INET);
     setBacklog(5);
     setMessage("Démarrage du serveur...");
-    GSocket2::runServer();
+    GSocket::runServer();
 }
 //===============================================
 bool GServer::onRunServerTcp() {

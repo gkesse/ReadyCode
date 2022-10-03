@@ -1,16 +1,16 @@
 //===============================================
-#ifndef _GThread2_
-#define _GThread2_
+#ifndef _GThread_
+#define _GThread_
 //===============================================
 #include "GObject.h"
 //===============================================
-class GThread2 : public GObject {
+class GThread : public GObject {
 public:
     typedef void* (*GThread2_CB)(void* _params);
 
 public:
-    GThread2();
-    ~GThread2();
+    GThread();
+    ~GThread();
     void setThreadCB(void* _threadCB);
     void setParams(void* _params);
     bool run();

@@ -1,11 +1,11 @@
 //===============================================
+#include "GShell.h"
 #include "GCode.h"
 #include "GLog.h"
 #include "GDate.h"
 #include "GEnv.h"
 #include "GFile2.h"
 #include "GPath.h"
-#include "GShell2.h"
 //===============================================
 GLog* GLog::m_instance = 0;
 //===============================================
@@ -124,7 +124,7 @@ void GLog::tailLogFile(bool _isTestEnv) {
             "fichier......: (%s)\n"
             "", lLogFile.c_str());
     if(lFileObj.existFile()) {
-        GShell2().tailFile(lLogFile);
+        GShell().tailFile(lLogFile);
     }
     else {
         printf("%s\n", lData.c_str());

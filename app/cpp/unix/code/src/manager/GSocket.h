@@ -1,15 +1,15 @@
 //===============================================
-#ifndef _GSocket2_
-#define _GSocket2_
+#ifndef _GSocket_
+#define _GSocket_
 //===============================================
 #include "GObject.h"
 //===============================================
-class GSocket2 : public GObject {
+class GSocket : public GObject {
 public:
-    GSocket2();
-    ~GSocket2();
+    GSocket();
+    ~GSocket();
 
-    virtual GSocket2* clone() const;
+    virtual GSocket* clone() const;
 
     void setModule(const GString& _module);
     void setHostname(const GString& _hostname);

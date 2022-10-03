@@ -1,11 +1,11 @@
 //===============================================
+#include "GShell.h"
 #include "GMySQL.h"
 #include "GCode.h"
 #include "GFile.h"
 #include "GEnv.h"
 #include "GLog.h"
 #include "GPath.h"
-#include "GShell2.h"
 #include "GBase64.h"
 #include "GServer.h"
 //===============================================
@@ -131,7 +131,7 @@ bool GFile::saveFile() {
 bool GFile::initFile() {
     m_homePath = GEnv().getEnv("HOME");
     m_filePath = GFORMAT("%s/.readydev/file", m_homePath.c_str());
-    GShell2().createDir(m_filePath);
+    GShell().createDir(m_filePath);
     m_filePath.print();
     return true;
 }

@@ -1,29 +1,29 @@
 //===============================================
-#include "GPoco2.h"
+#include "GPoco.h"
 #include "GLog.h"
 //===============================================
-GPoco2::GPoco2()
+GPoco::GPoco()
 : GObject() {
 
 }
 //===============================================
-GPoco2::~GPoco2() {
+GPoco::~GPoco() {
 
 }
 //===============================================
-void GPoco2::setUri(const GString& _uri) {
+void GPoco::setUri(const GString& _uri) {
     m_uri = _uri;
 }
 //===============================================
-Poco::Net::HTTPResponse& GPoco2::getHeader() {
+Poco::Net::HTTPResponse& GPoco::getHeader() {
     return m_header;
 }
 //===============================================
-GString GPoco2::getContent() const {
+GString GPoco::getContent() const {
     return m_content;
 }
 //===============================================
-bool GPoco2::getHttp() {
+bool GPoco::getHttp() {
     if(m_uri.isEmpty()) return false;
     try {
         Poco::URI lUri(m_uri.c_str());

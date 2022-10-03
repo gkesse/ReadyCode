@@ -2,18 +2,18 @@
 #ifndef _GServer_
 #define _GServer_
 //===============================================
-#include "GSocket2.h"
+#include "GSocket.h"
 //===============================================
 #define GSERVERI    GServer::Instance()
 //===============================================
-class GServer : public GSocket2 {
+class GServer : public GSocket {
 public:
     GServer();
     ~GServer();
 
     bool createDoms();
     static GServer* Instance();
-    GSocket2* clone() const;
+    GSocket* clone() const;
 
     void setMethod(const GString& _method);
     void setApiKey(const GString& _apiKey);

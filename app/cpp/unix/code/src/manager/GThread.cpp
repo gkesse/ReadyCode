@@ -1,26 +1,26 @@
 //===============================================
-#include "GThread2.h"
+#include "GThread.h"
 //===============================================
-GThread2::GThread2()
+GThread::GThread()
 : GObject() {
     m_thread = 0;
     m_threadCB = 0;
     m_params = 0;
 }
 //===============================================
-GThread2::~GThread2() {
+GThread::~GThread() {
 
 }
 //===============================================
-void GThread2::setThreadCB(void* _threadCB) {
+void GThread::setThreadCB(void* _threadCB) {
     m_threadCB = _threadCB;
 }
 //===============================================
-void GThread2::setParams(void* _params) {
+void GThread::setParams(void* _params) {
     m_params = _params;
 }
 //===============================================
-bool GThread2::run() {
+bool GThread::run() {
     if(m_threadCB == 0) return false;
     if(m_params == 0) return false;
     pthread_create(&m_thread, 0, (GThread2_CB)m_threadCB, m_params);
