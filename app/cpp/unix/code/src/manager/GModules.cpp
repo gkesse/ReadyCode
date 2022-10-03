@@ -1,7 +1,7 @@
 //===============================================
+#include <GCode.h>
 #include "GModules.h"
 #include "GLog.h"
-#include "GCode2.h"
 #include "GServer.h"
 #include "GMySQL2.h"
 //===============================================
@@ -14,12 +14,12 @@ GModules::~GModules() {
 
 }
 //===============================================
-GObject2* GModules::clone() const {
+GObject* GModules::clone() const {
     return new GModules;
 }
 //===============================================
 GString GModules::serialize(const GString& _code) const {
-    GCode2 lDom;
+    GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
     lDom.addData(_code, "name", m_name);
@@ -28,7 +28,7 @@ GString GModules::serialize(const GString& _code) const {
 //===============================================
 bool GModules::deserialize(const GString& _data, const GString& _code) {
     GModule2::deserialize(_data);
-    GCode2 lDom;
+    GCode lDom;
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
     m_name = lDom.getData(_code, "name");

@@ -1,12 +1,12 @@
 //===============================================
+#include <GCode.h>
 #include "GMySQL2.h"
 #include "GLog.h"
 #include "GPath.h"
-#include "GCode2.h"
 #include "GEnv.h"
 //===============================================
 GMySQL2::GMySQL2()
-: GObject2() {
+: GObject() {
     createDoms();
     deserializeDom();
     m_driver = 0;
@@ -17,7 +17,7 @@ GMySQL2::~GMySQL2() {
 }
 //===============================================
 GString GMySQL2::serialize(const GString& _code) const {
-    GCode2 lDom;
+    GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "protocol", m_protocol);
     lDom.addData(_code, "hostname", m_hostname);
@@ -30,7 +30,7 @@ GString GMySQL2::serialize(const GString& _code) const {
 }
 //===============================================
 bool GMySQL2::deserialize(const GString& _data, const GString& _code) {
-    GCode2 lDom;
+    GCode lDom;
     lDom.loadXml(_data);
     m_protocol = lDom.getData(_code, "protocol");
     m_hostname = lDom.getData(_code, "hostname");

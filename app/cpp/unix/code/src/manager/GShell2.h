@@ -2,9 +2,9 @@
 #ifndef _GShell2_
 #define _GShell2_
 //===============================================
-#include "GObject2.h"
+#include "GObject.h"
 //===============================================
-class GShell2 : public GObject2 {
+class GShell2 : public GObject {
 public:
     GShell2();
     ~GShell2();

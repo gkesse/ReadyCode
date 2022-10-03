@@ -1,29 +1,29 @@
 //===============================================
+#include <GCode.h>
 #include "GModule2.h"
 #include "GLog.h"
 #include "GServer.h"
-#include "GCode2.h"
 #include "GConnection.h"
 #include "GFile3.h"
 #include "GModules.h"
 //===============================================
 GModule2::GModule2()
-: GObject2() {
+: GObject() {
     m_server = 0;
 }
 //===============================================
 GModule2::GModule2(const GModule2& _module)
-: GObject2() {
+: GObject() {
     assign(_module);
 }
 //===============================================
 GModule2::GModule2(GModule2* _module)
-: GObject2() {
+: GObject() {
     assign(_module);
 }
 //===============================================
 GModule2::GModule2(GServer* _server)
-: GObject2() {
+: GObject() {
     assign(_server);
 }
 //===============================================
@@ -31,7 +31,7 @@ GModule2::~GModule2() {
 
 }
 //===============================================
-GObject2* GModule2::clone() const {
+GObject* GModule2::clone() const {
     return new GModule2;
 }
 //===============================================
@@ -48,7 +48,7 @@ void GModule2::assign(GServer* _server) {
 }
 //===============================================
 GString GModule2::serialize(const GString& _code) const {
-    GCode2 lDom;
+    GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "module", m_module);
     lDom.addData(_code, "method", m_method);
@@ -56,7 +56,7 @@ GString GModule2::serialize(const GString& _code) const {
 }
 //===============================================
 bool GModule2::deserialize(const GString& _data, const GString& _code) {
-    GCode2 lDom;
+    GCode lDom;
     lDom.loadXml(_data);
     m_module = lDom.getData(_code, "module");
     m_method = lDom.getData(_code, "method");

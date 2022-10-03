@@ -54,7 +54,7 @@ private:
     GString m_request;
     GString m_response;
 
-    std::shared_ptr<GCode2> m_domResponse;
+    std::shared_ptr<GCode> m_domResponse;
 
     int m_dataSize;
     int m_headerSize;

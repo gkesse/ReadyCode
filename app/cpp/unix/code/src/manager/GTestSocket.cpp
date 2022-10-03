@@ -1,9 +1,9 @@
 //===============================================
+#include <GCode.h>
+#include "GXml.h"
 #include "GTestSocket.h"
 #include "GLog.h"
 #include "GSocket2.h"
-#include "GXml2.h"
-#include "GCode2.h"
 #include "GModule2.h"
 //===============================================
 GTestSocket* GTestSocket::m_test = 0;
@@ -108,7 +108,7 @@ void GTestSocket::runXml(int _argc, char** _argv) {
 }
 //===============================================
 void GTestSocket::runCode(int _argc, char** _argv) {
-    GCode2 lCode;
+    GCode lCode;
     lCode.createDoc();
     lCode.addData("menu", "nom", "gerard");
     lCode.addData("menu", "nom", "tia");
@@ -130,7 +130,7 @@ void GTestSocket::runMap(int _argc, char** _argv) {
 
     GString lCode = "request";
 
-    GCode2 lDom;
+    GCode lDom;
     lDom.createDoc();
     lDom.addData("request", lMap);
     lDom.print();
@@ -152,7 +152,7 @@ void GTestSocket::runModule(int _argc, char** _argv) {
 }
 //===============================================
 void GTestSocket::runResponse(int _argc, char** _argv) {
-    GCode2 lDom;
+    GCode lDom;
     lDom.createDoc();
 
     lDom.print();

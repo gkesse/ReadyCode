@@ -2,7 +2,7 @@
 #ifndef _GModule2_
 #define _GModule2_
 //===============================================
-#include "GObject2.h"
+#include "GObject.h"
 //===============================================
 #define GMODULE_REQUIRED()  GERROR_ADD(eGERR, "La module est obligatoire.")
 #define GMODULE_UNKNOWN()   GERROR_ADD(eGERR, "Le module (%s) est inconnu.", m_module.c_str())
@@ -11,7 +11,7 @@
 //===============================================
 class GServer;
 //===============================================
-class GModule2 : public GObject2 {
+class GModule2 : public GObject {
 public:
     GModule2();
     GModule2(const GModule2& _module);
@@ -19,7 +19,7 @@ public:
     GModule2(GServer* _server);
     virtual ~GModule2();
 
-    GObject2* clone() const;
+    GObject* clone() const;
 
     void assign(const GModule2& _module);
     void assign(GModule2* _module);

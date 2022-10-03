@@ -1,25 +1,25 @@
 //===============================================
-#ifndef _GObject2_
-#define _GObject2_
+#ifndef _GObject_
+#define _GObject_
 //===============================================
 #include "GInclude.h"
 #include "GString.h"
 //===============================================
-class GCode2;
+class GCode;
 //===============================================
-class GObject2 {
+class GObject {
 public:
-    GObject2();
-    virtual ~GObject2();
-    virtual GObject2* clone() const;
+    GObject();
+    virtual ~GObject();
+    virtual GObject* clone() const;
     virtual bool createDoms();
     virtual GString serialize(const GString& _code) const;
     virtual bool deserialize(const GString& _data, const GString& _code);
-    virtual void clearMap(std::vector<GObject2*>& _map) const;
+    virtual void clearMap(std::vector<GObject*>& _map) const;
     virtual void print() const;
 
 protected:
-    std::shared_ptr<GCode2> m_dom;
+    std::shared_ptr<GCode> m_dom;
 };
 //===============================================
 #endif

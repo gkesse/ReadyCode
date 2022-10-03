@@ -5,7 +5,7 @@
 #include "GHttp.h"
 //===============================================
 GSocket2::GSocket2()
-: GObject2() {
+: GObject() {
     m_domain = 0;
     m_type = 0;
     m_protocol = 0;

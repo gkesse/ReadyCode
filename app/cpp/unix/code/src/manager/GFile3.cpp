@@ -1,10 +1,10 @@
 //===============================================
+#include <GCode.h>
 #include "GFile3.h"
 #include "GLog.h"
 #include "GPath.h"
 #include "GShell2.h"
 #include "GEnv2.h"
-#include "GCode2.h"
 #include "GBase64.h"
 #include "GServer.h"
 #include "GMySQL2.h"
@@ -25,7 +25,7 @@ GFile3::~GFile3() {
 }
 //===============================================
 GString GFile3::serialize(const GString& _code) const {
-    GCode2 lDom;
+    GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
     lDom.addData(_code, "filename", m_filename);
@@ -35,7 +35,7 @@ GString GFile3::serialize(const GString& _code) const {
 //===============================================
 bool GFile3::deserialize(const GString& _data, const GString& _code) {
     GModule2::deserialize(_data);
-    GCode2 lDom;
+    GCode lDom;
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
     m_filename = lDom.getData(_code, "filename");

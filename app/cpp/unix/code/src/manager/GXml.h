@@ -1,13 +1,13 @@
 //===============================================
-#ifndef _GXml2_
-#define _GXml2_
+#ifndef _GXml_
+#define _GXml_
 //===============================================
-#include "GObject2.h"
+#include "GObject.h"
 //===============================================
-class GXml2 : public GObject2 {
+class GXml : public GObject {
 public:
-    GXml2();
-    virtual ~GXml2();
+    GXml();
+    virtual ~GXml();
 
     void release();
 

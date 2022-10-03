@@ -11,7 +11,7 @@ public:
     GConnection();
     ~GConnection();
 
-    GObject2* clone() const;
+    GObject* clone() const;
 
     GString serialize(const GString& _code = "connection") const;
     bool deserialize(const GString& _data, const GString& _code = "connection");

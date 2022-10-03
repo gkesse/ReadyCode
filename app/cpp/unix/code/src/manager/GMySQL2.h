@@ -2,11 +2,11 @@
 #ifndef _GMySQL2_
 #define _GMySQL2_
 //===============================================
-#include "GObject2.h"
+#include "GObject.h"
 //===============================================
 #define GMySQL2I GMySQL2::Instance()
 //===============================================
-class GMySQL2 : public GObject2 {
+class GMySQL2 : public GObject {
 public:
     GMySQL2();
     ~GMySQL2();

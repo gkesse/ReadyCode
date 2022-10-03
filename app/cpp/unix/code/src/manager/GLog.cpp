@@ -1,6 +1,6 @@
 //===============================================
+#include <GCode.h>
 #include "GLog.h"
-#include "GCode2.h"
 #include "GDate.h"
 #include "GEnv.h"
 #include "GFile2.h"
@@ -10,7 +10,7 @@
 GLog* GLog::m_instance = 0;
 //===============================================
 GLog::GLog()
-: GObject2() {
+: GObject() {
     createDoms();
     m_file = 0;
 }
@@ -27,7 +27,7 @@ GLog* GLog::Instance() {
 }
 //===============================================
 GString GLog::serialize(const GString& _code) const {
-    GCode2 lDom;
+    GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "type", m_type);
     lDom.addData(_code, "side", m_side);
@@ -38,7 +38,7 @@ GString GLog::serialize(const GString& _code) const {
 //===============================================
 bool GLog::deserialize(const GString& _data, const GString& _code) {
     clearMap(m_map);
-    GCode2 lDom;
+    GCode lDom;
     lDom.loadXml(_data);
     m_type = lDom.getData(_code, "type");
     m_side = lDom.getData(_code, "side");

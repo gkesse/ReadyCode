@@ -1,8 +1,8 @@
 //===============================================
+#include <GCode.h>
 #include "GConnection.h"
 #include "GLog.h"
 #include "GServer.h"
-#include "GCode2.h"
 #include "GMySQL2.h"
 #include "GMd5_2.h"
 //===============================================
@@ -17,12 +17,12 @@ GConnection::~GConnection() {
 
 }
 //===============================================
-GObject2* GConnection::clone() const {
+GObject* GConnection::clone() const {
     return new GConnection;
 }
 //===============================================
 GString GConnection::serialize(const GString& _code) const {
-    GCode2 lDom;
+    GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
     lDom.addData(_code, "pseudo", m_pseudo);
@@ -36,7 +36,7 @@ GString GConnection::serialize(const GString& _code) const {
 //===============================================
 bool GConnection::deserialize(const GString& _data, const GString& _code) {
     GModule2::deserialize(_data);
-    GCode2 lDom;
+    GCode lDom;
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
     m_pseudo = lDom.getData(_code, "pseudo");

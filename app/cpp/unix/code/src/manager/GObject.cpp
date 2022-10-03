@@ -1,33 +1,33 @@
 //===============================================
-#include "GObject2.h"
+#include <GCode.h>
+#include "GObject.h"
 #include "GLog.h"
-#include "GCode2.h"
 #include "GPath.h"
 //===============================================
-GObject2::GObject2() {
+GObject::GObject() {
 
 }
 //===============================================
-GObject2::~GObject2() {
+GObject::~GObject() {
 
 }
 //===============================================
-bool GObject2::createDoms() {
-    m_dom.reset(new GCode2);
+bool GObject::createDoms() {
+    m_dom.reset(new GCode);
     m_dom->loadFile(GPATH("xml", "pad.xml"));
     return true;
 }
 //===============================================
-void GObject2::clearMap(std::vector<GObject2*>& _map) const {
+void GObject::clearMap(std::vector<GObject*>& _map) const {
     for(int i = 0; i < (int)_map.size(); i++) {
-        GObject2* lObj = _map.at(i);
+        GObject* lObj = _map.at(i);
         delete lObj;
     }
     _map.clear();
 }
 //===============================================
-GObject2* GObject2::clone() const {return new GObject2;}
-GString GObject2::serialize(const GString& _code) const {return "";}
-bool GObject2::deserialize(const GString& _data, const GString& _code) {return false;}
-void GObject2::print() const {}
+GObject* GObject::clone() const {return new GObject;}
+GString GObject::serialize(const GString& _code) const {return "";}
+bool GObject::deserialize(const GString& _data, const GString& _code) {return false;}
+void GObject::print() const {}
 //===============================================

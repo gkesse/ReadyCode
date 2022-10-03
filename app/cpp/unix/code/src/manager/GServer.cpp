@@ -1,8 +1,8 @@
 //===============================================
+#include <GCode.h>
 #include "GServer.h"
 #include "GLog.h"
 #include "GHttp.h"
-#include "GCode2.h"
 //===============================================
 GServer* GServer::m_instance = 0;
 //===============================================
@@ -20,7 +20,7 @@ GServer::~GServer() {
 }
 //===============================================
 bool GServer::createDoms() {
-    m_domResponse.reset(new GCode2);
+    m_domResponse.reset(new GCode);
     m_domResponse->createDoc();
     return true;
 }

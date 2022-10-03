@@ -2,7 +2,7 @@
 #ifndef _GLog2_
 #define _GLog2_
 //===============================================
-#include "GObject2.h"
+#include "GObject.h"
 //===============================================
 #define eGOFF   0, __FILE__, __LINE__, __PRETTY_FUNCTION__
 #define eGFUN   1, __FILE__, __LINE__, __PRETTY_FUNCTION__
@@ -22,7 +22,7 @@
 #define GLOGW(x, ...)       GLOGI->writeLog(#x, x, GFORMAT(__VA_ARGS__))
 #define GSTRC               GLOGI->toString
 //===============================================
-class GLog : public GObject2 {
+class GLog : public GObject {
 public:
     GLog();
     ~GLog();
@@ -72,7 +72,7 @@ private:
     GString m_type;
     GString m_side;
     GString m_msg;
-    std::vector<GObject2*> m_map;
+    std::vector<GObject*> m_map;
     //
     FILE* m_file;
 };
