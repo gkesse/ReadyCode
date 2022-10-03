@@ -1,9 +1,9 @@
 //===============================================
+#include "GMySQL.h"
 #include "GCode.h"
 #include "GConnection.h"
 #include "GLog.h"
 #include "GServer.h"
-#include "GMySQL2.h"
 #include "GMd5_2.h"
 //===============================================
 GConnection::GConnection()
@@ -49,7 +49,7 @@ bool GConnection::deserialize(const GString& _data, const GString& _code) {
 }
 //===============================================
 bool GConnection::loadUserPseudo() {
-    GString lData = GMySQL2().readData(GFORMAT(""
+    GString lData = GMySQL().readData(GFORMAT(""
             " select _id "
             " from _user "
             " where _pseudo = '%s' "
@@ -63,7 +63,7 @@ bool GConnection::loadUserPseudo() {
 bool GConnection::loadUserPassword() {
     if(m_id == 0) return false;
     if(m_passwordMd5 == "") return false;
-    GString lData = GMySQL2().readData(GFORMAT(""
+    GString lData = GMySQL().readData(GFORMAT(""
             " select _id "
             " from _user "
             " where _id = %d "
@@ -79,7 +79,7 @@ bool GConnection::loadUserPassword() {
 bool GConnection::loadUser() {
     if(m_id == 0) return false;
 
-    std::vector<GString> lRow = GMySQL2().readRow(GFORMAT(""
+    std::vector<GString> lRow = GMySQL().readRow(GFORMAT(""
             " select _pseudo, _password, _email, _group, _active "
             " from _user "
             " where _id = %d "
@@ -113,8 +113,8 @@ bool GConnection::insertUser() {
     if(m_id != 0) return false;
     if(m_pseudo == "") return false;
     if(m_passwordMd5 == "") return false;
-    GMySQL2 lMySQL2;
-    if(!GMySQL2().execQuery(GFORMAT(""
+    GMySQL lMySQL2;
+    if(!GMySQL().execQuery(GFORMAT(""
             " insert into _user "
             " ( _pseudo, _password ) "
             " values ( '%s', '%s' ) "
@@ -127,7 +127,7 @@ bool GConnection::insertUser() {
 //===============================================
 bool GConnection::updateUser() {
     if( m_id == 0) return false;
-    if(!GMySQL2().execQuery(GFORMAT(""
+    if(!GMySQL().execQuery(GFORMAT(""
             " update _user "
             " set _pseudo = '%s' "
             " , _password = '%s' "
@@ -141,7 +141,7 @@ bool GConnection::updateUser() {
 //===============================================
 bool GConnection::updateConnection() {
     if( m_id == 0) return false;
-    if(!GMySQL2().execQuery(GFORMAT(""
+    if(!GMySQL().execQuery(GFORMAT(""
             " update _user "
             " set _connect = '%d' "
             " , _d_connect = now() "

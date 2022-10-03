@@ -1,22 +1,22 @@
 //===============================================
+#include "GMySQL.h"
 #include "GCode.h"
-#include "GMySQL2.h"
 #include "GLog.h"
 #include "GPath.h"
 #include "GEnv.h"
 //===============================================
-GMySQL2::GMySQL2()
+GMySQL::GMySQL()
 : GObject() {
     createDoms();
     deserializeDom();
     m_driver = 0;
 }
 //===============================================
-GMySQL2::~GMySQL2() {
+GMySQL::~GMySQL() {
 
 }
 //===============================================
-GString GMySQL2::serialize(const GString& _code) const {
+GString GMySQL::serialize(const GString& _code) const {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "protocol", m_protocol);
@@ -29,7 +29,7 @@ GString GMySQL2::serialize(const GString& _code) const {
     return lDom.toString();
 }
 //===============================================
-bool GMySQL2::deserialize(const GString& _data, const GString& _code) {
+bool GMySQL::deserialize(const GString& _data, const GString& _code) {
     GCode lDom;
     lDom.loadXml(_data);
     m_protocol = lDom.getData(_code, "protocol");
@@ -42,41 +42,41 @@ bool GMySQL2::deserialize(const GString& _data, const GString& _code) {
     return true;
 }
 //===============================================
-bool GMySQL2::deserializeDom(const GString& _code) {
+bool GMySQL::deserializeDom(const GString& _code) {
     GString lData = m_dom->toString();
     deserialize(lData, _code);
     return true;
 }
 //===============================================
-GString GMySQL2::loadDatabase(bool _isTestEnv) const {
+GString GMySQL::loadDatabase(bool _isTestEnv) const {
     if(_isTestEnv) return m_databaseTest;
     return m_databaseProd;
 }
 //===============================================
-bool GMySQL2::openDatabase() {
+bool GMySQL::openDatabase() {
     if(!openDatabase(GEnv().isTestEnv())) return false;
     return true;
 }
 //===============================================
-bool GMySQL2::openDatabase(bool _isTestEnv) {
+bool GMySQL::openDatabase(bool _isTestEnv) {
     GString lDatabase = loadDatabase(_isTestEnv);
     if(!openDatabase(m_protocol, m_hostname, m_port, m_username, m_password, lDatabase)) return false;
     return true;
 }
 //===============================================
-bool GMySQL2::openDatabase(const GString& _protocol, const GString& _hostname, const GString& _port, const GString& _username, const GString& _password, const GString& _database) {
+bool GMySQL::openDatabase(const GString& _protocol, const GString& _hostname, const GString& _port, const GString& _username, const GString& _password, const GString& _database) {
     m_driver = get_driver_instance();
     GString lHostname = GFORMAT("%s://%s:%s/%s", _protocol.c_str(), _hostname.c_str(), _port.c_str(), _database.c_str());
     m_con.reset(m_driver->connect(lHostname.c_str(), _username.c_str(), _password.c_str()));
     return true;
 }
 //===============================================
-bool GMySQL2::execQuery(const GString& _sql) {
+bool GMySQL::execQuery(const GString& _sql) {
     if(!execQuery(_sql, GEnv().isTestEnv())) return false;
     return true;
 }
 //===============================================
-bool GMySQL2::execQuery(const GString& _sql, bool _isTestEnv) {
+bool GMySQL::execQuery(const GString& _sql, bool _isTestEnv) {
     GLOGT(eGMSG, "%s", _sql.c_str());
     try {
         openDatabase(_isTestEnv);
@@ -90,12 +90,12 @@ bool GMySQL2::execQuery(const GString& _sql, bool _isTestEnv) {
     return true;
 }
 //===============================================
-bool GMySQL2::readQuery(const GString& _sql) {
+bool GMySQL::readQuery(const GString& _sql) {
     if(!readQuery(_sql, GEnv().isTestEnv())) return false;
     return true;
 }
 //===============================================
-bool GMySQL2::readQuery(const GString& _sql, bool _isTestEnv) {
+bool GMySQL::readQuery(const GString& _sql, bool _isTestEnv) {
     GLOGT(eGMSG, "%s", _sql.c_str());
     try {
         openDatabase(_isTestEnv);
@@ -109,12 +109,12 @@ bool GMySQL2::readQuery(const GString& _sql, bool _isTestEnv) {
     return true;
 }
 //===============================================
-int GMySQL2::getColumnCount() const {
+int GMySQL::getColumnCount() const {
     int lColumns = m_res->getMetaData()->getColumnCount();
     return lColumns;
 }
 //===============================================
-int GMySQL2::getId() {
+int GMySQL::getId() {
     int lId = 0;
     try {
         m_res.reset(m_stmt->executeQuery("select @@identity as id"));
@@ -127,11 +127,11 @@ int GMySQL2::getId() {
     return lId;
 }
 //===============================================
-GString GMySQL2::readData(const GString& _sql) {
+GString GMySQL::readData(const GString& _sql) {
     return readData(_sql, GEnv().isTestEnv());
 }
 //===============================================
-GString GMySQL2::readData(const GString& _sql, bool _isTestEnv) {
+GString GMySQL::readData(const GString& _sql, bool _isTestEnv) {
     GString lData = "";
     if(!readQuery(_sql, _isTestEnv)) return lData;
     while(m_res->next()) {
@@ -141,11 +141,11 @@ GString GMySQL2::readData(const GString& _sql, bool _isTestEnv) {
     return lData;
 }
 //===============================================
-std::vector<GString> GMySQL2::readCol(const GString& _sql) {
+std::vector<GString> GMySQL::readCol(const GString& _sql) {
     return readCol(_sql, GEnv().isTestEnv());
 }
 //===============================================
-std::vector<GString> GMySQL2::readCol(const GString& _sql, bool _isTestEnv) {
+std::vector<GString> GMySQL::readCol(const GString& _sql, bool _isTestEnv) {
     std::vector<GString> lDataMap;
     if(!readQuery(_sql, _isTestEnv)) return lDataMap;
     while(m_res->next()) {
@@ -155,11 +155,11 @@ std::vector<GString> GMySQL2::readCol(const GString& _sql, bool _isTestEnv) {
     return lDataMap;
 }
 //===============================================
-std::vector<GString> GMySQL2::readRow(const GString& _sql) {
+std::vector<GString> GMySQL::readRow(const GString& _sql) {
     return readRow(_sql, GEnv().isTestEnv());
 }
 //===============================================
-std::vector<GString> GMySQL2::readRow(const GString& _sql, bool _isTestEnv) {
+std::vector<GString> GMySQL::readRow(const GString& _sql, bool _isTestEnv) {
     std::vector<GString> lDataMap;
     if(!readQuery(_sql, _isTestEnv)) return lDataMap;
     int lColumns = getColumnCount();
@@ -173,11 +173,11 @@ std::vector<GString> GMySQL2::readRow(const GString& _sql, bool _isTestEnv) {
     return lDataMap;
 }
 //===============================================
-std::vector<std::vector<GString>> GMySQL2::readMap(const GString& _sql) {
+std::vector<std::vector<GString>> GMySQL::readMap(const GString& _sql) {
     return readMap(_sql, GEnv().isTestEnv());
 }
 //===============================================
-std::vector<std::vector<GString>> GMySQL2::readMap(const GString& _sql, bool _isTestEnv) {
+std::vector<std::vector<GString>> GMySQL::readMap(const GString& _sql, bool _isTestEnv) {
     std::vector<std::vector<GString>> lDataMap;
     if(!readQuery(_sql, _isTestEnv)) return lDataMap;
     int lColumns = getColumnCount();

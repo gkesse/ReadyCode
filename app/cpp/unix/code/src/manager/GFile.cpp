@@ -1,4 +1,5 @@
 //===============================================
+#include "GMySQL.h"
 #include "GCode.h"
 #include "GFile.h"
 #include "GEnv.h"
@@ -7,7 +8,6 @@
 #include "GShell2.h"
 #include "GBase64.h"
 #include "GServer.h"
-#include "GMySQL2.h"
 //===============================================
 GFile::GFile()
 : GModule() {
@@ -139,7 +139,7 @@ bool GFile::initFile() {
 bool GFile::insertFile() {
     if(m_id != 0) return false;
     initFile();
-    GMySQL2 lMySQL2;
+    GMySQL lMySQL2;
     if(!lMySQL2.execQuery(GFORMAT(""
             " insert into _file "
             " ( _filename ) "
@@ -153,7 +153,7 @@ bool GFile::insertFile() {
 bool GFile::updateFile() {
     if(m_id == 0) return false;
     m_fullname = GFORMAT("%s/%d_%s", m_filePath.c_str(), m_id, m_filename.c_str());
-    if(!GMySQL2().execQuery(GFORMAT(""
+    if(!GMySQL().execQuery(GFORMAT(""
             " update _file "
             " set _fullname = '%s' "
             " where _id = %d "

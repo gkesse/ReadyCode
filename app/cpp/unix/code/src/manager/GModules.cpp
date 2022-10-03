@@ -1,9 +1,9 @@
 //===============================================
+#include "GMySQL.h"
 #include "GCode.h"
 #include "GModules.h"
 #include "GLog.h"
 #include "GServer.h"
-#include "GMySQL2.h"
 //===============================================
 GModules::GModules()
 : GModule() {
@@ -66,7 +66,7 @@ bool GModules::createModule() {
 //===============================================
 bool GModules::insertModule() {
     if(m_id != 0) return false;
-    GMySQL2 lMySQL2;
+    GMySQL lMySQL2;
     if(!lMySQL2.execQuery(GFORMAT(""
             " insert into _module "
             " ( _name ) "

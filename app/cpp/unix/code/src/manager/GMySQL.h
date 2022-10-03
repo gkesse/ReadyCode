@@ -1,15 +1,15 @@
 //===============================================
-#ifndef _GMySQL2_
-#define _GMySQL2_
+#ifndef _GMySQL_
+#define _GMySQL_
 //===============================================
 #include "GObject.h"
 //===============================================
-#define GMySQL2I GMySQL2::Instance()
+#define GMySQLI     GMySQL::Instance()
 //===============================================
-class GMySQL2 : public GObject {
+class GMySQL : public GObject {
 public:
-    GMySQL2();
-    ~GMySQL2();
+    GMySQL();
+    ~GMySQL();
     //
     GString serialize(const GString& _code = "mysql") const;
     bool deserialize(const GString& _data, const GString& _code = "mysql");
