@@ -11,16 +11,17 @@ GSession::~GSession() {
 
 }
 //===============================================
-QString GSession::serialize(const QString& _code) const {
+GString GSession::serialize(const GString& _code) const {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "user_id", m_userId);
-    return lDom.toStringData();
+    return lDom.toString();
 }
 //===============================================
-void GSession::deserialize(const QString& _data, const QString& _code) {
+bool GSession::deserialize(const GString& _data, const GString& _code) {
     GCode lDom;
     lDom.loadXml(_data);
-    m_userId = lDom.getItem(_code, "user_id").toInt();
+    m_userId = lDom.getData(_code, "user_id").toInt();
+    return true;
 }
 //===============================================

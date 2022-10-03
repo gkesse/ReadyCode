@@ -38,38 +38,29 @@ public:
     GObject* clone() const;
     GString serialize(const GString& _code = "logs") const;
     bool deserialize(const GString& _data, const GString& _code = "logs");
-    //
-    bool isDebug() const;
-    bool isDebug(bool _isTestEnv) const;
-    bool isFileLog() const;
-    bool isFileLog(bool _isTestEnv) const;
-    bool isTestFileLog() const;
-    bool isProdFileLog() const;
-    bool isTestLog() const;
-    bool isProdLog() const;
+
+    void initLog();
+
     bool isConnectionError() const;
     void setConnectionError(bool _isConnectionError);
     //
-    FILE* getOutput(bool _isFileLog);
+    FILE* getOutput();
     FILE* getOutputFile();
     void closeLogFile();
     void catLogFile();
-    void tailLogFile(bool _isTestEnv);
+    void tailLogFile();
     //
     void addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _error);
     void showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func);
     void showLogs(const char* _name, int _level, const char* _file, int _line, const char* _func);
     void showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, QWidget* _parent);
     void showLogs(const char* _name, int _level, const char* _file, int _line, const char* _func, QWidget* _parent);
-    void showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog);
     void showLogs(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog);
     void loadErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _data);
     void loadLogs(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _data);
     //
     void writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _log);
-    void writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const GString& _log);
     void traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _data = "");
-    void traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const GString& _data = "");
     //
     bool hasErrors() const;
     bool hasLogs() const;
@@ -100,6 +91,19 @@ private:
     FILE* m_file;
     bool m_isConnectionError;
     bool m_isClientSide;
+    //
+    bool m_isTestEnv;
+    bool m_isTestLog;
+    bool m_isProdLog;
+    bool m_isTestFile;
+    bool m_isProdFile;
+    bool m_isDebug;
+    bool m_isFileLog;
+    GString m_tmpPath;
+    GString m_currentDate;
+    GString m_logTestFile;
+    GString m_logProdFile;
+    GString m_logFilename;
 };
 //==============================================
 #endif

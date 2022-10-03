@@ -9,7 +9,7 @@ class GSocket;
 class GModule : public GObject {
 public:
     GModule();
-    virtual ~GModule();
+    ~GModule();
 
     GObject* clone() const;
 

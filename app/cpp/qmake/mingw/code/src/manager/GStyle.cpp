@@ -29,7 +29,7 @@ bool GStyle::loadStyle() {
 }
 //===============================================
 bool GStyle::loadStyle(const GString& _filename) {
-    GFile2 lFiles(_filename);
+    GFile lFiles(_filename);
     if(!lFiles.existFile()) {GERROR_ADD(eGERR, GFORMAT("La feuille de style n'existe pas.\n%s", _filename.c_str())); return false;}
     GString lStyleSheet = lFiles.getContent();
     qApp->setStyleSheet(lStyleSheet.c_str());

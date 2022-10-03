@@ -4,8 +4,8 @@
 //===============================================
 #include "GObject.h"
 //===============================================
-#define GFONTI      GFont2::Instance()
-#define GFONT_LOAD  GFONTI->loadFont
+#define GFONT       GFont::Instance()
+#define GFONT_LOAD  GFONT->loadFont
 //===============================================
 class GFont : public GObject {
 public:

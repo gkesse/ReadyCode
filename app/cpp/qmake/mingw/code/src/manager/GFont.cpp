@@ -1,6 +1,6 @@
 //===============================================
-#include "GPath.h"
 #include "GFont.h"
+#include "GPath.h"
 #include "GCode.h"
 //===============================================
 GFont* GFont::m_instance = 0;

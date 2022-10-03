@@ -16,7 +16,7 @@ GWindowUi::GWindowUi(QWidget* _parent)
     ui->setupUi(this);
     m_file = new GFile;
     m_modules = new GModules;
-    setWindowIcon(QIcon(GPATH("img", "readydev.png")));
+    setWindowIcon(QIcon(GPATH("img", "readydev.png").c_str()));
 }
 //===============================================
 GWindowUi::~GWindowUi() {

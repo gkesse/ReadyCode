@@ -1,40 +1,34 @@
 //===============================================
-#include "GLog.h"
 #include "GEnv.h"
+#include "GLog.h"
 //===============================================
 GEnv::GEnv()
 : GObject() {
-
+    initEnv();
 }
 //===============================================
 GEnv::~GEnv() {
 
 }
 //===============================================
-bool GEnv::isProdEnv() const {
-    GString lType = getEnvType();
-    if(lType == "PROD") return true;
-    return false;
+void GEnv::initEnv() {
+    m_envType   = getEnv("GPROJECT_ENV");
+    m_dataPath  = getEnv("GPROJECT_DATA");
+    m_tmpPath   = getEnv("GPROJECT_TMP");
+    m_isProdEnv = (m_envType == "PROD");
+    m_isTestEnv = !m_isProdEnv;
 }
 //===============================================
 bool GEnv::isTestEnv() const {
-    if(isProdEnv()) return false;
-    return true;
-}
-//===============================================
-GString GEnv::getEnvType() const {
-    GString lData = getEnv("GPROJECT_ENV");
-    return lData;
+    return m_isTestEnv;
 }
 //===============================================
 GString GEnv::getDataPath() const {
-    GString lData = getEnv("GPROJECT_DATA");
-    return lData;
+    return m_dataPath;
 }
 //===============================================
 GString GEnv::getTmpDir() const {
-    GString lData = getEnv("GPROJECT_TMP");
-    return lData;
+    return m_tmpPath;
 }
 //===============================================
 GString GEnv::getEnv(const GString& _env, const GString& _defaultValue) const {
