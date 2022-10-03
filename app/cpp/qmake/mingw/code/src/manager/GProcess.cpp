@@ -22,8 +22,8 @@ void GProcess::run(int _argc, char** _argv) {
 	if(lKey == "") {
         runDefault(_argc, _argv);
     }
-    else if(lKey == "mainpad") {
-        runMainPad(_argc, _argv);
+    else if(lKey == "pad") {
+        runPad(_argc, _argv);
     }
 	else {
 		runDefault(_argc, _argv);
@@ -39,7 +39,7 @@ void GProcess::runTest(int _argc, char** _argv) {
     lTest.run(_argc, _argv);
 }
 //===============================================
-void GProcess::runMainPad(int _argc, char** _argv) {
+void GProcess::runPad(int _argc, char** _argv) {
     QApplication lApp(_argc, _argv);
     if(!GFONT_LOAD()) return;
     if(!GSTYLE_LOAD()) return;

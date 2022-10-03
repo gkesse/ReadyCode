@@ -12,11 +12,12 @@ public:
     GStyle();
     ~GStyle();
     static GStyle* Instance();
+    void initStyle();
     bool loadStyle();
-    bool loadStyle(const GString& _filename);
 
 private:
     static GStyle* m_instance;
+    GString m_styleFile;
 };
 //==============================================
 #endif

@@ -8,7 +8,7 @@ GStyle* GStyle::m_instance = 0;
 //===============================================
 GStyle::GStyle()
 : GObject() {
-
+    initStyle();
 }
 //===============================================
 GStyle::~GStyle() {
@@ -22,16 +22,14 @@ GStyle* GStyle::Instance() {
     return m_instance;
 }
 //===============================================
-bool GStyle::loadStyle() {
-    GString lFile = GPATH("css", "style.css");
-    if(!loadStyle(lFile)) return false;
-    return true;
+void GStyle::initStyle() {
+    m_styleFile = GPATH("css", "style.css");
 }
 //===============================================
-bool GStyle::loadStyle(const GString& _filename) {
-    GFile lFiles(_filename);
-    if(!lFiles.existFile()) {GERROR_ADD(eGERR, GFORMAT("La feuille de style n'existe pas.\n%s", _filename.c_str())); return false;}
-    GString lStyleSheet = lFiles.getContent();
+bool GStyle::loadStyle() {
+    GFile lFile(m_styleFile);
+    if(!lFile.existFile()) {GERROR_ADD(eGERR, GFORMAT("La feuille de style n'existe pas.\n%s", m_styleFile.c_str())); return false;}
+    GString lStyleSheet = lFile.getContents();
     qApp->setStyleSheet(lStyleSheet.c_str());
     return true;
 }
