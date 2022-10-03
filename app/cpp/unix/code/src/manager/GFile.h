@@ -11,7 +11,7 @@ public:
     ~GFile();
 
     GString serialize(const GString& _code = "file") const;
-    void deserialize(const GString& _data, const GString& _code = "file");
+    bool deserialize(const GString& _data, const GString& _code = "file");
 
     void setId(int _id);
     void setFilename(const GString& _filename);

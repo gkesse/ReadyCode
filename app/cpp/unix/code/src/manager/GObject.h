@@ -14,7 +14,7 @@ public:
     virtual GObject* clone() const;
     virtual bool createDoms();
     virtual GString serialize(const GString& _code) const;
-    virtual void deserialize(const GString& _data, const GString& _code);
+    virtual bool deserialize(const GString& _data, const GString& _code);
     virtual void clearMap(std::vector<GObject*>& _map) const;
     virtual void print() const;
 

@@ -9,20 +9,15 @@ GServer* GServer::m_instance = 0;
 GServer::GServer()
 : GSocket() {
     createDoms();
-    setMethod(API_METHOD);
-    setApiKey(API_KEY);
-    setUsername(API_USERNAME);
-    setPassword(API_PASSWORD);
+    initServer();
 }
 //===============================================
 GServer::~GServer() {
 
 }
 //===============================================
-bool GServer::createDoms() {
-    m_domResponse.reset(new GCode);
-    m_domResponse->createDoc();
-    return true;
+GSocket* GServer::clone() const {
+    return new GServer;
 }
 //===============================================
 GServer* GServer::Instance() {
@@ -32,24 +27,29 @@ GServer* GServer::Instance() {
     return m_instance;
 }
 //===============================================
-GSocket* GServer::clone() const {
-    return new GServer;
+void GServer::initServer() {
+    m_module        = "tcp";
+
+    m_hostname      = "0.0.0.0";
+    m_port          = 9001;
+    m_domain        = AF_INET;
+    m_type          = SOCK_STREAM;
+    m_protocol      = IPPROTO_TCP;
+    m_family        = AF_INET;
+    m_backlog       = 5;
+
+    m_startMessage  = "Démarrage du serveur...";
+
+    m_apiMethod     = API_METHOD;
+    m_apiKey        = API_KEY;
+    m_apiUsername   = API_USERNAME;
+    m_apiPassword   = API_PASSWORD;
 }
 //===============================================
-void GServer::setMethod(const GString& _method) {
-    m_method = _method;
-}
-//===============================================
-void GServer::setApiKey(const GString& _apiKey) {
-    m_apiKey = _apiKey;
-}
-//===============================================
-void GServer::setUsername(const GString& _username) {
-    m_username = _username;
-}
-//===============================================
-void GServer::setPassword(const GString& _password) {
-    m_password = _password;
+bool GServer::createDoms() {
+    m_domResponse.reset(new GCode);
+    m_domResponse->createDoc();
+    return true;
 }
 //===============================================
 void GServer::setResponse(const GString& _response) {
@@ -62,20 +62,11 @@ GString GServer::getRequest() const {
 //===============================================
 void GServer::run(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
-    setModule("tcp");
-    setHostname("0.0.0.0");
-    setPort(9001);
-    setDomain(AF_INET);
-    setType(SOCK_STREAM);
-    setProtocol(IPPROTO_TCP);
-    setFamily(AF_INET);
-    setBacklog(5);
-    setMessage("Démarrage du serveur...");
-    GSocket::runServer();
+    runServer();
 }
 //===============================================
 bool GServer::onRunServerTcp() {
-    if(m_dataIn.startBy(m_method)) {
+    if(m_dataIn.startBy(m_apiMethod)) {
         onReadyApp();
     }
     else if(m_dataIn.startBy("GET")) {
@@ -123,8 +114,8 @@ bool GServer::isReadyApp() {
     }
 
     if(lApiKey != m_apiKey) return false;
-    if(lUsername != m_username) return false;
-    if(lPassword != m_password) return false;
+    if(lUsername != m_apiUsername) return false;
+    if(lPassword != m_apiPassword) return false;
     if(!lSize.toInt(m_dataSize)) return false;
 
     m_headerSize = m_dataIn.sepSize(1, ";");
@@ -160,17 +151,17 @@ bool GServer::createResponse() {
 //===============================================
 bool GServer::createData() {
     if(m_response == "") return false;
-    if(m_method == "") return false;
+    if(m_apiMethod == "") return false;
     if(m_apiKey == "") return false;
-    if(m_username == "") return false;
-    if(m_password == "") return false;
+    if(m_apiUsername == "") return false;
+    if(m_apiPassword == "") return false;
 
     int lSize = m_response.size();
 
-    m_dataOut += GFORMAT("%s;", m_method.c_str());
+    m_dataOut += GFORMAT("%s;", m_apiMethod.c_str());
     m_dataOut += GFORMAT("api_key:%s|", m_apiKey.c_str());
-    m_dataOut += GFORMAT("username:%s|", m_username.c_str());
-    m_dataOut += GFORMAT("password:%s|", m_password.c_str());
+    m_dataOut += GFORMAT("username:%s|", m_apiUsername.c_str());
+    m_dataOut += GFORMAT("password:%s|", m_apiPassword.c_str());
     m_dataOut += GFORMAT("size:%d;", lSize);
     m_dataOut += GFORMAT("%s", m_response.c_str());
     return true;

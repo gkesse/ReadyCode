@@ -4,21 +4,19 @@
 //===============================================
 #include "GSocket.h"
 //===============================================
-#define GSERVERI    GServer::Instance()
+#define GSERVERI        GServer::Instance()
+#define GRUN_SERVER     GSERVERI->run
 //===============================================
 class GServer : public GSocket {
 public:
     GServer();
     ~GServer();
 
-    bool createDoms();
-    static GServer* Instance();
     GSocket* clone() const;
+    static GServer* Instance();
+    void initServer();
+    bool createDoms();
 
-    void setMethod(const GString& _method);
-    void setApiKey(const GString& _apiKey);
-    void setUsername(const GString& _username);
-    void setPassword(const GString& _password);
     void setResponse(const GString& _response);
 
     GString getRequest() const;
@@ -47,10 +45,10 @@ private:
 
     static GServer* m_instance;
 
-    GString m_method;
+    GString m_apiMethod;
     GString m_apiKey;
-    GString m_username;
-    GString m_password;
+    GString m_apiUsername;
+    GString m_apiPassword;
     GString m_request;
     GString m_response;
 

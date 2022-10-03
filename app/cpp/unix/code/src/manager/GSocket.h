@@ -11,16 +11,6 @@ public:
 
     virtual GSocket* clone() const;
 
-    void setModule(const GString& _module);
-    void setHostname(const GString& _hostname);
-    void setMessage(const GString& _message);
-    void setDomain(int _domain);
-    void setType(int _type);
-    void setProtocol(int _protocol);
-    void setFamily(int _family);
-    void setPort(int _port);
-    void setBacklog(int _backlog);
-
     GString& getDataIn();
     GString& getDataOut();
 
@@ -45,14 +35,16 @@ protected:
     static const int METHOD_SIZE = 1024;
 
     GString m_module;
+
     GString m_hostname;
-    GString m_message;
     int m_domain;
     int m_type;
     int m_protocol;
     int m_family;
     int m_port;
     int m_backlog;
+
+    GString m_startMessage;
 
     GString m_method;
     GString m_apiKey;

@@ -26,7 +26,7 @@ public:
     void assign(GServer* _server);
 
     GString serialize(const GString& _code = "request") const;
-    void deserialize(const GString& _data, const GString& _code = "request");
+    bool deserialize(const GString& _data, const GString& _code = "request");
 
     void setModule(const GString& _module);
     void setMethod(const GString& _method);

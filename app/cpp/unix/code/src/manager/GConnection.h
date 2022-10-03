@@ -14,7 +14,7 @@ public:
     GObject* clone() const;
 
     GString serialize(const GString& _code = "connection") const;
-    void deserialize(const GString& _data, const GString& _code = "connection");
+    bool deserialize(const GString& _data, const GString& _code = "connection");
 
     bool loadUserPseudo();
     bool loadUserPassword();

@@ -11,10 +11,6 @@ public:
     void run(int _argc, char** _argv);
     void runDefault(int _argc, char** _argv);
     void runServer(int _argc, char** _argv);
-    void runTest(int _argc, char** _argv);
-    void runTestNetwork(int _argc, char** _argv);
-    void runTestPoco(int _argc, char** _argv);
-    void runTestSocket(int _argc, char** _argv);
 };
 //===============================================
 #endif

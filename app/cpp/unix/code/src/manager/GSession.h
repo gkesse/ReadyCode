@@ -12,7 +12,7 @@ public:
     GSession();
     virtual ~GSession();
     virtual GString serialize(const GString& _code = "session") const;
-    virtual void deserialize(const GString& _data, const GString& _code = "session");
+    virtual bool deserialize(const GString& _data, const GString& _code = "session");
 
 protected:
     int m_userId;
