@@ -7,7 +7,7 @@
 //===============================================
 GModules::GModules()
 : GModule() {
-    m_id = 0;
+    initModules();
 }
 //===============================================
 GModules::~GModules() {
@@ -23,6 +23,7 @@ GString GModules::serialize(const GString& _code) const {
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
     lDom.addData(_code, "name", m_name);
+    lDom.addData(_code, m_map);
     return lDom.toString();
 }
 //===============================================
@@ -32,7 +33,13 @@ bool GModules::deserialize(const GString& _data, const GString& _code) {
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
     m_name = lDom.getData(_code, "name");
+    lDom.getData(_code, m_map, this);
     return true;
+}
+//===============================================
+void GModules::initModules() {
+    m_id = 0;
+    m_where = " where 1 = 1 ";
 }
 //===============================================
 bool GModules::onModule() {
@@ -42,6 +49,9 @@ bool GModules::onModule() {
     }
     else if(m_method == "create_module") {
         onCreateModule();
+    }
+    else if(m_method == "search_module") {
+        onSearchModule();
     }
     else {
         GMETHOD_UNKNOWN();
@@ -59,21 +69,53 @@ bool GModules::onCreateModule() {
     return true;
 }
 //===============================================
+bool GModules::onSearchModule() {
+    if(m_id != 0) {
+        m_where += GFORMAT(" and _id = %d ", m_id);
+    }
+    else {
+        if(m_name != "") {
+            m_where += GFORMAT(" and _name = '%s' ", m_name.c_str());
+        }
+    }
+    if(!searchModule()) return false;
+    return true;
+}
+//===============================================
 bool GModules::createModule() {
     if(!insertModule()) return false;
     return true;
 }
 //===============================================
+bool GModules::searchModule() {
+    GMySQL lMySQL;
+    GMap lDataMap = lMySQL.readMap(GFORMAT(""
+            " select _id, _name "
+            " from _module "
+            " %s "
+            "", m_where.c_str()
+    ));
+    for(int i = 0; i < (int)lDataMap.size(); i++) {
+        GRow lDataRow = lDataMap.at(i);
+        int j = 0;
+        GModules* lModule = new GModule;
+        lModule->m_id = lDataRow.at(j++).toInt();
+        lModule->m_name = lDataRow.at(j++);
+        m_map.push_back(lModule);
+    }
+    return true;
+}
+//===============================================
 bool GModules::insertModule() {
     if(m_id != 0) return false;
-    GMySQL lMySQL2;
-    if(!lMySQL2.execQuery(GFORMAT(""
+    GMySQL lMySQL;
+    if(!lMySQL.execQuery(GFORMAT(""
             " insert into _module "
             " ( _name ) "
             " values ( '%s' ) "
             "", m_name.c_str()
     ))) return false;
-    m_id = lMySQL2.getId();
+    m_id = lMySQL.getId();
     return true;
 }
 //===============================================

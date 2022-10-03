@@ -6,6 +6,9 @@
 //===============================================
 #define GMySQLI     GMySQL::Instance()
 //===============================================
+typedef std::vector<std::vector<GString>> GMap;
+typedef std::vector<GString> GRow;
+//===============================================
 class GMySQL : public GObject {
 public:
     GMySQL();
