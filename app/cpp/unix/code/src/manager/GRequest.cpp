@@ -35,10 +35,10 @@ void GRequest::deserialize(const GString& _data, const GString& _code) {
     GModule::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
-    m_id = GString(lDom.getItem(_code, "id")).toInt();
+    m_id = GString(lDom.getData(_code, "id")).toInt();
     m_msg = _data;
-    m_dataOffset = GString(lDom.getItem(_code, "data_offset")).toInt();
-    m_dataSize = GString(lDom.getItem(_code, "data_size")).toInt();
+    m_dataOffset = GString(lDom.getData(_code, "data_offset")).toInt();
+    m_dataSize = GString(lDom.getData(_code, "data_size")).toInt();
 }
 //===============================================
 void GRequest::onModule(GSocket* _client) {

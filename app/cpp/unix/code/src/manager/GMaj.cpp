@@ -44,10 +44,10 @@ void GMaj::deserialize(const GString& _req, const GString& _code) {
     GModule::deserialize(_req);
     GCode lReq;
     lReq.loadXml(_req);
-    m_id = GString(lReq.getItem(_code, "id")).toInt();
-    m_code = lReq.getItem(_code, "code");
-    m_path = lReq.getItem(_code, "path");
-    m_filename = lReq.getItem(_code, "filename");
+    m_id = GString(lReq.getData(_code, "id")).toInt();
+    m_code = lReq.getData(_code, "code");
+    m_path = lReq.getData(_code, "path");
+    m_filename = lReq.getData(_code, "filename");
 }
 //===============================================
 void GMaj::onModule(GSocket* _client) {

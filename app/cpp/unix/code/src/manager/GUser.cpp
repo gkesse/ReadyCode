@@ -43,14 +43,14 @@ void GUser::deserialize(const GString& _data, const GString& _code) {
     GModule::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
-    m_id = GString(lDom.getItem(_code, "id")).toInt();
-    m_mode = lDom.getItem(_code, "mode");
-    m_email = lDom.getItem(_code, "email");
-    m_pseudo = lDom.getItem(_code, "pseudo");
-    m_password = lDom.getItem(_code, "password");
-    m_group = lDom.getItem(_code, "group");
-    m_active = lDom.getItem(_code, "active");
-    m_isConnect = GString(lDom.getItem(_code, "is_connect")).toBool();
+    m_id = GString(lDom.getData(_code, "id")).toInt();
+    m_mode = lDom.getData(_code, "mode");
+    m_email = lDom.getData(_code, "email");
+    m_pseudo = lDom.getData(_code, "pseudo");
+    m_password = lDom.getData(_code, "password");
+    m_group = lDom.getData(_code, "group");
+    m_active = lDom.getData(_code, "active");
+    m_isConnect = GString(lDom.getData(_code, "is_connect")).toBool();
 }
 //===============================================
 bool GUser::onModule(GSocket* _client) {

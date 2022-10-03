@@ -29,7 +29,7 @@ public:
     static GLog* Instance();
     //
     GString serialize(const GString& _code = "logs") const;
-    bool deserialize(const GString& _data, const GString& _code = "logs");
+    void deserialize(const GString& _data, const GString& _code = "logs");
     //
     bool isDebug() const;
     bool isDebug(bool _isTestEnv) const;

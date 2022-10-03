@@ -28,7 +28,7 @@ GString GAsync::serialize(const GString& _code) const {
     lReq.addData(_code, "title", m_title);
     lReq.addData(_code, "status", m_status);
     lReq.addData(_code, "data", m_data);
-    return lReq.toStringCode("async");
+    return lReq.toString();
 }
 //===============================================
 void GAsync::deserialize(const GString& _req, const GString& _code) {

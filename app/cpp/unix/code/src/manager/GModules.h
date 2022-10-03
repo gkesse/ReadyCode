@@ -12,7 +12,7 @@ public:
     GObject* clone() const;
 
     GString serialize(const GString& _code = "module") const;
-    bool deserialize(const GString& _data, const GString& _code = "module");
+    void deserialize(const GString& _data, const GString& _code = "module");
 
     bool onModule();
     bool onCreateModule();

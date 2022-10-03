@@ -34,9 +34,9 @@ void GSearch::deserialize(const GString& _data, const GString& _code) {
     GModule::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
-    m_lastId = GString(lDom.getItem(_code, "last_id")).toInt();
-    m_dataCount = GString(lDom.getItem(_code, "data_count")).toInt();
-    m_dataSize = GString(lDom.getItem(_code, "data_size")).toInt();
-    m_dataOffset = GString(lDom.getItem(_code, "data_offset")).toInt();
+    m_lastId = GString(lDom.getData(_code, "last_id")).toInt();
+    m_dataCount = GString(lDom.getData(_code, "data_count")).toInt();
+    m_dataSize = GString(lDom.getData(_code, "data_size")).toInt();
+    m_dataOffset = GString(lDom.getData(_code, "data_offset")).toInt();
 }
 //===============================================

@@ -40,10 +40,10 @@ void GManager::deserialize(const GString& _data, const GString& _code) {
     GSearch::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
-    m_id = GString(lDom.getItem(_code, "id")).toInt();
-    m_code = lDom.getItem(_code, "code_id");
-    m_label = lDom.getItem(_code, "label");
-    lDom.getItem(_code, m_map, this);
+    m_id = GString(lDom.getData(_code, "id")).toInt();
+    m_code = lDom.getData(_code, "code_id");
+    m_label = lDom.getData(_code, "label");
+    lDom.getData(_code, m_map, this);
 }
 //===============================================
 bool GManager::onModule(GSocket* _client) {

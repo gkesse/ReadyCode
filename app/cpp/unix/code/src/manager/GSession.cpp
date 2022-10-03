@@ -22,6 +22,6 @@ GString GSession::serialize(const GString& _code) const {
 void GSession::deserialize(const GString& _data, const GString& _code) {
     GCode lReq;
     lReq.loadXml(_data);
-    m_userId = GString(lReq.getItem(_code, "user_id")).toInt();
+    m_userId = GString(lReq.getData(_code, "user_id")).toInt();
 }
 //===============================================

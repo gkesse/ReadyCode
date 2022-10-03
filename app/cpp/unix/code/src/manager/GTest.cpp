@@ -446,8 +446,8 @@ void GTest::runXml(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     m_dom.reset(new GCode);
     m_dom->loadFile(GPATH("xml", "pad.xml"));
-    GLOGT(eGINF, "app_name.....: (%s)\n", getItem("pad", "app_name").c_str());
-    GLOGT(eGINF, "app_version..: (%s)\n", getItem("pad", "app_version").c_str());
+    GLOGT(eGINF, "app_name.....: (%s)\n", getData("pad", "app_name").c_str());
+    GLOGT(eGINF, "app_version..: (%s)\n", getData("pad", "app_version").c_str());
 }
 //===============================================
 void GTest::runXmlCheck(int _argc, char** _argv) {
@@ -540,9 +540,9 @@ void GTest::runXmlItem(int _argc, char** _argv) {
     GString lData = lDom.toString();
     GLOGT(eGMSG, lData.c_str());
     //
-    lData = lDom.getItem("user", "password");
+    lData = lDom.getData("user", "password");
     GLOGT(eGMSG, lData.c_str());
-    lData = lDom.getItem("user", "status");
+    lData = lDom.getData("user", "status");
     GLOGT(eGMSG, lData.c_str());
 }
 //===============================================
@@ -587,7 +587,7 @@ void GTest::runXmlObj(int _argc, char** _argv) {
     }
     clearMap(lMap);
 
-    lDom.getItem("manager", lMap, new GManager);
+    lDom.getData("manager", lMap, new GManager);
 
     GCode lDom2;
     lDom2.createDoc();
@@ -698,9 +698,9 @@ void GTest::runSocketServer(int _argc, char** _argv) {
     int lType = lServer.loadType();
     int lProtocol = lServer.loadProtocol();
     int lFamily = lServer.loadFamily();
-    GString lClientIp = lServer.getItem("socket", "client_ip");
+    GString lClientIp = lServer.getData("socket", "client_ip");
     int lPort = lServer.loadPort();
-    int lBacklog = std::stoi(lServer.getItem("socket", "backlog").c_str());
+    int lBacklog = std::stoi(lServer.getData("socket", "backlog").c_str());
 
     lServer.createSocket(lDomain, lType, lProtocol);
     lServer.createAddress(lFamily, lClientIp, lPort);
@@ -727,7 +727,7 @@ void GTest::runSocketClient(int _argc, char** _argv) {
     int lType = lClient.loadType();
     int lProtocol = lClient.loadProtocol();
     int lFamily = lClient.loadFamily();
-    GString lServerIp = lClient.getItem("socket", "server_ip");
+    GString lServerIp = lClient.getData("socket", "server_ip");
     int lPort = lClient.loadPort();
 
     lClient.createSocket(lDomain, lType, lProtocol);
@@ -753,9 +753,9 @@ void GTest::runSocketServerFile(int _argc, char** _argv) {
     int lType = lServer.loadType();
     int lProtocol = lServer.loadProtocol();
     int lFamily = lServer.loadFamily();
-    GString lClientIp = lServer.getItem("socket", "client_ip");
+    GString lClientIp = lServer.getData("socket", "client_ip");
     int lPort = lServer.loadPort();
-    int lBacklog = std::stoi(lServer.getItem("socket", "backlog").c_str());
+    int lBacklog = std::stoi(lServer.getData("socket", "backlog").c_str());
 
     lServer.createSocket(lDomain, lType, lProtocol);
     lServer.createAddress(lFamily, lClientIp, lPort);
@@ -784,7 +784,7 @@ void GTest::runSocketClientFile(int _argc, char** _argv) {
     int lType = lClient.loadType();
     int lProtocol = lClient.loadProtocol();
     int lFamily = lClient.loadFamily();
-    GString lServerIp = lClient.getItem("socket", "server_ip");
+    GString lServerIp = lClient.getData("socket", "server_ip");
     int lPort = lClient.loadPort();
 
     lClient.createSocket(lDomain, lType, lProtocol);
@@ -937,8 +937,8 @@ void GTest::runRequestGetUser(int _argc, char** _argv) {
     GLOGT(eGINF, ""
             "firstname.....: %s\n"
             "lastname......: %s\n"
-            "", lRes.getItem("user", "firstname").c_str()
-            , lRes.getItem("user", "lastname").c_str()
+            "", lRes.getData("user", "firstname").c_str()
+            , lRes.getData("user", "lastname").c_str()
     );
 }
 //===============================================
@@ -973,8 +973,8 @@ void GTest::runResponse(int _argc, char** _argv) {
     GLOGT(eGINF, ""
             "module.......: %s\n"
             "method.......: %s\n"
-            "", lRes.getItem("request", "module").c_str()
-            , lRes.getItem("request", "method").c_str()
+            "", lRes.getData("request", "module").c_str()
+            , lRes.getData("request", "method").c_str()
     );
 
     GLOGT(eGINF, "%s", lRes.toString().c_str());
@@ -1230,8 +1230,8 @@ void GTest::onModule(GSocket* _client) {
 //===============================================
 void GTest::onRequestSaveUser(GSocket* _client) {
     /*
-    GString lFirstname = _client->getReq()->getItem("parameters", "firstname");
-    GString lLastname = _client->getReq()->getItem("parameters", "lastname");
+    GString lFirstname = _client->getReq()->getData("parameters", "firstname");
+    GString lLastname = _client->getReq()->getData("parameters", "lastname");
     GLOGT(eGFUN, "");
     GLOGT(eGINF, "firstname...: (%s)\n", lFirstname.c_str());
     GLOGT(eGINF, "lastname....: (%s)\n", lLastname.c_str());
