@@ -14,20 +14,11 @@ GShell::~GShell() {
 
 }
 //===============================================
-GString GShell::getTmpDir() const {
-    return GEnv().getTmpDir();
-}
-//===============================================
-GString GShell::getTmpInFilename() const {
-    return GFile2().getScriptInFilename();
-}
-//===============================================
-GString GShell::getTmpOutFilename() const {
-    return GFile2().getScriptOutFilename();
-}
-//===============================================
-GString GShell::getHomeDir() const {
-    return GFile2().getScriptOutFilename();
+void GShell::initShell() {
+    m_tmpPath       = GEnv().getTmpDir();
+    m_currentDate   = GDate().getDateFileFormat();
+    m_tmpInFile     = GFORMAT("%s/script_%s_in.txt", m_tmpPath.c_str(), m_currentDate.c_str());
+    m_tmpOutFile    = GFORMAT("%s/script_%s_out.txt", m_tmpPath.c_str(), m_currentDate.c_str());
 }
 //===============================================
 void GShell::createDir(const GString& _dir) {
@@ -53,17 +44,11 @@ void GShell::runCommand(const GString& _command) {
 //===============================================
 GString GShell::runSystem(const GString& _command) {
     GLOGT(eGINF, "%s", _command.c_str());
-    return runSystem(_command, getTmpDir(), getTmpInFilename(), getTmpOutFilename());
-}
-//===============================================
-GString GShell::runSystem(const GString& _command, const GString& _tmpDir, const GString& _tmpInFile, const GString& _tmpOutFile) {
-    createDir(_tmpDir);
-    GString lFilenameIn = GFORMAT("%s/%s", _tmpDir.c_str(), _tmpInFile.c_str());
-    GString lFilenameOut = GFORMAT("%s/%s", _tmpDir.c_str(), _tmpOutFile.c_str());
-    GFile2(lFilenameIn).setContent(_command);
-    GString lCommand = GFORMAT(". %s > %s", lFilenameIn.c_str(), lFilenameOut.c_str());
+    createDir(m_tmpPath);
+    GFile(m_tmpInFile).setContents(_command);
+    GString lCommand = GFORMAT(". %s > %s", m_tmpInFile.c_str(), m_tmpOutFile.c_str());
     runCommand(lCommand);
-    GString lData = GFile2(lFilenameOut).getContent();
+    GString lData = GFile(m_tmpOutFile).getContents();
     return lData;
 }
 //===============================================

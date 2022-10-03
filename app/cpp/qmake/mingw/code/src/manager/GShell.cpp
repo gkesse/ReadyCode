@@ -46,7 +46,7 @@ void GShell::runCommand(const GString& _command) {
 GString GShell::runSystem(const GString& _command) {
     GLOGT(eGINF, _command.c_str());
     createDir(m_tmpPath);
-    GFile(m_tmpInFile).setContent(_command);
+    GFile(m_tmpInFile).setContents(_command);
     GString lCommand = GFORMAT(". %1 > %2", m_tmpInFile.c_str(), m_tmpOutFile.c_str());
     runCommand(lCommand);
     GString lData = GFile(m_tmpOutFile).getContent();

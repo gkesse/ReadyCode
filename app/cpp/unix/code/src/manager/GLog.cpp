@@ -1,10 +1,10 @@
 //===============================================
+#include "GLog.h"
 #include "GShell.h"
 #include "GCode.h"
-#include "GLog.h"
 #include "GDate.h"
 #include "GEnv.h"
-#include "GFile2.h"
+#include "GFile.h"
 #include "GPath.h"
 //===============================================
 GLog* GLog::m_instance = 0;
@@ -12,7 +12,7 @@ GLog* GLog::m_instance = 0;
 GLog::GLog()
 : GObject() {
     createDoms();
-    m_file = 0;
+    initLog();
 }
 //===============================================
 GLog::~GLog() {
@@ -47,69 +47,45 @@ bool GLog::deserialize(const GString& _data, const GString& _code) {
     return true;
 }
 //===============================================
-bool GLog::isDebug() const {
-    return isDebug(GEnv().isTestEnv());
+void GLog::initLog() {
+    m_file = 0;
+
+    m_isTestEnv     = GEnv().isTestEnv();
+    m_isTestLog     = (m_dom->getData("log", "test_on") == "1");
+    m_isProdLog     = (m_dom->getData("log", "prod_on") == "1");
+    m_isTestFile    = (m_dom->getData("log", "test_file_on") == "1");
+    m_isProdFile    = (m_dom->getData("log", "prod_file_on") == "1");
+    m_isDebug       = (m_isTestEnv ? m_isTestLog : m_isProdLog);
+    m_isFileLog     = (m_isTestEnv ? m_isTestFile : m_isProdFile);
+
+    m_tmpPath       = GEnv().getTmpDir();
+    m_currentDate   = GDate().getDateFileFormat();
+    m_logTestFile   = GFORMAT("%s/log_test_%s.txt", m_tmpPath.c_str(), m_currentDate.c_str());
+    m_logProdFile   = GFORMAT("%s/log_prod_%s.txt", m_tmpPath.c_str(), m_currentDate.c_str());
+    m_logFilename   = (m_isTestEnv ? m_logTestFile : m_logProdFile);
 }
 //===============================================
-bool GLog::isDebug(bool _isTestEnv) const {
-    if(_isTestEnv) return isTestLog();
-    return isProdLog();
-}
-//===============================================
-bool GLog::isFileLog() const {
-    return isFileLog(GEnv().isTestEnv());
-}
-//===============================================
-bool GLog::isFileLog(bool _isTestEnv) const {
-    if(_isTestEnv) return isTestFileLog();
-    return isProdFileLog();
-}
-//===============================================
-bool GLog::isTestFileLog() const {
-    bool lFileOn = (m_dom->getData("log", "test_file_on") == "1");
-    return lFileOn;
-}
-//===============================================
-bool GLog::isProdFileLog() const {
-    bool lFileOn = (m_dom->getData("log", "prod_file_on") == "1");
-    return lFileOn;
-}
-//===============================================
-bool GLog::isTestLog() const {
-    bool lLogOn = (m_dom->getData("log", "test_on") == "1");
-    return lLogOn;
-}
-//===============================================
-bool GLog::isProdLog() const {
-    bool lLogOn = (m_dom->getData("log", "prod_on") == "1");
-    return lLogOn;
-}
-//===============================================
-FILE* GLog::getOutput(bool _isFileLog) {
+FILE* GLog::getOutput() {
     FILE* lFile = stdout;
-    if(_isFileLog) lFile = getOutputFile();
+    if(m_isFileLog) lFile = getOutputFile();
     return lFile;
 }
 //===============================================
 FILE* GLog::getOutputFile() {
-    FILE* lFile = GFile2().openLogFile();
+    FILE* lFile = fopen(m_logFilename.c_str(), "a+");
     m_file = lFile;
     return lFile;
 }
 //===============================================
 void GLog::closeLogFile() {
     if(!m_file) return;
-    GFile2().closeFile(m_file);
+    fclose(m_file);
     m_file = 0;
 }
 //===============================================
 void GLog::catLogFile() {
-    GString lLogFile = GFile2().getLogFullname();
-    GFile2 lFileObj(lLogFile);
-    GString lData = GFORMAT(""
-            "Erreur le fichier log n'existe pas.\n"
-            "fichier......: (%s)\n"
-            "", lLogFile.c_str());
+    GFile lFileObj(m_logFilename);
+    GString lData = GFORMAT("Le fichier log n'existe pas :\n(%s)", m_logFilename.c_str());
     if(lFileObj.existFile()) {
         lData = lFileObj.getContent();
     }
@@ -117,14 +93,10 @@ void GLog::catLogFile() {
 }
 //===============================================
 void GLog::tailLogFile(bool _isTestEnv) {
-    GString lLogFile = GFile2().getLogFullname(_isTestEnv);
-    GFile2 lFileObj(lLogFile);
-    GString lData = GFORMAT(""
-            "Erreur le fichier log n'existe pas.\n"
-            "fichier......: (%s)\n"
-            "", lLogFile.c_str());
+    GFile lFileObj(m_logFilename);
+    GString lData = GFORMAT("Le fichier log n'existe pas :\n(%1)", m_logFilename.c_str());
     if(lFileObj.existFile()) {
-        GShell().tailFile(lLogFile);
+        GShell().tailFile(m_logFilename);
     }
     else {
         printf("%s\n", lData.c_str());
@@ -150,11 +122,7 @@ void GLog::addLog(const char* _name, int _level, const char* _file, int _line, c
 }
 //===============================================
 void GLog::showErrors() {
-    showErrors(isDebug(), isFileLog());
-}
-//===============================================
-void GLog::showErrors(bool _isDebug, bool _isFileLog) {
-    if(!_isDebug) return;
+    if(!m_isDebug) return;
     if(!hasErrors()) return;
     GString lErrors = "";
     for(int i = 0; i < (int)m_map.size(); i++) {
@@ -217,25 +185,17 @@ void GLog::loadErrors(const char* _name, int _level, const char* _file, int _lin
 }
 //===============================================
 void GLog::writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _log) {
-    writeLog(_name, _level, _file, _line, _func, isDebug(), isFileLog(), _log);
-}
-//===============================================
-void GLog::writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const GString& _log) {
     if(_level == 0) return;
-    if(!_isDebug) return;
-    fprintf(getOutput(_isFileLog), "%s\n", _log.c_str());
+    if(!m_isDebug) return;
+    fprintf(getOutput(), "%s\n", _log.c_str());
     closeLogFile();
 }
 //===============================================
 void GLog::traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _data) {
-    traceLog(_name, _level, _file, _line, _func, isDebug(), isFileLog(), _data);
-}
-//===============================================
-void GLog::traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const GString& _data) {
     if(_level == 0) return;
-    if(!_isDebug) return;
+    if(!m_isDebug) return;
     GString lDate = GDate().getDate(GDate().getDateTimeLogFormat());
-    fprintf(getOutput(_isFileLog), "===> [%s] : %d : %s : %s : [%d] : %s :\n%s\n", _name, _level, lDate.c_str(), _file, _line, _func, _data.c_str());
+    fprintf(getOutput(), "===> [%s] : %d : %s : %s : [%d] : %s :\n%s\n", _name, _level, lDate.c_str(), _file, _line, _func, _data.c_str());
     closeLogFile();
 }
 //===============================================
