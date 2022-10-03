@@ -98,7 +98,7 @@ bool GModules::searchModule() {
     for(int i = 0; i < (int)lDataMap.size(); i++) {
         GRow lDataRow = lDataMap.at(i);
         int j = 0;
-        GModules* lModule = new GModule;
+        GModules* lModule = new GModules;
         lModule->m_id = lDataRow.at(j++).toInt();
         lModule->m_name = lDataRow.at(j++);
         m_map.push_back(lModule);
