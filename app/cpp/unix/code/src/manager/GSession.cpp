@@ -1,7 +1,6 @@
 //===============================================
 #include "GSession.h"
 #include "GCode.h"
-#include "GString.h"
 //===============================================
 GSession::GSession()
 : GObject() {
@@ -16,12 +15,13 @@ GString GSession::serialize(const GString& _code) const {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "user_id", m_userId);
-    return lDom.toStringCode(_code);
+    return lDom.toString();
 }
 //===============================================
-void GSession::deserialize(const GString& _data, const GString& _code) {
-    GCode lReq;
-    lReq.loadXml(_data);
-    m_userId = GString(lReq.getData(_code, "user_id")).toInt();
+bool GSession::deserialize(const GString& _data, const GString& _code) {
+    GCode lDom;
+    lDom.loadXml(_data);
+    m_userId = lDom.getData(_code, "user_id").toInt();
+    return true;
 }
 //===============================================
