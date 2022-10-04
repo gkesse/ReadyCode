@@ -36,6 +36,8 @@ void GModuleUi::on_btnSearch_clicked() {
     GLOGT(eGFUN, "");
     readData();
     m_modules->searchModule();
+    m_modules->showList();
+    writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
 }

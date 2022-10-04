@@ -4,6 +4,8 @@
 //===============================================
 #include "GModule.h"
 //===============================================
+class GTableWidgetUi;
+//===============================================
 class GModules : public GModule {
 public:
     GModules();
@@ -15,6 +17,7 @@ public:
     bool deserialize(const GString& _data, const GString& _code = "module");
 
     void assign(const GModules& _modules);
+    void assign(GModules* _modules);
 
     void setName(const GString& _name);
     GString getName() const;
@@ -22,10 +25,13 @@ public:
     void createModule();
     void searchModule();
     void deleteModule();
+    bool showList();
 
 protected:
     int m_id;
     GString m_name;
+    std::vector<GObject*> m_map;
+    GTableWidgetUi* m_tableWidget;
 };
 //==============================================
 #endif
