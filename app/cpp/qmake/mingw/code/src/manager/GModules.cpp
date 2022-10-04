@@ -85,6 +85,12 @@ bool GModules::showList() {
         return true;
     }
     m_tableWidget->setWindowTitle("Liste des modules");
+    m_tableWidget->setSize(m_map.size(), 2);
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GModules* lModules = (GModules*)m_map.at(i);
+        m_tableWidget->setData(i, 0, lModules->m_id);
+        m_tableWidget->setData(i, 0, lModules->m_name);
+    }
     m_tableWidget->exec();
     clearMap(m_map);
     return true;

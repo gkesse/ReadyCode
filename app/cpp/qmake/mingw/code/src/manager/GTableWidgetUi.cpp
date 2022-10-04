@@ -7,10 +7,31 @@ GTableWidgetUi::GTableWidgetUi(QWidget* _parent)
 : QDialog(_parent)
 , ui(new Ui::GTableWidgetUi){
     ui->setupUi(this);
+    initTableWidget();
 }
 //===============================================
 GTableWidgetUi::~GTableWidgetUi() {
 
+}
+//===============================================
+void GTableWidgetUi::initTableWidget() {
+    ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->tableWidget->horizontalHeader()->hide();
+    ui->tableWidget->verticalHeader()->hide();
+    ui->tableWidget->horizontalHeader()->setStretchLastSection(true);
+    ui->tableWidget->verticalHeader()->setStretchLastSection(false);
+    ui->tableWidget->resizeColumnsToContents();
+}
+//===============================================
+void GTableWidgetUi::setSize(int _rows, int _cols) {
+    ui->tableWidget->setRowCount(_rows);
+    ui->tableWidget->setColumnCount(_cols);
+}
+//===============================================
+void GTableWidgetUi::setData(int _row, int _col, const GString& _data) {
+    QTableWidgetItem* lItem = new QTableWidgetItem(_data.c_str());
+    ui->tableWidget->setItem(_row, _col, lItem);
 }
 //===============================================
 void GTableWidgetUi::on_btnSelect_clicked() {

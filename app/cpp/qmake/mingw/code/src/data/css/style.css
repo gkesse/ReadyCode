@@ -4,13 +4,20 @@
 QWidget {
 	background-color: transparent;
 	color: #eeeeee;
-	font-family: allan;
+	font-family: Allan;
 	font-size: 18px;
 }
 /* ============================================== */
 /* QDialog */
 /* ============================================== */
 QDialog {
+	background-color: #111133;
+	border: 2px solid #aaaaff;
+}
+/* ============================================== */
+/* QFrame */
+/* ============================================== */
+QFrame#GModuleUi {
 	background-color: #111133;
 	border: 2px solid #aaaaff;
 }
@@ -36,13 +43,6 @@ QMenu {
 }
 QMenu::item:selected { 
 	background-color: rgba(255, 255, 255, 0.2);
-}
-/* ============================================== */
-/* QFrame */
-/* ============================================== */
-QFrame#GModuleUi {
-	background-color: #111133;
-	border: 2px solid #aaaaff;
 }
 /* ============================================== */
 /* QPushButton */
@@ -87,5 +87,38 @@ QMessageBox QDialogButtonBox#qt_msgbox_buttonbox QPushButton:hover {
 }
 QMessageBox QDialogButtonBox#qt_msgbox_buttonbox QPushButton:pressed {
 	background-color: transparent;
+}
+/* ============================================== */
+/* QTableWidget */
+/* ============================================== */
+QTableWidget {
+    gridline-color: transparent;
+    border: none;
+    padding: 0px;
+    background-color: transparent;
+}
+QTableWidget::item {
+	background-color: transparent;
+	border: 1px solid #aaaaff;
+	padding: 0px 10px;
+}
+QTableWidget::item:selected {
+	background-color: rgba(255, 255, 255, 0.2);
+}
+QTableWidget QHeaderView::section {
+    background-color: #5555AA;
+	border: 1px solid #aaaaff;
+}
+QTableWidget QHeaderView::section:vertical {
+	padding: 0px 10px;
+}
+QTableWidget QHeaderView::section:horizontal {
+	padding: 0px 10px;
+}
+QTableWidget QTableView {
+	border: 1px solid #aaaaff;
+}
+QTableWidget QTableCornerButton::section {
+    background-color: transparent;
 }
 /* ============================================== */
