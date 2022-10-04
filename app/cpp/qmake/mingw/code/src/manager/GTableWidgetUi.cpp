@@ -22,6 +22,9 @@ void GTableWidgetUi::initTableWidget() {
     ui->tableWidget->horizontalHeader()->setStretchLastSection(true);
     ui->tableWidget->verticalHeader()->setStretchLastSection(false);
     ui->tableWidget->resizeColumnsToContents();
+    ui->tableWidget->horizontalHeader()->setMinimumSectionSize(0);
+    ui->tableWidget->setFocusPolicy(Qt::NoFocus);
+    m_index = 0;
 }
 //===============================================
 void GTableWidgetUi::setSize(int _rows, int _cols) {
@@ -40,15 +43,25 @@ void GTableWidgetUi::setData(int _row, int _col, const GString& _data) {
     ui->tableWidget->setItem(_row, _col, lItem);
 }
 //===============================================
+int GTableWidgetUi::getIndex() const {
+    return m_index;
+}
+//===============================================
 void GTableWidgetUi::on_btnSelect_clicked() {
-    GLOGT(eGFUN, "");
-    GERROR_SHOWG(eGERR);
-    GLOG_SHOWG(eGLOG);
+    accept();
 }
 //===============================================
 void GTableWidgetUi::on_btnNext_clicked() {
     GLOGT(eGFUN, "");
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
+}
+//===============================================
+void GTableWidgetUi::on_tableWidget_cellClicked(int row, int column) {
+    m_index = row;
+}
+//===============================================
+void GTableWidgetUi::on_tableWidget_cellDoubleClicked(int row, int column) {
+    accept();
 }
 //===============================================

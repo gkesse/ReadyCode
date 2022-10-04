@@ -101,9 +101,11 @@ QTableWidget::item {
 	background-color: transparent;
 	border: 1px solid #aaaaff;
 	padding: 0px 10px;
+    border-collapse: collapse;
 }
 QTableWidget::item:selected {
 	background-color: rgba(255, 255, 255, 0.2);
+	color: cyan;
 }
 QTableWidget QHeaderView::section {
     background-color: #5555AA;

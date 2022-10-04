@@ -93,7 +93,12 @@ bool GModules::showList() {
         m_tableWidget->setData(i, 0, lModules->m_id);
         m_tableWidget->setData(i, 1, lModules->m_name);
     }
-    m_tableWidget->exec();
+    int lOk = m_tableWidget->exec();
+    if(lOk == QDialog::Accepted) {
+        int lIndex = m_tableWidget->getIndex();
+        GModules* lModules = (GModules*)m_map.at(lIndex);
+        assign(lModules);
+    }
     clearMap(m_map);
     return true;
 }
