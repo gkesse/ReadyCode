@@ -29,6 +29,12 @@ void GTableWidgetUi::setSize(int _rows, int _cols) {
     ui->tableWidget->setColumnCount(_cols);
 }
 //===============================================
+void GTableWidgetUi::setHeader(int _col, const GString& _data) {
+    ui->tableWidget->horizontalHeader()->show();
+    QTableWidgetItem* lItem = new QTableWidgetItem(_data.c_str());
+    ui->tableWidget->setHorizontalHeaderItem(_col, lItem);
+}
+//===============================================
 void GTableWidgetUi::setData(int _row, int _col, const GString& _data) {
     QTableWidgetItem* lItem = new QTableWidgetItem(_data.c_str());
     ui->tableWidget->setItem(_row, _col, lItem);

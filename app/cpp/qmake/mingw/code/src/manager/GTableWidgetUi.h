@@ -2,7 +2,7 @@
 #ifndef _GTableWidgetUi_
 #define _GTableWidgetUi_
 //===============================================
-#include <QtWidgets>
+#include "GInclude.h"
 //===============================================
 namespace Ui {
     class GTableWidgetUi;
@@ -17,6 +17,7 @@ public:
 
     void initTableWidget();
     void setSize(int _rows, int _cols);
+    void setHeader(int _col, const GString& _data);
     void setData(int _row, int _col, const GString& _data);
 
 public slots:

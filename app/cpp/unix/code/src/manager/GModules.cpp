@@ -93,6 +93,7 @@ bool GModules::searchModule() {
             " select _id, _name "
             " from _module "
             " %s "
+            " order by _id desc "
             "", m_where.c_str()
     ));
     for(int i = 0; i < (int)lDataMap.size(); i++) {

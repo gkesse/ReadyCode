@@ -2,7 +2,7 @@
 #ifndef _GWindowUi_
 #define _GWindowUi_
 //===============================================
-#include <QMainWindow>
+#include "GInclude.h"
 //===============================================
 class GConnection;
 class GFile;
