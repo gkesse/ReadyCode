@@ -75,7 +75,7 @@ bool GModules::onSearchModule() {
     }
     else {
         if(m_name != "") {
-            m_where += GFORMAT(" and _name = '%s' ", m_name.c_str());
+            m_where += GFORMAT(" and _name like '%s%' ", m_name.c_str());
         }
     }
     if(!searchModule()) return false;
