@@ -4,7 +4,7 @@
 //===============================================
 #include "GInclude.h"
 //===============================================
-class GObject;
+class GSearch;
 //===============================================
 namespace Ui {
     class GTableWidgetUi;
@@ -18,7 +18,7 @@ public:
     ~GTableWidgetUi();
 
     void initTableWidget();
-    void setObject(GObject* _obj);
+    void setSearch(GSearch* _search);
     void setSize(int _rows, int _cols);
     void setHeader(int _col, const GString& _data);
     void setData(int _row, int _col, const GString& _data);
@@ -34,7 +34,7 @@ public slots:
 private:
     Ui::GTableWidgetUi *ui;
     int m_index;
-    GObject* m_obj;
+    GSearch* m_search;
 };
 //==============================================
 #endif

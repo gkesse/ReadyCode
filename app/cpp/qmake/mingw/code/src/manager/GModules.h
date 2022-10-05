@@ -23,7 +23,7 @@ public:
     void searchModule();
     void deleteModule();
     bool showList();
-    bool onNextData();
+    void onNextData();
 
 protected:
     int m_id;

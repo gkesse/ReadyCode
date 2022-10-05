@@ -77,7 +77,9 @@ void GModules::deleteModule() {
 bool GModules::showList() {
     if(m_map.size() == 0) {
         setModules(GModules());
-        GERROR_ADD(eGERR, "La réponse est vide.");
+        if(!GLOGI->hasErrors()) {
+            GERROR_ADD(eGERR, "La réponse est vide.");
+        }
         return false;
     }
     else if(m_map.size() == 1) {
@@ -105,10 +107,9 @@ bool GModules::showList() {
     return true;
 }
 //===============================================
-bool GModules::onNextData() {
+void GModules::onNextData() {
     GString lData = serialize();
     lData = GCALL_SERVER("modules", "next_data", lData);
     deserialize(lData);
-    return true;
 }
 //===============================================
