@@ -6,7 +6,7 @@
 #include "GServer.h"
 //===============================================
 GModules::GModules()
-: GModule() {
+: GSearch() {
     initModules();
 }
 //===============================================
@@ -24,11 +24,12 @@ GString GModules::serialize(const GString& _code) const {
     lDom.addData(_code, "id", m_id);
     lDom.addData(_code, "name", m_name);
     lDom.addData(_code, m_map);
+    lDom.loadData(GSearch::serialize());
     return lDom.toString();
 }
 //===============================================
 bool GModules::deserialize(const GString& _data, const GString& _code) {
-    GModule::deserialize(_data);
+    GSearch::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
@@ -75,7 +76,7 @@ bool GModules::onSearchModule() {
     }
     else {
         if(m_name != "") {
-            m_where += GFORMAT(" and _id > 999999999999 ");
+            m_where += GFORMAT(" and _id < %d ", m_lastId);
             m_where += GFORMAT(" and _name like '%s%%' ", m_name.c_str());
         }
     }
@@ -95,7 +96,7 @@ bool GModules::searchModule() {
             " from _module "
             " %s "
             " order by _id desc "
-            " limit 2 "
+            " limit %d "
             "", m_where.c_str()
     ));
     for(int i = 0; i < (int)lDataMap.size(); i++) {

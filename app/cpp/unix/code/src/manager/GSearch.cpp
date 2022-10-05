@@ -4,9 +4,9 @@
 //===============================================
 GSearch::GSearch()
 : GModule() {
-    m_lastId = INT_MAX;
+    m_lastId = 0;
     m_dataCount = 0;
-    m_dataSize = 2;
+    m_dataSize = 0;
     m_dataOffset = 0;
     m_where = "where 1 = 1";
 }

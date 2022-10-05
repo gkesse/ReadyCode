@@ -2,9 +2,9 @@
 #ifndef _GModules_
 #define _GModules_
 //===============================================
-#include "GModule.h"
+#include "GSearch.h"
 //===============================================
-class GModules : public GModule {
+class GModules : public GSearch {
 public:
     GModules();
     ~GModules();
