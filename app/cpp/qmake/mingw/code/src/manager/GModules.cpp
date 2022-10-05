@@ -6,7 +6,7 @@
 #include "GTableWidgetUi.h"
 //===============================================
 GModules::GModules()
-: GModule() {
+: GSearch() {
     m_id = 0;
     m_tableWidget = new GTableWidgetUi;
 }
@@ -25,10 +25,12 @@ GString GModules::serialize(const GString& _code) const {
     lDom.addData(_code, "id", m_id);
     lDom.addData(_code, "name", m_name);
     lDom.addData(_code, m_map);
+    GSearch::serialize();
     return lDom.toString();
 }
 //===============================================
 bool GModules::deserialize(const GString& _data, const GString& _code) {
+    GSearch::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
