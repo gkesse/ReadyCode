@@ -16,6 +16,7 @@ public:
 
     void setModules(const GModules& _modules);
     void setModules(GModules* _modules);
+    void setModules(int _index);
     void setName(const GString& _name);
     GString getName() const;
 

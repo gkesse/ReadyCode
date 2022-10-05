@@ -48,6 +48,12 @@ void GModules::setModules(GModules* _modules) {
     setModules(*_modules);
 }
 //===============================================
+void GModules::setModules(int _index) {
+    GModules* lModules = (GModules*)m_map.at(_index);
+    setModules(lModules);
+    clearMap(m_map);
+}
+//===============================================
 void GModules::setName(const GString& _name) {
     m_name = _name;
 }
@@ -91,9 +97,7 @@ bool GModules::showList() {
         return false;
     }
     else if(m_map.size() == 1) {
-        GModules* lModules = (GModules*)m_map.at(0);
-        setModules(lModules);
-        clearMap(m_map);
+        setModules(0);
         return true;
     }
     m_tableWidget->setWindowTitle("Liste des modules");
@@ -113,6 +117,7 @@ bool GModules::showList() {
         m_id = m_tableWidget->getKey().toInt();
         setSearch(GSearch());
         searchModule();
+        setModules(0);
     }
     return true;
 }
