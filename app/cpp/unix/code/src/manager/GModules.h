@@ -18,6 +18,7 @@ public:
     bool onSearchModule();
     bool createModule();
     bool searchModule();
+    bool countSearch();
     bool insertModule();
 
 protected:

@@ -76,10 +76,10 @@ bool GModules::onSearchModule() {
     }
     else {
         if(m_name != "") {
-            m_where += GFORMAT(" and _id < %d ", m_lastId);
             m_where += GFORMAT(" and _name like '%s%%' ", m_name.c_str());
         }
     }
+    if(!countSearch()) return false;
     if(!searchModule()) return false;
     return true;
 }
@@ -98,6 +98,7 @@ bool GModules::searchModule() {
             " order by _id desc "
             " limit %d "
             "", m_where.c_str()
+            , m_dataSize
     ));
     for(int i = 0; i < (int)lDataMap.size(); i++) {
         GRow lDataRow = lDataMap.at(i);
@@ -107,6 +108,18 @@ bool GModules::searchModule() {
         lModule->m_name = lDataRow.at(j++);
         m_map.push_back(lModule);
     }
+    m_dataOffset += m_dataSize;
+    return true;
+}
+//===============================================
+bool GModules::countSearch() {
+    GMySQL lMySQL;
+    m_dataCount = lMySQL.readData(GFORMAT(""
+            " select count(*) "
+            " from _module "
+            " %s "
+            "", m_where.c_str()
+    )).toInt();
     return true;
 }
 //===============================================
