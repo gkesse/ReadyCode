@@ -35,7 +35,7 @@ bool GSearch::deserialize(const GString& _data, const GString& _code) {
     m_dataCount = lDom.getData(_code, "data_count").toInt();
     m_dataSize = lDom.getData(_code, "data_size").toInt();
     m_dataOffset = lDom.getData(_code, "data_offset").toInt();
-    m_dataOffset = lDom.getData(_code, "has_data").toBool();
+    m_hasData = lDom.getData(_code, "has_data").toBool();
     return true;
 }
 //===============================================
