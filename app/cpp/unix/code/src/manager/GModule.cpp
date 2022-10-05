@@ -14,17 +14,17 @@ GModule::GModule()
 //===============================================
 GModule::GModule(const GModule& _module)
 : GObject() {
-    assign(_module);
+    setModule(_module);
 }
 //===============================================
 GModule::GModule(GModule* _module)
 : GObject() {
-    assign(_module);
+    setModule(_module);
 }
 //===============================================
 GModule::GModule(GServer* _server)
 : GObject() {
-    assign(_server);
+    setServer(_server);
 }
 //===============================================
 GModule::~GModule() {
@@ -35,15 +35,15 @@ GObject* GModule::clone() const {
     return new GModule;
 }
 //===============================================
-void GModule::assign(const GModule& _module) {
-    assign(_module.m_server);
+void GModule::setModule(const GModule& _module) {
+    setServer(_module.m_server);
 }
 //===============================================
-void GModule::assign(GModule* _module) {
-    assign(_module->m_server);
+void GModule::setModule(GModule* _module) {
+    setServer(_module->m_server);
 }
 //===============================================
-void GModule::assign(GServer* _server) {
+void GModule::setServer(GServer* _server) {
     m_server = _server;
 }
 //===============================================
@@ -93,21 +93,21 @@ bool GModule::onModule() {
 //===============================================
 bool GModule::onConnection() {
     GConnection lConnect;
-    lConnect.assign(this);
+    lConnect.setModule(this);
     lConnect.onModule();
     return true;
 }
 //===============================================
 bool GModule::onFile() {
     GFile lFile;
-    lFile.assign(this);
+    lFile.setModule(this);
     lFile.onModule();
     return true;
 }
 //===============================================
 bool GModule::onModules() {
     GModules lModules;
-    lModules.assign(this);
+    lModules.setModule(this);
     lModules.onModule();
     return true;
 }

@@ -97,6 +97,7 @@ bool GModules::showList() {
         m_tableWidget->setData(i, 0, lModules->m_id);
         m_tableWidget->setData(i, 1, lModules->m_name);
     }
+    m_tableWidget->setSearch(this);
     int lOk = m_tableWidget->exec();
     if(lOk == QDialog::Accepted) {
         int lIndex = m_tableWidget->getIndex();
@@ -108,8 +109,9 @@ bool GModules::showList() {
 }
 //===============================================
 void GModules::onNextData() {
+    clearMap(m_map);
     GString lData = serialize();
-    lData = GCALL_SERVER("modules", "next_data", lData);
+    lData = GCALL_SERVER("modules", "search_next_module", lData);
     deserialize(lData);
 }
 //===============================================

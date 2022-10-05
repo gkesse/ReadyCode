@@ -54,6 +54,9 @@ bool GModules::onModule() {
     else if(m_method == "search_module") {
         onSearchModule();
     }
+    else if(m_method == "search_next_module") {
+        onSearchNextModule();
+    }
     else {
         GMETHOD_UNKNOWN();
     }
@@ -84,6 +87,17 @@ bool GModules::onSearchModule() {
     return true;
 }
 //===============================================
+bool GModules::onSearchNextModule() {
+    if(m_lastId != 0) {
+        m_where += GFORMAT(" and _id < %d ", m_lastId);
+    }
+    if(m_name != "") {
+        m_where += GFORMAT(" and _name like '%s%%' ", m_name.c_str());
+    }
+    if(!searchNextModule()) return false;
+    return true;
+}
+//===============================================
 bool GModules::createModule() {
     if(!insertModule()) return false;
     return true;
@@ -111,6 +125,39 @@ bool GModules::searchModule() {
     m_dataOffset += m_dataSize;
     m_hasData = true;
     if(m_dataOffset >= m_dataCount) m_hasData = false;
+    if(m_hasData) {
+        GModules* lModule = m_map.back();
+        m_lastId = lModule->m_id;
+    }
+    return true;
+}
+//===============================================
+bool GModules::searchNextModule() {
+    GMySQL lMySQL;
+    GMap lDataMap = lMySQL.readMap(GFORMAT(""
+            " select _id, _name "
+            " from _module "
+            " %s "
+            " order by _id desc "
+            " limit %d "
+            "", m_where.c_str()
+            , m_dataSize
+    ));
+    for(int i = 0; i < (int)lDataMap.size(); i++) {
+        GRow lDataRow = lDataMap.at(i);
+        int j = 0;
+        GModules* lModule = new GModules;
+        lModule->m_id = lDataRow.at(j++).toInt();
+        lModule->m_name = lDataRow.at(j++);
+        m_map.push_back(lModule);
+    }
+    m_dataOffset += m_dataSize;
+    m_hasData = true;
+    if(m_dataOffset >= m_dataCount) m_hasData = false;
+    if(m_hasData) {
+        GModules* lModule = m_map.back();
+        m_lastId = lModule->m_id;
+    }
     return true;
 }
 //===============================================

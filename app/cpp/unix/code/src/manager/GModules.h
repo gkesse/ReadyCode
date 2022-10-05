@@ -16,8 +16,10 @@ public:
     bool onModule();
     bool onCreateModule();
     bool onSearchModule();
+    bool onSearchNextModule();
     bool createModule();
     bool searchModule();
+    bool searchNextModule();
     bool countSearch();
     bool insertModule();
 

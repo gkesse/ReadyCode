@@ -3,6 +3,7 @@
 #include "ui_GTableWidgetUi.h"
 #include "GLog.h"
 #include "GPath.h"
+#include "GSearch.h"
 //===============================================
 GTableWidgetUi::GTableWidgetUi(QWidget* _parent)
 : QDialog(_parent)
@@ -59,8 +60,14 @@ void GTableWidgetUi::on_btnSelect_clicked() {
 }
 //===============================================
 void GTableWidgetUi::on_btnNext_clicked() {
-    if(!m_search) {GERROR_ADD(eGERR, "L'objet recherché n'a pas été initialisé."); return;}
-    m_search->onNextData();
+    if(!m_search) {
+        GERROR_ADD(eGERR, "L'objet recherché n'a pas été initialisé.");
+    }
+    else {
+        m_search->onNextData();
+    }
+    GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGLOG);
 }
 //===============================================
 void GTableWidgetUi::on_tableWidget_cellClicked(int row, int column) {

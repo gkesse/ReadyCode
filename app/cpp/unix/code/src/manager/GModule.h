@@ -4,10 +4,10 @@
 //===============================================
 #include "GObject.h"
 //===============================================
-#define GMODULE_REQUIRED()  GERROR_ADD(eGERR, "La module est obligatoire.")
+#define GMODULE_REQUIRED()  GERROR_ADD(eGERR, "Le module est obligatoire.")
 #define GMODULE_UNKNOWN()   GERROR_ADD(eGERR, "Le module (%s) est inconnu.", m_module.c_str())
 #define GMETHOD_REQUIRED()  GERROR_ADD(eGERR, "La méthode est obligatoire.")
-#define GMETHOD_UNKNOWN()   GERROR_ADD(eGERR, "La méthode (%s:%s) est inconnu.", m_module.c_str(), m_method.c_str());
+#define GMETHOD_UNKNOWN()   GERROR_ADD(eGERR, "La méthode (%s : %s) est inconnue.", m_module.c_str(), m_method.c_str());
 //===============================================
 class GServer;
 //===============================================
@@ -21,9 +21,9 @@ public:
 
     GObject* clone() const;
 
-    void assign(const GModule& _module);
-    void assign(GModule* _module);
-    void assign(GServer* _server);
+    void setModule(const GModule& _module);
+    void setModule(GModule* _module);
+    void setServer(GServer* _server);
 
     GString serialize(const GString& _code = "request") const;
     bool deserialize(const GString& _data, const GString& _code = "request");
