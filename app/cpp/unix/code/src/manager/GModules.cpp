@@ -126,7 +126,7 @@ bool GModules::searchModule() {
     m_hasData = true;
     if(m_dataOffset >= m_dataCount) m_hasData = false;
     if(m_hasData) {
-        GModules* lModule = m_map.back();
+        GModules* lModule = (GModules*)m_map.back();
         m_lastId = lModule->m_id;
     }
     return true;
@@ -155,7 +155,7 @@ bool GModules::searchNextModule() {
     m_hasData = true;
     if(m_dataOffset >= m_dataCount) m_hasData = false;
     if(m_hasData) {
-        GModules* lModule = m_map.back();
+        GModules* lModule = (GModules*)m_map.back();
         m_lastId = lModule->m_id;
     }
     return true;
