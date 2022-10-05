@@ -12,6 +12,7 @@ public:
     bool deserialize(const GString& _data, const GString& _code = "search");
     void setSearch(const GSearch& _search);
     virtual void onNextData();
+    bool hasData() const;
 
 protected:
     int m_lastId;

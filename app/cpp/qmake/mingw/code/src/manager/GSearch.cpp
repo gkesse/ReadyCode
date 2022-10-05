@@ -46,5 +46,9 @@ void GSearch::setSearch(const GSearch& _search) {
     m_hasData = _search.m_hasData;
 }
 //===============================================
+bool GSearch::hasData() const {
+    return m_hasData;
+}
+//===============================================
 void GSearch::onNextData() {}
 //===============================================

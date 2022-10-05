@@ -74,6 +74,13 @@ void GModules::deleteModule() {
     deserialize(lData);
 }
 //===============================================
+void GModules::onNextData() {
+    clearMap(m_map);
+    GString lData = serialize();
+    lData = GCALL_SERVER("modules", "search_next_module", lData);
+    deserialize(lData);
+}
+//===============================================
 bool GModules::showList() {
     if(m_map.size() == 0) {
         setModules(GModules());
@@ -108,10 +115,13 @@ bool GModules::showList() {
     return true;
 }
 //===============================================
-void GModules::onNextData() {
-    clearMap(m_map);
-    GString lData = serialize();
-    lData = GCALL_SERVER("modules", "search_next_module", lData);
-    deserialize(lData);
+bool GModules::showNextList() {
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GModules* lModules = (GModules*)m_map.at(i);
+        m_tableWidget->addRow();
+        m_tableWidget->addCol(0, lModules->m_id);
+        m_tableWidget->addCol(1, lModules->m_name);
+    }
+    return true;
 }
 //===============================================

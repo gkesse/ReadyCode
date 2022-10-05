@@ -22,6 +22,8 @@ public:
     void setSize(int _rows, int _cols);
     void setHeader(int _col, const GString& _data);
     void setData(int _row, int _col, const GString& _data);
+    void addRow();
+    void addCol(int _col, const GString& _data);
     int getIndex() const;
 
 public slots:

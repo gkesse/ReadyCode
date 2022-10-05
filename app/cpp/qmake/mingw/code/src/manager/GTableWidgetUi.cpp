@@ -33,6 +33,7 @@ void GTableWidgetUi::initTableWidget() {
 //===============================================
 void GTableWidgetUi::setSearch(GSearch* _search) {
     m_search = _search;
+    ui->btnNext->setEnabled(m_search->hasData());
 }
 //===============================================
 void GTableWidgetUi::setSize(int _rows, int _cols) {
@@ -51,6 +52,15 @@ void GTableWidgetUi::setData(int _row, int _col, const GString& _data) {
     ui->tableWidget->setItem(_row, _col, lItem);
 }
 //===============================================
+void GTableWidgetUi::addRow() {
+    ui->tableWidget->insertRow(ui->tableWidget->rowCount());
+}
+//===============================================
+void GTableWidgetUi::addCol(int _col, const GString& _data) {
+    int lRow = ui->tableWidget->rowCount() - 1;
+    setData(lRow, _col, _data);
+}
+//===============================================
 int GTableWidgetUi::getIndex() const {
     return m_index;
 }
@@ -66,6 +76,7 @@ void GTableWidgetUi::on_btnNext_clicked() {
     else {
         m_search->onNextData();
     }
+    ui->btnNext->setEnabled(m_search->hasData());
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
 }

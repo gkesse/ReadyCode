@@ -22,8 +22,9 @@ public:
     void createModule();
     void searchModule();
     void deleteModule();
-    bool showList();
     void onNextData();
+    bool showList();
+    bool showNextList();
 
 protected:
     int m_id;

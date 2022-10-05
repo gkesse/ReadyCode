@@ -60,6 +60,10 @@ QPushButton:hover {
 QPushButton:pressed {
 	background-color: transparent;
 }
+QPushButton:disabled {
+    background-color: #5555aa;
+    color: #aaaaaa;
+}
 /* ============================================== */
 /* QLineEdit */
 /* ============================================== */
