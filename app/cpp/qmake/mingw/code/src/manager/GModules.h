@@ -10,15 +10,12 @@ class GModules : public GSearch {
 public:
     GModules();
     ~GModules();
-
     GObject* clone() const;
+    GString serialize(const GString& _code = "modules") const;
+    bool deserialize(const GString& _data, const GString& _code = "modules");
 
-    GString serialize(const GString& _code = "module") const;
-    bool deserialize(const GString& _data, const GString& _code = "module");
-
-    void assign(const GModules& _modules);
-    void assign(GModules* _modules);
-
+    void setModules(const GModules& _modules);
+    void setModules(GModules* _modules);
     void setName(const GString& _name);
     GString getName() const;
 
@@ -26,6 +23,7 @@ public:
     void searchModule();
     void deleteModule();
     bool showList();
+    bool onNextData();
 
 protected:
     int m_id;

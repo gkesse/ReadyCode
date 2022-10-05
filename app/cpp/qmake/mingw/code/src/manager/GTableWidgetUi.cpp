@@ -27,6 +27,11 @@ void GTableWidgetUi::initTableWidget() {
     ui->tableWidget->horizontalHeader()->setMinimumSectionSize(0);
     ui->tableWidget->setFocusPolicy(Qt::NoFocus);
     m_index = 0;
+    m_obj = 0;
+}
+//===============================================
+void GTableWidgetUi::setObject(GObject* _obj) {
+    m_obj = _obj;
 }
 //===============================================
 void GTableWidgetUi::setSize(int _rows, int _cols) {
@@ -54,9 +59,8 @@ void GTableWidgetUi::on_btnSelect_clicked() {
 }
 //===============================================
 void GTableWidgetUi::on_btnNext_clicked() {
-    GLOGT(eGFUN, "");
-    GERROR_SHOWG(eGERR);
-    GLOG_SHOWG(eGLOG);
+    if(!m_obj) {GERROR_ADD(eGERR, "L'objet recherché n'a pas été initialisé."); return;}
+    m_obj->onNextData();
 }
 //===============================================
 void GTableWidgetUi::on_tableWidget_cellClicked(int row, int column) {

@@ -35,7 +35,7 @@ void GModuleUi::on_btnSave_clicked() {
 void GModuleUi::on_btnSearch_clicked() {
     GLOGT(eGFUN, "");
     readData();
-    m_modules->initSearch();
+    m_modules->setSearch(GSearch());
     m_modules->searchModule();
     m_modules->showList();
     writeData();
@@ -45,7 +45,7 @@ void GModuleUi::on_btnSearch_clicked() {
 //===============================================
 void GModuleUi::on_btnNew_clicked() {
     GLOGT(eGFUN, "");
-    m_modules->assign(GModules());
+    m_modules->setModules(GModules());
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);

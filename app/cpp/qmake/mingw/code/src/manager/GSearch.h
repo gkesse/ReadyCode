@@ -10,7 +10,7 @@ public:
     ~GSearch();
     GString serialize(const GString& _code = "search") const;
     bool deserialize(const GString& _data, const GString& _code = "search");
-    void initSearch();
+    void setSearch(const GSearch& _search);
 
 protected:
     int m_lastId;

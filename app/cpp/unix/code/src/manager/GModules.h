@@ -9,8 +9,8 @@ public:
     GModules();
     ~GModules();
     GObject* clone() const;
-    GString serialize(const GString& _code = "module") const;
-    bool deserialize(const GString& _data, const GString& _code = "module");
+    GString serialize(const GString& _code = "modules") const;
+    bool deserialize(const GString& _data, const GString& _code = "modules");
     void initModules();
 
     bool onModule();

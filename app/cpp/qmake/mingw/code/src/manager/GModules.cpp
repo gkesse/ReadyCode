@@ -39,13 +39,13 @@ bool GModules::deserialize(const GString& _data, const GString& _code) {
     return true;
 }
 //===============================================
-void GModules::assign(const GModules& _modules) {
+void GModules::setModules(const GModules& _modules) {
     m_id = _modules.m_id;
     m_name = _modules.m_name;
 }
 //===============================================
-void GModules::assign(GModules* _modules) {
-    assign(*_modules);
+void GModules::setModules(GModules* _modules) {
+    setModules(*_modules);
 }
 //===============================================
 void GModules::setName(const GString& _name) {
@@ -58,31 +58,31 @@ GString GModules::getName() const {
 //===============================================
 void GModules::createModule() {
     GString lData = serialize();
-    lData = GCALL_SERVER("module", "create_module", lData);
+    lData = GCALL_SERVER("modules", "create_module", lData);
     deserialize(lData);
 }
 //===============================================
 void GModules::searchModule() {
     GString lData = serialize();
-    lData = GCALL_SERVER("module", "search_module", lData);
+    lData = GCALL_SERVER("modules", "search_module", lData);
     deserialize(lData);
 }
 //===============================================
 void GModules::deleteModule() {
     GString lData = serialize();
-    lData = GCALL_SERVER("module", "delete_module", lData);
+    lData = GCALL_SERVER("modules", "delete_module", lData);
     deserialize(lData);
 }
 //===============================================
 bool GModules::showList() {
     if(m_map.size() == 0) {
-        assign(GModules());
+        setModules(GModules());
         GERROR_ADD(eGERR, "La réponse est vide.");
         return false;
     }
     else if(m_map.size() == 1) {
         GModules* lModules = (GModules*)m_map.at(0);
-        assign(lModules);
+        setModules(lModules);
         clearMap(m_map);
         return true;
     }
@@ -99,9 +99,16 @@ bool GModules::showList() {
     if(lOk == QDialog::Accepted) {
         int lIndex = m_tableWidget->getIndex();
         GModules* lModules = (GModules*)m_map.at(lIndex);
-        assign(lModules);
+        setModules(lModules);
     }
     clearMap(m_map);
+    return true;
+}
+//===============================================
+bool GModules::onNextData() {
+    GString lData = serialize();
+    lData = GCALL_SERVER("modules", "next_data", lData);
+    deserialize(lData);
     return true;
 }
 //===============================================
