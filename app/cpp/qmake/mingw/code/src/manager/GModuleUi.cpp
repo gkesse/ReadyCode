@@ -13,7 +13,7 @@ GModuleUi::GModuleUi(QWidget* _parent)
 }
 //===============================================
 GModuleUi::~GModuleUi() {
-    GLOGT(eGFUN, "");
+
 }
 //===============================================
 void GModuleUi::readData() {

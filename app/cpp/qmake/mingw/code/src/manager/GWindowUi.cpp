@@ -17,6 +17,7 @@ GWindowUi::GWindowUi(QWidget* _parent)
     m_file = new GFile;
     m_modules = new GModules;
     setWindowIcon(QIcon(GPATH("img", "readydev.png").c_str()));
+    setAttribute(Qt::WA_DeleteOnClose);
 }
 //===============================================
 GWindowUi::~GWindowUi() {
@@ -161,8 +162,12 @@ void GWindowUi::on_actionDeleteFile_triggered() {
 void GWindowUi::on_actionManageModule_triggered() {
     GLOGT(eGFUN, "");
     GModuleUi* lModuleUi = new GModuleUi;
-    ui->mdiArea->addSubWindow(lModuleUi);
-    lModuleUi->show();
+    QMdiSubWindow* lSubWindow = ui->mdiArea->addSubWindow(lModuleUi);
+    QPoint lCenter = ui->mdiArea->viewport()->rect().center();
+    QRect lGeometry = lSubWindow->geometry();
+    lGeometry.moveCenter(lCenter);
+    lSubWindow->setGeometry(lGeometry);
+    lSubWindow->show();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
 }

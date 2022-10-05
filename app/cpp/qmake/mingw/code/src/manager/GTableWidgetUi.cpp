@@ -2,12 +2,14 @@
 #include "GTableWidgetUi.h"
 #include "ui_GTableWidgetUi.h"
 #include "GLog.h"
+#include "GPath.h"
 //===============================================
 GTableWidgetUi::GTableWidgetUi(QWidget* _parent)
 : QDialog(_parent)
 , ui(new Ui::GTableWidgetUi){
     ui->setupUi(this);
     initTableWidget();
+    setWindowIcon(QIcon(GPATH("img", "readydev.png").c_str()));
 }
 //===============================================
 GTableWidgetUi::~GTableWidgetUi() {
