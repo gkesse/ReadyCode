@@ -8,6 +8,7 @@ GSearch::GSearch()
     m_dataCount = 0;
     m_dataSize = 0;
     m_dataOffset = 0;
+    m_hasData = false;
     m_where = "where 1 = 1";
 }
 //===============================================
@@ -22,6 +23,7 @@ GString GSearch::serialize(const GString& _code) const {
     lDom.addData(_code, "data_count", m_dataCount);
     lDom.addData(_code, "data_size", m_dataSize);
     lDom.addData(_code, "data_offset", m_dataOffset);
+    lDom.addData(_code, "has_data", m_hasData);
     return lDom.toString();
 }
 //===============================================
@@ -33,6 +35,7 @@ bool GSearch::deserialize(const GString& _data, const GString& _code) {
     m_dataCount = lDom.getData(_code, "data_count").toInt();
     m_dataSize = lDom.getData(_code, "data_size").toInt();
     m_dataOffset = lDom.getData(_code, "data_offset").toInt();
+    m_dataOffset = lDom.getData(_code, "has_data").toBool();
     return true;
 }
 //===============================================

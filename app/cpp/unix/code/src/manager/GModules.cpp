@@ -109,6 +109,8 @@ bool GModules::searchModule() {
         m_map.push_back(lModule);
     }
     m_dataOffset += m_dataSize;
+    m_hasData = true;
+    if(m_dataOffset >= m_dataCount) m_hasData = false;
     return true;
 }
 //===============================================

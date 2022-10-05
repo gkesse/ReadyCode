@@ -16,6 +16,7 @@ protected:
     int m_dataCount;
     int m_dataSize;
     int m_dataOffset;
+    bool m_hasData;
     GString m_where;
 };
 //==============================================
