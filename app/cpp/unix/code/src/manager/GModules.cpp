@@ -75,6 +75,7 @@ bool GModules::onSearchModule() {
     }
     else {
         if(m_name != "") {
+            m_where += GFORMAT(" and _id > 999999999999 ");
             m_where += GFORMAT(" and _name like '%s%%' ", m_name.c_str());
         }
     }
@@ -94,6 +95,7 @@ bool GModules::searchModule() {
             " from _module "
             " %s "
             " order by _id desc "
+            " limit 2 "
             "", m_where.c_str()
     ));
     for(int i = 0; i < (int)lDataMap.size(); i++) {

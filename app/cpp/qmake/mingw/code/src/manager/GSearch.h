@@ -8,7 +8,7 @@ class GSearch : public GModule {
 public:
     GSearch();
     ~GSearch();
-    GString serialize(const GString& _code = "search");
+    GString serialize(const GString& _code = "search") const;
     bool deserialize(const GString& _data, const GString& _code = "search");
 
 protected:
