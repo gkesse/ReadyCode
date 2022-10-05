@@ -88,6 +88,7 @@ bool GModules::onSearchModule() {
 }
 //===============================================
 bool GModules::onSearchNextModule() {
+    if(!m_hasData) {GERROR_ADD(eGERR, "Aucune donnée n'a été trouvée."); return false;}
     if(m_lastId != 0) {
         m_where += GFORMAT(" and _id < %d ", m_lastId);
     }
