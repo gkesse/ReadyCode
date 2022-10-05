@@ -79,6 +79,7 @@ void GModules::onNextData() {
     GString lData = serialize();
     lData = GCALL_SERVER("modules", "search_next_module", lData);
     deserialize(lData);
+    showNextList();
 }
 //===============================================
 bool GModules::showList() {
@@ -101,27 +102,30 @@ bool GModules::showList() {
     m_tableWidget->setHeader(1, "nom");
     for(int i = 0; i < (int)m_map.size(); i++) {
         GModules* lModules = (GModules*)m_map.at(i);
-        m_tableWidget->setData(i, 0, lModules->m_id);
-        m_tableWidget->setData(i, 1, lModules->m_name);
+        int lId = lModules->m_id;
+        m_tableWidget->setData(i, 0, lId, lModules->m_id);
+        m_tableWidget->setData(i, 1, lId, lModules->m_name);
     }
+    clearMap(m_map);
     m_tableWidget->setSearch(this);
     int lOk = m_tableWidget->exec();
     if(lOk == QDialog::Accepted) {
-        int lIndex = m_tableWidget->getIndex();
-        GModules* lModules = (GModules*)m_map.at(lIndex);
-        setModules(lModules);
+        m_id = m_tableWidget->getKey().toInt();
+        setSearch(GSearch());
+        searchModule();
     }
-    clearMap(m_map);
     return true;
 }
 //===============================================
 bool GModules::showNextList() {
     for(int i = 0; i < (int)m_map.size(); i++) {
         GModules* lModules = (GModules*)m_map.at(i);
+        int lId = lModules->m_id;
         m_tableWidget->addRow();
-        m_tableWidget->addCol(0, lModules->m_id);
-        m_tableWidget->addCol(1, lModules->m_name);
+        m_tableWidget->addCol(0, lId, lModules->m_id);
+        m_tableWidget->addCol(1, lId, lModules->m_name);
     }
+    clearMap(m_map);
     return true;
 }
 //===============================================

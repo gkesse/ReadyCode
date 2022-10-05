@@ -47,8 +47,9 @@ void GTableWidgetUi::setHeader(int _col, const GString& _data) {
     ui->tableWidget->setHorizontalHeaderItem(_col, lItem);
 }
 //===============================================
-void GTableWidgetUi::setData(int _row, int _col, const GString& _data) {
+void GTableWidgetUi::setData(int _row, int _col, const GString& _key, const GString& _data) {
     QTableWidgetItem* lItem = new QTableWidgetItem(_data.c_str());
+    lItem->setData(Qt::UserRole, _key.c_str());
     ui->tableWidget->setItem(_row, _col, lItem);
 }
 //===============================================
@@ -56,13 +57,17 @@ void GTableWidgetUi::addRow() {
     ui->tableWidget->insertRow(ui->tableWidget->rowCount());
 }
 //===============================================
-void GTableWidgetUi::addCol(int _col, const GString& _data) {
+void GTableWidgetUi::addCol(int _col, const GString& _key, const GString& _data) {
     int lRow = ui->tableWidget->rowCount() - 1;
-    setData(lRow, _col, _data);
+    setData(lRow, _col, _key, _data);
 }
 //===============================================
 int GTableWidgetUi::getIndex() const {
     return m_index;
+}
+//===============================================
+GString GTableWidgetUi::getKey() const {
+    return m_key;
 }
 //===============================================
 void GTableWidgetUi::on_btnSelect_clicked() {
@@ -83,6 +88,10 @@ void GTableWidgetUi::on_btnNext_clicked() {
 //===============================================
 void GTableWidgetUi::on_tableWidget_cellClicked(int row, int column) {
     m_index = row;
+}
+//===============================================
+void GTableWidgetUi::on_tableWidget_itemClicked(QTableWidgetItem *item) {
+    m_key = item->data(Qt::UserRole).toString();
 }
 //===============================================
 void GTableWidgetUi::on_tableWidget_cellDoubleClicked(int row, int column) {
