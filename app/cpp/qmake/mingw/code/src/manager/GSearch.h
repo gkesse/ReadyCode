@@ -6,7 +6,7 @@
 //===============================================
 #define GSEARCH_AVOID()     GERROR_ADD(eGERR, "Aucun résultat n'a été trouvé.")
 //===============================================
-class GSearch : public GModule {
+class GSearch : public GManager {
 public:
     GSearch();
     ~GSearch();

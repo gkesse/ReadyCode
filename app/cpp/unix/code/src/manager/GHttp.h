@@ -4,7 +4,7 @@
 //===============================================
 #include "GModule.h"
 //===============================================
-class GHttp : public GModule {
+class GHttp : public GManager {
 public:
     GHttp();
     GHttp(GServer* _server);

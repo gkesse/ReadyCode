@@ -7,12 +7,12 @@
 #include "GClient.h"
 //===============================================
 GFile::GFile()
-: GModule() {
+: GManager() {
     m_id = 0;
 }
 //===============================================
 GFile::GFile(const GString& _fullname)
-: GModule() {
+: GManager() {
     m_id = 0;
     m_fullname = _fullname;
 }
@@ -31,7 +31,7 @@ GString GFile::serialize(const GString& _code) const {
 }
 //===============================================
 bool GFile::deserialize(const GString& _data, const GString& _code) {
-    GModule::deserialize(_data);
+    GManager::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();

@@ -4,7 +4,7 @@
 //===============================================
 #include "GModule.h"
 //===============================================
-class GFile : public GModule {
+class GFile : public GManager {
 public:
     GFile();
     GFile(const GString& _fullname);

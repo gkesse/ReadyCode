@@ -6,7 +6,7 @@
 //===============================================
 class GServer;
 //===============================================
-class GConnection : public GModule {
+class GConnection : public GManager {
 public:
     GConnection();
     ~GConnection();

@@ -6,10 +6,10 @@
 //===============================================
 class GSocket;
 //===============================================
-class GModule : public GObject {
+class GManager : public GObject {
 public:
-    GModule();
-    ~GModule();
+    GManager();
+    ~GManager();
 
     GObject* clone() const;
 

@@ -11,18 +11,18 @@
 //===============================================
 class GServer;
 //===============================================
-class GModule : public GObject {
+class GManager : public GObject {
 public:
-    GModule();
-    GModule(const GModule& _modules);
-    GModule(GModule* _modules);
-    GModule(GServer* _server);
-    virtual ~GModule();
+    GManager();
+    GManager(const GManager& _modules);
+    GManager(GManager* _modules);
+    GManager(GServer* _server);
+    virtual ~GManager();
 
     GObject* clone() const;
 
-    void setModule(const GModule& _modules);
-    void setModule(GModule* _modules);
+    void setModule(const GManager& _modules);
+    void setModule(GManager* _modules);
     void setServer(GServer* _server);
 
     GString serialize(const GString& _code = "request") const;

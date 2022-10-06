@@ -4,7 +4,7 @@
 //===============================================
 #include "GModule.h"
 //===============================================
-class GSearch : public GModule {
+class GSearch : public GManager {
 public:
     GSearch();
     ~GSearch();

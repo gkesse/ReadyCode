@@ -4,7 +4,7 @@
 //===============================================
 #include "GModule.h"
 //===============================================
-class GMd5 : public GModule {
+class GMd5 : public GManager {
 public:
     GMd5();
     ~GMd5();

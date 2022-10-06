@@ -7,7 +7,7 @@
 #include "GMd5.h"
 //===============================================
 GConnection::GConnection()
-: GModule() {
+: GManager() {
     m_id = 0;
     m_active = 0;
     m_isConnect = false;
@@ -35,7 +35,7 @@ GString GConnection::serialize(const GString& _code) const {
 }
 //===============================================
 bool GConnection::deserialize(const GString& _data, const GString& _code) {
-    GModule::deserialize(_data);
+    GManager::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();

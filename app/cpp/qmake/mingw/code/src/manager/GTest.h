@@ -4,7 +4,7 @@
 //===============================================
 #include "GModule.h"
 //===============================================
-class GTest : public GModule {
+class GTest : public GManager {
 public:
 	GTest();
 	~GTest();
