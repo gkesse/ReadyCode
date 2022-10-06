@@ -17,11 +17,11 @@ public:
     bool deserialize(const GString& _data, const GString& _code = "manager");
 
     void setClient(GSocket* _client);
-    void setModule(const GString& _modules);
+    void setModule(const GString& _module);
     void setMethod(const GString& _method);
 
 protected:
-    GString m_modules;
+    GString m_module;
     GString m_method;
     GSocket* m_server;
 };

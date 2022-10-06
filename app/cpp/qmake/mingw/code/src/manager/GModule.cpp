@@ -1,119 +1,109 @@
 //===============================================
-#include "GModulesData.h"
+#include "GModule.h"
 #include "GCode.h"
 #include "GLog.h"
 #include "GClient.h"
 #include "GTableWidgetUi.h"
 //===============================================
-GModulesData::GModulesData()
+GModule::GModule()
 : GSearch() {
     m_id = 0;
-    m_modulesId = 0;
     m_tableWidget = new GTableWidgetUi;
 }
 //===============================================
-GModulesData::~GModulesData() {
+GModule::~GModule() {
     delete m_tableWidget;
 }
 //===============================================
-GObject* GModulesData::clone() const {
-    return new GModulesData;
+GObject* GModule::clone() const {
+    return new GModule;
 }
 //===============================================
-GString GModulesData::serialize(const GString& _code) const {
+GString GModule::serialize(const GString& _code) const {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
-    lDom.addData(_code, "module_id", m_modulesId);
     lDom.addData(_code, "name", m_name);
-    lDom.addData(_code, "value", m_value);
     lDom.addData(_code, m_map);
     lDom.loadData(GSearch::serialize());
     return lDom.toString();
 }
 //===============================================
-bool GModulesData::deserialize(const GString& _data, const GString& _code) {
+bool GModule::deserialize(const GString& _data, const GString& _code) {
     GSearch::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
-    m_modulesId = lDom.getData(_code, "module_id").toInt();
     m_name = lDom.getData(_code, "name");
-    m_value = lDom.getData(_code, "value");
     lDom.getData(_code, m_map, this);
     return true;
 }
 //===============================================
-void GModulesData::setModulesData(const GModulesData& _modules) {
-    m_id = _modules.m_id;
-    m_name = _modules.m_name;
-    m_value = _modules.m_value;
+void GModule::setModule(const GModule& _module) {
+    m_id = _module.m_id;
+    m_name = _module.m_name;
 }
 //===============================================
-void GModulesData::setModulesData(GModulesData* _modules) {
-    setModulesData(*_modules);
+void GModule::setModule(GModule* _module) {
+    setModule(*_module);
 }
 //===============================================
-void GModulesData::setModulesData(int _index) {
+void GModule::setModule(int _index) {
     if(_index < (int)m_map.size()) {
-        GModulesData* lModules = (GModulesData*)m_map.at(_index);
-        setModulesData(lModules);
+        GModule* lModules = (GModule*)m_map.at(_index);
+        setModule(lModules);
     }
     clearMap(m_map);
 }
 //===============================================
-void GModulesData::setModulesId(int _modulesId) {
-    m_modulesId = _modulesId;
-}
-//===============================================
-void GModulesData::setName(const GString& _name) {
+void GModule::setName(const GString& _name) {
     m_name = _name;
 }
 //===============================================
-int GModulesData::getId() const {
+int GModule::getId() const {
     return m_id;
 }
 //===============================================
-GString GModulesData::getName() const {
+GString GModule::getName() const {
     return m_name;
 }
 //===============================================
-void GModulesData::saveModulesData() {
+void GModule::saveModule() {
     GString lData = serialize();
-    lData = GCALL_SERVER("modules_data", "save_modules_data", lData);
+    lData = GCALL_SERVER("module", "save_module", lData);
     deserialize(lData);
 }
 //===============================================
-void GModulesData::searchModulesData() {
+void GModule::searchModule() {
     GString lData = serialize();
-    lData = GCALL_SERVER("modules_data", "search_modules_data", lData);
+    lData = GCALL_SERVER("module", "search_module", lData);
     deserialize(lData);
 }
 //===============================================
-void GModulesData::deleteModulesData() {
+void GModule::deleteModule() {
     GString lData = serialize();
-    lData = GCALL_SERVER("modules_data", "delete_modules_data", lData);
+    lData = GCALL_SERVER("module", "delete_module", lData);
     deserialize(lData);
 }
 //===============================================
-void GModulesData::onNextData() {
+void GModule::onNextData() {
     clearMap(m_map);
     GString lData = serialize();
-    lData = GCALL_SERVER("modules_data", "search_next_modules_data", lData);
+    lData = GCALL_SERVER("module", "search_next_module", lData);
     deserialize(lData);
     showNextList();
 }
 //===============================================
-bool GModulesData::showList() {
+bool GModule::showList() {
     if(m_map.size() == 0) {
-        setModulesData(GModulesData());
+        setModule(GModule());
         if(!GLOGI->hasErrors()) {
             GSEARCH_AVOID();
         }
         return false;
     }
     else if(m_map.size() == 1) {
-        setModulesData(0);
+        setModule(0);
         return true;
     }
     m_tableWidget->setWindowTitle("Liste des modules");
@@ -121,10 +111,10 @@ bool GModulesData::showList() {
     m_tableWidget->setHeader(0, "id");
     m_tableWidget->setHeader(1, "nom");
     for(int i = 0; i < (int)m_map.size(); i++) {
-        GModulesData* lModulesData = (GModulesData*)m_map.at(i);
-        int lId = lModulesData->m_id;
-        m_tableWidget->setData(i, 0, lId, lModulesData->m_id);
-        m_tableWidget->setData(i, 1, lId, lModulesData->m_name);
+        GModule* lModule = (GModule*)m_map.at(i);
+        int lId = lModule->m_id;
+        m_tableWidget->setData(i, 0, lId, lModule->m_id);
+        m_tableWidget->setData(i, 1, lId, lModule->m_name);
     }
     clearMap(m_map);
     m_tableWidget->setSearch(this);
@@ -132,19 +122,19 @@ bool GModulesData::showList() {
     if(lOk == QDialog::Accepted) {
         m_id = m_tableWidget->getKey().toInt();
         setSearch(GSearch());
-        searchModulesData();
-        setModulesData(0);
+        searchModule();
+        setModule(0);
     }
     return true;
 }
 //===============================================
-bool GModulesData::showNextList() {
+bool GModule::showNextList() {
     for(int i = 0; i < (int)m_map.size(); i++) {
-        GModulesData* lModulesData = (GModulesData*)m_map.at(i);
-        int lId = lModulesData->m_id;
+        GModule* lModules = (GModule*)m_map.at(i);
+        int lId = lModules->m_id;
         m_tableWidget->addRow();
-        m_tableWidget->addCol(0, lId, lModulesData->m_id);
-        m_tableWidget->addCol(1, lId, lModulesData->m_name);
+        m_tableWidget->addCol(0, lId, lModules->m_id);
+        m_tableWidget->addCol(1, lId, lModules->m_name);
     }
     clearMap(m_map);
     return true;

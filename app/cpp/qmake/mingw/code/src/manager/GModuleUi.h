@@ -4,8 +4,8 @@
 //===============================================
 #include "GInclude.h"
 //===============================================
-class GModules;
-class GModulesData;
+class GModule;
+class GModuleData;
 //===============================================
 namespace Ui {
     class GModuleUi;
@@ -31,8 +31,8 @@ public slots:
 
 private:
     Ui::GModuleUi *ui;
-    GModules* m_modules;
-    GModulesData* m_modulesData;
+    GModule* m_modules;
+    GModuleData* m_modulesData;
     int m_tabDataIndex;
     bool m_isVisibleTabData;
 };

@@ -1,16 +1,16 @@
 //===============================================
-#ifndef _GModules_
-#define _GModules_
+#ifndef _GModule_
+#define _GModule_
 //===============================================
 #include "GSearch.h"
 //===============================================
-class GModules : public GSearch {
+class GModule : public GSearch {
 public:
-    GModules();
-    ~GModules();
+    GModule();
+    ~GModule();
     GObject* clone() const;
-    GString serialize(const GString& _code = "modules") const;
-    bool deserialize(const GString& _data, const GString& _code = "modules");
+    GString serialize(const GString& _code = "module") const;
+    bool deserialize(const GString& _data, const GString& _code = "module");
     void initModules();
 
     bool onModule();

@@ -1,36 +1,39 @@
 //===============================================
-#ifndef _GModules_
-#define _GModules_
+#ifndef _GModuleData_
+#define _GModuleData_
 //===============================================
 #include "GSearch.h"
 //===============================================
 class GTableWidgetUi;
 //===============================================
-class GModules : public GSearch {
+class GModuleData : public GSearch {
 public:
-    GModules();
-    ~GModules();
+    GModuleData();
+    ~GModuleData();
     GObject* clone() const;
-    GString serialize(const GString& _code = "modules") const;
-    bool deserialize(const GString& _data, const GString& _code = "modules");
+    GString serialize(const GString& _code = "modules_data") const;
+    bool deserialize(const GString& _data, const GString& _code = "modules_data");
 
-    void setModules(const GModules& _modules);
-    void setModules(GModules* _modules);
-    void setModules(int _index);
+    void setModulesData(const GModuleData& _modules);
+    void setModulesData(GModuleData* _modules);
+    void setModulesData(int _index);
+    void setModulesId(int _modulesId);
     void setName(const GString& _name);
     int getId() const;
     GString getName() const;
 
-    void saveModule();
-    void searchModule();
-    void deleteModule();
+    void saveModulesData();
+    void searchModulesData();
+    void deleteModulesData();
     void onNextData();
     bool showList();
     bool showNextList();
 
 protected:
     int m_id;
+    int m_modulesId;
     GString m_name;
+    GString m_value;
     std::vector<GObject*> m_map;
     GTableWidgetUi* m_tableWidget;
 };

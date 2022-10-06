@@ -5,8 +5,8 @@
 #include "GLog.h"
 #include "GServer.h"
 #include "GConnection.h"
-#include "GModules.h"
-#include "GModulesData.h"
+#include "GModule.h"
+#include "GModuleData.h"
 //===============================================
 GManager::GManager()
 : GObject() {
@@ -51,7 +51,7 @@ void GManager::setServer(GServer* _server) {
 GString GManager::serialize(const GString& _code) const {
     GCode lDom;
     lDom.createDoc();
-    lDom.addData(_code, "module", m_modules);
+    lDom.addData(_code, "module", m_module);
     lDom.addData(_code, "method", m_method);
     return lDom.toString();
 }
@@ -59,13 +59,13 @@ GString GManager::serialize(const GString& _code) const {
 bool GManager::deserialize(const GString& _data, const GString& _code) {
     GCode lDom;
     lDom.loadXml(_data);
-    m_modules = lDom.getData(_code, "module");
+    m_module = lDom.getData(_code, "module");
     m_method = lDom.getData(_code, "method");
     return true;
 }
 //===============================================
 void GManager::setModule(const GString& _modules) {
-    m_modules = _modules;
+    m_module = _modules;
 }
 //===============================================
 void GManager::setMethod(const GString& _method) {
@@ -74,19 +74,19 @@ void GManager::setMethod(const GString& _method) {
 //===============================================
 bool GManager::onModule() {
     deserialize(m_server->getRequest());
-    if(m_modules == "") {
+    if(m_module == "") {
         GMODULE_REQUIRED();
     }
-    else if(m_modules == "connection") {
+    else if(m_module == "connection") {
         onConnection();
     }
-    else if(m_modules == "file") {
+    else if(m_module == "file") {
         onFile();
     }
-    else if(m_modules == "modules") {
+    else if(m_module == "module") {
         onModules();
     }
-    else if(m_modules == "modules_data") {
+    else if(m_module == "modules_data") {
         onModulesData();
     }
     else {
@@ -110,14 +110,14 @@ bool GManager::onFile() {
 }
 //===============================================
 bool GManager::onModules() {
-    GModules lModules;
+    GModule lModules;
     lModules.setModule(this);
     lModules.onModule();
     return true;
 }
 //===============================================
 bool GManager::onModulesData() {
-    GModulesData lModulesData;
+    GModuleData lModulesData;
     lModulesData.setModule(this);
     lModulesData.onModule();
     return true;

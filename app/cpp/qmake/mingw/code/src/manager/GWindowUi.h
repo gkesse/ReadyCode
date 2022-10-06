@@ -6,7 +6,7 @@
 //===============================================
 class GConnection;
 class GFile;
-class GModules;
+class GModule;
 //===============================================
 namespace Ui {
     class GWindowUi;
@@ -58,7 +58,7 @@ public slots:
 private:
     Ui::GWindowUi *ui;
     GFile* m_file;
-    GModules* m_modules;
+    GModule* m_modules;
 };
 //==============================================
 #endif

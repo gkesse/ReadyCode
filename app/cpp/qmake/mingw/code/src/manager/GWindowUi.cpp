@@ -7,7 +7,7 @@
 #include "GBase64.h"
 #include "GOption.h"
 #include "GConnection.h"
-#include "GModules.h"
+#include "GModule.h"
 #include "GModuleUi.h"
 //===============================================
 GWindowUi::GWindowUi(QWidget* _parent)
@@ -15,7 +15,7 @@ GWindowUi::GWindowUi(QWidget* _parent)
 , ui(new Ui::GWindowUi){
     ui->setupUi(this);
     m_file = new GFile;
-    m_modules = new GModules;
+    m_modules = new GModule;
     setWindowIcon(QIcon(GPATH("img", "readydev.png").c_str()));
     setAttribute(Qt::WA_DeleteOnClose);
 }

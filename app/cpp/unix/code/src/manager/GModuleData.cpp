@@ -1,24 +1,24 @@
 //===============================================
 #include "GMySQL.h"
 #include "GCode.h"
-#include "GModulesData.h"
+#include "GModuleData.h"
 #include "GLog.h"
 #include "GServer.h"
 //===============================================
-GModulesData::GModulesData()
+GModuleData::GModuleData()
 : GSearch() {
     initModules();
 }
 //===============================================
-GModulesData::~GModulesData() {
+GModuleData::~GModuleData() {
 
 }
 //===============================================
-GObject* GModulesData::clone() const {
-    return new GModulesData;
+GObject* GModuleData::clone() const {
+    return new GModuleData;
 }
 //===============================================
-GString GModulesData::serialize(const GString& _code) const {
+GString GModuleData::serialize(const GString& _code) const {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
@@ -30,7 +30,7 @@ GString GModulesData::serialize(const GString& _code) const {
     return lDom.toString();
 }
 //===============================================
-bool GModulesData::deserialize(const GString& _data, const GString& _code) {
+bool GModuleData::deserialize(const GString& _data, const GString& _code) {
     GSearch::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
@@ -42,25 +42,25 @@ bool GModulesData::deserialize(const GString& _data, const GString& _code) {
     return true;
 }
 //===============================================
-void GModulesData::initModules() {
+void GModuleData::initModules() {
     m_id = 0;
     m_modulesId = 0;
     m_where = " where 1 = 1 ";
 }
 //===============================================
-bool GModulesData::onModule() {
+bool GModuleData::onModule() {
     deserialize(m_server->getRequest());
     if(m_method == "") {
         GMETHOD_REQUIRED();
     }
-    else if(m_method == "save_modules_data") {
-        onSaveModulesData();
+    else if(m_method == "save_module_data") {
+        onSaveModuleData();
     }
-    else if(m_method == "search_modules_data") {
-        onSearchModulesData();
+    else if(m_method == "search_module_data") {
+        onSearchModuleData();
     }
-    else if(m_method == "search_next_modules_data") {
-        onSearchNextModulesData();
+    else if(m_method == "search_next_module_data") {
+        onSearchNextModuleData();
     }
     else {
         GMETHOD_UNKNOWN();
@@ -69,7 +69,7 @@ bool GModulesData::onModule() {
     return true;
 }
 //===============================================
-bool GModulesData::onSaveModulesData() {
+bool GModuleData::onSaveModuleData() {
     if(m_modulesId == "") {GERROR_ADD(eGERR, "L'identifiant du module est obligatoire."); return false;}
     if(m_name == "") {GERROR_ADD(eGERR, "Le nom de la donnée est obligatoire."); return false;}
     if(!saveModulesData()) return false;
@@ -78,7 +78,7 @@ bool GModulesData::onSaveModulesData() {
     return true;
 }
 //===============================================
-bool GModulesData::onSearchModulesData() {
+bool GModuleData::onSearchModuleData() {
     if(m_id != 0) {
         m_where += GFORMAT(" and _id = %d ", m_id);
     }
@@ -92,7 +92,7 @@ bool GModulesData::onSearchModulesData() {
     return true;
 }
 //===============================================
-bool GModulesData::onSearchNextModulesData() {
+bool GModuleData::onSearchNextModuleData() {
     if(!m_hasData) {GERROR_ADD(eGERR, "Aucune donnée n'a été trouvée."); return false;}
     if(m_lastId != 0) {
         m_where += GFORMAT(" and _id < %d ", m_lastId);
@@ -104,20 +104,20 @@ bool GModulesData::onSearchNextModulesData() {
     return true;
 }
 //===============================================
-bool GModulesData::saveModulesData() {
+bool GModuleData::saveModulesData() {
     if(m_id == 0) {
         if(!insertModulesData()) return false;
     }
     else {
         if(!updateModulesData()) {
-            onSearchModulesData();
+            onSearchModuleData();
             return false;
         }
     }
     return true;
 }
 //===============================================
-bool GModulesData::searchModulesData() {
+bool GModuleData::searchModulesData() {
     GMySQL lMySQL;
     GMap lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _name "
@@ -131,7 +131,7 @@ bool GModulesData::searchModulesData() {
     for(int i = 0; i < (int)lDataMap.size(); i++) {
         GRow lDataRow = lDataMap.at(i);
         int j = 0;
-        GModulesData* lModule = new GModulesData;
+        GModuleData* lModule = new GModuleData;
         lModule->m_id = lDataRow.at(j++).toInt();
         lModule->m_name = lDataRow.at(j++);
         m_map.push_back(lModule);
@@ -140,13 +140,13 @@ bool GModulesData::searchModulesData() {
     m_hasData = true;
     if(m_dataOffset >= m_dataCount) m_hasData = false;
     if(m_hasData) {
-        GModulesData* lModule = (GModulesData*)m_map.back();
+        GModuleData* lModule = (GModuleData*)m_map.back();
         m_lastId = lModule->m_id;
     }
     return true;
 }
 //===============================================
-bool GModulesData::searchNextModuleData() {
+bool GModuleData::searchNextModuleData() {
     GMySQL lMySQL;
     GMap lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _name "
@@ -160,7 +160,7 @@ bool GModulesData::searchNextModuleData() {
     for(int i = 0; i < (int)lDataMap.size(); i++) {
         GRow lDataRow = lDataMap.at(i);
         int j = 0;
-        GModulesData* lModule = new GModulesData;
+        GModuleData* lModule = new GModuleData;
         lModule->m_id = lDataRow.at(j++).toInt();
         lModule->m_name = lDataRow.at(j++);
         m_map.push_back(lModule);
@@ -169,13 +169,13 @@ bool GModulesData::searchNextModuleData() {
     m_hasData = true;
     if(m_dataOffset >= m_dataCount) m_hasData = false;
     if(m_hasData) {
-        GModulesData* lModule = (GModulesData*)m_map.back();
+        GModuleData* lModule = (GModuleData*)m_map.back();
         m_lastId = lModule->m_id;
     }
     return true;
 }
 //===============================================
-bool GModulesData::countModuleData() {
+bool GModuleData::countModuleData() {
     GMySQL lMySQL;
     m_dataCount = lMySQL.readData(GFORMAT(""
             " select count(*) "
@@ -186,11 +186,11 @@ bool GModulesData::countModuleData() {
     return true;
 }
 //===============================================
-bool GModulesData::insertModulesData() {
+bool GModuleData::insertModulesData() {
     if(m_id != 0) return false;
     GMySQL lMySQL;
     if(!lMySQL.execQuery(GFORMAT(""
-            " insert into _modules_data "
+            " insert into _module_data "
             " ( _module_id, _name, _value ) "
             " values ( %d, '%s', '%s' ) "
             "", m_modulesId
@@ -201,7 +201,7 @@ bool GModulesData::insertModulesData() {
     return true;
 }
 //===============================================
-bool GModulesData::updateModulesData() {
+bool GModuleData::updateModulesData() {
     if(m_id == 0) return false;
     GMySQL lMySQL;
     if(!lMySQL.execQuery(GFORMAT(""

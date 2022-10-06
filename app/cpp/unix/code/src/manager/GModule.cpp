@@ -1,24 +1,24 @@
 //===============================================
 #include "GMySQL.h"
 #include "GCode.h"
-#include "GModules.h"
+#include "GModule.h"
 #include "GLog.h"
 #include "GServer.h"
 //===============================================
-GModules::GModules()
+GModule::GModule()
 : GSearch() {
     initModules();
 }
 //===============================================
-GModules::~GModules() {
+GModule::~GModule() {
 
 }
 //===============================================
-GObject* GModules::clone() const {
-    return new GModules;
+GObject* GModule::clone() const {
+    return new GModule;
 }
 //===============================================
-GString GModules::serialize(const GString& _code) const {
+GString GModule::serialize(const GString& _code) const {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
@@ -28,7 +28,7 @@ GString GModules::serialize(const GString& _code) const {
     return lDom.toString();
 }
 //===============================================
-bool GModules::deserialize(const GString& _data, const GString& _code) {
+bool GModule::deserialize(const GString& _data, const GString& _code) {
     GSearch::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
@@ -38,23 +38,23 @@ bool GModules::deserialize(const GString& _data, const GString& _code) {
     return true;
 }
 //===============================================
-void GModules::initModules() {
+void GModule::initModules() {
     m_id = 0;
     m_where = " where 1 = 1 ";
 }
 //===============================================
-bool GModules::onModule() {
+bool GModule::onModule() {
     deserialize(m_server->getRequest());
     if(m_method == "") {
         GMETHOD_REQUIRED();
     }
-    else if(m_method == "save_modules") {
+    else if(m_method == "save_module") {
         onSaveModule();
     }
-    else if(m_method == "search_modules") {
+    else if(m_method == "search_module") {
         onSearchModule();
     }
-    else if(m_method == "search_next_modules") {
+    else if(m_method == "search_next_module") {
         onSearchNextModule();
     }
     else {
@@ -64,7 +64,7 @@ bool GModules::onModule() {
     return true;
 }
 //===============================================
-bool GModules::onSaveModule() {
+bool GModule::onSaveModule() {
     //if(m_id != 0) {GERROR_ADD(eGERR, "Le module est déjà enregistré."); return false;}
     if(m_name == "") {GERROR_ADD(eGERR, "Le nom du module est obligatoire."); return false;}
     if(!saveModule()) return false;
@@ -73,7 +73,7 @@ bool GModules::onSaveModule() {
     return true;
 }
 //===============================================
-bool GModules::onSearchModule() {
+bool GModule::onSearchModule() {
     if(m_id != 0) {
         m_where += GFORMAT(" and _id = %d ", m_id);
     }
@@ -87,7 +87,7 @@ bool GModules::onSearchModule() {
     return true;
 }
 //===============================================
-bool GModules::onSearchNextModule() {
+bool GModule::onSearchNextModule() {
     if(!m_hasData) {GERROR_ADD(eGERR, "Aucune donnée n'a été trouvée."); return false;}
     if(m_lastId != 0) {
         m_where += GFORMAT(" and _id < %d ", m_lastId);
@@ -99,7 +99,7 @@ bool GModules::onSearchNextModule() {
     return true;
 }
 //===============================================
-bool GModules::saveModule() {
+bool GModule::saveModule() {
     if(m_id == 0) {
         if(!insertModule()) return false;
     }
@@ -112,7 +112,7 @@ bool GModules::saveModule() {
     return true;
 }
 //===============================================
-bool GModules::searchModule() {
+bool GModule::searchModule() {
     GMySQL lMySQL;
     GMap lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _name "
@@ -126,7 +126,7 @@ bool GModules::searchModule() {
     for(int i = 0; i < (int)lDataMap.size(); i++) {
         GRow lDataRow = lDataMap.at(i);
         int j = 0;
-        GModules* lModule = new GModules;
+        GModule* lModule = new GModule;
         lModule->m_id = lDataRow.at(j++).toInt();
         lModule->m_name = lDataRow.at(j++);
         m_map.push_back(lModule);
@@ -135,13 +135,13 @@ bool GModules::searchModule() {
     m_hasData = true;
     if(m_dataOffset >= m_dataCount) m_hasData = false;
     if(m_hasData) {
-        GModules* lModule = (GModules*)m_map.back();
+        GModule* lModule = (GModule*)m_map.back();
         m_lastId = lModule->m_id;
     }
     return true;
 }
 //===============================================
-bool GModules::searchNextModule() {
+bool GModule::searchNextModule() {
     GMySQL lMySQL;
     GMap lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _name "
@@ -155,7 +155,7 @@ bool GModules::searchNextModule() {
     for(int i = 0; i < (int)lDataMap.size(); i++) {
         GRow lDataRow = lDataMap.at(i);
         int j = 0;
-        GModules* lModule = new GModules;
+        GModule* lModule = new GModule;
         lModule->m_id = lDataRow.at(j++).toInt();
         lModule->m_name = lDataRow.at(j++);
         m_map.push_back(lModule);
@@ -164,13 +164,13 @@ bool GModules::searchNextModule() {
     m_hasData = true;
     if(m_dataOffset >= m_dataCount) m_hasData = false;
     if(m_hasData) {
-        GModules* lModule = (GModules*)m_map.back();
+        GModule* lModule = (GModule*)m_map.back();
         m_lastId = lModule->m_id;
     }
     return true;
 }
 //===============================================
-bool GModules::countSearch() {
+bool GModule::countSearch() {
     GMySQL lMySQL;
     m_dataCount = lMySQL.readData(GFORMAT(""
             " select count(*) "
@@ -181,7 +181,7 @@ bool GModules::countSearch() {
     return true;
 }
 //===============================================
-bool GModules::insertModule() {
+bool GModule::insertModule() {
     if(m_id != 0) return false;
     GMySQL lMySQL;
     if(!lMySQL.execQuery(GFORMAT(""
@@ -194,7 +194,7 @@ bool GModules::insertModule() {
     return true;
 }
 //===============================================
-bool GModules::updateModule() {
+bool GModule::updateModule() {
     if(m_id == 0) return false;
     GMySQL lMySQL;
     if(!lMySQL.execQuery(GFORMAT(""

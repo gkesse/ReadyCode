@@ -5,9 +5,9 @@
 #include "GObject.h"
 //===============================================
 #define GMODULE_REQUIRED()  GERROR_ADD(eGERR, "Le module est obligatoire.")
-#define GMODULE_UNKNOWN()   GERROR_ADD(eGERR, "Le module (%s) est inconnu.", m_modules.c_str())
+#define GMODULE_UNKNOWN()   GERROR_ADD(eGERR, "Le module (%s) est inconnu.", m_module.c_str())
 #define GMETHOD_REQUIRED()  GERROR_ADD(eGERR, "La méthode est obligatoire.")
-#define GMETHOD_UNKNOWN()   GERROR_ADD(eGERR, "La méthode (%s : %s) est inconnue.", m_modules.c_str(), m_method.c_str());
+#define GMETHOD_UNKNOWN()   GERROR_ADD(eGERR, "La méthode (%s : %s) est inconnue.", m_module.c_str(), m_method.c_str());
 //===============================================
 class GServer;
 //===============================================
@@ -38,7 +38,7 @@ public:
     bool onModulesData();
 
 protected:
-    GString m_modules;
+    GString m_module;
     GString m_method;
     GServer* m_server;
 };
