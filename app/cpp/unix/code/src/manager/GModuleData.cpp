@@ -121,7 +121,7 @@ bool GModuleData::searchModulesData() {
     GMySQL lMySQL;
     GMap lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _name "
-            " from _modules "
+            " from _module "
             " %s "
             " order by _id desc "
             " limit %d "
@@ -150,7 +150,7 @@ bool GModuleData::searchNextModuleData() {
     GMySQL lMySQL;
     GMap lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _name "
-            " from _modules "
+            " from _module "
             " %s "
             " order by _id desc "
             " limit %d "
@@ -179,7 +179,7 @@ bool GModuleData::countModuleData() {
     GMySQL lMySQL;
     m_dataCount = lMySQL.readData(GFORMAT(""
             " select count(*) "
-            " from _modules "
+            " from _module "
             " %s "
             "", m_where.c_str()
     )).toInt();
@@ -205,7 +205,7 @@ bool GModuleData::updateModuleData() {
     if(m_id == 0) return false;
     GMySQL lMySQL;
     if(!lMySQL.execQuery(GFORMAT(""
-            " update _modules set "
+            " update _module set "
             "   _module_id = %d "
             " , _name = '%s' "
             " , _value = '%s' "
