@@ -27,7 +27,7 @@ void GModuleUi::writeData() {
 void GModuleUi::on_btnSave_clicked() {
     GLOGT(eGFUN, "");
     readData();
-    m_modules->createModule();
+    m_modules->saveModule();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
 }

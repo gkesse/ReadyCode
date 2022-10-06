@@ -20,7 +20,7 @@ public:
     void setName(const GString& _name);
     GString getName() const;
 
-    void createModule();
+    void saveModule();
     void searchModule();
     void deleteModule();
     void onNextData();

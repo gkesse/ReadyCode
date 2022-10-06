@@ -175,7 +175,7 @@ void GWindowUi::on_actionManageModule_triggered() {
 void GWindowUi::on_actionCreateModule_triggered() {
     GLOGT(eGFUN, "");
     m_modules->setName("mysql");
-    m_modules->createModule();
+    m_modules->saveModule();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
 }

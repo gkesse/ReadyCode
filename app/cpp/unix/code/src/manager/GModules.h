@@ -14,14 +14,15 @@ public:
     void initModules();
 
     bool onModule();
-    bool onCreateModule();
+    bool onSaveModule();
     bool onSearchModule();
     bool onSearchNextModule();
-    bool createModule();
+    bool saveModule();
     bool searchModule();
     bool searchNextModule();
     bool countSearch();
     bool insertModule();
+    bool updateModule();
 
 protected:
     int m_id;

@@ -48,8 +48,8 @@ bool GModules::onModule() {
     if(m_method == "") {
         GMETHOD_REQUIRED();
     }
-    else if(m_method == "create_module") {
-        onCreateModule();
+    else if(m_method == "save_module") {
+        onSaveModule();
     }
     else if(m_method == "search_module") {
         onSearchModule();
@@ -64,10 +64,10 @@ bool GModules::onModule() {
     return true;
 }
 //===============================================
-bool GModules::onCreateModule() {
+bool GModules::onSaveModule() {
     if(m_id != 0) {GERROR_ADD(eGERR, "Le module est déjà enregistré."); return false;}
     if(m_name == "") {GERROR_ADD(eGERR, "Le nom du module est obligatoire."); return false;}
-    if(!createModule()) return false;
+    if(!saveModule()) return false;
     if(m_id == 0) {GERROR_ADD(eGERR, "Erreur lors de la création du module."); return false;}
     GLOG_ADD(eGLOG, "Le module a bien été enregistré.");
     return true;
@@ -99,8 +99,13 @@ bool GModules::onSearchNextModule() {
     return true;
 }
 //===============================================
-bool GModules::createModule() {
-    if(!insertModule()) return false;
+bool GModules::saveModule() {
+    if(m_id == 0) {
+        if(!insertModule()) return false;
+    }
+    else {
+        if(!updateModule()) return false;
+    }
     return true;
 }
 //===============================================
@@ -183,6 +188,19 @@ bool GModules::insertModule() {
             "", m_name.c_str()
     ))) return false;
     m_id = lMySQL.getId();
+    return true;
+}
+//===============================================
+bool GModules::updateModule() {
+    if(m_id == 0) return false;
+    GMySQL lMySQL;
+    if(!lMySQL.execQuery(GFORMAT(""
+            " update _module set "
+            " _name = '%s' "
+            " where _id = %d "
+            "", m_name.c_str()
+            , m_id
+    ))) return false;
     return true;
 }
 //===============================================

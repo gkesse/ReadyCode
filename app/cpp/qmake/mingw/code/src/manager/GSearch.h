@@ -4,6 +4,8 @@
 //===============================================
 #include "GModule.h"
 //===============================================
+#define GSEARCH_AVOID()     GERROR_ADD(eGERR, "Aucun résultat n'a été trouvé.")
+//===============================================
 class GSearch : public GModule {
 public:
     GSearch();

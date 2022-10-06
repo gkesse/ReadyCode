@@ -62,9 +62,9 @@ GString GModules::getName() const {
     return m_name;
 }
 //===============================================
-void GModules::createModule() {
+void GModules::saveModule() {
     GString lData = serialize();
-    lData = GCALL_SERVER("modules", "create_module", lData);
+    lData = GCALL_SERVER("modules", "save_module", lData);
     deserialize(lData);
 }
 //===============================================
@@ -92,7 +92,7 @@ bool GModules::showList() {
     if(m_map.size() == 0) {
         setModules(GModules());
         if(!GLOGI->hasErrors()) {
-            GERROR_ADD(eGERR, "La réponse est vide.");
+            GSEARCH_AVOID();
         }
         return false;
     }
