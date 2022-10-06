@@ -80,26 +80,26 @@ GString GModuleData::getName() const {
 //===============================================
 void GModuleData::saveModulesData() {
     GString lData = serialize();
-    lData = GCALL_SERVER("modules_data", "save_module_data", lData);
+    lData = GCALL_SERVER("module_data", "save_module_data", lData);
     deserialize(lData);
 }
 //===============================================
 void GModuleData::searchModulesData() {
     GString lData = serialize();
-    lData = GCALL_SERVER("modules_data", "search_module_data", lData);
+    lData = GCALL_SERVER("module_data", "search_module_data", lData);
     deserialize(lData);
 }
 //===============================================
 void GModuleData::deleteModulesData() {
     GString lData = serialize();
-    lData = GCALL_SERVER("modules_data", "delete_module_data", lData);
+    lData = GCALL_SERVER("module_data", "delete_module_data", lData);
     deserialize(lData);
 }
 //===============================================
 void GModuleData::onNextData() {
     clearMap(m_map);
     GString lData = serialize();
-    lData = GCALL_SERVER("modules_data", "search_next_module_data", lData);
+    lData = GCALL_SERVER("module_data", "search_next_module_data", lData);
     deserialize(lData);
     showNextList();
 }

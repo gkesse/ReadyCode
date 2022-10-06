@@ -86,7 +86,7 @@ bool GManager::onModule() {
     else if(m_module == "module") {
         onModules();
     }
-    else if(m_module == "modules_data") {
+    else if(m_module == "module_data") {
         onModulesData();
     }
     else {
