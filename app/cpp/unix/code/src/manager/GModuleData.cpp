@@ -92,7 +92,7 @@ bool GModuleData::onSearchModuleData() {
             m_where += GFORMAT(" and _value like '%s%%' ", m_value.c_str());
         }
     }
-    if(!countModuleData()) return false;
+    if(!countData()) return false;
     if(!searchModulesData()) return false;
     return true;
 }
@@ -116,10 +116,11 @@ bool GModuleData::onSearchNextModuleData() {
 //===============================================
 bool GModuleData::saveModulesData() {
     if(m_id == 0) {
-        if(!insertModuleData()) return false;
+        if(!existeData()) return false;
+        if(!insertData()) return false;
     }
     else {
-        if(!updateModuleData()) {
+        if(!updateData()) {
             onSearchModuleData();
             return false;
         }
@@ -189,7 +190,7 @@ bool GModuleData::searchNextModuleData() {
     return true;
 }
 //===============================================
-bool GModuleData::countModuleData() {
+bool GModuleData::countData() {
     GMySQL lMySQL;
     m_dataCount = lMySQL.readData(GFORMAT(""
             " select count(*) "
@@ -200,7 +201,22 @@ bool GModuleData::countModuleData() {
     return true;
 }
 //===============================================
-bool GModuleData::insertModuleData() {
+bool GModuleData::existeData() {
+    GMySQL lMySQL;
+    int lCount = lMySQL.readData(GFORMAT(""
+            " select count(*) "
+            " from _module_data "
+            " where 1 = 1 "
+            " and _module_id = %d "
+            " and _name = '%s' "
+            "", m_moduleId
+            , m_name.c_str()
+    )).toInt();
+    if(lCount != 0) {GDATA_EXIST(); return false;}
+    return true;
+}
+//===============================================
+bool GModuleData::insertData() {
     if(m_id != 0) return false;
     GMySQL lMySQL;
     if(!lMySQL.execQuery(GFORMAT(""
@@ -215,7 +231,7 @@ bool GModuleData::insertModuleData() {
     return true;
 }
 //===============================================
-bool GModuleData::updateModuleData() {
+bool GModuleData::updateData() {
     if(m_id == 0) return false;
     GMySQL lMySQL;
     if(!lMySQL.execQuery(GFORMAT(""

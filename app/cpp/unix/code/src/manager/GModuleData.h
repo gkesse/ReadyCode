@@ -20,9 +20,10 @@ public:
     bool saveModulesData();
     bool searchModulesData();
     bool searchNextModuleData();
-    bool countModuleData();
-    bool insertModuleData();
-    bool updateModuleData();
+    bool countData();
+    bool existeData();
+    bool insertData();
+    bool updateData();
 
 protected:
     int m_id;
