@@ -19,8 +19,10 @@ public:
     void setModulesData(int _index);
     void setModulesId(int _modulesId);
     void setName(const GString& _name);
+    void setValue(const GString& _value);
     int getId() const;
     GString getName() const;
+    GString getValue() const;
 
     void saveModulesData();
     void searchModulesData();

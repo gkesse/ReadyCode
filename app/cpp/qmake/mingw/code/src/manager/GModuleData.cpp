@@ -70,12 +70,20 @@ void GModuleData::setName(const GString& _name) {
     m_name = _name;
 }
 //===============================================
+void GModuleData::setValue(const GString& _value) {
+    m_value = _value;
+}
+//===============================================
 int GModuleData::getId() const {
     return m_id;
 }
 //===============================================
 GString GModuleData::getName() const {
     return m_name;
+}
+//===============================================
+GString GModuleData::getValue() const {
+    return m_value;
 }
 //===============================================
 void GModuleData::saveModulesData() {
