@@ -21,12 +21,12 @@ public:
     bool searchModulesData();
     bool searchNextModuleData();
     bool countModuleData();
-    bool insertModulesData();
-    bool updateModulesData();
+    bool insertModuleData();
+    bool updateModuleData();
 
 protected:
     int m_id;
-    int m_modulesId;
+    int m_moduleId;
     GString m_name;
     GString m_value;
     GString m_where;

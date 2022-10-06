@@ -22,7 +22,7 @@ GString GModuleData::serialize(const GString& _code) const {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
-    lDom.addData(_code, "modules_id", m_modulesId);
+    lDom.addData(_code, "modules_id", m_moduleId);
     lDom.addData(_code, "name", m_name);
     lDom.addData(_code, "value", m_value);
     lDom.addData(_code, m_map);
@@ -35,7 +35,7 @@ bool GModuleData::deserialize(const GString& _data, const GString& _code) {
     GCode lDom;
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
-    m_modulesId = lDom.getData(_code, "modules_id").toInt();
+    m_moduleId = lDom.getData(_code, "modules_id").toInt();
     m_name = lDom.getData(_code, "name");
     m_value = lDom.getData(_code, "value");
     lDom.getData(_code, m_map, this);
@@ -44,7 +44,7 @@ bool GModuleData::deserialize(const GString& _data, const GString& _code) {
 //===============================================
 void GModuleData::initModules() {
     m_id = 0;
-    m_modulesId = 0;
+    m_moduleId = 0;
     m_where = " where 1 = 1 ";
 }
 //===============================================
@@ -70,7 +70,7 @@ bool GModuleData::onModule() {
 }
 //===============================================
 bool GModuleData::onSaveModuleData() {
-    if(m_modulesId == "") {GERROR_ADD(eGERR, "L'identifiant du module est obligatoire."); return false;}
+    if(m_moduleId == "") {GERROR_ADD(eGERR, "L'identifiant du module est obligatoire."); return false;}
     if(m_name == "") {GERROR_ADD(eGERR, "Le nom de la donnée est obligatoire."); return false;}
     if(!saveModulesData()) return false;
     if(m_id == 0) {GERROR_ADD(eGERR, "Erreur lors de l'enregistrement du module."); return false;}
@@ -106,10 +106,10 @@ bool GModuleData::onSearchNextModuleData() {
 //===============================================
 bool GModuleData::saveModulesData() {
     if(m_id == 0) {
-        if(!insertModulesData()) return false;
+        if(!insertModuleData()) return false;
     }
     else {
-        if(!updateModulesData()) {
+        if(!updateModuleData()) {
             onSearchModuleData();
             return false;
         }
@@ -186,14 +186,14 @@ bool GModuleData::countModuleData() {
     return true;
 }
 //===============================================
-bool GModuleData::insertModulesData() {
+bool GModuleData::insertModuleData() {
     if(m_id != 0) return false;
     GMySQL lMySQL;
     if(!lMySQL.execQuery(GFORMAT(""
             " insert into _module_data "
             " ( _module_id, _name, _value ) "
             " values ( %d, '%s', '%s' ) "
-            "", m_modulesId
+            "", m_moduleId
             , m_name.c_str()
             , m_value.c_str()
     ))) return false;
@@ -201,7 +201,7 @@ bool GModuleData::insertModulesData() {
     return true;
 }
 //===============================================
-bool GModuleData::updateModulesData() {
+bool GModuleData::updateModuleData() {
     if(m_id == 0) return false;
     GMySQL lMySQL;
     if(!lMySQL.execQuery(GFORMAT(""
@@ -210,7 +210,7 @@ bool GModuleData::updateModulesData() {
             " , _name = '%s' "
             " , _value = '%s' "
             " where _id = %d "
-            "", m_modulesId
+            "", m_moduleId
             , m_name.c_str()
             , m_value.c_str()
             , m_id

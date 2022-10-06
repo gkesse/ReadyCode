@@ -8,7 +8,7 @@
 GModuleData::GModuleData()
 : GSearch() {
     m_id = 0;
-    m_modulesId = 0;
+    m_moduleId = 0;
     m_tableWidget = new GTableWidgetUi;
 }
 //===============================================
@@ -24,7 +24,7 @@ GString GModuleData::serialize(const GString& _code) const {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
-    lDom.addData(_code, "module_id", m_modulesId);
+    lDom.addData(_code, "module_id", m_moduleId);
     lDom.addData(_code, "name", m_name);
     lDom.addData(_code, "value", m_value);
     lDom.addData(_code, m_map);
@@ -37,7 +37,7 @@ bool GModuleData::deserialize(const GString& _data, const GString& _code) {
     GCode lDom;
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
-    m_modulesId = lDom.getData(_code, "module_id").toInt();
+    m_moduleId = lDom.getData(_code, "module_id").toInt();
     m_name = lDom.getData(_code, "name");
     m_value = lDom.getData(_code, "value");
     lDom.getData(_code, m_map, this);
@@ -63,7 +63,7 @@ void GModuleData::setModulesData(int _index) {
 }
 //===============================================
 void GModuleData::setModulesId(int _modulesId) {
-    m_modulesId = _modulesId;
+    m_moduleId = _modulesId;
 }
 //===============================================
 void GModuleData::setName(const GString& _name) {

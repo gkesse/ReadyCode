@@ -31,7 +31,7 @@ public:
 
 protected:
     int m_id;
-    int m_modulesId;
+    int m_moduleId;
     GString m_name;
     GString m_value;
     std::vector<GObject*> m_map;
