@@ -14,15 +14,15 @@ class GServer;
 class GManager : public GObject {
 public:
     GManager();
-    GManager(const GManager& _modules);
-    GManager(GManager* _modules);
+    GManager(const GManager& _manager);
+    GManager(GManager* _manager);
     GManager(GServer* _server);
     virtual ~GManager();
 
     GObject* clone() const;
 
-    void setModule(const GManager& _modules);
-    void setModule(GManager* _modules);
+    void setManager(const GManager& _manager);
+    void setManager(GManager* _manager);
     void setServer(GServer* _server);
 
     GString serialize(const GString& _code = "manager") const;

@@ -13,14 +13,14 @@ GManager::GManager()
     m_server = 0;
 }
 //===============================================
-GManager::GManager(const GManager& _modules)
+GManager::GManager(const GManager& _manager)
 : GObject() {
-    setModule(_modules);
+    setManager(_manager);
 }
 //===============================================
-GManager::GManager(GManager* _modules)
+GManager::GManager(GManager* _manager)
 : GObject() {
-    setModule(_modules);
+    setManager(_manager);
 }
 //===============================================
 GManager::GManager(GServer* _server)
@@ -36,12 +36,12 @@ GObject* GManager::clone() const {
     return new GManager;
 }
 //===============================================
-void GManager::setModule(const GManager& _modules) {
-    setServer(_modules.m_server);
+void GManager::setManager(const GManager& _manager) {
+    setServer(_manager.m_server);
 }
 //===============================================
-void GManager::setModule(GManager* _modules) {
-    setServer(_modules->m_server);
+void GManager::setManager(GManager* _manager) {
+    setServer(_manager->m_server);
 }
 //===============================================
 void GManager::setServer(GServer* _server) {
@@ -64,8 +64,8 @@ bool GManager::deserialize(const GString& _data, const GString& _code) {
     return true;
 }
 //===============================================
-void GManager::setModule(const GString& _modules) {
-    m_module = _modules;
+void GManager::setModule(const GString& _module) {
+    m_module = _module;
 }
 //===============================================
 void GManager::setMethod(const GString& _method) {
@@ -97,28 +97,28 @@ bool GManager::onModule() {
 //===============================================
 bool GManager::onConnection() {
     GConnection lConnect;
-    lConnect.setModule(this);
+    lConnect.setManager(this);
     lConnect.onModule();
     return true;
 }
 //===============================================
 bool GManager::onFile() {
     GFile lFile;
-    lFile.setModule(this);
+    lFile.setManager(this);
     lFile.onModule();
     return true;
 }
 //===============================================
 bool GManager::onModules() {
     GModule lModules;
-    lModules.setModule(this);
+    lModules.setManager(this);
     lModules.onModule();
     return true;
 }
 //===============================================
 bool GManager::onModulesData() {
     GModuleData lModulesData;
-    lModulesData.setModule(this);
+    lModulesData.setManager(this);
     lModulesData.onModule();
     return true;
 }
