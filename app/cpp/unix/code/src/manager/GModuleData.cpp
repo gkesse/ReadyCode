@@ -1,7 +1,7 @@
 //===============================================
+#include "GModuleData.h"
 #include "GMySQL.h"
 #include "GCode.h"
-#include "GModuleData.h"
 #include "GLog.h"
 #include "GServer.h"
 //===============================================
@@ -70,7 +70,7 @@ bool GModuleData::onModule() {
 }
 //===============================================
 bool GModuleData::onSaveModuleData() {
-    if(m_moduleId == "") {GERROR_ADD(eGERR, "L'identifiant du module est obligatoire."); return false;}
+    if(m_moduleId != 0) {GERROR_ADD(eGERR, "L'identifiant du module est obligatoire."); return false;}
     if(m_name == "") {GERROR_ADD(eGERR, "Le nom de la donnée est obligatoire."); return false;}
     if(!saveModulesData()) return false;
     if(m_id == 0) {GERROR_ADD(eGERR, "Erreur lors de l'enregistrement du module."); return false;}
