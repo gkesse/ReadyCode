@@ -25,8 +25,8 @@ public:
     void setModule(GManager* _modules);
     void setServer(GServer* _server);
 
-    GString serialize(const GString& _code = "request") const;
-    bool deserialize(const GString& _data, const GString& _code = "request");
+    GString serialize(const GString& _code = "manager") const;
+    bool deserialize(const GString& _data, const GString& _code = "manager");
 
     void setModule(const GString& _modules);
     void setMethod(const GString& _method);
