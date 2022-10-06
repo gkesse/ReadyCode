@@ -34,7 +34,7 @@ protected:
     static const int BUFFER_SIZE = 1024;
     static const int METHOD_SIZE = 1024;
 
-    GString m_module;
+    GString m_modules;
 
     GString m_hostname;
     int m_domain;

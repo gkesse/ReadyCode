@@ -3,12 +3,14 @@
 #include "GModuleUi.h"
 #include "ui_GModuleUi.h"
 #include "GModules.h"
+#include "GModulesData.h"
 //===============================================
 GModuleUi::GModuleUi(QWidget* _parent)
 : QFrame(_parent)
 , ui(new Ui::GModuleUi){
     ui->setupUi(this);
     m_modules = new GModules;
+    m_modulesData = new GModulesData;
     m_tabDataIndex = ui->tabWidget->indexOf(ui->tabData);
     m_isVisibleTabData = false;
     ui->tabWidget->setCurrentIndex(0);
@@ -17,7 +19,8 @@ GModuleUi::GModuleUi(QWidget* _parent)
 }
 //===============================================
 GModuleUi::~GModuleUi() {
-
+    delete m_modules;
+    delete m_modulesData;
 }
 //===============================================
 void GModuleUi::readData() {
@@ -54,6 +57,38 @@ void GModuleUi::on_btnSearch_clicked() {
 }
 //===============================================
 void GModuleUi::on_btnNew_clicked() {
+    GLOGT(eGFUN, "");
+    m_modules->setModules(GModules());
+    writeData();
+    GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGLOG);
+}
+//===============================================
+void GModuleUi::on_btnSaveData_clicked() {
+    GLOGT(eGFUN, "");
+    readData();
+    m_modulesData->setModulesId(m_modules->getId());
+    m_modulesData->saveModulesData();
+    if(GLOGI->hasErrors()) {
+        m_modules->setModules(0);
+    }
+    writeData();
+    GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGLOG);
+}
+//===============================================
+void GModuleUi::on_btnSearchData_clicked() {
+    GLOGT(eGFUN, "");
+    readData();
+    m_modules->setSearch(GSearch());
+    m_modules->searchModule();
+    m_modules->showList();
+    writeData();
+    GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGLOG);
+}
+//===============================================
+void GModuleUi::on_btnNewData_clicked() {
     GLOGT(eGFUN, "");
     m_modules->setModules(GModules());
     writeData();

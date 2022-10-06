@@ -20,7 +20,7 @@ public:
     void setPassword(const GString& _password);
     void setRequest(const GString& _request);
 
-    GString callServer(const GString& _module, const GString& _method, const GString& _data = "");
+    GString callServer(const GString& _modules, const GString& _method, const GString& _data = "");
 
     bool createData();
     bool onCallServer();

@@ -6,20 +6,21 @@
 #include "GServer.h"
 #include "GConnection.h"
 #include "GModules.h"
+#include "GModulesData.h"
 //===============================================
 GModule::GModule()
 : GObject() {
     m_server = 0;
 }
 //===============================================
-GModule::GModule(const GModule& _module)
+GModule::GModule(const GModule& _modules)
 : GObject() {
-    setModule(_module);
+    setModule(_modules);
 }
 //===============================================
-GModule::GModule(GModule* _module)
+GModule::GModule(GModule* _modules)
 : GObject() {
-    setModule(_module);
+    setModule(_modules);
 }
 //===============================================
 GModule::GModule(GServer* _server)
@@ -35,12 +36,12 @@ GObject* GModule::clone() const {
     return new GModule;
 }
 //===============================================
-void GModule::setModule(const GModule& _module) {
-    setServer(_module.m_server);
+void GModule::setModule(const GModule& _modules) {
+    setServer(_modules.m_server);
 }
 //===============================================
-void GModule::setModule(GModule* _module) {
-    setServer(_module->m_server);
+void GModule::setModule(GModule* _modules) {
+    setServer(_modules->m_server);
 }
 //===============================================
 void GModule::setServer(GServer* _server) {
@@ -50,7 +51,7 @@ void GModule::setServer(GServer* _server) {
 GString GModule::serialize(const GString& _code) const {
     GCode lDom;
     lDom.createDoc();
-    lDom.addData(_code, "module", m_module);
+    lDom.addData(_code, "module", m_modules);
     lDom.addData(_code, "method", m_method);
     return lDom.toString();
 }
@@ -58,13 +59,13 @@ GString GModule::serialize(const GString& _code) const {
 bool GModule::deserialize(const GString& _data, const GString& _code) {
     GCode lDom;
     lDom.loadXml(_data);
-    m_module = lDom.getData(_code, "module");
+    m_modules = lDom.getData(_code, "module");
     m_method = lDom.getData(_code, "method");
     return true;
 }
 //===============================================
-void GModule::setModule(const GString& _module) {
-    m_module = _module;
+void GModule::setModule(const GString& _modules) {
+    m_modules = _modules;
 }
 //===============================================
 void GModule::setMethod(const GString& _method) {
@@ -73,17 +74,20 @@ void GModule::setMethod(const GString& _method) {
 //===============================================
 bool GModule::onModule() {
     deserialize(m_server->getRequest());
-    if(m_module == "") {
+    if(m_modules == "") {
         GMODULE_REQUIRED();
     }
-    else if(m_module == "connection") {
+    else if(m_modules == "connection") {
         onConnection();
     }
-    else if(m_module == "file") {
+    else if(m_modules == "file") {
         onFile();
     }
-    else if(m_module == "modules") {
+    else if(m_modules == "modules") {
         onModules();
+    }
+    else if(m_modules == "modules_data") {
+        onModulesData();
     }
     else {
         GMODULE_UNKNOWN();
@@ -109,6 +113,13 @@ bool GModule::onModules() {
     GModules lModules;
     lModules.setModule(this);
     lModules.onModule();
+    return true;
+}
+//===============================================
+bool GModule::onModulesData() {
+    GModulesData lModulesData;
+    lModulesData.setModule(this);
+    lModulesData.onModule();
     return true;
 }
 //===============================================

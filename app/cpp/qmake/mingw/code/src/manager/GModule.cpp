@@ -20,7 +20,7 @@ GObject* GModule::clone() const {
 GString GModule::serialize(const GString& _code) const {
     GCode lDom;
     lDom.createDoc();
-    lDom.addData(_code, "module", m_module);
+    lDom.addData(_code, "module", m_modules);
     lDom.addData(_code, "method", m_method);
     return lDom.toString();
 }
@@ -28,7 +28,7 @@ GString GModule::serialize(const GString& _code) const {
 bool GModule::deserialize(const GString& _data, const GString& _code) {
     GCode lDom;
     lDom.loadXml(_data);
-    m_module = lDom.getData(_code, "module");
+    m_modules = lDom.getData(_code, "module");
     m_method = lDom.getData(_code, "method");
     return true;
 }
@@ -37,8 +37,8 @@ void GModule::setClient(GSocket* _client) {
     m_server = _client;
 }
 //===============================================
-void GModule::setModule(const GString& _module) {
-    m_module = _module;
+void GModule::setModule(const GString& _modules) {
+    m_modules = _modules;
 }
 //===============================================
 void GModule::setMethod(const GString& _method) {

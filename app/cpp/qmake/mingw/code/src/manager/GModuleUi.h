@@ -5,6 +5,7 @@
 #include "GInclude.h"
 //===============================================
 class GModules;
+class GModulesData;
 //===============================================
 namespace Ui {
     class GModuleUi;
@@ -24,10 +25,14 @@ public slots:
     void on_btnSave_clicked();
     void on_btnSearch_clicked();
     void on_btnNew_clicked();
+    void on_btnSaveData_clicked();
+    void on_btnSearchData_clicked();
+    void on_btnNewData_clicked();
 
 private:
     Ui::GModuleUi *ui;
     GModules* m_modules;
+    GModulesData* m_modulesData;
     int m_tabDataIndex;
     bool m_isVisibleTabData;
 };

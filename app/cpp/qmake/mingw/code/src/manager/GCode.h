@@ -11,7 +11,7 @@ public:
 
     bool createCode();
     bool createCode(const GString& _code);
-    bool createRequest(const GString& _module, const GString& _method);
+    bool createRequest(const GString& _modules, const GString& _method);
 
     bool loadData(const GString& _data);
 

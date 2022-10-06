@@ -95,13 +95,13 @@ drop table if exists _request;
 create table if not exists _request (
     _id int not null auto_increment,
     _u_id int not null,
-    _module varchar(255) not null,
+    _modules varchar(255) not null,
     _method varchar(255) not null,
     _msg text not null,
     _c_date datetime default current_timestamp,
     _u_date datetime on update current_timestamp,
     primary key (_id),
-    unique (_u_id, _module, _method),
+    unique (_u_id, _modules, _method),
     foreign key (_u_id) references _user (_id)
 );
 

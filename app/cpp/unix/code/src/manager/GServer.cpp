@@ -28,7 +28,7 @@ GServer* GServer::Instance() {
 }
 //===============================================
 void GServer::initServer() {
-    m_module        = "tcp";
+    m_modules        = "tcp";
 
     m_hostname      = "0.0.0.0";
     m_port          = 9001;

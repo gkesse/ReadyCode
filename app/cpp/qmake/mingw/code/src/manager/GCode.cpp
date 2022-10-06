@@ -31,8 +31,8 @@ bool GCode::createCode(const GString& _code) {
     return true;
 }
 //===============================================
-bool GCode::createRequest(const GString& _module, const GString& _method) {
-    addData("request", "module", _module);
+bool GCode::createRequest(const GString& _modules, const GString& _method) {
+    addData("request", "module", _modules);
     addData("request", "method", _method);
     return true;
 }

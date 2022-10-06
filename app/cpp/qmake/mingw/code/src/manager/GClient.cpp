@@ -44,7 +44,7 @@ void GClient::setRequest(const GString& _request) {
     m_request = _request;
 }
 //===============================================
-GString GClient::callServer(const GString& _module, const GString& _method, const GString& _data) {
+GString GClient::callServer(const GString& _modules, const GString& _method, const GString& _data) {
     setMajor(2);
     setMinor(2);
     setDomain(AF_INET);
@@ -56,7 +56,7 @@ GString GClient::callServer(const GString& _module, const GString& _method, cons
 
     GCode lDom;
     lDom.createDoc();
-    lDom.createRequest(_module, _method);
+    lDom.createRequest(_modules, _method);
     lDom.loadData(_data);
     GString lData = lDom.toString();
     setRequest(lData);

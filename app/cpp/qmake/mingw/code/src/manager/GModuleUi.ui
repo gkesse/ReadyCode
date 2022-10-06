@@ -117,7 +117,7 @@
            <item row="0" column="1">
             <layout class="QHBoxLayout" name="horizontalLayout_2">
              <item>
-              <widget class="QLineEdit" name="edtDataName"/>
+              <widget class="QLineEdit" name="edtNameData"/>
              </item>
             </layout>
            </item>
@@ -136,7 +136,7 @@
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QLineEdit" name="edtDataValue"/>
+            <widget class="QLineEdit" name="edtValueData"/>
            </item>
           </layout>
          </item>
@@ -158,21 +158,21 @@
        <item row="0" column="1">
         <layout class="QVBoxLayout" name="verticalLayout_4">
          <item>
-          <widget class="QPushButton" name="btnDataSave">
+          <widget class="QPushButton" name="btnSaveData">
            <property name="text">
             <string>&amp;Enregistrer</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="btnDataSearch">
+          <widget class="QPushButton" name="btnSearchData">
            <property name="text">
             <string>&amp;Rechercher</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="btnDataNew">
+          <widget class="QPushButton" name="btnNewData">
            <property name="text">
             <string>&amp;Nouveau</string>
            </property>

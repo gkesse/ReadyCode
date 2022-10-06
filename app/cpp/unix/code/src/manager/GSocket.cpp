@@ -28,7 +28,7 @@ GString& GSocket::getDataOut() {
 }
 //===============================================
 bool GSocket::runServer() {
-    if(m_module == "tcp") {
+    if(m_modules == "tcp") {
         return runServerTcp();
     }
     return false;
@@ -62,7 +62,7 @@ bool GSocket::runServerTcp() {
         GSocket* lClient = clone();
         int lSocket2 = accept(lSocket, (struct sockaddr*)&lAddress2, &lSize);
         if(lSocket2 == -1) return false;
-        lClient->m_module = m_module;
+        lClient->m_modules = m_modules;
         lClient->m_socket = lSocket2;
         lThread.setParams((void*)lClient);
         if(!lThread.run()) return false;
@@ -78,7 +78,7 @@ void* GSocket::onThreadCB(void* _params) {
 }
 //===============================================
 bool GSocket::runThreadCB() {
-    if(m_module == "tcp") {
+    if(m_modules == "tcp") {
         return runThreadTcp();
     }
     return false;
