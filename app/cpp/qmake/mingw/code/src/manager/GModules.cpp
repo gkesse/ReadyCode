@@ -60,6 +60,10 @@ void GModules::setName(const GString& _name) {
     m_name = _name;
 }
 //===============================================
+int GModules::getId() const {
+    return m_id;
+}
+//===============================================
 GString GModules::getName() const {
     return m_name;
 }

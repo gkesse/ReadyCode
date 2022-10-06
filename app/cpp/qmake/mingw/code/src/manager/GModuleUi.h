@@ -28,6 +28,8 @@ public slots:
 private:
     Ui::GModuleUi *ui;
     GModules* m_modules;
+    int m_tabDataIndex;
+    bool m_isVisibleTabData;
 };
 //==============================================
 #endif

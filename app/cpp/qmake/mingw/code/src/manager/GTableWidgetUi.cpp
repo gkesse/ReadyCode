@@ -27,7 +27,6 @@ void GTableWidgetUi::initTableWidget() {
     ui->tableWidget->resizeColumnsToContents();
     ui->tableWidget->horizontalHeader()->setMinimumSectionSize(0);
     ui->tableWidget->setFocusPolicy(Qt::NoFocus);
-    m_index = 0;
     m_search = 0;
 }
 //===============================================
@@ -62,16 +61,14 @@ void GTableWidgetUi::addCol(int _col, const GString& _key, const GString& _data)
     setData(lRow, _col, _key, _data);
 }
 //===============================================
-int GTableWidgetUi::getIndex() const {
-    return m_index;
-}
-//===============================================
 GString GTableWidgetUi::getKey() const {
     return m_key;
 }
 //===============================================
 void GTableWidgetUi::on_btnSelect_clicked() {
-    accept();
+    if(!m_key.isEmpty()) {
+        accept();
+    }
 }
 //===============================================
 void GTableWidgetUi::on_btnNext_clicked() {
@@ -86,15 +83,11 @@ void GTableWidgetUi::on_btnNext_clicked() {
     GLOG_SHOWG(eGLOG);
 }
 //===============================================
-void GTableWidgetUi::on_tableWidget_cellClicked(int row, int column) {
-    m_index = row;
-}
-//===============================================
 void GTableWidgetUi::on_tableWidget_itemClicked(QTableWidgetItem *item) {
     m_key = item->data(Qt::UserRole).toString();
 }
 //===============================================
-void GTableWidgetUi::on_tableWidget_cellDoubleClicked(int row, int column) {
-    accept();
+void GTableWidgetUi::on_tableWidget_itemDoubleClicked(QTableWidgetItem *item) {
+    on_btnSelect_clicked();
 }
 //===============================================

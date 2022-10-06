@@ -9,6 +9,10 @@ GModuleUi::GModuleUi(QWidget* _parent)
 , ui(new Ui::GModuleUi){
     ui->setupUi(this);
     m_modules = new GModules;
+    m_tabDataIndex = ui->tabWidget->indexOf(ui->tabData);
+    m_isVisibleTabData = false;
+    ui->tabWidget->setCurrentIndex(0);
+    ui->tabWidget->setTabVisible(m_tabDataIndex, m_isVisibleTabData);
     setAttribute(Qt::WA_DeleteOnClose);
 }
 //===============================================
@@ -21,7 +25,9 @@ void GModuleUi::readData() {
 }
 //===============================================
 void GModuleUi::writeData() {
+    m_isVisibleTabData = (m_modules->getId() != 0);
     ui->edtName->setText(m_modules->getName().c_str());
+    ui->tabWidget->setTabVisible(m_tabDataIndex, m_isVisibleTabData);
 }
 //===============================================
 void GModuleUi::on_btnSave_clicked() {
