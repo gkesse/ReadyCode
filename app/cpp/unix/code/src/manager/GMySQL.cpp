@@ -84,7 +84,7 @@ bool GMySQL::execQuery(const GString& _sql, bool _isTestEnv) {
         m_stmt->execute(_sql.c_str());
     }
     catch (sql::SQLException &e) {
-        GERROR_ADD(eGERR, "Error lors de l'exécution de la requête SQL.\n%s : %d : %s", e.what(), e.getErrorCode(), e.getSQLStateCStr());
+        GERROR_ADD(eGERR, "Erreur lors de l'exécution de la requête SQL.\n%s : %d : %s", e.what(), e.getErrorCode(), e.getSQLStateCStr());
         return false;
     }
     return true;
@@ -103,7 +103,7 @@ bool GMySQL::readQuery(const GString& _sql, bool _isTestEnv) {
         m_res.reset(m_stmt->executeQuery(_sql.c_str()));
     }
     catch (sql::SQLException &e) {
-        GERROR_ADD(eGERR, "Error lors de l'exécution de la requête SQL.\n%s : %d : %s", e.what(), e.getErrorCode(), e.getSQLStateCStr());
+        GERROR_ADD(eGERR, "Erreur lors de l'exécution de la requête SQL.\n%s : %d : %s", e.what(), e.getErrorCode(), e.getSQLStateCStr());
         return false;
     }
     return true;
@@ -122,7 +122,7 @@ int GMySQL::getId() {
         lId = (int)m_res->getInt64("id");
     }
     catch (sql::SQLException &e) {
-        GERROR_ADD(eGERR, "Error lors de l'exécution de la requête SQL.\n%s : %d : %s", e.what(), e.getErrorCode(), e.getSQLStateCStr());
+        GERROR_ADD(eGERR, "Erreur lors de l'exécution de la requête SQL.\n%s : %d : %s", e.what(), e.getErrorCode(), e.getSQLStateCStr());
     }
     return lId;
 }

@@ -31,6 +31,7 @@ void GModuleUi::on_btnSave_clicked() {
     if(GLOGI->hasErrors()) {
         m_modules->setModules(0);
     }
+    writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
 }
