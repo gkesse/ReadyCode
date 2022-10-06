@@ -22,7 +22,7 @@ GString GModuleData::serialize(const GString& _code) const {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
-    lDom.addData(_code, "modules_id", m_moduleId);
+    lDom.addData(_code, "module_id", m_moduleId);
     lDom.addData(_code, "name", m_name);
     lDom.addData(_code, "value", m_value);
     lDom.addData(_code, m_map);
@@ -35,7 +35,7 @@ bool GModuleData::deserialize(const GString& _data, const GString& _code) {
     GCode lDom;
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
-    m_moduleId = lDom.getData(_code, "modules_id").toInt();
+    m_moduleId = lDom.getData(_code, "module_id").toInt();
     m_name = lDom.getData(_code, "name");
     m_value = lDom.getData(_code, "value");
     lDom.getData(_code, m_map, this);
@@ -206,12 +206,10 @@ bool GModuleData::updateModuleData() {
     GMySQL lMySQL;
     if(!lMySQL.execQuery(GFORMAT(""
             " update _module set "
-            "   _module_id = %d "
-            " , _name = '%s' "
+            "   _name = '%s' "
             " , _value = '%s' "
             " where _id = %d "
-            "", m_moduleId
-            , m_name.c_str()
+            "", m_name.c_str()
             , m_value.c_str()
             , m_id
     ))) return false;
