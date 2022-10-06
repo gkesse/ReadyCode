@@ -11,7 +11,7 @@ public:
     GObject* clone() const;
     GString serialize(const GString& _code = "module") const;
     bool deserialize(const GString& _data, const GString& _code = "module");
-    void initModules();
+    void initModule();
 
     bool onModule();
     bool onSaveModule();

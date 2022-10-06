@@ -7,7 +7,7 @@
 //===============================================
 GModuleData::GModuleData()
 : GSearch() {
-    initModules();
+    initModuleData();
 }
 //===============================================
 GModuleData::~GModuleData() {
@@ -42,7 +42,7 @@ bool GModuleData::deserialize(const GString& _data, const GString& _code) {
     return true;
 }
 //===============================================
-void GModuleData::initModules() {
+void GModuleData::initModuleData() {
     m_id = 0;
     m_moduleId = 0;
     m_where = " where 1 = 1 ";
@@ -70,7 +70,7 @@ bool GModuleData::onModule() {
 }
 //===============================================
 bool GModuleData::onSaveModuleData() {
-    if(m_moduleId != 0) {GERROR_ADD(eGERR, "L'identifiant du module est obligatoire."); return false;}
+    if(m_moduleId == 0) {GERROR_ADD(eGERR, "L'identifiant du module est obligatoire."); return false;}
     if(m_name == "") {GERROR_ADD(eGERR, "Le nom de la donnée est obligatoire."); return false;}
     if(!saveModulesData()) return false;
     if(m_id == 0) {GERROR_ADD(eGERR, "Erreur lors de l'enregistrement du module."); return false;}

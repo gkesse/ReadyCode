@@ -7,7 +7,7 @@
 //===============================================
 GModule::GModule()
 : GSearch() {
-    initModules();
+    initModule();
 }
 //===============================================
 GModule::~GModule() {
@@ -38,7 +38,7 @@ bool GModule::deserialize(const GString& _data, const GString& _code) {
     return true;
 }
 //===============================================
-void GModule::initModules() {
+void GModule::initModule() {
     m_id = 0;
     m_where = " where 1 = 1 ";
 }
