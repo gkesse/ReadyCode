@@ -2,7 +2,7 @@
 #ifndef _GConnection_
 #define _GConnection_
 //===============================================
-#include "GModule.h"
+#include "GManager.h"
 //===============================================
 class GServer;
 //===============================================

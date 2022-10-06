@@ -2,7 +2,7 @@
 #ifndef _GTest_
 #define _GTest_
 //===============================================
-#include "GModule.h"
+#include "GManager.h"
 //===============================================
 class GTest : public GManager {
 public:

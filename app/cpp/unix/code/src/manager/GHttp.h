@@ -2,7 +2,7 @@
 #ifndef _GHttp_
 #define _GHttp_
 //===============================================
-#include "GModule.h"
+#include "GManager.h"
 //===============================================
 class GHttp : public GManager {
 public:

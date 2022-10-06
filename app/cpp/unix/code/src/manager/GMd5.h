@@ -2,7 +2,7 @@
 #ifndef _GMd5_
 #define _GMd5_
 //===============================================
-#include "GModule.h"
+#include "GManager.h"
 //===============================================
 class GMd5 : public GManager {
 public:

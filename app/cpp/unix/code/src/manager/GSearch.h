@@ -2,7 +2,7 @@
 #ifndef _GSearch_
 #define _GSearch_
 //===============================================
-#include "GModule.h"
+#include "GManager.h"
 //===============================================
 class GSearch : public GManager {
 public:

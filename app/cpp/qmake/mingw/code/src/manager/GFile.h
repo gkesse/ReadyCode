@@ -2,7 +2,7 @@
 #ifndef _GFile_
 #define _GFile_
 //===============================================
-#include "GModule.h"
+#include "GManager.h"
 //===============================================
 class GFile : public GManager {
 public:

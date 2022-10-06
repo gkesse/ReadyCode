@@ -2,7 +2,7 @@
 #ifndef _GSearch_
 #define _GSearch_
 //===============================================
-#include "GModule.h"
+#include "GManager.h"
 //===============================================
 #define GSEARCH_AVOID()     GERROR_ADD(eGERR, "Aucun résultat n'a été trouvé.")
 //===============================================
