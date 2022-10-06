@@ -8,6 +8,7 @@
 #define GMODULE_UNKNOWN()   GERROR_ADD(eGERR, "Le module (%s) est inconnu.", m_module.c_str())
 #define GMETHOD_REQUIRED()  GERROR_ADD(eGERR, "La méthode est obligatoire.")
 #define GMETHOD_UNKNOWN()   GERROR_ADD(eGERR, "La méthode (%s : %s) est inconnue.", m_module.c_str(), m_method.c_str());
+#define GSAVE_OK()          GLOG_ADD(eGLOG, "La donnée a bien été enregistrée.");
 //===============================================
 class GServer;
 //===============================================

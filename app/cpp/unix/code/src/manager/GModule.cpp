@@ -65,7 +65,6 @@ bool GModule::onModule() {
 }
 //===============================================
 bool GModule::onSaveModule() {
-    //if(m_id != 0) {GERROR_ADD(eGERR, "Le module est déjà enregistré."); return false;}
     if(m_name == "") {GERROR_ADD(eGERR, "Le nom du module est obligatoire."); return false;}
     if(!saveModule()) return false;
     if(m_id == 0) {GERROR_ADD(eGERR, "Erreur lors de l'enregistrement du module."); return false;}
@@ -126,17 +125,17 @@ bool GModule::searchModule() {
     for(int i = 0; i < (int)lDataMap.size(); i++) {
         GRow lDataRow = lDataMap.at(i);
         int j = 0;
-        GModule* lModule = new GModule;
-        lModule->m_id = lDataRow.at(j++).toInt();
-        lModule->m_name = lDataRow.at(j++);
-        m_map.push_back(lModule);
+        GModule* lObj = new GModule;
+        lObj->m_id = lDataRow.at(j++).toInt();
+        lObj->m_name = lDataRow.at(j++);
+        m_map.push_back(lObj);
     }
     m_dataOffset += m_dataSize;
     m_hasData = true;
     if(m_dataOffset >= m_dataCount) m_hasData = false;
     if(m_hasData) {
-        GModule* lModule = (GModule*)m_map.back();
-        m_lastId = lModule->m_id;
+        GModule* lObj = (GModule*)m_map.back();
+        m_lastId = lObj->m_id;
     }
     return true;
 }
@@ -155,17 +154,17 @@ bool GModule::searchNextModule() {
     for(int i = 0; i < (int)lDataMap.size(); i++) {
         GRow lDataRow = lDataMap.at(i);
         int j = 0;
-        GModule* lModule = new GModule;
-        lModule->m_id = lDataRow.at(j++).toInt();
-        lModule->m_name = lDataRow.at(j++);
-        m_map.push_back(lModule);
+        GModule* lObj = new GModule;
+        lObj->m_id = lDataRow.at(j++).toInt();
+        lObj->m_name = lDataRow.at(j++);
+        m_map.push_back(lObj);
     }
     m_dataOffset += m_dataSize;
     m_hasData = true;
     if(m_dataOffset >= m_dataCount) m_hasData = false;
     if(m_hasData) {
-        GModule* lModule = (GModule*)m_map.back();
-        m_lastId = lModule->m_id;
+        GModule* lObj = (GModule*)m_map.back();
+        m_lastId = lObj->m_id;
     }
     return true;
 }
