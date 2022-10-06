@@ -65,10 +65,10 @@ bool GModules::onModule() {
 }
 //===============================================
 bool GModules::onSaveModule() {
-    if(m_id != 0) {GERROR_ADD(eGERR, "Le module est déjà enregistré."); return false;}
+    //if(m_id != 0) {GERROR_ADD(eGERR, "Le module est déjà enregistré."); return false;}
     if(m_name == "") {GERROR_ADD(eGERR, "Le nom du module est obligatoire."); return false;}
     if(!saveModule()) return false;
-    if(m_id == 0) {GERROR_ADD(eGERR, "Erreur lors de la création du module."); return false;}
+    if(m_id == 0) {GERROR_ADD(eGERR, "Erreur lors de l'enregistrement du module."); return false;}
     GLOG_ADD(eGLOG, "Le module a bien été enregistré.");
     return true;
 }
