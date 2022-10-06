@@ -104,7 +104,10 @@ bool GModules::saveModule() {
         if(!insertModule()) return false;
     }
     else {
-        if(!updateModule()) return false;
+        if(!updateModule()) {
+            onSearchModule();
+            return false;
+        }
     }
     return true;
 }

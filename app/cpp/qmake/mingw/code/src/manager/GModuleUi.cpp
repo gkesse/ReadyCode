@@ -28,6 +28,9 @@ void GModuleUi::on_btnSave_clicked() {
     GLOGT(eGFUN, "");
     readData();
     m_modules->saveModule();
+    if(GLOGI->hasErrors()) {
+        m_modules->setModules(0);
+    }
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
 }
