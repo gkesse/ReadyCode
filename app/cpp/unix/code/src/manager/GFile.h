@@ -10,8 +10,8 @@ public:
     GFile(const GString& _fullname);
     ~GFile();
 
-    GString serialize(const GString& _code = "file") const;
-    bool deserialize(const GString& _data, const GString& _code = "file");
+    GString serialize() const;
+    bool deserialize(const GString& _data);
 
     void setId(int _id);
     void setFilename(const GString& _filename);

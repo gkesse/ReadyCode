@@ -28,21 +28,21 @@ void GConnection::assign(const GConnection& _connect) {
     m_password = _connect.m_password;
 }
 //===============================================
-GString GConnection::serialize(const GString& _code) const {
+GString GConnection::serialize() const {
     GCode lDom;
     lDom.createDoc();
-    lDom.addData(_code, "id", m_id);
-    lDom.addData(_code, "pseudo", m_pseudo);
-    lDom.addData(_code, "password", m_password);
+    lDom.addData(m_codeName, "id", m_id);
+    lDom.addData(m_codeName, "pseudo", m_pseudo);
+    lDom.addData(m_codeName, "password", m_password);
     return lDom.toString();
 }
 //===============================================
-bool GConnection::deserialize(const GString& _data, const GString& _code) {
+bool GConnection::deserialize(const GString& _data) {
     GCode lDom;
     lDom.loadXml(_data);
-    m_id = lDom.getData(_code, "id").toInt();
-    m_pseudo = lDom.getData(_code, "pseudo");
-    m_password = lDom.getData(_code, "password");
+    m_id = lDom.getData(m_codeName, "id").toInt();
+    m_pseudo = lDom.getData(m_codeName, "pseudo");
+    m_password = lDom.getData(m_codeName, "password");
     return true;
 }
 //===============================================

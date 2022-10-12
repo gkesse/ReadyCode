@@ -13,8 +13,8 @@ public:
 
     GObject* clone() const;
 
-    GString serialize(const GString& _code = "manager") const;
-    bool deserialize(const GString& _data, const GString& _code = "manager");
+    GString serialize() const;
+    bool deserialize(const GString& _data);
 
     void setClient(GSocket* _client);
     void setModule(const GString& _module);

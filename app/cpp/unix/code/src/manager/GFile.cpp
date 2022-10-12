@@ -24,22 +24,22 @@ GFile::~GFile() {
 
 }
 //===============================================
-GString GFile::serialize(const GString& _code) const {
+GString GFile::serialize() const {
     GCode lDom;
     lDom.createDoc();
-    lDom.addData(_code, "id", m_id);
-    lDom.addData(_code, "filename", m_filename);
-    lDom.addData(_code, "content", m_content, true);
+    lDom.addData(m_codeName, "id", m_id);
+    lDom.addData(m_codeName, "filename", m_filename);
+    lDom.addData(m_codeName, "content", m_content, true);
     return lDom.toString();
 }
 //===============================================
-bool GFile::deserialize(const GString& _data, const GString& _code) {
+bool GFile::deserialize(const GString& _data) {
     GManager::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
-    m_id = lDom.getData(_code, "id").toInt();
-    m_filename = lDom.getData(_code, "filename");
-    m_content = lDom.getData(_code, "content");
+    m_id = lDom.getData(m_codeName, "id").toInt();
+    m_filename = lDom.getData(m_codeName, "filename");
+    m_content = lDom.getData(m_codeName, "content");
     return true;
 }
 //===============================================

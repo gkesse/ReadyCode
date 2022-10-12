@@ -8,8 +8,8 @@ class GSession : public GObject {
 public:
     GSession();
     ~GSession();
-    GString serialize(const GString& _code = "session") const;
-    bool deserialize(const GString& _data, const GString& _code = "session");
+    GString serialize() const;
+    bool deserialize(const GString& _data);
 
 protected:
     int m_userId;

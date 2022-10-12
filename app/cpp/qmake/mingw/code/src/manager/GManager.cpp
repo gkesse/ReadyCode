@@ -17,19 +17,19 @@ GObject* GManager::clone() const {
     return new GManager;
 }
 //===============================================
-GString GManager::serialize(const GString& _code) const {
+GString GManager::serialize() const {
     GCode lDom;
     lDom.createDoc();
-    lDom.addData(_code, "module", m_moduleName);
-    lDom.addData(_code, "method", m_methodName);
+    lDom.addData(m_codeName, "module", m_moduleName);
+    lDom.addData(m_codeName, "method", m_methodName);
     return lDom.toString();
 }
 //===============================================
-bool GManager::deserialize(const GString& _data, const GString& _code) {
+bool GManager::deserialize(const GString& _data) {
     GCode lDom;
     lDom.loadXml(_data);
-    m_moduleName = lDom.getData(_code, "module");
-    m_methodName = lDom.getData(_code, "method");
+    m_moduleName = lDom.getData(m_codeName, "module");
+    m_methodName = lDom.getData(m_codeName, "method");
     return true;
 }
 //===============================================

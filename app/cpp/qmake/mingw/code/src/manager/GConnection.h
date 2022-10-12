@@ -15,8 +15,8 @@ public:
 
     void assign(const GConnection& _data);
 
-    GString serialize(const GString& _code = "connection") const;
-    bool deserialize(const GString& _data, const GString& _code = "connection");
+    GString serialize() const;
+    bool deserialize(const GString& _data);
     //
     void setId(int _id);
     void setPseudo(const GString& _pseudo);

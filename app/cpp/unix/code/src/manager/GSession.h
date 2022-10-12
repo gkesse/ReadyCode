@@ -11,8 +11,8 @@ class GSession : public GObject {
 public:
     GSession();
     virtual ~GSession();
-    virtual GString serialize(const GString& _code = "session") const;
-    virtual bool deserialize(const GString& _data, const GString& _code = "session");
+    virtual GString serialize() const;
+    virtual bool deserialize(const GString& _data);
 
 protected:
     int m_userId;

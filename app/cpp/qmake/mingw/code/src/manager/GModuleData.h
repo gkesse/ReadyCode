@@ -12,8 +12,8 @@ public:
     GModuleData();
     ~GModuleData();
     GObject* clone() const;
-    GString serialize(const GString& _code = "module_data") const;
-    bool deserialize(const GString& _data, const GString& _code = "module_data");
+    GString serialize() const;
+    bool deserialize(const GString& _data);
 
     void setModuleData(const GModuleData& _module);
     void setModuleData(GModuleData* _module);

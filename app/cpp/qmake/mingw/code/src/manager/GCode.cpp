@@ -68,19 +68,19 @@ bool GCode::getMap(const GString& _code, int _index) {
 }
 //===============================================
 GString GCode::getData(const GString& _code, const GString& _key) {
-    if(!getCode(_code, _key)) return "";
+    if(!getCode(m_codeName, _key)) return "";
     return getValue();
 }
 //===============================================
 GString GCode::getData(const GString& _code, int _index) {
-    if(!getCode(_code, _index)) return "";
+    if(!getCode(m_codeName, _index)) return "";
     return getValue();
 }
 //===============================================
 bool GCode::getData(const GString& _code, std::vector<GObject*>& _map, GObject* _obj) {
     int lCount = countMap(_code);
     for(int i = 0; i < lCount; i++) {
-        getMap(_code, i);
+        getMap(m_codeName, i);
         GString lData = toNode();
         lData = GFORMAT("<rdv>%s</rdv>", lData.c_str());
         GCode lDom;
@@ -89,7 +89,7 @@ bool GCode::getData(const GString& _code, std::vector<GObject*>& _map, GObject* 
         lDom.loadNode(lData);
         lData = lDom.toString();
         GObject* lObj = _obj->clone();
-        lObj->deserialize(lData, _code);
+        lObj->deserialize(lData);
         _map.push_back(lObj);
     }
     return true;
@@ -99,7 +99,7 @@ bool GCode::addData(const GString& _code, const GString& _key, const GString& _v
     if(_value.isEmpty()) return false;
     if(_value.size() == 1 && _value == "0") return false;
     createCode(_code);
-    if(!getCode(_code, _key)) {
+    if(!getCode(m_codeName, _key)) {
         createNode(_key);
         next();
     }
@@ -110,17 +110,27 @@ bool GCode::addData(const GString& _code, const GString& _key, const GString& _v
 bool GCode::addData(const GString& _code, const std::vector<GObject*>& _map) {
     if(_map.size() == 0) return false;
     createCode(_code);
-    if(!getCode(_code, "map")) {
+    if(!getCode(m_codeName, "map")) {
         createNode("map");
         next();
     }
     for(int i = 0; i < (int)_map.size(); i++) {
         GObject* lObj = _map.at(i);
-        GString lData = lObj->serialize(_code);
+        GString lData = lObj->serialize();
         GCode lDom;
         lDom.loadXml(lData);
         lData = lDom.toData();
         loadNode(lData);
+    }
+    return true;
+}
+//===============================================
+bool GCode::addData(GObject* _obj) {
+    if(getCode(_obj->getCodeName())) {
+
+    }
+    else {
+        loadData(_obj->serialize());
     }
     return true;
 }

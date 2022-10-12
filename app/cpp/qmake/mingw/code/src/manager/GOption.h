@@ -9,8 +9,8 @@ public:
     GOption();
     ~GOption();
     GObject* clone() const;
-    GString serialize(const GString& _code = "option") const;
-    bool deserialize(const GString& _data, const GString& _code = "option");
+    GString serialize() const;
+    bool deserialize(const GString& _data);
 
     void setId(int _id);
     void setName(const GString& _name);

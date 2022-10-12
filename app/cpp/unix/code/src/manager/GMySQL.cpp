@@ -16,29 +16,29 @@ GMySQL::~GMySQL() {
 
 }
 //===============================================
-GString GMySQL::serialize(const GString& _code) const {
+GString GMySQL::serialize() const {
     GCode lDom;
     lDom.createDoc();
-    lDom.addData(_code, "protocol", m_protocol);
-    lDom.addData(_code, "hostname", m_hostname);
-    lDom.addData(_code, "port", m_port);
-    lDom.addData(_code, "username", m_username);
-    lDom.addData(_code, "password", m_password);
-    lDom.addData(_code, "prod_database", m_databaseProd);
-    lDom.addData(_code, "test_database", m_databaseTest);
+    lDom.addData(m_codeName, "protocol", m_protocol);
+    lDom.addData(m_codeName, "hostname", m_hostname);
+    lDom.addData(m_codeName, "port", m_port);
+    lDom.addData(m_codeName, "username", m_username);
+    lDom.addData(m_codeName, "password", m_password);
+    lDom.addData(m_codeName, "prod_database", m_databaseProd);
+    lDom.addData(m_codeName, "test_database", m_databaseTest);
     return lDom.toString();
 }
 //===============================================
-bool GMySQL::deserialize(const GString& _data, const GString& _code) {
+bool GMySQL::deserialize(const GString& _data) {
     GCode lDom;
     lDom.loadXml(_data);
-    m_protocol = lDom.getData(_code, "protocol");
-    m_hostname = lDom.getData(_code, "hostname");
-    m_port = lDom.getData(_code, "port");
-    m_username = lDom.getData(_code, "username");
-    m_password = lDom.getData(_code, "password");
-    m_databaseProd = lDom.getData(_code, "prod_database");
-    m_databaseTest = lDom.getData(_code, "test_database");
+    m_protocol = lDom.getData(m_codeName, "protocol");
+    m_hostname = lDom.getData(m_codeName, "hostname");
+    m_port = lDom.getData(m_codeName, "port");
+    m_username = lDom.getData(m_codeName, "username");
+    m_password = lDom.getData(m_codeName, "password");
+    m_databaseProd = lDom.getData(m_codeName, "prod_database");
+    m_databaseTest = lDom.getData(m_codeName, "test_database");
     return true;
 }
 //===============================================
