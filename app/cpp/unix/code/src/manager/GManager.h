@@ -33,8 +33,8 @@ public:
     bool onModule();
     bool onConnection();
     bool onFile();
-    bool onModules();
-    bool onModulesData();
+    bool onModule();
+    bool onModuleData();
 
 protected:
     GString m_moduleName;

@@ -69,10 +69,10 @@ bool GManager::onModule() {
         onFile();
     }
     else if(m_moduleName == "module") {
-        onModules();
+        onModule();
     }
     else if(m_moduleName == "module_data") {
-        onModulesData();
+        onModuleData();
     }
     else {
         GMODULE_UNKNOWN();
@@ -94,14 +94,14 @@ bool GManager::onFile() {
     return true;
 }
 //===============================================
-bool GManager::onModules() {
-    GModule lModules;
-    lModules.setManager(this);
-    lModules.onModule();
+bool GManager::onModule() {
+    GModule lModule;
+    lModule.setManager(this);
+    lModule.onModule();
     return true;
 }
 //===============================================
-bool GManager::onModulesData() {
+bool GManager::onModuleData() {
     GModuleData lModulesData;
     lModulesData.setManager(this);
     lModulesData.onModule();
