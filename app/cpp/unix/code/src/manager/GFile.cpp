@@ -100,10 +100,10 @@ void GFile::setContentBin(const GString& _data) {
 //===============================================
 bool GFile::onModule() {
     deserialize(m_server->getRequest());
-    if(m_method == "") {
+    if(m_methodName == "") {
         GMETHOD_REQUIRED();
     }
-    else if(m_method == "save_file") {
+    else if(m_methodName == "save_file") {
         onSaveFile();
     }
     else {

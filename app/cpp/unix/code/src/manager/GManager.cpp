@@ -51,42 +51,42 @@ void GManager::setServer(GServer* _server) {
 GString GManager::serialize(const GString& _code) const {
     GCode lDom;
     lDom.createDoc();
-    lDom.addData(_code, "module", m_module);
-    lDom.addData(_code, "method", m_method);
+    lDom.addData(_code, "module", m_moduleName);
+    lDom.addData(_code, "method", m_methodName);
     return lDom.toString();
 }
 //===============================================
 bool GManager::deserialize(const GString& _data, const GString& _code) {
     GCode lDom;
     lDom.loadXml(_data);
-    m_module = lDom.getData(_code, "module");
-    m_method = lDom.getData(_code, "method");
+    m_moduleName = lDom.getData(_code, "module");
+    m_methodName = lDom.getData(_code, "method");
     return true;
 }
 //===============================================
 void GManager::setModule(const GString& _module) {
-    m_module = _module;
+    m_moduleName = _module;
 }
 //===============================================
 void GManager::setMethod(const GString& _method) {
-    m_method = _method;
+    m_methodName = _method;
 }
 //===============================================
 bool GManager::onModule() {
     deserialize(m_server->getRequest());
-    if(m_module == "") {
+    if(m_moduleName == "") {
         GMODULE_REQUIRED();
     }
-    else if(m_module == "connection") {
+    else if(m_moduleName == "connection") {
         onConnection();
     }
-    else if(m_module == "file") {
+    else if(m_moduleName == "file") {
         onFile();
     }
-    else if(m_module == "module") {
+    else if(m_moduleName == "module") {
         onModules();
     }
-    else if(m_module == "module_data") {
+    else if(m_moduleName == "module_data") {
         onModulesData();
     }
     else {

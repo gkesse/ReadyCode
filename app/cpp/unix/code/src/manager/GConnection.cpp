@@ -158,10 +158,10 @@ void GConnection::print() const {
 //===============================================
 bool GConnection::onModule() {
     deserialize(m_server->getRequest());
-    if(m_method == "") {
+    if(m_methodName == "") {
         GMETHOD_REQUIRED();
     }
-    else if(m_method == "run_connection") {
+    else if(m_methodName == "run_connection") {
         onRunConnection();
     }
     else {

@@ -51,16 +51,16 @@ void GModuleData::initModuleData() {
 //===============================================
 bool GModuleData::onModule() {
     deserialize(m_server->getRequest());
-    if(m_method == "") {
+    if(m_methodName == "") {
         GMETHOD_REQUIRED();
     }
-    else if(m_method == "save_module_data") {
+    else if(m_methodName == "save_module_data") {
         onSaveModuleData();
     }
-    else if(m_method == "search_module_data") {
+    else if(m_methodName == "search_module_data") {
         onSearchModuleData();
     }
-    else if(m_method == "search_next_module_data") {
+    else if(m_methodName == "search_next_module_data") {
         onSearchNextModuleData();
     }
     else {

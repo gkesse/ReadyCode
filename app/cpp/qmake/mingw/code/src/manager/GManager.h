@@ -21,8 +21,8 @@ public:
     void setMethod(const GString& _method);
 
 protected:
-    GString m_module;
-    GString m_method;
+    GString m_moduleName;
+    GString m_methodName;
     GSocket* m_server;
 };
 //==============================================

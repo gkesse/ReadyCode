@@ -49,16 +49,16 @@ int GModule::getId() const {
 //===============================================
 bool GModule::onModule() {
     deserialize(m_server->getRequest());
-    if(m_method == "") {
+    if(m_methodName == "") {
         GMETHOD_REQUIRED();
     }
-    else if(m_method == "save_module") {
+    else if(m_methodName == "save_module") {
         onSaveModule();
     }
-    else if(m_method == "search_module") {
+    else if(m_methodName == "search_module") {
         onSearchModule();
     }
-    else if(m_method == "search_next_module") {
+    else if(m_methodName == "search_next_module") {
         onSearchNextModule();
     }
     else {
