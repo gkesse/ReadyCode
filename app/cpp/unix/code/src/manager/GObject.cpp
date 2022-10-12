@@ -5,7 +5,7 @@
 #include "GPath.h"
 //===============================================
 GObject::GObject() {
-
+    m_codeName = "object";
 }
 //===============================================
 GObject::GObject(const GString& _codeName) {
@@ -33,6 +33,6 @@ void GObject::clearMap(std::vector<GObject*>& _map) const {
 GObject* GObject::clone() const {return new GObject;}
 GString GObject::serialize() const {return "";}
 bool GObject::deserialize(const GString& _data) {return false;}
-GString GObject::getCodeName() const {return "object";}
+GString GObject::getCodeName() const {return m_codeName;}
 void GObject::print() const {}
 //===============================================
