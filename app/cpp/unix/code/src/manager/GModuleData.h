@@ -4,6 +4,8 @@
 //===============================================
 #include "GSearch.h"
 //===============================================
+class GModule;
+//===============================================
 class GModuleData : public GSearch {
 public:
     GModuleData();
@@ -27,7 +29,7 @@ public:
 
 protected:
     int m_id;
-    int m_moduleId;
+    GModule* m_module;
     GString m_name;
     GString m_value;
     GString m_where;

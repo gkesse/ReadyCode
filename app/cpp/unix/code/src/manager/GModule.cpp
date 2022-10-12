@@ -43,6 +43,10 @@ void GModule::initModule() {
     m_where = " where 1 = 1 ";
 }
 //===============================================
+int GModule::getId() const {
+    return m_id;
+}
+//===============================================
 bool GModule::onModule() {
     deserialize(m_server->getRequest());
     if(m_method == "") {

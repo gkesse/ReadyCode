@@ -5,6 +5,7 @@
 #include "GSearch.h"
 //===============================================
 class GTableWidgetUi;
+class GModule;
 //===============================================
 class GModuleData : public GSearch {
 public:
@@ -17,7 +18,7 @@ public:
     void setModuleData(const GModuleData& _module);
     void setModuleData(GModuleData* _module);
     void setModuleData(int _index);
-    void setModuleId(int _moduleId);
+    void setModule(GModule* _module);
     void setName(const GString& _name);
     void setValue(const GString& _value);
     int getId() const;
@@ -33,7 +34,7 @@ public:
 
 protected:
     int m_id;
-    int m_moduleId;
+    GModule* m_module;
     GString m_name;
     GString m_value;
     std::vector<GObject*> m_map;

@@ -13,6 +13,8 @@ public:
     bool deserialize(const GString& _data, const GString& _code = "module");
     void initModule();
 
+    int getId() const;
+
     bool onModule();
     bool onSaveModule();
     bool onSearchModule();

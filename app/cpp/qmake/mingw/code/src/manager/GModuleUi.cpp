@@ -71,7 +71,7 @@ void GModuleUi::on_btnNew_clicked() {
 void GModuleUi::on_btnSaveData_clicked() {
     GLOGT(eGFUN, "");
     readData();
-    m_moduleData->setModuleId(m_module->getId());
+    m_moduleData->setModule(m_module);
     m_moduleData->saveModuleData();
     if(GLOGI->hasErrors()) {
         m_module->setModule(0);
@@ -84,7 +84,7 @@ void GModuleUi::on_btnSaveData_clicked() {
 void GModuleUi::on_btnSearchData_clicked() {
     GLOGT(eGFUN, "");
     readData();
-    m_moduleData->setModuleId(m_module->getId());
+    m_moduleData->setModule(m_module);
     m_moduleData->setSearch(GSearch());
     m_moduleData->searchModuleData();
     m_moduleData->showList();
@@ -95,7 +95,7 @@ void GModuleUi::on_btnSearchData_clicked() {
 //===============================================
 void GModuleUi::on_btnNewData_clicked() {
     GLOGT(eGFUN, "");
-    m_module->setModule(GModule());
+    m_moduleData->setModuleData(GModuleData());
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
