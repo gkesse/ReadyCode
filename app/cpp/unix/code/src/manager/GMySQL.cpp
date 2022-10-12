@@ -6,7 +6,7 @@
 #include "GEnv.h"
 //===============================================
 GMySQL::GMySQL()
-: GObject() {
+: GObject("mysql") {
     createDoms();
     deserializeDom();
     m_driver = 0;
@@ -42,9 +42,9 @@ bool GMySQL::deserialize(const GString& _data) {
     return true;
 }
 //===============================================
-bool GMySQL::deserializeDom(const GString& _code) {
+bool GMySQL::deserializeDom() {
     GString lData = m_dom->toString();
-    deserialize(lData, _code);
+    deserialize(lData);
     return true;
 }
 //===============================================

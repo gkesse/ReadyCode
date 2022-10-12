@@ -8,6 +8,10 @@ GObject::GObject() {
 
 }
 //===============================================
+GObject::GObject(const GString& _codeName) {
+    m_codeName = _codeName;
+}
+//===============================================
 GObject::~GObject() {
 
 }

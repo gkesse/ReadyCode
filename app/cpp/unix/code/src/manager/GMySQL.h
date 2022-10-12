@@ -16,7 +16,7 @@ public:
     //
     GString serialize() const;
     bool deserialize(const GString& _data);
-    bool deserializeDom(const GString& _code = "mysql");
+    bool deserializeDom();
     //
     GString loadDatabase(bool _isTestEnv) const;
     //
