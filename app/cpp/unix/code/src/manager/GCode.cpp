@@ -81,7 +81,7 @@ bool GCode::getData(const GString& _code, std::vector<GObject*>& _map, GObject* 
         lDom.loadNode(lData);
         lData = lDom.toString();
         GObject* lObj = _obj->clone();
-        lObj->deserialize(lData, _code);
+        lObj->deserialize(lData);
         _map.push_back(lObj);
     }
     return true;
@@ -108,7 +108,7 @@ bool GCode::addData(const GString& _code, const std::vector<GObject*>& _map) {
     }
     for(int i = 0; i < _map.size(); i++) {
         GObject* lObj = _map.at(i);
-        GString lData = lObj->serialize(_code);
+        GString lData = lObj->serialize();
         GCode lDom;
         lDom.loadXml(lData);
         lData = lDom.toData();
