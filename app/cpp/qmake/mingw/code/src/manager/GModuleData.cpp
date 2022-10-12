@@ -136,7 +136,7 @@ bool GModuleData::showList() {
         GModuleData* lModulesData = (GModuleData*)m_map.at(i);
         int lId = lModulesData->m_id;
         m_tableWidget->setData(i, 0, lId, lModulesData->m_id);
-        m_tableWidget->setData(i, 1, lId, "module");
+        m_tableWidget->setData(i, 1, lId, m_module->getName());
         m_tableWidget->setData(i, 2, lId, lModulesData->m_name);
         m_tableWidget->setData(i, 3, lId, lModulesData->m_value);
     }
