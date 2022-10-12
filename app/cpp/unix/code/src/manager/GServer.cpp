@@ -132,8 +132,9 @@ bool GServer::readRequest() {
 }
 //===============================================
 bool GServer::analyzeRequest() {
-    GManager lModule = this;
-    lModule.onModule();
+    GManager lManager;
+    lManager.setServer(this);
+    lManager.onModule();
     return true;
 }
 //===============================================
