@@ -9,8 +9,8 @@
 //===============================================
 GLog* GLog::m_instance = 0;
 //===============================================
-GLog::GLog()
-: GObject() {
+GLog::GLog(const GString& _codeName)
+: GObject(_codeName) {
     createDoms();
     initLog();
 }
