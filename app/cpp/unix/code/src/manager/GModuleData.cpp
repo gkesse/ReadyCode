@@ -72,7 +72,7 @@ bool GModuleData::onModule() {
 bool GModuleData::onSaveModuleData() {
     if(m_moduleId == 0) {GERROR_ADD(eGERR, "L'identifiant du module est obligatoire."); return false;}
     if(m_name == "") {GERROR_ADD(eGERR, "Le nom de la donnée est obligatoire."); return false;}
-    if(!saveModulesData()) return false;
+    if(!saveModuleData()) return false;
     if(m_id == 0) {GERROR_ADD(eGERR, "Erreur lors de l'enregistrement du module."); return false;}
     GSAVE_OK();
     return true;
@@ -93,7 +93,7 @@ bool GModuleData::onSearchModuleData() {
         }
     }
     if(!countData()) return false;
-    if(!searchModulesData()) return false;
+    if(!searchModuleData()) return false;
     return true;
 }
 //===============================================
@@ -114,7 +114,7 @@ bool GModuleData::onSearchNextModuleData() {
     return true;
 }
 //===============================================
-bool GModuleData::saveModulesData() {
+bool GModuleData::saveModuleData() {
     if(m_id == 0) {
         if(!existeData()) return false;
         if(!insertData()) return false;
@@ -128,7 +128,7 @@ bool GModuleData::saveModulesData() {
     return true;
 }
 //===============================================
-bool GModuleData::searchModulesData() {
+bool GModuleData::searchModuleData() {
     GMySQL lMySQL;
     GMap lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _module_id, _name, _value "

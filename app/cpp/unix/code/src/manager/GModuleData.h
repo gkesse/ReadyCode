@@ -17,8 +17,8 @@ public:
     bool onSaveModuleData();
     bool onSearchModuleData();
     bool onSearchNextModuleData();
-    bool saveModulesData();
-    bool searchModulesData();
+    bool saveModuleData();
+    bool searchModuleData();
     bool searchNextModuleData();
     bool countData();
     bool existeData();

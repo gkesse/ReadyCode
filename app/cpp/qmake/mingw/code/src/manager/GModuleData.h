@@ -14,19 +14,19 @@ public:
     GString serialize(const GString& _code = "module_data") const;
     bool deserialize(const GString& _data, const GString& _code = "module_data");
 
-    void setModulesData(const GModuleData& _modules);
-    void setModulesData(GModuleData* _modules);
-    void setModulesData(int _index);
-    void setModulesId(int _modulesId);
+    void setModuleData(const GModuleData& _module);
+    void setModuleData(GModuleData* _module);
+    void setModuleData(int _index);
+    void setModuleId(int _moduleId);
     void setName(const GString& _name);
     void setValue(const GString& _value);
     int getId() const;
     GString getName() const;
     GString getValue() const;
 
-    void saveModulesData();
-    void searchModulesData();
-    void deleteModulesData();
+    void saveModuleData();
+    void searchModuleData();
+    void deleteModuleData();
     void onNextData();
     bool showList();
     bool showNextList();

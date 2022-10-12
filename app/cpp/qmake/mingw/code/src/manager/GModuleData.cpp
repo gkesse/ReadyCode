@@ -44,26 +44,26 @@ bool GModuleData::deserialize(const GString& _data, const GString& _code) {
     return true;
 }
 //===============================================
-void GModuleData::setModulesData(const GModuleData& _modules) {
-    m_id = _modules.m_id;
-    m_name = _modules.m_name;
-    m_value = _modules.m_value;
+void GModuleData::setModuleData(const GModuleData& _module) {
+    m_id = _module.m_id;
+    m_name = _module.m_name;
+    m_value = _module.m_value;
 }
 //===============================================
-void GModuleData::setModulesData(GModuleData* _modules) {
-    setModulesData(*_modules);
+void GModuleData::setModuleData(GModuleData* _module) {
+    setModuleData(*_module);
 }
 //===============================================
-void GModuleData::setModulesData(int _index) {
+void GModuleData::setModuleData(int _index) {
     if(_index < (int)m_map.size()) {
         GModuleData* lModules = (GModuleData*)m_map.at(_index);
-        setModulesData(lModules);
+        setModuleData(lModules);
     }
     clearMap(m_map);
 }
 //===============================================
-void GModuleData::setModulesId(int _modulesId) {
-    m_moduleId = _modulesId;
+void GModuleData::setModuleId(int _moduleId) {
+    m_moduleId = _moduleId;
 }
 //===============================================
 void GModuleData::setName(const GString& _name) {
@@ -86,19 +86,19 @@ GString GModuleData::getValue() const {
     return m_value;
 }
 //===============================================
-void GModuleData::saveModulesData() {
+void GModuleData::saveModuleData() {
     GString lData = serialize();
     lData = GCALL_SERVER("module_data", "save_module_data", lData);
     deserialize(lData);
 }
 //===============================================
-void GModuleData::searchModulesData() {
+void GModuleData::searchModuleData() {
     GString lData = serialize();
     lData = GCALL_SERVER("module_data", "search_module_data", lData);
     deserialize(lData);
 }
 //===============================================
-void GModuleData::deleteModulesData() {
+void GModuleData::deleteModuleData() {
     GString lData = serialize();
     lData = GCALL_SERVER("module_data", "delete_module_data", lData);
     deserialize(lData);
@@ -114,14 +114,14 @@ void GModuleData::onNextData() {
 //===============================================
 bool GModuleData::showList() {
     if(m_map.size() == 0) {
-        setModulesData(GModuleData());
+        setModuleData(GModuleData());
         if(!GLOGI->hasErrors()) {
             GSEARCH_AVOID();
         }
         return false;
     }
     else if(m_map.size() == 1) {
-        setModulesData(0);
+        setModuleData(0);
         return true;
     }
     m_tableWidget->setWindowTitle("Liste des modules");
@@ -140,8 +140,8 @@ bool GModuleData::showList() {
     if(lOk == QDialog::Accepted) {
         m_id = m_tableWidget->getKey().toInt();
         setSearch(GSearch());
-        searchModulesData();
-        setModulesData(0);
+        searchModuleData();
+        setModuleData(0);
     }
     return true;
 }
