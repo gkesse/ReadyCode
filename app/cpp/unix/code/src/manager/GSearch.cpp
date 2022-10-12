@@ -2,8 +2,8 @@
 #include "GSearch.h"
 #include "GCode.h"
 //===============================================
-GSearch::GSearch()
-: GManager() {
+GSearch::GSearch(const GString& _codeName)
+: GManager(_codeName) {
     m_lastId = 0;
     m_dataCount = 0;
     m_dataSize = 0;

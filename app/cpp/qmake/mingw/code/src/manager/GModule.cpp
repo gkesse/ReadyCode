@@ -5,8 +5,8 @@
 #include "GClient.h"
 #include "GTableWidgetUi.h"
 //===============================================
-GModule::GModule()
-: GSearch() {
+GModule::GModule(const GString& _codeName)
+: GSearch(_codeName) {
     m_id = 0;
     m_tableWidget = new GTableWidgetUi;
 }

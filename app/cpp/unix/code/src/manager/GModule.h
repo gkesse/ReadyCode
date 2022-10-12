@@ -6,7 +6,7 @@
 //===============================================
 class GModule : public GSearch {
 public:
-    GModule();
+    GModule(const GString& _codeName = "module");
     ~GModule();
     GObject* clone() const;
     GString serialize() const;

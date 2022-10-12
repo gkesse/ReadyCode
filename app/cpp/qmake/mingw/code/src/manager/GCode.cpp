@@ -68,19 +68,19 @@ bool GCode::getMap(const GString& _code, int _index) {
 }
 //===============================================
 GString GCode::getData(const GString& _code, const GString& _key) {
-    if(!getCode(m_codeName, _key)) return "";
+    if(!getCode(_code, _key)) return "";
     return getValue();
 }
 //===============================================
 GString GCode::getData(const GString& _code, int _index) {
-    if(!getCode(m_codeName, _index)) return "";
+    if(!getCode(_code, _index)) return "";
     return getValue();
 }
 //===============================================
 bool GCode::getData(const GString& _code, std::vector<GObject*>& _map, GObject* _obj) {
     int lCount = countMap(_code);
     for(int i = 0; i < lCount; i++) {
-        getMap(m_codeName, i);
+        getMap(_code, i);
         GString lData = toNode();
         lData = GFORMAT("<rdv>%s</rdv>", lData.c_str());
         GCode lDom;
@@ -99,7 +99,7 @@ bool GCode::addData(const GString& _code, const GString& _key, const GString& _v
     if(_value.isEmpty()) return false;
     if(_value.size() == 1 && _value == "0") return false;
     createCode(_code);
-    if(!getCode(m_codeName, _key)) {
+    if(!getCode(_code, _key)) {
         createNode(_key);
         next();
     }
@@ -110,7 +110,7 @@ bool GCode::addData(const GString& _code, const GString& _key, const GString& _v
 bool GCode::addData(const GString& _code, const std::vector<GObject*>& _map) {
     if(_map.size() == 0) return false;
     createCode(_code);
-    if(!getCode(m_codeName, "map")) {
+    if(!getCode(_code, "map")) {
         createNode("map");
         next();
     }

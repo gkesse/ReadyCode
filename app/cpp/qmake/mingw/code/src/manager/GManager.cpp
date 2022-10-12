@@ -4,8 +4,8 @@
 #include "GSocket.h"
 #include "GCode.h"
 //===============================================
-GManager::GManager()
-: GObject() {
+GManager::GManager(const GString& _codeName)
+: GObject(_codeName) {
     m_server = 0;
 }
 //===============================================

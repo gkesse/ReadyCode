@@ -8,8 +8,7 @@ class GCode;
 //===============================================
 class GObject {
 public:
-    GObject();
-    GObject(const GString& _codeName);
+    GObject(const GString& _codeName = "object");
     virtual ~GObject();
     virtual GObject* clone() const;
     virtual bool createDoms();

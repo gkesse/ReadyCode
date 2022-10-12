@@ -8,7 +8,7 @@ class GSocket;
 //===============================================
 class GManager : public GObject {
 public:
-    GManager();
+    GManager(const GString& _codeName = "manager");
     ~GManager();
 
     GObject* clone() const;

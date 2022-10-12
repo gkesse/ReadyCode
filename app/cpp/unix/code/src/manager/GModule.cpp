@@ -5,8 +5,8 @@
 #include "GLog.h"
 #include "GServer.h"
 //===============================================
-GModule::GModule()
-: GSearch() {
+GModule::GModule(const GString& _codeName)
+: GSearch(_codeName) {
     initModule();
 }
 //===============================================

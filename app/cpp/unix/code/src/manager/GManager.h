@@ -15,9 +15,9 @@ class GServer;
 //===============================================
 class GManager : public GObject {
 public:
-    GManager();
-    GManager(const GManager& _manager);
-    GManager(GManager* _manager);
+    GManager(const GString& _codeName = "manager");
+    GManager(const GManager& _manager, const GString& _codeName = "manager");
+    GManager(GManager* _manager, const GString& _codeName = "manager");
     GManager(GServer* _server);
     virtual ~GManager();
 

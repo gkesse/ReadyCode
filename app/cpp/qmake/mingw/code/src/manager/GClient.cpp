@@ -60,7 +60,7 @@ GString GClient::callServer(const GString& _modules, const GString& _method, con
     lDom.loadData(_data);
     GString lData = lDom.toString();
     setRequest(lData);
-    GLOGT(eGOFF, lData.c_str());
+    GLOGT(eGMSG, lData.c_str());
     GSocket::callServer();
     GLOGI->deserialize(m_response);
     GLOGT(eGOFF, m_response.c_str());
