@@ -9,12 +9,12 @@ class GCode;
 //===============================================
 class GObject {
 public:
-    GObject();
+    GObject(const GString& _codeName = "object");
     virtual ~GObject();
     virtual GObject* clone() const;
     virtual bool createDoms();
-    virtual GString serialize() const;
-    virtual bool deserialize(const GString& _data);
+    virtual GString serialize(const GString& _code = "object") const;
+    virtual bool deserialize(const GString& _data, const GString& _code = "object");
     virtual void clearMap(std::vector<GObject*>& _map) const;
     virtual GString getCodeName() const;
     virtual void print() const;
