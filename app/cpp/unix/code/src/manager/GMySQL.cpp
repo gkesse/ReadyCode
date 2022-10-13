@@ -6,7 +6,8 @@
 #include "GEnv.h"
 //===============================================
 GMySQL::GMySQL()
-: GObject("mysql") {
+: GObject() {
+    m_codeName = "mysql";
     createDoms();
     deserializeDom();
     m_driver = 0;
