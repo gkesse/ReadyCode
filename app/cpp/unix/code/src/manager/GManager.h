@@ -30,7 +30,7 @@ public:
     void setModule(const GString& _modules);
     void setMethod(const GString& _method);
 
-    bool onModule();
+    bool onManager();
     bool onConnection();
     bool onFile();
     bool onModule();

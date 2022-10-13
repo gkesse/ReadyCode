@@ -57,7 +57,7 @@ void GManager::setMethod(const GString& _method) {
     m_methodName = _method;
 }
 //===============================================
-bool GManager::onModule() {
+bool GManager::onManager() {
     deserialize(m_server->getRequest());
     if(m_moduleName == "") {
         GMODULE_REQUIRED();
