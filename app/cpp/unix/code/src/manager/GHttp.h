@@ -7,7 +7,6 @@
 class GHttp : public GManager {
 public:
     GHttp();
-    GHttp(GServer* _server);
     ~GHttp();
     //
     void setMethod(const GString& _method);

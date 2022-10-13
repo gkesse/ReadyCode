@@ -22,7 +22,7 @@ public:
 
     void setManager(const GManager& _manager);
     void setManager(GManager* _manager);
-    void setServer(GServer* _server);
+    virtual void setServer(GServer* _server);
 
     GString serialize() const;
     bool deserialize(const GString& _data);

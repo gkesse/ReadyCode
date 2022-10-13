@@ -1,17 +1,9 @@
 //===============================================
 #include "GHttp.h"
 #include "GLog.h"
-#include "GServer.h"
 //===============================================
 GHttp::GHttp()
 : GManager() {
-    m_status = 200;
-    m_contentLength = 0;
-    m_port = 0;
-}
-//===============================================
-GHttp::GHttp(GServer* _server)
-: GManager(_server) {
     m_status = 200;
     m_contentLength = 0;
     m_port = 0;
