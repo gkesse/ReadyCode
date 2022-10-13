@@ -24,7 +24,7 @@
 //===============================================
 class GLog : public GObject {
 public:
-    GLog(const GString& _codeName = "log");
+    GLog();
     ~GLog();
     static GLog* Instance();
 
