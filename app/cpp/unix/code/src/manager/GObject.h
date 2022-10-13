@@ -9,7 +9,7 @@ class GCode;
 //===============================================
 class GObject {
 public:
-    GObject(const GString& _codeName = "object");
+    GObject();
     virtual ~GObject();
     virtual GObject* clone() const;
     virtual bool createDoms();

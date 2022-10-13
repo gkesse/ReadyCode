@@ -8,6 +8,7 @@
 //===============================================
 GModuleData::GModuleData()
 : GSearch() {
+    m_codeName = "module_data";
     initModuleData();
 }
 //===============================================
