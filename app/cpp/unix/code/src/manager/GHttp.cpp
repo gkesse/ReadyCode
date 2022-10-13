@@ -1,6 +1,7 @@
 //===============================================
 #include "GHttp.h"
 #include "GLog.h"
+#include "GServer.h"
 //===============================================
 GHttp::GHttp()
 : GManager() {
