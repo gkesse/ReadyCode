@@ -8,13 +8,13 @@ class GSocket;
 //===============================================
 class GManager : public GObject {
 public:
-    GManager(const GString& _codeName = "manager");
+    GManager(const GString& _code = "manager");
     ~GManager();
 
     GObject* clone() const;
 
-    GString serialize() const;
-    bool deserialize(const GString& _data);
+    GString serialize(const GString& _code = "manager") const;
+    bool deserialize(const GString& _data, const GString& _code = "manager");
 
     void setClient(GSocket* _client);
     void setModule(const GString& _module);

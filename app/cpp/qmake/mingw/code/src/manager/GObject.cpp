@@ -30,7 +30,7 @@ void GObject::print() const {
 }
 //===============================================
 GObject* GObject::clone() const {return new GObject;}
-GString GObject::serialize() const {return "";}
-bool GObject::deserialize(const GString& _data) {return false;}
+GString GObject::serialize(const GString& _code) const {return "";}
+bool GObject::deserialize(const GString& _data, const GString& _code) {return false;}
 GString GObject::getCodeName() const {return m_codeName;}
 //===============================================

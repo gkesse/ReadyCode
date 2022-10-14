@@ -5,8 +5,8 @@
 #include "GClient.h"
 #include "GTableWidgetUi.h"
 //===============================================
-GModule::GModule(const GString& _codeName)
-: GSearch(_codeName) {
+GModule::GModule(const GString& _code)
+: GSearch(_code) {
     m_id = 0;
     m_tableWidget = new GTableWidgetUi;
 }
@@ -19,23 +19,23 @@ GObject* GModule::clone() const {
     return new GModule;
 }
 //===============================================
-GString GModule::serialize() const {
+GString GModule::serialize(const GString& _code) const {
     GCode lDom;
     lDom.createDoc();
-    lDom.addData(m_codeName, "id", m_id);
-    lDom.addData(m_codeName, "name", m_name);
-    lDom.addData(m_codeName, m_map);
+    lDom.addData(_code, "id", m_id);
+    lDom.addData(_code, "name", m_name);
+    lDom.addData(_code, m_map);
     lDom.loadData(GSearch::serialize());
     return lDom.toString();
 }
 //===============================================
-bool GModule::deserialize(const GString& _data) {
+bool GModule::deserialize(const GString& _data, const GString& _code) {
     GSearch::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
-    m_id = lDom.getData(m_codeName, "id").toInt();
-    m_name = lDom.getData(m_codeName, "name");
-    lDom.getData(m_codeName, m_map, this);
+    m_id = lDom.getData(_code, "id").toInt();
+    m_name = lDom.getData(_code, "name");
+    lDom.getData(_code, m_map, this);
     return true;
 }
 //===============================================
