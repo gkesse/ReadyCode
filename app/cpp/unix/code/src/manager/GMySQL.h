@@ -11,11 +11,11 @@ typedef std::vector<GString> GRow;
 //===============================================
 class GMySQL : public GObject {
 public:
-    GMySQL();
+    GMySQL(const GString& _code = "mysql");
     ~GMySQL();
     //
-    GString serialize() const;
-    bool deserialize(const GString& _data);
+    GString serialize(const GString& _code = "mysql") const;
+    bool deserialize(const GString& _data, const GString& _code = "mysql");
     bool deserializeDom();
     //
     GString loadDatabase(bool _isTestEnv) const;

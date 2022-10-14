@@ -3,8 +3,8 @@
 #include "GLog.h"
 #include "GServer.h"
 //===============================================
-GHttp::GHttp()
-: GManager() {
+GHttp::GHttp(const GString& _code)
+: GManager(_code) {
     m_status = 200;
     m_contentLength = 0;
     m_port = 0;

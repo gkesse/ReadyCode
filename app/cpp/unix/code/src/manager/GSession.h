@@ -9,10 +9,10 @@ class GSocket;
 //===============================================
 class GSession : public GObject {
 public:
-    GSession();
+    GSession(const GString& _code = "session");
     virtual ~GSession();
-    virtual GString serialize() const;
-    virtual bool deserialize(const GString& _data);
+    virtual GString serialize(const GString& _code = "session") const;
+    virtual bool deserialize(const GString& _data, const GString& _code = "session");
 
 protected:
     int m_userId;

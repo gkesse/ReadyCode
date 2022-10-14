@@ -6,7 +6,7 @@
 //===============================================
 class GHttp : public GManager {
 public:
-    GHttp();
+    GHttp(const GString& _code = "http");
     ~GHttp();
     //
     void setMethod(const GString& _method);

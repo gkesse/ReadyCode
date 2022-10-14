@@ -15,7 +15,7 @@ class GServer;
 //===============================================
 class GManager : public GObject {
 public:
-    GManager();
+    GManager(const GString& _code = "manager");
     virtual ~GManager();
 
     GObject* clone() const;
@@ -25,7 +25,7 @@ public:
     virtual void setServer(GServer* _server);
 
     GString serialize(const GString& _code = "manager") const;
-    bool deserialize(const GString& _data, const GString& _code);
+    bool deserialize(const GString& _data, const GString& _code = "manager");
 
     void setModule(const GString& _modules);
     void setMethod(const GString& _method);

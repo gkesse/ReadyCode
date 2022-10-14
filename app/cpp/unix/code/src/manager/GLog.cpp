@@ -9,9 +9,8 @@
 //===============================================
 GLog* GLog::m_instance = 0;
 //===============================================
-GLog::GLog()
-: GObject() {
-    m_codeName = "log";
+GLog::GLog(const GString& _code)
+: GObject(_code) {
     createDoms();
     initLog();
 }
@@ -27,24 +26,24 @@ GLog* GLog::Instance() {
     return m_instance;
 }
 //===============================================
-GString GLog::serialize() const {
+GString GLog::serialize(const GString& _code) const {
     GCode lDom;
     lDom.createDoc();
-    lDom.addData(m_codeName, "type", m_type);
-    lDom.addData(m_codeName, "side", m_side);
-    lDom.addData(m_codeName, "msg", m_msg);
-    lDom.addData(m_codeName, m_map);
+    lDom.addData(_code, "type", m_type);
+    lDom.addData(_code, "side", m_side);
+    lDom.addData(_code, "msg", m_msg);
+    lDom.addData(_code, m_map);
     return lDom.toString();
 }
 //===============================================
-bool GLog::deserialize(const GString& _data) {
+bool GLog::deserialize(const GString& _data, const GString& _code) {
     clearMap(m_map);
     GCode lDom;
     lDom.loadXml(_data);
-    m_type = lDom.getData(m_codeName, "type");
-    m_side = lDom.getData(m_codeName, "side");
-    m_msg = lDom.getData(m_codeName, "msg");
-    lDom.getData(m_codeName, m_map, this);
+    m_type = lDom.getData(_code, "type");
+    m_side = lDom.getData(_code, "side");
+    m_msg = lDom.getData(_code, "msg");
+    lDom.getData(_code, m_map, this);
     return true;
 }
 //===============================================

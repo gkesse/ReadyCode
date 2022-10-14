@@ -6,10 +6,10 @@
 //===============================================
 class GSearch : public GManager {
 public:
-    GSearch();
+    GSearch(const GString& _code = "search");
     virtual ~GSearch();
-    GString serialize() const;
-    bool deserialize(const GString& _data);
+    GString serialize(const GString& _code = "search") const;
+    bool deserialize(const GString& _data, const GString& _code = "search");
 
 protected:
     int m_lastId;

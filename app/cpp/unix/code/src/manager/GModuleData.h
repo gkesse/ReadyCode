@@ -8,11 +8,11 @@ class GModule;
 //===============================================
 class GModuleData : public GSearch {
 public:
-    GModuleData();
+    GModuleData(const GString& _code = "module_data");
     ~GModuleData();
     GObject* clone() const;
-    GString serialize() const;
-    bool deserialize(const GString& _data);
+    GString serialize(const GString& _code = "module_data") const;
+    bool deserialize(const GString& _data, const GString& _code = "module_data");
     void initModuleData();
 
     bool onModule();

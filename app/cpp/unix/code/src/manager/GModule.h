@@ -6,11 +6,11 @@
 //===============================================
 class GModule : public GSearch {
 public:
-    GModule();
+    GModule(const GString& _code = "module");
     ~GModule();
     GObject* clone() const;
-    GString serialize() const;
-    bool deserialize(const GString& _data);
+    GString serialize(const GString& _code = "module") const;
+    bool deserialize(const GString& _data, const GString& _code = "module");
     void initModule();
 
     int getId() const;

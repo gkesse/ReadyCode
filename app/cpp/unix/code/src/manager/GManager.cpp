@@ -8,8 +8,8 @@
 #include "GModule.h"
 #include "GModuleData.h"
 //===============================================
-GManager::GManager()
-: GObject("manager") {
+GManager::GManager(const GString& _code)
+: GObject(_code) {
     m_server = 0;
 }
 //===============================================

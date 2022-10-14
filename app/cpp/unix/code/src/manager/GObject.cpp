@@ -4,8 +4,8 @@
 #include "GLog.h"
 #include "GPath.h"
 //===============================================
-GObject::GObject(const GString& _codeName) {
-    m_codeName = _codeName;
+GObject::GObject(const GString& _code) {
+    m_codeName = _code;
 }
 //===============================================
 GObject::~GObject() {
