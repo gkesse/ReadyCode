@@ -144,6 +144,11 @@ bool GXml::setValue(const GString& _value, bool _isCData) {
     return true;
 }
 //===============================================
+bool GXml::replaceNode(GXml& _dom) {
+    xmlReplaceNode(m_node, _dom.m_node);
+    return true;
+}
+//===============================================
 int GXml::countNode(const GString& _path) {
     if(!m_xpath) return 0;
     m_xpathObj = xmlXPathEvalExpression(BAD_CAST(_path.c_str()), m_xpath);
