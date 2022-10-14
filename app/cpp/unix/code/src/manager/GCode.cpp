@@ -117,6 +117,23 @@ bool GCode::addData(const GString& _code, const std::vector<GObject*>& _map) {
     return true;
 }
 //===============================================
+bool GCode::addData(const GString& _data) {
+    if(_data.trim().isEmpty()) return false;
+    GCode lDom;
+    lDom.loadXml(_data);
+    if(!lDom.getNode("/rdv/datas/data/code")) return false;
+    GString lCode = lDom.getValue();
+    if(lCode.isEmpty()) return false;
+    if(!lDom.getCode(lCode)) return false;
+    if(!getCode(lCode)) {
+        loadData(_data);
+    }
+    else {
+        replaceNode(lDom);
+    }
+    return true;
+}
+//===============================================
 int GCode::countMap(const GString& _code) {
     int lData = countNode(GFORMAT("/rdv/datas/data[code='%s']/map/data", _code.c_str()));
     return lData;

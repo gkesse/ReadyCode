@@ -26,8 +26,8 @@ GString GModuleData::serialize(const GString& _code) const {
     lDom.addData(_code, "name", m_name);
     lDom.addData(_code, "value", m_value);
     lDom.addData(_code, m_map);
-    lDom.loadData(m_module->serialize());
-    lDom.loadData(GSearch::serialize());
+    lDom.addData(m_module->serialize());
+    lDom.addData(GSearch::serialize());
     return lDom.toString();
 }
 //===============================================

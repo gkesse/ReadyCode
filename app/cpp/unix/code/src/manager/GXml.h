@@ -28,6 +28,7 @@ public:
     GString getValue() const;
 
     bool setValue(const GString& _value, bool _isCData = false);
+    bool replaceNode(GXml& _dom);
 
     int countNode(const GString& _path);
 
@@ -36,7 +37,7 @@ public:
 
     void print() const;
 
-private:
+protected:
     xmlDocPtr m_doc;
     xmlXPathContextPtr m_xpath;
     xmlXPathObjectPtr m_xpathObj;
