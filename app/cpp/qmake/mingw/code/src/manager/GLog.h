@@ -32,12 +32,12 @@
 //===============================================
 class GLog : public GObject {
 public:
-    GLog();
+    GLog(const GString& _code = "logs");
     ~GLog();
     static GLog* Instance();
     GObject* clone() const;
-    GString serialize() const;
-    bool deserialize(const GString& _data);
+    GString serialize(const GString& _code = "logs") const;
+    bool deserialize(const GString& _data, const GString& _code = "logs");
 
     void initLog();
 

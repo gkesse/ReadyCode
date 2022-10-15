@@ -6,6 +6,7 @@
 //===============================================
 class GModule;
 class GModuleData;
+class GModuleMap;
 //===============================================
 namespace Ui {
     class GModuleUi;
@@ -22,19 +23,29 @@ public:
     void writeData();
 
 public slots:
+    // module
     void on_btnSave_clicked();
     void on_btnSearch_clicked();
     void on_btnNew_clicked();
+    // module_data
     void on_btnSaveData_clicked();
     void on_btnSearchData_clicked();
     void on_btnNewData_clicked();
+    // module_map
+    void on_btnAddMap_clicked();
+    void on_btnSaveMap_clicked();
+    void on_btnSearchMap_clicked();
+    void on_btnNewMap_clicked();
 
 private:
     Ui::GModuleUi *ui;
     GModule* m_module;
     GModuleData* m_moduleData;
-    int m_tabDataIndex;
+    GModuleMap* m_moduleMap;
     bool m_isVisibleTabData;
+    bool m_isVisibleTabMap;
+    int m_tabDataIndex;
+    int m_tabMapIndex;
 };
 //==============================================
 #endif

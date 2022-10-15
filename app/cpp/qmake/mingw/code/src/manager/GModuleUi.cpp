@@ -4,6 +4,7 @@
 #include "ui_GModuleUi.h"
 #include "GModule.h"
 #include "GModuleData.h"
+#include "GModuleMap.h"
 //===============================================
 GModuleUi::GModuleUi(QWidget* _parent)
 : QFrame(_parent)
@@ -11,31 +12,41 @@ GModuleUi::GModuleUi(QWidget* _parent)
     ui->setupUi(this);
     m_module = new GModule;
     m_moduleData = new GModuleData;
-    m_tabDataIndex = ui->tabWidget->indexOf(ui->tabData);
+    m_moduleMap = new GModuleMap;
     m_isVisibleTabData = false;
+    m_isVisibleTabMap = false;
+    m_tabDataIndex = ui->tabWidget->indexOf(ui->tabData);
+    m_tabMapIndex = ui->tabWidget->indexOf(ui->tabMap);
     ui->tabWidget->setCurrentIndex(0);
     ui->tabWidget->setTabVisible(m_tabDataIndex, m_isVisibleTabData);
+    ui->tabWidget->setTabVisible(m_tabMapIndex, m_isVisibleTabMap);
     setAttribute(Qt::WA_DeleteOnClose);
 }
 //===============================================
 GModuleUi::~GModuleUi() {
     delete m_module;
     delete m_moduleData;
+    delete m_moduleMap;
 }
 //===============================================
 void GModuleUi::readData() {
     m_module->setName(ui->edtName->text());
     m_moduleData->setName(ui->edtNameData->text());
     m_moduleData->setValue(ui->edtValueData->text());
+    m_moduleMap->setPosition(0);
 }
 //===============================================
 void GModuleUi::writeData() {
     m_isVisibleTabData = (m_module->getId() != 0);
+    m_isVisibleTabMap = (m_module->getId() != 0);
     ui->edtName->setText(m_module->getName().c_str());
     ui->edtNameData->setText(m_moduleData->getName().c_str());
     ui->edtValueData->setText(m_moduleData->getValue().c_str());
     ui->tabWidget->setTabVisible(m_tabDataIndex, m_isVisibleTabData);
+    ui->tabWidget->setTabVisible(m_tabMapIndex, m_isVisibleTabMap);
 }
+//===============================================
+// module
 //===============================================
 void GModuleUi::on_btnSave_clicked() {
     GLOGT(eGFUN, "");
@@ -68,6 +79,8 @@ void GModuleUi::on_btnNew_clicked() {
     GLOG_SHOWG(eGLOG);
 }
 //===============================================
+// module_data
+//===============================================
 void GModuleUi::on_btnSaveData_clicked() {
     GLOGT(eGFUN, "");
     readData();
@@ -99,5 +112,32 @@ void GModuleUi::on_btnNewData_clicked() {
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
+}
+//===============================================
+// module_map
+//===============================================
+void GModuleUi::on_btnAddMap_clicked() {
+    GLOGT(eGFUN, "");
+    readData();
+    m_moduleMap->setModule(m_module);
+    m_moduleMap->addModuleMap();
+    if(GLOGI->hasErrors()) {
+        m_moduleMap->setModuleMap(0);
+    }
+    writeData();
+    GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGLOG);
+}
+//===============================================
+void GModuleUi::on_btnSaveMap_clicked() {
+
+}
+//===============================================
+void GModuleUi::on_btnSearchMap_clicked() {
+
+}
+//===============================================
+void GModuleUi::on_btnNewMap_clicked() {
+
 }
 //===============================================

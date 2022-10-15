@@ -46,14 +46,14 @@ bool GModuleData::deserialize(const GString& _data, const GString& _code) {
     return true;
 }
 //===============================================
-void GModuleData::setModuleData(const GModuleData& _module) {
-    m_id = _module.m_id;
-    m_name = _module.m_name;
-    m_value = _module.m_value;
+void GModuleData::setModuleData(const GModuleData& _moduleData) {
+    m_id = _moduleData.m_id;
+    m_name = _moduleData.m_name;
+    m_value = _moduleData.m_value;
 }
 //===============================================
-void GModuleData::setModuleData(GModuleData* _module) {
-    setModuleData(*_module);
+void GModuleData::setModuleData(GModuleData* _moduleData) {
+    setModuleData(*_moduleData);
 }
 //===============================================
 void GModuleData::setModuleData(int _index) {
@@ -133,12 +133,12 @@ bool GModuleData::showList() {
     m_tableWidget->setHeader(2, "nom");
     m_tableWidget->setHeader(3, "valeur");
     for(int i = 0; i < (int)m_map.size(); i++) {
-        GModuleData* lModulesData = (GModuleData*)m_map.at(i);
-        int lId = lModulesData->m_id;
-        m_tableWidget->setData(i, 0, lId, lModulesData->m_id);
+        GModuleData* lModuleData = (GModuleData*)m_map.at(i);
+        int lId = lModuleData->m_id;
+        m_tableWidget->setData(i, 0, lId, lModuleData->m_id);
         m_tableWidget->setData(i, 1, lId, m_module->getName());
-        m_tableWidget->setData(i, 2, lId, lModulesData->m_name);
-        m_tableWidget->setData(i, 3, lId, lModulesData->m_value);
+        m_tableWidget->setData(i, 2, lId, lModuleData->m_name);
+        m_tableWidget->setData(i, 3, lId, lModuleData->m_value);
     }
     clearMap(m_map);
     m_tableWidget->setSearch(this);
@@ -154,11 +154,11 @@ bool GModuleData::showList() {
 //===============================================
 bool GModuleData::showNextList() {
     for(int i = 0; i < (int)m_map.size(); i++) {
-        GModuleData* lModulesData = (GModuleData*)m_map.at(i);
-        int lId = lModulesData->m_id;
+        GModuleData* lModuleData = (GModuleData*)m_map.at(i);
+        int lId = lModuleData->m_id;
         m_tableWidget->addRow();
-        m_tableWidget->addCol(0, lId, lModulesData->m_id);
-        m_tableWidget->addCol(1, lId, lModulesData->m_name);
+        m_tableWidget->addCol(0, lId, lModuleData->m_id);
+        m_tableWidget->addCol(1, lId, lModuleData->m_name);
     }
     clearMap(m_map);
     return true;

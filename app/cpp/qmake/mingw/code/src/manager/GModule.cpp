@@ -130,11 +130,11 @@ bool GModule::showList() {
 //===============================================
 bool GModule::showNextList() {
     for(int i = 0; i < (int)m_map.size(); i++) {
-        GModule* lModules = (GModule*)m_map.at(i);
-        int lId = lModules->m_id;
+        GModule* lModule = (GModule*)m_map.at(i);
+        int lId = lModule->m_id;
         m_tableWidget->addRow();
-        m_tableWidget->addCol(0, lId, lModules->m_id);
-        m_tableWidget->addCol(1, lId, lModules->m_name);
+        m_tableWidget->addCol(0, lId, lModule->m_id);
+        m_tableWidget->addCol(1, lId, lModule->m_name);
     }
     clearMap(m_map);
     return true;
