@@ -10,6 +10,7 @@
 #define GMETHOD_UNKNOWN()   GERROR_ADD(eGERR, "La méthode (%s : %s) est inconnue.", m_moduleName.c_str(), m_methodName.c_str());
 #define GDATA_EXIST()       GERROR_ADD(eGERR, "La donnée existe.");
 #define GSAVE_OK()          GLOG_ADD(eGLOG,   "La donnée a bien été enregistrée.");
+#define GSAVE_KO()          GERROR_ADD(eGERR, "Erreur lors de l'enregistrement de la donnée.");
 //===============================================
 class GServer;
 //===============================================

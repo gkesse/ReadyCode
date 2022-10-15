@@ -72,7 +72,7 @@ bool GModuleMap::onAddModuleMap() {
     if(m_module->getId() == 0) {GERROR_ADD(eGERR, "L'identifiant du module est obligatoire."); return false;}
     if(!countData()) return false;
     if(!loadPosition()) return false;
-    if(m_id == 0) {GERROR_ADD(eGERR, "Erreur lors de l'enregistrement du module."); return false;}
+    if(m_id == 0) {GSAVE_KO(); return false;}
     GSAVE_OK();
     return true;
 }
@@ -81,7 +81,7 @@ bool GModuleMap::onSaveModuleMap() {
     if(m_module->getId() == 0) {GERROR_ADD(eGERR, "L'identifiant du module est obligatoire."); return false;}
     if(m_position == 0) {GERROR_ADD(eGERR, "Le nom de la donnée est obligatoire."); return false;}
     if(!saveModuleMap()) return false;
-    if(m_id == 0) {GERROR_ADD(eGERR, "Erreur lors de l'enregistrement du module."); return false;}
+    if(m_id == 0) {GSAVE_KO(); return false;}
     GSAVE_OK();
     return true;
 }
