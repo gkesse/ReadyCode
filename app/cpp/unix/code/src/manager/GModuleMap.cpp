@@ -10,6 +10,7 @@ GModuleMap::GModuleMap(const GString& _code)
 : GSearch(_code) {
     m_id = 0;
     m_position = 0;
+    m_count = 0;
     m_module = new GModule;
 }
 //===============================================
@@ -69,8 +70,8 @@ bool GModuleMap::onModule() {
 //===============================================
 bool GModuleMap::onAddModuleMap() {
     if(m_module->getId() == 0) {GERROR_ADD(eGERR, "L'identifiant du module est obligatoire."); return false;}
-    if(m_position == "") {GERROR_ADD(eGERR, "Le nom de la donnée est obligatoire."); return false;}
-    if(!saveModuleMap()) return false;
+    if(!countData()) return false;
+    if(!loadPosition()) return false;
     if(m_id == 0) {GERROR_ADD(eGERR, "Erreur lors de l'enregistrement du module."); return false;}
     GSAVE_OK();
     return true;
@@ -115,6 +116,11 @@ bool GModuleMap::onSearchNextModuleMap() {
     return true;
 }
 //===============================================
+bool GModuleMap::addModuleMap() {
+    if(!insertData()) return false;
+    return true;
+}
+//===============================================
 bool GModuleMap::saveModuleMap() {
     if(m_id == 0) {
         if(!existeData()) return false;
@@ -126,6 +132,26 @@ bool GModuleMap::saveModuleMap() {
             return false;
         }
     }
+    return true;
+}
+//===============================================
+bool GModuleMap::loadPosition() {
+    GMySQL lMySQL;
+
+    int lCount = lMySQL.readData(GFORMAT(""
+            " select count(*) "
+            " from _module_map "
+            ""
+    )).toInt();
+
+    m_position = 1;
+    if(!lCount) return true;
+
+    m_position = lMySQL.readData(GFORMAT(""
+            " select (max(_position) + 1) "
+            " from _module_map "
+            ""
+    )).toInt();
     return true;
 }
 //===============================================
@@ -214,11 +240,10 @@ bool GModuleMap::existeData() {
 }
 //===============================================
 bool GModuleMap::insertData() {
-    if(m_id != 0) return false;
     GMySQL lMySQL;
     if(!lMySQL.execQuery(GFORMAT(""
             " insert into _module_map "
-            " ( _module_id, _name, _value ) "
+            " ( _module_id, _position ) "
             " values ( %d, %d ) "
             "", m_module->getId()
             , m_position
@@ -232,7 +257,7 @@ bool GModuleMap::updateData() {
     GMySQL lMySQL;
     if(!lMySQL.execQuery(GFORMAT(""
             " update _module_map set "
-            "   _positon = %d "
+            " _positon = %d "
             " where _id = %d "
             "", m_position
             , m_id
