@@ -70,7 +70,6 @@ bool GModuleMap::onModule() {
 //===============================================
 bool GModuleMap::onAddModuleMap() {
     if(m_module->getId() == 0) {GERROR_ADD(eGERR, "L'identifiant du module est obligatoire."); return false;}
-    if(!countData()) return false;
     if(!loadPosition()) return false;
     if(m_id == 0) {GSAVE_KO(); return false;}
     GSAVE_OK();
