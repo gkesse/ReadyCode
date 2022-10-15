@@ -93,7 +93,7 @@ bool GModuleMap::onSearchModuleMap() {
     }
     else {
         m_where += GFORMAT(" and _module_id = %d ", m_module->getId());
-        if(m_position != "") {
+        if(m_position != 0) {
             m_where += GFORMAT(" and _position = %d ", m_position);
         }
     }
@@ -109,7 +109,7 @@ bool GModuleMap::onSearchNextModuleMap() {
         m_where += GFORMAT(" and _id < %d ", m_lastId);
     }
     m_where += GFORMAT(" and _module_id = %d ", m_module->getId());
-    if(m_position != "") {
+    if(m_position != 0) {
         m_where += GFORMAT(" and _position = %d ", m_position);
     }
     if(!searchNextModuleMap()) return false;
