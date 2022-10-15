@@ -89,7 +89,7 @@ bool GCode::getData(const GString& _code, std::vector<GObject*>& _map, GObject* 
         lDom.loadNode(lData);
         lData = lDom.toString();
         GObject* lObj = _obj->clone();
-        lObj->deserialize(lData);
+        lObj->deserialize(lData, lObj->getCodeName());
         _map.push_back(lObj);
     }
     return true;
