@@ -108,7 +108,7 @@ bool GCode::addData(const GString& _code, const std::vector<GObject*>& _map) {
     }
     for(int i = 0; i < _map.size(); i++) {
         GObject* lObj = _map.at(i);
-        GString lData = lObj->serialize();
+        GString lData = lObj->serialize(lObj->getCodeName());
         GCode lDom;
         lDom.loadXml(lData);
         lData = lDom.toData();
