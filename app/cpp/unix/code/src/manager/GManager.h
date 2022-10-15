@@ -35,6 +35,7 @@ public:
     bool onFile();
     bool onModule();
     bool onModuleData();
+    bool onModuleMap();
 
 protected:
     GString m_moduleName;

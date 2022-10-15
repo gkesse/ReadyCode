@@ -321,6 +321,10 @@ std::vector<char> GString::toVector() const {
     return lData;
 }
 //===============================================
+QString GString::toQString() const {
+    return m_data;
+}
+//===============================================
 GString GString::getFormat(const char* _format, ...) const {
     va_list lArgs;
     va_start (lArgs, _format);

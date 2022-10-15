@@ -33,7 +33,7 @@ void GModuleUi::readData() {
     m_module->setName(ui->edtName->text());
     m_moduleData->setName(ui->edtNameData->text());
     m_moduleData->setValue(ui->edtValueData->text());
-    m_moduleMap->setPosition(0);
+    m_moduleMap->setPosition(GString(ui->edtPositionMap->text()).toInt());
 }
 //===============================================
 void GModuleUi::writeData() {
@@ -42,6 +42,7 @@ void GModuleUi::writeData() {
     ui->edtName->setText(m_module->getName().c_str());
     ui->edtNameData->setText(m_moduleData->getName().c_str());
     ui->edtValueData->setText(m_moduleData->getValue().c_str());
+    ui->edtPositionMap->setText(GString(m_moduleMap->getPosition()).toQString());
     ui->tabWidget->setTabVisible(m_tabDataIndex, m_isVisibleTabData);
     ui->tabWidget->setTabVisible(m_tabMapIndex, m_isVisibleTabMap);
 }

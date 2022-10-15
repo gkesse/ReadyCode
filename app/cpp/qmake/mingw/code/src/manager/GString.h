@@ -57,6 +57,7 @@ public:
     int toInt() const;
     bool toInt(int& _data, int _defaultValue = 0) const;
     std::vector<char> toVector() const;
+    QString toQString() const;
 
     GString getFormat(const char* _format, ...) const;
     GString getFilename() const;

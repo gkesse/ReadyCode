@@ -7,6 +7,7 @@
 #include "GConnection.h"
 #include "GModule.h"
 #include "GModuleData.h"
+#include "GModuleMap.h"
 //===============================================
 GManager::GManager(const GString& _code)
 : GObject(_code) {
@@ -74,6 +75,9 @@ bool GManager::onManager() {
     else if(m_moduleName == "module_data") {
         onModuleData();
     }
+    else if(m_moduleName == "module_map") {
+        onModuleMap();
+    }
     else {
         GMODULE_UNKNOWN();
     }
@@ -102,9 +106,16 @@ bool GManager::onModule() {
 }
 //===============================================
 bool GManager::onModuleData() {
-    GModuleData lModulesData;
-    lModulesData.setManager(this);
-    lModulesData.onModule();
+    GModuleData lModuleData;
+    lModuleData.setManager(this);
+    lModuleData.onModule();
+    return true;
+}
+//===============================================
+bool GManager::onModuleMap() {
+    GModuleMap lModuleMap;
+    lModuleMap.setManager(this);
+    lModuleMap.onModule();
     return true;
 }
 //===============================================

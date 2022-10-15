@@ -11,7 +11,6 @@ public:
     GObject* clone() const;
     GString serialize(const GString& _code = "module") const;
     bool deserialize(const GString& _data, const GString& _code = "module");
-    void initModule();
 
     int getId() const;
 
@@ -29,7 +28,6 @@ public:
 protected:
     int m_id;
     GString m_name;
-    GString m_where;
     std::vector<GObject*> m_map;
 };
 //==============================================

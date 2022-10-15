@@ -1,26 +1,27 @@
 //===============================================
-#ifndef _GModuleData_
-#define _GModuleData_
+#ifndef _GModuleMap_
+#define _GModuleMap_
 //===============================================
 #include "GSearch.h"
 //===============================================
 class GModule;
 //===============================================
-class GModuleData : public GSearch {
+class GModuleMap : public GSearch {
 public:
-    GModuleData(const GString& _code = "module_data");
-    ~GModuleData();
+    GModuleMap(const GString& _code = "module_map");
+    ~GModuleMap();
     GObject* clone() const;
-    GString serialize(const GString& _code = "module_data") const;
-    bool deserialize(const GString& _data, const GString& _code = "module_data");
+    GString serialize(const GString& _code = "module_map") const;
+    bool deserialize(const GString& _data, const GString& _code = "module_map");
 
     bool onModule();
-    bool onSaveModuleData();
-    bool onSearchModuleData();
-    bool onSearchNextModuleData();
-    bool saveModuleData();
-    bool searchModuleData();
-    bool searchNextModuleData();
+    bool onAddModuleMap();
+    bool onSaveModuleMap();
+    bool onSearchModuleMap();
+    bool onSearchNextModuleMap();
+    bool saveModuleMap();
+    bool searchModuleMap();
+    bool searchNextModuleMap();
     bool countData();
     bool existeData();
     bool insertData();
@@ -28,8 +29,7 @@ public:
 
 protected:
     int m_id;
-    GString m_name;
-    GString m_value;
+    int m_position;
     GModule* m_module;
     std::vector<GObject*> m_map;
 };

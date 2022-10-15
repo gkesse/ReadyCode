@@ -7,7 +7,7 @@
 //===============================================
 GModule::GModule(const GString& _code)
 : GSearch(_code) {
-    initModule();
+    m_id = 0;
 }
 //===============================================
 GModule::~GModule() {
@@ -36,11 +36,6 @@ bool GModule::deserialize(const GString& _data, const GString& _code) {
     m_name = lDom.getData(_code, "name");
     lDom.getData(_code, m_map, this);
     return true;
-}
-//===============================================
-void GModule::initModule() {
-    m_id = 0;
-    m_where = " where 1 = 1 ";
 }
 //===============================================
 int GModule::getId() const {
