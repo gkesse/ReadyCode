@@ -16,7 +16,7 @@ GLog::GLog(const GString& _code)
 }
 //===============================================
 GLog::~GLog() {
-
+    clearMap(m_map);
 }
 //===============================================
 GLog* GLog::Instance() {
