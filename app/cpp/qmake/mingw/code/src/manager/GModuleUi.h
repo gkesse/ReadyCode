@@ -21,9 +21,14 @@ public:
 
     void readData();
     void writeData();
+
+    void onTabMap();
+
     void loadModuleMap();
 
 public slots:
+    // qtabwidget
+    void on_tabWidget_tabBarClicked(int _index);
     // module
     void on_btnSave_clicked();
     void on_btnSearch_clicked();

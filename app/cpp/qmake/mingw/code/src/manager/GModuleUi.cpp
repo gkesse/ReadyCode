@@ -21,7 +21,6 @@ GModuleUi::GModuleUi(QWidget* _parent)
     ui->tabWidget->setTabVisible(m_tabDataIndex, m_isVisibleTabData);
     ui->tabWidget->setTabVisible(m_tabMapIndex, m_isVisibleTabMap);
     setAttribute(Qt::WA_DeleteOnClose);
-    loadModuleMap();
 }
 //===============================================
 GModuleUi::~GModuleUi() {
@@ -50,9 +49,24 @@ void GModuleUi::writeData() {
 //===============================================
 void GModuleUi::loadModuleMap() {
     GLOGT(eGFUN, "");
+    if(!m_module->getId()) return;
+    m_moduleMap->setModule(m_module);
     m_moduleMap->loadModuleMap();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
+}
+//===============================================
+// qtabwidget
+//===============================================
+void GModuleUi::on_tabWidget_tabBarClicked(int _index) {
+    GLOGT(eGFUN, "");
+    if(_index == m_tabMapIndex) {
+        onTabMap();
+    }
+}
+//===============================================
+void GModuleUi::onTabMap() {
+
 }
 //===============================================
 // module
@@ -75,6 +89,7 @@ void GModuleUi::on_btnSearch_clicked() {
     m_module->setSearch(GSearch());
     m_module->searchModule();
     m_module->showList();
+    loadModuleMap();
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
