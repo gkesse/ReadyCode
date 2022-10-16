@@ -21,6 +21,7 @@ public:
     void setModuleMap(int _index);
     void setModule(GModule* _module);
 
+    void setId(int _id);
     void setPosition(int _position);
 
     int getId() const;
@@ -30,15 +31,8 @@ public:
     void addModuleMap();
     void moveUpModuleMap();
     void moveDownModuleMap();
-    void saveModuleMap();
-    void searchModuleMap();
-    void deleteModuleMap();
 
     bool showModuleMap(GTreeWidgetUi* _treeWidget);
-
-    void onNextData();
-    bool showList();
-    bool showNextList();
 
 protected:
     int m_id;

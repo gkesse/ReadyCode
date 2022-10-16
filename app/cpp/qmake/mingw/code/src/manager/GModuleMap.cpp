@@ -68,6 +68,10 @@ void GModuleMap::setModule(GModule* _module) {
     m_module->setModule(_module);
 }
 //===============================================
+void GModuleMap::setId(int _id) {
+    m_id = _id;
+}
+//===============================================
 void GModuleMap::setPosition(int _position) {
     m_position = _position;
 }
@@ -104,24 +108,6 @@ void GModuleMap::moveDownModuleMap() {
     deserialize(lData);
 }
 //===============================================
-void GModuleMap::saveModuleMap() {
-    GString lData = serialize();
-    lData = GCALL_SERVER("module_map", "save_module_map", lData);
-    deserialize(lData);
-}
-//===============================================
-void GModuleMap::searchModuleMap() {
-    GString lData = serialize();
-    lData = GCALL_SERVER("module_map", "search_module_map", lData);
-    deserialize(lData);
-}
-//===============================================
-void GModuleMap::deleteModuleMap() {
-    GString lData = serialize();
-    lData = GCALL_SERVER("module_map", "delete_module_map", lData);
-    deserialize(lData);
-}
-//===============================================
 bool GModuleMap::showModuleMap(GTreeWidgetUi* _treeWidget) {
     _treeWidget->clear();
     _treeWidget->setColumnCount(2);
@@ -136,62 +122,6 @@ bool GModuleMap::showModuleMap(GTreeWidgetUi* _treeWidget) {
         _treeWidget->setData(0, lPosition, m_module->getName());
         _treeWidget->setData(1, lPosition, GFORMAT("node[%d]", lModuleMap->getId()));
     }
-    return true;
-}
-//===============================================
-void GModuleMap::onNextData() {
-    clearMap(m_map);
-    GString lData = serialize();
-    lData = GCALL_SERVER("module_map", "search_next_module_map", lData);
-    deserialize(lData);
-    showNextList();
-}
-//===============================================
-bool GModuleMap::showList() {
-    if(m_map.size() == 0) {
-        setModuleMap(GModuleMap());
-        if(!GLOGI->hasErrors()) {
-            GSEARCH_AVOID();
-        }
-        return false;
-    }
-    else if(m_map.size() == 1) {
-        setModuleMap(0);
-        return true;
-    }
-    m_tableWidget->setWindowTitle("Liste des données par module");
-    m_tableWidget->setSize(m_map.size(), 3);
-    m_tableWidget->setHeader(0, "id");
-    m_tableWidget->setHeader(1, "module");
-    m_tableWidget->setHeader(2, "position");
-    for(int i = 0; i < (int)m_map.size(); i++) {
-        GModuleMap* lModuleMap = (GModuleMap*)m_map.at(i);
-        int lId = lModuleMap->m_id;
-        m_tableWidget->setData(i, 0, lId, lModuleMap->m_id);
-        m_tableWidget->setData(i, 1, lId, m_module->getName());
-        m_tableWidget->setData(i, 2, lId, lModuleMap->m_position);
-    }
-    clearMap(m_map);
-    m_tableWidget->setSearch(this);
-    int lOk = m_tableWidget->exec();
-    if(lOk == QDialog::Accepted) {
-        m_id = m_tableWidget->getKey().toInt();
-        setSearch(GSearch());
-        searchModuleMap();
-        setModuleMap(0);
-    }
-    return true;
-}
-//===============================================
-bool GModuleMap::showNextList() {
-    for(int i = 0; i < (int)m_map.size(); i++) {
-        GModuleMap* lModuleMap = (GModuleMap*)m_map.at(i);
-        int lId = lModuleMap->m_id;
-        m_tableWidget->addRow();
-        m_tableWidget->addCol(0, lId, lModuleMap->m_id);
-        m_tableWidget->addCol(1, lId, lModuleMap->m_position);
-    }
-    clearMap(m_map);
     return true;
 }
 //===============================================

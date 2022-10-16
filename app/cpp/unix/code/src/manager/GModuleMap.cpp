@@ -63,15 +63,6 @@ bool GModuleMap::onModule() {
     else if(m_methodName == "move_down_module_map") {
         onMoveDownModuleMap();
     }
-    else if(m_methodName == "save_module_map") {
-        onSaveModuleMap();
-    }
-    else if(m_methodName == "search_module_map") {
-        onSearchModuleMap();
-    }
-    else if(m_methodName == "search_next_module_map") {
-        onSearchNextModuleMap();
-    }
     else {
         GMETHOD_UNKNOWN();
     }
@@ -121,36 +112,6 @@ bool GModuleMap::onSaveModuleMap() {
     return true;
 }
 //===============================================
-bool GModuleMap::onSearchModuleMap() {
-    if(m_module->getId() == 0) {GERROR_ADD(eGERR, "L'identifiant du module est obligatoire."); return false;}
-    if(m_id != 0) {
-        m_where += GFORMAT(" and _id = %d ", m_id);
-    }
-    else {
-        m_where += GFORMAT(" and _module_id = %d ", m_module->getId());
-        if(m_position != 0) {
-            m_where += GFORMAT(" and _position = %d ", m_position);
-        }
-    }
-    if(!countData()) return false;
-    if(!searchModuleMap()) return false;
-    return true;
-}
-//===============================================
-bool GModuleMap::onSearchNextModuleMap() {
-    if(m_module->getId() == 0) {GERROR_ADD(eGERR, "L'identifiant du module est obligatoire."); return false;}
-    if(!m_hasData) {GERROR_ADD(eGERR, "Aucune donnée n'a été trouvée."); return false;}
-    if(m_lastId != 0) {
-        m_where += GFORMAT(" and _id < %d ", m_lastId);
-    }
-    m_where += GFORMAT(" and _module_id = %d ", m_module->getId());
-    if(m_position != 0) {
-        m_where += GFORMAT(" and _position = %d ", m_position);
-    }
-    if(!searchNextModuleMap()) return false;
-    return true;
-}
-//===============================================
 bool GModuleMap::loadData() {
     GMySQL lMySQL;
     GMap lDataMap = lMySQL.readMap(GFORMAT(""
@@ -173,27 +134,14 @@ bool GModuleMap::loadData() {
     return true;
 }
 //===============================================
-bool GModuleMap::saveModuleMap() {
-    if(m_id == 0) {
-        if(!existeData()) return false;
-        if(!insertData()) return false;
-    }
-    else {
-        if(!updateData()) {
-            onSearchModuleMap();
-            return false;
-        }
-    }
-    return true;
-}
-//===============================================
 bool GModuleMap::loadPosition() {
     GMySQL lMySQL;
 
     int lCount = lMySQL.readData(GFORMAT(""
             " select count(*) "
             " from _module_map "
-            " where _module_id = %d "
+            " where 1 = 1 "
+            " and _module_id = %d "
             "", m_module->getId()
     )).toInt();
 
@@ -203,7 +151,8 @@ bool GModuleMap::loadPosition() {
     m_position = lMySQL.readData(GFORMAT(""
             " select (max(_position) + 1) "
             " from _module_map "
-            " where _module_id = %d "
+            " where 1 = 1 "
+            " and _module_id = %d "
             "", m_module->getId()
     )).toInt();
     return true;
@@ -273,90 +222,6 @@ bool GModuleMap::updatePositionDown() {
     return true;
 }
 //===============================================
-bool GModuleMap::searchModuleMap() {
-    GMySQL lMySQL;
-    GMap lDataMap = lMySQL.readMap(GFORMAT(""
-            " select _id, _name, _value "
-            " from _module_map "
-            " %s "
-            " order by _id desc "
-            " limit %d "
-            "", m_where.c_str()
-            , m_dataSize
-    ));
-    for(int i = 0; i < (int)lDataMap.size(); i++) {
-        GRow lDataRow = lDataMap.at(i);
-        int j = 0;
-        GModuleMap* lObj = new GModuleMap;
-        lObj->m_id = lDataRow.at(j++).toInt();
-        lObj->m_position = lDataRow.at(j++).toInt();
-        m_map.push_back(lObj);
-    }
-    m_dataOffset += m_dataSize;
-    m_hasData = true;
-    if(m_dataOffset >= m_dataCount) m_hasData = false;
-    if(m_hasData) {
-        GModuleMap* lObj = (GModuleMap*)m_map.back();
-        m_lastId = lObj->m_id;
-    }
-    return true;
-}
-//===============================================
-bool GModuleMap::searchNextModuleMap() {
-    GMySQL lMySQL;
-    GMap lDataMap = lMySQL.readMap(GFORMAT(""
-            " select _id, _name, _value "
-            " from _module_map "
-            " %s "
-            " order by _id desc "
-            " limit %d "
-            "", m_where.c_str()
-            , m_dataSize
-    ));
-    for(int i = 0; i < (int)lDataMap.size(); i++) {
-        GRow lDataRow = lDataMap.at(i);
-        int j = 0;
-        GModuleMap* lObj = new GModuleMap;
-        lObj->m_id = lDataRow.at(j++).toInt();
-        lObj->m_position = lDataRow.at(j++).toInt();
-        m_map.push_back(lObj);
-    }
-    m_dataOffset += m_dataSize;
-    m_hasData = true;
-    if(m_dataOffset >= m_dataCount) m_hasData = false;
-    if(m_hasData) {
-        GModuleMap* lObj = (GModuleMap*)m_map.back();
-        m_lastId = lObj->m_id;
-    }
-    return true;
-}
-//===============================================
-bool GModuleMap::countData() {
-    GMySQL lMySQL;
-    m_dataCount = lMySQL.readData(GFORMAT(""
-            " select count(*) "
-            " from _module_map "
-            " %s "
-            "", m_where.c_str()
-    )).toInt();
-    return true;
-}
-//===============================================
-bool GModuleMap::existeData() {
-    GMySQL lMySQL;
-    int lCount = lMySQL.readData(GFORMAT(""
-            " select count(*) "
-            " from _module_map "
-            " where 1 = 1 "
-            " and _module_id = %d "
-            " and position = %d "
-            "", m_module->getId()
-            , m_position
-    )).toInt();
-    if(lCount != 0) {GDATA_EXIST(); return false;}
-    return true;
-}
-//===============================================
 bool GModuleMap::insertData() {
     GMySQL lMySQL;
     if(!lMySQL.execQuery(GFORMAT(""
@@ -370,17 +235,3 @@ bool GModuleMap::insertData() {
     return true;
 }
 //===============================================
-bool GModuleMap::updateData() {
-    if(m_id == 0) return false;
-    GMySQL lMySQL;
-    if(!lMySQL.execQuery(GFORMAT(""
-            " update _module_map set "
-            " _positon = %d "
-            " where _id = %d "
-            "", m_position
-            , m_id
-    ))) return false;
-    return true;
-}
-//===============================================
-

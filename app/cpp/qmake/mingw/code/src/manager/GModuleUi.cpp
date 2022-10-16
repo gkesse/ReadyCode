@@ -39,6 +39,7 @@ void GModuleUi::readData() {
 
     m_module->setId(m_moduleId);
     m_moduleData->setId(m_moduleDataId);
+    m_moduleMap->setId(m_moduleMapId);
 
     m_module->setName(ui->edtName->text());
     m_moduleData->setName(ui->edtNameData->text());
@@ -52,6 +53,7 @@ void GModuleUi::writeData() {
 
     m_moduleId = m_module->getId();
     m_moduleDataId = m_moduleData->getId();
+    m_moduleMapId = m_moduleMap->getId();
 
     ui->edtName->setText(m_module->getName().c_str());
     ui->edtNameData->setText(m_moduleData->getName().c_str());
@@ -192,17 +194,5 @@ void GModuleUi::on_btnMoveDownMap_clicked() {
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
-}
-//===============================================
-void GModuleUi::on_btnSaveMap_clicked() {
-
-}
-//===============================================
-void GModuleUi::on_btnSearchMap_clicked() {
-
-}
-//===============================================
-void GModuleUi::on_btnNewMap_clicked() {
-
 }
 //===============================================

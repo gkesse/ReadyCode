@@ -30,12 +30,7 @@ public:
     bool loadPositionDown();
     bool updatePositionUp();
     bool updatePositionDown();
-    bool searchModuleMap();
-    bool searchNextModuleMap();
-    bool countData();
-    bool existeData();
     bool insertData();
-    bool updateData();
 
 private:
     int m_id;

@@ -41,9 +41,6 @@ public slots:
     void on_btnAddMap_clicked();
     void on_btnMoveUpMap_clicked();
     void on_btnMoveDownMap_clicked();
-    void on_btnSaveMap_clicked();
-    void on_btnSearchMap_clicked();
-    void on_btnNewMap_clicked();
 
 private:
     Ui::GModuleUi *ui;
