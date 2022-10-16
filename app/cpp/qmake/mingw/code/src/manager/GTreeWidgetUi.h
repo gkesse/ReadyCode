@@ -16,6 +16,7 @@ public:
     void initRoot();
     void addChild();
     void setData(int _col, const GString& _key, const GString& _data);
+    void selectItem();
     void setKey(const GString& _key);
     GString getKey() const;
 

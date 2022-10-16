@@ -178,6 +178,8 @@ void GModuleUi::on_btnMoveUpMap_clicked() {
     m_moduleMap->setModule(m_module.get());
     m_moduleMap->setModuleMap(lModuleMap);
     m_moduleMap->moveUpModuleMap();
+    lModuleMap.setModuleMap(m_moduleMap.get());
+    ui->treeMap->setKey(lModuleMap.serialize());
     if(!GLOGI->hasErrors()) {
         m_moduleMap->showModuleMap(ui->treeMap);
     }
@@ -194,6 +196,8 @@ void GModuleUi::on_btnMoveDownMap_clicked() {
     m_moduleMap->setModule(m_module.get());
     m_moduleMap->setModuleMap(lModuleMap);
     m_moduleMap->moveDownModuleMap();
+    lModuleMap.setModuleMap(m_moduleMap.get());
+    ui->treeMap->setKey(lModuleMap.serialize());
     if(!GLOGI->hasErrors()) {
         m_moduleMap->showModuleMap(ui->treeMap);
     }
