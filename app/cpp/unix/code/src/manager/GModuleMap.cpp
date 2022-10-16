@@ -193,6 +193,7 @@ bool GModuleMap::updatePositionUp() {
             , m_position
             , m_positionUp
     ))) return false;
+    m_position = m_positionUp;
     return true;
 }
 //===============================================
@@ -210,6 +211,7 @@ bool GModuleMap::updatePositionDown() {
             , m_position
             , m_positionDown
     ))) return false;
+    m_position = m_positionDown;
     return true;
 }
 //===============================================
