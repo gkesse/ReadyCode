@@ -21,6 +21,7 @@ public:
     bool onSearchModuleMap();
     bool onSearchNextModuleMap();
 
+    bool loadData();
     bool saveModuleMap();
     bool loadPosition();
     bool searchModuleMap();

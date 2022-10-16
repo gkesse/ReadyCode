@@ -72,6 +72,7 @@ bool GModuleMap::onModule() {
 //===============================================
 bool GModuleMap::onLoadModuleMap() {
     if(m_module->getId() == 0) {GERROR_ADD(eGERR, "L'identifiant du module est obligatoire."); return false;}
+    if(!loadData()) return false;
     return true;
 }
 //===============================================
@@ -120,6 +121,26 @@ bool GModuleMap::onSearchNextModuleMap() {
         m_where += GFORMAT(" and _position = %d ", m_position);
     }
     if(!searchNextModuleMap()) return false;
+    return true;
+}
+//===============================================
+bool GModuleMap::loadData() {
+    GMySQL lMySQL;
+    GMap lDataMap = lMySQL.readMap(GFORMAT(""
+            " select _id, _position "
+            " from _module_map "
+            " where _module_id = %d "
+            " order by _position asc "
+            "", m_module->getId()
+    ));
+    for(int i = 0; i < (int)lDataMap.size(); i++) {
+        GRow lDataRow = lDataMap.at(i);
+        int j = 0;
+        GModuleMap* lObj = new GModuleMap;
+        lObj->m_id = lDataRow.at(j++).toInt();
+        lObj->m_position = lDataRow.at(j++).toInt();
+        m_map.push_back(lObj);
+    }
     return true;
 }
 //===============================================
