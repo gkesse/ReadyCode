@@ -28,6 +28,8 @@ public:
 
     void loadModuleMap();
     void addModuleMap();
+    void moveUpModuleMap();
+    void moveDownModuleMap();
     void saveModuleMap();
     void searchModuleMap();
     void deleteModuleMap();

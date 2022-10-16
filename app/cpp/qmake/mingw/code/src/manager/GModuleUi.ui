@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>450</width>
-    <height>270</height>
+    <height>296</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -236,6 +236,20 @@
           <widget class="QPushButton" name="btnAddMap">
            <property name="text">
             <string>&amp;Ajouter</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnMoveUpMap">
+           <property name="text">
+            <string>&amp;Haut</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnMoveDownMap">
+           <property name="text">
+            <string>&amp;Bas</string>
            </property>
           </widget>
          </item>

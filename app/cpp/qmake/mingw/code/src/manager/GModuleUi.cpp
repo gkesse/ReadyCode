@@ -62,6 +62,7 @@ void GModuleUi::loadModuleMap() {
     if(!m_module->getId()) return;
     m_moduleMap->setModule(m_module.get());
     m_moduleMap->loadModuleMap();
+    m_moduleMap->showModuleMap(ui->treeMap);
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
 }
@@ -153,6 +154,32 @@ void GModuleUi::on_btnNewData_clicked() {
 // module_map
 //===============================================
 void GModuleUi::on_btnAddMap_clicked() {
+    GLOGT(eGFUN, "");
+    readData();
+    m_moduleMap->setModule(m_module.get());
+    m_moduleMap->addModuleMap();
+    if(GLOGI->hasErrors()) {
+        m_moduleMap->setModuleMap(0);
+    }
+    writeData();
+    GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGLOG);
+}
+//===============================================
+void GModuleUi::on_btnMoveUpMap_clicked() {
+    GLOGT(eGFUN, "");
+    readData();
+    m_moduleMap->setModule(m_module.get());
+    m_moduleMap->addModuleMap();
+    if(GLOGI->hasErrors()) {
+        m_moduleMap->setModuleMap(0);
+    }
+    writeData();
+    GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGLOG);
+}
+//===============================================
+void GModuleUi::on_btnMoveDownMap_clicked() {
     GLOGT(eGFUN, "");
     readData();
     m_moduleMap->setModule(m_module.get());

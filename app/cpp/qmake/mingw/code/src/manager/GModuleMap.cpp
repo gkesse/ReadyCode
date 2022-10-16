@@ -92,6 +92,18 @@ void GModuleMap::addModuleMap() {
     deserialize(lData);
 }
 //===============================================
+void GModuleMap::moveUpModuleMap() {
+    GString lData = serialize();
+    lData = GCALL_SERVER("module_map", "move_up_module_map", lData);
+    deserialize(lData);
+}
+//===============================================
+void GModuleMap::moveDownModuleMap() {
+    GString lData = serialize();
+    lData = GCALL_SERVER("module_map", "move_down_module_map", lData);
+    deserialize(lData);
+}
+//===============================================
 void GModuleMap::saveModuleMap() {
     GString lData = serialize();
     lData = GCALL_SERVER("module_map", "save_module_map", lData);
@@ -111,9 +123,18 @@ void GModuleMap::deleteModuleMap() {
 }
 //===============================================
 bool GModuleMap::showModuleMap(GTreeWidgetUi* _treeWidget) {
+    _treeWidget->clear();
     _treeWidget->setColumnCount(2);
-    for(int i = 0; i < (int)m_map.size(); i++) {
+    _treeWidget->addHeader();
+    _treeWidget->setData(0, "", "module");
+    _treeWidget->setData(1, "", "node[id]");
 
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GModuleMap* lModuleMap = (GModuleMap*)m_map.at(i);
+        int lPosition = lModuleMap->getPosition();
+        _treeWidget->addRoot();
+        _treeWidget->setData(0, lPosition, m_module->getName());
+        _treeWidget->setData(1, lPosition, GFORMAT("node[%d]", lModuleMap->getId()));
     }
     return true;
 }

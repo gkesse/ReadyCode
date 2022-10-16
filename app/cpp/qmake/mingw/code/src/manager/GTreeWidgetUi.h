@@ -15,9 +15,10 @@ public:
     void addRoot();
     void initRoot();
     void addChild();
-    void setData(int _col, const GString& _data);
+    void setData(int _col, const GString& _key, const GString& _data);
 
 public slots:
+    void onItemClicked(QTreeWidgetItem* _item, int _column);
 
 private:
     QTreeWidgetItem* m_header;

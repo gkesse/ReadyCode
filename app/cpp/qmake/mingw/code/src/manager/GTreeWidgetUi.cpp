@@ -8,7 +8,7 @@ GTreeWidgetUi::GTreeWidgetUi(QWidget* _parent)
     m_root = 0;
     m_child = 0;
     m_node = 0;
-    //
+
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     setSelectionBehavior(QAbstractItemView::SelectRows);
     resizeColumnToContents(0);
@@ -16,6 +16,8 @@ GTreeWidgetUi::GTreeWidgetUi(QWidget* _parent)
     header()->setStretchLastSection(true);
     header()->setMinimumSectionSize(0);
     setFocusPolicy(Qt::NoFocus);
+
+    connect(this, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(onItemClicked(QTreeWidgetItem*, int)));
 }
 //===============================================
 GTreeWidgetUi::~GTreeWidgetUi() {
@@ -43,7 +45,14 @@ void GTreeWidgetUi::addChild() {
     m_node = m_child;
 }
 //===============================================
-void GTreeWidgetUi::setData(int _col, const GString& _data) {
+void GTreeWidgetUi::setData(int _col, const GString& _key, const GString& _data) {
+    m_node->setData(_col, Qt::UserRole, _key.c_str());
     m_node->setText(_col, _data.c_str());
+}
+//===============================================
+void GTreeWidgetUi::onItemClicked(QTreeWidgetItem* _item, int _column) {
+    GLOGT(eGFUN, "");
+    int lPosition = _item->data(_column, Qt::UserRole).toInt();
+    GLOGT(eGFUN, "%d", lPosition);
 }
 //===============================================
