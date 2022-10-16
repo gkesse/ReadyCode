@@ -164,7 +164,8 @@ bool GModuleMap::loadPosition() {
     int lCount = lMySQL.readData(GFORMAT(""
             " select count(*) "
             " from _module_map "
-            ""
+            " where _module_id = %d "
+            "", m_module->getId()
     )).toInt();
 
     m_position = 1;
@@ -173,7 +174,8 @@ bool GModuleMap::loadPosition() {
     m_position = lMySQL.readData(GFORMAT(""
             " select (max(_position) + 1) "
             " from _module_map "
-            ""
+            " where _module_id = %d "
+            "", m_module->getId()
     )).toInt();
     return true;
 }
