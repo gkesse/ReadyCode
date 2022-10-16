@@ -50,9 +50,15 @@ void GTreeWidgetUi::setData(int _col, const GString& _key, const GString& _data)
     m_node->setText(_col, _data.c_str());
 }
 //===============================================
+void GTreeWidgetUi::setKey(const GString& _key) {
+    m_key = _key;
+}
+//===============================================
+GString GTreeWidgetUi::getKey() const {
+    return m_key;
+}
+//===============================================
 void GTreeWidgetUi::onItemClicked(QTreeWidgetItem* _item, int _column) {
-    GLOGT(eGFUN, "");
-    int lPosition = _item->data(_column, Qt::UserRole).toInt();
-    GLOGT(eGFUN, "%d", lPosition);
+    m_key = _item->data(_column, Qt::UserRole).toString();
 }
 //===============================================

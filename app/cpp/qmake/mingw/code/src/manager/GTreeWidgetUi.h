@@ -16,11 +16,14 @@ public:
     void initRoot();
     void addChild();
     void setData(int _col, const GString& _key, const GString& _data);
+    void setKey(const GString& _key);
+    GString getKey() const;
 
 public slots:
     void onItemClicked(QTreeWidgetItem* _item, int _column);
 
 private:
+    GString m_key;
     QTreeWidgetItem* m_header;
     QTreeWidgetItem* m_root;
     QTreeWidgetItem* m_child;

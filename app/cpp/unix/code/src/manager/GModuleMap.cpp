@@ -10,6 +10,8 @@ GModuleMap::GModuleMap(const GString& _code)
 : GSearch(_code) {
     m_id = 0;
     m_position = 0;
+    m_positionUp = 0;
+    m_positionDown = 0;
     m_module = new GModule;
 }
 //===============================================
@@ -241,7 +243,7 @@ bool GModuleMap::updatePositionUp() {
     GMySQL lMySQL;
     if(!lMySQL.execQuery(GFORMAT(""
             " update _module_map set "
-            " _positon = %d + %d - _position "
+            " _position = %d + %d - _position "
             " where 1 = 1 "
             " and _module_id = %d "
             " and _position in ( %d, %d )"

@@ -38,10 +38,12 @@ void GModuleUi::readData() {
     m_moduleMap.reset(new GModuleMap);
 
     m_module->setId(m_moduleId);
-    m_module->setName(ui->edtName->text());
     m_moduleData->setId(m_moduleDataId);
+
+    m_module->setName(ui->edtName->text());
     m_moduleData->setName(ui->edtNameData->text());
     m_moduleData->setValue(ui->edtValueData->text());
+    m_moduleMap->setPosition(ui->treeMap->getKey().toInt());
 }
 //===============================================
 void GModuleUi::writeData() {
@@ -49,12 +51,14 @@ void GModuleUi::writeData() {
     m_isVisibleTabMap = (m_module->getId() != 0);
 
     m_moduleId = m_module->getId();
-    ui->edtName->setText(m_module->getName().c_str());
     m_moduleDataId = m_moduleData->getId();
+
+    ui->edtName->setText(m_module->getName().c_str());
     ui->edtNameData->setText(m_moduleData->getName().c_str());
     ui->edtValueData->setText(m_moduleData->getValue().c_str());
     ui->tabWidget->setTabVisible(m_tabDataIndex, m_isVisibleTabData);
     ui->tabWidget->setTabVisible(m_tabMapIndex, m_isVisibleTabMap);
+    ui->treeMap->setKey(m_moduleMap->getPosition());
 }
 //===============================================
 void GModuleUi::loadModuleMap() {
@@ -171,9 +175,7 @@ void GModuleUi::on_btnMoveUpMap_clicked() {
     readData();
     m_moduleMap->setModule(m_module.get());
     m_moduleMap->moveUpModuleMap();
-    if(GLOGI->hasErrors()) {
-        m_moduleMap->setModuleMap(0);
-    }
+    m_moduleMap->showModuleMap(ui->treeMap);
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
