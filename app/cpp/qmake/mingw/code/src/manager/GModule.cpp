@@ -13,6 +13,7 @@ GModule::GModule(const GString& _code)
 //===============================================
 GModule::~GModule() {
     delete m_tableWidget;
+    clearMap(m_map);
 }
 //===============================================
 GObject* GModule::clone() const {
@@ -54,6 +55,10 @@ void GModule::setModule(int _index) {
         setModule(lModules);
     }
     clearMap(m_map);
+}
+//===============================================
+void GModule::setId(int _id) {
+    m_id = _id;
 }
 //===============================================
 void GModule::setName(const GString& _name) {

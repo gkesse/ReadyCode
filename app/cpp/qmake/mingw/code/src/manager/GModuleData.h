@@ -20,6 +20,7 @@ public:
     void setModuleData(int _index);
     void setModule(GModule* _module);
 
+    void setId(int _id);
     void setName(const GString& _name);
     void setValue(const GString& _value);
 

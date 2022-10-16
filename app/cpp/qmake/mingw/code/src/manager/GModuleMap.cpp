@@ -5,6 +5,7 @@
 #include "GLog.h"
 #include "GClient.h"
 #include "GTableWidgetUi.h"
+#include "GTreeWidgetUi.h"
 //===============================================
 GModuleMap::GModuleMap(const GString& _code)
 : GSearch(_code) {
@@ -17,6 +18,7 @@ GModuleMap::GModuleMap(const GString& _code)
 GModuleMap::~GModuleMap() {
     delete m_tableWidget;
     delete m_module;
+    clearMap(m_map);
 }
 //===============================================
 GObject* GModuleMap::clone() const {
@@ -106,6 +108,14 @@ void GModuleMap::deleteModuleMap() {
     GString lData = serialize();
     lData = GCALL_SERVER("module_map", "delete_module_map", lData);
     deserialize(lData);
+}
+//===============================================
+bool GModuleMap::showModuleMap(GTreeWidgetUi* _treeWidget) {
+    _treeWidget->setColumnCount(2);
+    for(int i = 0; i < (int)m_map.size(); i++) {
+
+    }
+    return true;
 }
 //===============================================
 void GModuleMap::onNextData() {

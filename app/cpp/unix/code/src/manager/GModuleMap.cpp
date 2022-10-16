@@ -15,6 +15,7 @@ GModuleMap::GModuleMap(const GString& _code)
 //===============================================
 GModuleMap::~GModuleMap() {
     delete m_module;
+    clearMap(m_map);
 }
 //===============================================
 GObject* GModuleMap::clone() const {

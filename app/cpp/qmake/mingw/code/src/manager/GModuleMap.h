@@ -5,6 +5,7 @@
 #include "GSearch.h"
 //===============================================
 class GTableWidgetUi;
+class GTreeWidgetUi;
 class GModule;
 //===============================================
 class GModuleMap : public GSearch {
@@ -30,6 +31,8 @@ public:
     void saveModuleMap();
     void searchModuleMap();
     void deleteModuleMap();
+
+    bool showModuleMap(GTreeWidgetUi* _treeWidget);
 
     void onNextData();
     bool showList();

@@ -16,6 +16,7 @@ GModuleData::GModuleData(const GString& _code)
 GModuleData::~GModuleData() {
     delete m_tableWidget;
     delete m_module;
+    clearMap(m_map);
 }
 //===============================================
 GObject* GModuleData::clone() const {
@@ -66,6 +67,10 @@ void GModuleData::setModuleData(int _index) {
 //===============================================
 void GModuleData::setModule(GModule* _module) {
     m_module->setModule(_module);
+}
+//===============================================
+void GModuleData::setId(int _id) {
+    m_id = _id;
 }
 //===============================================
 void GModuleData::setName(const GString& _name) {

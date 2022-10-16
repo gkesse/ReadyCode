@@ -45,9 +45,14 @@ public slots:
 
 private:
     Ui::GModuleUi *ui;
-    GModule* m_module;
-    GModuleData* m_moduleData;
-    GModuleMap* m_moduleMap;
+    std::shared_ptr<GModule> m_module;
+    std::shared_ptr<GModuleData> m_moduleData;
+    std::shared_ptr<GModuleMap> m_moduleMap;
+
+    int m_moduleId;
+    int m_moduleDataId;
+    int m_moduleMapId;
+
     bool m_isVisibleTabData;
     bool m_isVisibleTabMap;
     int m_tabDataIndex;
