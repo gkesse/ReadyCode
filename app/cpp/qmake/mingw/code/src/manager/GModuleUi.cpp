@@ -170,7 +170,7 @@ void GModuleUi::on_btnMoveUpMap_clicked() {
     GLOGT(eGFUN, "");
     readData();
     m_moduleMap->setModule(m_module.get());
-    m_moduleMap->addModuleMap();
+    m_moduleMap->moveUpModuleMap();
     if(GLOGI->hasErrors()) {
         m_moduleMap->setModuleMap(0);
     }
@@ -183,7 +183,7 @@ void GModuleUi::on_btnMoveDownMap_clicked() {
     GLOGT(eGFUN, "");
     readData();
     m_moduleMap->setModule(m_module.get());
-    m_moduleMap->addModuleMap();
+    m_moduleMap->moveDownModuleMap();
     if(GLOGI->hasErrors()) {
         m_moduleMap->setModuleMap(0);
     }

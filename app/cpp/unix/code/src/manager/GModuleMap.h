@@ -17,6 +17,8 @@ public:
     bool onModule();
     bool onLoadModuleMap();
     bool onAddModuleMap();
+    bool onMoveUpModuleMap();
+    bool onMoveDownModuleMap();
     bool onSaveModuleMap();
     bool onSearchModuleMap();
     bool onSearchNextModuleMap();
@@ -24,6 +26,10 @@ public:
     bool loadData();
     bool saveModuleMap();
     bool loadPosition();
+    bool loadPositionUp();
+    bool loadPositionDown();
+    bool updatePositionUp();
+    bool updatePositionDown();
     bool searchModuleMap();
     bool searchNextModuleMap();
     bool countData();
@@ -34,6 +40,8 @@ public:
 private:
     int m_id;
     int m_position;
+    int m_positionUp;
+    int m_positionDown;
     GModule* m_module;
     std::vector<GObject*> m_map;
 };

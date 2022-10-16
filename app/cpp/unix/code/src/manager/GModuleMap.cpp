@@ -55,6 +55,12 @@ bool GModuleMap::onModule() {
     else if(m_methodName == "add_module_map") {
         onAddModuleMap();
     }
+    else if(m_methodName == "move_up_module_map") {
+        onMoveUpModuleMap();
+    }
+    else if(m_methodName == "move_down_module_map") {
+        onMoveDownModuleMap();
+    }
     else if(m_methodName == "save_module_map") {
         onSaveModuleMap();
     }
@@ -83,6 +89,24 @@ bool GModuleMap::onAddModuleMap() {
     if(!insertData()) return false;
     if(m_id == 0) {GSAVE_KO(); return false;}
     GSAVE_OK();
+    return true;
+}
+//===============================================
+bool GModuleMap::onMoveUpModuleMap() {
+    if(m_module->getId() == 0) {GERROR_ADD(eGERR, "L'identifiant du module est obligatoire."); return false;}
+    if(m_position == 0) {GERROR_ADD(eGERR, "Vous devez sélectionner une donnée."); return false;}
+    if(!loadPositionUp()) {GERROR_ADD(eGERR, "Impossible de déplacer vers le haut."); return false;}
+    if(!updatePositionUp()) {GSAVE_KO(); return false;}
+    if(!loadData()) return false;
+    return true;
+}
+//===============================================
+bool GModuleMap::onMoveDownModuleMap() {
+    if(m_module->getId() == 0) {GERROR_ADD(eGERR, "L'identifiant du module est obligatoire."); return false;}
+    if(m_position == 0) {GERROR_ADD(eGERR, "Vous devez sélectionner une donnée."); return false;}
+    if(!loadPositionDown()) {GERROR_ADD(eGERR, "Impossible de déplacer vers le bas."); return false;}
+    if(!updatePositionDown()) {GSAVE_KO(); return false;}
+    if(!loadData()) return false;
     return true;
 }
 //===============================================
@@ -130,10 +154,12 @@ bool GModuleMap::loadData() {
     GMap lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _position "
             " from _module_map "
-            " where _module_id = %d "
+            " where 1 = 1 "
+            " and _module_id = %d "
             " order by _position asc "
             "", m_module->getId()
     ));
+    clearMap(m_map);
     for(int i = 0; i < (int)lDataMap.size(); i++) {
         GRow lDataRow = lDataMap.at(i);
         int j = 0;
@@ -178,6 +204,70 @@ bool GModuleMap::loadPosition() {
             " where _module_id = %d "
             "", m_module->getId()
     )).toInt();
+    return true;
+}
+//===============================================
+bool GModuleMap::loadPositionUp() {
+    GMySQL lMySQL;
+    m_positionUp = lMySQL.readData(GFORMAT(""
+            " select max(_position) "
+            " from _module_map "
+            " where 1 = 1 "
+            " and _position < %d "
+            " and _module_id = %d "
+            "", m_position
+            , m_module->getId()
+    )).toInt();
+    if(m_positionUp == 0) return false;
+    return true;
+}
+//===============================================
+bool GModuleMap::loadPositionDown() {
+    GMySQL lMySQL;
+    m_positionDown = lMySQL.readData(GFORMAT(""
+            " select min(_position) "
+            " from _module_map "
+            " where 1 = 1 "
+            " and _position > %d "
+            " and _module_id = %d "
+            "", m_position
+            , m_module->getId()
+    )).toInt();
+    if(m_positionDown == 0) return false;
+    return true;
+}
+//===============================================
+bool GModuleMap::updatePositionUp() {
+    GMySQL lMySQL;
+    if(!lMySQL.execQuery(GFORMAT(""
+            " update _module_map set "
+            " _positon = %d + %d - _position "
+            " where 1 = 1 "
+            " and _module_id = %d "
+            " and _position in ( %d, %d )"
+            "", m_position
+            , m_positionUp
+            , m_module->getId()
+            , m_position
+            , m_positionUp
+    ))) return false;
+    return true;
+}
+//===============================================
+bool GModuleMap::updatePositionDown() {
+    GMySQL lMySQL;
+    if(!lMySQL.execQuery(GFORMAT(""
+            " update _module_map set "
+            " _positon = %d + %d - _position "
+            " where 1 = 1 "
+            " and _module_id = %d "
+            " and _position in ( %d, %d )"
+            "", m_position
+            , m_positionDown
+            , m_module->getId()
+            , m_position
+            , m_positionDown
+    ))) return false;
     return true;
 }
 //===============================================
