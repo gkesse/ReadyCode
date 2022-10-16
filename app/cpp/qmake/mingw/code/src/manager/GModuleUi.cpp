@@ -21,6 +21,7 @@ GModuleUi::GModuleUi(QWidget* _parent)
     ui->tabWidget->setTabVisible(m_tabDataIndex, m_isVisibleTabData);
     ui->tabWidget->setTabVisible(m_tabMapIndex, m_isVisibleTabMap);
     setAttribute(Qt::WA_DeleteOnClose);
+    loadModuleMap();
 }
 //===============================================
 GModuleUi::~GModuleUi() {
@@ -33,7 +34,7 @@ void GModuleUi::readData() {
     m_module->setName(ui->edtName->text());
     m_moduleData->setName(ui->edtNameData->text());
     m_moduleData->setValue(ui->edtValueData->text());
-    m_moduleMap->setPosition(GString(ui->edtPositionMap->text()).toInt());
+    //m_moduleMap->setPosition(GString(0).toInt());
 }
 //===============================================
 void GModuleUi::writeData() {
@@ -42,9 +43,16 @@ void GModuleUi::writeData() {
     ui->edtName->setText(m_module->getName().c_str());
     ui->edtNameData->setText(m_moduleData->getName().c_str());
     ui->edtValueData->setText(m_moduleData->getValue().c_str());
-    ui->edtPositionMap->setText(GString(m_moduleMap->getPosition()).toQString());
+    //ui->edtPositionMap->setText(GString(0).c_str());
     ui->tabWidget->setTabVisible(m_tabDataIndex, m_isVisibleTabData);
     ui->tabWidget->setTabVisible(m_tabMapIndex, m_isVisibleTabMap);
+}
+//===============================================
+void GModuleUi::loadModuleMap() {
+    GLOGT(eGFUN, "");
+    m_moduleMap->loadModuleMap();
+    GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGLOG);
 }
 //===============================================
 // module

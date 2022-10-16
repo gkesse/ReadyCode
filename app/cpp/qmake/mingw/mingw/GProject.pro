@@ -33,6 +33,9 @@ HEADERS +=\
 FORMS +=\
     $$files(..\code\src\manager\*.ui) \
 
+RESOURCES +=\
+    $$files(..\code\src\data\resources.qrc) \
+
 LIBS +=\
     -L$$GRLIB\lib \
     -L$$GRLIB\bin \

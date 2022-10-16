@@ -78,6 +78,12 @@ int GModuleMap::getPosition() const {
     return m_position;
 }
 //===============================================
+void GModuleMap::loadModuleMap() {
+    GString lData = serialize();
+    lData = GCALL_SERVER("module_map", "load_module_map", lData);
+    deserialize(lData);
+}
+//===============================================
 void GModuleMap::addModuleMap() {
     GString lData = serialize();
     lData = GCALL_SERVER("module_map", "add_module_map", lData);

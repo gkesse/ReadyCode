@@ -94,41 +94,6 @@ QMessageBox QDialogButtonBox#qt_msgbox_buttonbox QPushButton:pressed {
 	background-color: transparent;
 }
 /* ============================================== */
-/* QTableWidget */
-/* ============================================== */
-QTableWidget {
-    gridline-color: transparent;
-    border: none;
-    padding: 0px;
-    background-color: transparent;
-}
-QTableWidget::item {
-	background-color: transparent;
-	border: 1px solid #aaaaff;
-	padding: 0px 10px;
-    border-collapse: collapse;
-}
-QTableWidget::item:selected {
-	background-color: rgba(255, 255, 255, 0.2);
-	color: cyan;
-}
-QTableWidget QHeaderView::section {
-    background-color: #5555AA;
-	border: 1px solid #aaaaff;
-}
-QTableWidget QHeaderView::section:vertical {
-	padding: 0px 10px;
-}
-QTableWidget QHeaderView::section:horizontal {
-	padding: 0px 10px;
-}
-QTableWidget QTableView {
-	border: 1px solid #aaaaff;
-}
-QTableWidget QTableCornerButton::section {
-    background-color: transparent;
-}
-/* ============================================== */
 /* QTabWidget */
 /* ============================================== */
 QTabWidget::pane {
@@ -156,5 +121,79 @@ QTabWidget QTabBar::tab:selected {
 }
 QTabWidget QTabBar::tab:!selected {
     margin-top: 2px;
+}
+/* ============================================== */
+/* QTableView */
+/* ============================================== */
+QTableView {
+	border: 1px solid #aaaaff;
+}
+QTableView {
+    gridline-color: transparent;
+    border: none;
+    padding: 0px;
+    background-color: transparent;
+}
+QTableView::item {
+	background-color: transparent;
+	border: 1px solid #aaaaff;
+	padding: 0px 10px;
+    border-collapse: collapse;
+}
+QTableView::item:selected {
+	background-color: rgba(255, 255, 255, 0.2);
+	color: cyan;
+}
+/* ============================================== */
+/* QTreeWidget */
+/* ============================================== */
+QTreeView {
+	border: 1px solid #aaaaff;
+}
+QTreeView {
+    gridline-color: transparent;
+    border: none;
+    padding: 0px;
+    background-color: transparent;
+}
+QTreeView::item {
+	background-color: transparent;
+	border: 1px solid #aaaaff;
+	padding: 0px 10px;
+    border-collapse: collapse;
+}
+QTreeView::item:selected {
+	background-color: rgba(255, 255, 255, 0.2);
+	color: cyan;
+}
+QTreeView::branch:has-children:!has-siblings:closed,
+QTreeView::branch:closed:has-children:has-siblings {
+    border-image: none;
+    image: url(:/img/chevron_right.png);
+}
+
+QTreeView::branch:open:has-children:!has-siblings,
+QTreeView::branch:open:has-children:has-siblings  {
+    border-image: none;
+    image: url(:/img/chevron_down.png);
+}
+/* ============================================== */
+/* QHeaderView */
+/* ============================================== */
+QHeaderView::section {
+    background-color: #5555AA;
+	border: 1px solid #aaaaff;
+}
+QHeaderView::section:vertical {
+	padding: 0px 10px;
+}
+QHeaderView::section:horizontal {
+	padding: 0px 10px;
+}
+/* ============================================== */
+/* QTableCornerButton */
+/* ============================================== */
+QTableCornerButton::section {
+    background-color: transparent;
 }
 /* ============================================== */

@@ -15,11 +15,12 @@ public:
     bool deserialize(const GString& _data, const GString& _code = "module_map");
 
     bool onModule();
+    bool onLoadModuleMap();
     bool onAddModuleMap();
     bool onSaveModuleMap();
     bool onSearchModuleMap();
     bool onSearchNextModuleMap();
-    bool addModuleMap();
+
     bool saveModuleMap();
     bool loadPosition();
     bool searchModuleMap();
@@ -32,7 +33,6 @@ public:
 private:
     int m_id;
     int m_position;
-    int m_count;
     GModule* m_module;
     std::vector<GObject*> m_map;
 };

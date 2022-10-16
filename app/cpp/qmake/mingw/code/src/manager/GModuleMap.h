@@ -25,6 +25,7 @@ public:
     int getId() const;
     int getPosition() const;
 
+    void loadModuleMap();
     void addModuleMap();
     void saveModuleMap();
     void searchModuleMap();

@@ -10,7 +10,6 @@ GModuleMap::GModuleMap(const GString& _code)
 : GSearch(_code) {
     m_id = 0;
     m_position = 0;
-    m_count = 0;
     m_module = new GModule;
 }
 //===============================================
@@ -49,6 +48,9 @@ bool GModuleMap::onModule() {
     if(m_methodName == "") {
         GMETHOD_REQUIRED();
     }
+    else if(m_methodName == "load_module_map") {
+        onLoadModuleMap();
+    }
     else if(m_methodName == "add_module_map") {
         onAddModuleMap();
     }
@@ -68,10 +70,15 @@ bool GModuleMap::onModule() {
     return true;
 }
 //===============================================
+bool GModuleMap::onLoadModuleMap() {
+    if(m_module->getId() == 0) {GERROR_ADD(eGERR, "L'identifiant du module est obligatoire."); return false;}
+    return true;
+}
+//===============================================
 bool GModuleMap::onAddModuleMap() {
     if(m_module->getId() == 0) {GERROR_ADD(eGERR, "L'identifiant du module est obligatoire."); return false;}
     if(!loadPosition()) return false;
-    if(!addModuleMap()) return false;
+    if(!insertData()) return false;
     if(m_id == 0) {GSAVE_KO(); return false;}
     GSAVE_OK();
     return true;
@@ -113,11 +120,6 @@ bool GModuleMap::onSearchNextModuleMap() {
         m_where += GFORMAT(" and _position = %d ", m_position);
     }
     if(!searchNextModuleMap()) return false;
-    return true;
-}
-//===============================================
-bool GModuleMap::addModuleMap() {
-    if(!insertData()) return false;
     return true;
 }
 //===============================================

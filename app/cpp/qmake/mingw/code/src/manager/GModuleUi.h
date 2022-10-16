@@ -21,6 +21,7 @@ public:
 
     void readData();
     void writeData();
+    void loadModuleMap();
 
 public slots:
     // module
