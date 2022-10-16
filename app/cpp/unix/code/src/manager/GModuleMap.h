@@ -19,12 +19,8 @@ public:
     bool onAddModuleMap();
     bool onMoveUpModuleMap();
     bool onMoveDownModuleMap();
-    bool onSaveModuleMap();
-    bool onSearchModuleMap();
-    bool onSearchNextModuleMap();
 
     bool loadData();
-    bool saveModuleMap();
     bool loadPosition();
     bool loadPositionUp();
     bool loadPositionDown();
