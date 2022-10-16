@@ -44,7 +44,6 @@ void GModuleUi::readData() {
     m_module->setName(ui->edtName->text());
     m_moduleData->setName(ui->edtNameData->text());
     m_moduleData->setValue(ui->edtValueData->text());
-    m_moduleMap->setPosition(ui->treeMap->getKey().toInt());
 }
 //===============================================
 void GModuleUi::writeData() {
@@ -60,7 +59,6 @@ void GModuleUi::writeData() {
     ui->edtValueData->setText(m_moduleData->getValue().c_str());
     ui->tabWidget->setTabVisible(m_tabDataIndex, m_isVisibleTabData);
     ui->tabWidget->setTabVisible(m_tabMapIndex, m_isVisibleTabMap);
-    ui->treeMap->setKey(m_moduleMap->getPosition());
 }
 //===============================================
 void GModuleUi::loadModuleMap() {
@@ -175,9 +173,14 @@ void GModuleUi::on_btnAddMap_clicked() {
 void GModuleUi::on_btnMoveUpMap_clicked() {
     GLOGT(eGFUN, "");
     readData();
+    GModuleMap lModuleMap;
+    lModuleMap.deserialize(ui->treeMap->getKey());
     m_moduleMap->setModule(m_module.get());
+    m_moduleMap->setModuleMap(lModuleMap);
     m_moduleMap->moveUpModuleMap();
-    m_moduleMap->showModuleMap(ui->treeMap);
+    if(!GLOGI->hasErrors()) {
+        m_moduleMap->showModuleMap(ui->treeMap);
+    }
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
@@ -186,10 +189,13 @@ void GModuleUi::on_btnMoveUpMap_clicked() {
 void GModuleUi::on_btnMoveDownMap_clicked() {
     GLOGT(eGFUN, "");
     readData();
+    GModuleMap lModuleMap;
+    lModuleMap.deserialize(ui->treeMap->getKey());
     m_moduleMap->setModule(m_module.get());
+    m_moduleMap->setModuleMap(lModuleMap);
     m_moduleMap->moveDownModuleMap();
-    if(GLOGI->hasErrors()) {
-        m_moduleMap->setModuleMap(0);
+    if(!GLOGI->hasErrors()) {
+        m_moduleMap->showModuleMap(ui->treeMap);
     }
     writeData();
     GERROR_SHOWG(eGERR);

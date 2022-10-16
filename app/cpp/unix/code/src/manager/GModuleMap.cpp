@@ -200,7 +200,7 @@ bool GModuleMap::updatePositionDown() {
     GMySQL lMySQL;
     if(!lMySQL.execQuery(GFORMAT(""
             " update _module_map set "
-            " _positon = %d + %d - _position "
+            " _position = %d + %d - _position "
             " where 1 = 1 "
             " and _module_id = %d "
             " and _position in ( %d, %d )"

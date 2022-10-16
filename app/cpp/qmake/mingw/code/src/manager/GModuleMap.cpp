@@ -117,10 +117,10 @@ bool GModuleMap::showModuleMap(GTreeWidgetUi* _treeWidget) {
 
     for(int i = 0; i < (int)m_map.size(); i++) {
         GModuleMap* lModuleMap = (GModuleMap*)m_map.at(i);
-        int lPosition = lModuleMap->getPosition();
+        GString lKey = lModuleMap->serialize();
         _treeWidget->addRoot();
-        _treeWidget->setData(0, lPosition, m_module->getName());
-        _treeWidget->setData(1, lPosition, GFORMAT("node[%d]", lModuleMap->getId()));
+        _treeWidget->setData(0, lKey, m_module->getName());
+        _treeWidget->setData(1, lKey, GFORMAT("node[%d]", lModuleMap->getId()));
     }
     return true;
 }
