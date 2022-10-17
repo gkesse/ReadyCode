@@ -50,6 +50,10 @@ void GTreeWidgetUi::setData(int _col, const GString& _key, const GString& _data)
     m_node->setText(_col, _data.c_str());
 }
 //===============================================
+void GTreeWidgetUi::selectItem() {
+    m_node->setSelected(true);
+}
+//===============================================
 void GTreeWidgetUi::setKey(const GString& _key) {
     m_key = _key;
 }

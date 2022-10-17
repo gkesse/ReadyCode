@@ -78,10 +78,14 @@ bool GModuleMap::onLoadModuleMap() {
 //===============================================
 bool GModuleMap::onAddModuleMap() {
     if(m_module->getId() == 0) {GERROR_ADD(eGERR, "L'identifiant du module est obligatoire."); return false;}
-    if(!loadPosition()) return false;
+    if(m_position == 0) {
+        if(!loadPositionAppend()) return false;
+    }
+    else {
+        if(!updatePositionNext()) return false;
+    }
     if(!insertData()) return false;
-    if(m_id == 0) {GSAVE_KO(); return false;}
-    GSAVE_OK();
+    if(!loadData()) return false;
     return true;
 }
 //===============================================
@@ -125,27 +129,16 @@ bool GModuleMap::loadData() {
     return true;
 }
 //===============================================
-bool GModuleMap::loadPosition() {
+bool GModuleMap::loadPositionAppend() {
     GMySQL lMySQL;
-
-    int lCount = lMySQL.readData(GFORMAT(""
-            " select count(*) "
-            " from _module_map "
-            " where 1 = 1 "
-            " and _module_id = %d "
-            "", m_module->getId()
-    )).toInt();
-
-    m_position = 1;
-    if(!lCount) return true;
-
     m_position = lMySQL.readData(GFORMAT(""
-            " select (max(_position) + 1) "
+            " select max(_position) "
             " from _module_map "
             " where 1 = 1 "
             " and _module_id = %d "
             "", m_module->getId()
     )).toInt();
+    m_position += 1;
     return true;
 }
 //===============================================
@@ -212,6 +205,20 @@ bool GModuleMap::updatePositionDown() {
             , m_positionDown
     ))) return false;
     m_position = m_positionDown;
+    return true;
+}
+//===============================================
+bool GModuleMap::updatePositionNext() {
+    GMySQL lMySQL;
+    if(!lMySQL.execQuery(GFORMAT(""
+            " update _module_map set "
+            " _position = _position + 1 "
+            " where 1 = 1 "
+            " and _module_id = %d "
+            " and _position >= %d "
+            "", m_module->getId()
+            , m_position
+    ))) return false;
     return true;
 }
 //===============================================

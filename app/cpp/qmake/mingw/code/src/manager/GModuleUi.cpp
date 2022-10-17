@@ -160,10 +160,14 @@ void GModuleUi::on_btnNewData_clicked() {
 void GModuleUi::on_btnAddMap_clicked() {
     GLOGT(eGFUN, "");
     readData();
+    GModuleMap lModuleMap;
+    lModuleMap.deserialize(ui->treeMap->getKey());
     m_moduleMap->setModule(m_module.get());
+    m_moduleMap->setModuleMap(lModuleMap);
     m_moduleMap->addModuleMap();
-    if(GLOGI->hasErrors()) {
-        m_moduleMap->setModuleMap(0);
+    lModuleMap.setModuleMap(m_moduleMap.get());
+    if(!GLOGI->hasErrors()) {
+        m_moduleMap->showModuleMap(ui->treeMap);
     }
     writeData();
     GERROR_SHOWG(eGERR);

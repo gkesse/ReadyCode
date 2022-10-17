@@ -21,11 +21,12 @@ public:
     bool onMoveDownModuleMap();
 
     bool loadData();
-    bool loadPosition();
+    bool loadPositionAppend();
     bool loadPositionUp();
     bool loadPositionDown();
     bool updatePositionUp();
     bool updatePositionDown();
+    bool updatePositionNext();
     bool insertData();
 
 private:

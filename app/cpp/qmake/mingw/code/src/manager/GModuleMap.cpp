@@ -121,6 +121,9 @@ bool GModuleMap::showModuleMap(GTreeWidgetUi* _treeWidget) {
         _treeWidget->addRoot();
         _treeWidget->setData(0, lKey, m_module->getName());
         _treeWidget->setData(1, lKey, GFORMAT("node[%d]", lModuleMap->getId()));
+        if(lKey == _treeWidget->getKey()) {
+            _treeWidget->selectItem();
+        }
     }
     return true;
 }
