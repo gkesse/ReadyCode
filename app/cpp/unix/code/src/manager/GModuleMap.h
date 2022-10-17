@@ -26,7 +26,8 @@ public:
     bool loadPositionDown();
     bool updatePositionUp();
     bool updatePositionDown();
-    bool updatePositionNext();
+    bool updatePositionBefore();
+    bool updatePositionAfter();
     bool insertData();
 
 private:

@@ -93,6 +93,7 @@ void GModuleUi::on_btnSave_clicked() {
     if(GLOGI->hasErrors()) {
         m_module->setModule(0);
     }
+    loadModuleMap();
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);

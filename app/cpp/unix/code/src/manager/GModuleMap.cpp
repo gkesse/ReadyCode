@@ -82,7 +82,7 @@ bool GModuleMap::onAddModuleMap() {
         if(!loadPositionAppend()) return false;
     }
     else {
-        if(!updatePositionNext()) return false;
+        if(!updatePositionAfter()) return false;
     }
     if(!insertData()) return false;
     if(!loadData()) return false;
@@ -208,8 +208,23 @@ bool GModuleMap::updatePositionDown() {
     return true;
 }
 //===============================================
-bool GModuleMap::updatePositionNext() {
+bool GModuleMap::updatePositionBefore() {
     GMySQL lMySQL;
+    if(!lMySQL.execQuery(GFORMAT(""
+            " update _module_map set "
+            " _position = _position + 1 "
+            " where 1 = 1 "
+            " and _module_id = %d "
+            " and _position >= %d "
+            "", m_module->getId()
+            , m_position
+    ))) return false;
+    return true;
+}
+//===============================================
+bool GModuleMap::updatePositionAfter() {
+    GMySQL lMySQL;
+    m_position += 1;
     if(!lMySQL.execQuery(GFORMAT(""
             " update _module_map set "
             " _position = _position + 1 "
