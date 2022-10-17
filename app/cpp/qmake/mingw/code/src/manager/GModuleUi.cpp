@@ -167,6 +167,7 @@ void GModuleUi::on_btnAddMap_clicked() {
     m_moduleMap->setModuleMap(lModuleMap);
     m_moduleMap->addModuleMap();
     lModuleMap.setModuleMap(m_moduleMap.get());
+    ui->treeMap->setKey(lModuleMap.serialize());
     if(!GLOGI->hasErrors()) {
         m_moduleMap->showModuleMap(ui->treeMap);
     }
