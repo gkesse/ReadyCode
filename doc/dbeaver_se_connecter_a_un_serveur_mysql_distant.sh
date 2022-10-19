@@ -1,8 +1,5 @@
-#================================================
-# demarrer une connexion à distance
-#================================================
-
-# ssh
+# configurer le proxy ssh
+onglet -> ssh
 hote ip -> 192.168.1.45
 port -> 22
 nom utilisateur -> gkesse
@@ -11,7 +8,8 @@ mot de passe -> GKESSE_PASSWORD
 tester tunnel configuration
 ok
 
-# general
+# configurer la connexion au serveur
+onglet -> general
 server host -> localhost
 port -> 3306
 nom utilisateur -> admin

@@ -48,6 +48,9 @@ bool GModule::onModule() {
         GMETHOD_REQUIRED();
     }
     else if(m_methodName == "save_module") {
+        onLoadModule();
+    }
+    else if(m_methodName == "save_module") {
         onSaveModule();
     }
     else if(m_methodName == "search_module") {
@@ -60,6 +63,20 @@ bool GModule::onModule() {
         GMETHOD_UNKNOWN();
     }
     m_server->addResponse(serialize());
+    return true;
+}
+//===============================================
+bool GModule::onLoadModule() {
+    if(m_id != 0) {
+        m_where += GFORMAT(" and _id = %d ", m_id);
+    }
+    else {
+        if(m_name != "") {
+            m_where += GFORMAT(" and _name like '%s%%' ", m_name.c_str());
+        }
+    }
+    if(!countSearch()) return false;
+    if(!searchModule()) return false;
     return true;
 }
 //===============================================
@@ -121,6 +138,7 @@ bool GModule::searchModule() {
             "", m_where.c_str()
             , m_dataSize
     ));
+    clearMap(m_map);
     for(int i = 0; i < (int)lDataMap.size(); i++) {
         GRow lDataRow = lDataMap.at(i);
         int j = 0;

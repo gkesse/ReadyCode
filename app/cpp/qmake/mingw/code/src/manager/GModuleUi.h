@@ -19,20 +19,23 @@ public:
     GModuleUi(QWidget* parent = 0);
     ~GModuleUi();
 
+    void resetData();
     void readData();
     void writeData();
 
     void onTabMap();
-
+    void loadModule();
     void loadModuleMap();
 
 public slots:
-    // qtabwidget
+    // tab
     void on_tabWidget_tabBarClicked(int _index);
     // module
     void on_btnSave_clicked();
     void on_btnSearch_clicked();
     void on_btnNew_clicked();
+    void on_tableModule_itemClicked(QTableWidgetItem* _item);
+    void on_tableModule_itemDoubleClicked(QTableWidgetItem* _item);
     // module_data
     void on_btnSaveData_clicked();
     void on_btnSearchData_clicked();

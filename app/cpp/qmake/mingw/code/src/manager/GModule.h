@@ -5,6 +5,8 @@
 #include "GSearch.h"
 //===============================================
 class GTableWidgetUi;
+class GTableWidgetFr;
+class GTableWidget;
 //===============================================
 class GModule : public GSearch {
 public:
@@ -24,12 +26,17 @@ public:
     int getId() const;
     GString getName() const;
 
+    void loadModule();
+    void loadModule2();
     void saveModule();
     void searchModule();
     void deleteModule();
-    void onNextData();
+
+    bool showModule(GTableWidget* _tableWidget);
+    bool showModule2(GTableWidgetFr* _tableWidget);
     bool showList();
     bool showNextList();
+    void onNextData();
 
 protected:
     int m_id;

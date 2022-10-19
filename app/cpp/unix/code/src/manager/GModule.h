@@ -15,6 +15,7 @@ public:
     int getId() const;
 
     bool onModule();
+    bool onLoadModule();
     bool onSaveModule();
     bool onSearchModule();
     bool onSearchNextModule();

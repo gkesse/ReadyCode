@@ -4,6 +4,8 @@
 #include "GLog.h"
 #include "GClient.h"
 #include "GTableWidgetUi.h"
+#include "GTableWidget.h"
+#include "GTableWidgetFr.h"
 //===============================================
 GModule::GModule(const GString& _code)
 : GSearch(_code) {
@@ -73,6 +75,22 @@ GString GModule::getName() const {
     return m_name;
 }
 //===============================================
+void GModule::loadModule() {
+    GString lData = serialize();
+    lData = GCALL_SERVER("module", "load_module", lData);
+    deserialize(lData);
+}
+//===============================================
+void GModule::loadModule2() {
+    clearMap(m_map);
+    for(int i = 0; i < 5; i++) {
+        GModule* lObj = new GModule;
+        lObj->m_id = i + 1;
+        lObj->m_name = GFORMAT("M[%d]", lObj->m_id);
+        m_map.push_back(lObj);
+    }
+}
+//===============================================
 void GModule::saveModule() {
     GString lData = serialize();
     lData = GCALL_SERVER("module", "save_module", lData);
@@ -91,12 +109,23 @@ void GModule::deleteModule() {
     deserialize(lData);
 }
 //===============================================
-void GModule::onNextData() {
+bool GModule::showModule(GTableWidget* _tableWidget) {
+    _tableWidget->setSize(m_map.size(), 2);
+    _tableWidget->setHeader(0, "id");
+    _tableWidget->setHeader(1, "nom");
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GModule* lObj = (GModule*)m_map.at(i);
+        GString lKey = lObj->serialize();
+        _tableWidget->setData(i, 0, lKey, lObj->m_id);
+        _tableWidget->setData(i, 1, lKey, lObj->m_name);
+    }
     clearMap(m_map);
-    GString lData = serialize();
-    lData = GCALL_SERVER("module", "search_next_module", lData);
-    deserialize(lData);
-    showNextList();
+    return true;
+}
+//===============================================
+bool GModule::showModule2(GTableWidgetFr* _tableWidget) {
+    showModule(_tableWidget->getTableWidget());
+    return true;
 }
 //===============================================
 bool GModule::showList() {
@@ -131,6 +160,14 @@ bool GModule::showList() {
         setModule(0);
     }
     return true;
+}
+//===============================================
+void GModule::onNextData() {
+    clearMap(m_map);
+    GString lData = serialize();
+    lData = GCALL_SERVER("module", "search_next_module", lData);
+    deserialize(lData);
+    showNextList();
 }
 //===============================================
 bool GModule::showNextList() {

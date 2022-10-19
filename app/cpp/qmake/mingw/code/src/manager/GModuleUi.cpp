@@ -26,17 +26,22 @@ GModuleUi::GModuleUi(QWidget* _parent)
     ui->treeMap->setColumnCount(0);
 
     setAttribute(Qt::WA_DeleteOnClose);
+
+    loadModule();
 }
 //===============================================
 GModuleUi::~GModuleUi() {
 
 }
 //===============================================
-void GModuleUi::readData() {
+void GModuleUi::resetData() {
     m_module.reset(new GModule);
     m_moduleData.reset(new GModuleData);
     m_moduleMap.reset(new GModuleMap);
-
+}
+//===============================================
+void GModuleUi::readData() {
+    resetData();
     m_module->setId(m_moduleId);
     m_moduleData->setId(m_moduleDataId);
     m_moduleMap->setId(m_moduleMapId);
@@ -86,6 +91,16 @@ void GModuleUi::onTabMap() {
 //===============================================
 // module
 //===============================================
+void GModuleUi::loadModule() {
+    GLOGT(eGFUN, "");
+    readData();
+    m_module->loadModule2();
+    m_module->showModule2(ui->tableModule);
+    writeData();
+    GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGLOG);
+}
+//===============================================
 void GModuleUi::on_btnSave_clicked() {
     GLOGT(eGFUN, "");
     readData();
@@ -113,12 +128,22 @@ void GModuleUi::on_btnSearch_clicked() {
 //===============================================
 void GModuleUi::on_btnNew_clicked() {
     GLOGT(eGFUN, "");
-    m_module.reset(new GModule);
-    m_moduleData.reset(new GModuleData);
-    m_moduleMap.reset(new GModuleMap);
+    resetData();
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
+}
+//===============================================
+void GModuleUi::on_tableModule_itemClicked(QTableWidgetItem* _item) {
+    GLOGT(eGFUN, "");
+    resetData();
+    m_module->deserialize(ui->tableModule->getKey());
+    writeData();
+}
+//===============================================
+void GModuleUi::on_tableModule_itemDoubleClicked(QTableWidgetItem* _item) {
+    GLOGT(eGFUN, "");
+
 }
 //===============================================
 // module_data
