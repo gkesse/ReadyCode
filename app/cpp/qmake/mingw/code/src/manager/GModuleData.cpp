@@ -59,14 +59,18 @@ void GModuleData::setModuleData(GModuleData* _moduleData) {
 //===============================================
 void GModuleData::setModuleData(int _index) {
     if(_index < (int)m_map.size()) {
-        GModuleData* lModules = (GModuleData*)m_map.at(_index);
-        setModuleData(lModules);
+        GModuleData* lObj = (GModuleData*)m_map.at(_index);
+        setModuleData(lObj);
     }
     clearMap(m_map);
 }
 //===============================================
-void GModuleData::setModule(GModule* _module) {
+void GModuleData::setModule(const GModule* _module) {
     m_module->setModule(_module);
+}
+//===============================================
+void GModuleData::setModule(const std::shared_ptr<GModule>& _module) {
+    m_module->setModule(_module.get());
 }
 //===============================================
 void GModuleData::setId(int _id) {

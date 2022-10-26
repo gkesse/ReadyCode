@@ -147,6 +147,9 @@ QTableView::item:selected {
 /* ============================================== */
 /* QTreeWidget */
 /* ============================================== */
+QTreeWidget {
+	border: 1px solid #aaaaff;
+}
 QTreeView {
 	border: 1px solid #aaaaff;
 }

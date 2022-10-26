@@ -4,19 +4,19 @@
 #include "GCode.h"
 #include "GLog.h"
 #include "GClient.h"
-#include "GTableWidgetUi.h"
 #include "GTreeWidgetUi.h"
+#include "GTreeWidget.h"
 //===============================================
 GModuleMap::GModuleMap(const GString& _code)
 : GSearch(_code) {
     m_id = 0;
     m_position = 0;
-    m_tableWidget = new GTableWidgetUi;
+    m_treeWidgetUi = new GTreeWidgetUi;
     m_module = new GModule;
 }
 //===============================================
 GModuleMap::~GModuleMap() {
-    delete m_tableWidget;
+    delete m_treeWidgetUi;
     delete m_module;
     clearMap(m_map);
 }
@@ -58,8 +58,8 @@ void GModuleMap::setModuleMap(GModuleMap* _moduleMap) {
 //===============================================
 void GModuleMap::setModuleMap(int _index) {
     if(_index < (int)m_map.size()) {
-        GModuleMap* lModules = (GModuleMap*)m_map.at(_index);
-        setModuleMap(lModules);
+        GModuleMap* lObj = (GModuleMap*)m_map.at(_index);
+        setModuleMap(lObj);
     }
     clearMap(m_map);
 }
@@ -118,22 +118,45 @@ void GModuleMap::moveDownModuleMap() {
     deserialize(lData);
 }
 //===============================================
-bool GModuleMap::showModuleMap(GTreeWidgetUi* _treeWidget) {
-    _treeWidget->clear();
-    _treeWidget->setColumnCount(2);
-    _treeWidget->addHeader();
-    _treeWidget->setData(0, "", "module");
-    _treeWidget->setData(1, "", "node[id]");
+bool GModuleMap::showList() {
+    if(m_map.size() == 0) {
+        setModuleMap(GModuleMap());
+        if(!GLOGI->hasErrors()) {
+            GSEARCH_AVOID();
+        }
+        return false;
+    }
+    else if(m_map.size() == 1) {
+        setModuleMap(0);
+        return true;
+    }
+
+    GTreeWidget* lTreeWidget = m_treeWidgetUi->getTreeWidget();
+    m_treeWidgetUi->setWindowTitle("Liste des données par module");
+
+    lTreeWidget->clear();
+    lTreeWidget->setColumnCount(2);
+    lTreeWidget->addHeader();
+    lTreeWidget->setData(0, "", "module");
+    lTreeWidget->setData(1, "", "node[id]");
 
     for(int i = 0; i < (int)m_map.size(); i++) {
-        GModuleMap* lModuleMap = (GModuleMap*)m_map.at(i);
-        GString lKey = lModuleMap->serialize();
-        _treeWidget->addRoot();
-        _treeWidget->setData(0, lKey, m_module->getName());
-        _treeWidget->setData(1, lKey, GFORMAT("node[%d]", lModuleMap->getId()));
-        if(lKey == _treeWidget->getKey()) {
-            _treeWidget->selectItem();
+        GModuleMap* lObj = (GModuleMap*)m_map.at(i);
+        GString lKey = lObj->serialize();
+        lTreeWidget->addRoot();
+        lTreeWidget->setData(0, lKey, m_module->getName());
+        lTreeWidget->setData(1, lKey, GFORMAT("node[%d]", lObj->getId()));
+        if(lKey == lTreeWidget->getKey()) {
+            lTreeWidget->selectItem();
         }
+    }
+
+    m_treeWidgetUi->setSearch(this);
+    int lOk = m_treeWidgetUi->exec();
+    if(lOk == QDialog::Accepted) {
+        GModuleMap lObj;
+        lObj.deserialize(lTreeWidget->getKey());
+        setModuleMap(lObj);
     }
     return true;
 }

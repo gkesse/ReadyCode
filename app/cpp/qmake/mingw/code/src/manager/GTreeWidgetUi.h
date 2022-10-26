@@ -4,31 +4,33 @@
 //===============================================
 #include "GInclude.h"
 //===============================================
-class GTreeWidgetUi : public QTreeWidget {
+class GSearch;
+class GTreeWidget;
+//===============================================
+namespace Ui {
+    class GTreeWidgetUi;
+}
+//===============================================
+class GTreeWidgetUi : public QDialog {
     Q_OBJECT
 
 public:
     GTreeWidgetUi(QWidget* parent = 0);
     ~GTreeWidgetUi();
-
-    void addHeader();
-    void addRoot();
-    void initRoot();
-    void addChild();
-    void setData(int _col, const GString& _key, const GString& _data);
-    void selectItem();
-    void setKey(const GString& _key);
+    void setSearch(GSearch* _search);
+    GTreeWidget* getTreeWidget();
     GString getKey() const;
 
 public slots:
-    void onItemClicked(QTreeWidgetItem* _item, int _column);
+    void on_btnSelect_clicked();
+    void on_btnNext_clicked();
+    void on_treeWidget_itemClicked(QTreeWidgetItem* _item, int _column);
+    void on_treeWidget_itemDoubleClicked(QTreeWidgetItem* _item, int _column);
 
 private:
+    Ui::GTreeWidgetUi *ui;
+    GSearch* m_search;
     GString m_key;
-    QTreeWidgetItem* m_header;
-    QTreeWidgetItem* m_root;
-    QTreeWidgetItem* m_child;
-    QTreeWidgetItem* m_node;
 };
 //==============================================
 #endif

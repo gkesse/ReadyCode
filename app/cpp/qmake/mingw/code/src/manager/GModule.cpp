@@ -53,8 +53,8 @@ void GModule::setModule(const GModule* _module) {
 //===============================================
 void GModule::setModule(int _index) {
     if(_index < (int)m_map.size()) {
-        GModule* lModules = (GModule*)m_map.at(_index);
-        setModule(lModules);
+        GModule* lObj = (GModule*)m_map.at(_index);
+        setModule(lObj);
     }
     clearMap(m_map);
 }

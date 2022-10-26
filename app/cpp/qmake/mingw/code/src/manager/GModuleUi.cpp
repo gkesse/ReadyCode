@@ -23,7 +23,6 @@ GModuleUi::GModuleUi(QWidget* _parent)
     ui->tabWidget->setCurrentIndex(0);
     ui->tabWidget->setTabVisible(m_tabDataIndex, m_isVisibleTabData);
     ui->tabWidget->setTabVisible(m_tabMapIndex, m_isVisibleTabMap);
-    ui->treeMap->setColumnCount(0);
 
     setAttribute(Qt::WA_DeleteOnClose);
 }
@@ -47,6 +46,7 @@ void GModuleUi::readData() {
     m_module->setName(ui->edtName->text());
     m_moduleData->setName(ui->edtNameData->text());
     m_moduleData->setValue(ui->edtValueData->text());
+    m_moduleMap->setPosition(GString(ui->edtPositionMap->text()).toInt());
 }
 //===============================================
 void GModuleUi::writeData() {
@@ -60,6 +60,8 @@ void GModuleUi::writeData() {
     ui->edtName->setText(m_module->getName().c_str());
     ui->edtNameData->setText(m_moduleData->getName().c_str());
     ui->edtValueData->setText(m_moduleData->getValue().c_str());
+    ui->edtPositionMap->setText(GString(m_moduleMap->getPosition()).c_str());
+
     ui->tabWidget->setTabVisible(m_tabDataIndex, m_isVisibleTabData);
     ui->tabWidget->setTabVisible(m_tabMapIndex, m_isVisibleTabMap);
 }
@@ -69,7 +71,6 @@ void GModuleUi::loadModuleMap() {
     if(!m_module->getId()) return;
     m_moduleMap->setModule(m_module.get());
     m_moduleMap->loadModuleMap();
-    m_moduleMap->showModuleMap(ui->treeMap);
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
 }
@@ -140,7 +141,7 @@ void GModuleUi::on_btnSaveData_clicked() {
 void GModuleUi::on_btnSearchData_clicked() {
     GLOGT(eGFUN, "");
     readData();
-    m_moduleData->setModule(m_module.get());
+    m_moduleData->setModule(m_module);
     m_moduleData->setSearch(GSearch());
     m_moduleData->searchModuleData();
     m_moduleData->showList();
@@ -163,10 +164,9 @@ void GModuleUi::on_btnSearchMap_clicked() {
     GLOGT(eGFUN, "");
     readData();
     m_moduleMap->setModule(m_module);
+    m_moduleMap->setSearch(GSearch());
     m_moduleMap->searchModuleMap();
-    if(!GLOGI->hasErrors()) {
-        m_moduleMap->showModuleMap(ui->treeMap);
-    }
+    m_moduleMap->showList();
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
@@ -176,15 +176,10 @@ void GModuleUi::on_btnAddMap_clicked() {
     GLOGT(eGFUN, "");
     readData();
     GModuleMap lModuleMap;
-    lModuleMap.deserialize(ui->treeMap->getKey());
     m_moduleMap->setModule(m_module.get());
     m_moduleMap->setModuleMap(lModuleMap);
     m_moduleMap->addModuleMap();
     lModuleMap.setModuleMap(m_moduleMap.get());
-    ui->treeMap->setKey(lModuleMap.serialize());
-    if(!GLOGI->hasErrors()) {
-        m_moduleMap->showModuleMap(ui->treeMap);
-    }
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
@@ -194,15 +189,10 @@ void GModuleUi::on_btnMoveUpMap_clicked() {
     GLOGT(eGFUN, "");
     readData();
     GModuleMap lModuleMap;
-    lModuleMap.deserialize(ui->treeMap->getKey());
     m_moduleMap->setModule(m_module.get());
     m_moduleMap->setModuleMap(lModuleMap);
     m_moduleMap->moveUpModuleMap();
     lModuleMap.setModuleMap(m_moduleMap.get());
-    ui->treeMap->setKey(lModuleMap.serialize());
-    if(!GLOGI->hasErrors()) {
-        m_moduleMap->showModuleMap(ui->treeMap);
-    }
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
@@ -212,15 +202,10 @@ void GModuleUi::on_btnMoveDownMap_clicked() {
     GLOGT(eGFUN, "");
     readData();
     GModuleMap lModuleMap;
-    lModuleMap.deserialize(ui->treeMap->getKey());
     m_moduleMap->setModule(m_module.get());
     m_moduleMap->setModuleMap(lModuleMap);
     m_moduleMap->moveDownModuleMap();
     lModuleMap.setModuleMap(m_moduleMap.get());
-    ui->treeMap->setKey(lModuleMap.serialize());
-    if(!GLOGI->hasErrors()) {
-        m_moduleMap->showModuleMap(ui->treeMap);
-    }
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);

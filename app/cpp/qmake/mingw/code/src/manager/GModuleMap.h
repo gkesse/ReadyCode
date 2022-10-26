@@ -34,14 +34,14 @@ public:
     void moveUpModuleMap();
     void moveDownModuleMap();
 
-    bool showModuleMap(GTreeWidgetUi* _treeWidget);
+    bool showList();
 
 protected:
     int m_id;
     int m_position;
     GModule* m_module;
     std::vector<GObject*> m_map;
-    GTableWidgetUi* m_tableWidget;
+    GTreeWidgetUi* m_treeWidgetUi;
 };
 //==============================================
 #endif

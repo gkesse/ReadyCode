@@ -12,11 +12,10 @@ GModuleMap::GModuleMap(const GString& _code)
     m_position = 0;
     m_positionUp = 0;
     m_positionDown = 0;
-    m_module = new GModule;
+    m_module.reset(new GModule);
 }
 //===============================================
 GModuleMap::~GModuleMap() {
-    delete m_module;
     clearMap(m_map);
 }
 //===============================================
@@ -75,7 +74,17 @@ bool GModuleMap::onModule() {
 //===============================================
 bool GModuleMap::onSearchModuleMap() {
     if(m_module->getId() == 0) {GERROR_ADD(eGERR, "L'identifiant du module est obligatoire."); return false;}
-    if(!loadData()) return false;
+    if(m_id != 0) {
+        m_where += GFORMAT(" and _id = %d ", m_id);
+    }
+    else {
+        m_where += GFORMAT(" and _module_id = %d ", m_module->getId());
+        if(m_position != 0) {
+            m_where += GFORMAT(" and _position = %d ", m_position);
+        }
+    }
+    if(!countData()) return false;
+    if(!searchData()) return false;
     return true;
 }
 //===============================================
@@ -113,6 +122,46 @@ bool GModuleMap::onMoveDownModuleMap() {
     if(!loadPositionDown()) {GERROR_ADD(eGERR, "Impossible de déplacer vers le bas."); return false;}
     if(!updatePositionDown()) {GSAVE_KO(); return false;}
     if(!loadData()) return false;
+    return true;
+}
+//===============================================
+bool GModuleMap::countData() {
+    GMySQL lMySQL;
+    m_dataCount = lMySQL.readData(GFORMAT(""
+            " select count(*) "
+            " from _module_map "
+            " %s "
+            "", m_where.c_str()
+    )).toInt();
+    return true;
+}
+//===============================================
+bool GModuleMap::searchData() {
+    GMySQL lMySQL;
+    GMap lDataMap = lMySQL.readMap(GFORMAT(""
+            " select _id, _position "
+            " from _module_map "
+            " %s "
+            " order by _position asc "
+            " limit %d "
+            "", m_where.c_str()
+            , m_dataSize
+    ));
+    for(int i = 0; i < (int)lDataMap.size(); i++) {
+        GRow lRow = lDataMap.at(i);
+        int j = 0;
+        GModuleMap* lObj = new GModuleMap;
+        lObj->m_id = lRow.at(j++).toInt();
+        lObj->m_position = lRow.at(j++).toInt();
+        m_map.push_back(lObj);
+    }
+    m_dataOffset += m_dataSize;
+    m_hasData = true;
+    if(m_dataOffset >= m_dataCount) m_hasData = false;
+    if(m_hasData) {
+        GModuleMap* lObj = (GModuleMap*)m_map.back();
+        m_lastId = lObj->m_id;
+    }
     return true;
 }
 //===============================================

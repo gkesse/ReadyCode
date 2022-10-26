@@ -1,68 +1,58 @@
 //===============================================
 #include "GTreeWidgetUi.h"
+#include "ui_GTreeWidgetUi.h"
 #include "GLog.h"
+#include "GPath.h"
+#include "GSearch.h"
 //===============================================
 GTreeWidgetUi::GTreeWidgetUi(QWidget* _parent)
-: QTreeWidget(_parent) {
-    m_header = 0;
-    m_root = 0;
-    m_child = 0;
-    m_node = 0;
-
-    setEditTriggers(QAbstractItemView::NoEditTriggers);
-    setSelectionBehavior(QAbstractItemView::SelectRows);
-    resizeColumnToContents(0);
-    header()->show();
-    header()->setStretchLastSection(true);
-    header()->setMinimumSectionSize(0);
-    setFocusPolicy(Qt::NoFocus);
-
-    connect(this, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(onItemClicked(QTreeWidgetItem*, int)));
+: QDialog(_parent)
+, ui(new Ui::GTreeWidgetUi){
+    ui->setupUi(this);
+    setWindowIcon(QIcon(GPATH("img", "readydev.png").c_str()));
+    m_search = 0;
 }
 //===============================================
 GTreeWidgetUi::~GTreeWidgetUi() {
 
 }
 //===============================================
-void GTreeWidgetUi::addHeader() {
-    m_header = new QTreeWidgetItem();
-    setHeaderItem(m_header);
-    m_node = m_header;
+void GTreeWidgetUi::setSearch(GSearch* _search) {
+    m_search = _search;
+    ui->btnNext->setEnabled(m_search->hasData());
 }
 //===============================================
-void GTreeWidgetUi::addRoot() {
-    m_root = new QTreeWidgetItem(this);
-    m_node = m_root;
-}
-//===============================================
-void GTreeWidgetUi::initRoot() {
-    m_root = m_child;
-}
-//===============================================
-void GTreeWidgetUi::addChild() {
-    m_child = new QTreeWidgetItem();
-    m_root->addChild(m_child);
-    m_node = m_child;
-}
-//===============================================
-void GTreeWidgetUi::setData(int _col, const GString& _key, const GString& _data) {
-    m_node->setData(_col, Qt::UserRole, _key.c_str());
-    m_node->setText(_col, _data.c_str());
-}
-//===============================================
-void GTreeWidgetUi::selectItem() {
-    m_node->setSelected(true);
-}
-//===============================================
-void GTreeWidgetUi::setKey(const GString& _key) {
-    m_key = _key;
+GTreeWidget* GTreeWidgetUi::getTreeWidget() {
+    return ui->treeWidget;
 }
 //===============================================
 GString GTreeWidgetUi::getKey() const {
     return m_key;
 }
 //===============================================
-void GTreeWidgetUi::onItemClicked(QTreeWidgetItem* _item, int _column) {
+void GTreeWidgetUi::on_btnSelect_clicked() {
+    if(!m_key.isEmpty()) {
+        accept();
+    }
+}
+//===============================================
+void GTreeWidgetUi::on_btnNext_clicked() {
+    if(!m_search) {
+        GERROR_ADD(eGERR, "L'objet recherché n'a pas été initialisé.");
+    }
+    else {
+        m_search->onNextData();
+    }
+    ui->btnNext->setEnabled(m_search->hasData());
+    GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGLOG);
+}
+//===============================================
+void GTreeWidgetUi::on_treeWidget_itemClicked(QTreeWidgetItem* _item, int _column) {
     m_key = _item->data(_column, Qt::UserRole).toString();
+}
+//===============================================
+void GTreeWidgetUi::on_treeWidget_itemDoubleClicked(QTreeWidgetItem* _item, int _column) {
+    on_btnSelect_clicked();
 }
 //===============================================

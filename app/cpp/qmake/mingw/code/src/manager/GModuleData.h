@@ -18,7 +18,8 @@ public:
     void setModuleData(const GModuleData& _moduleData);
     void setModuleData(GModuleData* _moduleData);
     void setModuleData(int _index);
-    void setModule(GModule* _module);
+    void setModule(const GModule* _module);
+    void setModule(const std::shared_ptr<GModule>& _module);
 
     void setId(int _id);
     void setName(const GString& _name);
@@ -32,8 +33,8 @@ public:
     void searchModuleData();
     void deleteModuleData();
 
-    void onNextData();
     bool showList();
+    void onNextData();
     bool showNextList();
 
 protected:
