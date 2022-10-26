@@ -9,7 +9,7 @@ public:
     GOption();
     ~GOption();
     GObject* clone() const;
-    GString serialize() const;
+    GString serialize(const GString& _code = "option");
     bool deserialize(const GString& _data);
 
     void setId(int _id);

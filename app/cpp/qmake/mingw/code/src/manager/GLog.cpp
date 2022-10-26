@@ -38,13 +38,13 @@ GObject* GLog::clone() const {
     return new GLog;
 }
 //===============================================
-GString GLog::serialize(const GString& _code) const {
+GString GLog::serialize(const GString& _code) {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "type", m_type);
     lDom.addData(_code, "side", m_side);
     lDom.addData(_code, "msg", m_msg);
-    lDom.addData(_code, m_map);
+    lDom.addData(_code, m_map, this);
     return lDom.toString();
 }
 //===============================================

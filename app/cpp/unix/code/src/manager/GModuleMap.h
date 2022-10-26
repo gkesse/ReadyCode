@@ -16,7 +16,7 @@ public:
 
     bool onModule();
     bool onSearchModuleMap();
-    bool onLoadModuleMap();
+    bool onNextModuleMap();
     bool onAddModuleMap();
     bool onMoveUpModuleMap();
     bool onMoveDownModuleMap();

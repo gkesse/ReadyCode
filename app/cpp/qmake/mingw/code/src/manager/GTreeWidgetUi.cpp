@@ -22,6 +22,10 @@ void GTreeWidgetUi::setSearch(GSearch* _search) {
     ui->btnNext->setEnabled(m_search->hasData());
 }
 //===============================================
+void GTreeWidgetUi::setKey(const GString& _key) {
+    m_key = _key;
+}
+//===============================================
 GTreeWidget* GTreeWidgetUi::getTreeWidget() {
     return ui->treeWidget;
 }
@@ -44,6 +48,24 @@ void GTreeWidgetUi::on_btnNext_clicked() {
         m_search->onNextData();
     }
     ui->btnNext->setEnabled(m_search->hasData());
+    GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGLOG);
+}
+//===============================================
+void GTreeWidgetUi::on_btnAdd_clicked() {
+    m_search->onAddData();
+    GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGLOG);
+}
+//===============================================
+void GTreeWidgetUi::on_btnMoveUp_clicked() {
+    m_search->onMoveUpData();
+    GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGLOG);
+}
+//===============================================
+void GTreeWidgetUi::on_btnMoveDown_clicked() {
+    m_search->onMoveDownData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
 }

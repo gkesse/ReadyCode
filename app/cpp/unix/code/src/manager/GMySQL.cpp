@@ -16,7 +16,7 @@ GMySQL::~GMySQL() {
 
 }
 //===============================================
-GString GMySQL::serialize(const GString& _code) const {
+GString GMySQL::serialize(const GString& _code) {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "protocol", m_protocol);

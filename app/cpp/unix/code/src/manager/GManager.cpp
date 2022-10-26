@@ -34,7 +34,7 @@ void GManager::setServer(GServer* _server) {
     m_server = _server;
 }
 //===============================================
-GString GManager::serialize(const GString& _code) const {
+GString GManager::serialize(const GString& _code) {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "module", m_moduleName);

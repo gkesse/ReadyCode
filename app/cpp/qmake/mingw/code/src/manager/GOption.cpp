@@ -17,13 +17,13 @@ GObject* GOption::clone() const {
     return new GOption;
 }
 //===============================================
-GString GOption::serialize() const {
+GString GOption::serialize(const GString& _code) {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(m_codeName, "id", m_id);
     lDom.addData(m_codeName, "name", m_name);
     lDom.addData(m_codeName, "state", m_state);
-    lDom.addData(m_codeName, m_map);
+    lDom.addData(m_codeName, m_map, this);
     return lDom.toString();
 }
 //===============================================

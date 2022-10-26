@@ -5,6 +5,7 @@
 //===============================================
 GObject::GObject(const GString& _codeName) {
     m_codeName = _codeName;
+    m_isOnlyObjectCopied = false;
 }
 //===============================================
 GObject::~GObject() {
@@ -25,12 +26,15 @@ void GObject::clearMap(std::vector<GObject*>& _map) const {
     _map.clear();
 }
 //===============================================
-void GObject::print() const {
+void GObject::print() {
     printf("%s\n", serialize().c_str());
 }
 //===============================================
 GObject* GObject::clone() const {return new GObject;}
-GString GObject::serialize(const GString& _code) const {return "";}
+GString GObject::serialize(const GString& _code) {return "";}
 bool GObject::deserialize(const GString& _data, const GString& _code) {return false;}
 GString GObject::getCodeName() const {return m_codeName;}
+bool GObject::isOnlyObjectCopied() const {return m_isOnlyObjectCopied;}
+void GObject::setOnlyObjectCopied() {m_isOnlyObjectCopied = true;}
+void GObject::resetOnlyObjectCopied() {m_isOnlyObjectCopied = false;}
 //===============================================

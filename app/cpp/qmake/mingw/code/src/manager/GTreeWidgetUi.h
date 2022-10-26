@@ -19,16 +19,20 @@ public:
     ~GTreeWidgetUi();
     void setSearch(GSearch* _search);
     GTreeWidget* getTreeWidget();
+    void setKey(const GString& _key);
     GString getKey() const;
 
 public slots:
     void on_btnSelect_clicked();
     void on_btnNext_clicked();
+    void on_btnAdd_clicked();
+    void on_btnMoveUp_clicked();
+    void on_btnMoveDown_clicked();
     void on_treeWidget_itemClicked(QTreeWidgetItem* _item, int _column);
     void on_treeWidget_itemDoubleClicked(QTreeWidgetItem* _item, int _column);
 
 private:
-    Ui::GTreeWidgetUi *ui;
+    Ui::GTreeWidgetUi* ui;
     GSearch* m_search;
     GString m_key;
 };

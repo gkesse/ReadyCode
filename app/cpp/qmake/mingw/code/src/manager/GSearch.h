@@ -10,10 +10,13 @@ class GSearch : public GManager {
 public:
     GSearch(const GString& _code = "search");
     ~GSearch();
-    GString serialize(const GString& _code = "search") const;
+    GString serialize(const GString& _code = "search");
     bool deserialize(const GString& _data, const GString& _code = "search");
     void setSearch(const GSearch& _search);
     virtual void onNextData();
+    virtual void onAddData();
+    virtual void onMoveUpData();
+    virtual void onMoveDownData();
     bool hasData() const;
 
 protected:

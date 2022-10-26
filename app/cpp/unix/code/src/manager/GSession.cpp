@@ -11,7 +11,7 @@ GSession::~GSession() {
 
 }
 //===============================================
-GString GSession::serialize(const GString& _code) const {
+GString GSession::serialize(const GString& _code) {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "user_id", m_userId);

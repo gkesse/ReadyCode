@@ -12,15 +12,19 @@ public:
     virtual ~GObject();
     virtual GObject* clone() const;
     virtual bool createDoms();
-    virtual GString serialize(const GString& _code = "object") const;
+    virtual GString serialize(const GString& _code = "object");
     virtual bool deserialize(const GString& _data, const GString& _code = "object");
     virtual void clearMap(std::vector<GObject*>& _map) const;
     virtual GString getCodeName() const;
-    virtual void print() const;
+    virtual bool isOnlyObjectCopied() const;
+    virtual void setOnlyObjectCopied();
+    virtual void resetOnlyObjectCopied();
+    virtual void print();
 
 protected:
     std::shared_ptr<GCode> m_dom;
     GString m_codeName;
+    bool m_isOnlyObjectCopied;
 };
 //===============================================
 #endif

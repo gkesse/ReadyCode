@@ -36,7 +36,7 @@ public:
     ~GLog();
     static GLog* Instance();
     GObject* clone() const;
-    GString serialize(const GString& _code = "logs") const;
+    GString serialize(const GString& _code = "logs");
     bool deserialize(const GString& _data, const GString& _code = "logs");
 
     void initLog();

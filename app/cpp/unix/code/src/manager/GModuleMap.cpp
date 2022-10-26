@@ -23,7 +23,7 @@ GObject* GModuleMap::clone() const {
     return new GModuleMap;
 }
 //===============================================
-GString GModuleMap::serialize(const GString& _code) const {
+GString GModuleMap::serialize(const GString& _code) {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
@@ -53,8 +53,8 @@ bool GModuleMap::onModule() {
     else if(m_methodName == "search_module_map") {
         onSearchModuleMap();
     }
-    else if(m_methodName == "load_module_map") {
-        onLoadModuleMap();
+    else if(m_methodName == "next_module_map") {
+        onNextModuleMap();
     }
     else if(m_methodName == "add_module_map") {
         onAddModuleMap();
@@ -88,9 +88,8 @@ bool GModuleMap::onSearchModuleMap() {
     return true;
 }
 //===============================================
-bool GModuleMap::onLoadModuleMap() {
+bool GModuleMap::onNextModuleMap() {
     if(m_module->getId() == 0) {GERROR_ADD(eGERR, "L'identifiant du module est obligatoire."); return false;}
-    if(!loadData()) return false;
     return true;
 }
 //===============================================

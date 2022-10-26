@@ -17,7 +17,7 @@ GObject* GManager::clone() const {
     return new GManager;
 }
 //===============================================
-GString GManager::serialize(const GString& _code) const {
+GString GManager::serialize(const GString& _code) {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "module", m_moduleName);

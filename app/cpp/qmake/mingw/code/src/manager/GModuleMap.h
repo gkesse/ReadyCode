@@ -4,7 +4,6 @@
 //===============================================
 #include "GSearch.h"
 //===============================================
-class GTableWidgetUi;
 class GTreeWidgetUi;
 class GModule;
 //===============================================
@@ -13,11 +12,12 @@ public:
     GModuleMap(const GString& _code = "module_map");
     ~GModuleMap();
     GObject* clone() const;
-    GString serialize(const GString& _code = "module_map") const;
+    GString serialize(const GString& _code = "module_map");
     bool deserialize(const GString& _data, const GString& _code = "module_map");
 
     void setModuleMap(const GModuleMap& _moduleMap);
     void setModuleMap(GModuleMap* _moduleMap);
+    void setModuleMap(const std::shared_ptr<GModuleMap>& _moduleMap);
     void setModuleMap(int _index);
     void setModule(const GModule* _module);
     void setModule(const std::shared_ptr<GModule>& _module);
@@ -29,19 +29,24 @@ public:
     int getPosition() const;
 
     void searchModuleMap();
-    void loadModuleMap();
+    void nextModuleMap();
     void addModuleMap();
     void moveUpModuleMap();
     void moveDownModuleMap();
 
     bool showList();
+    bool showList(std::shared_ptr<GTreeWidgetUi>& _treeWidgetUi);
+    void onNextData();
+    void onAddData();
+    void onMoveUpData();
+    void onMoveDownData();
 
 protected:
     int m_id;
     int m_position;
-    GModule* m_module;
+    std::shared_ptr<GModule> m_module;
     std::vector<GObject*> m_map;
-    GTreeWidgetUi* m_treeWidgetUi;
+    std::shared_ptr<GTreeWidgetUi> m_treeWidgetUi;
 };
 //==============================================
 #endif

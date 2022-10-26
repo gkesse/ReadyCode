@@ -31,14 +31,11 @@ GModuleUi::~GModuleUi() {
 
 }
 //===============================================
-void GModuleUi::resetData() {
+void GModuleUi::readData() {
     m_module.reset(new GModule);
     m_moduleData.reset(new GModuleData);
     m_moduleMap.reset(new GModuleMap);
-}
-//===============================================
-void GModuleUi::readData() {
-    resetData();
+
     m_module->setId(m_moduleId);
     m_moduleData->setId(m_moduleDataId);
     m_moduleMap->setId(m_moduleMapId);
@@ -66,28 +63,6 @@ void GModuleUi::writeData() {
     ui->tabWidget->setTabVisible(m_tabMapIndex, m_isVisibleTabMap);
 }
 //===============================================
-void GModuleUi::loadModuleMap() {
-    GLOGT(eGFUN, "");
-    if(!m_module->getId()) return;
-    m_moduleMap->setModule(m_module.get());
-    m_moduleMap->loadModuleMap();
-    GERROR_SHOWG(eGERR);
-    GLOG_SHOWG(eGLOG);
-}
-//===============================================
-// qtabwidget
-//===============================================
-void GModuleUi::on_tabWidget_tabBarClicked(int _index) {
-    GLOGT(eGFUN, "");
-    if(_index == m_tabMapIndex) {
-        onTabMap();
-    }
-}
-//===============================================
-void GModuleUi::onTabMap() {
-
-}
-//===============================================
 // module
 //===============================================
 void GModuleUi::on_btnSave_clicked() {
@@ -97,7 +72,6 @@ void GModuleUi::on_btnSave_clicked() {
     if(GLOGI->hasErrors()) {
         m_module->setModule(0);
     }
-    loadModuleMap();
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
@@ -109,7 +83,6 @@ void GModuleUi::on_btnSearch_clicked() {
     m_module->setSearch(GSearch());
     m_module->searchModule();
     m_module->showList();
-    loadModuleMap();
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
@@ -117,7 +90,9 @@ void GModuleUi::on_btnSearch_clicked() {
 //===============================================
 void GModuleUi::on_btnNew_clicked() {
     GLOGT(eGFUN, "");
-    resetData();
+    m_module.reset(new GModule);
+    m_moduleData.reset(new GModuleData);
+    m_moduleMap.reset(new GModuleMap);
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
@@ -172,40 +147,9 @@ void GModuleUi::on_btnSearchMap_clicked() {
     GLOG_SHOWG(eGLOG);
 }
 //===============================================
-void GModuleUi::on_btnAddMap_clicked() {
+void GModuleUi::on_btnNewMap_clicked() {
     GLOGT(eGFUN, "");
-    readData();
-    GModuleMap lModuleMap;
-    m_moduleMap->setModule(m_module.get());
-    m_moduleMap->setModuleMap(lModuleMap);
-    m_moduleMap->addModuleMap();
-    lModuleMap.setModuleMap(m_moduleMap.get());
-    writeData();
-    GERROR_SHOWG(eGERR);
-    GLOG_SHOWG(eGLOG);
-}
-//===============================================
-void GModuleUi::on_btnMoveUpMap_clicked() {
-    GLOGT(eGFUN, "");
-    readData();
-    GModuleMap lModuleMap;
-    m_moduleMap->setModule(m_module.get());
-    m_moduleMap->setModuleMap(lModuleMap);
-    m_moduleMap->moveUpModuleMap();
-    lModuleMap.setModuleMap(m_moduleMap.get());
-    writeData();
-    GERROR_SHOWG(eGERR);
-    GLOG_SHOWG(eGLOG);
-}
-//===============================================
-void GModuleUi::on_btnMoveDownMap_clicked() {
-    GLOGT(eGFUN, "");
-    readData();
-    GModuleMap lModuleMap;
-    m_moduleMap->setModule(m_module.get());
-    m_moduleMap->setModuleMap(lModuleMap);
-    m_moduleMap->moveDownModuleMap();
-    lModuleMap.setModuleMap(m_moduleMap.get());
+    m_moduleMap.reset(new GModuleMap);
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);

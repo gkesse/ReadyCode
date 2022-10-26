@@ -15,7 +15,7 @@ GSearch::~GSearch() {
 
 }
 //===============================================
-GString GSearch::serialize(const GString& _code) const {
+GString GSearch::serialize(const GString& _code) {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "last_id", m_lastId);
@@ -51,4 +51,7 @@ bool GSearch::hasData() const {
 }
 //===============================================
 void GSearch::onNextData() {}
+void GSearch::onAddData() {}
+void GSearch::onMoveUpData() {}
+void GSearch::onMoveDownData() {}
 //===============================================

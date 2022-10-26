@@ -16,8 +16,6 @@ GTreeWidget::GTreeWidget(QWidget* _parent)
     header()->setStretchLastSection(true);
     header()->setMinimumSectionSize(0);
     setFocusPolicy(Qt::NoFocus);
-
-    connect(this, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(onItemClicked(QTreeWidgetItem*, int)));
 }
 //===============================================
 GTreeWidget::~GTreeWidget() {
@@ -52,17 +50,5 @@ void GTreeWidget::setData(int _col, const GString& _key, const GString& _data) {
 //===============================================
 void GTreeWidget::selectItem() {
     m_node->setSelected(true);
-}
-//===============================================
-void GTreeWidget::setKey(const GString& _key) {
-    m_key = _key;
-}
-//===============================================
-GString GTreeWidget::getKey() const {
-    return m_key;
-}
-//===============================================
-void GTreeWidget::onItemClicked(QTreeWidgetItem* _item, int _column) {
-    m_key = _item->data(_column, Qt::UserRole).toString();
 }
 //===============================================

@@ -22,13 +22,13 @@ GObject* GModule::clone() const {
     return new GModule;
 }
 //===============================================
-GString GModule::serialize(const GString& _code) const {
+GString GModule::serialize(const GString& _code) {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
     lDom.addData(_code, "name", m_name);
-    lDom.addData(_code, m_map);
-    lDom.addData(GSearch::serialize());
+    lDom.addData(_code, m_map, this);
+    lDom.addData(GSearch::serialize(), this);
     return lDom.toString();
 }
 //===============================================

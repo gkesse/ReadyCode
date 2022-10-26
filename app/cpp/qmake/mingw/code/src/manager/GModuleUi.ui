@@ -259,27 +259,6 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="btnAddMap">
-           <property name="text">
-            <string>&amp;Ajouter</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="btnMoveUpMap">
-           <property name="text">
-            <string>&amp;Haut</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="btnMoveDownMap">
-           <property name="text">
-            <string>&amp;Bas</string>
-           </property>
-          </widget>
-         </item>
-         <item>
           <spacer name="verticalSpacer_6">
            <property name="orientation">
             <enum>Qt::Vertical</enum>

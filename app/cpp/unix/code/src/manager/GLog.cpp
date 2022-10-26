@@ -26,7 +26,7 @@ GLog* GLog::Instance() {
     return m_instance;
 }
 //===============================================
-GString GLog::serialize(const GString& _code) const {
+GString GLog::serialize(const GString& _code) {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "type", m_type);

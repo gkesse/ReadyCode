@@ -19,16 +19,10 @@ public:
     GModuleUi(QWidget* parent = 0);
     ~GModuleUi();
 
-    void resetData();
     void readData();
     void writeData();
 
-    void onTabMap();
-    void loadModuleMap();
-
 public slots:
-    // tab
-    void on_tabWidget_tabBarClicked(int _index);
     // module
     void on_btnSave_clicked();
     void on_btnSearch_clicked();
@@ -39,9 +33,7 @@ public slots:
     void on_btnNewData_clicked();
     // module_map
     void on_btnSearchMap_clicked();
-    void on_btnAddMap_clicked();
-    void on_btnMoveUpMap_clicked();
-    void on_btnMoveDownMap_clicked();
+    void on_btnNewMap_clicked();
 
 private:
     Ui::GModuleUi *ui;

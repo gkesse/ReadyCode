@@ -12,7 +12,7 @@ public:
     GModuleData(const GString& _code = "module_data");
     ~GModuleData();
     GObject* clone() const;
-    GString serialize(const GString& _code = "module_data") const;
+    GString serialize(const GString& _code = "module_data");
     bool deserialize(const GString& _data, const GString& _code = "module_data");
 
     void setModuleData(const GModuleData& _moduleData);
