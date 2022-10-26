@@ -17,7 +17,7 @@ public:
     bool deserialize(const GString& _data, const GString& _code = "module");
 
     void setModule(const GModule& _module);
-    void setModule(GModule* _module);
+    void setModule(const GModule* _module);
     void setModule(int _index);
 
     void setId(int _id);
@@ -27,7 +27,6 @@ public:
     GString getName() const;
 
     void loadModule();
-    void loadModule2();
     void saveModule();
     void searchModule();
     void deleteModule();

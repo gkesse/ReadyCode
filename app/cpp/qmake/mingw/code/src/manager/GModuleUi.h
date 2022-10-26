@@ -24,7 +24,6 @@ public:
     void writeData();
 
     void onTabMap();
-    void loadModule();
     void loadModuleMap();
 
 public slots:
@@ -34,13 +33,12 @@ public slots:
     void on_btnSave_clicked();
     void on_btnSearch_clicked();
     void on_btnNew_clicked();
-    void on_tableModule_itemClicked(QTableWidgetItem* _item);
-    void on_tableModule_itemDoubleClicked(QTableWidgetItem* _item);
     // module_data
     void on_btnSaveData_clicked();
     void on_btnSearchData_clicked();
     void on_btnNewData_clicked();
     // module_map
+    void on_btnSearchMap_clicked();
     void on_btnAddMap_clicked();
     void on_btnMoveUpMap_clicked();
     void on_btnMoveDownMap_clicked();

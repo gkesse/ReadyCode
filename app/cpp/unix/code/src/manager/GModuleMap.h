@@ -15,6 +15,7 @@ public:
     bool deserialize(const GString& _data, const GString& _code = "module_map");
 
     bool onModule();
+    bool onSearchModuleMap();
     bool onLoadModuleMap();
     bool onAddModuleMap();
     bool onMoveUpModuleMap();

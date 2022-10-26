@@ -17,6 +17,7 @@ public:
     GTableWidgetFr(QWidget* parent = 0);
     ~GTableWidgetFr();
     GTableWidget* getTableWidget();
+    GString getKey() const;
 
 public slots:
     void on_btnNext_clicked();
@@ -25,6 +26,7 @@ public slots:
 
 private:
     Ui::GTableWidgetFr *ui;
+    GString m_key;
 };
 //==============================================
 #endif

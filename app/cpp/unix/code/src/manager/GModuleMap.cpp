@@ -51,6 +51,9 @@ bool GModuleMap::onModule() {
     if(m_methodName == "") {
         GMETHOD_REQUIRED();
     }
+    else if(m_methodName == "search_module_map") {
+        onSearchModuleMap();
+    }
     else if(m_methodName == "load_module_map") {
         onLoadModuleMap();
     }
@@ -67,6 +70,12 @@ bool GModuleMap::onModule() {
         GMETHOD_UNKNOWN();
     }
     m_server->addResponse(serialize());
+    return true;
+}
+//===============================================
+bool GModuleMap::onSearchModuleMap() {
+    if(m_module->getId() == 0) {GERROR_ADD(eGERR, "L'identifiant du module est obligatoire."); return false;}
+    if(!loadData()) return false;
     return true;
 }
 //===============================================

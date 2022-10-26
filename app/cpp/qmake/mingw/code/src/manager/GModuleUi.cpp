@@ -1,6 +1,6 @@
 //===============================================
-#include "GLog.h"
 #include "GModuleUi.h"
+#include "GLog.h"
 #include "ui_GModuleUi.h"
 #include "GModule.h"
 #include "GModuleData.h"
@@ -26,8 +26,6 @@ GModuleUi::GModuleUi(QWidget* _parent)
     ui->treeMap->setColumnCount(0);
 
     setAttribute(Qt::WA_DeleteOnClose);
-
-    loadModule();
 }
 //===============================================
 GModuleUi::~GModuleUi() {
@@ -91,16 +89,6 @@ void GModuleUi::onTabMap() {
 //===============================================
 // module
 //===============================================
-void GModuleUi::loadModule() {
-    GLOGT(eGFUN, "");
-    readData();
-    m_module->loadModule2();
-    m_module->showModule2(ui->tableModule);
-    writeData();
-    GERROR_SHOWG(eGERR);
-    GLOG_SHOWG(eGLOG);
-}
-//===============================================
 void GModuleUi::on_btnSave_clicked() {
     GLOGT(eGFUN, "");
     readData();
@@ -132,18 +120,6 @@ void GModuleUi::on_btnNew_clicked() {
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
-}
-//===============================================
-void GModuleUi::on_tableModule_itemClicked(QTableWidgetItem* _item) {
-    GLOGT(eGFUN, "");
-    resetData();
-    m_module->deserialize(ui->tableModule->getKey());
-    writeData();
-}
-//===============================================
-void GModuleUi::on_tableModule_itemDoubleClicked(QTableWidgetItem* _item) {
-    GLOGT(eGFUN, "");
-
 }
 //===============================================
 // module_data
@@ -182,6 +158,19 @@ void GModuleUi::on_btnNewData_clicked() {
 }
 //===============================================
 // module_map
+//===============================================
+void GModuleUi::on_btnSearchMap_clicked() {
+    GLOGT(eGFUN, "");
+    readData();
+    m_moduleMap->setModule(m_module);
+    m_moduleMap->searchModuleMap();
+    if(!GLOGI->hasErrors()) {
+        m_moduleMap->showModuleMap(ui->treeMap);
+    }
+    writeData();
+    GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGLOG);
+}
 //===============================================
 void GModuleUi::on_btnAddMap_clicked() {
     GLOGT(eGFUN, "");

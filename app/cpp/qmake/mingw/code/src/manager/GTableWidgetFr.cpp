@@ -20,6 +20,10 @@ GTableWidget* GTableWidgetFr::getTableWidget() {
     return ui->tableWidget;
 }
 //===============================================
+GString GTableWidgetFr::getKey() const {
+    return m_key;
+}
+//===============================================
 void GTableWidgetFr::on_btnNext_clicked() {
     GLOGT(eGFUN, "");
 

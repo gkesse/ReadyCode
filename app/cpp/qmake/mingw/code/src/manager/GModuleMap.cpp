@@ -64,8 +64,12 @@ void GModuleMap::setModuleMap(int _index) {
     clearMap(m_map);
 }
 //===============================================
-void GModuleMap::setModule(GModule* _module) {
+void GModuleMap::setModule(const GModule* _module) {
     m_module->setModule(_module);
+}
+//===============================================
+void GModuleMap::setModule(const std::shared_ptr<GModule>& _module) {
+    m_module->setModule(_module.get());
 }
 //===============================================
 void GModuleMap::setId(int _id) {
@@ -82,6 +86,12 @@ int GModuleMap::getId() const {
 //===============================================
 int GModuleMap::getPosition() const {
     return m_position;
+}
+//===============================================
+void GModuleMap::searchModuleMap() {
+    GString lData = serialize();
+    lData = GCALL_SERVER("module_map", "search_module_map", lData);
+    deserialize(lData);
 }
 //===============================================
 void GModuleMap::loadModuleMap() {

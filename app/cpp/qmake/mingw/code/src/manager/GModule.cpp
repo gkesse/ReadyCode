@@ -47,7 +47,7 @@ void GModule::setModule(const GModule& _module) {
     m_name = _module.m_name;
 }
 //===============================================
-void GModule::setModule(GModule* _module) {
+void GModule::setModule(const GModule* _module) {
     setModule(*_module);
 }
 //===============================================
@@ -79,16 +79,6 @@ void GModule::loadModule() {
     GString lData = serialize();
     lData = GCALL_SERVER("module", "load_module", lData);
     deserialize(lData);
-}
-//===============================================
-void GModule::loadModule2() {
-    clearMap(m_map);
-    for(int i = 0; i < 5; i++) {
-        GModule* lObj = new GModule;
-        lObj->m_id = i + 1;
-        lObj->m_name = GFORMAT("M[%d]", lObj->m_id);
-        m_map.push_back(lObj);
-    }
 }
 //===============================================
 void GModule::saveModule() {
