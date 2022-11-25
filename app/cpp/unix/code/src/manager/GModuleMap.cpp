@@ -23,7 +23,7 @@ GObject* GModuleMap::clone() const {
     return new GModuleMap;
 }
 //===============================================
-GString GModuleMap::serialize(const GString& _code) {
+GString GModuleMap::serialize(const GString& _code) const {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);

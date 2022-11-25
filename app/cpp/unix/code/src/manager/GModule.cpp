@@ -18,7 +18,7 @@ GObject* GModule::clone() const {
     return new GModule;
 }
 //===============================================
-GString GModule::serialize(const GString& _code) {
+GString GModule::serialize(const GString& _code) const {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
