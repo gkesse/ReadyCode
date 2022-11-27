@@ -54,9 +54,12 @@ bool GQuery::onModule() {
 //===============================================
 bool GQuery::onSendQuery() {
     if(m_emission == "") {GERROR_ADD(eGERR, "La requête est obligatoire."); return false;}
-    m_server->setRequest(m_emission);
-    onManager();
-    m_reception = m_server->toResponse();
+    GServer lServer;
+    lServer.setRequest(m_emission);
+    GManager lManager;
+    lManager.setServer(&lServer);
+    lManager.onManager();
+    m_reception = lServer.toResponse();
     m_emission = m_emission.toBase64();
     m_reception = m_reception.toBase64();
     return true;
