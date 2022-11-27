@@ -52,7 +52,7 @@ bool GQuery::onModule() {
 }
 //===============================================
 bool GQuery::onSendQuery() {
-
+    if(m_emission == "") {GERROR_ADD(eGERR, "La requête est obligatoire."); return false;}
     return true;
 }
 //===============================================
