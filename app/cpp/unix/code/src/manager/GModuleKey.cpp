@@ -83,9 +83,6 @@ bool GModuleKey::onSearchModuleKey() {
         if(m_name != "") {
             m_where += GFORMAT(" and _name like '%s%%' ", m_name.c_str());
         }
-        if(m_value != "") {
-            m_where += GFORMAT(" and _value like '%s%%' ", m_value.c_str());
-        }
     }
     if(!countData()) return false;
     if(!searchModuleKey()) return false;
@@ -101,9 +98,6 @@ bool GModuleKey::onSearchNextModuleKey() {
     m_where += GFORMAT(" and _module_id = %d ", m_module->getId());
     if(m_name != "") {
         m_where += GFORMAT(" and _name like '%s%%' ", m_name.c_str());
-    }
-    if(m_value != "") {
-        m_where += GFORMAT(" and _value like '%s%%' ", m_value.c_str());
     }
     if(!searchNextModuleKey()) return false;
     return true;
@@ -140,7 +134,6 @@ bool GModuleKey::searchModuleKey() {
         GModuleKey* lObj = new GModuleKey;
         lObj->m_id = lDataRow.at(j++).toInt();
         lObj->m_name = lDataRow.at(j++);
-        lObj->m_value = lDataRow.at(j++);
         m_map.push_back(lObj);
     }
     m_dataOffset += m_dataSize;
@@ -170,7 +163,6 @@ bool GModuleKey::searchNextModuleKey() {
         GModuleKey* lObj = new GModuleKey;
         lObj->m_id = lDataRow.at(j++).toInt();
         lObj->m_name = lDataRow.at(j++);
-        lObj->m_value = lDataRow.at(j++);
         m_map.push_back(lObj);
     }
     m_dataOffset += m_dataSize;
