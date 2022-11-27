@@ -20,6 +20,9 @@ public:
     ~GWindowUi();
 
 public slots:
+    // managers
+    void on_actionConfig_triggered();
+    void on_actionQuery_triggered();
     // connection
     void on_actionStartConnection_triggered();
     void on_actionStartDisconnection_triggered();

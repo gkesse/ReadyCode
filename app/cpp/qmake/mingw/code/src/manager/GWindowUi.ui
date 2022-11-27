@@ -105,6 +105,14 @@
     <addaction name="menuOptions"/>
     <addaction name="menuModule"/>
    </widget>
+   <widget class="QMenu" name="menuManagers">
+    <property name="title">
+     <string>Managers</string>
+    </property>
+    <addaction name="actionConfig"/>
+    <addaction name="actionQuery"/>
+   </widget>
+   <addaction name="menuManagers"/>
    <addaction name="menuTest"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -246,6 +254,16 @@
   <action name="actionManageModule">
    <property name="text">
     <string>Gérer un module</string>
+   </property>
+  </action>
+  <action name="actionQuery">
+   <property name="text">
+    <string>Requêtes</string>
+   </property>
+  </action>
+  <action name="actionConfig">
+   <property name="text">
+    <string>Configurations</string>
    </property>
   </action>
  </widget>

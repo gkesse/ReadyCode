@@ -6,6 +6,7 @@
 //===============================================
 class GModule;
 class GModuleData;
+class GModuleKey;
 class GModuleMap;
 //===============================================
 namespace Ui {
@@ -31,6 +32,10 @@ public slots:
     void on_btnSaveData_clicked();
     void on_btnSearchData_clicked();
     void on_btnNewData_clicked();
+    // module_key
+    void on_btnSaveKey_clicked();
+    void on_btnSearchKey_clicked();
+    void on_btnNewKey_clicked();
     // module_map
     void on_btnSearchMap_clicked();
     void on_btnNewMap_clicked();
@@ -39,6 +44,7 @@ private:
     Ui::GModuleUi *ui;
     std::shared_ptr<GModule> m_module;
     std::shared_ptr<GModuleData> m_moduleData;
+    std::shared_ptr<GModuleKey> m_moduleKey;
     std::shared_ptr<GModuleMap> m_moduleMap;
 
     int m_moduleId;

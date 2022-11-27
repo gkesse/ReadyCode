@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>GModuleUi</class>
- <widget class="QFrame" name="GModuleUi">
+ <class>GConfigUi</class>
+ <widget class="QFrame" name="GConfigUi">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -17,13 +17,13 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Gérer un module</string>
+   <string>Manager de configuration</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="0" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tabModule">
       <attribute name="title">
@@ -33,21 +33,21 @@
        <item row="0" column="1">
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
-          <widget class="QPushButton" name="btnSave">
+          <widget class="QPushButton" name="btnSaveModule">
            <property name="text">
             <string>&amp;Enregistrer</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="btnSearch">
+          <widget class="QPushButton" name="btnSearchModule">
            <property name="text">
             <string>&amp;Rechercher</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="btnNew">
+          <widget class="QPushButton" name="btnNewModule">
            <property name="text">
             <string>&amp;Nouveau</string>
            </property>
@@ -82,7 +82,7 @@
            <item row="0" column="1">
             <layout class="QHBoxLayout" name="horizontalLayout">
              <item>
-              <widget class="QLineEdit" name="edtName"/>
+              <widget class="QLineEdit" name="edtNameModule"/>
              </item>
             </layout>
            </item>

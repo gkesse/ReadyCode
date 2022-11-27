@@ -1,0 +1,13 @@
+<rdv>
+  <datas>
+    <data>
+      <code>manager</code>
+      <module>query</module>
+      <method>send_query</method>
+    </data>
+    <data>
+      <code>search</code>
+      <data_size>2</data_size>
+    </data>
+  </datas>
+</rdv>

@@ -9,6 +9,8 @@
 #include "GConnection.h"
 #include "GModule.h"
 #include "GModuleUi.h"
+#include "GQueryUi.h"
+#include "GConfigUi.h"
 //===============================================
 GWindowUi::GWindowUi(QWidget* _parent)
 : QMainWindow(_parent)
@@ -23,6 +25,34 @@ GWindowUi::GWindowUi(QWidget* _parent)
 GWindowUi::~GWindowUi() {
     delete m_file;
     delete m_modules;
+}
+//===============================================
+// managers
+//===============================================
+void GWindowUi::on_actionConfig_triggered() {
+    GLOGT(eGFUN, "");
+    GConfigUi* lWindow = new GConfigUi;
+    QMdiSubWindow* lSubWindow = ui->mdiArea->addSubWindow(lWindow);
+    QPoint lCenter = ui->mdiArea->viewport()->rect().center();
+    QRect lGeometry = lSubWindow->geometry();
+    lGeometry.moveCenter(lCenter);
+    lSubWindow->setGeometry(lGeometry);
+    lSubWindow->show();
+    GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGLOG);
+}
+//===============================================
+void GWindowUi::on_actionQuery_triggered() {
+    GLOGT(eGFUN, "");
+    GQueryUi* lWindow = new GQueryUi;
+    QMdiSubWindow* lSubWindow = ui->mdiArea->addSubWindow(lWindow);
+    QPoint lCenter = ui->mdiArea->viewport()->rect().center();
+    QRect lGeometry = lSubWindow->geometry();
+    lGeometry.moveCenter(lCenter);
+    lSubWindow->setGeometry(lGeometry);
+    lSubWindow->show();
+    GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGLOG);
 }
 //===============================================
 // connection

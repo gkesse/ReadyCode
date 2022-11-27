@@ -1,6 +1,6 @@
 //===============================================
-#ifndef _GModule_
-#define _GModule_
+#ifndef _GModule2_
+#define _GModule2_
 //===============================================
 #include "GSearch.h"
 //===============================================
@@ -8,17 +8,15 @@ class GTableWidgetUi;
 class GTableWidgetFr;
 class GTableWidget;
 //===============================================
-class GModule : public GSearch {
+class GModule2 : public GSearch {
 public:
-    GModule(const GString& _code = "module");
-    ~GModule();
+    GModule2(const GString& _code = "module");
+    ~GModule2();
     GObject* clone() const;
     GString serialize(const GString& _code = "module");
     bool deserialize(const GString& _data, const GString& _code = "module");
 
-    void setModule(const GModule& _module);
-    void setModule(const GModule* _module);
-    void setModule(int _index);
+    void setModule(const GModule2& _module);
 
     void setId(int _id);
     void setName(const GString& _name);
@@ -26,7 +24,6 @@ public:
     int getId() const;
     GString getName() const;
 
-    void loadModule();
     void saveModule();
     void searchModule();
     void deleteModule();
@@ -40,7 +37,7 @@ protected:
     int m_id;
     GString m_name;
     std::vector<GObject*> m_map;
-    GTableWidgetUi* m_tableWidget;
+    std::shared_ptr<GTableWidgetUi> m_tableWidget;
 };
 //==============================================
 #endif

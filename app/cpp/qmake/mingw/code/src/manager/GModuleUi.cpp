@@ -4,6 +4,7 @@
 #include "ui_GModuleUi.h"
 #include "GModule.h"
 #include "GModuleData.h"
+#include "GModuleKey.h"
 #include "GModuleMap.h"
 //===============================================
 GModuleUi::GModuleUi(QWidget* _parent)
@@ -34,6 +35,7 @@ GModuleUi::~GModuleUi() {
 void GModuleUi::readData() {
     m_module.reset(new GModule);
     m_moduleData.reset(new GModuleData);
+    m_moduleKey.reset(new GModuleKey);
     m_moduleMap.reset(new GModuleMap);
 
     m_module->setId(m_moduleId);
@@ -126,6 +128,41 @@ void GModuleUi::on_btnSearchData_clicked() {
 }
 //===============================================
 void GModuleUi::on_btnNewData_clicked() {
+    GLOGT(eGFUN, "");
+    m_moduleData->setModuleData(GModuleData());
+    writeData();
+    GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGLOG);
+}
+//===============================================
+// module_key
+//===============================================
+void GModuleUi::on_btnSaveKey_clicked() {
+    GLOGT(eGFUN, "");
+    readData();
+    m_moduleData->setModule(m_module.get());
+    m_moduleData->saveModuleData();
+    if(GLOGI->hasErrors()) {
+        m_module->setModule(0);
+    }
+    writeData();
+    GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGLOG);
+}
+//===============================================
+void GModuleUi::on_btnSearchKey_clicked() {
+    GLOGT(eGFUN, "");
+    readData();
+    m_moduleData->setModule(m_module);
+    m_moduleData->setSearch(GSearch());
+    m_moduleData->searchModuleData();
+    m_moduleData->showList();
+    writeData();
+    GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGLOG);
+}
+//===============================================
+void GModuleUi::on_btnNewKey_clicked() {
     GLOGT(eGFUN, "");
     m_moduleData->setModuleData(GModuleData());
     writeData();

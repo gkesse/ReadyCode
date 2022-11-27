@@ -200,3 +200,12 @@ QTableCornerButton::section {
     background-color: transparent;
 }
 /* ============================================== */
+/* QTextEdit */
+/* ============================================== */
+QTextEdit {
+    background-color: transparent;
+	border: 2px solid #aaaaff;
+	font-family: courier;
+	font-size: 14px;
+}
+/* ============================================== */
