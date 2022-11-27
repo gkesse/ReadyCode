@@ -56,8 +56,16 @@ void GServer::setResponse(const GString& _response) {
     m_response = _response;
 }
 //===============================================
+void GServer::setRequest(const GString& _request) {
+    m_request = _request;
+}
+//===============================================
 GString GServer::getRequest() const {
     return m_request;
+}
+//===============================================
+GString GServer::toResponse() const {
+    return m_domResponse->toString();
 }
 //===============================================
 void GServer::run(int _argc, char** _argv) {

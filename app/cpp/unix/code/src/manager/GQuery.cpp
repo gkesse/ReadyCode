@@ -4,6 +4,7 @@
 #include "GCode.h"
 #include "GLog.h"
 #include "GServer.h"
+#include "GManager.h"
 //===============================================
 GQuery::GQuery(const GString& _code)
 : GSearch(_code) {
@@ -53,6 +54,11 @@ bool GQuery::onModule() {
 //===============================================
 bool GQuery::onSendQuery() {
     if(m_emission == "") {GERROR_ADD(eGERR, "La requête est obligatoire."); return false;}
+    m_server->setRequest(m_emission);
+    onManager();
+    m_reception = m_server->toResponse();
+    m_emission = m_emission.toBase64();
+    m_reception = m_reception.toBase64();
     return true;
 }
 //===============================================

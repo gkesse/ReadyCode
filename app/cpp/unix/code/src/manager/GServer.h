@@ -19,7 +19,9 @@ public:
 
     void setResponse(const GString& _response);
 
+    void setRequest(const GString& _request);
     GString getRequest() const;
+    GString toResponse() const;
 
     void run(int _argc, char** _argv);
 
