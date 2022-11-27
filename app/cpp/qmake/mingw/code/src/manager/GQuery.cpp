@@ -31,8 +31,8 @@ bool GQuery::deserialize(const GString& _data, const GString& _code) {
     GSearch::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
-    m_emission = lDom.getData(_code, "emission");
-    m_reception = lDom.getData(_code, "reception");
+    m_emission = lDom.getData(_code, "emission").fromBase64();
+    m_reception = lDom.getData(_code, "reception").fromBase64();
     return true;
 }
 //===============================================

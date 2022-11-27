@@ -1,9 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <rdv>
   <datas>
     <data>
       <code>manager</code>
-      <module>query</module>
-      <method>send_query</method>
+      <module>module</module>
+      <method>search_module</method>
     </data>
     <data>
       <code>search</code>
