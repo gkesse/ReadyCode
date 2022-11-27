@@ -22,7 +22,7 @@ GString GQuery::serialize(const GString& _code) {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "emission", m_emission, true);
-    lDom.addData(_code, "reception", m_reception);
+    lDom.addData(_code, "reception", m_reception, true);
     lDom.addData(GSearch::serialize(), this);
     return lDom.toString();
 }
@@ -41,7 +41,7 @@ void GQuery::setEmission(const GString& _emission) {
 }
 //===============================================
 void GQuery::setReception(const GString& _reception) {
-    m_reception = _reception;
+    m_reception = _reception.toBase64();
 }
 //===============================================
 GString GQuery::getEmission() const {

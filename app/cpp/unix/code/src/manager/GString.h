@@ -54,6 +54,8 @@ public:
     bool toBool() const;
     int toInt() const;
     bool toInt(int& _data, int _defaultValue = 0) const;
+    GString toBase64() const;
+    GString fromBase64() const;
     std::vector<char> toVector() const;
 
     GString getFormat(const char* _format, ...) const;

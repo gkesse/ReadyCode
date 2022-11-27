@@ -314,6 +314,16 @@ bool GString::toInt(int& _data, int _defaultValue) const {
     return true;
 }
 //===============================================
+GString GString::toBase64() const {
+    GString lData = GBase64(*this).encodeData();
+    return lData;
+}
+//===============================================
+GString GString::fromBase64() const {
+    GString lData = GBase64(*this).decodeData();
+    return lData;
+}
+//===============================================
 std::vector<char> GString::toVector() const {
     std::vector<char> lData(m_data, m_data + m_size);
     return lData;

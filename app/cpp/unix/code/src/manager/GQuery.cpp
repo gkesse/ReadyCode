@@ -21,8 +21,8 @@ GObject* GQuery::clone() const {
 GString GQuery::serialize(const GString& _code) const {
     GCode lDom;
     lDom.createDoc();
-    lDom.addData(_code, "emission", m_emission);
-    lDom.addData(_code, "reception", m_reception);
+    lDom.addData(_code, "emission", m_emission, true);
+    lDom.addData(_code, "reception", m_reception, true);
     lDom.addData(GSearch::serialize());
     return lDom.toString();
 }
@@ -31,8 +31,8 @@ bool GQuery::deserialize(const GString& _data, const GString& _code) {
     GSearch::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
-    m_emission = lDom.getData(_code, "emission");
-    m_reception = lDom.getData(_code, "reception");
+    m_emission = lDom.getData(_code, "emission").fromBase64();
+    m_reception = lDom.getData(_code, "reception").fromBase64();
     return true;
 }
 //===============================================
