@@ -6,7 +6,7 @@ GSearch::GSearch(const GString& _code)
 : GManager(_code) {
     m_lastId = 0;
     m_dataCount = 0;
-    m_dataSize = 2;
+    m_dataSize = 10;
     m_dataOffset = 0;
     m_hasData = false;
 }

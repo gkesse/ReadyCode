@@ -45,6 +45,18 @@ void GModule2::setModule(const GModule2& _module) {
     m_name = _module.m_name;
 }
 //===============================================
+void GModule2::setModule(GModule2* _module) {
+    setModule(*_module);
+}
+//===============================================
+void GModule2::setModule(int _index) {
+    if(_index < (int)m_map.size()) {
+        GModule2* lObj = (GModule2*)m_map.at(_index);
+        setModule(lObj);
+    }
+    clearMap(m_map);
+}
+//===============================================
 void GModule2::setId(int _id) {
     m_id = _id;
 }

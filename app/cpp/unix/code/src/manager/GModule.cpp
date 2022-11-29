@@ -116,7 +116,7 @@ bool GModule::searchModule() {
             " select _id, _name "
             " from _module "
             " %s "
-            " order by _id desc "
+            " order by _name asc "
             " limit %d "
             "", m_where.c_str()
             , m_dataSize
