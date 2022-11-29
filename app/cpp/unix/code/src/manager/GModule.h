@@ -15,10 +15,10 @@ public:
     int getId() const;
 
     bool onModule();
-    bool onLoadModule();
     bool onSaveModule();
     bool onSearchModule();
     bool onSearchNextModule();
+
     bool saveModule();
     bool searchModule();
     bool searchNextModule();
