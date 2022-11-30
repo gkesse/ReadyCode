@@ -113,7 +113,7 @@ bool GModuleData::onSearchNextModuleData() {
 //===============================================
 bool GModuleData::saveModuleData() {
     if(m_id == 0) {
-        if(!existeData()) return false;
+        //if(!existeData()) return false;
         if(!insertData()) return false;
     }
     else {
