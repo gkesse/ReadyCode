@@ -39,6 +39,7 @@ public slots:
     // module_type
     void on_btnSaveType_clicked();
     void on_btnSearchType_clicked();
+    void on_btnDeleteType_clicked();
     void on_btnNewType_clicked();
 
 private:

@@ -185,6 +185,15 @@ void GConfigUi::on_btnSearchType_clicked() {
     GLOG_SHOWG(eGLOG);
 }
 //===============================================
+void GConfigUi::on_btnDeleteType_clicked() {
+    GLOGT(eGFUN, "");
+    readData();
+    m_moduleType->deleteModuleType();
+    writeData();
+    GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGLOG);
+}
+//===============================================
 void GConfigUi::on_btnNewType_clicked() {
     GLOGT(eGFUN, "");
     m_moduleType.reset(new GModuleType);

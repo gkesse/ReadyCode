@@ -18,10 +18,12 @@ public:
     bool onSaveModuleType();
     bool onSearchModuleType();
     bool onSearchNextModuleType();
+    bool onDeleteModuleType();
 
     bool saveModuleType();
     bool searchModuleType();
     bool searchNextModuleType();
+    bool deleteModuleType();
     bool countSearch();
     bool insertModuleType();
     bool updateModuleType();

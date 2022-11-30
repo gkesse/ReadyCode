@@ -211,3 +211,12 @@ QTextEdit {
 	font-size: 14px;
 }
 /* ============================================== */
+/* QComboBox */
+/* ============================================== */
+QComboBox {
+    background-color: transparent;
+	border: 2px solid #aaaaff;
+    border-radius: 5px;
+	padding: 0px 5px;
+}
+/* ============================================== */
