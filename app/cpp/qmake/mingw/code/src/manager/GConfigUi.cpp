@@ -76,6 +76,8 @@ void GConfigUi::on_btnSearchModule_clicked() {
 void GConfigUi::on_btnNewModule_clicked() {
     GLOGT(eGFUN, "");
     m_module.reset(new GModule);
+    m_moduleData.reset(new GModuleData);
+    m_moduleMap.reset(new GModuleMap);
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);

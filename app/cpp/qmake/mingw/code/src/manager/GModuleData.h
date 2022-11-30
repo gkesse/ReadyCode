@@ -42,9 +42,9 @@ protected:
     int m_id;
     GString m_name;
     GString m_value;
-    GModule* m_module;
+    std::shared_ptr<GModule> m_module;
     std::vector<GObject*> m_map;
-    GTableWidgetUi* m_tableWidget;
+    std::shared_ptr<GTableWidgetUi> m_tableWidget;
 };
 //==============================================
 #endif

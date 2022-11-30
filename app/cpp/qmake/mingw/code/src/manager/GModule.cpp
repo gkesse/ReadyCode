@@ -50,6 +50,10 @@ void GModule::setModule(GModule* _module) {
     setModule(*_module);
 }
 //===============================================
+void GModule::setModule(const std::shared_ptr<GModule>& _module) {
+    setModule(_module.get());
+}
+//===============================================
 void GModule::setModule(int _index) {
     if(_index >= 0 && _index < (int)m_map.size()) {
         GModule* lObj = (GModule*)m_map.at(_index);

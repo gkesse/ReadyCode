@@ -17,6 +17,7 @@ public:
 
     void setModule(const GModule& _module);
     void setModule(GModule* _module);
+    void setModule(const std::shared_ptr<GModule>& _module);
     void setModule(int _index);
 
     void setId(int _id);

@@ -9,13 +9,11 @@
 GModuleData::GModuleData(const GString& _code)
 : GSearch(_code) {
     m_id = 0;
-    m_tableWidget = new GTableWidgetUi;
-    m_module = new GModule;
+    m_tableWidget.reset(new GTableWidgetUi);
+    m_module.reset(new GModule);
 }
 //===============================================
 GModuleData::~GModuleData() {
-    delete m_tableWidget;
-    delete m_module;
     clearMap(m_map);
 }
 //===============================================
@@ -77,7 +75,7 @@ void GModuleData::setModule(GModule* _module) {
 }
 //===============================================
 void GModuleData::setModule(const std::shared_ptr<GModule>& _module) {
-    m_module->setModule(_module.get());
+    m_module->setModule(_module);
 }
 //===============================================
 void GModuleData::setId(int _id) {
