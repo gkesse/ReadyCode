@@ -1,24 +1,24 @@
 //===============================================
-#ifndef _GModule2_
-#define _GModule2_
+#ifndef _GModuleType_
+#define _GModuleType_
 //===============================================
 #include "GSearch.h"
 //===============================================
 class GTableWidgetUi;
-class GTableWidgetFr;
 class GTableWidget;
 //===============================================
-class GModule2 : public GSearch {
+class GModuleType : public GSearch {
 public:
-    GModule2(const GString& _code = "module");
-    ~GModule2();
+    GModuleType(const GString& _code = "module_type");
+    ~GModuleType();
     GObject* clone() const;
-    GString serialize(const GString& _code = "module");
-    bool deserialize(const GString& _data, const GString& _code = "module");
+    GString serialize(const GString& _code = "module_type");
+    bool deserialize(const GString& _data, const GString& _code = "module_type");
 
-    void setModule(const GModule2& _module);
-    void setModule(GModule2* _module);
-    void setModule(int _index);
+    void setModuleType(const GModuleType& _moduleType);
+    void setModuleType(GModuleType* _moduleType);
+    void setModuleType(const std::shared_ptr<GModuleType>& _moduleType);
+    void setModuleType(int _index);
 
     void setId(int _id);
     void setName(const GString& _name);
@@ -26,11 +26,10 @@ public:
     int getId() const;
     GString getName() const;
 
-    void saveModule();
-    void searchModule();
-    void deleteModule();
+    void saveModuleType();
+    void searchModuleType();
+    void deleteModuleType();
 
-    bool showModule(GTableWidget* _tableWidget);
     bool showList();
     bool showNextList();
     void onNextData();

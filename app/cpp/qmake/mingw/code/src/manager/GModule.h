@@ -30,7 +30,6 @@ public:
     void searchModule();
     void deleteModule();
 
-    bool showModule(GTableWidget* _tableWidget);
     bool showList();
     bool showNextList();
     void onNextData();
@@ -39,7 +38,7 @@ protected:
     int m_id;
     GString m_name;
     std::vector<GObject*> m_map;
-    GTableWidgetUi* m_tableWidget;
+    std::shared_ptr<GTableWidgetUi> m_tableWidget;
 };
 //==============================================
 #endif

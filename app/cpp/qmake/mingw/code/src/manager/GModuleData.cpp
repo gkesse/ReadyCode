@@ -168,9 +168,9 @@ bool GModuleData::showNextList() {
         GModuleData* lObj = (GModuleData*)m_map.at(i);
         GString lKey = lObj->serialize();
         m_tableWidget->addRow();
-        m_tableWidget->addCol(0, lKey, lObj->m_id);
+        m_tableWidget->addCol(0, lKey, m_module->getName());
         m_tableWidget->addCol(1, lKey, lObj->m_name);
-        m_tableWidget->addCol(2, lKey, lObj->m_name);
+        m_tableWidget->addCol(2, lKey, lObj->m_value);
     }
     clearMap(m_map);
     return true;

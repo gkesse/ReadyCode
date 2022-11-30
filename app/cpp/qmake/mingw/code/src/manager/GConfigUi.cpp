@@ -5,6 +5,7 @@
 #include "GModule.h"
 #include "GModuleData.h"
 #include "GModuleMap.h"
+#include "GModuleType.h"
 //===============================================
 GConfigUi::GConfigUi(QWidget* _parent)
 : QFrame(_parent)
@@ -15,6 +16,7 @@ GConfigUi::GConfigUi(QWidget* _parent)
     m_moduleId = 0;
     m_moduleDataId = 0;
     m_moduleMapId = 0;
+    m_moduleTypeId = 0;
 }
 //===============================================
 GConfigUi::~GConfigUi() {
@@ -25,6 +27,7 @@ void GConfigUi::readData() {
     m_module.reset(new GModule);
     m_moduleData.reset(new GModuleData);
     m_moduleMap.reset(new GModuleMap);
+    m_moduleType.reset(new GModuleType);
     // module
     m_module->setId(m_moduleId);
     m_module->setName(ui->edtNameModule->text());
@@ -34,6 +37,9 @@ void GConfigUi::readData() {
     m_moduleData->setValue(ui->edtValueData->text());
     // module_map
     m_moduleMap->setId(m_moduleMapId);
+    // module_type
+    m_moduleType->setId(m_moduleTypeId);
+    m_moduleType->setName(ui->edtNameType->text());
 }
 //===============================================
 void GConfigUi::writeData() {
@@ -46,6 +52,9 @@ void GConfigUi::writeData() {
     ui->edtValueData->setText(m_moduleData->getValue().c_str());
     // module_data
     m_moduleMapId = m_moduleMap->getId();
+    // module_type
+    m_moduleTypeId = m_moduleType->getId();
+    ui->edtNameType->setText(m_moduleType->getName().c_str());
 }
 //===============================================
 // module
@@ -91,7 +100,7 @@ void GConfigUi::on_btnSaveData_clicked() {
     m_moduleData->setModule(m_module.get());
     m_moduleData->saveModuleData();
     if(GLOGI->hasErrors()) {
-        m_module->setModule(0);
+        m_moduleData->setModuleData(0);
     }
     writeData();
     GERROR_SHOWG(eGERR);
@@ -146,6 +155,39 @@ void GConfigUi::on_btnSearchMap_clicked() {
 void GConfigUi::on_btnNewMap_clicked() {
     GLOGT(eGFUN, "");
     m_moduleMap.reset(new GModuleMap);
+    writeData();
+    GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGLOG);
+}
+//===============================================
+// module_type
+//===============================================
+void GConfigUi::on_btnSaveType_clicked() {
+    GLOGT(eGFUN, "");
+    readData();
+    m_moduleType->saveModuleType();
+    if(GLOGI->hasErrors()) {
+        m_moduleType->setModuleType(0);
+    }
+    writeData();
+    GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGLOG);
+}
+//===============================================
+void GConfigUi::on_btnSearchType_clicked() {
+    GLOGT(eGFUN, "");
+    readData();
+    m_moduleType->setSearch(GSearch());
+    m_moduleType->searchModuleType();
+    m_moduleType->showList();
+    writeData();
+    GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGLOG);
+}
+//===============================================
+void GConfigUi::on_btnNewType_clicked() {
+    GLOGT(eGFUN, "");
+    m_moduleType.reset(new GModuleType);
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);

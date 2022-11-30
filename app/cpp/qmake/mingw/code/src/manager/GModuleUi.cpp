@@ -108,7 +108,7 @@ void GModuleUi::on_btnSaveData_clicked() {
     m_moduleData->setModule(m_module.get());
     m_moduleData->saveModuleData();
     if(GLOGI->hasErrors()) {
-        m_module->setModule(0);
+        m_moduleData->setModuleData(0);
     }
     writeData();
     GERROR_SHOWG(eGERR);

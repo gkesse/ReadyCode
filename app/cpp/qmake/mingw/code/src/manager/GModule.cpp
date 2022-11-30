@@ -9,11 +9,10 @@
 GModule::GModule(const GString& _code)
 : GSearch(_code) {
     m_id = 0;
-    m_tableWidget = new GTableWidgetUi;
+    m_tableWidget.reset(new GTableWidgetUi);
 }
 //===============================================
 GModule::~GModule() {
-    delete m_tableWidget;
     clearMap(m_map);
 }
 //===============================================
@@ -97,20 +96,6 @@ void GModule::deleteModule() {
     GString lData = serialize();
     lData = GCALL_SERVER("module", "delete_module", lData);
     deserialize(lData);
-}
-//===============================================
-bool GModule::showModule(GTableWidget* _tableWidget) {
-    _tableWidget->setSize(m_map.size(), 2);
-    _tableWidget->setHeader(0, "id");
-    _tableWidget->setHeader(1, "nom");
-    for(int i = 0; i < (int)m_map.size(); i++) {
-        GModule* lObj = (GModule*)m_map.at(i);
-        GString lKey = lObj->serialize();
-        _tableWidget->setData(i, 0, lKey, lObj->m_id);
-        _tableWidget->setData(i, 1, lKey, lObj->m_name);
-    }
-    clearMap(m_map);
-    return true;
 }
 //===============================================
 bool GModule::showList() {
