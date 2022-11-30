@@ -64,7 +64,7 @@ bool GModuleType::onModule() {
 }
 //===============================================
 bool GModuleType::onSaveModuleType() {
-    if(m_name == "") {GERROR_ADD(eGERR, "Le nom est obligatoire."); return false;}
+    if(m_name == "") {GERROR_ADD(eGERR, "Le nom du type est obligatoire."); return false;}
     if(!saveModuleType()) return false;
     if(m_id == 0) {GERROR_ADD(eGERR, "Erreur lors de l'enregistrement du module."); return false;}
     GLOG_ADD(eGLOG, "Le module a bien été enregistré.");
