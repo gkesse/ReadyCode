@@ -58,14 +58,21 @@ void GModuleData::setModuleData(GModuleData* _moduleData) {
 }
 //===============================================
 void GModuleData::setModuleData(int _index) {
-    if(_index < (int)m_map.size()) {
+    if(_index >= 0 && _index < (int)m_map.size()) {
         GModuleData* lObj = (GModuleData*)m_map.at(_index);
         setModuleData(lObj);
+    }
+    else {
+        setModuleData(GModuleData());
     }
     clearMap(m_map);
 }
 //===============================================
-void GModuleData::setModule(const GModule* _module) {
+void GModuleData::setModule(const GModule& _module) {
+    m_module->setModule(_module);
+}
+//===============================================
+void GModuleData::setModule(GModule* _module) {
     m_module->setModule(_module);
 }
 //===============================================
@@ -136,38 +143,36 @@ bool GModuleData::showList() {
         return true;
     }
     m_tableWidget->setWindowTitle("Liste des données par module");
-    m_tableWidget->setSize(m_map.size(), 4);
-    m_tableWidget->setHeader(0, "id");
-    m_tableWidget->setHeader(1, "module");
-    m_tableWidget->setHeader(2, "nom");
-    m_tableWidget->setHeader(3, "valeur");
+    m_tableWidget->setSize(m_map.size(), 3);
+    m_tableWidget->setHeader(0, "module");
+    m_tableWidget->setHeader(1, "nom");
+    m_tableWidget->setHeader(2, "valeur");
     for(int i = 0; i < (int)m_map.size(); i++) {
-        GModuleData* lModuleData = (GModuleData*)m_map.at(i);
-        int lId = lModuleData->m_id;
-        m_tableWidget->setData(i, 0, lId, lModuleData->m_id);
-        m_tableWidget->setData(i, 1, lId, m_module->getName());
-        m_tableWidget->setData(i, 2, lId, lModuleData->m_name);
-        m_tableWidget->setData(i, 3, lId, lModuleData->m_value);
+        GModuleData* lObj = (GModuleData*)m_map.at(i);
+        GString lKey = lObj->serialize();
+        m_tableWidget->setData(i, 0, lKey, m_module->getName());
+        m_tableWidget->setData(i, 1, lKey, lObj->m_name);
+        m_tableWidget->setData(i, 2, lKey, lObj->m_value);
     }
     clearMap(m_map);
     m_tableWidget->setSearch(this);
     int lOk = m_tableWidget->exec();
     if(lOk == QDialog::Accepted) {
-        m_id = m_tableWidget->getKey().toInt();
-        setSearch(GSearch());
-        searchModuleData();
-        setModuleData(0);
+        GModuleData lObj;
+        lObj.deserialize(m_tableWidget->getKey());
+        setModuleData(lObj);
     }
     return true;
 }
 //===============================================
 bool GModuleData::showNextList() {
     for(int i = 0; i < (int)m_map.size(); i++) {
-        GModuleData* lModuleData = (GModuleData*)m_map.at(i);
-        int lId = lModuleData->m_id;
+        GModuleData* lObj = (GModuleData*)m_map.at(i);
+        GString lKey = lObj->serialize();
         m_tableWidget->addRow();
-        m_tableWidget->addCol(0, lId, lModuleData->m_id);
-        m_tableWidget->addCol(1, lId, lModuleData->m_name);
+        m_tableWidget->addCol(0, lKey, lObj->m_id);
+        m_tableWidget->addCol(1, lKey, lObj->m_name);
+        m_tableWidget->addCol(2, lKey, lObj->m_name);
     }
     clearMap(m_map);
     return true;

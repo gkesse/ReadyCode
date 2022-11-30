@@ -131,7 +131,7 @@ bool GModuleData::searchModuleData() {
             " select _id, _name, _value "
             " from _module_data "
             " %s "
-            " order by _id desc "
+            " order by _name asc "
             " limit %d "
             "", m_where.c_str()
             , m_dataSize

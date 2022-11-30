@@ -5,7 +5,6 @@
 #include "GSearch.h"
 //===============================================
 class GTableWidgetUi;
-class GTableWidgetFr;
 class GTableWidget;
 //===============================================
 class GModule : public GSearch {
@@ -17,7 +16,7 @@ public:
     bool deserialize(const GString& _data, const GString& _code = "module");
 
     void setModule(const GModule& _module);
-    void setModule(const GModule* _module);
+    void setModule(GModule* _module);
     void setModule(int _index);
 
     void setId(int _id);
@@ -26,7 +25,6 @@ public:
     int getId() const;
     GString getName() const;
 
-    void loadModule();
     void saveModule();
     void searchModule();
     void deleteModule();

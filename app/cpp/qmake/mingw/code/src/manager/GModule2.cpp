@@ -50,9 +50,12 @@ void GModule2::setModule(GModule2* _module) {
 }
 //===============================================
 void GModule2::setModule(int _index) {
-    if(_index < (int)m_map.size()) {
+    if(_index >=0 && _index < (int)m_map.size()) {
         GModule2* lObj = (GModule2*)m_map.at(_index);
         setModule(lObj);
+    }
+    else {
+        setModule(GModule2());
     }
     clearMap(m_map);
 }
@@ -114,19 +117,16 @@ bool GModule2::showList() {
         return false;
     }
     else if(m_map.size() == 1) {
-        GModule2* lObj = (GModule2*)m_map.at(0);
-        setModule(*lObj);
+        setModule(0);
         return true;
     }
     m_tableWidget->setWindowTitle("Liste des modules");
-    m_tableWidget->setSize(m_map.size(), 2);
-    m_tableWidget->setHeader(0, "id");
-    m_tableWidget->setHeader(1, "nom");
+    m_tableWidget->setSize(m_map.size(), 1);
+    m_tableWidget->setHeader(0, "nom");
     for(int i = 0; i < (int)m_map.size(); i++) {
         GModule2* lModule = (GModule2*)m_map.at(i);
         GString lKey = lModule->serialize();
-        m_tableWidget->setData(i, 0, lKey, lModule->m_id);
-        m_tableWidget->setData(i, 1, lKey, lModule->m_name);
+        m_tableWidget->setData(i, 0, lKey, lModule->m_name);
     }
     clearMap(m_map);
     m_tableWidget->setSearch(this);

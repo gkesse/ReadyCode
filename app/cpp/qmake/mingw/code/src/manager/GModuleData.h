@@ -18,7 +18,8 @@ public:
     void setModuleData(const GModuleData& _moduleData);
     void setModuleData(GModuleData* _moduleData);
     void setModuleData(int _index);
-    void setModule(const GModule* _module);
+    void setModule(const GModule& _module);
+    void setModule(GModule* _module);
     void setModule(const std::shared_ptr<GModule>& _module);
 
     void setId(int _id);

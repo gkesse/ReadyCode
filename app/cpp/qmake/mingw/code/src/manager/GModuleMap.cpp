@@ -67,7 +67,7 @@ void GModuleMap::setModuleMap(int _index) {
     clearMap(m_map);
 }
 //===============================================
-void GModuleMap::setModule(const GModule* _module) {
+void GModuleMap::setModule(GModule* _module) {
     m_module->setModule(_module);
 }
 //===============================================

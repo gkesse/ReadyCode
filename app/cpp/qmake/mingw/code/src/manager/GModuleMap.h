@@ -19,7 +19,7 @@ public:
     void setModuleMap(GModuleMap* _moduleMap);
     void setModuleMap(const std::shared_ptr<GModuleMap>& _moduleMap);
     void setModuleMap(int _index);
-    void setModule(const GModule* _module);
+    void setModule(GModule* _module);
     void setModule(const std::shared_ptr<GModule>& _module);
 
     void setId(int _id);

@@ -4,7 +4,9 @@
 //===============================================
 #include "GInclude.h"
 //===============================================
-class GModule2;
+class GModule;
+class GModuleData;
+class GModuleMap;
 //===============================================
 namespace Ui {
     class GConfigUi;
@@ -25,10 +27,24 @@ public slots:
     void on_btnSaveModule_clicked();
     void on_btnSearchModule_clicked();
     void on_btnNewModule_clicked();
+    // module_data
+    void on_btnSaveData_clicked();
+    void on_btnSearchData_clicked();
+    void on_btnNewData_clicked();
+    // module_map
+    void on_btnSaveMap_clicked();
+    void on_btnSearchMap_clicked();
+    void on_btnNewMap_clicked();
 
 private:
     Ui::GConfigUi *ui;
-    std::shared_ptr<GModule2> m_module;
+    std::shared_ptr<GModule> m_module;
+    std::shared_ptr<GModuleData> m_moduleData;
+    std::shared_ptr<GModuleMap> m_moduleMap;
+
+    int m_moduleId;
+    int m_moduleDataId;
+    int m_moduleMapId;
 };
 //==============================================
 #endif
