@@ -8,6 +8,7 @@
 #include "GModule.h"
 #include "GModuleData.h"
 #include "GModuleMap.h"
+#include "GModuleType.h"
 #include "GQuery.h"
 //===============================================
 GManager::GManager(const GString& _code)
@@ -79,6 +80,9 @@ bool GManager::onManager() {
     else if(m_moduleName == "module_map") {
         onModuleMap();
     }
+    else if(m_moduleName == "module_type") {
+        onModuleType();
+    }
     else if(m_moduleName == "query") {
         onQuery();
     }
@@ -89,44 +93,51 @@ bool GManager::onManager() {
 }
 //===============================================
 bool GManager::onConnection() {
-    GConnection lConnect;
-    lConnect.setManager(this);
-    lConnect.onModule();
+    GConnection lObj;
+    lObj.setManager(this);
+    lObj.onModule();
     return true;
 }
 //===============================================
 bool GManager::onFile() {
-    GFile lFile;
-    lFile.setManager(this);
-    lFile.onModule();
+    GFile lObj;
+    lObj.setManager(this);
+    lObj.onModule();
     return true;
 }
 //===============================================
 bool GManager::onModule() {
-    GModule lModule;
-    lModule.setManager(this);
-    lModule.onModule();
+    GModule lObj;
+    lObj.setManager(this);
+    lObj.onModule();
     return true;
 }
 //===============================================
 bool GManager::onModuleData() {
-    GModuleData lModuleData;
-    lModuleData.setManager(this);
-    lModuleData.onModule();
+    GModuleData lObj;
+    lObj.setManager(this);
+    lObj.onModule();
     return true;
 }
 //===============================================
 bool GManager::onModuleMap() {
-    GModuleMap lModuleMap;
-    lModuleMap.setManager(this);
-    lModuleMap.onModule();
+    GModuleMap lObj;
+    lObj.setManager(this);
+    lObj.onModule();
+    return true;
+}
+//===============================================
+bool GManager::onModuleType() {
+    GModuleType lObj;
+    lObj.setManager(this);
+    lObj.onModule();
     return true;
 }
 //===============================================
 bool GManager::onQuery() {
-    GQuery lQuery;
-    lQuery.setManager(this);
-    lQuery.onModule();
+    GQuery lObj;
+    lObj.setManager(this);
+    lObj.onModule();
     return true;
 }
 //===============================================

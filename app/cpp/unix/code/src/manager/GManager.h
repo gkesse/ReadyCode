@@ -37,6 +37,7 @@ public:
     bool onModule();
     bool onModuleData();
     bool onModuleMap();
+    bool onModuleType();
     bool onQuery();
 
 protected:
