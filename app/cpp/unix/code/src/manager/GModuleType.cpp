@@ -101,7 +101,7 @@ bool GModuleType::onSearchNextModuleType() {
 }
 //===============================================
 bool GModuleType::onDeleteModuleType() {
-    if(m_id == 0) {GERROR_ADD(eGERR, "L'id de la donnée est obligatoire."); return false;}
+    if(m_id == 0) {GERROR_ADD(eGERR, "L'identifiant de la donnée est obligatoire."); return false;}
     if(!deleteModuleType()) return false;
     return true;
 }

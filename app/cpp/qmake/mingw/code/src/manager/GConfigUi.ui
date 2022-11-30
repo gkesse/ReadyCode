@@ -366,6 +366,13 @@
           </widget>
          </item>
          <item>
+          <widget class="QPushButton" name="btnDeleteKey">
+           <property name="text">
+            <string>&amp;Supprimer</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QPushButton" name="btnNewKey">
            <property name="text">
             <string>&amp;Nouveau</string>
@@ -522,6 +529,13 @@
           <widget class="QPushButton" name="btnSearchType">
            <property name="text">
             <string>&amp;Rechercher</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnDeleteType">
+           <property name="text">
+            <string>&amp;Supprimer</string>
            </property>
           </widget>
          </item>
