@@ -212,8 +212,8 @@ void GConfigUi::on_btnNewMap_clicked() {
 //===============================================
 void GConfigUi::onLoadModuleType() {
     GLOGT(eGFUN, "");
-    readData();
-    m_moduleType->loadModuleType();
+    m_moduleTypeList.reset(new GModuleType);
+    m_moduleTypeList->loadModuleType();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
 }

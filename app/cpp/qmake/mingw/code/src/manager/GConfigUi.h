@@ -56,6 +56,8 @@ private:
     std::shared_ptr<GModuleMap> m_moduleMap;
     std::shared_ptr<GModuleType> m_moduleType;
 
+    std::shared_ptr<GModuleType> m_moduleTypeList;
+
     int m_moduleId;
     int m_moduleDataId;
     int m_moduleKeyId;

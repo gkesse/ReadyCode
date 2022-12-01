@@ -47,6 +47,9 @@ bool GModuleType::onModule() {
     if(m_methodName == "") {
         GMETHOD_REQUIRED();
     }
+    else if(m_methodName == "load_module_type") {
+        onLoadModuleType();
+    }
     else if(m_methodName == "save_module_type") {
         onSaveModuleType();
     }
@@ -63,6 +66,11 @@ bool GModuleType::onModule() {
         GMETHOD_UNKNOWN();
     }
     m_server->addResponse(serialize());
+    return true;
+}
+//===============================================
+bool GModuleType::onLoadModuleType() {
+    if(!loadModuleType()) return false;
     return true;
 }
 //===============================================
