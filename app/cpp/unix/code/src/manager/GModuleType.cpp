@@ -120,7 +120,6 @@ bool GModuleType::loadModuleType() {
     GMap lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _name "
             " from _module_type "
-            " %s "
             " order by _name asc "
             ""
     ));
