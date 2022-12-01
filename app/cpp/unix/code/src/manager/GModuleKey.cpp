@@ -86,7 +86,7 @@ bool GModuleKey::onSearchModuleKey() {
             m_where += GFORMAT(" and _name like '%s%%' ", m_name.c_str());
         }
         if(m_type != "") {
-            m_where += GFORMAT(" and _value like '%s%%' ", m_type.c_str());
+            m_where += GFORMAT(" and _type like '%s%%' ", m_type.c_str());
         }
     }
     if(!countData()) return false;
