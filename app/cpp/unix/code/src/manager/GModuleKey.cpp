@@ -146,7 +146,7 @@ bool GModuleKey::searchModuleKey() {
         GModuleKey* lObj = new GModuleKey;
         lObj->m_id = lDataRow.at(j++).toInt();
         lObj->m_name = lDataRow.at(j++);
-        lObj->m_type = lDataRow.at(j++);
+        lObj->m_type = lDataRow.at(j++).toInt();
         m_map.push_back(lObj);
     }
     m_dataOffset += m_dataSize;
@@ -176,7 +176,7 @@ bool GModuleKey::searchNextModuleKey() {
         GModuleKey* lObj = new GModuleKey;
         lObj->m_id = lDataRow.at(j++).toInt();
         lObj->m_name = lDataRow.at(j++);
-        lObj->m_type = lDataRow.at(j++);
+        lObj->m_type = lDataRow.at(j++).toInt();
         m_map.push_back(lObj);
     }
     m_dataOffset += m_dataSize;
