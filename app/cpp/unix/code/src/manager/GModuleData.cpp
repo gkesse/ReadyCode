@@ -9,11 +9,10 @@
 GModuleData::GModuleData(const GString& _code)
 : GSearch(_code) {
     m_id = 0;
-    m_module = new GModule;
+    m_module.reset(new GModule);
 }
 //===============================================
 GModuleData::~GModuleData() {
-    delete m_module;
     clearMap(m_map);
 }
 //===============================================
@@ -71,7 +70,7 @@ bool GModuleData::onSaveModuleData() {
     if(m_name == "") {GERROR_ADD(eGERR, "Le nom de la donnée est obligatoire."); return false;}
     if(!saveModuleData()) return false;
     if(m_id == 0) {GERROR_ADD(eGERR, "Erreur lors de l'enregistrement du module."); return false;}
-    GSAVE_OK();
+    GLOG_ADD(eGLOG, "La donnée a bien été enregistrée.");
     return true;
 }
 //===============================================
@@ -113,7 +112,6 @@ bool GModuleData::onSearchNextModuleData() {
 //===============================================
 bool GModuleData::saveModuleData() {
     if(m_id == 0) {
-        //if(!existeData()) return false;
         if(!insertData()) return false;
     }
     else {

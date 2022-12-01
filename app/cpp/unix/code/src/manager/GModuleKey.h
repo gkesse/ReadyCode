@@ -23,7 +23,6 @@ public:
     bool searchModuleKey();
     bool searchNextModuleKey();
     bool countData();
-    bool existeData();
     bool insertData();
     bool updateData();
 
