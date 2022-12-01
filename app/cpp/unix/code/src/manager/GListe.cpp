@@ -16,8 +16,7 @@ GString GList::toSqlArrayString() const {
         if(i != 0) lData += ",";
         lData += GFORMAT("'%s'", lItem.c_str());
     }
-    lData = GFORMAT("(%s)", lData.c_str());
-   return lData;
+    return lData;
 }
 //===============================================
 GString GList::toSqlArrayInt() const {
@@ -27,7 +26,6 @@ GString GList::toSqlArrayInt() const {
         if(i != 0) lData += ",";
         lData += GFORMAT("%s", lItem.c_str());
     }
-    lData = GFORMAT("(%s)", lData.c_str());
     return lData;
 }
 //===============================================
