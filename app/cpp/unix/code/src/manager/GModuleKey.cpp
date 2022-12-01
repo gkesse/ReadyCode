@@ -156,7 +156,7 @@ bool GModuleKey::searchModuleKey() {
         lTypeMap.push_back(lType);
     }
 
-    lTypeMap.toSqlArrayString().print();
+    m_moduleType->searchModuleType(lTypeMap);
 
     m_dataOffset += m_dataSize;
     m_hasData = true;
