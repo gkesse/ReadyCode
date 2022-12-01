@@ -34,6 +34,7 @@ public slots:
     void on_btnSearchData_clicked();
     void on_btnNewData_clicked();
     // module_key
+    void onLoadCmbTypeModuleKey();
     void on_btnSaveKey_clicked();
     void on_btnSearchKey_clicked();
     void on_btnNewKey_clicked();

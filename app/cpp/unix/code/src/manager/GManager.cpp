@@ -7,6 +7,7 @@
 #include "GConnection.h"
 #include "GModule.h"
 #include "GModuleData.h"
+#include "GModuleKey.h"
 #include "GModuleMap.h"
 #include "GModuleType.h"
 #include "GQuery.h"
@@ -77,6 +78,9 @@ bool GManager::onManager() {
     else if(m_moduleName == "module_data") {
         onModuleData();
     }
+    else if(m_moduleName == "module_key") {
+        onModuleKey();
+    }
     else if(m_moduleName == "module_map") {
         onModuleMap();
     }
@@ -115,6 +119,13 @@ bool GManager::onModule() {
 //===============================================
 bool GManager::onModuleData() {
     GModuleData lObj;
+    lObj.setManager(this);
+    lObj.onModule();
+    return true;
+}
+//===============================================
+bool GManager::onModuleKey() {
+    GModuleKey lObj;
     lObj.setManager(this);
     lObj.onModule();
     return true;

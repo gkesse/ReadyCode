@@ -36,6 +36,7 @@ public:
     bool onFile();
     bool onModule();
     bool onModuleData();
+    bool onModuleKey();
     bool onModuleMap();
     bool onModuleType();
     bool onQuery();

@@ -21,6 +21,7 @@ GConfigUi::GConfigUi(QWidget* _parent)
     m_moduleTypeId = 0;
 
     onLoadModuleType();
+    onLoadCmbTypeModuleKey();
 }
 //===============================================
 GConfigUi::~GConfigUi() {
@@ -141,6 +142,13 @@ void GConfigUi::on_btnNewData_clicked() {
 }
 //===============================================
 // module_key
+//===============================================
+void GConfigUi::onLoadCmbTypeModuleKey() {
+    GLOGT(eGFUN, "");
+    m_moduleTypeList->loadComboBox(ui->cmbTypeKey);
+    GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGLOG);
+}
 //===============================================
 void GConfigUi::on_btnSaveKey_clicked() {
     GLOGT(eGFUN, "");

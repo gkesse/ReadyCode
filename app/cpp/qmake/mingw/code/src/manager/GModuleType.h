@@ -31,6 +31,8 @@ public:
     void searchModuleType();
     void deleteModuleType();
 
+    void loadComboBox(QComboBox* _comboBox);
+
     bool showList();
     bool showNextList();
     void onNextData();
