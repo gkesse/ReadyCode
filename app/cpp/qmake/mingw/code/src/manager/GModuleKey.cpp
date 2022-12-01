@@ -1,6 +1,7 @@
 //===============================================
 #include "GModuleKey.h"
 #include "GModule.h"
+#include "GModuleType.h"
 #include "GCode.h"
 #include "GLog.h"
 #include "GClient.h"
@@ -11,6 +12,7 @@ GModuleKey::GModuleKey(const GString& _code)
     m_id = 0;
     m_tableWidget.reset(new GTableWidgetUi);
     m_module.reset(new GModule);
+    m_moduleType.reset(new GModuleType);
 }
 //===============================================
 GModuleKey::~GModuleKey() {
@@ -26,9 +28,9 @@ GString GModuleKey::serialize(const GString& _code) {
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
     lDom.addData(_code, "name", m_name);
-    lDom.addData(_code, "type", m_type);
     lDom.addData(_code, m_map, this);
     lDom.addData(m_module->serialize(), this);
+    lDom.addData(m_moduleType->serialize(), this);
     lDom.addData(GSearch::serialize(), this);
     return lDom.toString();
 }
@@ -36,11 +38,11 @@ GString GModuleKey::serialize(const GString& _code) {
 bool GModuleKey::deserialize(const GString& _data, const GString& _code) {
     GSearch::deserialize(_data);
     m_module->deserialize(_data);
+    m_moduleType->deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
     m_name = lDom.getData(_code, "name");
-    m_type = lDom.getData(_code, "type");
     lDom.getData(_code, m_map, this);
     return true;
 }
@@ -76,6 +78,10 @@ void GModuleKey::setModule(GModule* _module) {
 //===============================================
 void GModuleKey::setModule(const std::shared_ptr<GModule>& _module) {
     m_module->setModule(_module);
+}
+//===============================================
+void GModuleKey::setModuleType(const GString& _moduleType) {
+    m_moduleType->deserialize(_moduleType);
 }
 //===============================================
 void GModuleKey::setId(int _id) {

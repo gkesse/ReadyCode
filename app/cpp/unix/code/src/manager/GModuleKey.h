@@ -5,6 +5,7 @@
 #include "GSearch.h"
 //===============================================
 class GModule;
+class GModuleType;
 //===============================================
 class GModuleKey : public GSearch {
 public:
@@ -29,8 +30,9 @@ public:
 protected:
     int m_id;
     GString m_name;
-    GString m_type;
+    int m_type;
     std::shared_ptr<GModule> m_module;
+    std::shared_ptr<GModuleType> m_moduleType;
     std::vector<GObject*> m_map;
 };
 //==============================================

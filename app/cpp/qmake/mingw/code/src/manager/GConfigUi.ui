@@ -324,13 +324,7 @@
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QComboBox" name="cmbTypeKey">
-             <item>
-              <property name="text">
-               <string>Sélectionner un type...</string>
-              </property>
-             </item>
-            </widget>
+            <widget class="GComboBox" name="cmbTypeKey"/>
            </item>
           </layout>
          </item>
@@ -567,6 +561,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>GComboBox</class>
+   <extends>QComboBox</extends>
+   <header>GComboBox.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
  <buttongroups>

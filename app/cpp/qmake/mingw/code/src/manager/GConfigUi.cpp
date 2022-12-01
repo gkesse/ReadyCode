@@ -7,6 +7,7 @@
 #include "GModuleKey.h"
 #include "GModuleMap.h"
 #include "GModuleType.h"
+#include "GComboBox.h"
 //===============================================
 GConfigUi::GConfigUi(QWidget* _parent)
 : QFrame(_parent)
@@ -44,7 +45,7 @@ void GConfigUi::readData() {
     // module_key
     m_moduleKey->setId(m_moduleKeyId);
     m_moduleKey->setName(ui->edtNameKey->text());
-    m_moduleKey->setType(ui->cmbTypeKey->currentData().toString());
+    m_moduleKey->setModuleType(ui->cmbTypeKey->currentData().toString());
     // module_map
     m_moduleMap->setId(m_moduleMapId);
     // module_type
@@ -63,7 +64,7 @@ void GConfigUi::writeData() {
     // module_key
     m_moduleKeyId = m_moduleKey->getId();
     ui->edtNameKey->setText(m_moduleKey->getName().c_str());
-    ui->cmbTypeKey->setCurrentText(m_moduleKey->getType().c_str());
+    ui->cmbTypeKey->setCurrentIndex(ui->cmbTypeKey->getIndexData(m_moduleKey->getType()));
     // module_map
     m_moduleMapId = m_moduleMap->getId();
     // module_type
@@ -77,9 +78,6 @@ void GConfigUi::on_btnSaveModule_clicked() {
     GLOGT(eGFUN, "");
     readData();
     m_module->saveModule();
-    if(GLOGI->hasErrors()) {
-        m_module->setModule(0);
-    }
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
@@ -113,9 +111,6 @@ void GConfigUi::on_btnSaveData_clicked() {
     readData();
     m_moduleData->setModule(m_module);
     m_moduleData->saveModuleData();
-    if(GLOGI->hasErrors()) {
-        m_moduleData->setModuleData(0);
-    }
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
@@ -145,6 +140,8 @@ void GConfigUi::on_btnNewData_clicked() {
 //===============================================
 void GConfigUi::onLoadCmbTypeModuleKey() {
     GLOGT(eGFUN, "");
+    ui->cmbTypeKey->clear();
+    ui->cmbTypeKey->addItem("Sélectionner un type...", "");
     m_moduleTypeList->loadComboBox(ui->cmbTypeKey);
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
@@ -155,9 +152,6 @@ void GConfigUi::on_btnSaveKey_clicked() {
     readData();
     m_moduleKey->setModule(m_module);
     m_moduleKey->saveModuleKey();
-    if(GLOGI->hasErrors()) {
-        m_moduleKey->setModuleKey(0);
-    }
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
@@ -192,9 +186,6 @@ void GConfigUi::on_btnSaveMap_clicked() {
     m_moduleMap->setSearch(GSearch());
     m_moduleMap->searchModuleMap();
     m_moduleMap->showList();
-    if(GLOGI->hasErrors()) {
-        m_module->setModule(0);
-    }
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
@@ -230,9 +221,8 @@ void GConfigUi::on_btnSaveType_clicked() {
     GLOGT(eGFUN, "");
     readData();
     m_moduleType->saveModuleType();
-    if(GLOGI->hasErrors()) {
-        m_moduleType->setModuleType(0);
-    }
+    onLoadModuleType();
+    onLoadCmbTypeModuleKey();
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
