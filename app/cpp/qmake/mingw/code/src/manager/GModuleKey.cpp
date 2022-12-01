@@ -45,13 +45,36 @@ bool GModuleKey::deserialize(const GString& _data, const GString& _code) {
     return true;
 }
 //===============================================
-void GModuleKey::setModuleKey(const GModuleKey& _moduleData) {
-    m_id = _moduleData.m_id;
-    m_name = _moduleData.m_name;
-    m_type = _moduleData.m_type;
+void GModuleKey::setModuleKey(const GModuleKey& _moduleKey) {
+    m_id = _moduleKey.m_id;
+    m_name = _moduleKey.m_name;
+    m_type = _moduleKey.m_type;
+}
+//===============================================
+void GModuleKey::setModuleKey(GModuleKey* _moduleKey) {
+    setModuleKey(*_moduleKey);
+}
+//===============================================
+void GModuleKey::setModuleKey(int _index) {
+    if(_index >= 0 && _index < (int)m_map.size()) {
+        GModuleKey* lObj = (GModuleKey*)m_map.at(_index);
+        setModuleKey(lObj);
+    }
+    else {
+        setModuleKey(GModuleKey());
+    }
+    clearMap(m_map);
 }
 //===============================================
 void GModuleKey::setModule(const GModule& _module) {
+    m_module->setModule(_module);
+}
+//===============================================
+void GModuleKey::setModule(GModule* _module) {
+    m_module->setModule(_module);
+}
+//===============================================
+void GModuleKey::setModule(const std::shared_ptr<GModule>& _module) {
     m_module->setModule(_module);
 }
 //===============================================
@@ -114,23 +137,20 @@ bool GModuleKey::showList() {
         return false;
     }
     else if(m_map.size() == 1) {
-        GModuleKey* lObj = (GModuleKey*)m_map.at(0);
-        setModuleKey(*lObj);
+        setModuleKey(0);
         return true;
     }
     m_tableWidget->setWindowTitle("Liste des données par module");
-    m_tableWidget->setSize(m_map.size(), 4);
-    m_tableWidget->setHeader(0, "id");
-    m_tableWidget->setHeader(1, "module");
-    m_tableWidget->setHeader(2, "nom");
-    m_tableWidget->setHeader(3, "valeur");
+    m_tableWidget->setSize(m_map.size(), 3);
+    m_tableWidget->setHeader(0, "module");
+    m_tableWidget->setHeader(1, "nom");
+    m_tableWidget->setHeader(2, "valeur");
     for(int i = 0; i < (int)m_map.size(); i++) {
         GModuleKey* lObj = (GModuleKey*)m_map.at(i);
         GString lKey = lObj->serialize();
-        m_tableWidget->setData(i, 0, lKey, lObj->m_id);
-        m_tableWidget->setData(i, 1, lKey, m_module->getName());
-        m_tableWidget->setData(i, 2, lKey, lObj->m_name);
-        m_tableWidget->setData(i, 3, lKey, lObj->m_type);
+        m_tableWidget->setData(i, 0, lKey, m_module->getName());
+        m_tableWidget->setData(i, 1, lKey, lObj->m_name);
+        m_tableWidget->setData(i, 2, lKey, lObj->m_type);
     }
     clearMap(m_map);
     m_tableWidget->setSearch(this);
@@ -145,11 +165,12 @@ bool GModuleKey::showList() {
 //===============================================
 bool GModuleKey::showNextList() {
     for(int i = 0; i < (int)m_map.size(); i++) {
-        GModuleKey* lModuleKey = (GModuleKey*)m_map.at(i);
-        int lId = lModuleKey->m_id;
+        GModuleKey* lObj = (GModuleKey*)m_map.at(i);
+        GString lKey = lObj->serialize();
         m_tableWidget->addRow();
-        m_tableWidget->addCol(0, lId, lModuleKey->m_id);
-        m_tableWidget->addCol(1, lId, lModuleKey->m_name);
+        m_tableWidget->addCol(0, lKey, m_module->getName());
+        m_tableWidget->addCol(1, lKey, lObj->m_name);
+        m_tableWidget->addCol(2, lKey, lObj->m_type);
     }
     clearMap(m_map);
     return true;

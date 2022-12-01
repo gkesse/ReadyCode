@@ -103,6 +103,28 @@ bool GModuleType::onSearchNextModuleType() {
 bool GModuleType::onDeleteModuleType() {
     if(m_id == 0) {GERROR_ADD(eGERR, "L'identifiant de la donnée est obligatoire."); return false;}
     if(!deleteModuleType()) return false;
+    GLOG_ADD(eGLOG, "La donnée a bien été supprimée.");
+    return true;
+}
+//===============================================
+bool GModuleType::loadModuleType() {
+    GMySQL lMySQL;
+    GMap lDataMap = lMySQL.readMap(GFORMAT(""
+            " select _id, _name "
+            " from _module_type "
+            " %s "
+            " order by _name asc "
+            ""
+    ));
+    clearMap(m_map);
+    for(int i = 0; i < (int)lDataMap.size(); i++) {
+        GRow lDataRow = lDataMap.at(i);
+        int j = 0;
+        GModuleType* lObj = new GModuleType;
+        lObj->m_id = lDataRow.at(j++).toInt();
+        lObj->m_name = lDataRow.at(j++);
+        m_map.push_back(lObj);
+    }
     return true;
 }
 //===============================================
@@ -187,7 +209,6 @@ bool GModuleType::deleteModuleType() {
             " and _id = %d "
             "", m_id
     ))) return false;
-    m_id = lMySQL.getId();
     return true;
 }
 //===============================================

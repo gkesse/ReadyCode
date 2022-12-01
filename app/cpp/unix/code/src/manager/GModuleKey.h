@@ -18,6 +18,7 @@ public:
     bool onSaveModuleKey();
     bool onSearchModuleKey();
     bool onSearchNextModuleKey();
+
     bool saveModuleKey();
     bool searchModuleKey();
     bool searchNextModuleKey();

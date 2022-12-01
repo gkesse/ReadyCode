@@ -20,6 +20,7 @@ public:
     bool onSearchNextModuleType();
     bool onDeleteModuleType();
 
+    bool loadModuleType();
     bool saveModuleType();
     bool searchModuleType();
     bool searchNextModuleType();

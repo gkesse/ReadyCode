@@ -80,6 +80,12 @@ GString GModuleType::getName() const {
     return m_name;
 }
 //===============================================
+void GModuleType::loadModuleType() {
+    GString lData = serialize();
+    lData = GCALL_SERVER("module_type", "load_module_type", lData);
+    deserialize(lData);
+}
+//===============================================
 void GModuleType::saveModuleType() {
     GString lData = serialize();
     lData = GCALL_SERVER("module_type", "save_module_type", lData);

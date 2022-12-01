@@ -26,6 +26,7 @@ public:
     int getId() const;
     GString getName() const;
 
+    void loadModuleType();
     void saveModuleType();
     void searchModuleType();
     void deleteModuleType();

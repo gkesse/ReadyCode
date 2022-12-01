@@ -15,8 +15,12 @@ public:
     GString serialize(const GString& _code = "module_key");
     bool deserialize(const GString& _data, const GString& _code = "module_key");
 
-    void setModuleKey(const GModuleKey& _moduleData);
+    void setModuleKey(const GModuleKey& _moduleKey);
+    void setModuleKey(GModuleKey* _moduleKey);
+    void setModuleKey(int _index);
     void setModule(const GModule& _module);
+    void setModule(GModule* _module);
+    void setModule(const std::shared_ptr<GModule>& _module);
 
     void setId(int _id);
     void setName(const GString& _name);
