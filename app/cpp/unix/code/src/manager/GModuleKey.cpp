@@ -9,11 +9,10 @@
 GModuleKey::GModuleKey(const GString& _code)
 : GSearch(_code) {
     m_id = 0;
-    m_module = new GModule;
+    m_module.reset(new GModule);
 }
 //===============================================
 GModuleKey::~GModuleKey() {
-    delete m_module;
     clearMap(m_map);
 }
 //===============================================
@@ -26,6 +25,7 @@ GString GModuleKey::serialize(const GString& _code) const {
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
     lDom.addData(_code, "name", m_name);
+    lDom.addData(_code, "type", m_type);
     lDom.addData(_code, m_map);
     lDom.addData(m_module->serialize());
     lDom.addData(GSearch::serialize());
@@ -39,6 +39,7 @@ bool GModuleKey::deserialize(const GString& _data, const GString& _code) {
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
     m_name = lDom.getData(_code, "name");
+    m_type = lDom.getData(_code, "type");
     lDom.getData(_code, m_map, this);
     return true;
 }
@@ -67,6 +68,7 @@ bool GModuleKey::onModule() {
 bool GModuleKey::onSaveModuleKey() {
     if(m_module->getId() == 0) {GERROR_ADD(eGERR, "L'identifiant du module est obligatoire."); return false;}
     if(m_name == "") {GERROR_ADD(eGERR, "Le nom de la donnée est obligatoire."); return false;}
+    if(m_type == "") {GERROR_ADD(eGERR, "Le type de la donnée est obligatoire."); return false;}
     if(!saveModuleKey()) return false;
     if(m_id == 0) {GERROR_ADD(eGERR, "Erreur lors de l'enregistrement de la donnée."); return false;}
     GSAVE_OK();
@@ -105,7 +107,6 @@ bool GModuleKey::onSearchNextModuleKey() {
 //===============================================
 bool GModuleKey::saveModuleKey() {
     if(m_id == 0) {
-        if(!existeData()) return false;
         if(!insertData()) return false;
     }
     else {
@@ -206,10 +207,11 @@ bool GModuleKey::insertData() {
     GMySQL lMySQL;
     if(!lMySQL.execQuery(GFORMAT(""
             " insert into _module_key "
-            " ( _module_id, _name, _value ) "
-            " values ( %d, '%s' ) "
+            " ( _module_id, _name, _type ) "
+            " values ( %d, '%s', '%s' ) "
             "", m_module->getId()
             , m_name.c_str()
+            , m_type.c_str()
     ))) return false;
     m_id = lMySQL.getId();
     return true;
@@ -221,8 +223,10 @@ bool GModuleKey::updateData() {
     if(!lMySQL.execQuery(GFORMAT(""
             " update _module_key set "
             "   _name = '%s' "
+            "   _type = '%s' "
             " where _id = %d "
             "", m_name.c_str()
+            , m_type.c_str()
             , m_id
     ))) return false;
     return true;

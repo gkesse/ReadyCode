@@ -30,7 +30,8 @@ public:
 protected:
     int m_id;
     GString m_name;
-    GModule* m_module;
+    GString m_type;
+    std::shared_ptr<GModule> m_module;
     std::vector<GObject*> m_map;
 };
 //==============================================
