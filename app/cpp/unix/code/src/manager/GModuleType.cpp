@@ -178,36 +178,6 @@ bool GModuleType::searchModuleType() {
     return true;
 }
 //===============================================
-bool GModuleType::searchModuleType() {
-    GMySQL lMySQL;
-    GMap lDataMap = lMySQL.readMap(GFORMAT(""
-            " select _id, _name "
-            " from _module_type "
-            " %s "
-            " order by _name asc "
-            " limit %d "
-            "", m_where.c_str()
-            , m_dataSize
-    ));
-    clearMap(m_map);
-    for(int i = 0; i < (int)lDataMap.size(); i++) {
-        GRow lDataRow = lDataMap.at(i);
-        int j = 0;
-        GModuleType* lObj = new GModuleType;
-        lObj->m_id = lDataRow.at(j++).toInt();
-        lObj->m_name = lDataRow.at(j++);
-        m_map.push_back(lObj);
-    }
-    m_dataOffset += m_dataSize;
-    m_hasData = true;
-    if(m_dataOffset >= m_dataCount) m_hasData = false;
-    if(m_hasData) {
-        GModuleType* lObj = (GModuleType*)m_map.back();
-        m_lastId = lObj->m_id;
-    }
-    return true;
-}
-//===============================================
 bool GModuleType::searchNextModuleType() {
     GMySQL lMySQL;
     GMap lDataMap = lMySQL.readMap(GFORMAT(""
