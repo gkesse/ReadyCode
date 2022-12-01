@@ -6,6 +6,7 @@
 #include "GCode.h"
 #include "GLog.h"
 #include "GServer.h"
+#include "GList.h"
 //===============================================
 GModuleKey::GModuleKey(const GString& _code)
 : GSearch(_code) {
@@ -140,18 +141,27 @@ bool GModuleKey::searchModuleKey() {
             "", m_where.c_str()
             , m_dataSize
     ));
+
+    int lType = 0;
+    GList lTypeMap;
+
     for(int i = 0; i < (int)lDataMap.size(); i++) {
         GRow lDataRow = lDataMap.at(i);
         int j = 0;
         GModuleKey* lObj = new GModuleKey;
         lObj->m_id = lDataRow.at(j++).toInt();
         lObj->m_name = lDataRow.at(j++);
-        lObj->m_type = lDataRow.at(j++).toInt();
+        lType = lDataRow.at(j++).toInt();
         m_map.push_back(lObj);
+        lTypeMap.push_back(lType);
     }
+
+    lTypeMap.toSqlArrayString().print();
+
     m_dataOffset += m_dataSize;
     m_hasData = true;
     if(m_dataOffset >= m_dataCount) m_hasData = false;
+
     if(m_hasData) {
         GModuleKey* lObj = (GModuleKey*)m_map.back();
         m_lastId = lObj->m_id;
