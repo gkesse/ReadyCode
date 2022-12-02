@@ -6,7 +6,7 @@ GSearch::GSearch(const GString& _code)
 : GManager(_code) {
     m_lastId = 0;
     m_dataCount = 0;
-    m_dataSize = 10;
+    m_dataSize = 0;
     m_dataOffset = 0;
     m_hasData = false;
 }
@@ -44,6 +44,10 @@ void GSearch::setSearch(const GSearch& _search) {
     m_dataSize = _search.m_dataSize;
     m_dataOffset = _search.m_dataOffset;
     m_hasData = _search.m_hasData;
+}
+//===============================================
+void GSearch::setDataSize(int _dataSize) {
+    m_dataSize = _dataSize;
 }
 //===============================================
 bool GSearch::hasData() const {

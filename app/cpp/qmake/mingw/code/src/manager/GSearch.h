@@ -12,12 +12,15 @@ public:
     ~GSearch();
     GString serialize(const GString& _code = "search");
     bool deserialize(const GString& _data, const GString& _code = "search");
+
     void setSearch(const GSearch& _search);
+    void setDataSize(int _dataSize);
+    bool hasData() const;
+
     virtual void onNextData();
     virtual void onAddData();
     virtual void onMoveUpData();
     virtual void onMoveDownData();
-    bool hasData() const;
 
 protected:
     int m_lastId;

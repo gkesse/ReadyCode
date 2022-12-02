@@ -86,7 +86,7 @@ void GConfigUi::on_btnSaveModule_clicked() {
 void GConfigUi::on_btnSearchModule_clicked() {
     GLOGT(eGFUN, "");
     readData();
-    m_module->setSearch(GSearch());
+    m_module->setDataSize(10);
     m_module->searchModule();
     m_module->showList();
     writeData();
@@ -120,7 +120,7 @@ void GConfigUi::on_btnSearchData_clicked() {
     GLOGT(eGFUN, "");
     readData();
     m_moduleData->setModule(m_module);
-    m_moduleData->setSearch(GSearch());
+    m_moduleData->setDataSize(10);
     m_moduleData->searchModuleData();
     m_moduleData->showList();
     writeData();
@@ -161,7 +161,7 @@ void GConfigUi::on_btnSearchKey_clicked() {
     GLOGT(eGFUN, "");
     readData();
     m_moduleKey->setModule(m_module);
-    m_moduleKey->setSearch(GSearch());
+    m_moduleKey->setDataSize(10);
     m_moduleKey->searchModuleKey();
     m_moduleKey->showList();
     writeData();
@@ -183,7 +183,7 @@ void GConfigUi::on_btnSaveMap_clicked() {
     GLOGT(eGFUN, "");
     readData();
     m_moduleMap->setModule(m_module);
-    m_moduleMap->setSearch(GSearch());
+    m_moduleMap->setDataSize(10);
     m_moduleMap->searchModuleMap();
     m_moduleMap->showList();
     writeData();
@@ -231,7 +231,7 @@ void GConfigUi::on_btnSaveType_clicked() {
 void GConfigUi::on_btnSearchType_clicked() {
     GLOGT(eGFUN, "");
     readData();
-    m_moduleType->setSearch(GSearch());
+    m_moduleType->setDataSize(10);
     m_moduleType->searchModuleType();
     m_moduleType->showList();
     writeData();
