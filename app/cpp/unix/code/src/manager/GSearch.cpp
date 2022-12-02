@@ -39,3 +39,11 @@ bool GSearch::deserialize(const GString& _data, const GString& _code) {
     return true;
 }
 //===============================================
+void GSearch::setSearch(const GSearch& _search) {
+    m_lastId = _search.m_lastId;
+    m_dataCount = _search.m_dataCount;
+    m_dataSize = _search.m_dataSize;
+    m_dataOffset = _search.m_dataOffset;
+    m_hasData = _search.m_hasData;
+}
+//===============================================

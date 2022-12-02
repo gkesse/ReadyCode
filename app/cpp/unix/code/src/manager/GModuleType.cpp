@@ -197,6 +197,7 @@ bool GModuleType::searchModuleType(const GList& _datas) {
         lObj->m_name = lDataRow.at(j++);
         m_map.push_back(lObj);
     }
+    setSearch(GSearch());
     return true;
 }
 //===============================================
