@@ -9,6 +9,7 @@ class GModuleData;
 class GModuleKey;
 class GModuleMap;
 class GModuleType;
+class GSearch;
 //===============================================
 namespace Ui {
     class GConfigUi;
@@ -43,11 +44,13 @@ public slots:
     void on_btnSearchMap_clicked();
     void on_btnNewMap_clicked();
     // module_type
-    void onLoadModuleType();
+    void onLoadModuleTypeList();
     void on_btnSaveType_clicked();
     void on_btnSearchType_clicked();
     void on_btnDeleteType_clicked();
     void on_btnNewType_clicked();
+    // search
+    void onLoadSearchConfig();
 
 private:
     Ui::GConfigUi *ui;
@@ -58,6 +61,7 @@ private:
     std::shared_ptr<GModuleType> m_moduleType;
 
     std::shared_ptr<GModuleType> m_moduleTypeList;
+    std::shared_ptr<GSearch> m_searchConfig;
 
     int m_moduleId;
     int m_moduleDataId;

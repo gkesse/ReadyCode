@@ -14,6 +14,9 @@ public:
     bool deserialize(const GString& _data, const GString& _code = "search");
 
     void setSearch(const GSearch& _search);
+    void setSearch(GSearch* _search);
+    void setSearch(const std::shared_ptr<GSearch>& _search);
+
     void setDataSize(int _dataSize);
     bool hasData() const;
 

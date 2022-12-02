@@ -46,6 +46,14 @@ void GSearch::setSearch(const GSearch& _search) {
     m_hasData = _search.m_hasData;
 }
 //===============================================
+void GSearch::setSearch(GSearch* _search) {
+    setSearch(*_search);
+}
+//===============================================
+void GSearch::setSearch(const std::shared_ptr<GSearch>& _search) {
+    setSearch(_search.get());
+}
+//===============================================
 void GSearch::setDataSize(int _dataSize) {
     m_dataSize = _dataSize;
 }

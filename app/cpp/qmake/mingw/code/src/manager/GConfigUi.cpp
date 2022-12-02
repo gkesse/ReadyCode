@@ -21,7 +21,8 @@ GConfigUi::GConfigUi(QWidget* _parent)
     m_moduleMapId = 0;
     m_moduleTypeId = 0;
 
-    onLoadModuleType();
+    onLoadSearchConfig();
+    onLoadModuleTypeList();
     onLoadCmbTypeModuleKey();
 }
 //===============================================
@@ -86,7 +87,7 @@ void GConfigUi::on_btnSaveModule_clicked() {
 void GConfigUi::on_btnSearchModule_clicked() {
     GLOGT(eGFUN, "");
     readData();
-    m_module->setDataSize(10);
+    m_module->setSearch(m_searchConfig);
     m_module->searchModule();
     m_module->showList();
     writeData();
@@ -120,7 +121,7 @@ void GConfigUi::on_btnSearchData_clicked() {
     GLOGT(eGFUN, "");
     readData();
     m_moduleData->setModule(m_module);
-    m_moduleData->setDataSize(10);
+    m_moduleData->setSearch(m_searchConfig);
     m_moduleData->searchModuleData();
     m_moduleData->showList();
     writeData();
@@ -161,7 +162,7 @@ void GConfigUi::on_btnSearchKey_clicked() {
     GLOGT(eGFUN, "");
     readData();
     m_moduleKey->setModule(m_module);
-    m_moduleKey->setDataSize(10);
+    m_moduleKey->setSearch(m_searchConfig);
     m_moduleKey->searchModuleKey();
     m_moduleKey->showList();
     writeData();
@@ -183,7 +184,7 @@ void GConfigUi::on_btnSaveMap_clicked() {
     GLOGT(eGFUN, "");
     readData();
     m_moduleMap->setModule(m_module);
-    m_moduleMap->setDataSize(10);
+    m_moduleMap->setSearch(m_searchConfig);
     m_moduleMap->searchModuleMap();
     m_moduleMap->showList();
     writeData();
@@ -209,7 +210,7 @@ void GConfigUi::on_btnNewMap_clicked() {
 //===============================================
 // module_type
 //===============================================
-void GConfigUi::onLoadModuleType() {
+void GConfigUi::onLoadModuleTypeList() {
     GLOGT(eGFUN, "");
     m_moduleTypeList.reset(new GModuleType);
     m_moduleTypeList->loadModuleType();
@@ -221,7 +222,7 @@ void GConfigUi::on_btnSaveType_clicked() {
     GLOGT(eGFUN, "");
     readData();
     m_moduleType->saveModuleType();
-    onLoadModuleType();
+    onLoadModuleTypeList();
     onLoadCmbTypeModuleKey();
     writeData();
     GERROR_SHOWG(eGERR);
@@ -231,7 +232,7 @@ void GConfigUi::on_btnSaveType_clicked() {
 void GConfigUi::on_btnSearchType_clicked() {
     GLOGT(eGFUN, "");
     readData();
-    m_moduleType->setDataSize(10);
+    m_moduleType->setSearch(m_searchConfig);
     m_moduleType->searchModuleType();
     m_moduleType->showList();
     writeData();
@@ -253,6 +254,16 @@ void GConfigUi::on_btnNewType_clicked() {
     GLOGT(eGFUN, "");
     m_moduleType.reset(new GModuleType);
     writeData();
+    GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGLOG);
+}
+//===============================================
+// search
+//===============================================
+void GConfigUi::onLoadSearchConfig() {
+    GLOGT(eGFUN, "");
+    m_searchConfig.reset(new GSearch);
+    m_searchConfig->setDataSize(10);
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
 }
