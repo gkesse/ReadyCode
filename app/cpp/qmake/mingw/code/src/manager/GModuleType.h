@@ -37,6 +37,8 @@ public:
     bool showNextList();
     void onNextData();
 
+    GObject* at(int _index);
+
 protected:
     int m_id;
     GString m_name;

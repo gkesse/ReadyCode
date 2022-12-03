@@ -65,7 +65,7 @@ void GConfigUi::writeData() {
     // module_key
     m_moduleKeyId = m_moduleKey->getId();
     ui->edtNameKey->setText(m_moduleKey->getName().c_str());
-    ui->cmbTypeKey->setCurrentIndex(ui->cmbTypeKey->getIndexData(m_moduleKey->getType()));
+    ui->cmbTypeKey->setCurrentIndex(ui->cmbTypeKey->getIndexData(m_moduleKey->getModuleType()));
     // module_map
     m_moduleMapId = m_moduleMap->getId();
     // module_type

@@ -4,6 +4,7 @@
 #include "GModuleType.h"
 #include "GCode.h"
 #include "GLog.h"
+#include "GMap.h"
 #include "GClient.h"
 #include "GTableWidgetUi.h"
 //===============================================
@@ -50,7 +51,6 @@ bool GModuleKey::deserialize(const GString& _data, const GString& _code) {
 void GModuleKey::setModuleKey(const GModuleKey& _moduleKey) {
     m_id = _moduleKey.m_id;
     m_name = _moduleKey.m_name;
-    m_type = _moduleKey.m_type;
 }
 //===============================================
 void GModuleKey::setModuleKey(GModuleKey* _moduleKey) {
@@ -59,8 +59,13 @@ void GModuleKey::setModuleKey(GModuleKey* _moduleKey) {
 //===============================================
 void GModuleKey::setModuleKey(int _index) {
     if(_index >= 0 && _index < (int)m_map.size()) {
-        GModuleKey* lObj = (GModuleKey*)m_map.at(_index);
+        GModuleKey* lObj = (GModuleKey*)m_map.at(0);
+        GModuleType* lObj2 = (GModuleType*)m_moduleType->at(0);
         setModuleKey(lObj);
+        GModuleType lObj3;
+        lObj3.setModuleType(lObj2);
+        m_moduleType.reset(new GModuleType);
+        m_moduleType->setModuleType(lObj3);
     }
     else {
         setModuleKey(GModuleKey());
@@ -84,6 +89,10 @@ void GModuleKey::setModuleType(const GString& _moduleType) {
     m_moduleType->deserialize(_moduleType);
 }
 //===============================================
+GString GModuleKey::getModuleType() const {
+    return m_moduleType->serialize();
+}
+//===============================================
 void GModuleKey::setId(int _id) {
     m_id = _id;
 }
@@ -92,20 +101,12 @@ void GModuleKey::setName(const GString& _name) {
     m_name = _name;
 }
 //===============================================
-void GModuleKey::setType(const GString& _type) {
-    m_type = _type;
-}
-//===============================================
 int GModuleKey::getId() const {
     return m_id;
 }
 //===============================================
 GString GModuleKey::getName() const {
     return m_name;
-}
-//===============================================
-GString GModuleKey::getType() const {
-    return m_type;
 }
 //===============================================
 void GModuleKey::saveModuleKey() {
@@ -146,25 +147,38 @@ bool GModuleKey::showList() {
         setModuleKey(0);
         return true;
     }
+
     m_tableWidget->setWindowTitle("Liste des données par module");
     m_tableWidget->setSize(m_map.size(), 3);
     m_tableWidget->setHeader(0, "module");
     m_tableWidget->setHeader(1, "nom");
-    m_tableWidget->setHeader(2, "valeur");
+    m_tableWidget->setHeader(2, "type");
+
     for(int i = 0; i < (int)m_map.size(); i++) {
         GModuleKey* lObj = (GModuleKey*)m_map.at(i);
-        GString lKey = lObj->serialize();
+        GModuleType* lObj2 = (GModuleType*)m_moduleType->at(i);
+
+        GMap lMap;
+        lMap.addObject("key", lObj->serialize());
+        lMap.addObject("type", lObj2->serialize());
+        GString lKey = lMap.toString();
+
         m_tableWidget->setData(i, 0, lKey, m_module->getName());
         m_tableWidget->setData(i, 1, lKey, lObj->m_name);
-        m_tableWidget->setData(i, 2, lKey, lObj->m_type);
+        m_tableWidget->setData(i, 2, lKey, lObj2->getName());
     }
     clearMap(m_map);
     m_tableWidget->setSearch(this);
     int lOk = m_tableWidget->exec();
     if(lOk == QDialog::Accepted) {
         GModuleKey lObj;
-        lObj.deserialize(m_tableWidget->getKey());
+        GModuleType lObj2;
+        GMap lMap(m_tableWidget->getKey());
+        lObj.deserialize(lMap.getObject("key"));
+        lObj2.deserialize(lMap.getObject("type"));
         setModuleKey(lObj);
+        m_moduleType.reset(new GModuleType);
+        m_moduleType->setModuleType(lObj2);
     }
     return true;
 }
@@ -176,7 +190,6 @@ bool GModuleKey::showNextList() {
         m_tableWidget->addRow();
         m_tableWidget->addCol(0, lKey, m_module->getName());
         m_tableWidget->addCol(1, lKey, lObj->m_name);
-        m_tableWidget->addCol(2, lKey, lObj->m_type);
     }
     clearMap(m_map);
     return true;

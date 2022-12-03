@@ -163,3 +163,10 @@ bool GModuleType::showNextList() {
     return true;
 }
 //===============================================
+GObject* GModuleType::at(int _index) {
+    if(_index >= 0 && _index < (int)m_map.size()) {
+        return m_map.at(_index);
+    }
+    return 0;
+}
+//===============================================

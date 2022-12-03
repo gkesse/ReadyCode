@@ -23,14 +23,13 @@ public:
     void setModule(GModule* _module);
     void setModule(const std::shared_ptr<GModule>& _module);
     void setModuleType(const GString& _moduleType);
+    GString getModuleType() const;
 
     void setId(int _id);
     void setName(const GString& _name);
-    void setType(const GString& _type);
 
     int getId() const;
     GString getName() const;
-    GString getType() const;
 
     void saveModuleKey();
     void searchModuleKey();
@@ -43,7 +42,6 @@ public:
 protected:
     int m_id;
     GString m_name;
-    GString m_type;
     std::shared_ptr<GModule> m_module;
     std::shared_ptr<GModuleType> m_moduleType;
     std::vector<GObject*> m_map;
