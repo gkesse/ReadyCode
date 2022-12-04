@@ -142,7 +142,7 @@ bool GModuleKey::saveModuleKey() {
 bool GModuleKey::searchModuleKey() {
     GMySQL lMySQL;
     GMap lDataMap = lMySQL.readMap(GFORMAT(""
-            " select _id, _name, _module_type_id "
+            " select _id, _name, _label, _module_type_id "
             " from _module_key "
             " %s "
             " order by _name asc "
@@ -182,10 +182,10 @@ bool GModuleKey::searchModuleKey() {
 bool GModuleKey::searchNextModuleKey() {
     GMySQL lMySQL;
     GMap lDataMap = lMySQL.readMap(GFORMAT(""
-            " select _id, _name, _module_type_id "
+            " select _id, _name, _label, _module_type_id "
             " from _module_key "
             " %s "
-            " order by _id desc "
+            " order by _name asc "
             " limit %d "
             "", m_where.c_str()
             , m_dataSize
@@ -226,7 +226,7 @@ bool GModuleKey::insertData() {
     GMySQL lMySQL;
     if(!lMySQL.execQuery(GFORMAT(""
             " insert into _module_key "
-            " ( _module_id, _name, _module_type_id ) "
+            " ( _module_id, _name, _label, _module_type_id ) "
             " values ( %d, '%s', '%s', %d ) "
             "", m_module->getId()
             , m_name.c_str()
