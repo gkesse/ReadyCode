@@ -67,9 +67,6 @@ void GModuleKey::setModuleKey(int _index) {
         m_moduleType.reset(new GModuleType);
         m_moduleType->setModuleType(lObj3);
     }
-    else {
-        setModuleKey(GModuleKey());
-    }
     clearMap(m_map);
 }
 //===============================================

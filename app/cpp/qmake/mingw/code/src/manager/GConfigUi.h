@@ -40,6 +40,7 @@ public slots:
     void on_btnSearchKey_clicked();
     void on_btnNewKey_clicked();
     // module_map
+    void onLoadModuleMap();
     void on_btnSaveMap_clicked();
     void on_btnSearchMap_clicked();
     void on_btnNewMap_clicked();

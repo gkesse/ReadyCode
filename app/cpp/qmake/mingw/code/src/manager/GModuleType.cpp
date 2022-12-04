@@ -58,9 +58,6 @@ void GModuleType::setModuleType(int _index) {
         GModuleType* lObj = (GModuleType*)m_map.at(_index);
         setModuleType(lObj);
     }
-    else {
-        setModuleType(GModuleType());
-    }
     clearMap(m_map);
 }
 //===============================================

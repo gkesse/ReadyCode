@@ -24,6 +24,7 @@ GConfigUi::GConfigUi(QWidget* _parent)
     onLoadSearchConfig();
     onLoadModuleTypeList();
     onLoadCmbTypeModuleKey();
+    onLoadModuleMap();
 }
 //===============================================
 GConfigUi::~GConfigUi() {
@@ -180,6 +181,22 @@ void GConfigUi::on_btnNewKey_clicked() {
 //===============================================
 // module_map
 //===============================================
+void GConfigUi::onLoadModuleMap() {
+    GLOGT(eGFUN, "");
+    for(int i = 0; i < 5; i++) {
+        GString lLabel = GFORMAT("Label (%d) :", i);
+        QLineEdit* lField = new QLineEdit;
+        ui->layModuleMap->addRow(lLabel.c_str(), lField);
+    }
+    for(int i = 0; i < 5; i++) {
+        GString lLabel = GFORMAT("Label (%d) :", i);
+        QLineEdit* lField = new QLineEdit;
+        ui->layModuleMap->addRow(lLabel.c_str(), lField);
+    }
+    GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGLOG);
+}
+//===============================================
 void GConfigUi::on_btnSaveMap_clicked() {
     GLOGT(eGFUN, "");
     readData();
@@ -245,6 +262,8 @@ void GConfigUi::on_btnDeleteType_clicked() {
     readData();
     m_moduleType->deleteModuleType();
     m_moduleType.reset(new GModuleType);
+    onLoadModuleTypeList();
+    onLoadCmbTypeModuleKey();
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);

@@ -60,9 +60,6 @@ void GModuleData::setModuleData(int _index) {
         GModuleData* lObj = (GModuleData*)m_map.at(_index);
         setModuleData(lObj);
     }
-    else {
-        setModuleData(GModuleData());
-    }
     clearMap(m_map);
 }
 //===============================================
