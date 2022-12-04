@@ -46,6 +46,7 @@ void GConfigUi::readData() {
     // module_key
     m_moduleKey->setId(m_moduleKeyId);
     m_moduleKey->setName(ui->edtNameKey->text());
+    m_moduleKey->setLabel(ui->edtLabelKey->text());
     m_moduleKey->setModuleType(ui->cmbTypeKey->currentData().toString());
     // module_map
     m_moduleMap->setId(m_moduleMapId);
@@ -65,6 +66,7 @@ void GConfigUi::writeData() {
     // module_key
     m_moduleKeyId = m_moduleKey->getId();
     ui->edtNameKey->setText(m_moduleKey->getName().c_str());
+    ui->edtLabelKey->setText(m_moduleKey->getLabel().c_str());
     ui->cmbTypeKey->setCurrentIndex(ui->cmbTypeKey->getIndexData(m_moduleKey->getModuleType()));
     // module_map
     m_moduleMapId = m_moduleMap->getId();
@@ -185,14 +187,12 @@ void GConfigUi::onLoadModuleMap() {
     ui->layModuleMap->clear();
     for(int i = 0; i < 5; i++) {
         GString lLabel = GFORMAT("Label (%d) :", i);
-        QLineEdit* lField = new QLineEdit;
-        ui->layModuleMap->addRow(lLabel, lField);
+        ui->layModuleMap->addRow(i, lLabel);
     }
     ui->layModuleMap->clear();
     for(int i = 0; i < 5; i++) {
         GString lLabel = GFORMAT("Label (%d) :", i);
-        QLineEdit* lField = new QLineEdit;
-        ui->layModuleMap->addRow(lLabel.c_str(), lField);
+        ui->layModuleMap->addRow(i, lLabel);
     }
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);

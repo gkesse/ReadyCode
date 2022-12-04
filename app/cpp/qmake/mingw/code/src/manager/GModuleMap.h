@@ -23,10 +23,8 @@ public:
     void setModule(const std::shared_ptr<GModule>& _module);
 
     void setId(int _id);
-    void setPosition(int _position);
 
     int getId() const;
-    int getPosition() const;
 
     void searchModuleMap();
     void nextModuleMap();
@@ -44,6 +42,8 @@ public:
 protected:
     int m_id;
     int m_position;
+    GString m_key;
+    GString m_value;
     std::shared_ptr<GModule> m_module;
     std::vector<GObject*> m_map;
     std::shared_ptr<GTreeWidgetUi> m_treeWidgetUi;

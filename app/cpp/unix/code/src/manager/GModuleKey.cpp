@@ -29,6 +29,7 @@ GString GModuleKey::serialize(const GString& _code) const {
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
     lDom.addData(_code, "name", m_name);
+    lDom.addData(_code, "label", m_label);
     lDom.addData(_code, "type", m_type);
     lDom.addData(_code, m_map);
     lDom.addData(m_module->serialize());
@@ -45,6 +46,7 @@ bool GModuleKey::deserialize(const GString& _data, const GString& _code) {
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
     m_name = lDom.getData(_code, "name");
+    m_label = lDom.getData(_code, "label");
     m_type = lDom.getData(_code, "type").toInt();
     lDom.getData(_code, m_map, this);
     return true;
@@ -74,6 +76,7 @@ bool GModuleKey::onModule() {
 bool GModuleKey::onSaveModuleKey() {
     if(m_module->getId() == 0) {GERROR_ADD(eGERR, "L'identifiant du module est obligatoire."); return false;}
     if(m_name == "") {GERROR_ADD(eGERR, "Le nom de la donnée est obligatoire."); return false;}
+    if(m_label == "") {GERROR_ADD(eGERR, "Le libellé de la donnée est obligatoire."); return false;}
     if(m_moduleType->getId() == 0) {GERROR_ADD(eGERR, "Le type de la donnée est obligatoire."); return false;}
     if(!saveModuleKey()) return false;
     if(m_id == 0) {GERROR_ADD(eGERR, "Erreur lors de l'enregistrement de la donnée."); return false;}
@@ -90,6 +93,9 @@ bool GModuleKey::onSearchModuleKey() {
         m_where += GFORMAT(" and _module_id = %d ", m_module->getId());
         if(m_name != "") {
             m_where += GFORMAT(" and _name like '%s%%' ", m_name.c_str());
+        }
+        if(m_label != "") {
+            m_where += GFORMAT(" and _label like '%s%%' ", m_label.c_str());
         }
         if(m_moduleType->getId() != 0) {
             m_where += GFORMAT(" and _module_type_id = %d ", m_moduleType->getId());
@@ -109,6 +115,9 @@ bool GModuleKey::onSearchNextModuleKey() {
     m_where += GFORMAT(" and _module_id = %d ", m_module->getId());
     if(m_name != "") {
         m_where += GFORMAT(" and _name like '%s%%' ", m_name.c_str());
+    }
+    if(m_label != "") {
+        m_where += GFORMAT(" and _label like '%s%%' ", m_label.c_str());
     }
     if(m_moduleType->getId() != 0) {
         m_where += GFORMAT(" and _module_type_id = %d ", m_moduleType->getId());
@@ -151,6 +160,7 @@ bool GModuleKey::searchModuleKey() {
         GModuleKey* lObj = new GModuleKey;
         lObj->m_id = lDataRow.at(j++).toInt();
         lObj->m_name = lDataRow.at(j++);
+        lObj->m_label = lDataRow.at(j++);
         lType = lDataRow.at(j++).toInt();
         m_map.push_back(lObj);
         lTypeMap.push_back(lType);
@@ -186,6 +196,7 @@ bool GModuleKey::searchNextModuleKey() {
         GModuleKey* lObj = new GModuleKey;
         lObj->m_id = lDataRow.at(j++).toInt();
         lObj->m_name = lDataRow.at(j++);
+        lObj->m_label = lDataRow.at(j++);
         lObj->m_type = lDataRow.at(j++).toInt();
         m_map.push_back(lObj);
     }
@@ -216,9 +227,10 @@ bool GModuleKey::insertData() {
     if(!lMySQL.execQuery(GFORMAT(""
             " insert into _module_key "
             " ( _module_id, _name, _module_type_id ) "
-            " values ( %d, '%s', %d ) "
+            " values ( %d, '%s', '%s', %d ) "
             "", m_module->getId()
             , m_name.c_str()
+            , m_label.c_str()
             , m_moduleType->getId()
     ))) return false;
     m_id = lMySQL.getId();
@@ -231,9 +243,11 @@ bool GModuleKey::updateData() {
     if(!lMySQL.execQuery(GFORMAT(""
             " update _module_key set "
             "   _name = '%s' "
+            " , _label = '%s' "
             " , _module_type_id = %d "
             " where _id = %d "
             "", m_name.c_str()
+            , m_label.c_str()
             , m_moduleType->getId()
             , m_id
     ))) return false;

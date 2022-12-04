@@ -29,6 +29,7 @@ GString GModuleKey::serialize(const GString& _code) {
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
     lDom.addData(_code, "name", m_name);
+    lDom.addData(_code, "label", m_label);
     lDom.addData(_code, m_map, this);
     lDom.addData(m_module->serialize(), this);
     lDom.addData(m_moduleType->serialize(), this);
@@ -44,6 +45,7 @@ bool GModuleKey::deserialize(const GString& _data, const GString& _code) {
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
     m_name = lDom.getData(_code, "name");
+    m_label = lDom.getData(_code, "label");
     lDom.getData(_code, m_map, this);
     return true;
 }
@@ -51,6 +53,7 @@ bool GModuleKey::deserialize(const GString& _data, const GString& _code) {
 void GModuleKey::setModuleKey(const GModuleKey& _moduleKey) {
     m_id = _moduleKey.m_id;
     m_name = _moduleKey.m_name;
+    m_label = _moduleKey.m_label;
 }
 //===============================================
 void GModuleKey::setModuleKey(GModuleKey* _moduleKey) {
@@ -98,12 +101,20 @@ void GModuleKey::setName(const GString& _name) {
     m_name = _name;
 }
 //===============================================
+void GModuleKey::setLabel(const GString& _label) {
+    m_label = _label;
+}
+//===============================================
 int GModuleKey::getId() const {
     return m_id;
 }
 //===============================================
 GString GModuleKey::getName() const {
     return m_name;
+}
+//===============================================
+GString GModuleKey::getLabel() const {
+    return m_label;
 }
 //===============================================
 void GModuleKey::saveModuleKey() {
@@ -149,7 +160,8 @@ bool GModuleKey::showList() {
     m_tableWidget->setSize(m_map.size(), 3);
     m_tableWidget->setHeader(0, "module");
     m_tableWidget->setHeader(1, "nom");
-    m_tableWidget->setHeader(2, "type");
+    m_tableWidget->setHeader(2, "libellé");
+    m_tableWidget->setHeader(3, "type");
 
     for(int i = 0; i < (int)m_map.size(); i++) {
         GModuleKey* lObj = (GModuleKey*)m_map.at(i);
@@ -162,7 +174,8 @@ bool GModuleKey::showList() {
 
         m_tableWidget->setData(i, 0, lKey, m_module->getName());
         m_tableWidget->setData(i, 1, lKey, lObj->m_name);
-        m_tableWidget->setData(i, 2, lKey, lObj2->getName());
+        m_tableWidget->setData(i, 2, lKey, lObj->m_label);
+        m_tableWidget->setData(i, 3, lKey, lObj2->getName());
     }
     clearMap(m_map);
     m_tableWidget->setSearch(this);

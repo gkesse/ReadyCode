@@ -28,6 +28,8 @@ GString GModuleMap::serialize(const GString& _code) {
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
     lDom.addData(_code, "position", m_position);
+    lDom.addData(_code, "key", m_key);
+    lDom.addData(_code, "value", m_value);
     lDom.addData(_code, m_map, this);
     lDom.addData(m_module->serialize(), this);
     lDom.addData(GSearch::serialize(), this);
@@ -42,6 +44,8 @@ bool GModuleMap::deserialize(const GString& _data, const GString& _code) {
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
     m_position = lDom.getData(_code, "position").toInt();
+    m_key = lDom.getData(_code, "key");
+    m_value = lDom.getData(_code, "value");
     lDom.getData(_code, m_map, this);
     return true;
 }
@@ -49,6 +53,8 @@ bool GModuleMap::deserialize(const GString& _data, const GString& _code) {
 void GModuleMap::setModuleMap(const GModuleMap& _moduleMap) {
     m_id = _moduleMap.m_id;
     m_position = _moduleMap.m_position;
+    m_key = _moduleMap.m_key;
+    m_value = _moduleMap.m_value;
 }
 //===============================================
 void GModuleMap::setModuleMap(GModuleMap* _moduleMap) {
@@ -79,16 +85,8 @@ void GModuleMap::setId(int _id) {
     m_id = _id;
 }
 //===============================================
-void GModuleMap::setPosition(int _position) {
-    m_position = _position;
-}
-//===============================================
 int GModuleMap::getId() const {
     return m_id;
-}
-//===============================================
-int GModuleMap::getPosition() const {
-    return m_position;
 }
 //===============================================
 void GModuleMap::searchModuleMap() {
@@ -161,7 +159,6 @@ bool GModuleMap::showList(std::shared_ptr<GTreeWidgetUi>& _treeWidgetUi) {
         lObj->setOnlyObjectCopied();
         GString lKey = lObj->serialize();
         lTreeWidget->addRoot();
-        lTreeWidget->setData(0, lKey, GFORMAT("%s[%d]", m_module->getName().c_str(), lObj->getPosition()));
         lTreeWidget->setData(1, lKey, lObj->getId());
 
         if(lKey == _treeWidgetUi->getKey()) {
