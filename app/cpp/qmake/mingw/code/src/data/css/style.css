@@ -220,3 +220,12 @@ QComboBox {
 	padding: 0px 5px;
 }
 /* ============================================== */
+/* QComboBox */
+/* ============================================== */
+QComboBox {
+    background-color: transparent;
+	border: 2px solid #aaaaff;
+    border-radius: 5px;
+	padding: 0px 5px;
+}
+/* ============================================== */

@@ -397,6 +397,9 @@
       <layout class="QGridLayout" name="gridLayout_4" columnstretch="1,0">
        <item row="0" column="0">
         <widget class="QScrollArea" name="scrollArea">
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
          <property name="widgetResizable">
           <bool>true</bool>
          </property>
@@ -405,8 +408,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>346</width>
-            <height>221</height>
+            <width>348</width>
+            <height>223</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_7">
@@ -416,17 +419,23 @@
            <property name="topMargin">
             <number>0</number>
            </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
            <property name="bottomMargin">
             <number>0</number>
            </property>
            <item row="0" column="0">
-            <layout class="QVBoxLayout" name="verticalLayout_5" stretch="0,1">
+            <layout class="QVBoxLayout" name="verticalLayout_5" stretch="0,0">
              <item>
-              <layout class="QFormLayout" name="layModuleMap">
-               <item row="0" column="1">
-                <layout class="QHBoxLayout" name="horizontalLayout_3"/>
-               </item>
-              </layout>
+              <widget class="GFormLayout" name="layModuleMap">
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+              </widget>
              </item>
              <item>
               <spacer name="verticalSpacer_5">
@@ -583,6 +592,12 @@
    <class>GComboBox</class>
    <extends>QComboBox</extends>
    <header>GComboBox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>GFormLayout</class>
+   <extends>QFrame</extends>
+   <header>GFormLayout.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

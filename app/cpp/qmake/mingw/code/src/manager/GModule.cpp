@@ -4,7 +4,6 @@
 #include "GLog.h"
 #include "GClient.h"
 #include "GTableWidgetUi.h"
-#include "GTableWidget.h"
 //===============================================
 GModule::GModule(const GString& _code)
 : GSearch(_code) {

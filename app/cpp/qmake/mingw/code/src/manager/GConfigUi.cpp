@@ -7,7 +7,6 @@
 #include "GModuleKey.h"
 #include "GModuleMap.h"
 #include "GModuleType.h"
-#include "GComboBox.h"
 //===============================================
 GConfigUi::GConfigUi(QWidget* _parent)
 : QFrame(_parent)
@@ -183,11 +182,13 @@ void GConfigUi::on_btnNewKey_clicked() {
 //===============================================
 void GConfigUi::onLoadModuleMap() {
     GLOGT(eGFUN, "");
+    ui->layModuleMap->clear();
     for(int i = 0; i < 5; i++) {
         GString lLabel = GFORMAT("Label (%d) :", i);
         QLineEdit* lField = new QLineEdit;
-        ui->layModuleMap->addRow(lLabel.c_str(), lField);
+        ui->layModuleMap->addRow(lLabel, lField);
     }
+    ui->layModuleMap->clear();
     for(int i = 0; i < 5; i++) {
         GString lLabel = GFORMAT("Label (%d) :", i);
         QLineEdit* lField = new QLineEdit;

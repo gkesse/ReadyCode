@@ -5,7 +5,6 @@
 #include "GSearch.h"
 //===============================================
 class GTableWidgetUi;
-class GTableWidget;
 //===============================================
 class GModule : public GSearch {
 public:
