@@ -46,7 +46,7 @@ public slots:
     void on_btnSearchMap_clicked();
     void on_btnNewMap_clicked();
     // module_type
-    void onLoadModuleTypeList();
+    void onLoadModuleType();
     void on_btnSaveType_clicked();
     void on_btnSearchType_clicked();
     void on_btnDeleteType_clicked();

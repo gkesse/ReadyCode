@@ -21,7 +21,7 @@ GConfigUi::GConfigUi(QWidget* _parent)
     m_moduleTypeId = 0;
 
     onLoadSearchConfig();
-    onLoadModuleTypeList();
+    onLoadModuleType();
     onLoadCmbTypeModuleKey();
     onLoadModuleMap();
 }
@@ -239,7 +239,7 @@ void GConfigUi::on_btnNewMap_clicked() {
 //===============================================
 // module_type
 //===============================================
-void GConfigUi::onLoadModuleTypeList() {
+void GConfigUi::onLoadModuleType() {
     GLOGT(eGFUN, "");
     m_moduleTypeList.reset(new GModuleType);
     m_moduleTypeList->loadModuleType();
@@ -251,7 +251,7 @@ void GConfigUi::on_btnSaveType_clicked() {
     GLOGT(eGFUN, "");
     readData();
     m_moduleType->saveModuleType();
-    onLoadModuleTypeList();
+    onLoadModuleType();
     onLoadCmbTypeModuleKey();
     writeData();
     GERROR_SHOWG(eGERR);
@@ -274,7 +274,7 @@ void GConfigUi::on_btnDeleteType_clicked() {
     readData();
     m_moduleType->deleteModuleType();
     m_moduleType.reset(new GModuleType);
-    onLoadModuleTypeList();
+    onLoadModuleType();
     onLoadCmbTypeModuleKey();
     writeData();
     GERROR_SHOWG(eGERR);
