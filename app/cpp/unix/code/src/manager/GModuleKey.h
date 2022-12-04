@@ -16,10 +16,12 @@ public:
     bool deserialize(const GString& _data, const GString& _code = "module_key");
 
     bool onModule();
+    bool onLoadModuleKey();
     bool onSaveModuleKey();
     bool onSearchModuleKey();
     bool onSearchNextModuleKey();
 
+    bool loadModuleKey();
     bool saveModuleKey();
     bool searchModuleKey();
     bool searchNextModuleKey();

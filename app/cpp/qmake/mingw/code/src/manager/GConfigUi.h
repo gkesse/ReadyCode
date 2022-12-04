@@ -35,6 +35,7 @@ public slots:
     void on_btnSearchData_clicked();
     void on_btnNewData_clicked();
     // module_key
+    void onLoadModuleKey();
     void onLoadCmbTypeModuleKey();
     void on_btnSaveKey_clicked();
     void on_btnSearchKey_clicked();
@@ -62,6 +63,7 @@ private:
     std::shared_ptr<GModuleType> m_moduleType;
 
     std::shared_ptr<GModuleType> m_moduleTypeList;
+    std::shared_ptr<GModuleKey> m_moduleKeyList;
     std::shared_ptr<GSearch> m_searchConfig;
 
     int m_moduleId;

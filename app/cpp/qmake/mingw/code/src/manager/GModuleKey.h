@@ -33,6 +33,7 @@ public:
     GString getName() const;
     GString getLabel() const;
 
+    void loadModuleKey();
     void saveModuleKey();
     void searchModuleKey();
     void deleteModuleKey();

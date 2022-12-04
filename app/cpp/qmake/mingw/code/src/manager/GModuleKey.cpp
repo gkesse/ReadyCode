@@ -117,6 +117,12 @@ GString GModuleKey::getLabel() const {
     return m_label;
 }
 //===============================================
+void GModuleKey::loadModuleKey() {
+    GString lData = serialize();
+    lData = GCALL_SERVER("module_key", "load_module_key", lData);
+    deserialize(lData);
+}
+//===============================================
 void GModuleKey::saveModuleKey() {
     GString lData = serialize();
     lData = GCALL_SERVER("module_key", "save_module_key", lData);

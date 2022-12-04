@@ -81,6 +81,7 @@ void GConfigUi::on_btnSaveModule_clicked() {
     GLOGT(eGFUN, "");
     readData();
     m_module->saveModule();
+    onLoadModuleKey();
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
@@ -92,6 +93,7 @@ void GConfigUi::on_btnSearchModule_clicked() {
     m_module->setSearch(m_searchConfig);
     m_module->searchModule();
     m_module->showList();
+    onLoadModuleKey();
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
@@ -140,6 +142,15 @@ void GConfigUi::on_btnNewData_clicked() {
 }
 //===============================================
 // module_key
+//===============================================
+void GConfigUi::onLoadModuleKey() {
+    GLOGT(eGFUN, "");
+    m_moduleKeyList.reset(new GModuleKey);
+    m_moduleKeyList->setModule(m_module);
+    m_moduleKeyList->loadModuleKey();
+    GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGLOG);
+}
 //===============================================
 void GConfigUi::onLoadCmbTypeModuleKey() {
     GLOGT(eGFUN, "");

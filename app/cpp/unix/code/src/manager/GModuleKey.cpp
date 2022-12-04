@@ -57,6 +57,9 @@ bool GModuleKey::onModule() {
     if(m_methodName == "") {
         GMETHOD_REQUIRED();
     }
+    else if(m_methodName == "load_module_key") {
+        onLoadModuleKey();
+    }
     else if(m_methodName == "save_module_key") {
         onSaveModuleKey();
     }
@@ -70,6 +73,12 @@ bool GModuleKey::onModule() {
         GMETHOD_UNKNOWN();
     }
     m_server->addResponse(serialize());
+    return true;
+}
+//===============================================
+bool GModuleKey::onLoadModuleKey() {
+    if(m_module->getId() == 0) {GERROR_ADD(eGERR, "L'identifiant du module est obligatoire."); return false;}
+    if(!loadModuleKey()) return false;
     return true;
 }
 //===============================================
@@ -123,6 +132,29 @@ bool GModuleKey::onSearchNextModuleKey() {
         m_where += GFORMAT(" and _module_type_id = %d ", m_moduleType->getId());
     }
     if(!searchNextModuleKey()) return false;
+    return true;
+}
+//===============================================
+bool GModuleKey::loadModuleKey() {
+    GMySQL lMySQL;
+    GMap lDataMap = lMySQL.readMap(GFORMAT(""
+            " select _id, _name, _label "
+            " from _module_key "
+            " where 1 = 1"
+            " and _module_id = %d "
+            " order by _name asc "
+            "", m_module->getId()
+    ));
+    clearMap(m_map);
+    for(int i = 0; i < (int)lDataMap.size(); i++) {
+        GRow lDataRow = lDataMap.at(i);
+        int j = 0;
+        GModuleKey* lObj = new GModuleKey;
+        lObj->m_id = lDataRow.at(j++).toInt();
+        lObj->m_name = lDataRow.at(j++);
+        lObj->m_label = lDataRow.at(j++);
+        m_map.push_back(lObj);
+    }
     return true;
 }
 //===============================================
