@@ -18,10 +18,13 @@ public:
     virtual bool deserialize(const GString& _data, const GString& _code = "object");
     virtual void clearMap(std::vector<GObject*>& _map) const;
     virtual GString getCodeName() const;
-    virtual void print() const;
+    virtual int size() const;
+    virtual GObject* at(int _index);
+    virtual void print();
 
 protected:
     std::shared_ptr<GCode> m_dom;
+    std::vector<GObject*> m_map;
     GString m_codeName;
 };
 //===============================================

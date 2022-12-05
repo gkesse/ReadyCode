@@ -12,9 +12,12 @@
 GModuleMap::GModuleMap(const GString& _code)
 : GSearch(_code) {
     m_id = 0;
+    m_moduleId = 0;
+    m_keyId = 0;
     m_position = 0;
     m_treeWidgetUi.reset(new GTreeWidgetUi);
     m_module.reset(new GModule);
+    m_moduleKey.reset(new GModuleKey);
 }
 //===============================================
 GModuleMap::~GModuleMap() {
@@ -29,8 +32,9 @@ GString GModuleMap::serialize(const GString& _code) {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
+    lDom.addData(_code, "module_id", m_moduleId);
+    lDom.addData(_code, "key_id", m_keyId);
     lDom.addData(_code, "position", m_position);
-    lDom.addData(_code, "key", m_key);
     lDom.addData(_code, "value", m_value);
     lDom.addData(_code, m_map, this);
     lDom.addData(m_module->serialize(), this);
@@ -45,8 +49,9 @@ bool GModuleMap::deserialize(const GString& _data, const GString& _code) {
     GCode lDom;
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
+    m_moduleId = lDom.getData(_code, "module_id").toInt();
+    m_keyId = lDom.getData(_code, "key_id").toInt();
     m_position = lDom.getData(_code, "position").toInt();
-    m_key = lDom.getData(_code, "key");
     m_value = lDom.getData(_code, "value");
     lDom.getData(_code, m_map, this);
     return true;
@@ -54,8 +59,9 @@ bool GModuleMap::deserialize(const GString& _data, const GString& _code) {
 //===============================================
 void GModuleMap::setModuleMap(const GModuleMap& _moduleMap) {
     m_id = _moduleMap.m_id;
+    m_moduleId = _moduleMap.m_moduleId;
+    m_keyId = _moduleMap.m_keyId;
     m_position = _moduleMap.m_position;
-    m_key = _moduleMap.m_key;
     m_value = _moduleMap.m_value;
 }
 //===============================================
@@ -65,6 +71,16 @@ void GModuleMap::setModuleMap(GModuleMap* _moduleMap) {
 //===============================================
 void GModuleMap::setModuleMap(const std::shared_ptr<GModuleMap>& _moduleMap) {
     setModuleMap(*_moduleMap);
+}
+//===============================================
+void GModuleMap::setModuleMap(GFormLayout* _formLayout) {
+    if(!m_moduleKey.get()) return;
+    for(int i = 0; i < m_moduleKey->size(); i++) {
+        GModuleMap* lObj = new GModuleMap;
+        GModuleKey* lObj2 = (GModuleKey*)m_moduleKey->at(i);
+        lObj->m_value = _formLayout->getData(lObj2->getName());
+        m_map.push_back(lObj);
+    }
 }
 //===============================================
 void GModuleMap::setModuleMap(int _index) {
@@ -83,24 +99,42 @@ void GModuleMap::setModule(const std::shared_ptr<GModule>& _module) {
     m_module->setModule(_module.get());
 }
 //===============================================
+void GModuleMap::setModuleKey(const std::shared_ptr<GModuleKey>& _moduleKey) {
+    if(!_moduleKey.get()) return;
+    m_moduleKey.reset(new GModuleKey);
+    m_moduleKey->deserialize(_moduleKey->serialize());
+}
+//===============================================
 void GModuleMap::setId(int _id) {
     m_id = _id;
 }
 //===============================================
-void GModuleMap::setModuleMap(const std::shared_ptr<GModuleKey>& _keys, GFormLayout* _formLayout) {
-    for(int i = 0; i < _keys->size(); i++) {
-        GModuleKey* lObj = (GModuleKey*)_keys->at(i);
-        GString lKey = lObj->getName();
-        GString lType = lObj->get
-        GString lValue = _formLayout->getData(lKey, _type)
-        lObj->m_key = GFORMAT("Key (%d)", i);
-        lObj->m_value = GFORMAT("Value (%d)", i);
-        m_map.push_back(lObj);
-    }
+void GModuleMap::setModuleId(int _moduleId) {
+    m_moduleId = _moduleId;
+}
+//===============================================
+void GModuleMap::setKeyId(int _keyId) {
+    m_keyId = _keyId;
+}
+//===============================================
+void GModuleMap::setPosition(int _position) {
+    m_position = _position;
 }
 //===============================================
 int GModuleMap::getId() const {
     return m_id;
+}
+//===============================================
+int GModuleMap::getModuleId() const {
+    return m_moduleId;
+}
+//===============================================
+int GModuleMap::getKeyId() const {
+    return m_keyId;
+}
+//===============================================
+int GModuleMap::getPosition() const {
+    return m_position;
 }
 //===============================================
 void GModuleMap::saveModuleMap() {

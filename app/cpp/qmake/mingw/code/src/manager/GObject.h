@@ -20,7 +20,7 @@ public:
     virtual void setOnlyObjectCopied();
     virtual void resetOnlyObjectCopied();
     virtual int size() const;
-    GObject* at(int _index);
+    virtual GObject* at(int _index);
     virtual void print();
 
 protected:

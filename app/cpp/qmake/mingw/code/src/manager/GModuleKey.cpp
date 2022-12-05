@@ -12,6 +12,7 @@
 GModuleKey::GModuleKey(const GString& _code)
 : GSearch(_code) {
     m_id = 0;
+    m_moduleId = 0;
     m_tableWidget.reset(new GTableWidgetUi);
     m_module.reset(new GModule);
     m_moduleType.reset(new GModuleType);
@@ -29,6 +30,7 @@ GString GModuleKey::serialize(const GString& _code) {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
+    lDom.addData(_code, "module_id", m_moduleId);
     lDom.addData(_code, "name", m_name);
     lDom.addData(_code, "label", m_label);
     lDom.addData(_code, m_map, this);
@@ -45,6 +47,7 @@ bool GModuleKey::deserialize(const GString& _data, const GString& _code) {
     GCode lDom;
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
+    m_moduleId = lDom.getData(_code, "module_id").toInt();
     m_name = lDom.getData(_code, "name");
     m_label = lDom.getData(_code, "label");
     lDom.getData(_code, m_map, this);
@@ -53,6 +56,7 @@ bool GModuleKey::deserialize(const GString& _data, const GString& _code) {
 //===============================================
 void GModuleKey::setModuleKey(const GModuleKey& _moduleKey) {
     m_id = _moduleKey.m_id;
+    m_moduleId = _moduleKey.m_moduleId;
     m_name = _moduleKey.m_name;
     m_label = _moduleKey.m_label;
 }
@@ -87,15 +91,20 @@ void GModuleKey::setModule(const std::shared_ptr<GModule>& _module) {
 }
 //===============================================
 void GModuleKey::setModuleType(const GString& _moduleType) {
+    m_moduleType.reset(new GModuleType);
     m_moduleType->deserialize(_moduleType);
 }
 //===============================================
-GString GModuleKey::getModuleType() const {
-    return m_moduleType->serialize();
+const std::shared_ptr<GModuleType>& GModuleKey::getModuleType() const {
+    return m_moduleType;
 }
 //===============================================
 void GModuleKey::setId(int _id) {
     m_id = _id;
+}
+//===============================================
+void GModuleKey::setModuleId(int _moduleId) {
+    m_moduleId = _moduleId;
 }
 //===============================================
 void GModuleKey::setName(const GString& _name) {
@@ -108,6 +117,10 @@ void GModuleKey::setLabel(const GString& _label) {
 //===============================================
 int GModuleKey::getId() const {
     return m_id;
+}
+//===============================================
+int GModuleKey::getModuleId() const {
+    return m_moduleId;
 }
 //===============================================
 GString GModuleKey::getName() const {
@@ -124,7 +137,7 @@ void GModuleKey::loadModuleMap(GFormLayout* _formLayout) {
         GModuleKey* lObj = (GModuleKey*)m_map.at(i);
         GModuleType* lObj2 = (GModuleType*)m_moduleType->at(i);
         GString lLabel = GFORMAT("%s :", lObj->getLabel().c_str());
-        _formLayout->addRow(lObj->getName(), lLabel, lObj2->getName());
+        _formLayout->addRow(lObj->getName(), lLabel);
     }
 }
 //===============================================

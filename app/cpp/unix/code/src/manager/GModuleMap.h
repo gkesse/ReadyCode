@@ -35,11 +35,12 @@ public:
 
 private:
     int m_id;
+    int m_moduleId;
+    int m_keyId;
     int m_position;
     int m_positionUp;
     int m_positionDown;
-    std::shared_ptr<GModule> m_module;
-    std::vector<GObject*> m_map;
+    GString m_value;
 };
 //==============================================
 #endif

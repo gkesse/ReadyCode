@@ -18,6 +18,7 @@ GConfigUi::GConfigUi(QWidget* _parent)
     m_moduleDataId = 0;
     m_moduleKeyId = 0;
     m_moduleMapId = 0;
+    m_mapPosition = 0;
     m_moduleTypeId = 0;
 
     onLoadSearchConfig();
@@ -40,15 +41,21 @@ void GConfigUi::readData() {
     m_module->setName(ui->edtNameModule->text());
     // module_data
     m_moduleData->setId(m_moduleDataId);
+    m_moduleData->setModuleId(m_moduleId);
     m_moduleData->setName(ui->edtNameData->text());
     m_moduleData->setValue(ui->edtValueData->text());
     // module_key
     m_moduleKey->setId(m_moduleKeyId);
+    m_moduleKey->setModuleId(m_moduleId);
     m_moduleKey->setName(ui->edtNameKey->text());
     m_moduleKey->setLabel(ui->edtLabelKey->text());
     m_moduleKey->setModuleType(ui->cmbTypeKey->currentData().toString());
     // module_map
     m_moduleMap->setId(m_moduleMapId);
+    m_moduleMap->setModuleId(m_moduleId);
+    m_moduleMap->setKeyId(m_moduleKeyId);
+    m_moduleMap->setPosition(m_mapPosition);
+    m_moduleMap->setModuleKey(m_moduleKeyList);
     m_moduleMap->setModuleMap(ui->layModuleMap);
     // module_type
     m_moduleType->setId(m_moduleTypeId);
@@ -67,9 +74,10 @@ void GConfigUi::writeData() {
     m_moduleKeyId = m_moduleKey->getId();
     ui->edtNameKey->setText(m_moduleKey->getName().c_str());
     ui->edtLabelKey->setText(m_moduleKey->getLabel().c_str());
-    ui->cmbTypeKey->setCurrentIndex(ui->cmbTypeKey->getIndexData(m_moduleKey->getModuleType()));
+    ui->cmbTypeKey->setIndexData(m_moduleKey);
     // module_map
     m_moduleMapId = m_moduleMap->getId();
+    m_mapPosition = m_moduleMap->getPosition();
     // module_type
     m_moduleTypeId = m_moduleType->getId();
     ui->edtNameType->setText(m_moduleType->getName().c_str());
@@ -103,6 +111,7 @@ void GConfigUi::on_btnNewModule_clicked() {
     GLOGT(eGFUN, "");
     m_module.reset(new GModule);
     m_moduleData.reset(new GModuleData);
+    m_moduleKey.reset(new GModuleKey);
     m_moduleMap.reset(new GModuleMap);
     writeData();
     GERROR_SHOWG(eGERR);
@@ -114,7 +123,6 @@ void GConfigUi::on_btnNewModule_clicked() {
 void GConfigUi::on_btnSaveData_clicked() {
     GLOGT(eGFUN, "");
     readData();
-    m_moduleData->setModule(m_module);
     m_moduleData->saveModuleData();
     writeData();
     GERROR_SHOWG(eGERR);
@@ -124,7 +132,6 @@ void GConfigUi::on_btnSaveData_clicked() {
 void GConfigUi::on_btnSearchData_clicked() {
     GLOGT(eGFUN, "");
     readData();
-    m_moduleData->setModule(m_module);
     m_moduleData->setSearch(m_searchConfig);
     m_moduleData->searchModuleData();
     m_moduleData->showList();
@@ -135,7 +142,7 @@ void GConfigUi::on_btnSearchData_clicked() {
 //===============================================
 void GConfigUi::on_btnNewData_clicked() {
     GLOGT(eGFUN, "");
-    m_moduleData->setModuleData(GModuleData());
+    m_moduleData.reset(new GModuleData);
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
@@ -146,7 +153,7 @@ void GConfigUi::on_btnNewData_clicked() {
 void GConfigUi::onLoadModuleKey() {
     GLOGT(eGFUN, "");
     m_moduleKeyList.reset(new GModuleKey);
-    m_moduleKeyList->setModule(m_module);
+    m_moduleKeyList->setModuleId(m_moduleId);
     m_moduleKeyList->loadModuleKey();
     onLoadModuleMap();
     GERROR_SHOWG(eGERR);
@@ -165,7 +172,6 @@ void GConfigUi::onLoadCmbTypeModuleKey() {
 void GConfigUi::on_btnSaveKey_clicked() {
     GLOGT(eGFUN, "");
     readData();
-    m_moduleKey->setModule(m_module);
     m_moduleKey->saveModuleKey();
     onLoadModuleKey();
     writeData();
@@ -176,7 +182,6 @@ void GConfigUi::on_btnSaveKey_clicked() {
 void GConfigUi::on_btnSearchKey_clicked() {
     GLOGT(eGFUN, "");
     readData();
-    m_moduleKey->setModule(m_module);
     m_moduleKey->setSearch(m_searchConfig);
     m_moduleKey->searchModuleKey();
     m_moduleKey->showList();
@@ -205,7 +210,6 @@ void GConfigUi::onLoadModuleMap() {
 void GConfigUi::on_btnSaveMap_clicked() {
     GLOGT(eGFUN, "");
     readData();
-    m_moduleMap->setModule(m_module);
     m_moduleMap->setSearch(m_searchConfig);
     m_moduleMap->saveModuleMap();
     writeData();

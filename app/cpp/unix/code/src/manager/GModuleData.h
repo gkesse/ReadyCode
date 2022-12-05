@@ -29,10 +29,9 @@ public:
 
 protected:
     int m_id;
+    int m_moduleId;
     GString m_name;
     GString m_value;
-    std::shared_ptr<GModule> m_module;
-    std::vector<GObject*> m_map;
 };
 //==============================================
 #endif

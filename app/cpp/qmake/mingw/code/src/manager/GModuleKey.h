@@ -24,13 +24,16 @@ public:
     void setModule(GModule* _module);
     void setModule(const std::shared_ptr<GModule>& _module);
     void setModuleType(const GString& _moduleType);
-    GString getModuleType() const;
+
+    const std::shared_ptr<GModuleType>& getModuleType() const;
 
     void setId(int _id);
+    void setModuleId(int _moduleId);
     void setName(const GString& _name);
     void setLabel(const GString& _label);
 
     int getId() const;
+    int getModuleId() const;
     GString getName() const;
     GString getLabel() const;
 
@@ -46,6 +49,7 @@ public:
 
 protected:
     int m_id;
+    int m_moduleId;
     GString m_name;
     GString m_label;
     std::shared_ptr<GModule> m_module;

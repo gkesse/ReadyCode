@@ -70,6 +70,7 @@ private:
     int m_moduleDataId;
     int m_moduleKeyId;
     int m_moduleMapId;
+    int m_mapPosition;
     int m_moduleTypeId;
 };
 //==============================================
