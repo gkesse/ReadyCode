@@ -153,7 +153,7 @@ void GConfigUi::on_btnNewData_clicked() {
 void GConfigUi::onLoadModuleKey() {
     GLOGT(eGFUN, "");
     m_moduleKeyList.reset(new GModuleKey);
-    m_moduleKeyList->setModuleId(m_moduleId);
+    m_moduleKeyList->setModuleId(m_module->getId());
     m_moduleKeyList->loadModuleKey();
     onLoadModuleMap();
     GERROR_SHOWG(eGERR);
@@ -183,6 +183,7 @@ void GConfigUi::on_btnSearchKey_clicked() {
     GLOGT(eGFUN, "");
     readData();
     m_moduleKey->setSearch(m_searchConfig);
+    m_moduleKey->setModule(m_module);
     m_moduleKey->searchModuleKey();
     m_moduleKey->showList();
     writeData();
