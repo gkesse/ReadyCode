@@ -23,7 +23,6 @@ GConfigUi::GConfigUi(QWidget* _parent)
     onLoadSearchConfig();
     onLoadModuleType();
     onLoadCmbTypeModuleKey();
-    onLoadModuleMap();
 }
 //===============================================
 GConfigUi::~GConfigUi() {
@@ -148,6 +147,7 @@ void GConfigUi::onLoadModuleKey() {
     m_moduleKeyList.reset(new GModuleKey);
     m_moduleKeyList->setModule(m_module);
     m_moduleKeyList->loadModuleKey();
+    onLoadModuleMap();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
 }
@@ -166,6 +166,7 @@ void GConfigUi::on_btnSaveKey_clicked() {
     readData();
     m_moduleKey->setModule(m_module);
     m_moduleKey->saveModuleKey();
+    onLoadModuleKey();
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
@@ -195,16 +196,7 @@ void GConfigUi::on_btnNewKey_clicked() {
 //===============================================
 void GConfigUi::onLoadModuleMap() {
     GLOGT(eGFUN, "");
-    ui->layModuleMap->clear();
-    for(int i = 0; i < 5; i++) {
-        GString lLabel = GFORMAT("Label (%d) :", i);
-        ui->layModuleMap->addRow(i, lLabel);
-    }
-    ui->layModuleMap->clear();
-    for(int i = 0; i < 5; i++) {
-        GString lLabel = GFORMAT("Label (%d) :", i);
-        ui->layModuleMap->addRow(i, lLabel);
-    }
+    m_moduleKeyList->loadModuleMap(ui->layModuleMap);
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
 }

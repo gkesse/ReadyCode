@@ -7,6 +7,7 @@
 #include "GMap.h"
 #include "GClient.h"
 #include "GTableWidgetUi.h"
+#include "GFormLayout.h"
 //===============================================
 GModuleKey::GModuleKey(const GString& _code)
 : GSearch(_code) {
@@ -115,6 +116,16 @@ GString GModuleKey::getName() const {
 //===============================================
 GString GModuleKey::getLabel() const {
     return m_label;
+}
+//===============================================
+void GModuleKey::loadModuleMap(GFormLayout* _formLayout) {
+    _formLayout->clear();
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GModuleKey* lObj = (GModuleKey*)m_map.at(i);
+        GModuleType* lObj2 = (GModuleType*)m_moduleType->at(i);
+        GString lLabel = GFORMAT("%s :", lObj->getLabel().c_str());
+        _formLayout->addRow(lObj->getName(), lLabel, lObj2->getName());
+    }
 }
 //===============================================
 void GModuleKey::loadModuleKey() {

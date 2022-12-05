@@ -7,6 +7,7 @@
 class GTableWidgetUi;
 class GModule;
 class GModuleType;
+class GFormLayout;
 //===============================================
 class GModuleKey : public GSearch {
 public:
@@ -33,6 +34,7 @@ public:
     GString getName() const;
     GString getLabel() const;
 
+    void loadModuleMap(GFormLayout* _formLayout);
     void loadModuleKey();
     void saveModuleKey();
     void searchModuleKey();
