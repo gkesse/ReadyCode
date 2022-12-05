@@ -33,7 +33,7 @@ protected:
     int m_id;
     GString m_name;
     GString m_label;
-    int m_type;
+    int m_typeId;
     std::shared_ptr<GModule> m_module;
     std::shared_ptr<GModuleType> m_moduleType;
     std::vector<GObject*> m_map;

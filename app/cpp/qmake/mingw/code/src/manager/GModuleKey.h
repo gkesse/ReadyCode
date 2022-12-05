@@ -50,7 +50,6 @@ protected:
     GString m_label;
     std::shared_ptr<GModule> m_module;
     std::shared_ptr<GModuleType> m_moduleType;
-    std::vector<GObject*> m_map;
     std::shared_ptr<GTableWidgetUi> m_tableWidget;
 };
 //==============================================

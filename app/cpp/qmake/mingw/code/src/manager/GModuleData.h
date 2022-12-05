@@ -43,7 +43,6 @@ protected:
     GString m_name;
     GString m_value;
     std::shared_ptr<GModule> m_module;
-    std::vector<GObject*> m_map;
     std::shared_ptr<GTableWidgetUi> m_tableWidget;
 };
 //==============================================

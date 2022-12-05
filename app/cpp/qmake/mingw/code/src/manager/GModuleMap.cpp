@@ -6,6 +6,8 @@
 #include "GClient.h"
 #include "GTreeWidgetUi.h"
 #include "GTreeWidget.h"
+#include "GFormLayout.h"
+#include "GModuleKey.h"
 //===============================================
 GModuleMap::GModuleMap(const GString& _code)
 : GSearch(_code) {
@@ -85,8 +87,26 @@ void GModuleMap::setId(int _id) {
     m_id = _id;
 }
 //===============================================
+void GModuleMap::setModuleMap(const std::shared_ptr<GModuleKey>& _keys, GFormLayout* _formLayout) {
+    for(int i = 0; i < _keys->size(); i++) {
+        GModuleKey* lObj = (GModuleKey*)_keys->at(i);
+        GString lKey = lObj->getName();
+        GString lType = lObj->get
+        GString lValue = _formLayout->getData(lKey, _type)
+        lObj->m_key = GFORMAT("Key (%d)", i);
+        lObj->m_value = GFORMAT("Value (%d)", i);
+        m_map.push_back(lObj);
+    }
+}
+//===============================================
 int GModuleMap::getId() const {
     return m_id;
+}
+//===============================================
+void GModuleMap::saveModuleMap() {
+    GString lData = serialize();
+    lData = GCALL_SERVER("module_map", "save_module_map", lData);
+    deserialize(lData);
 }
 //===============================================
 void GModuleMap::searchModuleMap() {

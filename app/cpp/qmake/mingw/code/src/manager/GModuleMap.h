@@ -6,6 +6,8 @@
 //===============================================
 class GTreeWidgetUi;
 class GModule;
+class GFormLayout;
+class GModuleKey;
 //===============================================
 class GModuleMap : public GSearch {
 public:
@@ -23,9 +25,11 @@ public:
     void setModule(const std::shared_ptr<GModule>& _module);
 
     void setId(int _id);
+    void setModuleMap(const std::shared_ptr<GModuleKey>& _keys, GFormLayout* _formLayout);
 
     int getId() const;
 
+    void saveModuleMap();
     void searchModuleMap();
     void nextModuleMap();
     void addModuleMap();
@@ -45,7 +49,6 @@ protected:
     GString m_key;
     GString m_value;
     std::shared_ptr<GModule> m_module;
-    std::vector<GObject*> m_map;
     std::shared_ptr<GTreeWidgetUi> m_treeWidgetUi;
 };
 //==============================================

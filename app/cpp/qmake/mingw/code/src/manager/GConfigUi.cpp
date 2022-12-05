@@ -49,6 +49,7 @@ void GConfigUi::readData() {
     m_moduleKey->setModuleType(ui->cmbTypeKey->currentData().toString());
     // module_map
     m_moduleMap->setId(m_moduleMapId);
+    m_moduleMap->setModuleMap(ui->layModuleMap);
     // module_type
     m_moduleType->setId(m_moduleTypeId);
     m_moduleType->setName(ui->edtNameType->text());
@@ -206,8 +207,7 @@ void GConfigUi::on_btnSaveMap_clicked() {
     readData();
     m_moduleMap->setModule(m_module);
     m_moduleMap->setSearch(m_searchConfig);
-    m_moduleMap->searchModuleMap();
-    m_moduleMap->showList();
+    m_moduleMap->saveModuleMap();
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);

@@ -11,7 +11,7 @@
 GModuleKey::GModuleKey(const GString& _code)
 : GSearch(_code) {
     m_id = 0;
-    m_type = 0;
+    m_typeId = 0;
     m_module.reset(new GModule);
     m_moduleType.reset(new GModuleType);
 }
@@ -30,7 +30,7 @@ GString GModuleKey::serialize(const GString& _code) const {
     lDom.addData(_code, "id", m_id);
     lDom.addData(_code, "name", m_name);
     lDom.addData(_code, "label", m_label);
-    lDom.addData(_code, "type", m_type);
+    lDom.addData(_code, "type_id", m_typeId);
     lDom.addData(_code, m_map);
     lDom.addData(m_module->serialize());
     lDom.addData(m_moduleType->serialize());
@@ -47,7 +47,7 @@ bool GModuleKey::deserialize(const GString& _data, const GString& _code) {
     m_id = lDom.getData(_code, "id").toInt();
     m_name = lDom.getData(_code, "name");
     m_label = lDom.getData(_code, "label");
-    m_type = lDom.getData(_code, "type").toInt();
+    m_typeId = lDom.getData(_code, "type_id").toInt();
     lDom.getData(_code, m_map, this);
     return true;
 }
@@ -157,7 +157,7 @@ bool GModuleKey::loadModuleKey() {
         lObj->m_id = lDataRow.at(j++).toInt();
         lObj->m_name = lDataRow.at(j++);
         lObj->m_label = lDataRow.at(j++);
-        lType = lDataRow.at(j++).toInt();
+        lObj->m_typeId = lDataRow.at(j++).toInt();
         m_map.push_back(lObj);
         lTypeMap.push_back(lType);
     }
@@ -193,7 +193,6 @@ bool GModuleKey::searchModuleKey() {
             , m_dataSize
     ));
 
-    int lType = 0;
     GList lTypeMap;
 
     for(int i = 0; i < (int)lDataMap.size(); i++) {
@@ -203,9 +202,9 @@ bool GModuleKey::searchModuleKey() {
         lObj->m_id = lDataRow.at(j++).toInt();
         lObj->m_name = lDataRow.at(j++);
         lObj->m_label = lDataRow.at(j++);
-        lType = lDataRow.at(j++).toInt();
+        lObj->m_typeId = lDataRow.at(j++).toInt();
         m_map.push_back(lObj);
-        lTypeMap.push_back(lType);
+        lTypeMap.push_back(lObj->m_typeId);
     }
 
     m_moduleType->searchModuleType(lTypeMap);
@@ -240,7 +239,7 @@ bool GModuleKey::searchNextModuleKey() {
         lObj->m_id = lDataRow.at(j++).toInt();
         lObj->m_name = lDataRow.at(j++);
         lObj->m_label = lDataRow.at(j++);
-        lObj->m_type = lDataRow.at(j++).toInt();
+        lObj->m_typeId = lDataRow.at(j++).toInt();
         m_map.push_back(lObj);
     }
     m_dataOffset += m_dataSize;

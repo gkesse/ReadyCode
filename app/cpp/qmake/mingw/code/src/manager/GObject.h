@@ -19,10 +19,13 @@ public:
     virtual bool isOnlyObjectCopied() const;
     virtual void setOnlyObjectCopied();
     virtual void resetOnlyObjectCopied();
+    virtual int size() const;
+    GObject* at(int _index);
     virtual void print();
 
 protected:
     std::shared_ptr<GCode> m_dom;
+    std::vector<GObject*> m_map;
     GString m_codeName;
     bool m_isOnlyObjectCopied;
 };
