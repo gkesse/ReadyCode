@@ -35,7 +35,6 @@ protected:
     int m_typeId;
     GString m_name;
     GString m_label;
-    std::shared_ptr<GModule> m_module;
     std::shared_ptr<GModuleType> m_moduleType;
 };
 //==============================================

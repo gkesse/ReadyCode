@@ -13,7 +13,6 @@ GModuleKey::GModuleKey(const GString& _code)
     m_id = 0;
     m_moduleId = 0;
     m_typeId = 0;
-    m_module.reset(new GModule);
     m_moduleType.reset(new GModuleType);
 }
 //===============================================
@@ -34,7 +33,6 @@ GString GModuleKey::serialize(const GString& _code) const {
     lDom.addData(_code, "name", m_name);
     lDom.addData(_code, "label", m_label);
     lDom.addData(_code, m_map);
-    lDom.addData(m_module->serialize());
     lDom.addData(m_moduleType->serialize());
     lDom.addData(GSearch::serialize());
     return lDom.toString();
@@ -43,7 +41,6 @@ GString GModuleKey::serialize(const GString& _code) const {
 bool GModuleKey::deserialize(const GString& _data, const GString& _code) {
     GSearch::deserialize(_data);
     m_moduleType->deserialize(_data);
-    m_module->deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
