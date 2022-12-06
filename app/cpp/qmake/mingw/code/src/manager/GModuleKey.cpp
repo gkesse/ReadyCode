@@ -142,6 +142,7 @@ void GModuleKey::loadModuleMap(GFormLayout* _formLayout) {
 }
 //===============================================
 void GModuleKey::loadModuleKey() {
+    if(m_moduleId <= 0) return;
     GString lData = serialize();
     lData = GCALL_SERVER("module_key", "load_module_key", lData);
     deserialize(lData);
