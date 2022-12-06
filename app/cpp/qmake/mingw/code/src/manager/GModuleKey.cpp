@@ -174,6 +174,10 @@ void GModuleKey::onNextData() {
 }
 //===============================================
 bool GModuleKey::showList() {
+    if(m_map.size() == 0) {
+        GERROR_ADD(eGERR, "Aucun résultat n'a été trouvé.");
+        return true;
+    }
     if(m_map.size() == 1) {
         setModuleKey(0);
         return true;

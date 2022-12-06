@@ -98,6 +98,7 @@ void GModule::deleteModule() {
 }
 //===============================================
 bool GModule::showList() {
+    if(m_map.size() == 0) return true;
     if(m_map.size() == 1) {
         setModule(0);
         return true;

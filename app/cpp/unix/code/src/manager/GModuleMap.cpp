@@ -90,7 +90,6 @@ bool GModuleMap::onSearchModuleMap() {
     }
     if(!countData()) return false;
     if(!searchData()) return false;
-    if(m_map.size() == 0) {GERROR_ADD(eGERR, "Aucun résultat n'a été trouvé."); return false;}
     return true;
 }
 //===============================================
