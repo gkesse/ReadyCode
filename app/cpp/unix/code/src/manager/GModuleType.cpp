@@ -178,9 +178,9 @@ bool GModuleType::searchModuleType() {
     return true;
 }
 //===============================================
-bool GModuleType::searchModuleType(const GList& _datas) {
+bool GModuleType::searchModuleType(const GList& _data) {
     clearMap(m_map);
-    if(!_datas.size()) return true;
+    if(!_data.size()) return true;
     GMySQL lMySQL;
     GMap lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _name "
@@ -188,7 +188,7 @@ bool GModuleType::searchModuleType(const GList& _datas) {
             " where 1 = 1 "
             " and _id in (%s)"
             " order by _name asc "
-            "", _datas.toSqlArrayInt().c_str()
+            "", _data.toSqlArrayInt().c_str()
     ));
     for(int i = 0; i < (int)lDataMap.size(); i++) {
         GRow lDataRow = lDataMap.at(i);

@@ -13,6 +13,7 @@ GModuleKey::GModuleKey(const GString& _code)
     m_id = 0;
     m_moduleId = 0;
     m_typeId = 0;
+    m_module.reset(new GModule);
     m_moduleType.reset(new GModuleType);
 }
 //===============================================
@@ -33,6 +34,7 @@ GString GModuleKey::serialize(const GString& _code) const {
     lDom.addData(_code, "name", m_name);
     lDom.addData(_code, "label", m_label);
     lDom.addData(_code, m_map);
+    lDom.addData(m_module->serialize());
     lDom.addData(m_moduleType->serialize());
     lDom.addData(GSearch::serialize());
     return lDom.toString();
@@ -41,6 +43,7 @@ GString GModuleKey::serialize(const GString& _code) const {
 bool GModuleKey::deserialize(const GString& _data, const GString& _code) {
     GSearch::deserialize(_data);
     m_moduleType->deserialize(_data);
+    m_module->deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
@@ -139,7 +142,7 @@ bool GModuleKey::loadModuleKey() {
     clearMap(m_map);
     GMySQL lMySQL;
     GMap lDataMap = lMySQL.readMap(GFORMAT(""
-            " select _id, _module_type_id, _name, _label "
+            " select _id, _module_id, _module_type_id, _name, _label "
             " from _module_key "
             " where 1 = 1"
             " and _module_id = %d "
@@ -154,6 +157,7 @@ bool GModuleKey::loadModuleKey() {
         int j = 0;
         GModuleKey* lObj = new GModuleKey;
         lObj->m_id = lDataRow.at(j++).toInt();
+        lObj->m_moduleId = lDataRow.at(j++).toInt();
         lObj->m_typeId = lDataRow.at(j++).toInt();
         lObj->m_name = lDataRow.at(j++);
         lObj->m_label = lDataRow.at(j++);
@@ -183,7 +187,7 @@ bool GModuleKey::searchModuleKey() {
     clearMap(m_map);
     GMySQL lMySQL;
     GMap lDataMap = lMySQL.readMap(GFORMAT(""
-            " select _id, _module_type_id, _name, _label "
+            " select _id, _module_id, _module_type_id, _name, _label "
             " from _module_key "
             " %s "
             " order by _name asc "
@@ -192,6 +196,7 @@ bool GModuleKey::searchModuleKey() {
             , m_dataSize
     ));
 
+    GList lModuleMap;
     GList lTypeMap;
 
     for(int i = 0; i < (int)lDataMap.size(); i++) {
@@ -199,13 +204,16 @@ bool GModuleKey::searchModuleKey() {
         int j = 0;
         GModuleKey* lObj = new GModuleKey;
         lObj->m_id = lDataRow.at(j++).toInt();
+        lObj->m_moduleId = lDataRow.at(j++).toInt();
         lObj->m_typeId = lDataRow.at(j++).toInt();
         lObj->m_name = lDataRow.at(j++);
         lObj->m_label = lDataRow.at(j++);
         m_map.push_back(lObj);
+        lModuleMap.push_back(lObj->m_moduleId);
         lTypeMap.push_back(lObj->m_typeId);
     }
 
+    m_module->searchModule(lModuleMap);
     m_moduleType->searchModuleType(lTypeMap);
 
     m_dataOffset += m_dataSize;
