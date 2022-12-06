@@ -110,14 +110,7 @@ void GModuleType::loadComboBox(QComboBox* _comboBox) {
 }
 //===============================================
 bool GModuleType::showList() {
-    if(m_map.size() == 0) {
-        setModuleType(GModuleType());
-        if(!GLOGI->hasErrors()) {
-            GSEARCH_AVOID();
-        }
-        return false;
-    }
-    else if(m_map.size() == 1) {
+    if(m_map.size() == 1) {
         setModuleType(0);
         return true;
     }

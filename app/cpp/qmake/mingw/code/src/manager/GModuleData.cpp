@@ -138,14 +138,7 @@ void GModuleData::onNextData() {
 }
 //===============================================
 bool GModuleData::showList() {
-    if(m_map.size() == 0) {
-        setModuleData(GModuleData());
-        if(!GLOGI->hasErrors()) {
-            GSEARCH_AVOID();
-        }
-        return false;
-    }
-    else if(m_map.size() == 1) {
+    if(m_map.size() == 1) {
         setModuleData(0);
         return true;
     }

@@ -4,8 +4,6 @@
 //===============================================
 #include "GManager.h"
 //===============================================
-#define GSEARCH_AVOID()     GERROR_ADD(eGERR, "Aucun résultat n'a été trouvé.")
-//===============================================
 class GSearch : public GManager {
 public:
     GSearch(const GString& _code = "search");

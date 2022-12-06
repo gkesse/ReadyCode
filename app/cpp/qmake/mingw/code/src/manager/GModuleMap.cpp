@@ -174,14 +174,7 @@ void GModuleMap::moveDownModuleMap() {
 }
 //===============================================
 bool GModuleMap::showList() {
-    if(m_map.size() == 0) {
-        setModuleMap(GModuleMap());
-        if(!GLOGI->hasErrors()) {
-            GSEARCH_AVOID();
-        }
-        return false;
-    }
-    else if(m_map.size() == 1) {
+    if(m_map.size() == 1) {
         setModuleMap(0);
         return true;
     }
