@@ -13,6 +13,7 @@ GModuleKey::GModuleKey(const GString& _code)
 : GSearch(_code) {
     m_id = 0;
     m_moduleId = 0;
+    m_typeId = 0;
     m_tableWidget.reset(new GTableWidgetUi);
     m_module.reset(new GModule);
     m_moduleType.reset(new GModuleType);
@@ -31,6 +32,7 @@ GString GModuleKey::serialize(const GString& _code) {
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
     lDom.addData(_code, "module_id", m_moduleId);
+    lDom.addData(_code, "type_id", m_typeId);
     lDom.addData(_code, "name", m_name);
     lDom.addData(_code, "label", m_label);
     lDom.addData(_code, m_map, this);
@@ -42,12 +44,13 @@ GString GModuleKey::serialize(const GString& _code) {
 //===============================================
 bool GModuleKey::deserialize(const GString& _data, const GString& _code) {
     GSearch::deserialize(_data);
-    m_module->deserialize(_data);
     m_moduleType->deserialize(_data);
+    m_module->deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
     m_moduleId = lDom.getData(_code, "module_id").toInt();
+    m_typeId = lDom.getData(_code, "type_id").toInt();
     m_name = lDom.getData(_code, "name");
     m_label = lDom.getData(_code, "label");
     lDom.getData(_code, m_map, this);
@@ -57,6 +60,7 @@ bool GModuleKey::deserialize(const GString& _data, const GString& _code) {
 void GModuleKey::setModuleKey(const GModuleKey& _moduleKey) {
     m_id = _moduleKey.m_id;
     m_moduleId = _moduleKey.m_moduleId;
+    m_typeId = _moduleKey.m_typeId;
     m_name = _moduleKey.m_name;
     m_label = _moduleKey.m_label;
 }
@@ -67,13 +71,8 @@ void GModuleKey::setModuleKey(GModuleKey* _moduleKey) {
 //===============================================
 void GModuleKey::setModuleKey(int _index) {
     if(_index >= 0 && _index < (int)m_map.size()) {
-        GModuleKey* lObj = (GModuleKey*)m_map.at(0);
-        GModuleType* lObj2 = (GModuleType*)m_moduleType->at(0);
+        GModuleKey* lObj = (GModuleKey*)m_map.at(_index);
         setModuleKey(lObj);
-        GModuleType lObj3;
-        lObj3.setModuleType(lObj2);
-        m_moduleType.reset(new GModuleType);
-        m_moduleType->setModuleType(lObj3);
     }
     clearMap(m_map);
 }
@@ -90,21 +89,16 @@ void GModuleKey::setModule(const std::shared_ptr<GModule>& _module) {
     m_module->setModule(_module);
 }
 //===============================================
-void GModuleKey::setModuleType(const GString& _moduleType) {
-    m_moduleType.reset(new GModuleType);
-    m_moduleType->deserialize(_moduleType);
-}
-//===============================================
-const std::shared_ptr<GModuleType>& GModuleKey::getModuleType() const {
-    return m_moduleType;
-}
-//===============================================
 void GModuleKey::setId(int _id) {
     m_id = _id;
 }
 //===============================================
 void GModuleKey::setModuleId(int _moduleId) {
     m_moduleId = _moduleId;
+}
+//===============================================
+void GModuleKey::setTypeId(int _typeId) {
+    m_typeId = _typeId;
 }
 //===============================================
 void GModuleKey::setName(const GString& _name) {
@@ -123,6 +117,10 @@ int GModuleKey::getModuleId() const {
     return m_moduleId;
 }
 //===============================================
+int GModuleKey::getTypeId() const {
+    return m_typeId;
+}
+//===============================================
 GString GModuleKey::getName() const {
     return m_name;
 }
@@ -136,8 +134,10 @@ void GModuleKey::loadModuleMap(GFormLayout* _formLayout) {
     for(int i = 0; i < (int)m_map.size(); i++) {
         GModuleKey* lObj = (GModuleKey*)m_map.at(i);
         GModuleType* lObj2 = (GModuleType*)m_moduleType->at(i);
+        GString lKey = lObj->getName();
         GString lLabel = GFORMAT("%s :", lObj->getLabel().c_str());
-        _formLayout->addRow(lObj->getName(), lLabel);
+        GString lType = lObj2->getName();
+        _formLayout->addRow(lKey, lLabel, lType);
     }
 }
 //===============================================
@@ -196,12 +196,7 @@ bool GModuleKey::showList() {
     for(int i = 0; i < (int)m_map.size(); i++) {
         GModuleKey* lObj = (GModuleKey*)m_map.at(i);
         GModuleType* lObj2 = (GModuleType*)m_moduleType->at(i);
-
-        GMap lMap;
-        lMap.addObject("key", lObj->serialize());
-        lMap.addObject("type", lObj2->serialize());
-        GString lKey = lMap.toString();
-
+        GString lKey = lObj->serialize();
         m_tableWidget->setData(i, 0, lKey, m_module->getName());
         m_tableWidget->setData(i, 1, lKey, lObj->m_name);
         m_tableWidget->setData(i, 2, lKey, lObj->m_label);
@@ -212,13 +207,8 @@ bool GModuleKey::showList() {
     int lOk = m_tableWidget->exec();
     if(lOk == QDialog::Accepted) {
         GModuleKey lObj;
-        GModuleType lObj2;
-        GMap lMap(m_tableWidget->getKey());
-        lObj.deserialize(lMap.getObject("key"));
-        lObj2.deserialize(lMap.getObject("type"));
+        lObj.deserialize(m_tableWidget->getKey());
         setModuleKey(lObj);
-        m_moduleType.reset(new GModuleType);
-        m_moduleType->setModuleType(lObj2);
     }
     return true;
 }

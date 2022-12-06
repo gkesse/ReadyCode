@@ -10,8 +10,8 @@ GComboBox::~GComboBox() {
 
 }
 //===============================================
-void GComboBox::setIndexData(const std::shared_ptr<GObject>& _obj) {
-    setCurrentIndex(getIndexData(_obj->serialize()));
+void GComboBox::setIndexData(const GString& _data) {
+    setCurrentIndex(getIndexData(_data));
 }
 //===============================================
 int GComboBox::getIndexData(const GString& _data) const {

@@ -10,7 +10,7 @@ class GComboBox : public QComboBox {
 public:
     GComboBox(QWidget* parent = 0);
     ~GComboBox();
-    void setIndexData(const std::shared_ptr<GObject>& _obj);
+    void setIndexData(const GString& _data);
     int getIndexData(const GString& _data) const;
 };
 //==============================================

@@ -196,7 +196,6 @@ bool GModuleKey::searchModuleKey() {
             , m_dataSize
     ));
 
-    GList lModuleMap;
     GList lTypeMap;
 
     for(int i = 0; i < (int)lDataMap.size(); i++) {
@@ -209,11 +208,10 @@ bool GModuleKey::searchModuleKey() {
         lObj->m_name = lDataRow.at(j++);
         lObj->m_label = lDataRow.at(j++);
         m_map.push_back(lObj);
-        lModuleMap.push_back(lObj->m_moduleId);
         lTypeMap.push_back(lObj->m_typeId);
     }
 
-    m_module->searchModule(lModuleMap);
+    m_module->searchModule(m_moduleId);
     m_moduleType->searchModuleType(lTypeMap);
 
     m_dataOffset += m_dataSize;

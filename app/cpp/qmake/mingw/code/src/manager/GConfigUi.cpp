@@ -49,7 +49,7 @@ void GConfigUi::readData() {
     m_moduleKey->setModuleId(m_moduleId);
     m_moduleKey->setName(ui->edtNameKey->text());
     m_moduleKey->setLabel(ui->edtLabelKey->text());
-    m_moduleKey->setModuleType(ui->cmbTypeKey->currentData().toString());
+    m_moduleKey->setTypeId(ui->cmbTypeKey->currentData().toInt());
     // module_map
     m_moduleMap->setId(m_moduleMapId);
     m_moduleMap->setModuleId(m_moduleId);
@@ -74,7 +74,7 @@ void GConfigUi::writeData() {
     m_moduleKeyId = m_moduleKey->getId();
     ui->edtNameKey->setText(m_moduleKey->getName().c_str());
     ui->edtLabelKey->setText(m_moduleKey->getLabel().c_str());
-    ui->cmbTypeKey->setIndexData(m_moduleKey);
+    ui->cmbTypeKey->setIndexData(m_moduleKey->getId());
     // module_map
     m_moduleMapId = m_moduleMap->getId();
     m_mapPosition = m_moduleMap->getPosition();
@@ -163,7 +163,7 @@ void GConfigUi::onLoadModuleKey() {
 void GConfigUi::onLoadCmbTypeModuleKey() {
     GLOGT(eGFUN, "");
     ui->cmbTypeKey->clear();
-    ui->cmbTypeKey->addItem("Sélectionner un type...", "");
+    ui->cmbTypeKey->addItem("Sélectionner un type...", 0);
     m_moduleTypeList->loadComboBox(ui->cmbTypeKey);
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
@@ -183,7 +183,6 @@ void GConfigUi::on_btnSearchKey_clicked() {
     GLOGT(eGFUN, "");
     readData();
     m_moduleKey->setSearch(m_searchConfig);
-    m_moduleKey->setModule(m_module);
     m_moduleKey->searchModuleKey();
     m_moduleKey->showList();
     writeData();

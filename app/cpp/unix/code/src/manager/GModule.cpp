@@ -140,6 +140,21 @@ bool GModule::searchModule() {
     return true;
 }
 //===============================================
+bool GModule::searchModule(int _id) {
+    GMySQL lMySQL;
+    GRow lDataRow = lMySQL.readRow(GFORMAT(""
+            " select _id, _name "
+            " from _module "
+            " where 1 = 1 "
+            " and _id = %d "
+            "", _id
+    ));
+    int j = 0;
+    m_id = lDataRow.at(j++).toInt();
+    m_name = lDataRow.at(j++);
+    return true;
+}
+//===============================================
 bool GModule::searchModule(const GList& _data) {
     clearMap(m_map);
     if(!_data.size()) return true;
