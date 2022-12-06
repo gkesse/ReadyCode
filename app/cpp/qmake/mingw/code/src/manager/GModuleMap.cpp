@@ -174,10 +174,7 @@ void GModuleMap::moveDownModuleMap() {
 }
 //===============================================
 bool GModuleMap::showList() {
-    if(m_map.size() == 0) {
-        GERROR_ADD(eGERR, "Aucun résultat n'a été trouvé.");
-        return true;
-    }
+    if(m_map.size() == 0) return true;
     if(m_map.size() == 1) {
         setModuleMap(0);
         return true;
