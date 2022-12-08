@@ -143,7 +143,7 @@ bool GModuleData::showList() {
         setModuleData(0);
         return true;
     }
-    m_tableWidget->setWindowTitle("Liste des données par module");
+    m_tableWidget->setWindowTitle("Liste des données");
     m_tableWidget->setSize(m_map.size(), 3);
     m_tableWidget->setHeader(0, "module");
     m_tableWidget->setHeader(1, "nom");

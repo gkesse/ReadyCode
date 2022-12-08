@@ -2,13 +2,14 @@
 #include "GModuleMap.h"
 #include "GModule.h"
 #include "GModuleNode.h"
+#include "GModuleType.h"
+#include "GModuleKey.h"
 #include "GCode.h"
 #include "GLog.h"
 #include "GClient.h"
 #include "GTreeWidgetUi.h"
 #include "GTreeWidget.h"
 #include "GFormLayout.h"
-#include "GModuleType.h"
 //===============================================
 GModuleMap::GModuleMap(const GString& _code)
 : GSearch(_code) {
@@ -85,6 +86,44 @@ void GModuleMap::setModule(const std::shared_ptr<GModule>& _module) {
     m_module->setModule(_module.get());
 }
 //===============================================
+void GModuleMap::setModuleNode(const std::shared_ptr<GModuleNode>& _moduleNode) {
+    if(!_moduleNode.get()) return;
+    m_moduleNode.reset(new GModuleNode);
+    m_moduleNode->deserialize(_moduleNode->serialize());
+}
+//===============================================
+void GModuleMap::readFormModuleNode(GFormLayout* _formLayout) {
+    if(!m_moduleNode.get()) return;
+    std::shared_ptr<GModuleKey>& lModuleKey = m_moduleNode->getModuleKey();
+    std::shared_ptr<GModuleType>& lModuleType = lModuleKey->getModuleType();
+    for(int i = 0; i < lModuleKey->size(); i++) {
+        GModuleNode* lObj = new GModuleNode;
+        GModuleKey* lObj2 = (GModuleKey*)lModuleKey->at(i);
+        GModuleType* lObj3 = (GModuleType*)lModuleType->at(i);
+        lObj->setModuleId(m_moduleId);
+        lObj->setMapId(m_id);
+        lObj->setKeyId(lObj2->getId());
+        lObj->setValue(_formLayout->getData(lObj2->getName(), lObj3->getName()));
+        m_moduleNode->add(lObj);
+    }
+}
+//===============================================
+void GModuleMap::writeFormModuleNode(GFormLayout* _formLayout) {
+    if(!m_moduleNode.get()) return;
+    std::shared_ptr<GModuleKey>& lModuleKey = m_moduleNode->getModuleKey();
+    std::shared_ptr<GModuleType>& lModuleType = lModuleKey->getModuleType();
+    _formLayout->clear();
+    for(int i = 0; i < m_moduleNode->size(); i++) {
+        GModuleNode* lObj = (GModuleNode*)m_moduleNode->at(i);
+        GModuleKey* lObj2 = (GModuleKey*)lModuleKey->at(i);
+        GModuleType* lObj3 = (GModuleType*)lModuleType->at(i);
+        GString lKey = lObj2->getName();
+        GString lType = lObj3->getName();
+        GString lValue = lObj->getValue();
+        _formLayout->setData(lKey, lValue, lType);
+    }
+}
+//===============================================
 void GModuleMap::setId(int _id) {
     m_id = _id;
 }
@@ -152,7 +191,7 @@ bool GModuleMap::showList() {
         return true;
     }
 
-    m_treeWidgetUi->setWindowTitle("Liste des données par module");
+    m_treeWidgetUi->setWindowTitle("Liste des données");
     showList(m_treeWidgetUi);
 
     m_treeWidgetUi->setSearch(this);

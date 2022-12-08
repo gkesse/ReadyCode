@@ -71,6 +71,10 @@ void GModuleNode::setModuleNode(GModuleNode* _moduleNode) {
     setModuleNode(*_moduleNode);
 }
 //===============================================
+void GModuleNode::setModuleNode(const std::shared_ptr<GModuleNode>& _moduleNode) {
+    setModuleNode(_moduleNode.get());
+}
+//===============================================
 void GModuleNode::setModuleNode(int _index) {
     if(_index >= 0 && _index < (int)m_map.size()) {
         GModuleNode* lObj = (GModuleNode*)m_map.at(_index);
@@ -96,6 +100,24 @@ void GModuleNode::setModuleKey(const std::shared_ptr<GModuleKey>& _moduleKey) {
     m_moduleKey.reset(new GModuleKey);
     m_moduleKey->deserialize(_moduleKey->serialize());
 
+}
+//===============================================
+void GModuleNode::writeKeyFormModuleNode(GFormLayout* _formLayout) {
+    if(!m_moduleKey.get()) return;
+    std::shared_ptr<GModuleType>& lModuleType = m_moduleKey->getModuleType();
+    _formLayout->clear();
+    for(int i = 0; i < m_moduleKey->size(); i++) {
+        GModuleKey* lObj = (GModuleKey*)m_moduleKey->at(i);
+        GModuleType* lObj2 = (GModuleType*)lModuleType->at(i);
+        GString lKey = lObj->getName();
+        GString lLabel = GFORMAT("%s :", lObj->getLabel().c_str());
+        GString lType = lObj2->getName();
+        _formLayout->addRow(lKey, lLabel, lType);
+    }
+}
+//===============================================
+std::shared_ptr<GModuleKey>& GModuleNode::getModuleKey() {
+    return m_moduleKey;
 }
 //===============================================
 void GModuleNode::setId(int _id) {
@@ -138,20 +160,6 @@ GString GModuleNode::getValue() const {
     return m_value;
 }
 //===============================================
-void GModuleNode::loadModuleNode(GFormLayout* _formLayout) {
-    if(!m_moduleKey.get()) return;
-    std::shared_ptr<GModuleType>& lModuleType = m_moduleKey->getModuleType();
-    _formLayout->clear();
-    for(int i = 0; i < m_moduleKey->size(); i++) {
-        GModuleKey* lObj = (GModuleKey*)m_moduleKey->at(i);
-        GModuleType* lObj2 = (GModuleType*)lModuleType->at(i);
-        GString lKey = lObj->getName();
-        GString lLabel = GFORMAT("%s :", lObj->getLabel().c_str());
-        GString lType = lObj2->getName();
-        _formLayout->addRow(lKey, lLabel, lType);
-    }
-}
-//===============================================
 void GModuleNode::loadModuleNode() {
     if(m_moduleId <= 0) return;
     GString lData = serialize();
@@ -192,7 +200,7 @@ bool GModuleNode::showList() {
         return true;
     }
 
-    m_tableWidget->setWindowTitle("Liste des données par module");
+    m_tableWidget->setWindowTitle("Liste des données");
     m_tableWidget->setSize(m_map.size(), 3);
     m_tableWidget->setHeader(0, "module");
     m_tableWidget->setHeader(1, "nom");

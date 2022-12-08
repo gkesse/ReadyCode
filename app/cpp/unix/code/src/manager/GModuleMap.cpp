@@ -164,6 +164,7 @@ bool GModuleMap::countData() {
 }
 //===============================================
 bool GModuleMap::searchData() {
+    clearMap();
     GMySQL lMySQL;
     GMap lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _position "
@@ -337,6 +338,15 @@ bool GModuleMap::insertData() {
 }
 //===============================================
 bool GModuleMap::updateData() {
+    if(m_id == 0) return false;
+    GMySQL lMySQL;
+    if(!lMySQL.execQuery(GFORMAT(""
+            " update _module_map set "
+            "   _position = %d "
+            " where 1 = 1 "
+            " and _id = %d "
+            "", m_id
+    ))) return false;
     return true;
 }
 //===============================================

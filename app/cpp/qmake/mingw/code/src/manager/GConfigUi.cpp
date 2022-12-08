@@ -153,7 +153,7 @@ void GConfigUi::onLoadModuleKey() {
     m_moduleKeyList.reset(new GModuleKey);
     m_moduleKeyList->setModuleId(m_module->getId());
     m_moduleKeyList->loadModuleKey();
-    onLoadModuleNode();
+    onLoadKeyModuleNode();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
 }
@@ -201,6 +201,8 @@ void GConfigUi::on_btnNewKey_clicked() {
 void GConfigUi::on_btnSaveMap_clicked() {
     GLOGT(eGFUN, "");
     readData();
+    m_moduleMap->setModuleNode(m_moduleNode);
+    m_moduleMap->readFormModuleNode(ui->layModuleMap);
     m_moduleMap->saveModuleMap();
     writeData();
     GERROR_SHOWG(eGERR);
@@ -210,6 +212,9 @@ void GConfigUi::on_btnSaveMap_clicked() {
 void GConfigUi::on_btnSearchMap_clicked() {
     GLOGT(eGFUN, "");
     readData();
+    m_moduleMap->setSearch(m_searchConfig);
+    m_moduleMap->searchModuleMap();
+    m_moduleMap->showList();
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
@@ -225,11 +230,11 @@ void GConfigUi::on_btnNewMap_clicked() {
 //===============================================
 // module_node
 //===============================================
-void GConfigUi::onLoadModuleNode() {
+void GConfigUi::onLoadKeyModuleNode() {
     GLOGT(eGFUN, "");
     m_moduleNode.reset(new GModuleNode);
     m_moduleNode->setModuleKey(m_moduleKeyList);
-    m_moduleNode->loadModuleNode(ui->layModuleMap);
+    m_moduleNode->writeKeyFormModuleNode(ui->layModuleMap);
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
 }

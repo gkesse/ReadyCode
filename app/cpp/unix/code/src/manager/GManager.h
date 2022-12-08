@@ -45,7 +45,6 @@ protected:
     GString m_moduleName;
     GString m_methodName;
     GServer* m_server;
-    std::vector<GObject*> m_map;
 };
 //==============================================
 #endif

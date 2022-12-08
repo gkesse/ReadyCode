@@ -19,11 +19,14 @@ public:
 
     void setModuleNode(const GModuleNode& _moduleNode);
     void setModuleNode(GModuleNode* _moduleNode);
+    void setModuleNode(const std::shared_ptr<GModuleNode>& _moduleNode);
     void setModuleNode(int _index);
     void setModule(const GModule& _module);
     void setModule(GModule* _module);
     void setModule(const std::shared_ptr<GModule>& _module);
     void setModuleKey(const std::shared_ptr<GModuleKey>& _moduleKey);
+    void writeKeyFormModuleNode(GFormLayout* _formLayout);
+    std::shared_ptr<GModuleKey>& getModuleKey();
 
     void setId(int _id);
     void setModuleId(int _moduleId);
@@ -37,7 +40,6 @@ public:
     int getKeyId() const;
     GString getValue() const;
 
-    void loadModuleNode(GFormLayout* _formLayout);
     void loadModuleNode();
     void saveModuleNode();
     void searchModuleNode();

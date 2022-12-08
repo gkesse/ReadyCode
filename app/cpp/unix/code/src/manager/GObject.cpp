@@ -41,6 +41,10 @@ GObject* GObject::at(int _index) {
     return 0;
 }
 //===============================================
+void GObject::add(GObject* _obj) {
+    m_map.push_back(_obj);
+}
+//===============================================
 void GObject::print() {
     printf("%s\n", serialize().c_str());
 }

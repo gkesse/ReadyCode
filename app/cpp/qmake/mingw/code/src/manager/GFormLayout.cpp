@@ -30,6 +30,20 @@ void GFormLayout::addRow(const GString& _key, const GString& _label, const GStri
     m_widgetMap[_key] = lWidget;
 }
 //===============================================
+void GFormLayout::setData(const GString& _key, const GString& _value, const GString& _type) {
+    QWidget* lWidget = m_widgetMap.value(_key, 0);
+    if(lWidget != 0) {
+        if(_type == "lineedit") {
+            QLineEdit* lObj = qobject_cast<QLineEdit*>(lWidget);
+            lObj->setText(_value.c_str());
+        }
+        else {
+            QLineEdit* lObj = qobject_cast<QLineEdit*>(lWidget);
+            lObj->setText(_value.c_str());
+        }
+    }
+}
+//===============================================
 GString GFormLayout::getData(const GString& _key, const GString& _type) const {
     GString lData;
     QWidget* lWidget = m_widgetMap.value(_key, 0);
