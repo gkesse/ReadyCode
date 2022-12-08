@@ -100,6 +100,8 @@ void GModuleMap::readFormModuleNode(GFormLayout* _formLayout) {
         GModuleNode* lObj = new GModuleNode;
         GModuleKey* lObj2 = (GModuleKey*)lModuleKey->at(i);
         GModuleType* lObj3 = (GModuleType*)lModuleType->at(i);
+        int lId = _formLayout->getId(lObj2->getName()).toInt();
+        lObj->setId(lId);
         lObj->setModuleId(m_moduleId);
         lObj->setMapId(m_id);
         lObj->setKeyId(lObj2->getId());
@@ -117,10 +119,12 @@ void GModuleMap::writeFormModuleNode(GFormLayout* _formLayout) {
         GModuleNode* lObj = (GModuleNode*)m_moduleNode->at(i);
         GModuleKey* lObj2 = (GModuleKey*)lModuleKey->at(i);
         GModuleType* lObj3 = (GModuleType*)lModuleType->at(i);
+        int lId = lObj->getId();
         GString lKey = lObj2->getName();
         GString lType = lObj3->getName();
         GString lValue = lObj->getValue();
         _formLayout->setData(lKey, lValue, lType);
+        _formLayout->setId(lKey, lId);
     }
 }
 //===============================================

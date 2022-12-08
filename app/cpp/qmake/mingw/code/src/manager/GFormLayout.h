@@ -12,7 +12,9 @@ public:
     ~GFormLayout();
     void addRow(const GString& _key, const GString& _label, const GString& _type = "lineedit");
     void setData(const GString& _key, const GString& _value, const GString& _type = "lineedit");
+    void setId(const GString& _key, const GString& _id);
     GString getData(const GString& _key, const GString& _type = "lineedit") const;
+    GString getId(const GString& _key) const;
     void clear();
 
 private:
@@ -20,6 +22,7 @@ private:
     QFormLayout* m_formLayout;
     QVBoxLayout* m_mainLayout;
     QMap<GString, QWidget*> m_widgetMap;
+    QMap<GString, GString> m_idMap;
 };
 //==============================================
 #endif

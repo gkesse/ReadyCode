@@ -44,6 +44,10 @@ void GFormLayout::setData(const GString& _key, const GString& _value, const GStr
     }
 }
 //===============================================
+void GFormLayout::setId(const GString& _key, const GString& _id) {
+    m_idMap[_key] = _id;
+}
+//===============================================
 GString GFormLayout::getData(const GString& _key, const GString& _type) const {
     GString lData;
     QWidget* lWidget = m_widgetMap.value(_key, 0);
@@ -58,6 +62,10 @@ GString GFormLayout::getData(const GString& _key, const GString& _type) const {
         }
     }
     return lData;
+}
+//===============================================
+GString GFormLayout::getId(const GString& _key) const {
+    return m_idMap.value(_key, "");
 }
 //===============================================
 void GFormLayout::clear() {
