@@ -36,7 +36,6 @@ public:
     bool updatePositionAfter();
     bool insertData();
     bool insertData(GModuleNode* _obj);
-    bool updateData();
 
 private:
     int m_id;
