@@ -338,7 +338,7 @@ bool GModuleMap::insertData() {
             , m_position
     ))) return false;
     m_id = lMySQL.getId();
-    m_moduleNode->setManager(this);
+    m_moduleNode->insertData();
     return true;
 }
 //===============================================
