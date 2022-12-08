@@ -1,71 +1,76 @@
 //===============================================
-#include "GModuleMap.h"
+#include "GModuleNode.h"
 #include "GModule.h"
 #include "GMySQL.h"
 #include "GCode.h"
 #include "GLog.h"
 #include "GServer.h"
 //===============================================
-GModuleMap::GModuleMap(const GString& _code)
+GModuleNode::GModuleNode(const GString& _code)
 : GSearch(_code) {
     m_id = 0;
     m_moduleId = 0;
+    m_keyId = 0;
     m_position = 0;
     m_positionUp = 0;
     m_positionDown = 0;
 }
 //===============================================
-GModuleMap::~GModuleMap() {
+GModuleNode::~GModuleNode() {
     clearMap();
 }
 //===============================================
-GObject* GModuleMap::clone() const {
-    return new GModuleMap;
+GObject* GModuleNode::clone() const {
+    return new GModuleNode;
 }
 //===============================================
-GString GModuleMap::serialize(const GString& _code) const {
+GString GModuleNode::serialize(const GString& _code) const {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
     lDom.addData(_code, "module_id", m_moduleId);
+    lDom.addData(_code, "key_id", m_keyId);
     lDom.addData(_code, "position", m_position);
+    lDom.addData(_code, "value", m_value);
     lDom.addData(_code, m_map);
     lDom.addData(GSearch::serialize());
     return lDom.toString();
 }
 //===============================================
-bool GModuleMap::deserialize(const GString& _data, const GString& _code) {
+bool GModuleNode::deserialize(const GString& _data, const GString& _code) {
     GSearch::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
     m_moduleId = lDom.getData(_code, "module_id").toInt();
+    m_keyId = lDom.getData(_code, "key_id").toInt();
     m_position = lDom.getData(_code, "position").toInt();
+    m_value = lDom.getData(_code, "value");
     lDom.getData(_code, m_map, this);
     return true;
 }
 //===============================================
-bool GModuleMap::onModule() {
+bool GModuleNode::onModule() {
     deserialize(m_server->getRequest());
     if(m_methodName == "") {
         GMETHOD_REQUIRED();
     }
-    else if(m_methodName == "save_module_map") {
+    else if(m_methodName == "save_module_node") {
         onSaveModuleMap();
     }
-    else if(m_methodName == "search_module_map") {
+    else if(m_methodName == "search_module_node") {
         onSearchModuleMap();
     }
-    else if(m_methodName == "next_module_map") {
+    else if(m_methodName == "next_module_node") {
         onNextModuleMap();
     }
-    else if(m_methodName == "add_module_map") {
+    else if(m_methodName == "add_module_node") {
         onAddModuleMap();
     }
-    else if(m_methodName == "move_up_module_map") {
+    else if(m_methodName == "move_up_module_node") {
         onMoveUpModuleMap();
     }
-    else if(m_methodName == "move_down_module_map") {
+    else if(m_methodName == "move_down_module_node") {
         onMoveDownModuleMap();
     }
     else {
@@ -75,8 +80,9 @@ bool GModuleMap::onModule() {
     return true;
 }
 //===============================================
-bool GModuleMap::onSaveModuleMap() {
+bool GModuleNode::onSaveModuleMap() {
     if(m_moduleId == 0) {GERROR_ADD(eGERR, "L'identifiant du module est obligatoire."); return false;}
+    if(!checkData()) return false;
     if(m_position == 0) {
         if(!loadPositionAppend()) return false;
     }
@@ -89,7 +95,7 @@ bool GModuleMap::onSaveModuleMap() {
     return true;
 }
 //===============================================
-bool GModuleMap::onSearchModuleMap() {
+bool GModuleNode::onSearchModuleMap() {
     if(m_moduleId == 0) {GERROR_ADD(eGERR, "L'identifiant du module est obligatoire."); return false;}
     if(m_id != 0) {
         m_where += GFORMAT(" and _id = %d ", m_id);
@@ -106,12 +112,12 @@ bool GModuleMap::onSearchModuleMap() {
     return true;
 }
 //===============================================
-bool GModuleMap::onNextModuleMap() {
+bool GModuleNode::onNextModuleMap() {
     if(m_moduleId == 0) {GERROR_ADD(eGERR, "L'identifiant du module est obligatoire."); return false;}
     return true;
 }
 //===============================================
-bool GModuleMap::onAddModuleMap() {
+bool GModuleNode::onAddModuleMap() {
     if(m_moduleId == 0) {GERROR_ADD(eGERR, "L'identifiant du module est obligatoire."); return false;}
     if(m_position == 0) {
         if(!loadPositionAppend()) return false;
@@ -124,7 +130,7 @@ bool GModuleMap::onAddModuleMap() {
     return true;
 }
 //===============================================
-bool GModuleMap::onMoveUpModuleMap() {
+bool GModuleNode::onMoveUpModuleMap() {
     if(m_moduleId == 0) {GERROR_ADD(eGERR, "L'identifiant du module est obligatoire."); return false;}
     if(m_position == 0) {GERROR_ADD(eGERR, "Vous devez sélectionner une donnée."); return false;}
     if(!loadPositionUp()) {GERROR_ADD(eGERR, "Impossible de déplacer vers le haut."); return false;}
@@ -133,7 +139,7 @@ bool GModuleMap::onMoveUpModuleMap() {
     return true;
 }
 //===============================================
-bool GModuleMap::onMoveDownModuleMap() {
+bool GModuleNode::onMoveDownModuleMap() {
     if(m_moduleId == 0) {GERROR_ADD(eGERR, "L'identifiant du module est obligatoire."); return false;}
     if(m_position == 0) {GERROR_ADD(eGERR, "Vous devez sélectionner une donnée."); return false;}
     if(!loadPositionDown()) {GERROR_ADD(eGERR, "Impossible de déplacer vers le bas."); return false;}
@@ -142,7 +148,17 @@ bool GModuleMap::onMoveDownModuleMap() {
     return true;
 }
 //===============================================
-bool GModuleMap::saveModuleMap() {
+bool GModuleNode::checkData() {
+    for(int i = 0; i < size(); i++) {
+        GModuleNode* lObj = (GModuleNode*)at(i);
+        if(lObj->m_moduleId == 0) {GERROR_ADD(eGERR, "L'identifiant du module d'une donnée est obligatoire."); return false;}
+        if(lObj->m_keyId == 0) {GERROR_ADD(eGERR, "L'identifiant de la clé d'une donnée est obligatoire."); return false;}
+        if(lObj->m_value == "") {GERROR_ADD(eGERR, "La valeur d'une donnée est obligatoire."); return false;}
+    }
+    return true;
+}
+//===============================================
+bool GModuleNode::saveModuleMap() {
     if(m_id == 0) {
         if(!insertData()) return false;
     }
@@ -155,7 +171,7 @@ bool GModuleMap::saveModuleMap() {
     return true;
 }
 //===============================================
-bool GModuleMap::countData() {
+bool GModuleNode::countData() {
     GMySQL lMySQL;
     m_dataCount = lMySQL.readData(GFORMAT(""
             " select count(*) "
@@ -166,7 +182,7 @@ bool GModuleMap::countData() {
     return true;
 }
 //===============================================
-bool GModuleMap::searchData() {
+bool GModuleNode::searchData() {
     GMySQL lMySQL;
     GMap lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _position "
@@ -180,7 +196,7 @@ bool GModuleMap::searchData() {
     for(int i = 0; i < (int)lDataMap.size(); i++) {
         GRow lRow = lDataMap.at(i);
         int j = 0;
-        GModuleMap* lObj = new GModuleMap;
+        GModuleNode* lObj = new GModuleNode;
         lObj->m_id = lRow.at(j++).toInt();
         lObj->m_position = lRow.at(j++).toInt();
         m_map.push_back(lObj);
@@ -189,13 +205,13 @@ bool GModuleMap::searchData() {
     m_hasData = true;
     if(m_dataOffset >= m_dataCount) m_hasData = false;
     if(m_hasData) {
-        GModuleMap* lObj = (GModuleMap*)m_map.back();
+        GModuleNode* lObj = (GModuleNode*)m_map.back();
         m_lastId = lObj->m_id;
     }
     return true;
 }
 //===============================================
-bool GModuleMap::loadData() {
+bool GModuleNode::loadData() {
     GMySQL lMySQL;
     GMap lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _position "
@@ -209,7 +225,7 @@ bool GModuleMap::loadData() {
     for(int i = 0; i < (int)lDataMap.size(); i++) {
         GRow lDataRow = lDataMap.at(i);
         int j = 0;
-        GModuleMap* lObj = new GModuleMap;
+        GModuleNode* lObj = new GModuleNode;
         lObj->m_id = lDataRow.at(j++).toInt();
         lObj->m_position = lDataRow.at(j++).toInt();
         m_map.push_back(lObj);
@@ -217,7 +233,7 @@ bool GModuleMap::loadData() {
     return true;
 }
 //===============================================
-bool GModuleMap::loadPositionAppend() {
+bool GModuleNode::loadPositionAppend() {
     GMySQL lMySQL;
     m_position = lMySQL.readData(GFORMAT(""
             " select max(_position) "
@@ -227,10 +243,14 @@ bool GModuleMap::loadPositionAppend() {
             "", m_moduleId
     )).toInt();
     m_position += 1;
+    for(int i = 0; i < size(); i++) {
+        GModuleNode* lObj = (GModuleNode*)at(i);
+        lObj->m_position = m_position;
+    }
     return true;
 }
 //===============================================
-bool GModuleMap::loadPositionUp() {
+bool GModuleNode::loadPositionUp() {
     GMySQL lMySQL;
     m_positionUp = lMySQL.readData(GFORMAT(""
             " select max(_position) "
@@ -245,7 +265,7 @@ bool GModuleMap::loadPositionUp() {
     return true;
 }
 //===============================================
-bool GModuleMap::loadPositionDown() {
+bool GModuleNode::loadPositionDown() {
     GMySQL lMySQL;
     m_positionDown = lMySQL.readData(GFORMAT(""
             " select min(_position) "
@@ -260,7 +280,7 @@ bool GModuleMap::loadPositionDown() {
     return true;
 }
 //===============================================
-bool GModuleMap::updatePositionUp() {
+bool GModuleNode::updatePositionUp() {
     GMySQL lMySQL;
     if(!lMySQL.execQuery(GFORMAT(""
             " update _module_map set "
@@ -278,7 +298,7 @@ bool GModuleMap::updatePositionUp() {
     return true;
 }
 //===============================================
-bool GModuleMap::updatePositionDown() {
+bool GModuleNode::updatePositionDown() {
     GMySQL lMySQL;
     if(!lMySQL.execQuery(GFORMAT(""
             " update _module_map set "
@@ -296,7 +316,7 @@ bool GModuleMap::updatePositionDown() {
     return true;
 }
 //===============================================
-bool GModuleMap::updatePositionBefore() {
+bool GModuleNode::updatePositionBefore() {
     GMySQL lMySQL;
     if(!lMySQL.execQuery(GFORMAT(""
             " update _module_map set "
@@ -310,7 +330,7 @@ bool GModuleMap::updatePositionBefore() {
     return true;
 }
 //===============================================
-bool GModuleMap::updatePositionAfter() {
+bool GModuleNode::updatePositionAfter() {
     GMySQL lMySQL;
     m_position += 1;
     if(!lMySQL.execQuery(GFORMAT(""
@@ -322,24 +342,33 @@ bool GModuleMap::updatePositionAfter() {
             "", m_moduleId
             , m_position
     ))) return false;
+    for(int i = 0; i < size(); i++) {
+        GModuleNode* lObj = (GModuleNode*)at(i);
+        lObj->m_position = m_position;
+    }
     return true;
 }
 //===============================================
-bool GModuleMap::insertData() {
-    if(m_id != 0) return false;
+bool GModuleNode::insertData() {
+    for(int i = 0; i < size(); i++) {
+        GModuleNode* lObj = (GModuleNode*)at(i);
+        insertData(lObj);
+    }
+    return true;
+}
+//===============================================
+bool GModuleNode::insertData(GModuleNode* _obj) {
     GMySQL lMySQL;
     if(!lMySQL.execQuery(GFORMAT(""
             " insert into _module_map "
-            " ( _module_id, _position ) "
-            " values ( %d, %d ) "
-            "", m_moduleId
-            , m_position
+            " ( _module_id, _position, _key_id, _value ) "
+            " values ( %d, %d, %d, '%s' ) "
+            "", _obj->m_moduleId
+            , _obj->m_position
+            , _obj->m_keyId
+            , _obj->m_value.c_str()
     ))) return false;
-    m_id = lMySQL.getId();
-    return true;
-}
-//===============================================
-bool GModuleMap::updateData() {
+    _obj->m_id = lMySQL.getId();
     return true;
 }
 //===============================================
