@@ -18,7 +18,7 @@ GModuleKey::GModuleKey(const GString& _code)
 }
 //===============================================
 GModuleKey::~GModuleKey() {
-    clearMap(m_map);
+    clearMap();
 }
 //===============================================
 GObject* GModuleKey::clone() const {

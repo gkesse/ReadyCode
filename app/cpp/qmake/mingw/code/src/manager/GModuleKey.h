@@ -24,6 +24,8 @@ public:
     void setModule(GModule* _module);
     void setModule(const std::shared_ptr<GModule>& _module);
 
+    std::shared_ptr<GModuleType>& getModuleType();
+
     void setId(int _id);
     void setModuleId(int _moduleId);
     void setTypeId(int _typeId);
@@ -36,7 +38,6 @@ public:
     GString getName() const;
     GString getLabel() const;
 
-    void loadModuleMap(GFormLayout* _formLayout);
     void loadModuleKey();
     void saveModuleKey();
     void searchModuleKey();

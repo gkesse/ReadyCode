@@ -7,6 +7,7 @@
 #include "GModuleKey.h"
 #include "GModuleMap.h"
 #include "GModuleType.h"
+#include "GModuleNode.h"
 //===============================================
 GConfigUi::GConfigUi(QWidget* _parent)
 : QFrame(_parent)
@@ -53,10 +54,7 @@ void GConfigUi::readData() {
     // module_map
     m_moduleMap->setId(m_moduleMapId);
     m_moduleMap->setModuleId(m_moduleId);
-    m_moduleMap->setKeyId(m_moduleKeyId);
     m_moduleMap->setPosition(m_mapPosition);
-    m_moduleMap->setModuleKey(m_moduleKeyList);
-    m_moduleMap->setModuleMap(ui->layModuleMap);
     // module_type
     m_moduleType->setId(m_moduleTypeId);
     m_moduleType->setName(ui->edtNameType->text());
@@ -155,7 +153,7 @@ void GConfigUi::onLoadModuleKey() {
     m_moduleKeyList.reset(new GModuleKey);
     m_moduleKeyList->setModuleId(m_module->getId());
     m_moduleKeyList->loadModuleKey();
-    onLoadModuleMap();
+    onLoadModuleNode();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
 }
@@ -200,17 +198,9 @@ void GConfigUi::on_btnNewKey_clicked() {
 //===============================================
 // module_map
 //===============================================
-void GConfigUi::onLoadModuleMap() {
-    GLOGT(eGFUN, "");
-    m_moduleKeyList->loadModuleMap(ui->layModuleMap);
-    GERROR_SHOWG(eGERR);
-    GLOG_SHOWG(eGLOG);
-}
-//===============================================
 void GConfigUi::on_btnSaveMap_clicked() {
     GLOGT(eGFUN, "");
     readData();
-    m_moduleMap->setSearch(m_searchConfig);
     m_moduleMap->saveModuleMap();
     writeData();
     GERROR_SHOWG(eGERR);
@@ -229,6 +219,17 @@ void GConfigUi::on_btnNewMap_clicked() {
     GLOGT(eGFUN, "");
     m_moduleMap.reset(new GModuleMap);
     writeData();
+    GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGLOG);
+}
+//===============================================
+// module_node
+//===============================================
+void GConfigUi::onLoadModuleNode() {
+    GLOGT(eGFUN, "");
+    m_moduleNode.reset(new GModuleNode);
+    m_moduleNode->setModuleKey(m_moduleKeyList);
+    m_moduleNode->loadModuleNode(ui->layModuleMap);
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
 }

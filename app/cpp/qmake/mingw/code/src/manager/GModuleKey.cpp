@@ -20,7 +20,7 @@ GModuleKey::GModuleKey(const GString& _code)
 }
 //===============================================
 GModuleKey::~GModuleKey() {
-    clearMap(m_map);
+    clearMap();
 }
 //===============================================
 GObject* GModuleKey::clone() const {
@@ -89,6 +89,10 @@ void GModuleKey::setModule(const std::shared_ptr<GModule>& _module) {
     m_module->setModule(_module);
 }
 //===============================================
+std::shared_ptr<GModuleType>& GModuleKey::getModuleType() {
+    return m_moduleType;
+}
+//===============================================
 void GModuleKey::setId(int _id) {
     m_id = _id;
 }
@@ -127,18 +131,6 @@ GString GModuleKey::getName() const {
 //===============================================
 GString GModuleKey::getLabel() const {
     return m_label;
-}
-//===============================================
-void GModuleKey::loadModuleMap(GFormLayout* _formLayout) {
-    _formLayout->clear();
-    for(int i = 0; i < (int)m_map.size(); i++) {
-        GModuleKey* lObj = (GModuleKey*)m_map.at(i);
-        GModuleType* lObj2 = (GModuleType*)m_moduleType->at(i);
-        GString lKey = lObj->getName();
-        GString lLabel = GFORMAT("%s :", lObj->getLabel().c_str());
-        GString lType = lObj2->getName();
-        _formLayout->addRow(lKey, lLabel, lType);
-    }
 }
 //===============================================
 void GModuleKey::loadModuleKey() {

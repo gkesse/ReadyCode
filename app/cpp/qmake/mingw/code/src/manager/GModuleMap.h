@@ -6,6 +6,7 @@
 //===============================================
 class GModule;
 class GModuleKey;
+class GModuleNode;
 class GTreeWidgetUi;
 class GFormLayout;
 //===============================================
@@ -20,20 +21,16 @@ public:
     void setModuleMap(const GModuleMap& _moduleMap);
     void setModuleMap(GModuleMap* _moduleMap);
     void setModuleMap(const std::shared_ptr<GModuleMap>& _moduleMap);
-    void setModuleMap(GFormLayout* _formLayout);
     void setModuleMap(int _index);
     void setModule(GModule* _module);
     void setModule(const std::shared_ptr<GModule>& _module);
-    void setModuleKey(const std::shared_ptr<GModuleKey>& _moduleKey);
 
     void setId(int _id);
     void setModuleId(int _moduleId);
-    void setKeyId(int _moduleId);
     void setPosition(int _position);
 
     int getId() const;
     int getModuleId() const;
-    int getKeyId() const;
     int getPosition() const;
 
     void saveModuleMap();
@@ -53,11 +50,9 @@ public:
 protected:
     int m_id;
     int m_moduleId;
-    int m_keyId;
     int m_position;
-    GString m_value;
     std::shared_ptr<GModule> m_module;
-    std::shared_ptr<GModuleKey> m_moduleKey;
+    std::shared_ptr<GModuleNode> m_moduleNode;
     std::shared_ptr<GTreeWidgetUi> m_treeWidgetUi;
 };
 //==============================================
