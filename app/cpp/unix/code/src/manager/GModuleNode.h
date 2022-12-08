@@ -14,6 +14,8 @@ public:
     GString serialize(const GString& _code = "module_node") const;
     bool deserialize(const GString& _data, const GString& _code = "module_node");
 
+    void setMapId(int _mapId);
+
     bool insertData();
     bool insertData(GModuleNode* _obj);
     bool updateData();

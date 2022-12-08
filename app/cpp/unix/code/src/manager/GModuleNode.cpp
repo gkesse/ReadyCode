@@ -48,6 +48,10 @@ bool GModuleNode::deserialize(const GString& _data, const GString& _code) {
     return true;
 }
 //===============================================
+void GModuleNode::setMapId(int _mapId) {
+    m_mapId = _mapId;
+}
+//===============================================
 bool GModuleNode::insertData() {
     for(int i = 0; i < size(); i++) {
         GModuleNode* lObj = (GModuleNode*)at(i);
