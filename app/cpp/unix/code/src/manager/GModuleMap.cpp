@@ -77,12 +77,6 @@ bool GModuleMap::onModule() {
 //===============================================
 bool GModuleMap::onSaveModuleMap() {
     if(m_moduleId == 0) {GERROR_ADD(eGERR, "L'identifiant du module est obligatoire."); return false;}
-    if(m_position == 0) {
-        if(!loadPositionAppend()) return false;
-    }
-    else {
-        if(!updatePositionAfter()) return false;
-    }
     if(!saveModuleMap()) return false;
     if(m_id == 0) {GERROR_ADD(eGERR, "Erreur lors de l'enregistrement de la donnée."); return false;}
     GLOG_ADD(eGLOG, "La donnée a bien été enregistrée.");
@@ -144,13 +138,16 @@ bool GModuleMap::onMoveDownModuleMap() {
 //===============================================
 bool GModuleMap::saveModuleMap() {
     if(m_id == 0) {
+        if(m_position == 0) {
+            if(!loadPositionAppend()) return false;
+        }
+        else {
+            if(!updatePositionAfter()) return false;
+        }
         if(!insertData()) return false;
     }
     else {
-        if(!updateData()) {
-            //onSearchModuleMap();
-            return false;
-        }
+        if(!updateData()) return false;
     }
     return true;
 }
