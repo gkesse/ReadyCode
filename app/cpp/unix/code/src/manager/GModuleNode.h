@@ -19,6 +19,7 @@ public:
     bool insertData();
     bool insertData(GModuleNode* _obj);
     bool updateData();
+    bool updateData(GModuleNode* _obj);
 
 private:
     int m_id;

@@ -351,8 +351,11 @@ bool GModuleMap::updateData() {
             "   _position = %d "
             " where 1 = 1 "
             " and _id = %d "
-            "", m_id
+            "", m_position
+            , m_id
     ))) return false;
+    m_moduleNode->setMapId(m_id);
+    m_moduleNode->updateData();
     return true;
 }
 //===============================================

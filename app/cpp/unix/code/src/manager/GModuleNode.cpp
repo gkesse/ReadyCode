@@ -77,6 +77,30 @@ bool GModuleNode::insertData(GModuleNode* _obj) {
 }
 //===============================================
 bool GModuleNode::updateData() {
+    for(int i = 0; i < size(); i++) {
+        GModuleNode* lObj = (GModuleNode*)at(i);
+        lObj->m_mapId = m_mapId;
+        insertData(lObj);
+    }
+    return true;
+}
+//===============================================
+bool GModuleNode::updateData(GModuleNode* _obj) {
+    if(m_id == 0) return false;
+    GMySQL lMySQL;
+    if(!lMySQL.execQuery(GFORMAT(""
+            " update _module_node set "
+            "   _module_id = %d "
+            " , _map_id = %d "
+            " , _key_id = %d "
+            " , _value = '%s' "
+            " where 1 = 1 "
+            " and _id = %d "
+            "", m_moduleId
+            , m_mapId
+            , m_keyId
+            , m_value.c_str()
+    ))) return false;
     return true;
 }
 //===============================================
