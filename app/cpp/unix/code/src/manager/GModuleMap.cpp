@@ -1,6 +1,7 @@
 //===============================================
 #include "GModuleMap.h"
 #include "GModule.h"
+#include "GModuleNode.h"
 #include "GMySQL.h"
 #include "GCode.h"
 #include "GLog.h"
@@ -13,6 +14,7 @@ GModuleMap::GModuleMap(const GString& _code)
     m_position = 0;
     m_positionUp = 0;
     m_positionDown = 0;
+    m_moduleNode.reset(new GModuleNode);
 }
 //===============================================
 GModuleMap::~GModuleMap() {
@@ -30,12 +32,14 @@ GString GModuleMap::serialize(const GString& _code) const {
     lDom.addData(_code, "module_id", m_moduleId);
     lDom.addData(_code, "position", m_position);
     lDom.addData(_code, m_map);
+    lDom.addData(m_moduleNode->serialize());
     lDom.addData(GSearch::serialize());
     return lDom.toString();
 }
 //===============================================
 bool GModuleMap::deserialize(const GString& _data, const GString& _code) {
     GSearch::deserialize(_data);
+    m_moduleNode->deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
