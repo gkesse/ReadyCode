@@ -80,7 +80,7 @@ bool GModuleNode::updateData() {
     for(int i = 0; i < size(); i++) {
         GModuleNode* lObj = (GModuleNode*)at(i);
         lObj->m_mapId = m_mapId;
-        insertData(lObj);
+        updateData(lObj);
     }
     return true;
 }
