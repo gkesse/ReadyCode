@@ -372,3 +372,7 @@ bool GModuleNode::insertData(GModuleNode* _obj) {
     return true;
 }
 //===============================================
+bool GModuleNode::updateData() {
+    return true;
+}
+//===============================================
