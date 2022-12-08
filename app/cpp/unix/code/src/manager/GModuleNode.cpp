@@ -53,6 +53,7 @@ void GModuleNode::setMapId(int _mapId) {
 }
 //===============================================
 bool GModuleNode::insertData() {
+    if(m_id != 0) return false;
     for(int i = 0; i < size(); i++) {
         GModuleNode* lObj = (GModuleNode*)at(i);
         lObj->m_mapId = m_mapId;
@@ -62,6 +63,7 @@ bool GModuleNode::insertData() {
 }
 //===============================================
 bool GModuleNode::insertData(GModuleNode* _obj) {
+    if(_obj->m_id != 0) return false;
     GMySQL lMySQL;
     if(!lMySQL.execQuery(GFORMAT(""
             " insert into _module_node "
@@ -86,7 +88,7 @@ bool GModuleNode::updateData() {
 }
 //===============================================
 bool GModuleNode::updateData(GModuleNode* _obj) {
-    if(m_id == 0) return false;
+    if(_obj->m_id == 0) return false;
     GMySQL lMySQL;
     if(!lMySQL.execQuery(GFORMAT(""
             " update _module_node set "
@@ -96,10 +98,11 @@ bool GModuleNode::updateData(GModuleNode* _obj) {
             " , _value = '%s' "
             " where 1 = 1 "
             " and _id = %d "
-            "", m_moduleId
-            , m_mapId
-            , m_keyId
-            , m_value.c_str()
+            "", _obj->m_moduleId
+            , _obj->m_mapId
+            , _obj->m_keyId
+            , _obj->m_value.c_str()
+            , _obj->m_id
     ))) return false;
     return true;
 }

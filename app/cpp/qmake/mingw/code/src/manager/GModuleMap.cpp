@@ -114,7 +114,6 @@ void GModuleMap::writeFormModuleNode(GFormLayout* _formLayout) {
     if(!m_moduleNode.get()) return;
     std::shared_ptr<GModuleKey>& lModuleKey = m_moduleNode->getModuleKey();
     std::shared_ptr<GModuleType>& lModuleType = lModuleKey->getModuleType();
-    _formLayout->clear();
     for(int i = 0; i < m_moduleNode->size(); i++) {
         GModuleNode* lObj = (GModuleNode*)m_moduleNode->at(i);
         GModuleKey* lObj2 = (GModuleKey*)lModuleKey->at(i);
@@ -154,6 +153,7 @@ int GModuleMap::getPosition() const {
 //===============================================
 void GModuleMap::saveModuleMap() {
     GString lData = serialize();
+    m_moduleNode->clearMap();
     lData = GCALL_SERVER("module_map", "save_module_map", lData);
     deserialize(lData);
 }
