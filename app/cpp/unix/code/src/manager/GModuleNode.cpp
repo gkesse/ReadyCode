@@ -60,7 +60,7 @@ bool GModuleNode::insertData() {
 bool GModuleNode::insertData(GModuleNode* _obj) {
     GMySQL lMySQL;
     if(!lMySQL.execQuery(GFORMAT(""
-            " insert into _module_map "
+            " insert into _module_node "
             " ( _module_id, _map_id, _key_id, _value ) "
             " values ( %d, %d, %d, '%s' ) "
             "", _obj->m_moduleId
