@@ -55,6 +55,14 @@ bool GModuleKey::deserialize(const GString& _data, const GString& _code) {
     return true;
 }
 //===============================================
+void GModuleKey::setId(int _id) {
+    m_id = _id;
+}
+//===============================================
+void GModuleKey::setModuleId(int _moduleId) {
+    m_moduleId = _moduleId;
+}
+//===============================================
 bool GModuleKey::onModule() {
     deserialize(m_server->getRequest());
     if(m_methodName == "") {
@@ -222,6 +230,33 @@ bool GModuleKey::searchModuleKey() {
     if(m_hasData) {
         GModuleKey* lObj = (GModuleKey*)m_map.back();
         m_lastId = lObj->m_id;
+    }
+    return true;
+}
+//===============================================
+bool GModuleKey::searchKey() {
+    clearMap();
+    GMySQL lMySQL;
+    GMap lDataMap = lMySQL.readMap(GFORMAT(""
+            " select _module_type_id, _name, _label "
+            " from _module_key "
+            " where 1 = 1 "
+            " and _id = %d "
+            " and _module_id = %d "
+            " order by _name asc "
+            "", m_id
+            , m_moduleId
+    ));
+    for(int i = 0; i < (int)lDataMap.size(); i++) {
+        GRow lDataRow = lDataMap.at(i);
+        int j = 0;
+        GModuleKey* lObj = new GModuleKey;
+        lObj->m_typeId = lDataRow.at(j++).toInt();
+        lObj->m_name = lDataRow.at(j++);
+        lObj->m_label = lDataRow.at(j++);
+        lObj->m_id = m_id;
+        lObj->m_moduleId = m_moduleId;
+        add(lObj);
     }
     return true;
 }

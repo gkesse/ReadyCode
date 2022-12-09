@@ -15,6 +15,9 @@ public:
     GString serialize(const GString& _code = "module_key") const;
     bool deserialize(const GString& _data, const GString& _code = "module_key");
 
+    void setId(int _id);
+    void setModuleId(int _moduleId);
+
     bool onModule();
     bool onLoadModuleKey();
     bool onSaveModuleKey();
@@ -23,6 +26,7 @@ public:
 
     bool loadModuleKey();
     bool saveModuleKey();
+    bool searchKey();
     bool searchModuleKey();
     bool searchNextModuleKey();
     bool countData();

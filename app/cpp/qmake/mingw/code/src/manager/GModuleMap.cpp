@@ -153,6 +153,10 @@ int GModuleMap::getPosition() const {
     return m_position;
 }
 //===============================================
+GString GModuleMap::getNode() const {
+    return m_node;
+}
+//===============================================
 void GModuleMap::saveModuleMap() {
     GString lData = serialize();
     m_moduleNode->clearMap();
@@ -230,10 +234,14 @@ bool GModuleMap::showList(std::shared_ptr<GTreeWidgetUi>& _treeWidgetUi) {
             lTreeWidget->selectItem();
         }
 
-        for(int j = 0; j < 5; j++) {
+        GModuleNode lNode;
+        lNode.deserialize(lObj->getNode());
+
+        for(int j = 0; j < lNode.size(); j++) {
+            GModuleNode* lObj = (GModuleNode*)lNode.at(j);
             lTreeWidget->addChild();
-            lTreeWidget->setData(0, lKey, "cle");
-            lTreeWidget->setData(1, lKey, "valeur");
+            lTreeWidget->setData(0, lKey, lObj->getKeyId());
+            lTreeWidget->setData(1, lKey, lObj->getValue());
         }
     }
 

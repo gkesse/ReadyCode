@@ -29,6 +29,8 @@ private:
     int m_mapId;
     int m_keyId;
     GString m_value;
+    GString m_key;
+
 };
 //==============================================
 #endif

@@ -1,6 +1,7 @@
 //===============================================
 #include "GModuleNode.h"
 #include "GModule.h"
+#include "GModuleKey.h"
 #include "GMySQL.h"
 #include "GCode.h"
 #include "GLog.h"
@@ -30,6 +31,7 @@ GString GModuleNode::serialize(const GString& _code) const {
     lDom.addData(_code, "map_id", m_mapId);
     lDom.addData(_code, "key_id", m_keyId);
     lDom.addData(_code, "value", m_value);
+    lDom.addData(_code, "key", m_key.toBase64(), true);
     lDom.addData(_code, m_map);
     lDom.addData(GSearch::serialize());
     return lDom.toString();
@@ -44,6 +46,7 @@ bool GModuleNode::deserialize(const GString& _data, const GString& _code) {
     m_mapId = lDom.getData(_code, "map_id").toInt();
     m_keyId = lDom.getData(_code, "key_id").toInt();
     m_value = lDom.getData(_code, "value");
+    m_key = lDom.getData(_code, "key").fromBase64();
     lDom.getData(_code, m_map, this);
     return true;
 }
@@ -73,11 +76,16 @@ bool GModuleNode::searchModuleNode() {
         GRow lRow = lDataMap.at(i);
         int j = 0;
         GModuleNode* lObj = new GModuleNode;
+        GModuleKey lKey;
         lObj->m_id = lRow.at(j++).toInt();
         lObj->m_keyId = lRow.at(j++).toInt();
         lObj->m_value = lRow.at(j++);
         lObj->m_moduleId = m_moduleId;
         lObj->m_mapId = m_mapId;
+        lKey.setId(lObj->m_keyId);
+        lKey.setModuleId(lObj->m_moduleId);
+        lKey.searchKey();
+        lObj->m_key = lKey.serialize();
         add(lObj);
     }
     return true;

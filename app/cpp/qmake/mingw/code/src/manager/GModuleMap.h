@@ -35,6 +35,7 @@ public:
     int getId() const;
     int getModuleId() const;
     int getPosition() const;
+    GString getNode() const;
 
     void saveModuleMap();
     void searchModuleMap();
