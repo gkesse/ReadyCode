@@ -14,9 +14,10 @@ public:
     GString serialize(const GString& _code = "module_node") const;
     bool deserialize(const GString& _data, const GString& _code = "module_node");
 
+    void setModuleId(int _moduleId);
     void setMapId(int _mapId);
 
-    bool searchModuleMap(const GList& _mapId);
+    bool searchModuleNode();
     bool insertData();
     bool insertData(GModuleNode* _obj);
     bool updateData();

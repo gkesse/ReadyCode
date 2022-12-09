@@ -179,7 +179,9 @@ bool GModuleMap::searchModuleMap() {
         lObj->m_id = lRow.at(j++).toInt();
         lObj->m_position = lRow.at(j++).toInt();
         lObj->m_moduleId = m_moduleId;
+        lNode.setModuleId(m_moduleId);
         lNode.setMapId(lObj->m_id);
+        lNode.searchModuleNode();
         lNode.print();
         add(lObj);
     }
