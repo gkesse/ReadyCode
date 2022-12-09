@@ -37,6 +37,7 @@ public:
     int getTypeId() const;
     GString getName() const;
     GString getLabel() const;
+    GString getType() const;
 
     void loadModuleKey();
     void saveModuleKey();

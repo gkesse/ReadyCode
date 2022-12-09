@@ -136,6 +136,10 @@ GString GModuleKey::getLabel() const {
     return m_label;
 }
 //===============================================
+GString GModuleKey::getType() const {
+    return m_type;
+}
+//===============================================
 void GModuleKey::loadModuleKey() {
     if(m_moduleId <= 0) return;
     GString lData = serialize();

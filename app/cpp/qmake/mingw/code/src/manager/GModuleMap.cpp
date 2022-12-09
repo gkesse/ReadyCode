@@ -118,8 +118,10 @@ void GModuleMap::writeFormModuleNode(GFormLayout* _formLayout) {
     for(int i = 0; i < lNode.size(); i++) {
         GModuleNode* lNode2 = (GModuleNode*)lNode.at(i);
         GModuleKey lKey;
+        GModuleType lType;
         lKey.deserialize(lNode2->getKey());
-        _formLayout->setData(lKey.getName(), lNode2->getValue());
+        lType.deserialize(lKey.getType());
+        _formLayout->setData(lKey.getName(), lNode2->getValue(), lType.getName());
         _formLayout->setId(lKey.getName(), lNode2->getId());
     }
 }

@@ -211,7 +211,7 @@ bool GModuleType::searchType() {
     clearMap();
     GMySQL lMySQL;
     GMap lDataMap = lMySQL.readMap(GFORMAT(""
-            " select _id, _name "
+            " select _name "
             " from _module_type "
             " where 1 = 1 "
             " and _id = %d "
