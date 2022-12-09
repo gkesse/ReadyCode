@@ -75,15 +75,18 @@ bool GModuleNode::searchModuleNode() {
     for(int i = 0; i < (int)lDataMap.size(); i++) {
         GRow lRow = lDataMap.at(i);
         int j = 0;
+        GModuleNode* lObj = new GModuleNode;
         GModuleKey lKey;
-        m_id = lRow.at(j++).toInt();
-        m_keyId = lRow.at(j++).toInt();
-        m_value = lRow.at(j++);
-        lKey.setId(m_keyId);
-        lKey.setModuleId(m_moduleId);
+        lObj->m_id = lRow.at(j++).toInt();
+        lObj->m_keyId = lRow.at(j++).toInt();
+        lObj->m_value = lRow.at(j++);
+        lObj->m_moduleId = m_moduleId;
+        lObj->m_mapId = m_mapId;
+        lKey.setId(lObj->m_keyId);
+        lKey.setModuleId(lObj->m_moduleId);
         lKey.searchKey();
-        m_key = lKey.serialize();
-        break;
+        lObj->m_key = lKey.serialize();
+        add(lObj);
     }
     return true;
 }

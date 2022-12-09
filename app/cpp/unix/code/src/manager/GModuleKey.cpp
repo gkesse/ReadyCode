@@ -250,13 +250,10 @@ bool GModuleKey::searchKey() {
     for(int i = 0; i < (int)lDataMap.size(); i++) {
         GRow lDataRow = lDataMap.at(i);
         int j = 0;
-        GModuleKey* lObj = new GModuleKey;
-        lObj->m_typeId = lDataRow.at(j++).toInt();
-        lObj->m_name = lDataRow.at(j++);
-        lObj->m_label = lDataRow.at(j++);
-        lObj->m_id = m_id;
-        lObj->m_moduleId = m_moduleId;
-        add(lObj);
+        m_typeId = lDataRow.at(j++).toInt();
+        m_name = lDataRow.at(j++);
+        m_label = lDataRow.at(j++);
+        break;
     }
     return true;
 }
