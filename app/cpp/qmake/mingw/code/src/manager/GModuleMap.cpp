@@ -238,10 +238,13 @@ bool GModuleMap::showList(std::shared_ptr<GTreeWidgetUi>& _treeWidgetUi) {
         lNode.deserialize(lObj->getNode());
 
         for(int j = 0; j < lNode.size(); j++) {
-            GModuleNode* lObj = (GModuleNode*)lNode.at(j);
+            GModuleNode* lObj2 = (GModuleNode*)lNode.at(j);
+            GModuleKey lObj3;
+            lObj3.deserialize(lObj2->getKey());
+            qDebug() << "##############" << lObj3.serialize().c_str();
             lTreeWidget->addChild();
-            lTreeWidget->setData(0, lKey, lObj->getKeyId());
-            lTreeWidget->setData(1, lKey, lObj->getValue());
+            lTreeWidget->setData(0, lKey, lObj3.getName());
+            lTreeWidget->setData(1, lKey, lObj2->getValue());
         }
     }
 

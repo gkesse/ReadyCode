@@ -39,6 +39,7 @@ public:
     int getMapId() const;
     int getKeyId() const;
     GString getValue() const;
+    GString getKey() const;
 
     void loadModuleNode();
     void saveModuleNode();
@@ -55,6 +56,7 @@ protected:
     int m_mapId;
     int m_keyId;
     GString m_value;
+    GString m_key;
     std::shared_ptr<GModule> m_module;
     std::shared_ptr<GModuleKey> m_moduleKey;
     std::shared_ptr<GTableWidgetUi> m_tableWidget;

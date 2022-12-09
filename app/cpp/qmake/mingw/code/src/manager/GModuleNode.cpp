@@ -37,6 +37,7 @@ GString GModuleNode::serialize(const GString& _code) {
     lDom.addData(_code, "map_id", m_mapId);
     lDom.addData(_code, "key_id", m_keyId);
     lDom.addData(_code, "value", m_value);
+    lDom.addData(_code, "key", m_key.toBase64(), true);
     lDom.addData(_code, m_map, this);
     lDom.addData(m_module->serialize(), this);
     lDom.addData(m_moduleKey->serialize(), this);
@@ -55,6 +56,7 @@ bool GModuleNode::deserialize(const GString& _data, const GString& _code) {
     m_mapId = lDom.getData(_code, "map_id").toInt();
     m_keyId = lDom.getData(_code, "key_id").toInt();
     m_value = lDom.getData(_code, "value");
+    m_key = lDom.getData(_code, "key").fromBase64();
     lDom.getData(_code, m_map, this);
     return true;
 }
@@ -158,6 +160,10 @@ int GModuleNode::getKeyId() const {
 //===============================================
 GString GModuleNode::getValue() const {
     return m_value;
+}
+//===============================================
+GString GModuleNode::getKey() const {
+    return m_key;
 }
 //===============================================
 void GModuleNode::loadModuleNode() {
