@@ -12,6 +12,8 @@ public:
     GString serialize(const GString& _code = "module_type") const;
     bool deserialize(const GString& _data, const GString& _code = "module_type");
 
+    void setId(int _id);
+
     int getId() const;
 
     bool onModule();
@@ -25,6 +27,7 @@ public:
     bool saveModuleType();
     bool searchModuleType();
     bool searchModuleType(const GList& _datas);
+    bool searchType();
     bool searchNextModuleType();
     bool deleteModuleType();
     bool countSearch();

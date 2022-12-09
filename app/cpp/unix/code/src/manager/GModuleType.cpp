@@ -38,6 +38,10 @@ bool GModuleType::deserialize(const GString& _data, const GString& _code) {
     return true;
 }
 //===============================================
+void GModuleType::setId(int _id) {
+    m_id = _id;
+}
+//===============================================
 int GModuleType::getId() const {
     return m_id;
 }
@@ -200,6 +204,26 @@ bool GModuleType::searchModuleType(const GList& _data) {
         m_map.push_back(lObj);
     }
     setSearch(GSearch());
+    return true;
+}
+//===============================================
+bool GModuleType::searchType() {
+    clearMap();
+    GMySQL lMySQL;
+    GMap lDataMap = lMySQL.readMap(GFORMAT(""
+            " select _id, _name "
+            " from _module_type "
+            " where 1 = 1 "
+            " and _id = %d "
+            " order by _name asc "
+            "", m_id
+    ));
+    for(int i = 0; i < (int)lDataMap.size(); i++) {
+        GRow lDataRow = lDataMap.at(i);
+        int j = 0;
+        m_name = lDataRow.at(j++);
+        break;
+    }
     return true;
 }
 //===============================================

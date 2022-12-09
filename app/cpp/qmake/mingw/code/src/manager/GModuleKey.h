@@ -53,6 +53,7 @@ protected:
     int m_typeId;
     GString m_name;
     GString m_label;
+    GString m_type;
     std::shared_ptr<GModule> m_module;
     std::shared_ptr<GModuleType> m_moduleType;
     std::shared_ptr<GTableWidgetUi> m_tableWidget;

@@ -46,7 +46,7 @@ void GObject::add(GObject* _obj) {
 }
 //===============================================
 void GObject::print() {
-    printf("%s\n", serialize().c_str());
+    printf("%s\n", serialize(getCodeName()).c_str());
 }
 //===============================================
 GObject* GObject::clone() const {return new GObject;}

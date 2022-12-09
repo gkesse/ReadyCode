@@ -113,19 +113,14 @@ void GModuleMap::readFormModuleNode(GFormLayout* _formLayout) {
 }
 //===============================================
 void GModuleMap::writeFormModuleNode(GFormLayout* _formLayout) {
-    if(!m_moduleNode.get()) return;
-    std::shared_ptr<GModuleKey>& lModuleKey = m_moduleNode->getModuleKey();
-    std::shared_ptr<GModuleType>& lModuleType = lModuleKey->getModuleType();
-    for(int i = 0; i < m_moduleNode->size(); i++) {
-        GModuleNode* lObj = (GModuleNode*)m_moduleNode->at(i);
-        GModuleKey* lObj2 = (GModuleKey*)lModuleKey->at(i);
-        GModuleType* lObj3 = (GModuleType*)lModuleType->at(i);
-        int lId = lObj->getId();
-        GString lKey = lObj2->getName();
-        GString lType = lObj3->getName();
-        GString lValue = lObj->getValue();
-        _formLayout->setData(lKey, lValue, lType);
-        _formLayout->setId(lKey, lId);
+    GModuleNode lNode;
+    lNode.deserialize(m_node);
+    for(int i = 0; i < lNode.size(); i++) {
+        GModuleNode* lNode2 = (GModuleNode*)lNode.at(i);
+        GModuleKey lKey;
+        lKey.deserialize(lNode2->getKey());
+        _formLayout->setData(lKey.getName(), lNode2->getValue());
+        _formLayout->setId(lKey.getName(), lNode2->getId());
     }
 }
 //===============================================
@@ -208,9 +203,7 @@ bool GModuleMap::showList() {
     int lOk = m_treeWidgetUi->exec();
 
     if(lOk == QDialog::Accepted) {
-        GModuleMap lObj;
-        lObj.deserialize(m_treeWidgetUi->getKey());
-        setModuleMap(lObj);
+        deserialize(m_treeWidgetUi->getKey());
     }
     return true;
 }
@@ -229,6 +222,7 @@ bool GModuleMap::showList(std::shared_ptr<GTreeWidgetUi>& _treeWidgetUi) {
         GString lNoeud = GFORMAT("noeud[%d]", lObj->getPosition());
         lTreeWidget->addRoot();
         lTreeWidget->setData(0, lKey, lNoeud);
+        lTreeWidget->setData(1, lKey, "");
 
         if(lKey == _treeWidgetUi->getKey()) {
             lTreeWidget->selectItem();
@@ -241,7 +235,6 @@ bool GModuleMap::showList(std::shared_ptr<GTreeWidgetUi>& _treeWidgetUi) {
             GModuleNode* lObj2 = (GModuleNode*)lNode.at(j);
             GModuleKey lObj3;
             lObj3.deserialize(lObj2->getKey());
-            qDebug() << "##############" << lObj3.serialize().c_str();
             lTreeWidget->addChild();
             lTreeWidget->setData(0, lKey, lObj3.getName());
             lTreeWidget->setData(1, lKey, lObj2->getValue());

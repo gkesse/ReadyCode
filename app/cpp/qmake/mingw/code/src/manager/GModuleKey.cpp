@@ -35,6 +35,7 @@ GString GModuleKey::serialize(const GString& _code) {
     lDom.addData(_code, "type_id", m_typeId);
     lDom.addData(_code, "name", m_name);
     lDom.addData(_code, "label", m_label);
+    lDom.addData(_code, "type", m_type.toBase64(), true);
     lDom.addData(_code, m_map, this);
     lDom.addData(m_module->serialize(), this);
     lDom.addData(m_moduleType->serialize(), this);
@@ -53,6 +54,7 @@ bool GModuleKey::deserialize(const GString& _data, const GString& _code) {
     m_typeId = lDom.getData(_code, "type_id").toInt();
     m_name = lDom.getData(_code, "name");
     m_label = lDom.getData(_code, "label");
+    m_type = lDom.getData(_code, "type").fromBase64();
     lDom.getData(_code, m_map, this);
     return true;
 }
@@ -63,6 +65,7 @@ void GModuleKey::setModuleKey(const GModuleKey& _moduleKey) {
     m_typeId = _moduleKey.m_typeId;
     m_name = _moduleKey.m_name;
     m_label = _moduleKey.m_label;
+    m_type = _moduleKey.m_type;
 }
 //===============================================
 void GModuleKey::setModuleKey(GModuleKey* _moduleKey) {
