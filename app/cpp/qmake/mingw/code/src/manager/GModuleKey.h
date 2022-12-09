@@ -23,7 +23,7 @@ public:
     void setModule(const GModule& _module);
     void setModule(GModule* _module);
     void setModule(const std::shared_ptr<GModule>& _module);
-
+    void writeKeyFormModuleNode(GFormLayout* _formLayout);
     std::shared_ptr<GModuleType>& getModuleType();
 
     void setId(int _id);

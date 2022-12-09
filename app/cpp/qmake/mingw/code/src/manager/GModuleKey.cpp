@@ -96,6 +96,17 @@ std::shared_ptr<GModuleType>& GModuleKey::getModuleType() {
     return m_moduleType;
 }
 //===============================================
+void GModuleKey::writeKeyFormModuleNode(GFormLayout* _formLayout) {
+    _formLayout->clear();
+    for(int i = 0; i < size(); i++) {
+        GModuleKey* lKey = (GModuleKey*)at(i);
+        GModuleType lType;
+        lType.deserialize(lKey->getType());
+        GString lLabel = GFORMAT("%s :", lKey->getLabel().c_str());
+        _formLayout->addRow(lKey->getName(), lLabel, lType.getName());
+    }
+}
+//===============================================
 void GModuleKey::setId(int _id) {
     m_id = _id;
 }
@@ -141,7 +152,6 @@ GString GModuleKey::getType() const {
 }
 //===============================================
 void GModuleKey::loadModuleKey() {
-    if(m_moduleId <= 0) return;
     GString lData = serialize();
     lData = GCALL_SERVER("module_key", "load_module_key", lData);
     deserialize(lData);

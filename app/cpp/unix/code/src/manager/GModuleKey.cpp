@@ -150,34 +150,30 @@ bool GModuleKey::onSearchNextModuleKey() {
 }
 //===============================================
 bool GModuleKey::loadModuleKey() {
-    clearMap(m_map);
+    clearMap();
     GMySQL lMySQL;
     GMap lDataMap = lMySQL.readMap(GFORMAT(""
-            " select _id, _module_id, _module_type_id, _name, _label "
+            " select _id, _module_type_id, _name, _label "
             " from _module_key "
             " where 1 = 1"
             " and _module_id = %d "
             " order by _name asc "
             "", m_moduleId
     ));
-
-    GList lTypeMap;
-
     for(int i = 0; i < (int)lDataMap.size(); i++) {
         GRow lDataRow = lDataMap.at(i);
         int j = 0;
         GModuleKey* lObj = new GModuleKey;
+        GModuleType lType;
         lObj->m_id = lDataRow.at(j++).toInt();
-        lObj->m_moduleId = lDataRow.at(j++).toInt();
         lObj->m_typeId = lDataRow.at(j++).toInt();
         lObj->m_name = lDataRow.at(j++);
         lObj->m_label = lDataRow.at(j++);
-        m_map.push_back(lObj);
-        lTypeMap.push_back(lObj->m_typeId);
+        lType.setId(lObj->m_typeId);
+        lType.searchType();
+        lObj->m_type = lType.serialize();
+        add(lObj);
     }
-
-    m_moduleType->searchModuleType(lTypeMap);
-
     return true;
 }
 //===============================================

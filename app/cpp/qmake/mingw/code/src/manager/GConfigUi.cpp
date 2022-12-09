@@ -234,9 +234,7 @@ void GConfigUi::on_btnNewMap_clicked() {
 //===============================================
 void GConfigUi::onLoadKeyModuleNode() {
     GLOGT(eGFUN, "");
-    m_moduleNode.reset(new GModuleNode);
-    m_moduleNode->setModuleKey(m_moduleKeyList);
-    m_moduleNode->writeKeyFormModuleNode(ui->layModuleMap);
+    m_moduleKeyList->writeKeyFormModuleNode(ui->layModuleMap);
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
 }
