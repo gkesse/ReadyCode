@@ -54,6 +54,7 @@ protected:
     int m_id;
     int m_moduleId;
     int m_position;
+    GString m_node;
     std::shared_ptr<GModule> m_module;
     std::shared_ptr<GModuleNode> m_moduleNode;
     std::shared_ptr<GTreeWidgetUi> m_treeWidgetUi;

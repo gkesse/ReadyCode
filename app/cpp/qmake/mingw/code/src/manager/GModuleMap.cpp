@@ -35,6 +35,7 @@ GString GModuleMap::serialize(const GString& _code) {
     lDom.addData(_code, "id", m_id);
     lDom.addData(_code, "module_id", m_moduleId);
     lDom.addData(_code, "position", m_position);
+    lDom.addData(_code, "node", m_node.toBase64(), true);
     lDom.addData(_code, m_map, this);
     lDom.addData(m_module->serialize(), this);
     lDom.addData(m_moduleNode->serialize(), this);
@@ -52,6 +53,7 @@ bool GModuleMap::deserialize(const GString& _data, const GString& _code) {
     m_id = lDom.getData(_code, "id").toInt();
     m_moduleId = lDom.getData(_code, "module_id").toInt();
     m_position = lDom.getData(_code, "position").toInt();
+    m_node = lDom.getData(_code, "node").fromBase64();
     lDom.getData(_code, m_map, this);
     return true;
 }
