@@ -31,6 +31,7 @@ GString GModuleMap::serialize(const GString& _code) const {
     lDom.addData(_code, "id", m_id);
     lDom.addData(_code, "module_id", m_moduleId);
     lDom.addData(_code, "position", m_position);
+    lDom.addData(_code, "node", m_node);
     lDom.addData(_code, m_map);
     lDom.addData(m_moduleNode->serialize());
     lDom.addData(GSearch::serialize());
@@ -45,6 +46,7 @@ bool GModuleMap::deserialize(const GString& _data, const GString& _code) {
     m_id = lDom.getData(_code, "id").toInt();
     m_moduleId = lDom.getData(_code, "module_id").toInt();
     m_position = lDom.getData(_code, "position").toInt();
+    m_node = lDom.getData(_code, "node");
     lDom.getData(_code, m_map, this);
     return true;
 }
@@ -99,8 +101,8 @@ bool GModuleMap::onSearchModuleMap() {
         }
     }
     if(!countData()) return false;
-    if(!searchData()) return false;
-    if(m_map.size() == 0) {GERROR_ADD(eGERR, "Aucun résultat n'a été trouvé."); return false;}
+    if(!searchModuleMap()) return false;
+    if(size() == 0) {GERROR_ADD(eGERR, "Aucun résultat n'a été trouvé."); return false;}
     return true;
 }
 //===============================================
@@ -156,18 +158,7 @@ bool GModuleMap::saveModuleMap() {
     return true;
 }
 //===============================================
-bool GModuleMap::countData() {
-    GMySQL lMySQL;
-    m_dataCount = lMySQL.readData(GFORMAT(""
-            " select count(*) "
-            " from _module_map "
-            " %s "
-            "", m_where.c_str()
-    )).toInt();
-    return true;
-}
-//===============================================
-bool GModuleMap::searchData() {
+bool GModuleMap::searchModuleMap() {
     clearMap();
     GMySQL lMySQL;
     GMap lDataMap = lMySQL.readMap(GFORMAT(""
@@ -179,14 +170,20 @@ bool GModuleMap::searchData() {
             "", m_where.c_str()
             , m_dataSize
     ));
+
     for(int i = 0; i < (int)lDataMap.size(); i++) {
         GRow lRow = lDataMap.at(i);
         int j = 0;
         GModuleMap* lObj = new GModuleMap;
+        GModuleNode lNode;
         lObj->m_id = lRow.at(j++).toInt();
         lObj->m_position = lRow.at(j++).toInt();
-        m_map.push_back(lObj);
+        lObj->m_moduleId = m_moduleId;
+        lNode.setMapId(lObj->m_id);
+        lNode.print();
+        add(lObj);
     }
+
     m_dataOffset += m_dataSize;
     m_hasData = true;
     if(m_dataOffset >= m_dataCount) m_hasData = false;
@@ -194,6 +191,17 @@ bool GModuleMap::searchData() {
         GModuleMap* lObj = (GModuleMap*)m_map.back();
         m_lastId = lObj->m_id;
     }
+    return true;
+}
+//===============================================
+bool GModuleMap::countData() {
+    GMySQL lMySQL;
+    m_dataCount = lMySQL.readData(GFORMAT(""
+            " select count(*) "
+            " from _module_map "
+            " %s "
+            "", m_where.c_str()
+    )).toInt();
     return true;
 }
 //===============================================

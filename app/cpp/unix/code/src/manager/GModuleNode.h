@@ -16,6 +16,7 @@ public:
 
     void setMapId(int _mapId);
 
+    bool searchModuleMap(const GList& _mapId);
     bool insertData();
     bool insertData(GModuleNode* _obj);
     bool updateData();

@@ -24,8 +24,8 @@ public:
     bool onMoveDownModuleMap();
 
     bool saveModuleMap();
+    bool searchModuleMap();
     bool countData();
-    bool searchData();
     bool loadData();
     bool loadPositionAppend();
     bool loadPositionUp();
@@ -44,6 +44,7 @@ private:
     int m_position;
     int m_positionUp;
     int m_positionDown;
+    GString m_node;
     std::shared_ptr<GModuleNode> m_moduleNode;
 };
 //==============================================

@@ -72,7 +72,7 @@ void GModuleMap::setModuleMap(const std::shared_ptr<GModuleMap>& _moduleMap) {
 //===============================================
 void GModuleMap::setModuleMap(int _index) {
     if(_index < (int)m_map.size()) {
-        GModuleMap* lObj = (GModuleMap*)m_map.at(_index);
+        GModuleMap* lObj = (GModuleMap*)at(_index);
         setModuleMap(lObj);
     }
     clearMap(m_map);
@@ -189,8 +189,8 @@ void GModuleMap::moveDownModuleMap() {
 }
 //===============================================
 bool GModuleMap::showList() {
-    if(m_map.size() == 0) return true;
-    if(m_map.size() == 1) {
+    if(size() == 0) return true;
+    if(size() == 1) {
         setModuleMap(0);
         return true;
     }
@@ -217,12 +217,12 @@ bool GModuleMap::showList(std::shared_ptr<GTreeWidgetUi>& _treeWidgetUi) {
     lTreeWidget->setData(0, "", "cle");
     lTreeWidget->setData(1, "", "valeur");
 
-    for(int i = 0; i < (int)m_map.size(); i++) {
-        GModuleMap* lObj = (GModuleMap*)m_map.at(i);
-        lObj->setOnlyObjectCopied();
+    for(int i = 0; i < size(); i++) {
+        GModuleMap* lObj = (GModuleMap*)at(i);
         GString lKey = lObj->serialize();
+        GString lNoeud = GFORMAT("noeud[%d]", lObj->getPosition());
         lTreeWidget->addRoot();
-        lTreeWidget->setData(1, lKey, lObj->getId());
+        lTreeWidget->setData(0, lKey, lNoeud);
 
         if(lKey == _treeWidgetUi->getKey()) {
             lTreeWidget->selectItem();

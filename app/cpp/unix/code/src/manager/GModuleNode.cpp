@@ -52,6 +52,42 @@ void GModuleNode::setMapId(int _mapId) {
     m_mapId = _mapId;
 }
 //===============================================
+bool GModuleNode::searchModuleMap(const GList& _mapId) {
+    clearMap();
+    GMySQL lMySQL;
+    GMap lDataMap = lMySQL.readMap(GFORMAT(""
+            " select _id, _module_id, _map_id, _key_id, _value "
+            " from _module_node "
+            " where 1 = 1 "
+            " and _module_id = %d "
+            " and _map_id in (%s) "
+            "", m_moduleId
+            , _mapId.toSqlArrayInt()
+    ));
+
+    for(int i = 0; i < (int)lDataMap.size(); i++) {
+        GRow lRow = lDataMap.at(i);
+        int j = 0;
+        GModuleMap* lObj = new GModuleMap;
+        lObj->m_id = lRow.at(j++).toInt();
+        lObj->m_position = lRow.at(j++).toInt();
+        lObj->m_moduleId = m_moduleId;
+        add(lObj);
+        lIdMap.push_back(lObj->m_id);
+    }
+
+    m_moduleNode->search
+
+    m_dataOffset += m_dataSize;
+    m_hasData = true;
+    if(m_dataOffset >= m_dataCount) m_hasData = false;
+    if(m_hasData) {
+        GModuleMap* lObj = (GModuleMap*)m_map.back();
+        m_lastId = lObj->m_id;
+    }
+    return true;
+}
+//===============================================
 bool GModuleNode::insertData() {
     if(m_id != 0) return false;
     for(int i = 0; i < size(); i++) {

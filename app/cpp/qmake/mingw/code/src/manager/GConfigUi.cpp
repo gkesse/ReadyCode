@@ -224,6 +224,7 @@ void GConfigUi::on_btnSearchMap_clicked() {
 void GConfigUi::on_btnNewMap_clicked() {
     GLOGT(eGFUN, "");
     m_moduleMap.reset(new GModuleMap);
+    m_moduleMap->writeFormModuleNode(ui->layModuleMap);
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
