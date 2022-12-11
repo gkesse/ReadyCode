@@ -5,7 +5,6 @@
 #include "GSearch.h"
 //===============================================
 class GTableWidgetUi;
-class GModule;
 //===============================================
 class GModuleData : public GSearch {
 public:
@@ -18,9 +17,6 @@ public:
     void setModuleData(const GModuleData& _moduleData);
     void setModuleData(GModuleData* _moduleData);
     void setModuleData(int _index);
-    void setModule(const GModule& _module);
-    void setModule(GModule* _module);
-    void setModule(const std::shared_ptr<GModule>& _module);
 
     void setId(int _id);
     void setModuleId(int _moduleId);
@@ -45,7 +41,7 @@ protected:
     int m_moduleId;
     GString m_name;
     GString m_value;
-    std::shared_ptr<GModule> m_module;
+    GString m_module;
     std::shared_ptr<GTableWidgetUi> m_tableWidget;
 };
 //==============================================

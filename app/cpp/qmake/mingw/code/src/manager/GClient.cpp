@@ -51,8 +51,8 @@ GString GClient::callServer(const GString& _modules, const GString& _method, con
     setType(SOCK_STREAM);
     setProtocol(IPPROTO_TCP);
     setFamily(AF_INET);
-    setHostname("readydev.ovh");
-    setPort(9090);
+    setHostname("82.65.62.124");
+    setPort(9091);
 
     GCode lDom;
     lDom.createDoc();

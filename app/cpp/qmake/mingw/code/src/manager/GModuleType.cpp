@@ -48,16 +48,10 @@ void GModuleType::setModuleType(GModuleType* _moduleType) {
     setModuleType(*_moduleType);
 }
 //===============================================
-void GModuleType::setModuleType(const std::shared_ptr<GModuleType>& _moduleType) {
-    setModuleType(_moduleType.get());
-}
-//===============================================
 void GModuleType::setModuleType(int _index) {
-    if(_index >= 0 && _index < (int)m_map.size()) {
-        GModuleType* lObj = (GModuleType*)m_map.at(_index);
-        setModuleType(lObj);
-    }
-    clearMap(m_map);
+    GModuleType* lObj = (GModuleType*)at(_index);
+    setModuleType(lObj);
+    clearMap();
 }
 //===============================================
 void GModuleType::setId(int _id) {
@@ -108,32 +102,36 @@ void GModuleType::loadComboBox(QComboBox* _comboBox) {
 }
 //===============================================
 bool GModuleType::showList() {
-    if(m_map.size() == 0) return true;
-    if(m_map.size() == 1) {
+    if(size() == 0) return true;
+    if(size() == 1) {
         setModuleType(0);
         return true;
     }
+
     m_tableWidget->setWindowTitle("Liste des modules");
-    m_tableWidget->setSize(m_map.size(), 1);
+    m_tableWidget->setSize(size(), 1);
     m_tableWidget->setHeader(0, "nom");
-    for(int i = 0; i < (int)m_map.size(); i++) {
-        GModuleType* lObj = (GModuleType*)m_map.at(i);
-        GString lKey = lObj->serialize();
-        m_tableWidget->setData(i, 0, lKey, lObj->m_name);
+
+    for(int i = 0; i < size(); i++) {
+        GModuleType* lType = (GModuleType*)at(i);
+        GString lKey = lType->serialize();
+        m_tableWidget->setData(i, 0, lKey, lType->m_name);
     }
-    clearMap(m_map);
+
+    clearMap();
     m_tableWidget->setSearch(this);
     int lOk = m_tableWidget->exec();
+
     if(lOk == QDialog::Accepted) {
-        GModuleType lObj;
-        lObj.deserialize(m_tableWidget->getKey());
-        setModuleType(lObj);
+        GModuleType lType;
+        lType.deserialize(m_tableWidget->getKey());
+        setModuleType(lType);
     }
     return true;
 }
 //===============================================
 void GModuleType::onNextData() {
-    clearMap(m_map);
+    clearMap();
     GString lData = serialize();
     lData = GCALL_SERVER("module_type", "search_next_module_type", lData);
     deserialize(lData);
@@ -141,13 +139,13 @@ void GModuleType::onNextData() {
 }
 //===============================================
 bool GModuleType::showNextList() {
-    for(int i = 0; i < (int)m_map.size(); i++) {
-        GModuleType* lObj = (GModuleType*)m_map.at(i);
-        GString lKey = lObj->serialize();
+    for(int i = 0; i < size(); i++) {
+        GModuleType* lType = (GModuleType*)at(i);
+        GString lKey = lType->serialize();
         m_tableWidget->addRow();
-        m_tableWidget->addCol(0, lKey, lObj->m_name);
+        m_tableWidget->addCol(0, lKey, lType->m_name);
     }
-    clearMap(m_map);
+    clearMap();
     return true;
 }
 //===============================================

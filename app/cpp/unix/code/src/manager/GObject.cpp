@@ -19,7 +19,7 @@ bool GObject::createDoms() {
 }
 //===============================================
 void GObject::clearMap() {
-    clearMap(m_map);
+    clearMap();
 }
 //===============================================
 void GObject::clearMap(std::vector<GObject*>& _map) const {
@@ -31,14 +31,18 @@ void GObject::clearMap(std::vector<GObject*>& _map) const {
 }
 //===============================================
 int GObject::size() const {
-    return (int)m_map.size();
+    return size();
 }
 //===============================================
 GObject* GObject::at(int _index) {
-    if(_index >= 0 && _index < (int)m_map.size()) {
+    if(_index >= 0 && _index < size()) {
         return m_map.at(_index);
     }
     return 0;
+}
+//===============================================
+GObject* GObject::back() {
+    return m_map.back();
 }
 //===============================================
 void GObject::add(GObject* _obj) {

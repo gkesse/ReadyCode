@@ -12,7 +12,7 @@ GCss::GCss(const GString& _code)
 }
 //===============================================
 GCss::~GCss() {
-    clearMap(m_map);
+    clearMap();
 }
 //===============================================
 GObject* GCss::clone() const {

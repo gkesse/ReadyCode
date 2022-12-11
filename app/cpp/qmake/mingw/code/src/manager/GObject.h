@@ -15,7 +15,6 @@ public:
     virtual GString serialize(const GString& _code = "object");
     virtual bool deserialize(const GString& _data, const GString& _code = "object");
     virtual void clearMap();
-    virtual void clearMap(std::vector<GObject*>& _map) const;
     virtual GString getCodeName() const;
     virtual bool isOnlyObjectCopied() const;
     virtual void setOnlyObjectCopied();
@@ -29,7 +28,6 @@ protected:
     std::shared_ptr<GCode> m_dom;
     std::vector<GObject*> m_map;
     GString m_codeName;
-    bool m_isOnlyObjectCopied;
 };
 //===============================================
 #endif

@@ -125,7 +125,7 @@ bool GModuleData::saveModuleData() {
 }
 //===============================================
 bool GModuleData::searchModuleData() {
-    clearMap(m_map);
+    clearMap();
     GMySQL lMySQL;
     GMap lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _name, _value "
@@ -149,14 +149,14 @@ bool GModuleData::searchModuleData() {
     m_hasData = true;
     if(m_dataOffset >= m_dataCount) m_hasData = false;
     if(m_hasData) {
-        GModuleData* lObj = (GModuleData*)m_map.back();
+        GModuleData* lObj = (GModuleData*)back();
         m_lastId = lObj->m_id;
     }
     return true;
 }
 //===============================================
 bool GModuleData::searchNextModuleData() {
-    clearMap(m_map);
+    clearMap();
     GMySQL lMySQL;
     GMap lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _name, _value "
@@ -180,7 +180,7 @@ bool GModuleData::searchNextModuleData() {
     m_hasData = true;
     if(m_dataOffset >= m_dataCount) m_hasData = false;
     if(m_hasData) {
-        GModuleData* lObj = (GModuleData*)m_map.back();
+        GModuleData* lObj = (GModuleData*)back();
         m_lastId = lObj->m_id;
     }
     return true;

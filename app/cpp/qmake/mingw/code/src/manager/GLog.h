@@ -62,8 +62,8 @@ public:
     void writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _log);
     void traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _data = "");
     //
-    bool hasErrors() const;
-    bool hasLogs() const;
+    bool hasErrors();
+    bool hasLogs();
     void clearErrors();
     void clearLogs();
 
@@ -86,7 +86,6 @@ private:
     GString m_type;
     GString m_side;
     GString m_msg;
-    std::vector<GObject*> m_map;
     //
     FILE* m_file;
     bool m_isConnectionError;

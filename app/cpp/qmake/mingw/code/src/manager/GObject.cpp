@@ -5,7 +5,6 @@
 //===============================================
 GObject::GObject(const GString& _codeName) {
     m_codeName = _codeName;
-    m_isOnlyObjectCopied = false;
 }
 //===============================================
 GObject::~GObject() {
@@ -19,19 +18,15 @@ bool GObject::createDoms() {
 }
 //===============================================
 void GObject::clearMap() {
-    clearMap(m_map);
-}
-//===============================================
-void GObject::clearMap(std::vector<GObject*>& _map) const {
-    for(int i = 0; i < (int)_map.size(); i++) {
-        GObject* lObj = _map.at(i);
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GObject* lObj = m_map.at(i);
         delete lObj;
     }
-    _map.clear();
+    m_map.clear();
 }
 //===============================================
 int GObject::size() const {
-    return m_map.size();
+    return (int)m_map.size();
 }
 //===============================================
 GObject* GObject::at(int _index) {
@@ -53,7 +48,4 @@ GObject* GObject::clone() const {return new GObject;}
 GString GObject::serialize(const GString& _code) {return "";}
 bool GObject::deserialize(const GString& _data, const GString& _code) {return false;}
 GString GObject::getCodeName() const {return m_codeName;}
-bool GObject::isOnlyObjectCopied() const {return m_isOnlyObjectCopied;}
-void GObject::setOnlyObjectCopied() {m_isOnlyObjectCopied = true;}
-void GObject::resetOnlyObjectCopied() {m_isOnlyObjectCopied = false;}
 //===============================================

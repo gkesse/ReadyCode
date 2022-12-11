@@ -116,7 +116,7 @@ bool GModule::saveModule() {
 }
 //===============================================
 bool GModule::searchModule() {
-    clearMap(m_map);
+    clearMap();
     GMySQL lMySQL;
     GMap lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _name "
@@ -139,7 +139,7 @@ bool GModule::searchModule() {
     m_hasData = true;
     if(m_dataOffset >= m_dataCount) m_hasData = false;
     if(m_hasData) {
-        GModule* lObj = (GModule*)m_map.back();
+        GModule* lObj = (GModule*)back();
         m_lastId = lObj->m_id;
     }
     return true;
@@ -166,7 +166,7 @@ bool GModule::searchModuleId() {
 }
 //===============================================
 bool GModule::searchModule(const GList& _data) {
-    clearMap(m_map);
+    clearMap();
     if(!_data.size()) return true;
     GMySQL lMySQL;
     GMap lDataMap = lMySQL.readMap(GFORMAT(""
@@ -189,7 +189,7 @@ bool GModule::searchModule(const GList& _data) {
 }
 //===============================================
 bool GModule::searchNextModule() {
-    clearMap(m_map);
+    clearMap();
     GMySQL lMySQL;
     GMap lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _name "
@@ -212,7 +212,7 @@ bool GModule::searchNextModule() {
     m_hasData = true;
     if(m_dataOffset >= m_dataCount) m_hasData = false;
     if(m_hasData) {
-        GModule* lObj = (GModule*)m_map.back();
+        GModule* lObj = (GModule*)back();
         m_lastId = lObj->m_id;
     }
     return true;

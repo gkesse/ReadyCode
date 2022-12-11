@@ -36,7 +36,6 @@ GString GModuleMap::serialize(const GString& _code) {
     lDom.addData(_code, "node", m_node.toBase64(), true);
     lDom.addData(_code, m_map, this);
     lDom.addData(GSearch::serialize(), this);
-    resetOnlyObjectCopied();
     return lDom.toString();
 }
 //===============================================
@@ -56,22 +55,17 @@ void GModuleMap::setModuleMap(const GModuleMap& _moduleMap) {
     m_id = _moduleMap.m_id;
     m_moduleId = _moduleMap.m_moduleId;
     m_position = _moduleMap.m_position;
+    m_node = _moduleMap.m_node;
 }
 //===============================================
 void GModuleMap::setModuleMap(GModuleMap* _moduleMap) {
     setModuleMap(*_moduleMap);
 }
 //===============================================
-void GModuleMap::setModuleMap(const std::shared_ptr<GModuleMap>& _moduleMap) {
-    setModuleMap(*_moduleMap);
-}
-//===============================================
 void GModuleMap::setModuleMap(int _index) {
-    if(_index < (int)m_map.size()) {
-        GModuleMap* lObj = (GModuleMap*)at(_index);
-        setModuleMap(lObj);
-    }
-    clearMap(m_map);
+    GModuleMap* lObj = (GModuleMap*)at(_index);
+    setModuleMap(lObj);
+    clearMap();
 }
 //===============================================
 void GModuleMap::readFormModuleNode(GFormLayout* _formLayout, const std::shared_ptr<GModuleKey>& _moduleKey) {
@@ -184,7 +178,9 @@ bool GModuleMap::showList() {
     int lOk = m_treeWidgetUi->exec();
 
     if(lOk == QDialog::Accepted) {
-        deserialize(m_treeWidgetUi->getKey());
+        GModuleMap lObj;
+        lObj.serialize(m_treeWidgetUi->getKey());
+        setModuleMap(lObj);
     }
     return true;
 }
@@ -213,16 +209,16 @@ bool GModuleMap::showList(std::shared_ptr<GTreeWidgetUi>& _treeWidgetUi) {
         lNode.deserialize(lObj->getNode());
 
         for(int j = 0; j < lNode.size(); j++) {
-            GModuleNode* lObj2 = (GModuleNode*)lNode.at(j);
-            GModuleKey lObj3;
-            lObj3.deserialize(lObj2->getKey());
+            GModuleNode* lNode2 = (GModuleNode*)lNode.at(j);
+            GModuleKey lKey2;
+            lKey2.deserialize(lNode2->getKey());
             lTreeWidget->addChild();
-            lTreeWidget->setData(0, lKey, lObj3.getName());
-            lTreeWidget->setData(1, lKey, lObj2->getValue());
+            lTreeWidget->setData(0, lKey, lKey2.getName());
+            lTreeWidget->setData(1, lKey, lNode2->getValue());
         }
     }
 
-    clearMap(m_map);
+    clearMap();
     return true;
 }
 //===============================================
@@ -230,7 +226,6 @@ void GModuleMap::onNextData() {
     std::shared_ptr<GModuleMap> lObj(new GModuleMap);
     lObj->deserialize(m_treeWidgetUi->getKey());
     lObj->nextModuleMap();
-    lObj->setOnlyObjectCopied();
     m_treeWidgetUi->setKey(lObj->serialize());
     if(!GLOGI->hasErrors()) {
         lObj->showList(m_treeWidgetUi);
@@ -241,7 +236,6 @@ void GModuleMap::onAddData() {
     std::shared_ptr<GModuleMap> lObj(new GModuleMap);
     lObj->deserialize(m_treeWidgetUi->getKey());
     lObj->addModuleMap();
-    lObj->setOnlyObjectCopied();
     m_treeWidgetUi->setKey(lObj->serialize());
     if(!GLOGI->hasErrors()) {
         lObj->showList(m_treeWidgetUi);
@@ -252,7 +246,6 @@ void GModuleMap::onMoveUpData() {
     std::shared_ptr<GModuleMap> lObj(new GModuleMap);
     lObj->deserialize(m_treeWidgetUi->getKey());
     lObj->moveUpModuleMap();
-    lObj->setOnlyObjectCopied();
     m_treeWidgetUi->setKey(lObj->serialize());
     if(!GLOGI->hasErrors()) {
         lObj->showList(m_treeWidgetUi);
@@ -263,7 +256,6 @@ void GModuleMap::onMoveDownData() {
     std::shared_ptr<GModuleMap> lObj(new GModuleMap);
     lObj->deserialize(m_treeWidgetUi->getKey());
     lObj->moveDownModuleMap();
-    lObj->setOnlyObjectCopied();
     m_treeWidgetUi->setKey(lObj->serialize());
     if(!GLOGI->hasErrors()) {
         lObj->showList(m_treeWidgetUi);

@@ -4,9 +4,7 @@
 //===============================================
 #include "GSearch.h"
 //===============================================
-class GModule;
 class GModuleKey;
-class GModuleNode;
 class GTreeWidgetUi;
 class GFormLayout;
 //===============================================
@@ -20,7 +18,6 @@ public:
 
     void setModuleMap(const GModuleMap& _moduleMap);
     void setModuleMap(GModuleMap* _moduleMap);
-    void setModuleMap(const std::shared_ptr<GModuleMap>& _moduleMap);
     void setModuleMap(int _index);
     void readFormModuleNode(GFormLayout* _formLayout, const std::shared_ptr<GModuleKey>& _moduleKey);
     void writeFormModuleNode(GFormLayout* _formLayout);

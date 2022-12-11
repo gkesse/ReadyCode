@@ -4,9 +4,6 @@
 //===============================================
 #include "GSearch.h"
 //===============================================
-class GModule;
-class GModuleKey;
-class GFormLayout;
 class GTableWidgetUi;
 //===============================================
 class GModuleNode : public GSearch {
@@ -19,12 +16,7 @@ public:
 
     void setModuleNode(const GModuleNode& _moduleNode);
     void setModuleNode(GModuleNode* _moduleNode);
-    void setModuleNode(const std::shared_ptr<GModuleNode>& _moduleNode);
     void setModuleNode(int _index);
-    void setModule(const GModule& _module);
-    void setModule(GModule* _module);
-    void setModule(const std::shared_ptr<GModule>& _module);
-    void setModuleKey(const std::shared_ptr<GModuleKey>& _moduleKey);
 
     void setId(int _id);
     void setModuleId(int _moduleId);
@@ -44,10 +36,6 @@ public:
     void searchModuleNode();
     void deleteModuleNode();
 
-    bool showList();
-    void onNextData();
-    bool showNextList();
-
 protected:
     int m_id;
     int m_moduleId;
@@ -55,8 +43,6 @@ protected:
     int m_keyId;
     GString m_value;
     GString m_key;
-    std::shared_ptr<GModule> m_module;
-    std::shared_ptr<GModuleKey> m_moduleKey;
     std::shared_ptr<GTableWidgetUi> m_tableWidget;
 };
 //==============================================

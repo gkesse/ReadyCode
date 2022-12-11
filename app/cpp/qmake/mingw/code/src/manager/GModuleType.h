@@ -16,7 +16,6 @@ public:
 
     void setModuleType(const GModuleType& _moduleType);
     void setModuleType(GModuleType* _moduleType);
-    void setModuleType(const std::shared_ptr<GModuleType>& _moduleType);
     void setModuleType(int _index);
 
     void setId(int _id);

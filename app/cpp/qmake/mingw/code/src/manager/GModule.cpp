@@ -48,19 +48,12 @@ void GModule::setModule(GModule* _module) {
     setModule(*_module);
 }
 //===============================================
-void GModule::setModule(const std::shared_ptr<GModule>& _module) {
-    setModule(_module.get());
-}
-//===============================================
 void GModule::setModule(int _index) {
-    if(_index >= 0 && _index < (int)m_map.size()) {
-        GModule* lObj = (GModule*)m_map.at(_index);
+    if(_index >= 0 && _index < size()) {
+        GModule* lObj = (GModule*)at(_index);
         setModule(lObj);
     }
-    else {
-        setModule(GModule());
-    }
-    clearMap(m_map);
+    clearMap();
 }
 //===============================================
 void GModule::setId(int _id) {
@@ -98,22 +91,26 @@ void GModule::deleteModule() {
 }
 //===============================================
 bool GModule::showList() {
-    if(m_map.size() == 0) return true;
-    if(m_map.size() == 1) {
+    if(size() == 0) return true;
+    if(size() == 1) {
         setModule(0);
         return true;
     }
+
     m_tableWidget->setWindowTitle("Liste des modules");
-    m_tableWidget->setSize(m_map.size(), 1);
+    m_tableWidget->setSize(size(), 1);
     m_tableWidget->setHeader(0, "nom");
-    for(int i = 0; i < (int)m_map.size(); i++) {
-        GModule* lObj = (GModule*)m_map.at(i);
+
+    for(int i = 0; i < size(); i++) {
+        GModule* lObj = (GModule*)at(i);
         GString lKey = lObj->serialize();
         m_tableWidget->setData(i, 0, lKey, lObj->m_name);
     }
-    clearMap(m_map);
+
+    clearMap();
     m_tableWidget->setSearch(this);
     int lOk = m_tableWidget->exec();
+
     if(lOk == QDialog::Accepted) {
         GModule lObj;
         lObj.deserialize(m_tableWidget->getKey());
@@ -123,7 +120,7 @@ bool GModule::showList() {
 }
 //===============================================
 void GModule::onNextData() {
-    clearMap(m_map);
+    clearMap();
     GString lData = serialize();
     lData = GCALL_SERVER("module", "search_next_module", lData);
     deserialize(lData);
@@ -131,13 +128,13 @@ void GModule::onNextData() {
 }
 //===============================================
 bool GModule::showNextList() {
-    for(int i = 0; i < (int)m_map.size(); i++) {
-        GModule* lObj = (GModule*)m_map.at(i);
+    for(int i = 0; i < size(); i++) {
+        GModule* lObj = (GModule*)at(i);
         GString lKey = lObj->serialize();
         m_tableWidget->addRow();
         m_tableWidget->addCol(0, lKey, lObj->m_name);
     }
-    clearMap(m_map);
+    clearMap();
     return true;
 }
 //===============================================

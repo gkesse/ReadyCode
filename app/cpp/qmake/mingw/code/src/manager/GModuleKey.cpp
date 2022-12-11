@@ -70,11 +70,9 @@ void GModuleKey::setModuleKey(GModuleKey* _moduleKey) {
 }
 //===============================================
 void GModuleKey::setModuleKey(int _index) {
-    if(_index >= 0 && _index < (int)m_map.size()) {
-        GModuleKey* lObj = (GModuleKey*)m_map.at(_index);
-        setModuleKey(lObj);
-    }
-    clearMap(m_map);
+    GModuleKey* lObj = (GModuleKey*)at(_index);
+    setModuleKey(lObj);
+    clearMap();
 }
 //===============================================
 void GModuleKey::writeKeyFormModuleNode(GFormLayout* _formLayout) {
@@ -161,7 +159,7 @@ void GModuleKey::deleteModuleKey() {
 }
 //===============================================
 void GModuleKey::onNextData() {
-    clearMap(m_map);
+    clearMap();
     GString lData = serialize();
     lData = GCALL_SERVER("module_key", "search_next_module_key", lData);
     deserialize(lData);
@@ -194,9 +192,11 @@ bool GModuleKey::showList() {
         m_tableWidget->setData(i, 2, lKey, lKey2->m_label);
         m_tableWidget->setData(i, 3, lKey, lType.getName());
     }
+
     clearMap();
     m_tableWidget->setSearch(this);
     int lOk = m_tableWidget->exec();
+
     if(lOk == QDialog::Accepted) {
         GModuleKey lObj;
         lObj.deserialize(m_tableWidget->getKey());

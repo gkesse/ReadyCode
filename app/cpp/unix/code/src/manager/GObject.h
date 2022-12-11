@@ -21,6 +21,7 @@ public:
     virtual GString getCodeName() const;
     virtual int size() const;
     virtual GObject* at(int _index);
+    virtual GObject* back();
     virtual void add(GObject* _obj);
     virtual void print();
 

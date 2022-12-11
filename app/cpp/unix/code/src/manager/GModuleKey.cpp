@@ -116,7 +116,7 @@ bool GModuleKey::onSearchModuleKey() {
             m_where += GFORMAT(" and _label like '%s%%' ", m_label.c_str());
         }
         if(m_typeId != 0) {
-            m_where += GFORMAT(" and _module_type_id = %d ", m_typeId);
+            m_where += GFORMAT(" and _type_id = %d ", m_typeId);
         }
     }
     if(!countData()) return false;
@@ -139,7 +139,7 @@ bool GModuleKey::onSearchNextModuleKey() {
         m_where += GFORMAT(" and _label like '%s%%' ", m_label.c_str());
     }
     if(m_typeId != 0) {
-        m_where += GFORMAT(" and _module_type_id = %d ", m_typeId);
+        m_where += GFORMAT(" and _type_id = %d ", m_typeId);
     }
     if(!searchNextModuleKey()) return false;
     return true;
@@ -149,7 +149,7 @@ bool GModuleKey::loadModuleKey() {
     clearMap();
     GMySQL lMySQL;
     GMap lDataMap = lMySQL.readMap(GFORMAT(""
-            " select _id, _module_type_id, _name, _label "
+            " select _id, _type_id, _name, _label "
             " from _module_key "
             " where 1 = 1"
             " and _module_id = %d "
@@ -187,10 +187,10 @@ bool GModuleKey::saveModuleKey() {
 }
 //===============================================
 bool GModuleKey::searchModuleKey() {
-    clearMap(m_map);
+    clearMap();
     GMySQL lMySQL;
     GMap lDataMap = lMySQL.readMap(GFORMAT(""
-            " select _id, _module_id, _module_type_id, _name, _label "
+            " select _id, _module_id, _type_id, _name, _label "
             " from _module_key "
             " %s "
             " order by _name asc "
@@ -226,7 +226,7 @@ bool GModuleKey::searchModuleKey() {
     if(m_dataOffset >= m_dataCount) m_hasData = false;
 
     if(m_hasData) {
-        GModuleKey* lObj = (GModuleKey*)m_map.back();
+        GModuleKey* lObj = (GModuleKey*)back();
         m_lastId = lObj->m_id;
     }
     return true;
@@ -236,7 +236,7 @@ bool GModuleKey::searchKey() {
     clearMap();
     GMySQL lMySQL;
     GMap lDataMap = lMySQL.readMap(GFORMAT(""
-            " select _module_type_id, _name, _label "
+            " select _type_id, _name, _label "
             " from _module_key "
             " where 1 = 1 "
             " and _id = %d "
@@ -261,10 +261,10 @@ bool GModuleKey::searchKey() {
 }
 //===============================================
 bool GModuleKey::searchNextModuleKey() {
-    clearMap(m_map);
+    clearMap();
     GMySQL lMySQL;
     GMap lDataMap = lMySQL.readMap(GFORMAT(""
-            " select _id, _module_type_id, _name, _label "
+            " select _id, _type_id, _name, _label "
             " from _module_key "
             " %s "
             " order by _name asc "
@@ -286,7 +286,7 @@ bool GModuleKey::searchNextModuleKey() {
     m_hasData = true;
     if(m_dataOffset >= m_dataCount) m_hasData = false;
     if(m_hasData) {
-        GModuleKey* lObj = (GModuleKey*)m_map.back();
+        GModuleKey* lObj = (GModuleKey*)back();
         m_lastId = lObj->m_id;
     }
     return true;
@@ -308,7 +308,7 @@ bool GModuleKey::insertData() {
     GMySQL lMySQL;
     if(!lMySQL.execQuery(GFORMAT(""
             " insert into _module_key "
-            " ( _module_id, _module_type_id, _name, _label ) "
+            " ( _module_id, _type_id, _name, _label ) "
             " values ( %d, %d, '%s', '%s' ) "
             "", m_moduleId
             , m_name.c_str()
@@ -326,7 +326,7 @@ bool GModuleKey::updateData() {
             " update _module_key set "
             "   _name = '%s' "
             " , _label = '%s' "
-            " , _module_type_id = %d "
+            " , _type_id = %d "
             " where 1 = 1 "
             " and _id = %d "
             "", m_name.c_str()

@@ -11,7 +11,7 @@ GModuleType::GModuleType(const GString& _code)
 }
 //===============================================
 GModuleType::~GModuleType() {
-    clearMap(m_map);
+    clearMap();
 }
 //===============================================
 GObject* GModuleType::clone() const {
@@ -128,7 +128,7 @@ bool GModuleType::loadModuleType() {
             " order by _name asc "
             ""
     ));
-    clearMap(m_map);
+    clearMap();
     for(int i = 0; i < (int)lDataMap.size(); i++) {
         GRow lDataRow = lDataMap.at(i);
         int j = 0;
@@ -164,7 +164,7 @@ bool GModuleType::searchModuleType() {
             "", m_where.c_str()
             , m_dataSize
     ));
-    clearMap(m_map);
+    clearMap();
     for(int i = 0; i < (int)lDataMap.size(); i++) {
         GRow lDataRow = lDataMap.at(i);
         int j = 0;
@@ -177,14 +177,14 @@ bool GModuleType::searchModuleType() {
     m_hasData = true;
     if(m_dataOffset >= m_dataCount) m_hasData = false;
     if(m_hasData) {
-        GModuleType* lObj = (GModuleType*)m_map.back();
+        GModuleType* lObj = (GModuleType*)back();
         m_lastId = lObj->m_id;
     }
     return true;
 }
 //===============================================
 bool GModuleType::searchModuleType(const GList& _data) {
-    clearMap(m_map);
+    clearMap();
     if(!_data.size()) return true;
     GMySQL lMySQL;
     GMap lDataMap = lMySQL.readMap(GFORMAT(""
@@ -250,7 +250,7 @@ bool GModuleType::searchNextModuleType() {
     m_hasData = true;
     if(m_dataOffset >= m_dataCount) m_hasData = false;
     if(m_hasData) {
-        GModuleType* lObj = (GModuleType*)m_map.back();
+        GModuleType* lObj = (GModuleType*)back();
         m_lastId = lObj->m_id;
     }
     return true;

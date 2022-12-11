@@ -190,7 +190,7 @@ bool GModuleMap::searchModuleMap() {
     m_hasData = true;
     if(m_dataOffset >= m_dataCount) m_hasData = false;
     if(m_hasData) {
-        GModuleMap* lObj = (GModuleMap*)m_map.back();
+        GModuleMap* lObj = (GModuleMap*)back();
         m_lastId = lObj->m_id;
     }
     return true;
@@ -217,7 +217,7 @@ bool GModuleMap::loadData() {
             " order by _position asc "
             "", m_moduleId
     ));
-    clearMap(m_map);
+    clearMap();
     for(int i = 0; i < (int)lDataMap.size(); i++) {
         GRow lDataRow = lDataMap.at(i);
         int j = 0;

@@ -13,18 +13,14 @@ GLog* GLog::m_instance = 0;
 GLog::GLog(const GString& _code)
 : GObject(_code) {
     createDoms();
-    m_type = "";
-    m_side = "";
-    m_msg = "";
     m_file = 0;
     m_isConnectionError = false;
     m_isClientSide = true;
-    //
     initLog();
 }
 //===============================================
 GLog::~GLog() {
-    clearMap(m_map);
+    clearMap();
 }
 //===============================================
 GLog* GLog::Instance() {
@@ -132,8 +128,8 @@ void GLog::showErrors(const char* _name, int _level, const char* _file, int _lin
     if(!m_isDebug) return;
     if(!hasErrors()) return;
     GString lErrors = "";
-    for(int i = 0; i < (int)m_map.size(); i++) {
-        GLog* lLog = (GLog*)m_map.at(i);
+    for(int i = 0; i < size(); i++) {
+        GLog* lLog = (GLog*)at(i);
         if(lLog->m_type == "error") {
             if(i != 0) lErrors += "\n";
             lErrors += lLog->m_msg;
@@ -146,8 +142,8 @@ void GLog::showLogs(const char* _name, int _level, const char* _file, int _line,
     if(!m_isDebug) return;
     if(!hasLogs()) return;
     GString lLogs = "";
-    for(int i = 0; i < (int)m_map.size(); i++) {
-        GLog* lLog = (GLog*)m_map.at(i);
+    for(int i = 0; i < size(); i++) {
+        GLog* lLog = (GLog*)at(i);
         if(lLog->m_type == "log") {
             if(i != 0) lLogs += "\n";
             lLogs += lLog->m_msg;
@@ -215,9 +211,9 @@ void GLog::traceLog(const char* _name, int _level, const char* _file, int _line,
     closeLogFile();
 }
 //===============================================
-bool GLog::hasErrors() const {
-    for(int i = 0; i < (int)m_map.size(); i++) {
-        GLog* lLog = (GLog*)m_map.at(i);
+bool GLog::hasErrors() {
+    for(int i = 0; i < size(); i++) {
+        GLog* lLog = (GLog*)at(i);
         if(lLog->m_type == "error") {
             return true;
         }
@@ -225,9 +221,9 @@ bool GLog::hasErrors() const {
     return false;
 }
 //===============================================
-bool GLog::hasLogs() const {
-    for(int i = 0; i < (int)m_map.size(); i++) {
-        GLog* lLog = (GLog*)m_map.at(i);
+bool GLog::hasLogs() {
+    for(int i = 0; i < size(); i++) {
+        GLog* lLog = (GLog*)at(i);
         if(lLog->m_type == "log") {
             return true;
         }
@@ -236,8 +232,8 @@ bool GLog::hasLogs() const {
 }
 //===============================================
 void GLog::clearErrors() {
-    for(int i = 0; i < (int)m_map.size(); i++) {
-        GLog* lLog = (GLog*)m_map.at(i);
+    for(int i = 0; i < size(); i++) {
+        GLog* lLog = (GLog*)at(i);
         if(lLog->m_type == "error") {
             delete lLog;
             m_map.erase (m_map.begin() + i);
@@ -246,8 +242,8 @@ void GLog::clearErrors() {
 }
 //===============================================
 void GLog::clearLogs() {
-    for(int i = 0; i < (int)m_map.size(); i++) {
-        GLog* lLog = (GLog*)m_map.at(i);
+    for(int i = 0; i < size(); i++) {
+        GLog* lLog = (GLog*)at(i);
         if(lLog->m_type == "log") {
             delete lLog;
             m_map.erase (m_map.begin() + i);
@@ -280,8 +276,8 @@ GString GLog::toStringError() {
     if(!hasErrors()) return "";
     m_isClientSide = true;
     GString lErrors = "";
-    for(int i = 0; i < (int)m_map.size(); i++) {
-        GLog* lLog = (GLog*)m_map.at(i);
+    for(int i = 0; i < size(); i++) {
+        GLog* lLog = (GLog*)at(i);
         if(lLog->m_type == "error") {
             m_isClientSide &= (lLog->m_side == "client");
             if(i != 0) lErrors += "\n";
@@ -295,8 +291,8 @@ GString GLog::toStringLog() {
     if(!hasLogs()) return "";
     m_isClientSide = true;
     GString lLogs = "";
-    for(int i = 0; i < (int)m_map.size(); i++) {
-        GLog* lLog = (GLog*)m_map.at(i);
+    for(int i = 0; i < size(); i++) {
+        GLog* lLog = (GLog*)at(i);
         if(lLog->m_type == "log") {
             m_isClientSide &= (lLog->m_side == "client");
             if(i != 0) lLogs += "\n";

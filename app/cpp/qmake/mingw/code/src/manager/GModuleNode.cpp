@@ -16,8 +16,6 @@ GModuleNode::GModuleNode(const GString& _code)
     m_moduleId = 0;
     m_mapId = 0;
     m_keyId = 0;
-    m_module.reset(new GModule);
-    m_moduleKey.reset(new GModuleKey);
     m_tableWidget.reset(new GTableWidgetUi);
 }
 //===============================================
@@ -39,16 +37,12 @@ GString GModuleNode::serialize(const GString& _code) {
     lDom.addData(_code, "value", m_value);
     lDom.addData(_code, "key", m_key.toBase64(), true);
     lDom.addData(_code, m_map, this);
-    lDom.addData(m_module->serialize(), this);
-    lDom.addData(m_moduleKey->serialize(), this);
     lDom.addData(GSearch::serialize(), this);
     return lDom.toString();
 }
 //===============================================
 bool GModuleNode::deserialize(const GString& _data, const GString& _code) {
     GSearch::deserialize(_data);
-    m_moduleKey->deserialize(_data);
-    m_module->deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
@@ -67,41 +61,17 @@ void GModuleNode::setModuleNode(const GModuleNode& _moduleNode) {
     m_mapId = _moduleNode.m_mapId;
     m_keyId = _moduleNode.m_keyId;
     m_value = _moduleNode.m_value;
+    m_key = _moduleNode.m_key;
 }
 //===============================================
 void GModuleNode::setModuleNode(GModuleNode* _moduleNode) {
     setModuleNode(*_moduleNode);
 }
 //===============================================
-void GModuleNode::setModuleNode(const std::shared_ptr<GModuleNode>& _moduleNode) {
-    setModuleNode(_moduleNode.get());
-}
-//===============================================
 void GModuleNode::setModuleNode(int _index) {
-    if(_index >= 0 && _index < (int)m_map.size()) {
-        GModuleNode* lObj = (GModuleNode*)m_map.at(_index);
-        setModuleNode(lObj);
-    }
-    clearMap(m_map);
-}
-//===============================================
-void GModuleNode::setModule(const GModule& _module) {
-    m_module->setModule(_module);
-}
-//===============================================
-void GModuleNode::setModule(GModule* _module) {
-    m_module->setModule(_module);
-}
-//===============================================
-void GModuleNode::setModule(const std::shared_ptr<GModule>& _module) {
-    m_module->setModule(_module);
-}
-//===============================================
-void GModuleNode::setModuleKey(const std::shared_ptr<GModuleKey>& _moduleKey) {
-    if(!_moduleKey.get()) return;
-    m_moduleKey.reset(new GModuleKey);
-    m_moduleKey->deserialize(_moduleKey->serialize());
-
+    GModuleNode* lObj = (GModuleNode*)at(_index);
+    setModuleNode(lObj);
+    clearMap();
 }
 //===============================================
 void GModuleNode::setId(int _id) {
@@ -171,56 +141,5 @@ void GModuleNode::deleteModuleNode() {
     GString lData = serialize();
     lData = GCALL_SERVER("module_key", "delete_module_key", lData);
     deserialize(lData);
-}
-//===============================================
-void GModuleNode::onNextData() {
-    clearMap(m_map);
-    GString lData = serialize();
-    lData = GCALL_SERVER("module_key", "search_next_module_key", lData);
-    deserialize(lData);
-    showNextList();
-}
-//===============================================
-bool GModuleNode::showList() {
-    if(m_map.size() == 0) return true;
-    if(m_map.size() == 1) {
-        setModuleNode(0);
-        return true;
-    }
-
-    m_tableWidget->setWindowTitle("Liste des données");
-    m_tableWidget->setSize(m_map.size(), 3);
-    m_tableWidget->setHeader(0, "module");
-    m_tableWidget->setHeader(1, "nom");
-    m_tableWidget->setHeader(2, "libellé");
-    m_tableWidget->setHeader(3, "type");
-
-    for(int i = 0; i < (int)m_map.size(); i++) {
-        GModuleNode* lObj = (GModuleNode*)m_map.at(i);
-        GModuleType* lObj2 = (GModuleType*)m_moduleKey->at(i);
-        GString lKey = lObj->serialize();
-        m_tableWidget->setData(i, 0, lKey, m_module->getName());
-        m_tableWidget->setData(i, 3, lKey, lObj2->getName());
-    }
-    clearMap(m_map);
-    m_tableWidget->setSearch(this);
-    int lOk = m_tableWidget->exec();
-    if(lOk == QDialog::Accepted) {
-        GModuleNode lObj;
-        lObj.deserialize(m_tableWidget->getKey());
-        setModuleNode(lObj);
-    }
-    return true;
-}
-//===============================================
-bool GModuleNode::showNextList() {
-    for(int i = 0; i < (int)m_map.size(); i++) {
-        GModuleNode* lObj = (GModuleNode*)m_map.at(i);
-        GString lKey = lObj->serialize();
-        m_tableWidget->addRow();
-        m_tableWidget->addCol(0, lKey, m_module->getName());
-    }
-    clearMap(m_map);
-    return true;
 }
 //===============================================

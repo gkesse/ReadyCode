@@ -5,8 +5,6 @@
 #include "GSearch.h"
 //===============================================
 class GTableWidgetUi;
-class GModule;
-class GModuleType;
 class GFormLayout;
 //===============================================
 class GModuleKey : public GSearch {
@@ -21,7 +19,6 @@ public:
     void setModuleKey(GModuleKey* _moduleKey);
     void setModuleKey(int _index);
     void writeKeyFormModuleNode(GFormLayout* _formLayout);
-    std::shared_ptr<GModuleType>& getModuleType();
 
     void setId(int _id);
     void setModuleId(int _moduleId);
