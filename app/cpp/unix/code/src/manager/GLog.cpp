@@ -135,7 +135,7 @@ void GLog::showErrors() {
     GLOGT(eGERR, "%s", lErrors.c_str());
 }
 //===============================================
-bool GLog::hasErrors() const {
+bool GLog::hasErrors() {
     for(int i = 0; i < size(); i++) {
         GLog* lLog = (GLog*)at(i);
         if(lLog->m_type == "error") {
@@ -145,7 +145,7 @@ bool GLog::hasErrors() const {
     return false;
 }
 //===============================================
-bool GLog::hasLogs() const {
+bool GLog::hasLogs() {
     for(int i = 0; i < size(); i++) {
         GLog* lLog = (GLog*)at(i);
         if(lLog->m_type == "log") {

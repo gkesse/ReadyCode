@@ -42,8 +42,8 @@ public:
     void addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _error);
     void addLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _error);
     void showErrors();
-    bool hasErrors() const;
-    bool hasLogs() const;
+    bool hasErrors();
+    bool hasLogs();
     void clearMaps();
     void clearErrors();
     void clearLogs();
@@ -63,7 +63,6 @@ private:
     GString m_type;
     GString m_side;
     GString m_msg;
-    std::vector<GObject*> m_map;
 
     FILE* m_file;
 
