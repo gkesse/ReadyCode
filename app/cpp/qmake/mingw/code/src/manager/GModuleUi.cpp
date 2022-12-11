@@ -173,7 +173,6 @@ void GModuleUi::on_btnNewKey_clicked() {
 void GModuleUi::on_btnSearchMap_clicked() {
     GLOGT(eGFUN, "");
     readData();
-    m_moduleMap->setModule(m_module);
     m_moduleMap->setSearch(GSearch());
     m_moduleMap->searchModuleMap();
     m_moduleMap->showList();

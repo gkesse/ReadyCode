@@ -20,9 +20,6 @@ public:
     void setModuleKey(const GModuleKey& _moduleKey);
     void setModuleKey(GModuleKey* _moduleKey);
     void setModuleKey(int _index);
-    void setModule(const GModule& _module);
-    void setModule(GModule* _module);
-    void setModule(const std::shared_ptr<GModule>& _module);
     void writeKeyFormModuleNode(GFormLayout* _formLayout);
     std::shared_ptr<GModuleType>& getModuleType();
 
@@ -38,6 +35,7 @@ public:
     GString getName() const;
     GString getLabel() const;
     GString getType() const;
+    GString getModule() const;
 
     void loadModuleKey();
     void saveModuleKey();
@@ -55,8 +53,7 @@ protected:
     GString m_name;
     GString m_label;
     GString m_type;
-    std::shared_ptr<GModule> m_module;
-    std::shared_ptr<GModuleType> m_moduleType;
+    GString m_module;
     std::shared_ptr<GTableWidgetUi> m_tableWidget;
 };
 //==============================================

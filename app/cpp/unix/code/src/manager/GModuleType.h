@@ -37,7 +37,6 @@ public:
 protected:
     int m_id;
     GString m_name;
-    std::vector<GObject*> m_map;
 };
 //==============================================
 #endif

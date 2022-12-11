@@ -104,24 +104,6 @@ void GModuleNode::setModuleKey(const std::shared_ptr<GModuleKey>& _moduleKey) {
 
 }
 //===============================================
-void GModuleNode::writeKeyFormModuleNode(GFormLayout* _formLayout) {
-    if(!m_moduleKey.get()) return;
-    std::shared_ptr<GModuleType>& lModuleType = m_moduleKey->getModuleType();
-    _formLayout->clear();
-    for(int i = 0; i < m_moduleKey->size(); i++) {
-        GModuleKey* lObj = (GModuleKey*)m_moduleKey->at(i);
-        GModuleType* lObj2 = (GModuleType*)lModuleType->at(i);
-        GString lKey = lObj->getName();
-        GString lLabel = GFORMAT("%s :", lObj->getLabel().c_str());
-        GString lType = lObj2->getName();
-        _formLayout->addRow(lKey, lLabel, lType);
-    }
-}
-//===============================================
-std::shared_ptr<GModuleKey>& GModuleNode::getModuleKey() {
-    return m_moduleKey;
-}
-//===============================================
 void GModuleNode::setId(int _id) {
     m_id = _id;
 }

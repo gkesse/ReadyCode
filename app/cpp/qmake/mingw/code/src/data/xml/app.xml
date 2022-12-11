@@ -539,7 +539,7 @@
             <type>SOCK_STREAM</type>
             <protocol>IPPROTO_TCP</protocol>
             <family>AF_INET</family>
-            <server_ip>192.168.1.45</server_ip>
+            <server_ip>82.65.62.124</server_ip>
             <client_ip>0.0.0.0</client_ip>
             <prod_port>9090</prod_port>
             <test_port>9091</test_port>

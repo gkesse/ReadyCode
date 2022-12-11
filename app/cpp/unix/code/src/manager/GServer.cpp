@@ -31,7 +31,7 @@ void GServer::initServer() {
     m_modules        = "tcp";
 
     m_hostname      = "0.0.0.0";
-    m_port          = 9001;
+    m_port          = 9091;
     m_domain        = AF_INET;
     m_type          = SOCK_STREAM;
     m_protocol      = IPPROTO_TCP;

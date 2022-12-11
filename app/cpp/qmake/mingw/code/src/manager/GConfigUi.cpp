@@ -201,8 +201,7 @@ void GConfigUi::on_btnNewKey_clicked() {
 void GConfigUi::on_btnSaveMap_clicked() {
     GLOGT(eGFUN, "");
     readData();
-    m_moduleMap->setModuleNode(m_moduleNode);
-    m_moduleMap->readFormModuleNode(ui->layModuleMap);
+    m_moduleMap->readFormModuleNode(ui->layModuleMap, m_moduleKeyList);
     m_moduleMap->saveModuleMap();
     writeData();
     GERROR_SHOWG(eGERR);

@@ -1,5 +1,6 @@
 # configurer le proxy ssh
 onglet -> ssh
+cocher -> utiliser tunnel ssh
 hote ip -> 192.168.1.45
 port -> 22
 nom utilisateur -> gkesse
@@ -7,6 +8,13 @@ methode authentification -> mot de passe
 mot de passe -> GKESSE_PASSWORD
 tester tunnel configuration
 ok
+
+# creer un profil ssh
+profil
+create
+NOM_PROFIL
+ok
+appliquer et fermer
 
 # configurer la connexion au serveur
 onglet -> general

@@ -38,6 +38,10 @@ bool GModule::deserialize(const GString& _data, const GString& _code) {
     return true;
 }
 //===============================================
+void GModule::setId(int _id) {
+    m_id = _id;
+}
+//===============================================
 int GModule::getId() const {
     return m_id;
 }
@@ -141,18 +145,23 @@ bool GModule::searchModule() {
     return true;
 }
 //===============================================
-bool GModule::searchModule(int _id) {
+bool GModule::searchModuleId() {
+    clearMap();
     GMySQL lMySQL;
-    GRow lDataRow = lMySQL.readRow(GFORMAT(""
+    GMap lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _name "
             " from _module "
             " where 1 = 1 "
             " and _id = %d "
-            "", _id
+            "", m_id
     ));
-    int j = 0;
-    m_id = lDataRow.at(j++).toInt();
-    m_name = lDataRow.at(j++);
+    for(int i = 0; i < (int)lDataMap.size(); i++) {
+        GRow lDataRow = lDataMap.at(i);
+        int j = 0;
+        m_id = lDataRow.at(j++).toInt();
+        m_name = lDataRow.at(j++);
+        break;
+    }
     return true;
 }
 //===============================================

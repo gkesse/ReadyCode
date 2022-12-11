@@ -101,11 +101,9 @@ void GModuleType::deleteModuleType() {
 }
 //===============================================
 void GModuleType::loadComboBox(QComboBox* _comboBox) {
-    for(int i = 0; i < (int)m_map.size(); i++) {
-        GModuleType* lObj = (GModuleType*)m_map.at(i);
-        int lId = lObj->getId();
-        GString lType = lObj->getName();
-        _comboBox->addItem(lType.c_str(), lId);
+    for(int i = 0; i < size(); i++) {
+        GModuleType* lType = (GModuleType*)at(i);
+        _comboBox->addItem(lType->getName().c_str(), lType->getId());
     }
 }
 //===============================================

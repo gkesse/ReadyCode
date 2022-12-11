@@ -13,8 +13,6 @@ GModuleKey::GModuleKey(const GString& _code)
     m_id = 0;
     m_moduleId = 0;
     m_typeId = 0;
-    m_module.reset(new GModule);
-    m_moduleType.reset(new GModuleType);
 }
 //===============================================
 GModuleKey::~GModuleKey() {
@@ -34,17 +32,14 @@ GString GModuleKey::serialize(const GString& _code) const {
     lDom.addData(_code, "name", m_name);
     lDom.addData(_code, "label", m_label);
     lDom.addData(_code, "type", m_type.toBase64(), true);
+    lDom.addData(_code, "module", m_module.toBase64(), true);
     lDom.addData(_code, m_map);
-    lDom.addData(m_module->serialize());
-    lDom.addData(m_moduleType->serialize());
     lDom.addData(GSearch::serialize());
     return lDom.toString();
 }
 //===============================================
 bool GModuleKey::deserialize(const GString& _data, const GString& _code) {
     GSearch::deserialize(_data);
-    m_moduleType->deserialize(_data);
-    m_module->deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
@@ -53,6 +48,7 @@ bool GModuleKey::deserialize(const GString& _data, const GString& _code) {
     m_name = lDom.getData(_code, "name");
     m_label = lDom.getData(_code, "label");
     m_type = lDom.getData(_code, "type").fromBase64();
+    m_module = lDom.getData(_code, "module").fromBase64();
     lDom.getData(_code, m_map, this);
     return true;
 }
@@ -125,7 +121,7 @@ bool GModuleKey::onSearchModuleKey() {
     }
     if(!countData()) return false;
     if(!searchModuleKey()) return false;
-    if(m_map.size() == 0) {GERROR_ADD(eGERR, "Aucun résultat n'a été trouvé."); return false;}
+    if(size() == 0) {GERROR_ADD(eGERR, "Aucun résultat n'a été trouvé."); return false;}
     return true;
 }
 //===============================================
@@ -209,17 +205,21 @@ bool GModuleKey::searchModuleKey() {
         GRow lDataRow = lDataMap.at(i);
         int j = 0;
         GModuleKey* lObj = new GModuleKey;
+        GModule lModule;
+        GModuleType lType;
         lObj->m_id = lDataRow.at(j++).toInt();
         lObj->m_moduleId = lDataRow.at(j++).toInt();
         lObj->m_typeId = lDataRow.at(j++).toInt();
         lObj->m_name = lDataRow.at(j++);
         lObj->m_label = lDataRow.at(j++);
-        m_map.push_back(lObj);
-        lTypeMap.push_back(lObj->m_typeId);
+        lModule.setId(lObj->m_moduleId);
+        lModule.searchModuleId();
+        lType.setId(lObj->m_typeId);
+        lType.searchType();
+        lObj->m_module = lModule.serialize();
+        lObj->m_type = lType.serialize();
+        add(lObj);
     }
-
-    m_module->searchModule(m_moduleId);
-    m_moduleType->searchModuleType(lTypeMap);
 
     m_dataOffset += m_dataSize;
     m_hasData = true;
