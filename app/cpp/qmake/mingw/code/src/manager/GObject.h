@@ -17,7 +17,7 @@ public:
     virtual void clearMap();
     virtual GString getCodeName() const;
     virtual int size() const;
-    virtual GObject* at(int _index);
+    virtual GObject* at(int _index) const;
     virtual void add(GObject* _obj);
     virtual void print();
 

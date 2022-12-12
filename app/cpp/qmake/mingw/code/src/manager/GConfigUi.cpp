@@ -230,7 +230,7 @@ void GConfigUi::on_btnSaveMap_clicked() {
     readData();
     m_moduleMap->readFormModuleNode(ui->layModuleMap, m_moduleKeyList);
     m_moduleMap->saveModuleMap();
-    m_moduleMap->writeFormModuleNode(ui->layModuleMap);
+    m_moduleMap->writeFormModuleNode(ui->layModuleMap, m_moduleKeyList);
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
@@ -242,7 +242,7 @@ void GConfigUi::on_btnSearchMap_clicked() {
     m_moduleMap->setSearch(m_searchConfig);
     m_moduleMap->searchModuleMap();
     m_moduleMap->showList();
-    m_moduleMap->writeFormModuleNode(ui->layModuleMap);
+    m_moduleMap->writeFormModuleNode(ui->layModuleMap, m_moduleKeyList);
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
@@ -251,7 +251,7 @@ void GConfigUi::on_btnSearchMap_clicked() {
 void GConfigUi::on_btnNewMap_clicked() {
     GLOGT(eGFUN, "");
     m_moduleMap.reset(new GModuleMap);
-    m_moduleMap->writeFormModuleNode(ui->layModuleMap);
+    m_moduleMap->writeFormModuleNode(ui->layModuleMap, m_moduleKeyList);
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);

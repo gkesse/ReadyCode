@@ -20,7 +20,7 @@ public:
     void setModuleMap(GModuleMap* _moduleMap);
     void setModuleMap(int _index);
     void readFormModuleNode(GFormLayout* _formLayout, const std::shared_ptr<GModuleKey>& _moduleKey);
-    void writeFormModuleNode(GFormLayout* _formLayout);
+    void writeFormModuleNode(GFormLayout* _formLayout, const std::shared_ptr<GModuleKey>& _moduleKey);
 
     void setId(int _id);
     void setModuleId(int _moduleId);

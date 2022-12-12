@@ -91,6 +91,14 @@ bool GModuleNode::searchModuleNode() {
     return true;
 }
 //===============================================
+bool GModuleNode::checkData() {
+    for(int i = 0; i < size(); i++) {
+        GModuleNode* lNode2 = (GModuleNode*)at(i);
+        if(lNode2->m_value == "") return false;
+    }
+    return true;
+}
+//===============================================
 bool GModuleNode::insertData() {
     if(m_id != 0) return false;
     for(int i = 0; i < size(); i++) {

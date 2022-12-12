@@ -86,17 +86,18 @@ void GModuleMap::readFormModuleNode(GFormLayout* _formLayout, const std::shared_
     m_node = lNode.serialize();
 }
 //===============================================
-void GModuleMap::writeFormModuleNode(GFormLayout* _formLayout) {
+void GModuleMap::writeFormModuleNode(GFormLayout* _formLayout, const std::shared_ptr<GModuleKey>& _moduleKey) {
     GModuleNode lNode;
     lNode.deserialize(m_node);
-    for(int i = 0; i < lNode.size(); i++) {
-        GModuleNode* lNode2 = (GModuleNode*)lNode.at(i);
-        GModuleKey lKey;
+    for(int i = 0; i < _moduleKey->size(); i++) {
+        GModuleKey* lKey = (GModuleKey*)_moduleKey->at(i);
+        GModuleNode* lNode2 = lNode.getData(lKey->getId());
+        GModuleNode lNode3;
+        if(lNode2) lNode3.setModuleNode(lNode2);
         GModuleType lType;
-        lKey.deserialize(lNode2->getKey());
-        lType.deserialize(lKey.getType());
-        _formLayout->setData(lKey.getName(), lNode2->getValue(), lType.getName());
-        _formLayout->setId(lKey.getName(), lNode2->getId());
+        lType.deserialize(lKey->getType());
+        _formLayout->setData(lKey->getName(), lNode3.getValue(), lType.getName());
+        _formLayout->setId(lKey->getName(), lNode3.getId());
     }
 }
 //===============================================
@@ -179,7 +180,7 @@ bool GModuleMap::showList() {
 
     if(lOk == QDialog::Accepted) {
         GModuleMap lObj;
-        lObj.serialize(m_treeWidgetUi->getKey());
+        lObj.deserialize(m_treeWidgetUi->getKey());
         setModuleMap(lObj);
     }
     return true;

@@ -74,6 +74,16 @@ void GModuleNode::setModuleNode(int _index) {
     clearMap();
 }
 //===============================================
+GModuleNode* GModuleNode::getData(int _keyId) const {
+    for(int i = 0; i < size(); i++) {
+        GModuleNode* lObj = (GModuleNode*)at(i);
+        if(lObj->getKeyId() == _keyId) {
+            return lObj;
+        }
+    }
+    return 0;
+}
+//===============================================
 void GModuleNode::setId(int _id) {
     m_id = _id;
 }

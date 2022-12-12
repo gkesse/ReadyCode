@@ -29,7 +29,7 @@ int GObject::size() const {
     return (int)m_map.size();
 }
 //===============================================
-GObject* GObject::at(int _index) {
+GObject* GObject::at(int _index) const {
     if(_index >= 0 && _index < (int)m_map.size()) {
         return m_map.at(_index);
     }

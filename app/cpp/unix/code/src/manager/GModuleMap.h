@@ -22,6 +22,7 @@ public:
 
     bool saveModuleMap();
     bool searchModuleMap();
+    bool checkData();
     bool countData();
     bool loadData();
     bool loadPositionAppend();

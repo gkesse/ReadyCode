@@ -80,6 +80,7 @@ bool GModuleMap::onModule() {
 //===============================================
 bool GModuleMap::onSaveModuleMap() {
     if(m_moduleId == 0) {GERROR_ADD(eGERR, "L'identifiant du module est obligatoire."); return false;}
+    if(!checkData()) {GERROR_ADD(eGERR, "Toutes les données sont obligatoires."); return false;}
     if(!saveModuleMap()) return false;
     if(m_id == 0) {GERROR_ADD(eGERR, "Erreur lors de l'enregistrement de la donnée."); return false;}
     GLOG_ADD(eGLOG, "La donnée a bien été enregistrée.");
@@ -186,11 +187,19 @@ bool GModuleMap::searchModuleMap() {
     m_dataOffset += m_dataSize;
     m_hasData = true;
     if(m_dataOffset >= m_dataCount) m_hasData = false;
+
     if(m_hasData) {
         GModuleMap* lObj = (GModuleMap*)back();
         m_lastId = lObj->m_id;
     }
+
     return true;
+}
+//===============================================
+bool GModuleMap::checkData() {
+    GModuleNode lNode;
+    lNode.deserialize(m_node);
+    return lNode.checkData();
 }
 //===============================================
 bool GModuleMap::countData() {

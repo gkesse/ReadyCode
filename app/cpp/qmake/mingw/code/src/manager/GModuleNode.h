@@ -17,6 +17,7 @@ public:
     void setModuleNode(const GModuleNode& _moduleNode);
     void setModuleNode(GModuleNode* _moduleNode);
     void setModuleNode(int _index);
+    GModuleNode* getData(int _keyId) const;
 
     void setId(int _id);
     void setModuleId(int _moduleId);
