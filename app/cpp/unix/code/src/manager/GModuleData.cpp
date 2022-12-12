@@ -118,7 +118,7 @@ bool GModuleData::onSearchNextModuleData() {
 //===============================================
 bool GModuleData::onDeleteModuleData() {
     if(m_id == 0) {GERROR_ADD(eGERR, "L'identifiant de la donnée est obligatoire."); return false;}
-    if(!deleteModule()) return false;
+    if(!deleteModuleData()) return false;
     GLOG_ADD(eGLOG, "La donnée a bien été supprimée.");
     return true;
 }
