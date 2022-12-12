@@ -108,7 +108,6 @@ bool GCode::addData(const GString& _code, const GString& _key, const GString& _v
 }
 //===============================================
 bool GCode::addData(const GString& _code, const std::vector<GObject*>& _map, GObject* _obj) {
-    if(_obj->isOnlyObjectCopied()) return false;
     if(_map.size() == 0) return false;
     createCode(_code);
     if(!getCode(_code, "map")) {
@@ -127,7 +126,6 @@ bool GCode::addData(const GString& _code, const std::vector<GObject*>& _map, GOb
 }
 //===============================================
 bool GCode::addData(const GString& _data, GObject* _obj) {
-    if(_obj->isOnlyObjectCopied()) return false;
     if(_data.trim().isEmpty()) return false;
     GCode lDom;
     lDom.loadXml(_data);

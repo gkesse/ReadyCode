@@ -16,9 +16,6 @@ public:
     virtual bool deserialize(const GString& _data, const GString& _code = "object");
     virtual void clearMap();
     virtual GString getCodeName() const;
-    virtual bool isOnlyObjectCopied() const;
-    virtual void setOnlyObjectCopied();
-    virtual void resetOnlyObjectCopied();
     virtual int size() const;
     virtual GObject* at(int _index);
     virtual void add(GObject* _obj);

@@ -116,7 +116,7 @@ void GModuleUi::on_btnSaveData_clicked() {
 void GModuleUi::on_btnSearchData_clicked() {
     GLOGT(eGFUN, "");
     readData();
-    m_moduleData->setModule(m_module);
+    //m_moduleData->setModule(m_module);
     m_moduleData->setSearch(GSearch());
     m_moduleData->searchModuleData();
     m_moduleData->showList();
@@ -151,7 +151,7 @@ void GModuleUi::on_btnSaveKey_clicked() {
 void GModuleUi::on_btnSearchKey_clicked() {
     GLOGT(eGFUN, "");
     readData();
-    m_moduleData->setModule(m_module);
+    //m_moduleData->setModule(m_module);
     m_moduleData->setSearch(GSearch());
     m_moduleData->searchModuleData();
     m_moduleData->showList();
