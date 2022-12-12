@@ -349,6 +349,7 @@ bool GModuleMap::insertData() {
     lNode.deserialize(m_node);
     lNode.setMapId(m_id);
     lNode.insertData();
+    m_node = lNode.serialize();
     return true;
 }
 //===============================================
