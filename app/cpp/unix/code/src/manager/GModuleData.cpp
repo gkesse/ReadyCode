@@ -27,6 +27,7 @@ GString GModuleData::serialize(const GString& _code) const {
     lDom.addData(_code, "module_id", m_moduleId);
     lDom.addData(_code, "name", m_name);
     lDom.addData(_code, "value", m_value);
+    lDom.addData(_code, "module", m_module.toBase64(), true);
     lDom.addData(_code, m_map);
     lDom.addData(GSearch::serialize());
     return lDom.toString();
@@ -40,6 +41,7 @@ bool GModuleData::deserialize(const GString& _data, const GString& _code) {
     m_moduleId = lDom.getData(_code, "module_id").toInt();
     m_name = lDom.getData(_code, "name");
     m_value = lDom.getData(_code, "value");
+    m_module = lDom.getData(_code, "module").fromBase64();
     lDom.getData(_code, m_map, this);
     return true;
 }
@@ -174,6 +176,11 @@ bool GModuleData::searchNextModuleData() {
         lObj->m_id = lDataRow.at(j++).toInt();
         lObj->m_name = lDataRow.at(j++);
         lObj->m_value = lDataRow.at(j++);
+        lObj->m_moduleId = m_moduleId;
+        GModule lModule;
+        lModule.setId(m_moduleId);
+        lModule.searchModuleId();
+        lObj->m_module = lModule.serialize();
         m_map.push_back(lObj);
     }
     m_dataOffset += m_dataSize;

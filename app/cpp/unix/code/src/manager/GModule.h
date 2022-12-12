@@ -24,7 +24,6 @@ public:
     bool saveModule();
     bool searchModule();
     bool searchModuleId();
-    bool searchModule(const GList& _data);
     bool searchNextModule();
     bool deleteModule();
     bool countSearch();

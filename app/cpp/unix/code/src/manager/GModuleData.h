@@ -32,6 +32,7 @@ protected:
     int m_moduleId;
     GString m_name;
     GString m_value;
+    GString m_module;
 };
 //==============================================
 #endif

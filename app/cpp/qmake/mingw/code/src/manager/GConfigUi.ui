@@ -277,6 +277,13 @@
           </widget>
          </item>
          <item>
+          <widget class="QPushButton" name="btnDeleteData">
+           <property name="text">
+            <string>&amp;Supprimer</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QPushButton" name="btnNewData">
            <property name="text">
             <string>&amp;Nouveau</string>
@@ -486,6 +493,13 @@
           <widget class="QPushButton" name="btnSearchMap">
            <property name="text">
             <string>&amp;Rechercher</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnDeleteMap">
+           <property name="text">
+            <string>&amp;Supprimer</string>
            </property>
           </widget>
          </item>
