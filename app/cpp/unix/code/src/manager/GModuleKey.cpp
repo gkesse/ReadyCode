@@ -280,7 +280,7 @@ bool GModuleKey::searchNextModuleKey() {
         lObj->m_typeId = lDataRow.at(j++).toInt();
         lObj->m_name = lDataRow.at(j++);
         lObj->m_label = lDataRow.at(j++);
-        m_map.push_back(lObj);
+        add(lObj);
     }
     m_dataOffset += m_dataSize;
     m_hasData = true;

@@ -89,7 +89,7 @@ bool GModule::onSearchModule() {
     }
     if(!countSearch()) return false;
     if(!searchModule()) return false;
-    if(m_map.size() == 0) {GERROR_ADD(eGERR, "Aucun résultat n'a été trouvé."); return false;}
+    if(size() == 0) {GERROR_ADD(eGERR, "Aucun résultat n'a été trouvé."); return false;}
     return true;
 }
 //===============================================
@@ -143,7 +143,7 @@ bool GModule::searchModule() {
         GModule* lObj = new GModule;
         lObj->m_id = lDataRow.at(j++).toInt();
         lObj->m_name = lDataRow.at(j++);
-        m_map.push_back(lObj);
+        add(lObj);
     }
     m_dataOffset += m_dataSize;
     m_hasData = true;
@@ -193,7 +193,7 @@ bool GModule::searchNextModule() {
         GModule* lObj = new GModule;
         lObj->m_id = lDataRow.at(j++).toInt();
         lObj->m_name = lDataRow.at(j++);
-        m_map.push_back(lObj);
+        add(lObj);
     }
     m_dataOffset += m_dataSize;
     m_hasData = true;

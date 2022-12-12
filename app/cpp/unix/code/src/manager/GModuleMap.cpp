@@ -224,7 +224,7 @@ bool GModuleMap::loadData() {
         GModuleMap* lObj = new GModuleMap;
         lObj->m_id = lDataRow.at(j++).toInt();
         lObj->m_position = lDataRow.at(j++).toInt();
-        m_map.push_back(lObj);
+        add(lObj);
     }
     return true;
 }

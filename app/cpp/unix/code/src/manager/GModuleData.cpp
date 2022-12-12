@@ -92,7 +92,7 @@ bool GModuleData::onSearchModuleData() {
     }
     if(!countData()) return false;
     if(!searchModuleData()) return false;
-    if(m_map.size() == 0) {GERROR_ADD(eGERR, "Aucun résultat n'a été trouvé."); return false;}
+    if(size() == 0) {GERROR_ADD(eGERR, "Aucun résultat n'a été trouvé."); return false;}
     return true;
 }
 //===============================================
@@ -145,7 +145,12 @@ bool GModuleData::searchModuleData() {
         lObj->m_id = lDataRow.at(j++).toInt();
         lObj->m_name = lDataRow.at(j++);
         lObj->m_value = lDataRow.at(j++);
-        m_map.push_back(lObj);
+        lObj->m_moduleId = m_moduleId;
+        GModule lModule;
+        lModule.setId(m_moduleId);
+        lModule.searchModuleId();
+        lObj->m_module = lModule.serialize();
+        add(lObj);
     }
     m_dataOffset += m_dataSize;
     m_hasData = true;
@@ -181,7 +186,7 @@ bool GModuleData::searchNextModuleData() {
         lModule.setId(m_moduleId);
         lModule.searchModuleId();
         lObj->m_module = lModule.serialize();
-        m_map.push_back(lObj);
+        add(lObj);
     }
     m_dataOffset += m_dataSize;
     m_hasData = true;
