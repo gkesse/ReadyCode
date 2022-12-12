@@ -230,6 +230,7 @@ void GConfigUi::on_btnSaveMap_clicked() {
     readData();
     m_moduleMap->readFormModuleNode(ui->layModuleMap, m_moduleKeyList);
     m_moduleMap->saveModuleMap();
+    m_moduleMap->writeFormModuleNode(ui->layModuleMap);
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);

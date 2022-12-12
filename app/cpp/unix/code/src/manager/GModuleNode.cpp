@@ -114,6 +114,11 @@ bool GModuleNode::insertData(GModuleNode* _obj) {
             , _obj->m_value.c_str()
     ))) return false;
     _obj->m_id = lMySQL.getId();
+    GModuleKey lKey;
+    lKey.setId(_obj->m_keyId);
+    lKey.setModuleId(_obj->m_moduleId);
+    lKey.searchKey();
+    _obj->m_key = lKey.serialize();
     return true;
 }
 //===============================================
