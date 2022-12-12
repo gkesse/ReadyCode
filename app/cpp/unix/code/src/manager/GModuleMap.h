@@ -4,9 +4,6 @@
 //===============================================
 #include "GSearch.h"
 //===============================================
-class GModule;
-class GModuleNode;
-//===============================================
 class GModuleMap : public GSearch {
 public:
     GModuleMap(const GString& _code = "module_map");
@@ -45,7 +42,6 @@ private:
     int m_positionUp;
     int m_positionDown;
     GString m_node;
-    std::shared_ptr<GModuleNode> m_moduleNode;
 };
 //==============================================
 #endif
