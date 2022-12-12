@@ -145,10 +145,7 @@ bool GModuleType::saveModuleType() {
         if(!insertModuleType()) return false;
     }
     else {
-        if(!updateModuleType()) {
-            onSearchModuleType();
-            return false;
-        }
+        if(!updateModuleType()) return false;
     }
     return true;
 }

@@ -178,10 +178,7 @@ bool GModuleKey::saveModuleKey() {
         if(!insertData()) return false;
     }
     else {
-        if(!updateData()) {
-            onSearchModuleKey();
-            return false;
-        }
+        if(!updateData()) return false;
     }
     return true;
 }

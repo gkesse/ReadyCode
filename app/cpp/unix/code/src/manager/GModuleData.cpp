@@ -128,10 +128,7 @@ bool GModuleData::saveModuleData() {
         if(!insertData()) return false;
     }
     else {
-        if(!updateData()) {
-            onSearchModuleData();
-            return false;
-        }
+        if(!updateData()) return false;
     }
     return true;
 }
