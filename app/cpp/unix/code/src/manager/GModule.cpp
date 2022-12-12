@@ -175,29 +175,6 @@ bool GModule::searchModuleId() {
     return true;
 }
 //===============================================
-bool GModule::searchModule(const GList& _data) {
-    clearMap();
-    if(!_data.size()) return true;
-    GMySQL lMySQL;
-    GMap lDataMap = lMySQL.readMap(GFORMAT(""
-            " select _id, _name "
-            " from _module "
-            " where 1 = 1 "
-            " and _id in (%s)"
-            " order by _name asc "
-            "", _data.toSqlArrayInt().c_str()
-    ));
-    for(int i = 0; i < (int)lDataMap.size(); i++) {
-        GRow lDataRow = lDataMap.at(i);
-        int j = 0;
-        GModule* lObj = new GModule;
-        lObj->m_id = lDataRow.at(j++).toInt();
-        lObj->m_name = lDataRow.at(j++);
-        m_map.push_back(lObj);
-    }
-    return true;
-}
-//===============================================
 bool GModule::searchNextModule() {
     clearMap();
     GMySQL lMySQL;
