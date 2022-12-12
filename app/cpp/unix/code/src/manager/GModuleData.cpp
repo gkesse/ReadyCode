@@ -60,6 +60,9 @@ bool GModuleData::onModule() {
     else if(m_methodName == "search_next_module_data") {
         onSearchNextModuleData();
     }
+    else if(m_methodName == "delete_module_data") {
+        onDeleteModuleData();
+    }
     else {
         GMETHOD_UNKNOWN();
     }
@@ -110,6 +113,13 @@ bool GModuleData::onSearchNextModuleData() {
         m_where += GFORMAT(" and _value like '%s%%' ", m_value.c_str());
     }
     if(!searchNextModuleData()) return false;
+    return true;
+}
+//===============================================
+bool GModuleData::onDeleteModuleData() {
+    if(m_id == 0) {GERROR_ADD(eGERR, "L'identifiant de la donnée est obligatoire."); return false;}
+    if(!deleteModule()) return false;
+    GLOG_ADD(eGLOG, "La donnée a bien été supprimée.");
     return true;
 }
 //===============================================
@@ -198,6 +208,18 @@ bool GModuleData::searchNextModuleData() {
     return true;
 }
 //===============================================
+bool GModuleData::deleteModuleData() {
+    if(m_id == 0) return false;
+    GMySQL lMySQL;
+    if(!lMySQL.execQuery(GFORMAT(""
+            " delete from _module_data "
+            " where 1 = 1 "
+            " and _id = %d "
+            "", m_id
+    ))) return false;
+    return true;
+}
+//===============================================
 bool GModuleData::countData() {
     GMySQL lMySQL;
     m_dataCount = lMySQL.readData(GFORMAT(""
@@ -206,21 +228,6 @@ bool GModuleData::countData() {
             " %s "
             "", m_where.c_str()
     )).toInt();
-    return true;
-}
-//===============================================
-bool GModuleData::existeData() {
-    GMySQL lMySQL;
-    int lCount = lMySQL.readData(GFORMAT(""
-            " select count(*) "
-            " from _module_data "
-            " where 1 = 1 "
-            " and _module_id = %d "
-            " and _name = '%s' "
-            "", m_moduleId
-            , m_name.c_str()
-    )).toInt();
-    if(lCount != 0) {GDATA_EXIST(); return false;}
     return true;
 }
 //===============================================

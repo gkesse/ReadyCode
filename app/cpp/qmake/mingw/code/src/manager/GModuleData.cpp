@@ -28,7 +28,7 @@ GString GModuleData::serialize(const GString& _code) {
     lDom.addData(_code, "module_id", m_moduleId);
     lDom.addData(_code, "name", m_name);
     lDom.addData(_code, "value", m_value);
-    lDom.addData(_code, "module", m_module);
+    lDom.addData(_code, "module", m_module.toBase64(), true);
     lDom.addData(_code, m_map, this);
     lDom.addData(GSearch::serialize(), this);
     return lDom.toString();
@@ -42,7 +42,7 @@ bool GModuleData::deserialize(const GString& _data, const GString& _code) {
     m_moduleId = lDom.getData(_code, "module_id").toInt();
     m_name = lDom.getData(_code, "name");
     m_value = lDom.getData(_code, "value");
-    m_module = lDom.getData(_code, "module");
+    m_module = lDom.getData(_code, "module").fromBase64();
     lDom.getData(_code, m_map, this);
     return true;
 }
@@ -138,8 +138,10 @@ bool GModuleData::showList() {
 
     for(int i = 0; i < size(); i++) {
         GModuleData* lData = (GModuleData*)at(i);
+        GModule lModule;
+        lModule.deserialize(lData->m_module);
         GString lKey = lData->serialize();
-        m_tableWidget->setData(i, 0, lKey, "m_module->getName()");
+        m_tableWidget->setData(i, 0, lKey, lModule.getName());
         m_tableWidget->setData(i, 1, lKey, lData->m_name);
         m_tableWidget->setData(i, 2, lKey, lData->m_value);
     }

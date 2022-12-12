@@ -153,6 +153,17 @@ void GConfigUi::on_btnSearchData_clicked() {
     GLOG_SHOWG(eGLOG);
 }
 //===============================================
+void GConfigUi::on_btnDeleteData_clicked() {
+    GLOGT(eGFUN, "");
+    m_moduleData->deleteModuleData();
+    if(!GLOGI->hasErrors()) {
+        m_moduleData.reset(new GModuleData);
+    }
+    writeData();
+    GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGLOG);
+}
+//===============================================
 void GConfigUi::on_btnNewData_clicked() {
     GLOGT(eGFUN, "");
     m_moduleData.reset(new GModuleData);

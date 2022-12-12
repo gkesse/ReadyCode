@@ -102,9 +102,9 @@ bool GModule::showList() {
     m_tableWidget->setHeader(0, "nom");
 
     for(int i = 0; i < size(); i++) {
-        GModule* lObj = (GModule*)at(i);
-        GString lKey = lObj->serialize();
-        m_tableWidget->setData(i, 0, lKey, lObj->m_name);
+        GModule* lModule = (GModule*)at(i);
+        GString lKey = lModule->serialize();
+        m_tableWidget->setData(i, 0, lKey, lModule->m_name);
     }
 
     clearMap();
