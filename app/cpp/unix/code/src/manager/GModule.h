@@ -19,12 +19,14 @@ public:
     bool onSaveModule();
     bool onSearchModule();
     bool onSearchNextModule();
+    bool onDeleteModule();
 
     bool saveModule();
     bool searchModule();
     bool searchModuleId();
     bool searchModule(const GList& _data);
     bool searchNextModule();
+    bool deleteModule();
     bool countSearch();
     bool insertModule();
     bool updateModule();

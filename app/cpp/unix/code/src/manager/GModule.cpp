@@ -60,6 +60,9 @@ bool GModule::onModule() {
     else if(m_methodName == "search_next_module") {
         onSearchNextModule();
     }
+    else if(m_methodName == "delete_module") {
+        onDeleteModule();
+    }
     else {
         GMETHOD_UNKNOWN();
     }
@@ -99,6 +102,13 @@ bool GModule::onSearchNextModule() {
         m_where += GFORMAT(" and _name like '%s%%' ", m_name.c_str());
     }
     if(!searchNextModule()) return false;
+    return true;
+}
+//===============================================
+bool GModule::onDeleteModule() {
+    if(m_id == 0) {GERROR_ADD(eGERR, "L'identifiant de la donnée est obligatoire."); return false;}
+    if(!deleteModule()) return false;
+    GLOG_ADD(eGLOG, "La donnée a bien été supprimée.");
     return true;
 }
 //===============================================
@@ -215,6 +225,18 @@ bool GModule::searchNextModule() {
         GModule* lObj = (GModule*)back();
         m_lastId = lObj->m_id;
     }
+    return true;
+}
+//===============================================
+bool GModule::deleteModule() {
+    if(m_id == 0) return false;
+    GMySQL lMySQL;
+    if(!lMySQL.execQuery(GFORMAT(""
+            " delete from _module "
+            " where 1 = 1 "
+            " and _id = %d "
+            "", m_id
+    ))) return false;
     return true;
 }
 //===============================================

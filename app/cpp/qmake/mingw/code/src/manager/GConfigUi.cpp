@@ -105,6 +105,21 @@ void GConfigUi::on_btnSearchModule_clicked() {
     GLOG_SHOWG(eGLOG);
 }
 //===============================================
+void GConfigUi::on_btnDeleteModule_clicked() {
+    GLOGT(eGFUN, "");
+    readData();
+    m_module->deleteModule();
+    if(!GLOGI->hasErrors()) {
+        m_module.reset(new GModule);
+        m_moduleData.reset(new GModuleData);
+        m_moduleKey.reset(new GModuleKey);
+        m_moduleMap.reset(new GModuleMap);
+    }
+    writeData();
+    GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGLOG);
+}
+//===============================================
 void GConfigUi::on_btnNewModule_clicked() {
     GLOGT(eGFUN, "");
     m_module.reset(new GModule);

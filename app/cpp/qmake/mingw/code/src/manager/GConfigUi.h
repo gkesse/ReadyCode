@@ -30,6 +30,7 @@ public slots:
     // module
     void on_btnSaveModule_clicked();
     void on_btnSearchModule_clicked();
+    void on_btnDeleteModule_clicked();
     void on_btnNewModule_clicked();
     // module_data
     void on_btnSaveData_clicked();
