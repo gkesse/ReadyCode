@@ -155,6 +155,7 @@ void GConfigUi::on_btnSearchData_clicked() {
 //===============================================
 void GConfigUi::on_btnDeleteData_clicked() {
     GLOGT(eGFUN, "");
+    readData();
     m_moduleData->deleteModuleData();
     if(!GLOGI->hasErrors()) {
         m_moduleData.reset(new GModuleData);

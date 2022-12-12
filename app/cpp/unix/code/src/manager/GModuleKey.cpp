@@ -311,9 +311,9 @@ bool GModuleKey::insertData() {
             " ( _module_id, _type_id, _name, _label ) "
             " values ( %d, %d, '%s', '%s' ) "
             "", m_moduleId
+            , m_typeId
             , m_name.c_str()
             , m_label.c_str()
-            , m_typeId
     ))) return false;
     m_id = lMySQL.getId();
     return true;
