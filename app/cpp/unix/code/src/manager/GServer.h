@@ -14,7 +14,6 @@ public:
 
     GSocket* clone() const;
     static GServer* Instance();
-    void initServer();
     bool createDoms();
 
     void setResponse(const GString& _response);
@@ -40,17 +39,8 @@ public:
     bool addResponse(const GString& _data);
 
 private:
-    static constexpr const char* API_METHOD     = "RDVAPP";
-    static constexpr const char* API_KEY        = "admin";
-    static constexpr const char* API_USERNAME   = "admin";
-    static constexpr const char* API_PASSWORD   = "admin";
-
     static GServer* m_instance;
 
-    GString m_apiMethod;
-    GString m_apiKey;
-    GString m_apiUsername;
-    GString m_apiPassword;
     GString m_request;
     GString m_response;
 

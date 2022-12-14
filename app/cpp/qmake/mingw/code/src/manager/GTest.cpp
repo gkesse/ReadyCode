@@ -12,9 +12,9 @@ GTest::~GTest() {
 }
 //===============================================
 void GTest::run(int _argc, char** _argv) {
-	QString lKey = "default";
+	GString lKey;
 	if(_argc > 2) lKey = _argv[2];
-    if(lKey == "") {
+    if(lKey == "default") {
         runDefault(_argc, _argv);
     }
     else if(lKey == "default") {

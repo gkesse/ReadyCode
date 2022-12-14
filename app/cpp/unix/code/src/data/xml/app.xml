@@ -2,38 +2,26 @@
 <rdv>
     <datas>
         <!-- ============================================ -->
-        <!-- pad -->
-        <!-- ============================================ -->
-        <data>
-            <code>pad</code>
-            <app_name>ReadyPad</app_name>
-            <app_version>1.0</app_version>
-        </data>
-        <!-- ============================================ -->
-        <!-- log -->
-        <!-- ============================================ -->
-        <data>
-            <code>log</code>
-            <test_on>1</test_on>
-            <test_file_on>0</test_file_on>
-            <prod_on>1</prod_on>
-            <prod_file_on>1</prod_file_on>
-        </data>
-        <!-- ============================================ -->
         <!-- socket -->
         <!-- ============================================ -->
         <data>
             <code>socket</code>
+            <module>tcp</module>
             <domain>AF_INET</domain>
             <type>SOCK_STREAM</type>
             <protocol>IPPROTO_TCP</protocol>
             <family>AF_INET</family>
-            <prod_port>9090</prod_port>
-            <test_port>9091</test_port>
+            <port_prod>9090</port_prod>
+            <port_test>9091</port_test>
             <backlog>5</backlog>
             <client_ip>0.0.0.0</client_ip>
             <server_ip>127.0.0.1</server_ip>
-            <api_key>16ac9e66cde8bd80d6141dadb74b5083</api_key>
+            <api_method>RDVAPP</api_method>
+            <api_key_prod>16ac9e66cde8bd80d6141dadb74b5083</api_key_prod>
+            <api_key_test>admin</api_key_test>
+            <api_username>admin</api_username>
+            <api_password>admin</api_password>
+            <start_message>Démarrage du serveur...</start_message>
         </data>
         <!-- ============================================ -->
         <!-- mysql -->
@@ -48,6 +36,16 @@
             <prod_database>pad</prod_database>
             <test_database>dev</test_database>
             <log_on>1</log_on>
+        </data>
+        <!-- ============================================ -->
+        <!-- log -->
+        <!-- ============================================ -->
+        <data>
+            <code>log</code>
+            <test_on>1</test_on>
+            <test_file_on>0</test_file_on>
+            <prod_on>1</prod_on>
+            <prod_file_on>1</prod_file_on>
         </data>
         <!-- ============================================ -->
         <!-- end -->

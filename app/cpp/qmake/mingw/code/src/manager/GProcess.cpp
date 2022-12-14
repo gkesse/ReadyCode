@@ -19,8 +19,8 @@ void GProcess::run(int _argc, char** _argv) {
 	QString lKey = "";
 	if(_argc > 1) lKey = _argv[1];
 
-	if(lKey == "") {
-        runDefault(_argc, _argv);
+	if(lKey == "test") {
+        runTest(_argc, _argv);
     }
     else if(lKey == "pad") {
         runPad(_argc, _argv);

@@ -34,6 +34,20 @@
             <prod_file_on>1</prod_file_on>
         </data>
         <!-- ============================================ -->
+        <!-- fonts -->
+        <!-- ============================================ -->
+        <data>
+        	<code>fonts</code>
+        	<map>
+        		<data>Aclonica-Regular.ttf</data>
+        		<data>Akronim-Regular.ttf</data>
+        		<data>Allan-Regular.ttf</data>
+        		<data>ArchivoNarrow-Regular.ttf</data>
+        		<data>CourierPrime-Regular.ttf</data>
+        		<data>Lobster-Regular.ttf</data>
+        	</map>
+        </data>
+        <!-- ============================================ -->
         <!-- end -->
         <!-- ============================================ -->
     </datas>
