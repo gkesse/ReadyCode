@@ -36,10 +36,10 @@ private:
 
     GString m_protocol;
     GString m_hostname;
-    GString m_port;
     GString m_username;
     GString m_password;
     GString m_database;
+    int m_port;
 
     GString m_databaseTest;
     GString m_databaseProd;

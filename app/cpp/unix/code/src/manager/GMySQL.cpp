@@ -40,7 +40,7 @@ bool GMySQL::openDatabase() {
     if(m_port <= 0) return false;
 
     m_driver = get_driver_instance();
-    GString lHostname = GFORMAT("%s://%s:%s/%s", m_protocol.c_str(), m_hostname.c_str(), m_port.c_str(), m_database.c_str());
+    GString lHostname = GFORMAT("%s://%s:%d/%s", m_protocol.c_str(), m_hostname.c_str(), m_port, m_database.c_str());
     m_con.reset(m_driver->connect(lHostname.c_str(), m_username.c_str(), m_password.c_str()));
     return true;
 }
