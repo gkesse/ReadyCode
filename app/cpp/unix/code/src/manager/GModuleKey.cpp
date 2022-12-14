@@ -6,7 +6,6 @@
 #include "GCode.h"
 #include "GLog.h"
 #include "GServer.h"
-#include "GList.h"
 //===============================================
 GModuleKey::GModuleKey(const GString& _code)
 : GSearch(_code) {
