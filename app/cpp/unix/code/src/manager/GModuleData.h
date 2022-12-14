@@ -4,8 +4,6 @@
 //===============================================
 #include "GSearch.h"
 //===============================================
-class GModule;
-//===============================================
 class GModuleData : public GSearch {
 public:
     GModuleData(const GString& _code = "module_data");

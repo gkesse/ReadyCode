@@ -196,8 +196,6 @@ bool GModuleKey::searchModuleKey() {
             , m_dataSize
     ));
 
-    GList lTypeMap;
-
     for(int i = 0; i < (int)lDataMap.size(); i++) {
         GRow lDataRow = lDataMap.at(i);
         int j = 0;

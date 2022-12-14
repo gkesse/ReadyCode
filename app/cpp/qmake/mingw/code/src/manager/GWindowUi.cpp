@@ -5,7 +5,6 @@
 #include "GPath.h"
 #include "GFile.h"
 #include "GBase64.h"
-#include "GOption.h"
 #include "GConnection.h"
 #include "GModule.h"
 #include "GQueryUi.h"

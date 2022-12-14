@@ -4,7 +4,6 @@
 #include "GModuleType.h"
 #include "GCode.h"
 #include "GLog.h"
-#include "GMap.h"
 #include "GClient.h"
 #include "GTableWidgetUi.h"
 #include "GFormLayout.h"

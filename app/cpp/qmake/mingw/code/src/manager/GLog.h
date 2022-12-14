@@ -82,15 +82,15 @@ public:
 
 private:
     static GLog* m_instance;
-    //
+
     GString m_type;
     GString m_side;
     GString m_msg;
-    //
+
     FILE* m_file;
     bool m_isConnectionError;
     bool m_isClientSide;
-    //
+
     bool m_isTestEnv;
     bool m_isTestLog;
     bool m_isProdLog;
@@ -98,6 +98,7 @@ private:
     bool m_isProdFile;
     bool m_isDebug;
     bool m_isFileLog;
+
     GString m_tmpPath;
     GString m_currentDate;
     GString m_logTestFile;

@@ -33,15 +33,3 @@ bool GManager::deserialize(const GString& _data, const GString& _code) {
     return true;
 }
 //===============================================
-void GManager::setClient(GSocket* _client) {
-    m_server = _client;
-}
-//===============================================
-void GManager::setModule(const GString& _module) {
-    m_moduleName = _module;
-}
-//===============================================
-void GManager::setMethod(const GString& _method) {
-    m_methodName = _method;
-}
-//===============================================

@@ -16,10 +16,6 @@ public:
     GString serialize(const GString& _code = "manager");
     bool deserialize(const GString& _data, const GString& _code = "manager");
 
-    void setClient(GSocket* _client);
-    void setModule(const GString& _module);
-    void setMethod(const GString& _method);
-
 protected:
     GString m_moduleName;
     GString m_methodName;

@@ -126,7 +126,7 @@ bool GModuleMap::onMoveUpModuleMap() {
     if(m_moduleId == 0) {GERROR_ADD(eGERR, "L'identifiant du module est obligatoire."); return false;}
     if(m_position == 0) {GERROR_ADD(eGERR, "Vous devez sélectionner une donnée."); return false;}
     if(!loadPositionUp()) {GERROR_ADD(eGERR, "Impossible de déplacer vers le haut."); return false;}
-    if(!updatePositionUp()) {GSAVE_KO(); return false;}
+    if(!updatePositionUp()) {GERROR_ADD(eGERR, "Erreur lors de l'enregistrement de la donnée."); return false;}
     if(!loadData()) return false;
     return true;
 }
@@ -135,7 +135,7 @@ bool GModuleMap::onMoveDownModuleMap() {
     if(m_moduleId == 0) {GERROR_ADD(eGERR, "L'identifiant du module est obligatoire."); return false;}
     if(m_position == 0) {GERROR_ADD(eGERR, "Vous devez sélectionner une donnée."); return false;}
     if(!loadPositionDown()) {GERROR_ADD(eGERR, "Impossible de déplacer vers le bas."); return false;}
-    if(!updatePositionDown()) {GSAVE_KO(); return false;}
+    if(!updatePositionDown()) {GERROR_ADD(eGERR, "Erreur lors de l'enregistrement de la donnée."); return false;}
     if(!loadData()) return false;
     return true;
 }

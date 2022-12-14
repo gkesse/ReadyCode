@@ -26,7 +26,6 @@ public:
     bool loadModuleType();
     bool saveModuleType();
     bool searchModuleType();
-    bool searchModuleType(const GList& _datas);
     bool searchType();
     bool searchNextModuleType();
     bool deleteModuleType();

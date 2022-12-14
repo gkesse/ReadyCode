@@ -7,7 +7,7 @@ GPath* GPath::m_instance = 0;
 //===============================================
 GPath::GPath()
 : GObject() {
-
+    initPath();
 }
 //===============================================
 GPath::~GPath() {
@@ -21,11 +21,12 @@ GPath* GPath::Instance() {
     return m_instance;
 }
 //===============================================
+void GPath::initPath() {
+    m_dataPath = GEnv().getDataPath();
+}
+//===============================================
 GString GPath::getDataPath() const {
-    GEnv lEnv;
-    GString lPath = lEnv.getEnv("GPROJECT_DATA");
-    if(lPath == "") {GERROR_ADD(eGERR, "Le chemin des données n'est pas définie."); return "";}
-    return lPath;
+    return m_dataPath;
 }
 //===============================================
 GString GPath::getResourcePath(const GString& _res, const GString& _filename) const {
