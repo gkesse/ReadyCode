@@ -40,7 +40,7 @@ GString GLog::serialize(const GString& _code) {
     lDom.addData(_code, "type", m_type);
     lDom.addData(_code, "side", m_side);
     lDom.addData(_code, "msg", m_msg);
-    lDom.addData(_code, m_map, this);
+    lDom.addData(_code, m_map);
     return lDom.toString();
 }
 //===============================================

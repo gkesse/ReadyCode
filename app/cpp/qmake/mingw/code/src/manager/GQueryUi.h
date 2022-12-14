@@ -6,6 +6,7 @@
 //===============================================
 class GQuery;
 class GQueryType;
+class GSearch;
 //===============================================
 namespace Ui {
     class GQueryUi;
@@ -36,11 +37,14 @@ public slots:
     void on_btnClearEmission_clicked();
     // reception
     void on_btnCopyReception_clicked();
+    // search
+    void onLoadSearchConfig();
 
 private:
     Ui::GQueryUi *ui;
     std::shared_ptr<GQuery> m_query;
     std::shared_ptr<GQueryType> m_queryType;
+    std::shared_ptr<GSearch> m_searchConfig;
 
     int m_typeId;
 };

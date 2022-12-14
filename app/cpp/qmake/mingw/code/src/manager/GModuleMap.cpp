@@ -34,7 +34,7 @@ GString GModuleMap::serialize(const GString& _code) {
     lDom.addData(_code, "module_id", m_moduleId);
     lDom.addData(_code, "position", m_position);
     lDom.addData(_code, "node", m_node.toBase64(), true);
-    lDom.addData(_code, m_map, this);
+    lDom.addData(_code, m_map);
     lDom.addData(GSearch::serialize(), this);
     return lDom.toString();
 }

@@ -134,6 +134,7 @@ bool GQueryType::searchData() {
             "", m_where.c_str()
             , m_dataSize
     ));
+
     for(int i = 0; i < (int)lDataMap.size(); i++) {
         GRow lDataRow = lDataMap.at(i);
         int j = 0;
@@ -142,9 +143,11 @@ bool GQueryType::searchData() {
         lObj->m_name = lDataRow.at(j++);
         add(lObj);
     }
+
     m_dataOffset += m_dataSize;
     m_hasData = true;
     if(m_dataOffset >= m_dataCount) m_hasData = false;
+
     if(m_hasData) {
         GQueryType* lObj = (GQueryType*)back();
         m_lastId = lObj->m_id;

@@ -107,7 +107,7 @@ bool GCode::addData(const GString& _code, const GString& _key, const GString& _v
     return true;
 }
 //===============================================
-bool GCode::addData(const GString& _code, const std::vector<GObject*>& _map, GObject* _obj) {
+bool GCode::addData(const GString& _code, const std::vector<GObject*>& _map) {
     if(_map.size() == 0) return false;
     createCode(_code);
     if(!getCode(_code, "map")) {

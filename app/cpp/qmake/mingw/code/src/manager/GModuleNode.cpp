@@ -35,7 +35,7 @@ GString GModuleNode::serialize(const GString& _code) {
     lDom.addData(_code, "key_id", m_keyId);
     lDom.addData(_code, "value", m_value);
     lDom.addData(_code, "key", m_key.toBase64(), true);
-    lDom.addData(_code, m_map, this);
+    lDom.addData(_code, m_map);
     lDom.addData(GSearch::serialize(), this);
     return lDom.toString();
 }

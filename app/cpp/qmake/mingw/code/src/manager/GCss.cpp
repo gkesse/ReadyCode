@@ -25,7 +25,7 @@ GString GCss::serialize(const GString& _code) {
     lDom.addData(_code, "id", m_id);
     lDom.addData(_code, "key", m_key);
     lDom.addData(_code, "filename", m_filename);
-    lDom.addData(_code, m_map, this);
+    lDom.addData(_code, m_map);
     lDom.addData(GSearch::serialize(), this);
     return lDom.toString();
 }

@@ -8,6 +8,7 @@
 GQueryType::GQueryType(const GString& _code)
 : GSearch(_code) {
     m_id = 0;
+    m_tableWidget.reset(new GTableWidgetUi);
 }
 //===============================================
 GQueryType::~GQueryType() {
@@ -23,6 +24,7 @@ GString GQueryType::serialize(const GString& _code) {
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
     lDom.addData(_code, "name", m_name);
+    lDom.addData(_code, m_map);
     lDom.addData(GSearch::serialize(), this);
     return lDom.toString();
 }
@@ -33,7 +35,8 @@ bool GQueryType::deserialize(const GString& _data, const GString& _code) {
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
     m_name = lDom.getData(_code, "name");
-    return true;
+    lDom.getData(_code, m_map, this);
+   return true;
 }
 //===============================================
 void GQueryType::setQueryType(const GQueryType& _queryType) {
@@ -77,13 +80,13 @@ void GQueryType::saveQueryType() {
 //===============================================
 void GQueryType::searchQueryType() {
     GString lData = serialize();
-    lData = GCALL_SERVER("query", "search_query_type", lData);
+    lData = GCALL_SERVER("query_type", "search_query_type", lData);
     deserialize(lData);
 }
 //===============================================
 void GQueryType::deleteQueryType() {
     GString lData = serialize();
-    lData = GCALL_SERVER("query", "delete_query_type", lData);
+    lData = GCALL_SERVER("query_type", "delete_query_type", lData);
     deserialize(lData);
 }
 //===============================================

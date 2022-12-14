@@ -12,6 +12,8 @@ GQueryUi::GQueryUi(QWidget* _parent)
     setAttribute(Qt::WA_DeleteOnClose);
 
     m_typeId = 0;
+
+    onLoadSearchConfig();
 }
 //===============================================
 GQueryUi::~GQueryUi() {
@@ -82,7 +84,9 @@ void GQueryUi::on_btnSaveCreateType_clicked() {
 void GQueryUi::on_btnSearchCreateType_clicked() {
     GLOGT(eGFUN, "");
     readData();
+    m_queryType->setSearch(m_searchConfig);
     m_queryType->searchQueryType();
+    m_queryType->showList();
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
@@ -92,6 +96,7 @@ void GQueryUi::on_btnDeleteCreateType_clicked() {
     GLOGT(eGFUN, "");
     readData();
     m_queryType->deleteQueryType();
+    m_queryType.reset(new GQueryType);
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
@@ -126,6 +131,16 @@ void GQueryUi::on_btnClearEmission_clicked() {
 //===============================================
 void GQueryUi::on_btnCopyReception_clicked() {
     GLOGT(eGFUN, "");
+    GERROR_SHOWG(eGERR);
+    GLOG_SHOWG(eGLOG);
+}
+//===============================================
+// search
+//===============================================
+void GQueryUi::onLoadSearchConfig() {
+    GLOGT(eGFUN, "");
+    m_searchConfig.reset(new GSearch);
+    m_searchConfig->setDataSize(10);
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
 }
