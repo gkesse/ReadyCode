@@ -60,6 +60,11 @@ int GSocket::loadProtocol() const {
     return IPPROTO_TCP;
 }
 //===============================================
+int GSocket::loadFamily() const {
+    if(m_familyName == "AF_INET") return AF_INET;
+    return AF_INET;
+}
+//===============================================
 GString& GSocket::getDataIn() {
     return m_dataIn;
 }

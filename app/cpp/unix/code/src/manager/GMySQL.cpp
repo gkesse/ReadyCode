@@ -8,7 +8,7 @@
 GMySQL::GMySQL(const GString& _code)
 : GObject(_code) {
     createDoms();
-    deserializeDom();
+    initMySQL();
     m_driver = 0;
 }
 //===============================================
@@ -42,10 +42,8 @@ bool GMySQL::deserialize(const GString& _data, const GString& _code) {
     return true;
 }
 //===============================================
-bool GMySQL::deserializeDom() {
-    GString lData = m_dom->toString();
-    deserialize(lData);
-    return true;
+void GMySQL::initMySQL() {
+    m_domainName    = m_dom->getData("socket", "domain");
 }
 //===============================================
 GString GMySQL::loadDatabase(bool _isTestEnv) const {
