@@ -3,7 +3,7 @@
 #include "GLog.h"
 //===============================================
 GTimer::GTimer() : GObject() {
-    m_running = true;
+    m_isRunning = true;
 }
 //===============================================
 GTimer::~GTimer() {
@@ -37,11 +37,11 @@ void GTimer::setCallback(void* _onTimer, int _ms) {
 }
 //===============================================
 bool GTimer::isRunning() const {
-    return m_running;
+    return m_isRunning;
 }
 //===============================================
 void GTimer::setRunning(bool _running) {
-    m_running = _running;
+    m_isRunning = _running;
 }
 //===============================================
 void GTimer::stopTimer() {

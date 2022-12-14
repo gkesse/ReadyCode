@@ -7,10 +7,9 @@ GClient* GClient::m_instance = 0;
 //===============================================
 GClient::GClient()
 : GSocket() {
-    setMethod(API_METHOD);
-    setApiKey(API_KEY);
-    setUsername(API_USERNAME);
-    setPassword(API_PASSWORD);
+    m_dataSize = 0;
+    m_diffSize = 0;
+    m_headerSize = 0;
 }
 //===============================================
 GClient::~GClient() {
@@ -24,36 +23,11 @@ GClient* GClient::Instance() {
     return m_instance;
 }
 //===============================================
-void GClient::setMethod(const GString& _method) {
-    m_method = _method;
-}
-//===============================================
-void GClient::setApiKey(const GString& _apiKey) {
-    m_apiKey = _apiKey;
-}
-//===============================================
-void GClient::setUsername(const GString& _username) {
-    m_username = _username;
-}
-//===============================================
-void GClient::setPassword(const GString& _password) {
-    m_password = _password;
-}
-//===============================================
 void GClient::setRequest(const GString& _request) {
     m_request = _request;
 }
 //===============================================
 GString GClient::callServer(const GString& _modules, const GString& _method, const GString& _data) {
-    setMajor(2);
-    setMinor(2);
-    setDomain(AF_INET);
-    setType(SOCK_STREAM);
-    setProtocol(IPPROTO_TCP);
-    setFamily(AF_INET);
-    setHostname("82.65.62.124");
-    setPort(9091);
-
     GCode lDom;
     lDom.createDoc();
     lDom.createRequest(_modules, _method);
@@ -69,18 +43,18 @@ GString GClient::callServer(const GString& _modules, const GString& _method, con
 //===============================================
 bool GClient::createData() {
     if(m_request == "") return false;
-    if(m_method == "") return false;
+    if(m_apiMethod == "") return false;
     if(m_apiKey == "") return false;
-    if(m_username == "") return false;
-    if(m_password == "") return false;
+    if(m_apiUsername == "") return false;
+    if(m_apiPassword == "") return false;
 
     int lSize = m_request.size();
 
     m_dataOut = "";
-    m_dataOut += GFORMAT("%s;", m_method.c_str());
+    m_dataOut += GFORMAT("%s;", m_apiMethod.c_str());
     m_dataOut += GFORMAT("api_key:%s|", m_apiKey.c_str());
-    m_dataOut += GFORMAT("username:%s|", m_username.c_str());
-    m_dataOut += GFORMAT("password:%s|", m_password.c_str());
+    m_dataOut += GFORMAT("username:%s|", m_apiUsername.c_str());
+    m_dataOut += GFORMAT("password:%s|", m_apiPassword.c_str());
     m_dataOut += GFORMAT("size:%d;", lSize);
     m_dataOut += GFORMAT("%s", m_request.c_str());
 
@@ -88,7 +62,7 @@ bool GClient::createData() {
 }
 //===============================================
 bool GClient::onCallServer() {
-    if(m_dataIn.startBy(m_method)) {
+    if(m_dataIn.startBy(m_apiMethod)) {
         onReadyApp();
     }
     return true;
@@ -123,8 +97,8 @@ bool GClient::isReadyApp() {
     }
 
     if(lApiKey != m_apiKey) return false;
-    if(lUsername != m_username) return false;
-    if(lPassword != m_password) return false;
+    if(lUsername != m_apiUsername) return false;
+    if(lPassword != m_apiPassword) return false;
     if(!lSize.toInt(m_dataSize)) return false;
 
     m_headerSize = m_dataIn.sepSize(1, ";");

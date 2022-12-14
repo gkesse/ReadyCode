@@ -14,11 +14,11 @@ public:
     //
     void setTimer(void* _onTimer, int _ms);
     void pauseTimer();
-    bool& getRunning();
+    bool& isRunning();
     static VOID CALLBACK onTimer(HWND, UINT, UINT_PTR, DWORD);
 
 private:
-    bool m_running;
+    bool m_isRunning;
 };
 //==============================================
 #endif

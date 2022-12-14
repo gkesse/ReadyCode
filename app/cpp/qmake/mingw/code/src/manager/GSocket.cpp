@@ -3,51 +3,65 @@
 #include "GSocket.h"
 #include "GPath.h"
 #include "GCode.h"
+#include "GEnv.h"
 //===============================================
 GSocket::GSocket()
 : GObject() {
-    m_major = 0;
-    m_minor = 0;
-    m_domain = 0;
-    m_type = 0;
-    m_protocol = 0;
-    m_family = 0;
-    m_port = 0;
-    m_socket = 0;
+    createDoms();
+    initSocket();
 }
 //===============================================
 GSocket::~GSocket() {
 
 }
-void GSocket::setMajor(int _major) {
-    m_major = _major;
+//===============================================
+void GSocket::initSocket() {
+    m_isTestEnv     = GEnv().isTestEnv();
+
+    m_major         = m_dom->getData("socket", "major").toInt();
+    m_minor         = m_dom->getData("socket", "minor").toInt();
+    m_domainName    = m_dom->getData("socket", "domain");
+    m_typeName      = m_dom->getData("socket", "type");
+    m_protocolName  = m_dom->getData("socket", "protocol");
+    m_familyName    = m_dom->getData("socket", "family");
+    m_portProd      = m_dom->getData("socket", "port_prod").toInt();
+    m_portTest      = m_dom->getData("socket", "port_test").toInt();
+    m_backlog       = m_dom->getData("socket", "backlog").toInt();
+    m_serverIp      = m_dom->getData("socket", "server_ip");
+    m_clientIp      = m_dom->getData("socket", "client_ip");
+    m_apiMethod     = m_dom->getData("socket", "api_method");
+    m_apiKeyProd    = m_dom->getData("socket", "api_key_prod");
+    m_apiKeyTest    = m_dom->getData("socket", "api_key_test");
+    m_apiUsername   = m_dom->getData("socket", "api_username");
+    m_apiPassword   = m_dom->getData("socket", "api_password");
+
+    m_domain        = loadDomain();
+    m_type          = loadType();
+    m_protocol      = loadProtocol();
+    m_family        = loadFamily();
+    m_hostname      = m_serverIp;
+    m_port          = (m_isTestEnv ? m_portTest : m_portProd);
+    m_apiKey        = (m_isTestEnv ? m_apiKeyTest : m_apiKeyProd);
 }
 //===============================================
-void GSocket::setMinor(int _minor) {
-    m_minor = _minor;
+int GSocket::loadDomain() const {
+    if(m_domainName == "AF_INET") return AF_INET;
+    return AF_INET;
 }
 //===============================================
-void GSocket::setDomain(int _domain) {
-    m_domain = _domain;
+int GSocket::loadType() const {
+    if(m_typeName == "SOCK_STREAM") return SOCK_STREAM;
+    return SOCK_STREAM;
 }
 //===============================================
-void GSocket::setType(int _type) {
-    m_type = _type;
+int GSocket::loadProtocol() const {
+    if(m_protocolName == "IPPROTO_TCP") return IPPROTO_TCP;
+    return IPPROTO_TCP;
 }
 //===============================================
-void GSocket::setProtocol(int _protocol) {
-    m_protocol = _protocol;
-}
-void GSocket::setFamily(int _family) {
-    m_family = _family;
-}
-//===============================================
-void GSocket::setPort(int _port) {
-    m_port = _port;
-}
-//===============================================
-void GSocket::setHostname(const GString& _hostname) {
-    m_hostname = _hostname;
+int GSocket::loadFamily() const {
+    if(m_familyName == "AF_INET") return AF_INET;
+    return AF_INET;
 }
 //===============================================
 bool GSocket::callServer() {

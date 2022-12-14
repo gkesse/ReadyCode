@@ -56,10 +56,10 @@ bool GLog::deserialize(const GString& _data, const GString& _code) {
 //===============================================
 void GLog::initLog() {
     m_isTestEnv     = GEnv().isTestEnv();
-    m_isTestLog     = (m_dom->getData("log", "test_on") == "1");
-    m_isProdLog     = (m_dom->getData("log", "prod_on") == "1");
-    m_isTestFile    = (m_dom->getData("log", "test_file_on") == "1");
-    m_isProdFile    = (m_dom->getData("log", "prod_file_on") == "1");
+    m_isTestLog     = m_dom->getData("log", "test_on").toBool();
+    m_isProdLog     = m_dom->getData("log", "prod_on").toBool();
+    m_isTestFile    = m_dom->getData("log", "test_file_on").toBool();
+    m_isProdFile    = m_dom->getData("log", "prod_file_on").toBool();
     m_isDebug       = (m_isTestEnv ? m_isTestLog : m_isProdLog);
     m_isFileLog     = (m_isTestEnv ? m_isTestFile : m_isProdFile);
     m_tmpPath       = GEnv().getTmpDir();

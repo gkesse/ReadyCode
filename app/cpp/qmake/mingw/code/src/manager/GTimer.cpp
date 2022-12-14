@@ -3,7 +3,7 @@
 //===============================================
 GTimer::GTimer()
 : GObject() {
-    m_running = true;
+    m_isRunning = true;
 }
 //===============================================
 GTimer::~GTimer() {
@@ -16,14 +16,14 @@ void GTimer::setTimer(void* _onTimer, int _ms) {
 //===============================================
 void GTimer::pauseTimer() {
     MSG lMsg;
-    while(GetMessage(&lMsg, NULL, 0, 0) && m_running) {
+    while(GetMessage(&lMsg, NULL, 0, 0) && m_isRunning) {
         TranslateMessage(&lMsg);
         DispatchMessage(&lMsg);
     }
 }
 //===============================================
-bool& GTimer::getRunning() {
-    return m_running;
+bool& GTimer::isRunning() {
+    return m_isRunning;
 }
 //===============================================
 VOID CALLBACK GTimer::onTimer(HWND, UINT, UINT_PTR, DWORD) {

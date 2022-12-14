@@ -46,10 +46,10 @@ protected:
 
     GString m_startMessage;
 
-    GString m_method;
+    GString m_apiMethod;
     GString m_apiKey;
-    GString m_username;
-    GString m_password;
+    GString m_apiUsername;
+    GString m_apiPassword;
     GString m_content;
 
     int m_socket;
