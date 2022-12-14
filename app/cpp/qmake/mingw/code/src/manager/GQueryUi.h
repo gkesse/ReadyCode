@@ -5,6 +5,7 @@
 #include "GInclude.h"
 //===============================================
 class GQuery;
+class GQueryType;
 //===============================================
 namespace Ui {
     class GQueryUi;
@@ -21,12 +22,27 @@ public:
     void writeData();
 
 public slots:
+    // xml
     void on_btnSendEmissionXml_clicked();
     void on_btnNewEmissionXml_clicked();
+    // type
+    void onLoadDefaultComboBox();
+    void on_btnSaveCreateType_clicked();
+    void on_btnSearchCreateType_clicked();
+    void on_btnDeleteCreateType_clicked();
+    void on_btnNewCreateType_clicked();
+    // emission
+    void on_btnSendEmission_clicked();
+    void on_btnClearEmission_clicked();
+    // reception
+    void on_btnCopyReception_clicked();
 
 private:
     Ui::GQueryUi *ui;
     std::shared_ptr<GQuery> m_query;
+    std::shared_ptr<GQueryType> m_queryType;
+
+    int m_typeId;
 };
 //==============================================
 #endif
