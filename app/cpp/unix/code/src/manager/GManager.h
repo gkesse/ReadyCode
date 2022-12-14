@@ -37,6 +37,7 @@ public:
     bool onModuleMap();
     bool onModuleType();
     bool onQuery();
+    bool onQueryType();
 
 protected:
     GString m_moduleName;

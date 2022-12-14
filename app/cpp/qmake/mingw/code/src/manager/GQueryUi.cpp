@@ -73,7 +73,7 @@ void GQueryUi::onLoadDefaultComboBox() {
 void GQueryUi::on_btnSaveCreateType_clicked() {
     GLOGT(eGFUN, "");
     readData();
-    m_query->saveTypeQuery();
+    m_queryType->saveQueryType();
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
@@ -82,7 +82,7 @@ void GQueryUi::on_btnSaveCreateType_clicked() {
 void GQueryUi::on_btnSearchCreateType_clicked() {
     GLOGT(eGFUN, "");
     readData();
-    m_query->searchTypeQuery();
+    m_queryType->searchQueryType();
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
@@ -91,7 +91,7 @@ void GQueryUi::on_btnSearchCreateType_clicked() {
 void GQueryUi::on_btnDeleteCreateType_clicked() {
     GLOGT(eGFUN, "");
     readData();
-    m_query->deleteTypeQuery();
+    m_queryType->deleteQueryType();
     writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
@@ -99,6 +99,8 @@ void GQueryUi::on_btnDeleteCreateType_clicked() {
 //===============================================
 void GQueryUi::on_btnNewCreateType_clicked() {
     GLOGT(eGFUN, "");
+    m_queryType.reset(new GQueryType);
+    writeData();
     GERROR_SHOWG(eGERR);
     GLOG_SHOWG(eGLOG);
 }

@@ -11,6 +11,7 @@
 #include "GModuleMap.h"
 #include "GModuleType.h"
 #include "GQuery.h"
+#include "GQueryType.h"
 //===============================================
 GManager::GManager(const GString& _code)
 : GObject(_code) {
@@ -147,6 +148,13 @@ bool GManager::onModuleType() {
 //===============================================
 bool GManager::onQuery() {
     GQuery lObj;
+    lObj.setManager(this);
+    lObj.onModule();
+    return true;
+}
+//===============================================
+bool GManager::onQueryType() {
+    GQueryType lObj;
     lObj.setManager(this);
     lObj.onModule();
     return true;
