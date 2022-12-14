@@ -91,6 +91,9 @@ bool GManager::onManager() {
     else if(m_moduleName == "query") {
         onQuery();
     }
+    else if(m_moduleName == "query_type") {
+        onQueryType();
+    }
     else {
         GMODULE_UNKNOWN();
     }

@@ -3,6 +3,7 @@
 #include "GCode.h"
 #include "GClient.h"
 #include "GLog.h"
+#include "GTableWidgetUi.h"
 //===============================================
 GQueryType::GQueryType(const GString& _code)
 : GSearch(_code) {
@@ -33,6 +34,23 @@ bool GQueryType::deserialize(const GString& _data, const GString& _code) {
     m_id = lDom.getData(_code, "id").toInt();
     m_name = lDom.getData(_code, "name");
     return true;
+}
+//===============================================
+void GQueryType::setQueryType(const GQueryType& _queryType) {
+    m_id = _queryType.m_id;
+    m_name = _queryType.m_name;
+}
+//===============================================
+void GQueryType::setQueryType(GQueryType* _queryType) {
+    setQueryType(*_queryType);
+}
+//===============================================
+void GQueryType::setQueryType(int _index) {
+    if(_index >= 0 && _index < size()) {
+        GQueryType* lObj = (GQueryType*)at(_index);
+        setQueryType(lObj);
+    }
+    clearMap();
 }
 //===============================================
 void GQueryType::setId(int _id) {
@@ -67,5 +85,53 @@ void GQueryType::deleteQueryType() {
     GString lData = serialize();
     lData = GCALL_SERVER("query", "delete_query_type", lData);
     deserialize(lData);
+}
+//===============================================
+bool GQueryType::showList() {
+    if(size() == 0) return true;
+    if(size() == 1) {
+        setQueryType(0);
+        return true;
+    }
+
+    m_tableWidget->setWindowTitle("Liste des modules");
+    m_tableWidget->setSize(size(), 1);
+    m_tableWidget->setHeader(0, "nom");
+
+    for(int i = 0; i < size(); i++) {
+        GQueryType* lType = (GQueryType*)at(i);
+        GString lKey = lType->serialize();
+        m_tableWidget->setData(i, 0, lKey, lType->m_name);
+    }
+
+    clearMap();
+    m_tableWidget->setSearch(this);
+    int lOk = m_tableWidget->exec();
+
+    if(lOk == QDialog::Accepted) {
+        GQueryType lObj;
+        lObj.deserialize(m_tableWidget->getKey());
+        setQueryType(lObj);
+    }
+    return true;
+}
+//===============================================
+void GQueryType::onNextData() {
+    clearMap();
+    GString lData = serialize();
+    lData = GCALL_SERVER("module", "search_next_module", lData);
+    deserialize(lData);
+    showNextList();
+}
+//===============================================
+bool GQueryType::showNextList() {
+    for(int i = 0; i < size(); i++) {
+        GQueryType* lObj = (GQueryType*)at(i);
+        GString lKey = lObj->serialize();
+        m_tableWidget->addRow();
+        m_tableWidget->addCol(0, lKey, lObj->m_name);
+    }
+    clearMap();
+    return true;
 }
 //===============================================
