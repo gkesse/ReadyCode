@@ -134,7 +134,12 @@ bool GModuleNode::updateData() {
     for(int i = 0; i < size(); i++) {
         GModuleNode* lObj = (GModuleNode*)at(i);
         lObj->m_mapId = m_mapId;
-        updateData(lObj);
+        if(lObj->m_id != 0) {
+            updateData(lObj);
+        }
+        else {
+            insertData(lObj);
+        }
     }
     return true;
 }
