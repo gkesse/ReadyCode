@@ -18,15 +18,15 @@ GMySQL::~GMySQL() {
 void GMySQL::initMySQL() {
     m_isTestEnv     = GEnv().isTestEnv();
 
-    m_protocol      = m_dom->getData("socket", "protocol");
-    m_hostname      = m_dom->getData("socket", "hostname");
-    m_port          = m_dom->getData("socket", "port").toInt();
-    m_username      = m_dom->getData("socket", "username");
-    m_password      = m_dom->getData("socket", "password");
-    m_databaseProd  = m_dom->getData("socket", "database_prod");
-    m_databaseTest  = m_dom->getData("socket", "database_test");
+    m_protocol      = m_dom->getData("mysql", "protocol");
+    m_hostname      = m_dom->getData("mysql", "hostname");
+    m_port          = m_dom->getData("mysql", "port").toInt();
+    m_username      = m_dom->getData("mysql", "username");
+    m_password      = m_dom->getData("mysql", "password");
+    m_databaseProd  = m_dom->getData("mysql", "database_prod");
+    m_databaseTest  = m_dom->getData("mysql", "database_test");
     m_database      = (m_isTestEnv ? m_databaseTest : m_databaseProd);
-    m_logOn         = m_dom->getData("socket", "log_on").toInt();
+    m_logOn         = m_dom->getData("mysql", "log_on").toInt();
 
     m_driver = 0;
 }
