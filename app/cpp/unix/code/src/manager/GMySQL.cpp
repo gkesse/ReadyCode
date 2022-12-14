@@ -48,7 +48,7 @@ bool GMySQL::openDatabase() {
 bool GMySQL::execQuery(const GString& _sql) {
     if(m_logOn) GLOGT(eGMSG, "%s", _sql.c_str());
     try {
-        openDatabase();
+        if(!openDatabase()) return false;
         m_stmt.reset(m_con->createStatement());
         m_stmt->execute(_sql.c_str());
     }
@@ -62,7 +62,7 @@ bool GMySQL::execQuery(const GString& _sql) {
 bool GMySQL::readQuery(const GString& _sql) {
     if(m_logOn) GLOGT(eGMSG, "%s", _sql.c_str());
     try {
-        openDatabase();
+        if(!openDatabase()) return false;
         m_stmt.reset(m_con->createStatement());
         m_res.reset(m_stmt->executeQuery(_sql.c_str()));
     }
