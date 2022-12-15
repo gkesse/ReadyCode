@@ -6,7 +6,8 @@
 int main(int _argc, char** _argv) {
     GXml().initModule();
 	GProcess().run(_argc, _argv);
-	GERROR_SHOW(eGERR);
+    GERROR_SHOW(eGERR);
+    GLOG_SHOW(eGERR);
 	GXml().cleanModule();
 	return 0;
 }

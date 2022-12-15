@@ -9,43 +9,34 @@ class GCode : public GXml {
 
 public:
     GCode(QObject* _parent = 0);
-    GCode(const QString& _code, QObject* _parent = 0);
     ~GCode();
     //
-    void createRequest(const QString& _module, const QString& _method);
-    void addParam(const QString& _key, int _value);
-    void addParam(const QString& _key, const QString& _value);
-    void addSession(const QString& _key, const QString& _value);
-    void addPseudo();
-    //
-    QString getModule();
-    QString getMethod();
-    //
-    void setCode(const QString& _code);
-    //
+    void createReq(const QString& _module, const QString& _method);
+    bool hasCode();
     bool hasCode(const QString& _code);
     bool hasCode(const QString& _code, const QString& _key);
+    bool createCode(const QString& _code);
     //
-    bool hasMap(const QString& _code);
-    bool hasMap(const QString& _code, int _index);
-    bool hasMap(const QString& _code, const QString& _key, int _index);
+    bool addData(const QString& _code, const QString& _key, const QString& _value, bool _isCData = false);
+    bool addData(const QString& _code, const QString& _key, int _value, bool _isCData = false);
+    bool addData(const QString& _code, const QVector<QString>& _datas, bool _isCData = false);
+    bool addData(const QString& _code, const QVector<GObject*>& _datas);
     //
-    void createCode();
-    void createCode(const QString& _code);
-    void createCode(const QString& _code, const QString& _key, const QString& _value, bool _isCData = false);
-    //
-    void createMap(const QString& _code, const QString& _key, int _value, int _index, bool _isCData = false);
-    void createMap(const QString& _code, const QString& _key, const QString& _value, int _index, bool _isCData = false);
+    bool getCode(const QString& _code);
+    bool getCode(const QString& _code, const QString& _key);
     //
     QString getItem(const QString& _code, const QString& _key);
-    QString getItem(const QString& _code, const QString& _key, int _index, bool _isCData = false);
+    QString getItem(const QString& _code, int _index);
+    QString getItem(const QString& _code, const QString& _key, int _index);
+    QString getItem(const QString& _code, const QString& _category, const QString& _key);
+    bool getItem(const QString& _code, QVector<GObject*>& _datas, GObject* _obj);
+    QString getMap(const QString& _code, int _index);
     int countItem(const QString& _code);
-    int countItem(const QString& _code, const QString& _key);
     //
-    void loadCode(const QString& _code);
+    bool loadCode(const QString& _data, const QString& _encoding = "UTF-8");
     //
     QString toStringCode(const QString& _code);
-    QString toStringCode(const QString& _code, int _index);
+    QString toStringData();
 };
 //==============================================
 #endif

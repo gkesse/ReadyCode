@@ -1,6 +1,5 @@
 //===============================================
 #include "GSocket.h"
-#include "GXml.h"
 #include "GLog.h"
 #include "GPath.h"
 #include "GThread.h"
@@ -17,16 +16,12 @@ GSocket::~GSocket() {
 }
 //===============================================
 void GSocket::createDoms() {
-    m_dom.reset(new GXml);
-    m_dom->loadXmlFile(GRES("xml", "pad.xml"));
-    m_dom->createXPath();
-    //
-    m_domWsaError.reset(new GXml);
-    m_domWsaError->loadXmlFile(GRES("xml", "wsa_error.xml"));
-    m_domWsaError->createXPath();
-    //
+    m_dom.reset(new GCode);
+    m_dom->loadFile(GRES("xml", "app.xml"));
+    m_domWsaError.reset(new GCode);
+    m_domWsaError->loadFile(GRES("xml", "wsa_error.xml"));
     m_res.reset(new GCode);
-    m_res->createCode();
+    m_res->createDoc();
 }
 //===============================================
 QString GSocket::getItem(const QString& _key, const QString& _data) const {
@@ -96,115 +91,126 @@ QString GSocket::loadErrorMsg() const {
     return lErrorMsg;
 }
 //===============================================
-GSocket& GSocket::initSocket(int _major, int _minor) {
+bool GSocket::initSocket(int _major, int _minor) {
+    if(GLOGI->hasErrors()) return false;
     WSADATA lWsaData;
     WSAStartup(MAKEWORD(_major, _minor), &lWsaData);
-    return *this;
+    return true;
 }
 //===============================================
-GSocket& GSocket::createSocket(int _domain, int _type, int _protocol) {
+bool GSocket::createSocket(int _domain, int _type, int _protocol) {
+    if(GLOGI->hasErrors()) return false;
     m_socket = socket(_domain, _type, _protocol);
     if(m_socket == INVALID_SOCKET) {
-        GERROR(eGERR, QString(""
+        GERROR_ADD(eGERR, QString(""
                 "Erreur lors de la creation du socket.\n"
                 "erreur_code..: (%1)\n"
                 "error_msg....: (%2)\n")
                 .arg(WSAGetLastError()).arg(loadErrorMsg()));
-        return *this;
+        return false;
     }
-    return *this;
+    return true;
 }
 //===============================================
-GSocket& GSocket::createAddress(int _family, const QString& _addressIp, int _port) {
+bool GSocket::createAddress(int _family, const QString& _addressIp, int _port) {
+    if(GLOGI->hasErrors()) return false;
     m_address.sin_family = _family;
     m_address.sin_addr.s_addr = inet_addr(_addressIp.toStdString().c_str());
     m_address.sin_port = htons(_port);
     memset(&m_address.sin_zero, 0, sizeof(m_address.sin_zero));
-    return *this;
+    return true;
 }
 //===============================================
-GSocket& GSocket::listenSocket(int _backlog) {
+bool GSocket::listenSocket(int _backlog) {
+    if(GLOGI->hasErrors()) return false;
     int lAnswer = listen(m_socket, _backlog);
     if(lAnswer == SOCKET_ERROR) {
-        GERROR(eGERR, QString(""
-                "Erreur lors de l'init du nombre de connexion a ecouter.\n"
+        GERROR_ADD(eGERR, QString(""
+                "Erreur lors de l'initialisation du nombre de connexion a ecouter.\n"
                 "erreur_code..: (%1)\n"
                 "error_msg....: (%2)\n")
                 .arg(WSAGetLastError()).arg(loadErrorMsg()));
-        return *this;
+        return false;
     }
-    return *this;
+    return true;
 }
 //===============================================
-GSocket& GSocket::bindSocket() {
+bool GSocket::bindSocket() {
     int lAnswer = bind(m_socket, (SOCKADDR*)&m_address, sizeof(m_address));
     if(lAnswer == SOCKET_ERROR) {
-        GERROR(eGERR, QString(""
+        GERROR_ADD(eGERR, QString(""
                 "Erreur lors de la liaison du socket a l'adresse.\n"
                 "erreur_code..: (%1)\n"
                 "error_msg....: (%2)\n")
                 .arg(WSAGetLastError()).arg(loadErrorMsg()));
-        return *this;
+        return false;
     }
-    return *this;
+    return true;
 }
 //===============================================
-GSocket& GSocket::connectSocket() {
+bool GSocket::connectSocket() {
+    if(GLOGI->hasErrors()) return false;
     int lAnswer = connect(m_socket, (SOCKADDR*)(&m_address), sizeof(m_address));
     if(lAnswer == SOCKET_ERROR) {
-        GERROR(eGERR, QString(""
+        GERROR_ADD(eGERR, QString(""
                 "Erreur lors de la connexion au serveur.\n"
                 "erreur_code..: (%1)\n"
                 "error_msg....: (%2)\n")
                 .arg(WSAGetLastError()).arg(loadErrorMsg()));
-        return *this;
+        return false;
     }
-    return *this;
+    return true;
 }
 //===============================================
-void GSocket::startMessage() {
+bool GSocket::startMessage() {
+    if(GLOGI->hasErrors()) return false;
     GLOGT(eGMSG, QString("demarrage du serveur..."));
+    return true;
 }
 //===============================================
-GSocket& GSocket::acceptSocket(GSocket& _socket) {
+bool GSocket::acceptSocket(GSocket& _socket) {
+    if(GLOGI->hasErrors()) return false;
     int lSize = sizeof(_socket.m_address);
     _socket.m_socket = accept(m_socket, (SOCKADDR*)&_socket.m_address, &lSize);
     if(_socket.m_socket == INVALID_SOCKET) {
-        GERROR(eGERR, QString(""
+        GERROR_ADD(eGERR, QString(""
                 "Erreur lors de l'acceptation d'un client.\n"
                 "erreur_code..: (%1)\n"
                 "error_msg....: (%2)\n")
                 .arg(WSAGetLastError()).arg(loadErrorMsg()));
-        return *this;
+        return false;
     }
-    return *this;
+    return true;
 }
 //===============================================
-GSocket& GSocket::acceptSocket(GSocket* _socket) {
+bool GSocket::acceptSocket(GSocket* _socket) {
+    if(GLOGI->hasErrors()) return false;
     int lSize = sizeof(_socket->m_address);
     _socket->m_socket = accept(m_socket, (SOCKADDR*)&_socket->m_address, &lSize);
     if(_socket->m_socket == INVALID_SOCKET) {
-        GERROR(eGERR, QString(""
+        GERROR_ADD(eGERR, QString(""
                 "Erreur lors de l'acceptation d'un client.\n"
                 "erreur_code..: (%1)\n"
                 "error_msg....: (%2)\n")
                 .arg(WSAGetLastError()).arg(loadErrorMsg()));
-        return *this;
+        return false;
     }
-    return *this;
+    return true;
 }
 //===============================================
 int GSocket::recvData(QString& _data) {
+    if(GLOGI->hasErrors()) return -1;
     return recvData(_data, BUFFER_DATA_SIZE);
 }
 //===============================================
 int GSocket::recvData(QString& _data, int _size) {
+    if(GLOGI->hasErrors()) return -1;
     _data.clear();
     char lBuffer[BUFFER_DATA_SIZE + 1];
     int lBytes = recv(m_socket, lBuffer, _size, 0);
     GLOGT(eGOFF, QString("SIZE.........: (%1)\n").arg(lBytes));
     if(lBytes == -1) {
-        GERROR(eGERR, QString(""
+        GERROR_ADD(eGERR, QString(""
                 "Erreur lors de la reception des donnees.\n"
                 "erreur_code..: (%1)\n"
                 "error_msg....: (%2)\n")
@@ -217,12 +223,13 @@ int GSocket::recvData(QString& _data, int _size) {
 }
 //===============================================
 int GSocket::recvData(GSocket& _socket, QString& _data) {
+    if(GLOGI->hasErrors()) return -1;
     _data.clear();
     char lBuffer[BUFFER_DATA_SIZE + 1];
     int lSize = sizeof(_socket.m_address);
     int lBytes = recvfrom(m_socket, lBuffer, BUFFER_DATA_SIZE, 0, (SOCKADDR*)&_socket.m_address, &lSize);
     if(lBytes == -1) {
-        GERROR(eGERR, QString(""
+        GERROR_ADD(eGERR, QString(""
                 "Erreur lors de la reception des donnees.\n"
                 "erreur_code..: (%1)\n"
                 "error_msg....: (%2)\n")
@@ -233,6 +240,7 @@ int GSocket::recvData(GSocket& _socket, QString& _data) {
 }
 //===============================================
 int GSocket::readData(QString& _data) {
+    if(GLOGI->hasErrors()) return -1;
     _data.clear();
     QString lBuffer;
     recvData(lBuffer, BUFFER_NDATA_SIZE);
@@ -243,7 +251,7 @@ int GSocket::readData(QString& _data) {
     for(int i = 0; i < lSize; i++) {
         int iBytes = recvData(lBuffer);
         if(iBytes == -1) {
-            GERROR(eGERR, QString(""
+            GERROR_ADD(eGERR, QString(""
                     "Erreur lors de la reception des donnees.\n"
                     "bytes........: (%1)\n"
                     "ibytes.......: (%2)\n"
@@ -260,40 +268,45 @@ int GSocket::readData(QString& _data) {
 }
 //===============================================
 int GSocket::readPack(QString& _data) {
+    if(GLOGI->hasErrors()) return -1;
     _data.clear();
     QString lBuffer;
-    recvData(lBuffer, BUFFER_NDATA_SIZE);
-    GLOGT(eGOFF, QString("[%1]").arg(lBuffer));
-    int lSize = lBuffer.toInt();
+
+    int lSize = recvData(lBuffer, BUFFER_NDATA_SIZE);
+    GLOGT(eGMSG, QString("[%1]").arg(lBuffer));
+    if(lSize != BUFFER_NDATA_SIZE) return -1;
+    lBuffer = lBuffer.trimmed();
+    QStringList lMap = lBuffer.split(';');
+    if(lMap.size() != 2) return -1;
+    lBuffer = lMap.at(0);
+    QString lKey = getItem("socket", "api_key");
+    if(lBuffer != lKey) return -1;
+    lBuffer = lMap.at(1);
+    lSize = lBuffer.toInt();
+    if(lSize <= 0) return -1;
+
     int lBytes = 0;
-    GLOGT(eGOFF, QString("LENGTH.......: %1 : (%2)\n").arg(lBuffer.size()).arg(lSize));
+    GLOGT(eGOFF, QString("LENGTH: (%d) : (%d)").arg(lBuffer.size()).arg(lSize));
 
     while(1) {
         if(lBytes >= lSize) break;
         int iBytes = recvData(lBuffer);
-        GLOGT(eGOFF, QString("SIZE.........: (%1)\n").arg(iBytes));
-        if(iBytes == -1) {
-            GERROR(eGERR, QString(""
-                    "Erreur lors de la reception des donnees.\n"
-                    "bytes........: (%1)\n"
-                    "ibytes.......: (%2)\n"
-                    "erreur_code..: (%3)\n"
-                    "error_msg....: (%4)\n")
-                    .arg(lBytes).arg(iBytes).arg(WSAGetLastError()).arg(loadErrorMsg()));
-            return -1;
-        }
+        GLOGT(eGOFF, QString("SIZE : %d").arg(iBytes));
+        if(iBytes == -1) {GERROR_ADD(eGERR, "Erreur lors de la lecture des donnees."); return -1;}
         _data += lBuffer;
         lBytes += iBytes;
     }
-    GLOGT(eGOFF, QString("[RECEPTION]..: (%1)\n(%2)\n").arg(_data.size()).arg(_data));
+
+    GLOGT(eGOFF, QString("[RECEPTION] : (%d)\n(%s)").arg(_data.size()).arg(_data));
     return lBytes;
 }
 //===============================================
 int GSocket::sendData(const QString& _data) {
+    if(GLOGI->hasErrors()) return -1;
     int lBytes = send(m_socket, _data.toStdString().c_str(), _data.size(), 0);
     GLOGT(eGOFF, QString("SIZE.........: (%1)\n").arg(lBytes));
     if(lBytes == -1) {
-        GERROR(eGERR, QString(""
+        GERROR_ADD(eGERR, QString(""
                 "Erreur lors de l'emission des donnees.\n"
                 "bytes........: (%1)\n"
                 "erreur_code..: (%2)\n"
@@ -305,10 +318,11 @@ int GSocket::sendData(const QString& _data) {
 }
 //===============================================
 int GSocket::sendData(GSocket& _socket, const QString& _data) {
+    if(GLOGI->hasErrors()) return -1;
     int lSize = sizeof(_socket.m_address);
     int lBytes = sendto(m_socket, _data.toStdString().c_str(), _data.size(), 0, (SOCKADDR*)&_socket.m_address, lSize);
     if(lBytes == -1) {
-        GERROR(eGERR, QString(""
+        GERROR_ADD(eGERR, QString(""
                 "Erreur lors de l'emission des donnees.\n"
                 "bytes........: (%1)\n"
                 "erreur_code..: (%2)\n"
@@ -320,6 +334,7 @@ int GSocket::sendData(GSocket& _socket, const QString& _data) {
 }
 //===============================================
 int GSocket::writeData(const QString& _data) {
+    if(GLOGI->hasErrors()) return -1;
     int lBytes = 0;
     int lLength = _data.size();
     int lSize = (int)ceil((double)lLength/BUFFER_DATA_SIZE);
@@ -333,7 +348,7 @@ int GSocket::writeData(const QString& _data) {
         QString lBuffer = _data.mid(lBytes, BUFFER_DATA_SIZE);
         int iBytes = sendData(lBuffer);
         if(iBytes == -1) {
-            GERROR(eGERR, QString(""
+            GERROR_ADD(eGERR, QString(""
                     "Erreur lors de l'emission des donnees.\n"
                     "bytes........: (%1)\n"
                     "ibytes.......: (%2)\n"
@@ -349,23 +364,21 @@ int GSocket::writeData(const QString& _data) {
 }
 //===============================================
 int GSocket::writePack(const QString& _data) {
+    if(GLOGI->hasErrors()) return -1;
+    GLOGI->setConnectionError(false);
     int lBytes = 0;
     int lSize = _data.size();
-    QString lBuffer = QString("%1").arg(lSize);
+    QString lKey = getItem("socket", "api_key");
+    QString lBuffer = QString("%1;%2").arg(lKey).arg(lSize);
     lBuffer = lBuffer.leftJustified(BUFFER_NDATA_SIZE);
-    GLOGT(eGOFF, QString("[%1]").arg(lBuffer));
     sendData(lBuffer);
-    GLOGT(eGOFF, QString("LENGTH.......: %1 : (%2)\n").arg(lBuffer.size()).arg(lSize));
-
-    GLOGT(eGOFF, QString("[EMISSION]...: %1\n%2").arg(_data.size()).arg(_data));
 
     while(1) {
         if(lBytes >= lSize) break;
         QString lBuffer = _data.mid(lBytes, BUFFER_DATA_SIZE);
         int iBytes = sendData(lBuffer);
-        GLOGT(eGOFF, QString("SIZE.........: (%1)\n").arg(iBytes));
         if(iBytes == -1) {
-            GERROR(eGERR, QString(""
+            GERROR_ADD(eGERR, QString(""
                     "Erreur lors de l'emission des donnees.\n"
                     "bytes........: (%1)\n"
                     "ibytes.......: (%2)\n"
@@ -392,12 +405,16 @@ QString GSocket::getHostname() const {
     return lHostname;
 }
 //===============================================
-void GSocket::closeSocket() {
+bool GSocket::closeSocket() {
+    if(GLOGI->hasErrors()) return false;
     closesocket(m_socket);
+    return true;
 }
 //===============================================
-void GSocket::cleanSocket() {
+bool GSocket::cleanSocket() {
+    if(GLOGI->hasErrors()) return false;
     WSACleanup();
+    return true;
 }
 //===============================================
 void GSocket::startServer(void* _onServerThread) {
@@ -464,20 +481,13 @@ DWORD WINAPI GSocket::onServerThread(LPVOID _params) {
     return 0;
 }
 //===============================================
-QString GSocket::callServer(const QString& _module, const QString& _method) {
-    GCode lReq;
-    lReq.createRequest(_module, _method);
-    lReq.addPseudo();
-    QString lDataOut = callServer(lReq.toString());
-    return lDataOut;
-}
-//===============================================
-QString GSocket::callServer(const QString& _module, const QString& _method, const QString& _params) {
-    GCode lReq;
-    lReq.createRequest(_module, _method);
-    lReq.loadCode(_params);
-    lReq.addPseudo();
-    QString lDataOut = callServer(lReq.toString());
+QString GSocket::callServer(const QString& _module, const QString& _method, const QString& _data) {
+    GCode lDom;
+    lDom.createDoc();
+    lDom.createReq(_module, _method);
+    lDom.loadCode(_data);
+    QString lData = lDom.toString();
+    QString lDataOut = callServer(lData);
     return lDataOut;
 }
 //===============================================
@@ -491,6 +501,8 @@ QString GSocket::callServer(const QString& _dataIn) {
     QString lServerIp = getItem("socket", "server_ip");
     int lPort = loadPort();
 
+    GLOGI->setConnectionError(true);
+
     initSocket(lMajor, lMinor);
     createSocket(lDomain, lType, lProtocol);
     createAddress(lFamily, lServerIp, lPort);
@@ -500,14 +512,15 @@ QString GSocket::callServer(const QString& _dataIn) {
     writePack(_dataIn);
     readPack(lDataOut);
 
-    GLOGT(eGOFF, QString("[EMISSION]...: (%1)\n(%2)\n").arg(_dataIn.size()).arg(_dataIn));
-    GLOGT(eGOFF, QString("[RECEPTION]..: (%1)\n(%2)\n").arg(lDataOut.size()).arg(lDataOut));
+    GLOGT(eGMSG, QString("[EMISSION] : (%1)\n(%2)\n").arg(_dataIn.size()).arg(_dataIn));
+    GLOGT(eGMSG, QString("[RECEPTION] : (%1)\n(%2)\n").arg(lDataOut.size()).arg(lDataOut));
 
     GERROR_LOAD(eGERR, lDataOut);
+    GLOG_LOAD(eGLOG, lDataOut);
 
-    if(GLOGI->hasErrors()) {
+    if(GLOGI->isConnectionError()) {
         GLOGI->clearErrors();
-        GERROR(eGERR, "Erreur lors de la connexion au serveur.\n");
+        GERROR_ADD(eGERR, "Erreur lors de la connexion au serveur.");
     }
 
     closeSocket();
@@ -516,10 +529,10 @@ QString GSocket::callServer(const QString& _dataIn) {
 }
 //===============================================
 void GSocket::setReq(const QString& _req) {
-    m_req.reset(new GCode(_req));
+    m_req = _req;
 }
 //===============================================
-QSharedPointer<GCode>& GSocket::getReq() {
+QString GSocket::toReq() const {
     return m_req;
 }
 //===============================================
@@ -527,7 +540,19 @@ QStack<GSocket*>& GSocket::getClientIns() {
     return m_clientIns;
 }
 //===============================================
-QSharedPointer<GCode>& GSocket::getResponse(){
-    return m_res;
+bool GSocket::addErrors() {
+    if(!GLOGI->hasErrors()) return false;
+    m_res->loadCode(GLOGI->serialize());
+    return true;
+}
+//===============================================
+bool GSocket::sendResponse() {
+    QString lData = m_res->toString();
+    int lSize = lData.size();
+    writeData(lData);
+    GLOGT(eGMSG, QString("[EMISSION]...: (%1)\n(%2)\n").arg(lSize).arg(lData));
+    closeSocket();
+    delete this;
+    return true;
 }
 //===============================================

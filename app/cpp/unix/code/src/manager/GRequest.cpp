@@ -9,11 +9,9 @@
 #include "GSocket.h"
 #include "GString.h"
 //===============================================
-GRequest::GRequest() : GModule() {
+GRequest::GRequest()
+: GModule() {
     m_id = 0;
-    m_uid = 0;
-    m_module = "";
-    m_method = "";
     m_msg = "";
     m_dataOffset = 0;
     m_dataSize = 0;
@@ -24,30 +22,32 @@ GRequest::~GRequest() {
 
 }
 //===============================================
-std::string GRequest::serialize() const {
-    GCode lReq;
-    lReq.createCode("user", "id", m_id);
-    lReq.createCode("user", "data_count", m_dataCount);
-    return lReq.toStringCode("user");
+std::string GRequest::serialize(const std::string& _code) const {
+    GCode lDom;
+    lDom.createDoc();
+    lDom.addData(_code, "id", m_id);
+    lDom.addData(_code, "data_count", m_dataCount);
+    lDom.addData(_code, "data_offset", m_dataOffset);
+    lDom.addData(_code, "data_size", m_dataSize);
+    return lDom.toStringData();
 }
 //===============================================
-void GRequest::deserialize(const std::string& _req) {
-    GCode lReq(_req);
-    m_id = GString(lReq.getParam("id")).toInt();
-    m_uid = GString(lReq.getSession("user_id")).toInt();
-    m_module = lReq.getModule();
-    m_method = lReq.getMethod();
-    m_msg = _req;
-    m_dataOffset = GString(lReq.getParam("data_offset")).toInt();
-    m_dataSize = GString(lReq.getParam("data_size")).toInt();
+void GRequest::deserialize(const std::string& _data, const std::string& _code) {
+    GModule::deserialize(_data);
+    GCode lDom;
+    lDom.loadXml(_data);
+    m_id = GString(lDom.getItem(_code, "id")).toInt();
+    m_msg = _data;
+    m_dataOffset = GString(lDom.getItem(_code, "data_offset")).toInt();
+    m_dataSize = GString(lDom.getItem(_code, "data_size")).toInt();
 }
 //===============================================
 void GRequest::onModule(GSocket* _client) {
-    std::string lMethod = _client->getReq()->getMethod();
+    deserialize(_client->toReq());
     //===============================================
     // method
     //===============================================
-    if(lMethod == "get_req_list") {
+    if(m_method == "get_req_list") {
         onGetRequestList(_client);
     }
     //===============================================
@@ -63,8 +63,6 @@ void GRequest::onSaveRequest(GSocket* _client) {
     loadId();
     saveData();
     loadId();
-    std::string lData = serialize();
-    _client->addResponse(lData);
 }
 //===============================================
 void GRequest::onGetRequestList(GSocket* _client) {
@@ -76,7 +74,7 @@ void GRequest::onGetRequestList(GSocket* _client) {
 }
 //===============================================
 void GRequest::loadId() {
-    if(!m_uid) return;
+    if(m_userId == 0) return;
     if(m_module == "") return;
     if(m_method == "") return;
 
@@ -89,28 +87,26 @@ void GRequest::loadId() {
             " and r._u_id = %d "
             "", m_module.c_str()
             , m_method.c_str()
-            , m_uid
+            , m_userId
     ));
 
     m_id = GString(lId).toInt();
 }
 //===============================================
 void GRequest::loadRequestCount(GSocket* _client) {
-    if(!m_uid) return;
+    if(m_userId == 0) return;
     std::string lData = GMySQL().readData(sformat(""
             " select count(*) "
             " from request r, user u "
             " where r._u_id = u._id "
             " and u._id = %d "
-            "", m_uid
+            "", m_userId
     ));
     int lCount = GString(lData).toInt();
-    std::shared_ptr<GCode>& lRes = _client->getResponse();
-    lRes->createCode("req", "data_count", lCount);
 }
 //===============================================
 void GRequest::loadRequestList(GSocket* _client) {
-    if(!m_uid) return;
+    if(m_userId == 0) return;
     if(!m_dataSize) return;
 
     std::vector<std::vector<std::string>> lReq = GMySQL().readMap(sformat(""
@@ -121,12 +117,10 @@ void GRequest::loadRequestList(GSocket* _client) {
             " and r._id > %d "
             " order by r._id "
             " limit %d "
-            "", m_uid
+            "", m_userId
             , m_dataOffset
             , m_dataSize
     ));
-
-    std::shared_ptr<GCode>& lRes = _client->getResponse();
 
     for(int i = 0; i < (int)lReq.size(); i++) {
         std::vector<std::string> lDataRow = lReq.at(i);
@@ -137,17 +131,17 @@ void GRequest::loadRequestList(GSocket* _client) {
         lReqObj.m_method = lDataRow.at(j++);
         lReqObj.m_msg = lDataRow.at(j++);
 
-        lRes->createMap("req", "id", lReqObj.m_id, i);
-        lRes->createMap("req", "module", lReqObj.m_module, i);
-        lRes->createMap("req", "method", lReqObj.m_method, i);
-        lRes->createMap("req", "msg", lReqObj.m_msg, i, true);
+        //lRes->createMap("req", "id", lReqObj.m_id, i);
+        //lRes->createMap("req", "module", lReqObj.m_module, i);
+        //lRes->createMap("req", "method", lReqObj.m_method, i);
+        //lRes->createMap("req", "msg", lReqObj.m_msg, i, true);
     }
 
     int i = 0;
-    lRes->createMap("req/header", "header", "id", i++);
-    lRes->createMap("req/header", "header", "module", i++);
-    lRes->createMap("req/header", "header", "methode", i++);
-    lRes->createMap("req/header", "header", "message", i++);
+    //lRes->createMap("req/header", "header", "id", i++);
+    //lRes->createMap("req/header", "header", "module", i++);
+    //lRes->createMap("req/header", "header", "methode", i++);
+    //lRes->createMap("req/header", "header", "message", i++);
 }
 //===============================================
 void GRequest::saveData() {
@@ -157,7 +151,7 @@ void GRequest::saveData() {
 //===============================================
 void GRequest::insertData() {
     if(m_id != 0) return;
-    if(m_uid == 0) return;
+    if(m_userId == 0) return;
     if(m_module == "") return;
     if(m_method == "") return;
     if(m_msg == "") return;
@@ -166,7 +160,7 @@ void GRequest::insertData() {
             " insert into request "
             " ( _u_id, _module, _method, _msg ) "
             " values ( %d, '%s', '%s', '%s' ) "
-            "", m_uid
+            "", m_userId
             , m_module.c_str()
             , m_method.c_str()
             , m_msg.c_str()
@@ -175,7 +169,7 @@ void GRequest::insertData() {
 //===============================================
 void GRequest::updateData() {
     if(m_id == 0) return;
-    if(m_uid == 0) return;
+    if(m_userId == 0) return;
     if(m_module == "") return;
     if(m_method == "") return;
     if(m_msg == "") return;
@@ -187,7 +181,7 @@ void GRequest::updateData() {
             " , _method = '%s' "
             " , _msg = '%s' "
             " where _id = %d "
-            "", m_uid
+            "", m_userId
             , m_module.c_str()
             , m_method.c_str()
             , m_msg.c_str()

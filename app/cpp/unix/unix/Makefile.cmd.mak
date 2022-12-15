@@ -47,7 +47,7 @@ $(GBUILD)/%.o: $(GRLIB)/src/%.cpp
 run:
 	@source envs.sh && $(GTARGET) $(argv)
 run_g:
-	@source envs.sh && gdb --args $(GTARGET) $(argv)
+	@source envs.sh && gdb -ex run --args $(GTARGET) $(argv)
 clean_exe: 
 	@if ! [ -d $(GBIN) ] ; then mkdir -p $(GBIN) ; fi
 	rm -f $(GTARGET)

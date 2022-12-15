@@ -41,12 +41,13 @@ public:
     std::string callServer(const std::string& _dataIn);
     //
     void setReq(const std::string& _req);
-    std::shared_ptr<GCode>& getReq();
     std::string toReq() const;
-    std::queue<std::string>& getDataIns();
     std::queue<GSocket*>& getClientIns();
-    std::shared_ptr<GCode>& getResponse();
-    void addResponse(const std::string& _data);
+    void addResponse(const std::string& _data, bool _isRoot = true);
+    bool clearErrors();
+    bool clearLogs();
+    bool addErrors();
+    void sendResponse();
     //
     std::string readAddressIp() const;
 
@@ -59,10 +60,9 @@ private:
     struct sockaddr_in m_address;
     //
     GSocket* m_server;
-    std::queue<std::string> m_dataIns;
     std::queue<GSocket*> m_clientIns;
-    std::shared_ptr<GCode> m_req;
     std::shared_ptr<GCode> m_res;
+    std::string m_req;
 };
 //==============================================
 #endif

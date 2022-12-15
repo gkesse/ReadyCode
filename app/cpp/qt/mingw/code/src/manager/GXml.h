@@ -16,8 +16,8 @@ public:
     void cleanModule();
     //
     GXml& loadXmlFile(const std::string& _filename);
-    GXml& loadXmlData(const std::string& _data);
-    GXml& saveXmlFile(const std::string& _filename = "", const std::string& _encoding = "UTF-8", int _format = 4);
+    GXml& loadXml(const std::string& _data);
+    GXml& saveXml(const std::string& _filename = "", const std::string& _encoding = "UTF-8", int _format = 4);
     //
     GXml& createDoc(const std::string& _version);
     GXml& createRoot(const std::string& _nodename);

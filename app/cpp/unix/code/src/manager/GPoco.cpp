@@ -49,7 +49,7 @@ void GPoco::configMail() {
         lSession.close();
     }
     catch (Poco::Exception& e) {
-        GERROR(eGERR, "Erreur lors de l'envoi de l'email.\n"
+        GERROR_ADD(eGERR, "Erreur lors de l'envoi de l'email.\n"
                 "error........: (%s)\n"
                 "", e.displayText().c_str()
         );

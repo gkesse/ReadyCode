@@ -15,7 +15,7 @@ compile:
 run:
 	@$(GTARGET) $(argv)
 run_g:
-	@gdb --args $(GTARGET) $(argv)
+	@gdb -ex run --args $(GTARGET) $(argv)
 clean_exe: 
 	@if not exist $(GBIN) ( mkdir $(GBIN) )
 	@del /q /s $(GBIN)\*

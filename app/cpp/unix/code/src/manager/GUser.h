@@ -9,32 +9,40 @@ class GSocket;
 class GUser : public GModule {
 public:
     GUser();
-    GUser(const std::string& _pseudo);
     ~GUser();
     //
-    std::string serialize() const;
-    void deserialize(const std::string& _req);
+    std::string serialize(const std::string& _code = "user") const;
+    void deserialize(const std::string& _data, const std::string& _code = "user");
     //
-    void onModule(GSocket* _client);
-    void onHasUser(GSocket* _client);
-    void onHasUserPassword(GSocket* _client);
-    void onCreateUser(GSocket* _client);
+    bool onModule(GSocket* _client);
+    void onCreateAccount(GSocket* _client);
+    void onRunConnection(GSocket* _client);
+    void onRunDisconnection(GSocket* _client);
     //
-    int getId() const;
-    void loadId();
-    void loadIdPassword();
-    void loadUser();
-    void computePassword();
-    void saveData();
-    void insertData();
-    void updateData();
+    bool runConnection();
+    bool createAccount();
+    bool runDisconnection();
+    //
+    bool loadUserPseudo();
+    bool loadUserPassword();
+    bool loadUser();
+    bool computePassword();
+    bool saveUser();
+    bool insertUser();
+    bool updateUser();
+    bool updateConnection();
 
 private:
     int m_id;
+    std::string m_mode;
     std::string m_pseudo;
     std::string m_password;
+    std::string m_email;
     std::string m_group;
     std::string m_active;
+    bool m_isConnect;
+    //
+    std::string m_passwordMd5;
 };
 //==============================================
 #endif

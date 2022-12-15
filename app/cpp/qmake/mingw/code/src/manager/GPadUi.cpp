@@ -7,6 +7,7 @@
 #include "GStyle.h"
 #include "GPicto.h"
 #include "GLog.h"
+#include "GUser.h"
 //===============================================
 GPadUi::GPadUi(QWidget* _parent) :
 GWidget(_parent) {
@@ -19,20 +20,14 @@ GPadUi::~GPadUi() {
 
 }
 //===============================================
-void GPadUi::createDoms() {
-    m_dom.reset(new GXml);
-    m_dom->loadXmlFile(GRES("xml", "pad.xml"));
-    m_dom->createXPath();
-}
-//===============================================
 void GPadUi::createLayout() {
     QHBoxLayout* lHeaderLayout = new QHBoxLayout;
-    lHeaderLayout->setMargin(0);
+    lHeaderLayout->setContentsMargins(0, 0, 0, 0);
     lHeaderLayout->setSpacing(10);
 
     QVBoxLayout* lMainLayout = new QVBoxLayout;
     lMainLayout->addLayout(lHeaderLayout);
-    lMainLayout->setMargin(10);
+    lMainLayout->setContentsMargins(10, 10, 10, 10);
     lMainLayout->setSpacing(10);
 
     int lCount = countItem("pad");
@@ -67,7 +62,7 @@ void GPadUi::createLayout() {
             lItemLayout = lHeaderLayout;
         }
         else {
-            GERROR(eGERR, QString(""
+            GERROR_ADD(eGERR, QString(""
                     "Erreur la categorie n'existe pas.\n"
                     "categorie....: (%1)\n"
                     "").arg(lCategory)
@@ -81,7 +76,7 @@ void GPadUi::createLayout() {
         }
         else if(lType == "button") {
             QPushButton* lButton = new QPushButton;
-            addObject(lButton, lKey);
+            addObj(lKey, lButton);
             lButton->setObjectName(lStyle);
             lButton->setText(lText);
             lButton->setCursor(Qt::PointingHandCursor);
@@ -95,7 +90,7 @@ void GPadUi::createLayout() {
             lItemLayout->addWidget(lButton);
         }
         else {
-            GERROR(eGERR, QString(""
+            GERROR_ADD(eGERR, QString(""
                     "Erreur le type n'existe pas.\n"
                     "type.........: %1 : (%2)\n"
                     "").arg(lCategory).arg(lType)
@@ -111,39 +106,25 @@ void GPadUi::createLayout() {
     resize(lWidth, lHeight);
     setObjectName(lStyle);
 
-    addObject(new GLoginUi(this), "login/ui");
-    addObject(new GRequestUi(this), "request/ui");
+    m_user = new GUser(this);
 }
 //===============================================
 void GPadUi::onEvent() {
-    QString lKey = m_objectMap[sender()];
-    GLOGT(eGINF, lKey);
-    //===============================================
-    // header/connect
-    //===============================================
+    QString lKey = getKey(sender());
+    //
     if(lKey == "header/connect") {
-        QDialog* lLoginUi = qobject_cast<GLoginUi*>(getObject("login/ui"));
+        QDialog* lLoginUi = new GLoginUi(m_user, this);
         lLoginUi->exec();
+        delete lLoginUi;
     }
-    //===============================================
-    // header/request
-    //===============================================
     else if(lKey == "header/request") {
-        QDialog* lRequestUi = qobject_cast<GRequestUi*>(getObject("request/ui"));
+        QDialog* lRequestUi = new GRequestUi(this);
         lRequestUi->exec();
+        delete lRequestUi;
     }
-    //===============================================
-    // else
-    //===============================================
     else {
-        GERROR(eGERR, QString(""
-                "Erreur la cle n'existe pas.\n"
-                "cle..........: (%1)\n"
-                "").arg(lKey));
+        onErrorKey(lKey);
     }
-    //===============================================
-    // end
-    //===============================================
     GERROR_SHOWG(eGERR);
 }
 //===============================================

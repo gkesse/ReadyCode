@@ -194,7 +194,7 @@ void GProcess::runSocketServer(int _argc, char** _argv) {
 //===============================================
 void GProcess::runSocketClient(int _argc, char** _argv) {
     if(_argc < 3) {
-        GERROR->addError(sformat("Erreur la methode (runSocketClient) a echoue "
+        GERROR_ADD->addError(sformat("Erreur la methode (runSocketClient) a echoue "
                 "sur le nombre d'arguments (%d).", _argc));
         return;
     }

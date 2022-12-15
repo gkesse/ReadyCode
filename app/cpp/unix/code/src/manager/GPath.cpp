@@ -21,11 +21,11 @@ GPath* GPath::Instance() {
     return m_instance;
 }
 //===============================================
-std::string GPath::getDataPath() const {
+std::string GPath::getPath() const {
     GEnv lEnv;
     std::string lPath = lEnv.getEnv("GPROJECT_DATA");
     if(lPath == "") {
-        GERROR(eGERR, "Erreur la methode (GPath::getDataPath) a echoue.");
+        GERROR_ADD(eGERR, "Erreur la methode (GPath::getDataPath) a echoue.");
         return "";
     }
     return lPath;
@@ -33,8 +33,8 @@ std::string GPath::getDataPath() const {
 //===============================================
 std::string GPath::getResourcePath(const std::string& _res, const std::string& _filename) const {
     std::string lPath = "";
-    if(getDataPath() != "") {
-        lPath += sformat("%s", getDataPath().c_str());
+    if(getPath() != "") {
+        lPath += sformat("%s", getPath().c_str());
     }
     if(_res != "") {
         if(lPath != "") {

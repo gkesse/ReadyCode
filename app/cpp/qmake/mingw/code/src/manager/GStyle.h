@@ -14,7 +14,8 @@ public:
     GStyle(QObject* _parent = 0);
     ~GStyle();
     static GStyle* Instance();
-    void loadStyle(const QString& _filename);
+    bool loadStyle();
+    bool loadStyle(const QString& _filename);
 
 private:
     static GStyle* m_instance;

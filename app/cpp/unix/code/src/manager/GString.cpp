@@ -2,34 +2,42 @@
 #include "GString.h"
 #include "GLog.h"
 #include "GFormat.h"
-#include "GError.h"
 //===============================================
-GString::GString() : GObject() {
+GString::GString()
+: GObject() {
     m_data = "";
-    // errors
-    m_errors.reset(new GError);
 }
 //===============================================
-GString::GString(const std::string& _data) : GObject() {
+GString::GString(const std::string& _data)
+: GObject() {
     m_data = _data;
-    // errors
-    m_errors.reset(new GError);
 }
 //===============================================
-GString::GString(int _data) : GObject(){
+GString::GString(const char* _data)
+: GObject() {
+    m_data = _data;
+}
+//===============================================
+GString::GString(int _data)
+: GObject(){
     m_data = std::to_string(_data);
-    // errors
-    m_errors.reset(new GError);
 }
 //===============================================
-GString::GString(const GString& _data) : GObject() {
+GString::GString(const GString& _data)
+: GObject() {
     m_data = _data.m_data;
-    // errors
-    m_errors.reset(new GError);
 }
 //===============================================
 GString::~GString() {
 
+}
+//===============================================
+std::string GString::data() const {
+    return m_data;
+}
+//===============================================
+const char* GString::c_str() const {
+    return m_data.data();
 }
 //===============================================
 std::vector<std::string> GString::splitData(char _sep) const {
@@ -56,24 +64,52 @@ int GString::toInt() const {
     try {
         lData = std::stoi(lDataTrim);
     }
-    catch(const std::invalid_argument& e) {
-        GERROR_OBJ(eGERR, "Erreur la chaine est invalide.\n"
-                "erreur.......: (%s)\n"
-                "chaine.......: (%s)\n"
-                "", e.what(), m_data.c_str());
-        return 0;
-    }
-    catch(const std::out_of_range& e) {
-        GERROR_OBJ(eGERR, "Erreur le nombre depasse les limites de conversion.\n"
-                "erreur.......: (%s)\n"
-                "", e.what());
-        return 0;
-    }
+    catch(const std::invalid_argument& e) {GERROR_ADD(eGERR, "Erreur la chaine est invalide."); lData = 0;}
+    catch(const std::out_of_range& e) {GERROR_ADD(eGERR, "Erreur le nombre depasse les limites de conversion."); lData = 0;}
     return lData;
+}
+//===============================================
+bool GString::toBool() const {
+    return (toInt() != 0);
+}
+//===============================================
+GString& GString::operator=(const GString& _data) {
+    m_data = _data.m_data;
+    return *this;
+}
+//===============================================
+GString& GString::operator=(const std::string& _data) {
+    m_data = _data;
+    return *this;
+}
+//===============================================
+GString& GString::operator=(const char* _data) {
+    m_data = _data;
+    return *this;
+}
+//===============================================
+GString& GString::operator=(int _data) {
+    m_data = std::to_string(_data);
+    return *this;
 }
 //===============================================
 GString& GString::operator+=(const GString& _data) {
     m_data += _data.m_data;
+    return *this;
+}
+//===============================================
+GString& GString::operator+=(const std::string& _data) {
+    m_data += _data;
+    return *this;
+}
+//===============================================
+GString& GString::operator+=(const char* _data) {
+    m_data += _data;
+    return *this;
+}
+//===============================================
+GString& GString::operator+=(int _data) {
+    m_data += std::to_string(_data);
     return *this;
 }
 //===============================================

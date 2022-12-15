@@ -4,7 +4,7 @@
 //===============================================
 #include "GObject.h"
 //===============================================
-#define GERROR GLog::Instance()
+#define GERROR_ADD GLog::Instance()
 //===============================================
 class GLog : public GObject {
 public:
@@ -12,7 +12,7 @@ public:
     ~GLog();
     static GLog* Instance();
     void addError(const std::string& _error);
-    void showError();
+    void showErrors();
     bool hasErrors();
 
 private:

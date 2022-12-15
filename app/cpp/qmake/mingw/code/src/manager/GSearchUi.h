@@ -10,7 +10,6 @@ class GSearchUi : public GDialog {
 public:
 	GSearchUi(QWidget* _parent = 0);
 	~GSearchUi();
-	void createDoms();
 	void createLayout();
 	//
     void setReadonlyOn(bool _isReadonlyOn);

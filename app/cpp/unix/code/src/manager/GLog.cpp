@@ -7,16 +7,17 @@
 #include "GFile.h"
 #include "GPath.h"
 #include "GShell.h"
-#include "GError.h"
+#include "GString.h"
 //===============================================
 GLog* GLog::m_instance = 0;
 //===============================================
-GLog::GLog() : GObject() {
+GLog::GLog()
+: GObject() {
     createDoms();
-    // file
     m_file = 0;
-    // errors
-    m_errors.reset(new GError);
+    m_type = "";
+    m_side = "";
+    m_msg = "";
 }
 //===============================================
 GLog::~GLog() {
@@ -30,8 +31,29 @@ GLog* GLog::Instance() {
     return m_instance;
 }
 //===============================================
+std::string GLog::serialize(const std::string& _code) const {
+    GCode lDom;
+    lDom.createDoc();
+    lDom.addData(_code, "type", m_type);
+    lDom.addData(_code, "side", m_side);
+    lDom.addData(_code, "msg", m_msg);
+    lDom.addData(_code, m_map);
+    return lDom.toStringData();
+}
+//===============================================
+void GLog::deserialize(const std::string& _data, const std::string& _code) {
+    clearMap(m_map);
+    GCode lDom;
+    lDom.loadXml(_data);
+    m_type = lDom.getItem(_code, "type");
+    m_side = lDom.getItem(_code, "side");
+    m_msg = lDom.getItem(_code, "msg");
+    lDom.getItem(_code, m_map, this);
+}
+//===============================================
 void GLog::createDoms() {
-    m_dom.reset(new GXml(GRES("xml", "pad.xml"), true));
+    m_dom.reset(new GCode);
+    m_dom->loadFile(GRES("xml", "pad.xml"));
 }
 //===============================================
 bool GLog::isDebug() const {
@@ -119,34 +141,84 @@ void GLog::tailLogFile(bool _isTestEnv) {
 }
 //===============================================
 void GLog::addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _error) {
-    m_errors->addError(_name, _level, _file, _line, _func, _error);
+    traceLog(_name, _level, _file, _line, _func, _error);
+    GLog* lLog = new GLog;
+    lLog->m_type = "error";
+    lLog->m_side = "server";
+    lLog->m_msg = _error;
+    m_map.push_back(lLog);
 }
 //===============================================
-void GLog::showError() {
-    showError(isDebug(), isFileLog());
+void GLog::addLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _log) {
+    traceLog(_name, _level, _file, _line, _func, _log);
+    GLog* lLog = new GLog;
+    lLog->m_type = "log";
+    lLog->m_side = "server";
+    lLog->m_msg = _log;
+    m_map.push_back(lLog);
 }
 //===============================================
-void GLog::showError(bool _isDebug, bool _isFileLog) {
+void GLog::showErrors() {
+    showErrors(isDebug(), isFileLog());
+}
+//===============================================
+void GLog::showErrors(bool _isDebug, bool _isFileLog) {
     if(!_isDebug) return;
     if(!hasErrors()) return;
-    GLOGT(eGERR, "%s", m_errors->toString().c_str());
-    m_errors->clearErrors();
+    std::string lErrors = "";
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GLog* lLog = (GLog*)m_map.at(i);
+        if(lLog->m_type == "error") {
+            if(i != 0) lErrors += "\n";
+            lErrors += lLog->m_msg;
+        }
+    }
+    GLOGT(eGERR, "%s", lErrors.c_str());
 }
 //===============================================
-bool GLog::hasErrors() {
-    return m_errors->hasErrors();
+bool GLog::hasErrors() const {
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GLog* lLog = (GLog*)m_map.at(i);
+        if(lLog->m_type == "error") {
+            return true;
+        }
+    }
+    return false;
+}
+//===============================================
+bool GLog::hasLogs() const {
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GLog* lLog = (GLog*)m_map.at(i);
+        if(lLog->m_type == "log") {
+            return true;
+        }
+    }
+    return false;
 }
 //===============================================
 void GLog::clearErrors() {
-    m_errors->clearErrors();
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GLog* lLog = (GLog*)m_map.at(i);
+        if(lLog->m_type == "error") {
+            delete lLog;
+            m_map.erase (m_map.begin() + i);
+        }
+    }
 }
 //===============================================
-void GLog::loadErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _res) {
-    m_errors->loadErrors(_name, _level, _file, _line, _func, _res);
+void GLog::clearLogs() {
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GLog* lLog = (GLog*)m_map.at(i);
+        if(lLog->m_type == "log") {
+            delete lLog;
+            m_map.erase (m_map.begin() + i);
+        }
+    }
 }
 //===============================================
-std::vector<std::string>& GLog::getErrors() {
-    return m_errors->getErrors();
+void GLog::loadErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _data) {
+    deserialize(_data);
+    showErrors();
 }
 //===============================================
 void GLog::writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const std::string& _log) {
@@ -172,9 +244,13 @@ void GLog::traceLog(const char* _name, int _level, const char* _file, int _line,
     closeLogFile();
 }
 //===============================================
-std::string GLog::toString(bool _data) const {
+const char* GLog::toString(bool _data) const {
     if(_data) return "true";
     return "false";
+}
+//===============================================
+const char* GLog::toString(const GString& _data) const {
+    return _data.c_str();
 }
 //===============================================
 std::string GLog::toString(const std::vector<std::string>& _data) const {

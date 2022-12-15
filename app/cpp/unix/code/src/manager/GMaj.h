@@ -13,6 +13,9 @@ public:
     ~GMaj();
     static GMaj* Instance();
     //
+    std::string serialize(const std::string& _code = "maj") const;
+    void deserialize(const std::string& _req, const std::string& _code = "maj");
+    //
     void onModule(GSocket* _client);
     void onUpdateDatabase(GSocket* _client);
     static void onUpdateDatabaseThread(void* _params);

@@ -1,10 +1,11 @@
 //===============================================
 #include "GWidget.h"
 #include "GLog.h"
-#include "GXml.h"
+#include "GCode.h"
+#include "GPath.h"
 //===============================================
-GWidget::GWidget(QWidget* _parent) :
-QFrame(_parent) {
+GWidget::GWidget(QWidget* _parent)
+: QFrame(_parent) {
 
 }
 //===============================================
@@ -12,45 +13,50 @@ GWidget::~GWidget() {
 
 }
 //===============================================
-QString GWidget::getItem(const QString& _code, const QString& _data) const {
-    m_dom->queryXPath(QString("/rdv/datas/data[code='%1']/%2").arg(_code).arg(_data));
-    m_dom->getNodeXPath();
-    QString lData = m_dom->getNodeValue();
-    return lData;
+void GWidget::createDoms() {
+    m_dom.reset(new GCode);
+    m_dom->loadFile(GRES("xml", "app.xml"));
 }
 //===============================================
-QString GWidget::getItem(const QString& _code, const QString& _data, int _i) const {
-    m_dom->queryXPath(QString("/rdv/datas/data[code='%1']/map/data[position()=%2]/%3").arg(_code).arg(_i + 1).arg(_data));
-    m_dom->getNodeXPath();
-    QString lData = m_dom->getNodeValue();
-    return lData;
+QString GWidget::getItem(const QString& _code, const QString& _key) const {
+    return m_dom->getItem(_code, _key);
+}
+//===============================================
+QString GWidget::getItem(const QString& _code, int _index) const {
+    return m_dom->getItem(_code, _index);
+}
+//===============================================
+QString GWidget::getItem(const QString& _code, const QString& _key, int _index) const {
+    return m_dom->getItem(_code, _key, _index);
+}
+//===============================================
+QString GWidget::getItem(const QString& _code, const QString& _category, const QString& _key) const {
+    return m_dom->getItem(_code, _category, _key);
 }
 //===============================================
 int GWidget::countItem(const QString& _code) const {
-    m_dom->queryXPath(QString("/rdv/datas/data[code='%1']/map/data").arg(_code));
-    int lData = m_dom->countXPath();
-    return lData;
+    return m_dom->countItem(_code);
 }
 //===============================================
-void GWidget::addObject(QObject* _object, const QString& _key) {
-	if(_key != "") {
-		m_objectMap[_object] = _key;
-	}
+void GWidget::addObj(const QString& _key, void* _obj) {
+    if(_key == "") return;
+    m_objs[_key] = _obj;
 }
 //===============================================
-QObject* GWidget::getObject(const QString& _key) {
-    QObject* lObject = m_objectMap.key(_key, 0);
-    if(lObject == 0) {
-        GERROR(eGERR, QString(""
-                "Erreur la cle n'existe pas.\n"
-                "cle..........: (%1)\n"
-                "").arg(_key));
-    }
-    GERROR_SHOWG(eGERR);
-    return lObject;
+void* GWidget::getObj(const QString& _key, void* _defaultValue) const {
+    void* lObj = m_objs.value(_key, _defaultValue);
+    return lObj;
 }
 //===============================================
-QString GWidget::getObject(QObject* _key, const QString& _defaultValue) {
-    return m_objectMap.value(_key, _defaultValue);
+QString GWidget::getKey(void* _obj, const QString& _defaultValue) const {
+    QString lKey = m_objs.key(_obj, _defaultValue);
+    return lKey;
+}
+//===============================================
+void GWidget::onErrorKey(const QString& _key) {
+    GERROR_ADD(eGERR, QString(""
+            "Erreur la cle (%1) n'existe pas.\n"
+            "").arg(_key)
+    );
 }
 //===============================================

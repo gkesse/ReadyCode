@@ -47,6 +47,7 @@
             <password>xKCQY7GiGTVJ4l334QxN87@TKg</password>
             <prod_database>pad</prod_database>
             <test_database>dev</test_database>
+            <log_on>1</log_on>
         </data>
         <!-- ============================================ -->
         <!-- end -->

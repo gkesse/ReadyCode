@@ -1,22 +1,25 @@
 //===============================================
 #include "GLog.h"
+#include "GMessageBox.h"
 #include "GCode.h"
 #include "GDate.h"
 #include "GEnv.h"
 #include "GFile.h"
 #include "GPath.h"
 #include "GShell.h"
-#include "GError.h"
 //===============================================
 GLog* GLog::m_instance = 0;
 //===============================================
-GLog::GLog(QObject* _parent) : GObject(_parent) {
-    // errors
-    m_errors.reset(new GError(_parent));
-    // dom
+GLog::GLog(QObject* _parent)
+: GObject(_parent) {
     createDoms();
-    // file
+    m_type = "";
+    m_side = "";
+    m_msg = "";
     m_file = 0;
+    m_isConnectionError = false;
+    m_isClientSide = true;
+
 }
 //===============================================
 GLog::~GLog() {
@@ -30,10 +33,28 @@ GLog* GLog::Instance() {
     return m_instance;
 }
 //===============================================
-void GLog::createDoms() {
-    m_dom.reset(new GXml);
-    m_dom->loadXmlFile(GRES("xml", "pad.xml"));
-    m_dom->createXPath();
+GObject* GLog::clone() {
+    return new GLog;
+}
+//===============================================
+QString GLog::serialize(const QString& _code) const {
+    GCode lDom;
+    lDom.createDoc();
+    lDom.addData(_code, "type", m_type);
+    lDom.addData(_code, "side", m_side);
+    lDom.addData(_code, "msg", m_msg);
+    lDom.addData(_code, m_map);
+    return lDom.toStringData();
+}
+//===============================================
+void GLog::deserialize(const QString& _data, const QString& _code) {
+    clearMap(m_map);
+    GCode lDom;
+    lDom.loadXml(_data);
+    m_type = lDom.getItem(_code, "type");
+    m_side = lDom.getItem(_code, "side");
+    m_msg = lDom.getItem(_code, "msg");
+    lDom.getItem(_code, m_map, this);
 }
 //===============================================
 bool GLog::isDebug() const {
@@ -72,6 +93,14 @@ bool GLog::isTestLog() const {
 bool GLog::isProdLog() const {
     bool lLogOn = (getItem("log", "prod_on") == "1");
     return lLogOn;
+}
+//===============================================
+bool GLog::isConnectionError() const {
+    return m_isConnectionError;
+}
+//===============================================
+void GLog::setConnectionError(bool _isConnectionError) {
+    m_isConnectionError = _isConnectionError;
 }
 //===============================================
 FILE* GLog::getOutput(bool _isFileLog) {
@@ -120,41 +149,92 @@ void GLog::tailLogFile(bool _isTestEnv) {
 }
 //===============================================
 void GLog::addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _error) {
-    m_errors->addError(_name, _level, _file, _line, _func, _error);
+    traceLog(_name, _level, _file, _line, _func, _error);
+    GLog* lLog = new GLog;
+    lLog->m_type = "error";
+    lLog->m_side = "client";
+    lLog->m_msg = _error;
+    m_map.push_back(lLog);
 }
 //===============================================
 void GLog::showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func) {
     showErrors(_name, _level, _file, _line, _func, isDebug(), isFileLog());
 }
 //===============================================
-void GLog::showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, QWidget* _parent) {
-    if(!hasErrors()) return;
-    QString lErrors = m_errors->toString();
-    QMessageBox::critical(_parent, "MESSAGES D'ERREURS", lErrors);
-    m_errors->clearErrors();
+void GLog::showLogs(const char* _name, int _level, const char* _file, int _line, const char* _func) {
+    showLogs(_name, _level, _file, _line, _func, isDebug(), isFileLog());
 }
 //===============================================
 void GLog::showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog) {
     if(!_isDebug) return;
     if(!hasErrors()) return;
-    GLOGT(eGERR, m_errors->toString());
-    m_errors->clearErrors();
+    QString lErrors = "";
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GLog* lLog = (GLog*)m_map.at(i);
+        if(lLog->m_type == "error") {
+            if(i != 0) lErrors += "\n";
+            lErrors += lLog->m_msg;
+        }
+    }
+    traceLog(_name, _level, _file, _line, _func, _isDebug, _isFileLog, lErrors);
 }
 //===============================================
-bool GLog::hasErrors() {
-    return m_errors->hasErrors();
+void GLog::showLogs(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog) {
+    if(!_isDebug) return;
+    if(!hasLogs()) return;
+    QString lLogs = "";
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GLog* lLog = (GLog*)m_map.at(i);
+        if(lLog->m_type == "log") {
+            if(i != 0) lLogs += "\n";
+            lLogs += lLog->m_msg;
+        }
+    }
+    traceLog(_name, _level, _file, _line, _func, _isDebug, _isFileLog, lLogs);
 }
 //===============================================
-void GLog::clearErrors() {
-    m_errors->clearErrors();
+void GLog::showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, QWidget* _parent) {
+    if(!hasErrors()) return;
+    QString lErrors = toStringError();
+    GMessageBox* lMsgBox = new GMessageBox(_parent);
+    lMsgBox->setWindowTitle("Erreurs");
+    if(m_isClientSide) {
+        lMsgBox->setIcon(QMessageBox::Warning);
+    }
+    else {
+        lMsgBox->setIcon(QMessageBox::Critical);
+    }
+    lMsgBox->setText(lErrors);
+    lMsgBox->exec();
+    clearErrors();
 }
 //===============================================
-void GLog::loadErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _res) {
-    m_errors->loadErrors(_name, _level, _file, _line, _func, _res);
+void GLog::showLogs(const char* _name, int _level, const char* _file, int _line, const char* _func, QWidget* _parent) {
+    if(!hasLogs()) return;
+    QString lLogs = toStringLog();
+    GMessageBox* lMsgBox = new GMessageBox(_parent);
+    lMsgBox->setWindowTitle("Informations");
+    if(m_isClientSide) {
+        lMsgBox->setIcon(QMessageBox::Information);
+    }
+    else {
+        lMsgBox->setIcon(QMessageBox::Information);
+    }
+    lMsgBox->setText(lLogs);
+    lMsgBox->exec();
+    clearLogs();
 }
 //===============================================
-QVector<QString>& GLog::getErrors() {
-    return m_errors->getErrors();
+void GLog::loadErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _data) {
+    if(_data == "") return;
+    deserialize(_data);
+    showErrors(_name, _level, _file, _line, _func);
+}
+//===============================================
+void GLog::loadLogs(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _data) {
+    if(_data == "") return;
+    deserialize(_data);
+    showLogs(_name, _level, _file, _line, _func);
 }
 //===============================================
 void GLog::writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _log) {
@@ -178,6 +258,76 @@ void GLog::traceLog(const char* _name, int _level, const char* _file, int _line,
     QString lDate = GDate().getDate(GDate().getDateTimeLogFormat());
     fprintf(getOutput(_isFileLog), "===> [%s] : %d : %s : %s : [%d] : %s :\n%s\n", _name, _level, lDate.toStdString().c_str(), _file, _line, _func, _data.toStdString().c_str());
     closeLogFile();
+}
+//===============================================
+bool GLog::hasErrors() const {
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GLog* lLog = (GLog*)m_map.at(i);
+        if(lLog->m_type == "error") {
+            return true;
+        }
+    }
+    return false;
+}
+//===============================================
+bool GLog::hasLogs() const {
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GLog* lLog = (GLog*)m_map.at(i);
+        if(lLog->m_type == "log") {
+            return true;
+        }
+    }
+    return false;
+}
+//===============================================
+void GLog::clearErrors() {
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GLog* lLog = (GLog*)m_map.at(i);
+        if(lLog->m_type == "error") {
+            delete lLog;
+            m_map.erase (m_map.begin() + i);
+        }
+    }
+}
+//===============================================
+void GLog::clearLogs() {
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GLog* lLog = (GLog*)m_map.at(i);
+        if(lLog->m_type == "log") {
+            delete lLog;
+            m_map.erase (m_map.begin() + i);
+        }
+    }
+}
+//===============================================
+QString GLog::toStringError() {
+    if(!hasErrors()) return "";
+    m_isClientSide = true;
+    QString lErrors = "";
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GLog* lLog = (GLog*)m_map.at(i);
+        if(lLog->m_type == "error") {
+            m_isClientSide &= (lLog->m_side == "client");
+            if(i != 0) lErrors += "\n";
+            lErrors += lLog->m_msg;
+        }
+    }
+    return lErrors;
+}
+//===============================================
+QString GLog::toStringLog() {
+    if(!hasLogs()) return "";
+    m_isClientSide = true;
+    QString lLogs = "";
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GLog* lLog = (GLog*)m_map.at(i);
+        if(lLog->m_type == "log") {
+            m_isClientSide &= (lLog->m_side == "client");
+            if(i != 0) lLogs += "\n";
+            lLogs += lLog->m_msg;
+        }
+    }
+    return lLogs;
 }
 //===============================================
 QString GLog::toString(bool _data) const {

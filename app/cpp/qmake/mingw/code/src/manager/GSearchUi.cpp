@@ -6,7 +6,6 @@
 #include "GPicto.h"
 #include "GLog.h"
 #include "GUser.h"
-#include "GError.h"
 #include "GCode.h"
 #include "GSocket.h"
 //===============================================
@@ -31,25 +30,19 @@ GSearchUi::~GSearchUi() {
 
 }
 //===============================================
-void GSearchUi::createDoms() {
-    m_dom.reset(new GXml);
-    m_dom->loadXmlFile(GRES("xml", "pad.xml"));
-    m_dom->createXPath();
-}
-//===============================================
 void GSearchUi::createLayout() {
     QHBoxLayout* lTableLayout = new QHBoxLayout;
-    lTableLayout->setMargin(0);
+    lTableLayout->setContentsMargins(0, 0, 0, 0);
     lTableLayout->setSpacing(10);
 
     QVBoxLayout* lButtonLayout = new QVBoxLayout;
-    lButtonLayout->setMargin(0);
+    lButtonLayout->setContentsMargins(0, 0, 0, 0);
     lButtonLayout->setSpacing(10);
 
     QHBoxLayout* lMainLayout = new QHBoxLayout;
     lMainLayout->addLayout(lTableLayout, 1);
     lMainLayout->addLayout(lButtonLayout);
-    lMainLayout->setMargin(10);
+    lMainLayout->setContentsMargins(10, 10, 10, 10);
     lMainLayout->setSpacing(10);
 
     int lCount = countItem("search");
@@ -91,7 +84,7 @@ void GSearchUi::createLayout() {
             lItemLayout = lButtonLayout;
         }
         else {
-            GERROR(eGERR, QString(""
+            GERROR_ADD(eGERR, QString(""
                     "Erreur la categorie n'existe pas.\n"
                     "categorie....: (%1)\n")
                     .arg(lCategory)
@@ -107,7 +100,7 @@ void GSearchUi::createLayout() {
         }
         else if(lType == "button") {
             QPushButton* lButton = new QPushButton;
-            addObject(lButton, lKey);
+            addObj(lKey, lButton);
             lButton->setObjectName(lStyle);
             lButton->setText(lText);
             lButton->setCursor(Qt::PointingHandCursor);
@@ -122,7 +115,7 @@ void GSearchUi::createLayout() {
         }
         else if(lType == "tablewidget") {
             QTableWidget* lTableWidget = new QTableWidget;
-            addObject(lTableWidget, lKey);
+            addObj(lKey, lTableWidget);
             lTableWidget->setObjectName(lStyle);
             //
             setReadonlyOn(lReadonlyOn);
@@ -138,7 +131,7 @@ void GSearchUi::createLayout() {
             lItemLayout->addWidget(lTableWidget);
         }
         else {
-            GERROR(eGERR, QString(""
+            GERROR_ADD(eGERR, QString(""
                     "Erreur le type n'existe pas.\n"
                     "type.........: %1 : (%2)\n"
                     "").arg(lCategory).arg(lType)
@@ -184,7 +177,7 @@ void GSearchUi::setColumnToContentOn(bool _isColumnToContentOn) {
 }
 //===============================================
 void GSearchUi::initOptions() {
-    QTableWidget* lTableWidget = qobject_cast<QTableWidget*>(getObject("search/tablewidget"));
+    QTableWidget* lTableWidget = (QTableWidget*)getObj("search/tablewidget");
 
     if(m_readonlyOn) {
         lTableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -220,7 +213,7 @@ void GSearchUi::clearIndex() {
 }
 //===============================================
 void GSearchUi::onEvent() {
-    QString lKey = m_objectMap[sender()];
+    QString lKey = getKey(sender());
     //===============================================
     // search/select
     //===============================================
@@ -230,7 +223,7 @@ void GSearchUi::onEvent() {
             accept();
         }
         else {
-            GERROR(eGERR, QString("Erreur aucune donnee n'a ete selectionne.\n"));
+            GERROR_ADD(eGERR, QString("Erreur aucune donnee n'a ete selectionne.\n"));
         }
     }
     //===============================================
@@ -249,7 +242,7 @@ void GSearchUi::onEvent() {
     // else
     //===============================================
     else {
-        GERROR(eGERR, QString(""
+        GERROR_ADD(eGERR, QString(""
                 "Erreur la cle n'existe pas.\n"
                 "cle..........: (%1)\n")
                 .arg(lKey)

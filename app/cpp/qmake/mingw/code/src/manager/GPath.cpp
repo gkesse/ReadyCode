@@ -24,7 +24,7 @@ QString GPath::getDataPath() const {
 	return lPath;
 }
 //===============================================
-QString GPath::getResourcePath(const QString& _res, const QString& _filename) const {
+QString GPath::getPath(const QString& _res, const QString& _filename) const {
 	QString lPath = "";
 	if(getDataPath() != "") {
 		lPath += QString("%1").arg(getDataPath());

@@ -2,24 +2,34 @@
 #ifndef _GUser_
 #define _GUser_
 //===============================================
-#include "GObject.h"
+#include "GModule.h"
 //===============================================
-#define GUSERI  GUser::Instance()
-//===============================================
-class GUser : public GObject {
+class GUser : public GModule {
 public:
     GUser(QObject* _parent = 0);
     ~GUser();
-    static GUser* Instance();
+    QString serialize(const QString& _code = "user") const;
+    void deserialize(const QString& _data, const QString& _code = "user");
     //
+    void setId(int _id);
+    void setPseudo(const QString& _pseudo);
+    void setPassword(const QString& _password);
+    //
+    int getId() const;
     QString getPseudo() const;
+    QString getPassword() const;
     //
-    bool hasUser(const QString& _username) const;
-    bool hasUser(const QString& _username, const QString& _password) const;
+    bool runConnection();
+    bool createAccount();
+    bool runDisconnection();
+    //
+    bool isConnect() const;
 
 private:
-    static GUser* m_instance;
+    int m_id;
     QString m_pseudo;
+    QString m_password;
+    bool m_isConnect;
 };
 //==============================================
 #endif

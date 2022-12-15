@@ -22,7 +22,7 @@ void GLog::addError(const std::string& _error) {
     m_errors.push_back(_error);
 }
 //===============================================
-void GLog::showError() {
+void GLog::showErrors() {
     if(!hasErrors()) return;
     std::string lErrors = "";
     for(size_t i = 0; i < m_errors.size(); i++) {

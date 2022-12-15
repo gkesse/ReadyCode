@@ -4,7 +4,6 @@
 //===============================================
 #include "GInclude.h"
 //===============================================
-class GXml;
 class GCode;
 //===============================================
 class GSocket {
@@ -25,15 +24,15 @@ public:
     int loadPort(int _isTestEnv) const;
     QString loadErrorMsg() const;
     //
-    GSocket& initSocket(int _major, int _minor);
-    GSocket& createSocket(int _domain, int _type, int _protocol);
-    GSocket& createAddress(int _family, const QString& _addressIp, int _port);
-    GSocket& listenSocket(int _backlog);
-    GSocket& bindSocket();
-    GSocket& connectSocket();
-    void startMessage();
-    GSocket& acceptSocket(GSocket& _socket);
-    GSocket& acceptSocket(GSocket* _socket);
+    bool initSocket(int _major, int _minor);
+    bool createSocket(int _domain, int _type, int _protocol);
+    bool createAddress(int _family, const QString& _addressIp, int _port);
+    bool listenSocket(int _backlog);
+    bool bindSocket();
+    bool connectSocket();
+    bool startMessage();
+    bool acceptSocket(GSocket& _socket);
+    bool acceptSocket(GSocket* _socket);
     int recvData(QString& _data);
     int recvData(QString& _data, int _size);
     int recvData(GSocket& _socket, QString& _data);
@@ -45,24 +44,25 @@ public:
     int writePack(const QString& _data);
     QString loadAddressIp() const;
     QString getHostname() const;
-    void closeSocket();
-    void cleanSocket();
+    bool closeSocket();
+    bool cleanSocket();
     void startServer(void* _onServerThread);
     static DWORD WINAPI onServerThread(LPVOID _params);
     QString callServer(const QString& _dataIn);
-    QString callServer(const QString& _module, const QString& _method);
-    QString callServer(const QString& _module, const QString& _method, const QString& _params);
+    QString callServer(const QString& _module, const QString& _method, const QString& _data = "");
     //
     void setReq(const QString& _req);
-    QSharedPointer<GCode>& getReq();
+    QString toReq() const;
     QStack<GSocket*>& getClientIns();
-    QSharedPointer<GCode>& getResponse();
+    //
+    bool addErrors();
+    bool sendResponse();
 
 private:
-    QSharedPointer<GXml> m_dom;
-    QSharedPointer<GXml> m_domWsaError;
+    QSharedPointer<GCode> m_dom;
+    QSharedPointer<GCode> m_domWsaError;
     QSharedPointer<GCode> m_res;
-    QSharedPointer<GCode> m_req;
+    QString m_req;
     //
     static const int BUFFER_DATA_SIZE = 1024;
     static const int BUFFER_NDATA_SIZE = 256;

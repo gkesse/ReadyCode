@@ -14,56 +14,38 @@ public:
     void initModule();
     void cleanModule();
     //
-    GXml& loadXmlFile(const QString& _filename);
-    GXml& loadXmlData(const QString& _data);
-    GXml& loadNodeData(const QString& _data);
-    GXml& saveXmlFile(const QString& _filename = "", const QString& _encoding = "UTF-8", int _format = 4);
-    bool isValidXmlData(const QString& _data);
+    bool loadXml(const QString& _data);
+    bool loadFile(const QString& _filename);
+    bool loadNode(const QString& _data, const QString& _encoding = "UTF-8");
+    bool saveXml(const QString& _filename = "", const QString& _encoding = "UTF-8", int _format = 4);
+    bool isValidXml() const;
     //
-    GXml& createDoc(const QString& _version);
-    GXml& createDoc(const QString& _version, const QString& _rootNode);
-    GXml& createRoot(const QString& _nodename);
-    //
-    GXml& getRoot(const QString& _nodename);
-    GXml& getNode(const QString& _nodename);
     QString getNodeValue() const;
-    QString getNodeValue(const QString& _xpath);
     //
-    GXml& createNode(const QString& _nodename);
-    GXml& createNodeValue(const QString& _nodename, const QString& _value);
-    GXml& createNodePath(const QString& _path, const QString& _value = "");
-    GXml& createCData(GXml& _xml, const QString& _value);
-    GXml& setNodeValue(const QString& _value);
-    GXml& setNodeValue(const QString& _key, const QString& _value);
-    GXml& appendNode(GXml& _xml);
-    GXml& appendNode(const QString& _nodename);
-    GXml& appendNode(const QString& _nodename, const QString& _value);
-    GXml& appendNodeGet(const QString& _nodename);
-    GXml& appendNodeGet(const QString& _nodename, const QString& _value);
-    GXml& appendCData(const QString& _value);
-    GXml& appendCData(const QString& _nodename, const QString& _value);
-    GXml& replaceNode(GXml& _xml);
+    bool createDoc(const QString& _version = "1.0");
+    bool createNode(const QString& _path);
+    bool createXNode(const QString& _path, const QString& _value = "", bool _isCData = false);
+    bool setNodeValue(const QString& _value, bool _isCData);
     //
-    GXml& createXPath();
-    GXml& queryXPath(const QString& _query);
+    bool queryXPath(const QString& _path, bool _isRoot = true);
+    bool getXPath(const QString& _path, bool _isRoot = true);
     int countXPath() const;
-    GXml& getNodeXPath();
-    GXml& getNodeItem(int _index);
-    GXml& clearNodeXPath();
+    bool getNodeXPath(int _index = 0);
+    bool clearXNode();
     //
-    GXml& createNodeCData(GXml& _xml, const QString& _value);
-    GXml& createNodeCData(const QString& _nodename, const QString& _value);
-    GXml& setNodeCData(const QString& _key, const QString& _value);
-    GXml& setNodeCData(const QString& _value);
-    QString getNodeCData() const;
+    bool setAttribute(const QString& _key, const QString& _value);
     //
-    GXml& setAttribute(const QString& _key, const QString& _value);
+    bool saveNode();
+    bool restoreNode();
+    xmlChar* convertData(const char* _data, const char* _encoding = "UTF-8");
     //
-    QString toString(const QString& _encoding = "UTF8", int _format = 4) const;
-    QString toStringNode(const QString& _encoding = "UTF8", int _format = 4) const;
+    QString toString(const QString& _encoding = "UTF-8", int _format = 4) const;
+    QString toStringNode(const QString& _encoding = "UTF-8", int _format = 4) const;
 
 private:
     xmlNodePtr m_node;
+    xmlNodePtr m_queryNode;
+    QStack<xmlNodePtr> m_nodeCopy;
     xmlDocPtr m_doc;
     xmlXPathContextPtr m_xpath;
     xmlXPathObjectPtr m_xpathObj;

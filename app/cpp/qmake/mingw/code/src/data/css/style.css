@@ -1,58 +1,60 @@
 /* ============================================== */
-/* common */
+/* QWidget */
 /* ============================================== */
 QWidget {
 	background-color: transparent;
 	color: #eeeeee;
-	font-family: arial;
-	font-size: 16px;
+	font-family: allan;
+	font-size: 18px;
 }
 /* ============================================== */
-QFrame {
+/* QMainWindow */
+/* ============================================== */
+QMainWindow {
 	background-color: #111133;
 }
+/* ============================================== */
+QMainWindow#flat {
+	border: 2px solid #aaaaff;
+}
+/* ============================================== */
+/* QDialog */
 /* ============================================== */
 QDialog {
 	background-color: #111133;
 	border: 2px solid #aaaaff;
 }
 /* ============================================== */
-QMessageBox QPushButton {
+/* QMessageBox */
+/* ============================================== */
+QMessageBox QDialogButtonBox#qt_msgbox_buttonbox QPushButton {
 	background-color: transparent;
 	border: 2px solid #aaaaff;
 	padding: 2px 5px;
 	border-radius: 5px;
 }
-QMessageBox QPushButton:hover {
+QMessageBox QDialogButtonBox#qt_msgbox_buttonbox QPushButton:hover {
 	background-color: rgba(255, 255, 255, 0.2);
 }
-QMessageBox QPushButton:pressed {
+QMessageBox QDialogButtonBox#qt_msgbox_buttonbox QPushButton:pressed {
 	background-color: transparent;
 }
 /* ============================================== */
-/* custom */
+/* QFrame */
+/* ============================================== */
+QFrame {
+	background-color: #111133;
+}
 /* ============================================== */
 QFrame#flat {
 	border: 2px solid #aaaaff;
 }
 /* ============================================== */
-QPushButton#left {
-	text-align: left;
+QFrame#bottom {
+	border-bottom: 2px solid #aaaaff;
 }
 /* ============================================== */
-QPushButton#flat {
-	background-color: transparent;
-	border: 2px solid #aaaaff;
-	padding: 2px 5px;
-	border-radius: 5px;
-	text-align: left;
-}
-QPushButton#flat:hover {
-	background-color: rgba(255, 255, 255, 0.2);
-}
-QPushButton#flat:pressed {
-	background-color: transparent;
-}
+/* QLineEdit */
 /* ============================================== */
 QLineEdit#flat {
 	background-color: transparent;
@@ -78,14 +80,104 @@ QLineEdit#flat_icon_clear {
 	border-radius: 5px;
 }
 /* ============================================== */
+/* QMenu */
+/* ============================================== */
+QMenu {
+    border: 1px solid #aaaaff;
+	background-color: #111133;
+}
+QMenu::item:selected { 
+	background-color: rgba(255, 255, 255, 0.2);
+}
+/* ============================================== */
+/* QPushButton */
+/* ============================================== */
+QPushButton {
+	border: none;
+}
+/* ============================================== */
+QPushButton#appname {
+	font-family: allan;
+	font-size: 18px;
+}
+/* ============================================== */
+QPushButton#flat {
+	background-color: transparent;
+	border: 2px solid #aaaaff;
+	padding: 2px 5px;
+	border-radius: 5px;
+	text-align: left;
+}
+QPushButton#flat:hover {
+	background-color: rgba(255, 255, 255, 0.2);
+}
+QPushButton#flat:pressed {
+	background-color: transparent;
+}
+/* ============================================== */
+QPushButton#small {
+	background-color: transparent;
+	border: 2px solid #aaaaff;
+	padding: 2px 5px;
+	border-radius: 5px;
+	text-align: left;
+	font-size: 16px;
+}
+QPushButton#small:hover {
+	background-color: rgba(255, 255, 255, 0.2);
+}
+QPushButton#small:pressed {
+	background-color: transparent;
+}
+/* ============================================== */
+QPushButton#bgcolor {
+	background-color: rgba(255, 255, 255, 0.2);
+	border: none;
+	padding: 2px 5px;
+	border-radius: 5px;
+	text-align: left;
+}
+QPushButton#bgcolor:hover {
+	background-color: rgba(255, 255, 255, 0.4);
+}
+QPushButton#bgcolor:pressed {
+	background-color: transparent;
+}
+/* ============================================== */
+QPushButton#icon {
+	padding: 5px;
+}
+QPushButton#icon:hover {
+	background-color: rgba(255, 255, 255, 0.2);
+}
+QPushButton#icon:pressed {
+	background-color: transparent;
+}
+/* ============================================== */
+QPushButton#left {
+	text-align: left;
+}
+/* ============================================== */
+/* QLabel */
+/* ============================================== */
 QLabel#flat_message {
 	color: #ffaaaa;
 }
+/* ============================================== */
+/* QTextEdit */
 /* ============================================== */
 QTextEdit#code {
 	font-family: courier;
 	padding: 5px;
 }
+/* ============================================== */
+/* QSizeGrip */
+/* ============================================== */
+QSizeGrip {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+/* ============================================== */
+/* QTabWidget */
 /* ============================================== */
 QTabWidget#flat::pane {
     border: 2px solid #aaaaff;

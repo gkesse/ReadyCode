@@ -3,7 +3,6 @@
 #include "GMySQL.h"
 #include "GFormat.h"
 #include "GString.h"
-#include "GError.h"
 #include "GLog.h"
 #include "GShell.h"
 #include "GEnv.h"
@@ -32,12 +31,32 @@ GMaj::~GMaj() {
 
 }
 //===============================================
+std::string GMaj::serialize(const std::string& _code) const {
+    GCode lReq;
+    lReq.createDoc();
+    lReq.addData(_code, "id", m_id);
+    lReq.addData(_code, "code", m_code);
+    lReq.addData(_code, "path", m_path);
+    lReq.addData(_code, "filename", m_filename);
+    return lReq.toStringCode(_code);
+}
+//===============================================
+void GMaj::deserialize(const std::string& _req, const std::string& _code) {
+    GModule::deserialize(_req);
+    GCode lReq;
+    lReq.loadXml(_req);
+    m_id = GString(lReq.getItem(_code, "id")).toInt();
+    m_code = lReq.getItem(_code, "code");
+    m_path = lReq.getItem(_code, "path");
+    m_filename = lReq.getItem(_code, "filename");
+}
+//===============================================
 void GMaj::onModule(GSocket* _client) {
-    std::string lMethod = _client->getReq()->getMethod();
+    deserialize(_client->toReq());
     //===============================================
     // method
     //===============================================
-    if(lMethod == "update_database") {
+    if(m_method == "update_database") {
         onUpdateDatabase(_client);
     }
     //===============================================
@@ -62,7 +81,7 @@ void GMaj::onUpdateDatabaseThread(void* _params) {
     std::string lPath = GRES("mysql", "maj");
     std::vector<std::string> lFiles = GDir().openDir(lPath, false, false);
 
-    GLOGT(eGMSG, "%s\n", GSTRC(lFiles).c_str());
+    GLOGT(eGMSG, "%s\n", GSTRC(lFiles));
 
     for(int i = 0; i < (int)lFiles.size(); i++) {
         std::string lFile = lFiles.at(i);

@@ -18,11 +18,11 @@
 #include "GDate.h"
 #include "GHost.h"
 #include "GString.h"
-#include "GError.h"
 #include "GDir.h"
 #include "GMaj.h"
 #include "GBase64.h"
 #include "GMd5.h"
+#include "GManager.h"
 //===============================================
 GTest* GTest::m_test = 0;
 //===============================================
@@ -61,6 +61,9 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "string/int") {
         runStringInt(_argc, _argv);
     }
+    else if(lKey == "string/class") {
+        runStringClass(_argc, _argv);
+    }
     //===============================================
     // path
     //===============================================
@@ -74,6 +77,15 @@ void GTest::run(int _argc, char** _argv) {
         runFormat(_argc, _argv);
     }
     //===============================================
+    // list
+    //===============================================
+    else if(lKey == "list/queue") {
+        runListQueue(_argc, _argv);
+    }
+    else if(lKey == "list/stack") {
+        runListStack(_argc, _argv);
+    }
+    //===============================================
     // xml
     //===============================================
     else if(lKey == "xml") {
@@ -81,6 +93,27 @@ void GTest::run(int _argc, char** _argv) {
     }
     else if(lKey == "xml/check") {
         runXmlCheck(_argc, _argv);
+    }
+    else if(lKey == "xml/map") {
+        runXmlMap(_argc, _argv);
+    }
+    else if(lKey == "xml/code") {
+        runXmlCode(_argc, _argv);
+    }
+    else if(lKey == "xml/data") {
+        runXmlData(_argc, _argv);
+    }
+    else if(lKey == "xml/item") {
+        runXmlItem(_argc, _argv);
+    }
+    else if(lKey == "xml/obj") {
+        runXmlObj(_argc, _argv);
+    }
+    else if(lKey == "xml/errors") {
+        runXmlErrors(_argc, _argv);
+    }
+    else if(lKey == "xml/node/load") {
+        runXmlNodeLoad(_argc, _argv);
     }
     //===============================================
     // socket
@@ -345,12 +378,58 @@ void GTest::runStringInt(int _argc, char** _argv) {
     std::string lData = "  abc 123  ";
     GString lStringInt(lData);
     int lInt = lStringInt.toInt();
-    GLOGT(eGINF, "%d : %s\n", lInt, GERROR_GET(lStringInt));
 
     char lBuffer[1024 + 1];
     sprintf(lBuffer, "%*d", 256, 123);
     GLOGT(eGINF, "%s", lBuffer);
     GLOGT(eGINF, "%d", std::stoi(lBuffer));
+}
+//===============================================
+void GTest::runStringClass(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    GString lData01("un");
+    GString lData02 = "deux";
+    GString lData03(100);
+    GString lData04 = 200;
+    GString lData05 = lData01;
+    GString lData06 = lData03;
+    GString lData07, lData08;
+    GString lData09, lData10;
+    GString lData11, lData12;
+    GString lData13, lData14;
+    GString lData15, lData16;
+    //
+    lData07 = lData02;
+    lData08 = lData04;
+    //
+    lData09 = "trois";
+    lData10 = 300;
+    //
+    lData11 = GString("quatre");
+    lData12 = GString(400);
+    //
+    lData13 += "cinq";
+    lData14 += 500;
+    //
+    lData15 = "six + " + GString(600);
+    lData16 = GString(600) + " + six";
+    //
+    GLOGT(eGINF, GSTRC(lData01));
+    GLOGT(eGINF, GSTRC(lData02));
+    GLOGT(eGINF, GSTRC(lData03));
+    GLOGT(eGINF, GSTRC(lData04));
+    GLOGT(eGINF, GSTRC(lData05));
+    GLOGT(eGINF, GSTRC(lData06));
+    GLOGT(eGINF, GSTRC(lData07));
+    GLOGT(eGINF, GSTRC(lData08));
+    GLOGT(eGINF, GSTRC(lData09));
+    GLOGT(eGINF, GSTRC(lData10));
+    GLOGT(eGINF, GSTRC(lData11));
+    GLOGT(eGINF, GSTRC(lData12));
+    GLOGT(eGINF, GSTRC(lData13));
+    GLOGT(eGINF, GSTRC(lData14));
+    GLOGT(eGINF, GSTRC(lData15));
+    GLOGT(eGINF, GSTRC(lData16));
 }
 //===============================================
 void GTest::runPath(int _argc, char** _argv) {
@@ -366,17 +445,249 @@ void GTest::runFormat(int _argc, char** _argv) {
 //===============================================
 void GTest::runXml(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
-    m_dom.reset(new GXml(GRES("xml", "pad.xml"), true));
-    m_dom->createXPath();
+    m_dom.reset(new GCode);
+    m_dom->loadFile(GRES("xml", "pad.xml"));
     GLOGT(eGINF, "app_name.....: (%s)\n", getItem("pad", "app_name").c_str());
     GLOGT(eGINF, "app_version..: (%s)\n", getItem("pad", "app_version").c_str());
 }
 //===============================================
 void GTest::runXmlCheck(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
-    m_dom.reset(new GXml);
-    m_dom->loadXml("Bonjour tout le monde", false);
-    GLOGT(eGINF, "isValid : %s\n", GSTRC(m_dom->isValidXml()).c_str());
+    m_dom.reset(new GCode);
+    m_dom->loadXml("Bonjour tout le monde");
+    GLOGT(eGINF, "isValid : %s\n", GSTRC(m_dom->isValidXml()));
+}
+//===============================================
+void GTest::runXmlMap(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    GCode lDom;
+    lDom.createDoc();
+    lDom.addData("request", "module", "sitemap");
+    lDom.addData("request", "method", "get_enum");
+    std::string lData = lDom.toString();
+    GLOGT(eGMSG, lData.c_str());
+
+    std::string lPath = "   /rdv/datas/data   ";
+    std::vector<std::string> lMap;
+    char lChar;
+
+    GLOGT(eGMSG, "(%s)", lPath.c_str());
+    lPath = GString(lPath).trimData();
+    GLOGT(eGMSG, "(%s)", lPath.c_str());
+    lChar = lPath[0];
+    GLOGT(eGMSG, "(%c)", lChar);
+    lMap = GString(lPath).splitData('/');
+    GLOGT(eGMSG, "(%s)", GSTRC(lMap).c_str());
+    GLOGT(eGMSG, "(%s)", GSTRC(true));
+    GLOGT(eGMSG, "(%s)", GSTRC(false));
+}
+//===============================================
+void GTest::runXmlCode(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    GCode lDom;
+    std::vector<std::string> lErrors;
+    //
+    lDom.createDoc();
+    //
+    lDom.createCode("request");
+    lDom.createCode("request");
+    lDom.createCode("errors");
+    lDom.createCode("errors");
+    GLOGT(eGINF, lDom.toString().c_str());
+    //
+    lDom.addData("request", "module", "user");
+    lDom.addData("request", "module", "sitemap");
+    lDom.addData("request", "method", "get_list");
+    lDom.addData("request", "method", "get_enum");
+    GLOGT(eGINF, lDom.toString().c_str());
+    //
+    lErrors.push_back("Le nom d'utilisateur est vide.");
+    lErrors.push_back("L'adresse email est invalide.");
+    lErrors.push_back("Le mode passe est incorrect.");
+    lDom.addData("errors", lErrors);
+    GLOGT(eGINF, lDom.toString().c_str());
+    //
+    lDom.addData("errors", lErrors, true);
+    GLOGT(eGINF, lDom.toString().c_str());
+    //
+    GLOGT(eGINF, lDom.toStringData().c_str());
+    //
+}
+//===============================================
+void GTest::runXmlData(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    GCode lDom;
+    GMaster lMaster;
+    bool lOk;
+    std::string lData;
+    //
+    lData = "Bonjour tout le monde";
+    lOk = lMaster.isValidXml(lData);
+    GLOGT(eGINF, GSTRC(lOk));
+    //
+    lDom.createDoc();
+    lDom.createXNode("rdv/datas/date", "MES_DONNEES");
+    lOk = lMaster.isValidXml(lData);
+    GLOGT(eGINF, GSTRC(lOk));
+}
+//===============================================
+void GTest::runXmlItem(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    GCode lDom;
+    lDom.createDoc();
+    lDom.addData("request", "module", "user");
+    lDom.addData("request", "method", "run_connection");
+    lDom.addData("user", "password", "xxxxxxxxx");
+    std::string lData = lDom.toString();
+    GLOGT(eGMSG, lData.c_str());
+    //
+    lData = lDom.getItem("user", "password");
+    GLOGT(eGMSG, lData.c_str());
+    lData = lDom.getItem("user", "status");
+    GLOGT(eGMSG, lData.c_str());
+}
+//===============================================
+void GTest::runXmlObj(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    std::vector<GObject*> lMap;
+    for(int i = 0; i < 3; i++) {
+        GCode lDom;
+        lDom.createDoc();
+        lDom.addData("manager", "id", i);
+        lDom.addData("manager", "code_id", "code");
+        lDom.addData("manager", "label", "label");
+        std::string lData = lDom.toString();
+        GLOGT(eGINF, lData.c_str());
+        GManager* lManager;
+        lManager = new GManager;
+        lManager->deserialize(lData);
+        lMap.push_back(lManager);
+    }
+
+    std::string lData;
+    GCode lDom;
+    lDom.createDoc();
+    lDom.addData("manager", "id", 1);
+    lDom.addData("manager", "code_id", "code");
+    lDom.addData("manager", "label", "label");
+    lDom.addData("manager", lMap);
+    lData = lDom.toString();
+    GLOGT(eGINF, lData.c_str());
+    clearMap(lMap);
+
+    int lCount = lDom.countItem("manager");
+    GLOGT(eGINF, "%d", lCount);
+
+    for(int i = 0; i < lCount; i++) {
+        lData = lDom.getMap("manager", i);
+        GManager* lManager;
+        lManager = new GManager;
+        lManager->deserialize(lData);
+        lMap.push_back(lManager);
+        GLOGT(eGINF, lData.c_str());
+    }
+    clearMap(lMap);
+
+    lDom.getItem("manager", lMap, new GManager);
+
+    GCode lDom2;
+    lDom2.createDoc();
+    lDom2.addData("manager", "id", 2);
+    lDom2.addData("manager", "code_id", "code");
+    lDom2.addData("manager", "label", "label");
+    lDom2.addData("manager", lMap);
+    lData = lDom2.toString();
+    GLOGT(eGINF, lData.c_str());
+    clearMap(lMap);
+}
+//===============================================
+void GTest::runXmlErrors(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    std::vector<GObject*> lErrors;
+    for(int i = 0; i < 4; i++) {
+        std::string lSide = "server";
+        std::string lMsg = "Le mot de passe est obligatoire.";
+        if(i % 2 == 0) {
+            lSide = "client";
+            lMsg = "Le code existe déjà.";
+        }
+        GCode lDom;
+        lDom.createDoc();
+        lDom.addData("errors", "side", lSide);
+        lDom.addData("errors", "msg", lMsg);
+        std::string lData = lDom.toString();
+        GLOGT(eGINF, lData.c_str());
+    }
+
+    std::string lData;
+    GCode lDom;
+    lDom.createDoc();
+    lDom.addData("errors", lErrors);
+    lData = lDom.toString();
+    GLOGT(eGINF, lData.c_str());
+
+    GCode lDom2;
+    lDom2.loadXml(lData);
+
+    GCode lDom3;
+    lDom3.createDoc();
+    lDom3.addData("errors", lErrors);
+    lData = lDom3.toString();
+    GLOGT(eGINF, lData.c_str());
+}
+//===============================================
+void GTest::runXmlNodeLoad(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+
+    std::string lXml = ""
+            "<map>"
+            "<data>"
+            "<msg>Useréé</msg>"
+            "</data>"
+            "</map>"
+            "";
+    std::string lData;
+
+    GCode lDom;
+    lDom.createDoc();
+    lDom.createCode("logs");
+    lDom.getCode("logs");
+    lDom.loadNode(lXml);
+    lData = lDom.toString();
+    GLOGT(eGMSG, "%s", lData.c_str());
+
+}
+//===============================================
+void GTest::runListQueue(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+
+    std::queue<std::string> lQueue;
+
+    lQueue.push("one");
+    lQueue.push("two");
+    lQueue.push("three");
+    lQueue.push("four");
+
+    while(!lQueue.empty()) {
+        std::cout << lQueue.front() << "\n";
+        lQueue.pop();
+    }
+}
+//===============================================
+void GTest::runListStack(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+
+    std::stack<std::string> lStack;
+
+    lStack.push("one");
+    lStack.push("two");
+    lStack.push("three");
+    lStack.push("four");
+
+    while(!lStack.empty()) {
+        std::cout << lStack.top() << "\n";
+        lStack.pop();
+    }
 }
 //===============================================
 void GTest::runSocketServer(int _argc, char** _argv) {
@@ -516,10 +827,14 @@ void GTest::onSocketServerStartTimer(int _signo) {
     if(!lClientIns.empty()) {
         GSocket* lClient = lClientIns.front();
         lClientIns.pop();
-        std::string lData = lClient->getReq()->toString();
+        std::string lData = lClient->toReq();
         GLOGT(eGOFF, "[RECEPTION]..: (%d)\n(%s)\n", (int)lData.size(), lData.c_str());
-        GMaster().onModule(lClient);
-        GMaster().sendResponse(lClient);
+        GMaster lMaster;
+        lClient->clearErrors();
+        lClient->clearLogs();
+        lMaster.onModule(lClient);
+        lClient->addErrors();
+        lClient->sendResponse();
     }
 }
 //===============================================
@@ -578,8 +893,8 @@ void GTest::runRequest(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GXml lReq;
     lReq.createDoc();
-    lReq.createNodePath("/rdv/module", "hostname");
-    lReq.createNodePath("/rdv/method", "save_hostname");
+    lReq.createXNode("/rdv/module", "hostname");
+    lReq.createXNode("/rdv/method", "save_hostname");
     GLOGT(eGINF, "%s", lReq.toString().c_str());
 }
 //===============================================
@@ -587,6 +902,7 @@ void GTest::runRequestSend(int _argc, char** _argv) {
     GLOGT(eGMSG, "");
     GCode lReq;
     GSocket lClient;
+    lReq.createDoc();
     lReq.createReq("test", "request_send");
     std::string lResponse = lClient.callServer(lReq.toString());
     GLOGT(eGINF, "%s", lReq.toString().c_str());
@@ -597,9 +913,10 @@ void GTest::runRequestSaveUser(int _argc, char** _argv) {
     GLOGT(eGMSG, "");
     GCode lReq;
     GSocket lClient;
+    lReq.createDoc();
     lReq.createReq("test", "save_user");
-    lReq.createCode("parameters", "firstname", "Gerard");
-    lReq.createCode("parameters", "lastname", "KESSE");
+    lReq.addData("parameters", "firstname", "Gerard");
+    lReq.addData("parameters", "lastname", "KESSE");
     std::string lResponse = lClient.callServer(lReq.toString());
     GERROR_LOAD(eGERR, lResponse);
     GLOGT(eGINF, "[EMISSION]...: (%d)\n(%s)\n", (int)lReq.toString().size(), lReq.toString().c_str());
@@ -610,10 +927,12 @@ void GTest::runRequestGetUser(int _argc, char** _argv) {
     GLOGT(eGMSG, "");
     GCode lReq;
     GSocket lClient;
+    lReq.createDoc();
     lReq.createReq("test", "get_user");
     std::string lResponse = lClient.callServer(lReq.toString());
     GERROR_LOAD(eGERR, lResponse);
-    GCode lRes(lResponse);
+    GCode lRes;
+    lRes.loadXml(lResponse);
     GLOGT(eGINF, "[EMISSION]...: (%d)\n(%s)\n", (int)lReq.toString().size(), lReq.toString().c_str());
     GLOGT(eGINF, "[RECEPTION]..: (%d)\n(%s)\n", (int)lResponse.size(), lResponse.c_str());
     GLOGT(eGINF, ""
@@ -628,6 +947,7 @@ void GTest::runRequestError(int _argc, char** _argv) {
     GLOGT(eGMSG, "");
     GCode lReq;
     GSocket lClient;
+    lReq.createDoc();
     lReq.createReq("test", "error");
     std::string lResponse = lClient.callServer(lReq.toString());
     GERROR_LOAD(eGERR, lResponse);
@@ -638,23 +958,19 @@ void GTest::runRequestError(int _argc, char** _argv) {
 void GTest::runResponse(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GCode lRes;
-    lRes.createCode("request", "module", "test");
-    lRes.createCode("request", "method", "save_user");
-    lRes.createCode("request", "method", "do_user");
-    lRes.createCode("result", "msg", "ok");
-    lRes.createCode("opencv", "version", "4.0");
-    lRes.createCode("opencv", "version", "5.0");
-    lRes.createMap("error", "msg", "le chemin est incorrect", 0);
-    lRes.createMap("error", "code", "1111", 0);
-    lRes.createMap("error", "msg", "la donnee est incorrect", 1);
-    lRes.createMap("error", "code", "2222", 1);
-    lRes.createMap("error", "code", "3333", 1);
+    lRes.createDoc();
+    lRes.addData("request", "module", "test");
+    lRes.addData("request", "method", "save_user");
+    lRes.addData("request", "method", "do_user");
+    lRes.addData("result", "msg", "ok");
+    lRes.addData("opencv", "version", "4.0");
+    lRes.addData("opencv", "version", "5.0");
 
-    GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("result")).c_str());        // true
-    GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("resulto")).c_str());       // false
-    GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("error")).c_str());         // true
-    GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("error", "msg")).c_str());  // true
-    GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("error", "msgo")).c_str()); // false
+    GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("result")));        // true
+    GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("resulto")));       // false
+    GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("error")));         // true
+    GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("error", "msg")));  // true
+    GLOGT(eGINF, "%s", GSTRC(lRes.hasCode("error", "msgo"))); // false
     GLOGT(eGINF, ""
             "module.......: %s\n"
             "method.......: %s\n"
@@ -864,7 +1180,7 @@ void GTest::runBase64(int _argc, char** _argv) {
 void GTest::runMd5(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     std::string lData1 = "root|admin";
-    std::string lData2 = GMd5(lData1).encodeData();
+    std::string lData2 = GMd5().encodeData(lData1);
     GLOGT(eGINF, ""
             "1............: %s\n"
             "2............: %s\n"
@@ -874,8 +1190,8 @@ void GTest::runMd5(int _argc, char** _argv) {
 void GTest::runMd5Key(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
 
-    std::string lData1 = "produitpargerardkesse";
-    std::string lData2 = GMd5(lData1).encodeData();
+    std::string lData1 = "hello";
+    std::string lData2 = GMd5().encodeData(lData1);
     std::string lData3 = sformat("%s;%d", lData2.c_str(), 350);
     std::string lData4 = sformat("%-*s", 100, lData3.c_str());
 
@@ -892,17 +1208,17 @@ void GTest::runMd5Key(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::onModule(GSocket* _client) {
-    std::string lMethod = _client->getReq()->getMethod();
+    deserialize(_client->toReq());
     //===============================================
     // method
     //===============================================
-    if(lMethod == "save_user") {
+    if(m_method == "save_user") {
         onRequestSaveUser(_client);
     }
-    else if(lMethod == "get_user") {
+    else if(m_method == "get_user") {
         onRequestGetUser(_client);
     }
-    else if(lMethod == "error") {
+    else if(m_method == "error") {
         onRequestError(_client);
     }
     //===============================================
@@ -914,21 +1230,25 @@ void GTest::onModule(GSocket* _client) {
 }
 //===============================================
 void GTest::onRequestSaveUser(GSocket* _client) {
+    /*
     std::string lFirstname = _client->getReq()->getItem("parameters", "firstname");
     std::string lLastname = _client->getReq()->getItem("parameters", "lastname");
     GLOGT(eGFUN, "");
     GLOGT(eGINF, "firstname...: (%s)\n", lFirstname.c_str());
     GLOGT(eGINF, "lastname....: (%s)\n", lLastname.c_str());
+    */
 }
 //===============================================
 void GTest::onRequestGetUser(GSocket* _client) {
+    /*
     std::shared_ptr<GCode>& lRes = _client->getResponse();
-    lRes->createCode("user", "firstname", "Gerard");
-    lRes->createCode("user", "lastname", "KESSE");
+    lRes->addData("user", "firstname", "Gerard");
+    lRes->addData("user", "lastname", "KESSE");
+    */
 }
 //===============================================
 void GTest::onRequestError(GSocket* _client) {
-    GERROR(eGERR, "Erreur cet identifiant existe deja");
-    GERROR(eGERR, "Erreur le mot de passe est incorrect");
+    GERROR_ADD(eGERR, "Erreur cet identifiant existe deja");
+    GERROR_ADD(eGERR, "Erreur le mot de passe est incorrect");
 }
 //===============================================
