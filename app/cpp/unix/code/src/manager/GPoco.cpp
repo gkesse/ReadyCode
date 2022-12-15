@@ -136,7 +136,12 @@ void GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
 void GPoco::onGet(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
     initPoco(_request);
 
-    if(m_method == "/") {
+    if(m_uri == "/") {
+        m_status = Poco::Net::HTTPResponse::HTTP_OK;
+        m_contentType = "text/html";
+        m_response = "<h1>Bonjour tout le monde</h1>";
+    }
+    else if(m_uri == "hello") {
         m_status = Poco::Net::HTTPResponse::HTTP_OK;
         m_contentType = "text/html";
         m_response = "<h1>Bonjour tout le monde</h1>";
