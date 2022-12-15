@@ -45,6 +45,7 @@
 #include <Poco/Net/HTTPClientSession.h>
 #include <Poco/Net/HTTPMessage.h>
 #include <Poco/Net/HTTPRequest.h>
+#include <Poco/Net/HTTPRequestHandler.h>
 #include <Poco/Net/HTTPResponse.h>
 #include <Poco/Net/HTTPServer.h>
 #include <Poco/Net/ICMPClient.h>
