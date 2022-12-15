@@ -2,37 +2,46 @@
 #ifndef _GFile_
 #define _GFile_
 //===============================================
-#include "GObject.h"
+#include "GManager.h"
 //===============================================
-class GFile : public GObject {
+class GFile : public GManager {
 public:
     GFile();
-    GFile(const std::string& _filename);
-    GFile(const std::string& _filename, const std::string& _openType);
+    GFile(const GString& _fullname);
     ~GFile();
-    //
+
+    GString serialize() const;
+    bool deserialize(const GString& _data);
+
+    void setId(int _id);
+    void setFilename(const GString& _filename);
+    void setContent(const GString& _content);
+    GString getContent() const;
+
+    void setFullname(const GString& _fullname);
+
     bool existFile() const;
-    std::string getContent() const;
-    void setContent(const std::string& _data);
-    //
-    std::string getAppendType() const;
-    std::string getLogFullname() const;
-    std::string getLogFullname(bool _isTestEnv) const;
-    std::string getScriptInFilename() const;
-    std::string getScriptOutFilename() const;
-    std::string getDateFullname(const std::string& _key, const std::string& _ext) const;
-    std::string getDateFilename(const std::string& _key, const std::string& _ext) const;
-    std::string getFilename(const std::string& _key, const std::string& _date, const std::string& _ext) const;
-    std::string getFullname(const std::string& _path, const std::string& _filename) const;
-    FILE* openLogFile();
-    FILE* openFile();
-    FILE* openFile(const std::string& _openType);
-    FILE* openFile(const std::string& _filename, const std::string& _openType);
-    void closeFile(FILE* _file);
+    GString getContents() const;
+    GString getContentBin() const;
+    void setContents(const GString& _data);
+    void setContentBin(const GString& _data);
+
+    bool onModule();
+    bool onSaveFile();
+    bool saveFile();
+    bool initFile();
+    bool insertFile();
+    bool updateFile();
+    bool saveContent();
+    bool downloadFile();
 
 private:
-    std::string m_filename;
-    std::string m_openType;
+    int m_id;
+    GString m_homePath;
+    GString m_filePath;
+    GString m_fullname;
+    GString m_filename;
+    GString m_content;
 };
 //==============================================
 #endif

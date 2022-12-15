@@ -3,26 +3,31 @@
 #define _GObject_
 //===============================================
 #include "GInclude.h"
+#include "GString.h"
 //===============================================
 class GCode;
 //===============================================
 class GObject {
 public:
-    GObject();
+    GObject(const GString& _code = "object");
     virtual ~GObject();
-    virtual void createDoms();
-    virtual GObject* clone();
-    virtual std::string serialize(const std::string& _code) const;
-    virtual void deserialize(const std::string& _data, const std::string& _code);
-    virtual std::string getItem(const std::string& _code, const std::string& _key) const;
-    virtual std::string getItem(const std::string& _code, const std::string& _key, int _index) const;
-    virtual int countItem(const std::string& _code) const;
-    virtual bool clearMap(std::vector<GObject*>& _map);
-    virtual void setIsParent(bool _isParent);
+    virtual GObject* clone() const;
+    virtual bool createDoms();
+    virtual GString serialize(const GString& _code = "object") const;
+    virtual bool deserialize(const GString& _data, const GString& _code = "object");
+    virtual void clearMap();
+    virtual void clearMap(std::vector<GObject*>& _map) const;
+    virtual GString getCodeName() const;
+    virtual int size() const;
+    virtual GObject* at(int _index);
+    virtual GObject* back();
+    virtual void add(GObject* _obj);
+    virtual void print();
 
 protected:
     std::shared_ptr<GCode> m_dom;
-    bool m_isParent;
+    std::vector<GObject*> m_map;
+    GString m_codeName;
 };
 //===============================================
 #endif

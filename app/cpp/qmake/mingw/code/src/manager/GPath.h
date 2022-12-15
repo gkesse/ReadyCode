@@ -4,21 +4,21 @@
 //===============================================
 #include "GObject.h"
 //===============================================
-#define GPATH GPath::Instance()
-#define GRES(x, y) GPATH->getPath(x, y)
+#define GPATHI  GPath::Instance()
+#define GPATH   GPATHI->getResourcePath
 //===============================================
 class GPath : public GObject {
-	Q_OBJECT
-
 public:
-    GPath(QObject* _parent = 0);
+    GPath();
     ~GPath();
     static GPath* Instance();
-    QString getDataPath() const;
-    QString getPath(const QString& _res, const QString& _filename) const;
+    void initPath();
+    GString getDataPath() const;
+    GString getResourcePath(const GString& _res, const GString& _filename) const;
 
 private:
     static GPath* m_instance;
+    GString m_dataPath;
 };
 //==============================================
 #endif

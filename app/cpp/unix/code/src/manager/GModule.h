@@ -2,26 +2,37 @@
 #ifndef _GModule_
 #define _GModule_
 //===============================================
-#include "GSession.h"
+#include "GSearch.h"
 //===============================================
-class GCode;
-class GSocket;
-//===============================================
-class GModule : public GSession {
+class GModule : public GSearch {
 public:
-    GModule();
-    virtual ~GModule();
-    virtual std::string serialize(const std::string& _code = "request") const;
-    virtual void deserialize(const std::string& _data, const std::string& _code = "request");
-    //
-    virtual void onModuleNone(GSocket* _client);
-    virtual void onMethodNone(GSocket* _client);
-    virtual void onModuleUnknown(GSocket* _client);
-    virtual void onMethodUnknown(GSocket* _client);
+    GModule(const GString& _code = "module");
+    ~GModule();
+    GObject* clone() const;
+    GString serialize(const GString& _code = "module") const;
+    bool deserialize(const GString& _data, const GString& _code = "module");
+
+    void setId(int _id);
+    int getId() const;
+
+    bool onModule();
+    bool onSaveModule();
+    bool onSearchModule();
+    bool onSearchNextModule();
+    bool onDeleteModule();
+
+    bool saveModule();
+    bool searchModule();
+    bool searchModuleId();
+    bool searchNextModule();
+    bool deleteModule();
+    bool countSearch();
+    bool insertModule();
+    bool updateModule();
 
 protected:
-    std::string m_module;
-    std::string m_method;
+    int m_id;
+    GString m_name;
 };
 //==============================================
 #endif

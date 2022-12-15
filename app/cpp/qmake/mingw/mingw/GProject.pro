@@ -15,9 +15,11 @@ QMAKE_CXXFLAGS +=\
 GRLIB = $$(GPROJECT_ROOT)\ReadyLib\dev\mingw
 
 include($$GRLIB\src\qtawesome\QtAwesome.pri)
+include($$GRLIB\src\base64\GBase64.pri)
 
 INCLUDEPATH +=\
     ..\code\src\manager \
+    ..\build \
     $$GRLIB\include \
     $$GRLIB\include\libxml2 \
 
@@ -27,6 +29,12 @@ SOURCES +=\
     
 HEADERS +=\
     $$files(..\code\src\manager\*.h) \
+
+FORMS +=\
+    $$files(..\code\src\manager\*.ui) \
+
+RESOURCES +=\
+    $$files(..\code\src\data\resources.qrc) \
 
 LIBS +=\
     -L$$GRLIB\lib \

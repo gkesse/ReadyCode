@@ -8,29 +8,29 @@ class GCode : public GXml {
 public:
     GCode();
     ~GCode();
-    //
-    void createReq(const std::string& _module, const std::string& _method);
+
+    bool createCode();
+    bool createCode(const GString& _code);
+    bool createRequest(const GString& _modules, const GString& _method);
+
+    bool loadData(const GString& _data);
+
+    bool getCode();
+    bool getCode(const GString& _code);
+    bool getCode(const GString& _code, const GString& _key);
+    bool getMap(const GString& _code, int _index);
+
+    GString getData(const GString& _code, const GString& _key);
+    bool getData(const GString& _code, std::vector<GObject*>& _map, GObject* _obj);
+
+    bool addData(const GString& _code, const GString& _key, const GString& _value , bool _isCData = false);
+    bool addData(const GString& _code, const std::vector<GObject*>& _map);
+    bool addData(const GString& _data);
+
+    int countMap(const GString& _code);
     bool hasCode();
-    bool hasCode(const std::string& _code);
-    bool hasCode(const std::string& _code, const std::string& _key);
-    bool createCode(const std::string& _code);
-    bool addData(const std::string& _code, const std::string& _key, const std::string& _value, bool _isCData = false);
-    bool addData(const std::string& _code, const std::string& _key, int _value, bool _isCData = false);
-    bool addData(const std::string& _code, const std::vector<std::string>& _datas, bool _isCData = false);
-    bool addData(const std::string& _code, const std::vector<GObject*>& _datas);
-    bool getCode(const std::string& _code);
-    bool getCode(const std::string& _code, const std::string& _key);
-    //
-    std::string getItem(const std::string& _code, const std::string& _key);
-    std::string getItem(const std::string& _code, const std::string& _key, int _index);
-    bool getItem(const std::string& _code, std::vector<GObject*>& _datas, GObject* _obj);
-    std::string getMap(const std::string& _code, int _index);
-    int countItem(const std::string& _code);
-    //
-    bool loadCode(const std::string& _data, bool _isRoot = true);
-    //
-    std::string toStringCode(const std::string& _code);
-    std::string toStringData();
+
+    GString toData();
 };
 //==============================================
 #endif

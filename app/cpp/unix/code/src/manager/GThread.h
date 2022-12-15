@@ -6,16 +6,20 @@
 //===============================================
 class GThread : public GObject {
 public:
-    typedef void* (*GTHREAD_CB)(void* _params);
+    typedef void* (*GThread2_CB)(void* _params);
 
 public:
     GThread();
     ~GThread();
-    void createThread(void* _onThread, void* _params);
-    void joinThread(void** _params);
+    void setThreadCB(void* _threadCB);
+    void setParams(void* _params);
+    bool run();
+    void join();
 
 private:
     pthread_t m_thread;
+    void* m_threadCB;
+    void* m_params;
 };
 //===============================================
 #endif

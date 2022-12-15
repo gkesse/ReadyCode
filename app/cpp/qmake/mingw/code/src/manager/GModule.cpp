@@ -1,56 +1,140 @@
 //===============================================
 #include "GModule.h"
-#include "GLog.h"
 #include "GCode.h"
-#include "GSocket.h"
+#include "GLog.h"
+#include "GClient.h"
+#include "GTableWidgetUi.h"
 //===============================================
-GModule::GModule(QObject* _parent)
-: GSession(_parent) {
-    m_module = "";
-    m_method = "";
+GModule::GModule(const GString& _code)
+: GSearch(_code) {
+    m_id = 0;
+    m_tableWidget.reset(new GTableWidgetUi);
 }
 //===============================================
 GModule::~GModule() {
-
+    clearMap();
 }
 //===============================================
-QString GModule::serialize(const QString& _code) const {
+GObject* GModule::clone() const {
+    return new GModule;
+}
+//===============================================
+GString GModule::serialize(const GString& _code) {
     GCode lDom;
     lDom.createDoc();
-    lDom.addData(_code, "module", m_module);
-    lDom.addData(_code, "method", m_method);
-    return lDom.toStringCode(_code);
+    lDom.addData(_code, "id", m_id);
+    lDom.addData(_code, "name", m_name);
+    lDom.addData(_code, m_map);
+    lDom.addData(GSearch::serialize(), this);
+    return lDom.toString();
 }
 //===============================================
-void GModule::deserialize(const QString& _data, const QString& _code) {
-    GSession::deserialize(_data);
+bool GModule::deserialize(const GString& _data, const GString& _code) {
+    GSearch::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
-    m_module = lDom.getItem(_code, "module");
-    m_method = lDom.getItem(_code, "method");
+    m_id = lDom.getData(_code, "id").toInt();
+    m_name = lDom.getData(_code, "name");
+    lDom.getData(_code, m_map, this);
+    return true;
 }
 //===============================================
-QString GModule::getModule() const {
-    return m_module;
+void GModule::setModule(const GModule& _module) {
+    m_id = _module.m_id;
+    m_name = _module.m_name;
 }
 //===============================================
-QString GModule::getMethod() const {
-    return m_method;
+void GModule::setModule(GModule* _module) {
+    setModule(*_module);
 }
 //===============================================
-void GModule::onModuleNone(GSocket* _client) {
-    GERROR_ADD(eGERR, "Le module est obligatoire.");
+void GModule::setModule(int _index) {
+    if(_index >= 0 && _index < size()) {
+        GModule* lObj = (GModule*)at(_index);
+        setModule(lObj);
+    }
+    clearMap();
 }
 //===============================================
-void GModule::onMethodNone(GSocket* _client) {
-    GERROR_ADD(eGERR, "La methode est obligatoire.");
+void GModule::setId(int _id) {
+    m_id = _id;
 }
 //===============================================
-void GModule::onModuleUnknown(GSocket* _client) {
-    GERROR_ADD(eGERR, "Le module n'existe pas.");
+void GModule::setName(const GString& _name) {
+    m_name = _name;
 }
 //===============================================
-void GModule::onMethodUnknown(GSocket* _client) {
-    GERROR_ADD(eGERR, "La methode n'existe pas.");
+int GModule::getId() const {
+    return m_id;
+}
+//===============================================
+GString GModule::getName() const {
+    return m_name;
+}
+//===============================================
+void GModule::saveModule() {
+    GString lData = serialize();
+    lData = GCALL_SERVER("module", "save_module", lData);
+    deserialize(lData);
+}
+//===============================================
+void GModule::searchModule() {
+    GString lData = serialize();
+    lData = GCALL_SERVER("module", "search_module", lData);
+    deserialize(lData);
+}
+//===============================================
+void GModule::deleteModule() {
+    GString lData = serialize();
+    lData = GCALL_SERVER("module", "delete_module", lData);
+    deserialize(lData);
+}
+//===============================================
+bool GModule::showList() {
+    if(size() == 0) return true;
+    if(size() == 1) {
+        setModule(0);
+        return true;
+    }
+
+    m_tableWidget->setWindowTitle("Liste des modules");
+    m_tableWidget->setSize(size(), 1);
+    m_tableWidget->setHeader(0, "nom");
+
+    for(int i = 0; i < size(); i++) {
+        GModule* lModule = (GModule*)at(i);
+        GString lKey = lModule->serialize();
+        m_tableWidget->setData(i, 0, lKey, lModule->m_name);
+    }
+
+    clearMap();
+    m_tableWidget->setSearch(this);
+    int lOk = m_tableWidget->exec();
+
+    if(lOk == QDialog::Accepted) {
+        GModule lObj;
+        lObj.deserialize(m_tableWidget->getKey());
+        setModule(lObj);
+    }
+    return true;
+}
+//===============================================
+void GModule::onNextData() {
+    clearMap();
+    GString lData = serialize();
+    lData = GCALL_SERVER("module", "search_next_module", lData);
+    deserialize(lData);
+    showNextList();
+}
+//===============================================
+bool GModule::showNextList() {
+    for(int i = 0; i < size(); i++) {
+        GModule* lObj = (GModule*)at(i);
+        GString lKey = lObj->serialize();
+        m_tableWidget->addRow();
+        m_tableWidget->addCol(0, lKey, lObj->m_name);
+    }
+    clearMap();
+    return true;
 }
 //===============================================

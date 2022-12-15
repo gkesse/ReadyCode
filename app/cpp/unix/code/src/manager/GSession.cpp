@@ -1,10 +1,9 @@
 //===============================================
 #include "GSession.h"
 #include "GCode.h"
-#include "GString.h"
 //===============================================
-GSession::GSession()
-: GObject() {
+GSession::GSession(const GString& _code)
+: GObject(_code) {
     m_userId = 0;
 }
 //===============================================
@@ -12,16 +11,17 @@ GSession::~GSession() {
 
 }
 //===============================================
-std::string GSession::serialize(const std::string& _code) const {
+GString GSession::serialize(const GString& _code) const {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "user_id", m_userId);
-    return lDom.toStringCode(_code);
+    return lDom.toString();
 }
 //===============================================
-void GSession::deserialize(const std::string& _data, const std::string& _code) {
-    GCode lReq;
-    lReq.loadXml(_data);
-    m_userId = GString(lReq.getItem(_code, "user_id")).toInt();
+bool GSession::deserialize(const GString& _data, const GString& _code) {
+    GCode lDom;
+    lDom.loadXml(_data);
+    m_userId = lDom.getData(_code, "user_id").toInt();
+    return true;
 }
 //===============================================

@@ -2,39 +2,38 @@
 #ifndef _GFile_
 #define _GFile_
 //===============================================
-#include "GObject.h"
+#include "GManager.h"
 //===============================================
-class GFile : public GObject {
-    Q_OBJECT
-
+class GFile : public GManager {
 public:
-    GFile(QObject* _parent = 0);
-    GFile(const QString& _filename, QObject* _parent = 0);
-    GFile(const QString& _filename, const QString& _openType, QObject* _parent = 0);
+    GFile();
+    GFile(const GString& _fullname);
     ~GFile();
-    //
+
+    GString serialize() const;
+    bool deserialize(const GString& _data);
+
+    void setId(int _id);
+    void setFilename(const GString& _filename);
+    void setContent(const GString& _content);
+    GString getContent() const;
+
+    void setFullname(const GString& _fullname);
+
     bool existFile() const;
-    QString getContent() const;
-    void setContent(const QString& _data);
-    //
-    QString getAppendType() const;
-    QString getLogFullname() const;
-    QString getLogFullname(bool _isTestEnv) const;
-    QString getScriptInFilename() const;
-    QString getScriptOutFilename() const;
-    QString getDateFullname(const QString& _key, const QString& _ext) const;
-    QString getDateFilename(const QString& _key, const QString& _ext) const;
-    QString getFilename(const QString& _key, const QString& _date, const QString& _ext) const;
-    QString getFullname(const QString& _path, const QString& _filename) const;
-    FILE* openLogFile();
-    FILE* openFile();
-    FILE* openFile(const QString& _openType);
-    FILE* openFile(const QString& _filename, const QString& _openType);
-    void closeFile(FILE* _file);
+    GString getContents() const;
+    GString getContentBin() const;
+    void setContents(const GString& _data);
+    void setContentBin(const GString& _data);
+
+    void saveFile();
+    void downloadFile();
 
 private:
-    QString m_filename;
-    QString m_openType;
+    int m_id;
+    GString m_filename;
+    GString m_content;
+    GString m_fullname;
 };
 //==============================================
 #endif

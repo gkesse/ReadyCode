@@ -4,16 +4,17 @@
 //===============================================
 #include "GObject.h"
 //===============================================
-#define GPATH GPath::Instance()
-#define GRES(x, y) GPATH->getResourcePath(x, y)
+#define GPATHI  GPath::Instance()
+#define GPATH   GPATHI->getResourcePath
 //===============================================
 class GPath : public GObject {
 public:
     GPath();
     ~GPath();
     static GPath* Instance();
-    std::string getPath() const;
-    std::string getResourcePath(const std::string& _res, const std::string& _filename) const;
+    GString getDataPath() const;
+    GString getResourcePath(const GString& _res, const GString& _filename) const;
+    GString getResourcePath(const GString& _root, const GString& _res, const GString& _filename) const;
 
 private:
     static GPath* m_instance;

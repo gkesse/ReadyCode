@@ -5,20 +5,21 @@
 #include "GObject.h"
 //===============================================
 class GShell : public GObject {
-    Q_OBJECT
-
 public:
-    GShell(QObject* _parent = 0);
+    GShell();
     ~GShell();
-    QString getTmpDir() const;
-    QString getTmpInFilename() const;
-    QString getTmpOutFilename() const;
-    void createDir(const QString& _dir);
-    void tailFile(const QString& _file);
-    void cleanDir(const QString& _dir);
-    void runCommand(const QString& _command);
-    QString runSystem(const QString& _command);
-    QString runSystem(const QString& _command, const QString& _tmpDir, const QString& _tmpInFile, const QString& _tmpOutFile);
+    void initShell();
+    void createDir(const GString& _dir);
+    void tailFile(const GString& _file);
+    void cleanDir(const GString& _dir);
+    void runCommand(const GString& _command);
+    GString runSystem(const GString& _command);
+
+private:
+    GString m_tmpPath;
+    GString m_currentDate;
+    GString m_tmpInFile;
+    GString m_tmpOutFile;
 };
 //==============================================
 #endif

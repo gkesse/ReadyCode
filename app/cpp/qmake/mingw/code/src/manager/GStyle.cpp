@@ -2,12 +2,13 @@
 #include "GStyle.h"
 #include "GPath.h"
 #include "GLog.h"
+#include "GFile.h"
 //===============================================
 GStyle* GStyle::m_instance = 0;
 //===============================================
-GStyle::GStyle(QObject* _parent)
-: GObject(_parent) {
-
+GStyle::GStyle()
+: GObject() {
+    initStyle();
 }
 //===============================================
 GStyle::~GStyle() {
@@ -21,24 +22,15 @@ GStyle* GStyle::Instance() {
     return m_instance;
 }
 //===============================================
-bool GStyle::loadStyle() {
-    GPath lPath;
-    QString lFile = lPath.getPath("css", "style.css");
-    if(!loadStyle(lFile)) return false;
-    return true;
+void GStyle::initStyle() {
+    m_styleFile = GPATH("css", "style.css");
 }
 //===============================================
-bool GStyle::loadStyle(const QString& _filename) {
-    QFile lFile(_filename);
-    if(!lFile.open(QFile::ReadOnly)) {
-        GERROR_ADD(eGERR, QString(""
-                "Erreur lors du chargement du style.\n"
-                "fichier : (%1)\n"
-                "").arg(_filename));
-        return false;
-    }
-    QString lStyleSheet = QLatin1String(lFile.readAll());
-    qApp->setStyleSheet(lStyleSheet);
+bool GStyle::loadStyle() {
+    GFile lFile(m_styleFile);
+    if(!lFile.existFile()) {GERROR_ADD(eGERR, GFORMAT("La feuille de style n'existe pas.\n%s", m_styleFile.c_str())); return false;}
+    GString lStyleSheet = lFile.getContents();
+    qApp->setStyleSheet(lStyleSheet.c_str());
     return true;
 }
 //===============================================

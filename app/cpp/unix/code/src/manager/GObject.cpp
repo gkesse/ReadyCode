@@ -1,49 +1,60 @@
 //===============================================
+#include "GCode.h"
 #include "GObject.h"
 #include "GLog.h"
-#include "GFormat.h"
-#include "GCode.h"
 #include "GPath.h"
 //===============================================
-GObject::GObject() {
-    m_isParent = true;
+GObject::GObject(const GString& _code) {
+    m_codeName = _code;
 }
 //===============================================
 GObject::~GObject() {
 
 }
 //===============================================
-void GObject::createDoms() {
+bool GObject::createDoms() {
     m_dom.reset(new GCode);
-    m_dom->loadFile(GRES("xml", "pad.xml"));
+    m_dom->loadFile(GPATH("xml", "app.xml"));
+    return true;
 }
 //===============================================
-std::string GObject::getItem(const std::string& _code, const std::string& _key) const {
-    return m_dom->getItem(_code, _key);
+void GObject::clearMap() {
+    clearMap(m_map);
 }
 //===============================================
-std::string GObject::getItem(const std::string& _code, const std::string& _key, int _index) const {
-    return m_dom->getItem(_code, _key, _index);
-}
-//===============================================
-int GObject::countItem(const std::string& _code) const {
-    return m_dom->countItem(_code);
-}
-//===============================================
-bool GObject::clearMap(std::vector<GObject*>& _map) {
+void GObject::clearMap(std::vector<GObject*>& _map) const {
     for(int i = 0; i < (int)_map.size(); i++) {
         GObject* lObj = _map.at(i);
         delete lObj;
     }
     _map.clear();
-    return true;
 }
 //===============================================
-void GObject::setIsParent(bool _isParent) {
-    m_isParent = _isParent;
+int GObject::size() const {
+    return m_map.size();
 }
 //===============================================
-GObject* GObject::clone() {return new GObject;}
-std::string GObject::serialize(const std::string& _code) const {return "";}
-void GObject::deserialize(const std::string& _data, const std::string& _code) {}
+GObject* GObject::at(int _index) {
+    if(_index >= 0 && _index < m_map.size()) {
+        return m_map.at(_index);
+    }
+    return 0;
+}
+//===============================================
+GObject* GObject::back() {
+    return m_map.back();
+}
+//===============================================
+void GObject::add(GObject* _obj) {
+    m_map.push_back(_obj);
+}
+//===============================================
+void GObject::print() {
+    printf("%s\n", serialize(getCodeName()).c_str());
+}
+//===============================================
+GObject* GObject::clone() const {return new GObject;}
+GString GObject::serialize(const GString& _code) const {return "";}
+bool GObject::deserialize(const GString& _data, const GString& _code) {return false;}
+GString GObject::getCodeName() const {return m_codeName;}
 //===============================================

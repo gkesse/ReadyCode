@@ -1,11 +1,13 @@
 //===============================================
 #include "GPath.h"
+#include "GLog.h"
+#include "GEnv.h"
 //===============================================
 GPath* GPath::m_instance = 0;
 //===============================================
-GPath::GPath(QObject* _parent) :
-GObject(_parent) {
-
+GPath::GPath()
+: GObject() {
+    initPath();
 }
 //===============================================
 GPath::~GPath() {
@@ -19,30 +21,33 @@ GPath* GPath::Instance() {
     return m_instance;
 }
 //===============================================
-QString GPath::getDataPath() const {
-	QString lPath = getenv("GPROJECT_DATA");
-	return lPath;
+void GPath::initPath() {
+    m_dataPath = GEnv().getDataPath();
 }
 //===============================================
-QString GPath::getPath(const QString& _res, const QString& _filename) const {
-	QString lPath = "";
+GString GPath::getDataPath() const {
+    return m_dataPath;
+}
+//===============================================
+GString GPath::getResourcePath(const GString& _res, const GString& _filename) const {
+	GString lPath = "";
 	if(getDataPath() != "") {
-		lPath += QString("%1").arg(getDataPath());
+		lPath += GFORMAT("%s", getDataPath().c_str());
 	}
 	if(_res != "") {
 		if(lPath != "") {
-			lPath += QString("/%1").arg(_res);
+			lPath += GFORMAT("/%s", _res.c_str());
 		}
 		else {
-			lPath += QString("%1").arg(_res);
+			lPath += GFORMAT("%s", _res.c_str());
 		}
 	}
 	if(_filename != "") {
 		if(lPath != "") {
-			lPath += QString("/%1").arg(_filename);
+			lPath += GFORMAT("/%s", _filename.c_str());
 		}
 		else {
-			lPath += QString("%1").arg(_filename);
+			lPath += GFORMAT("%s", _filename.c_str());
 		}
 	}
 	return lPath;

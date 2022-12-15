@@ -4,65 +4,76 @@
 //===============================================
 #include "GObject.h"
 //===============================================
-class GCode;
-//===============================================
 class GSocket : public GObject {
 public:
     GSocket();
-    ~GSocket();
-    //
-    void createDoms();
-    //
+    virtual ~GSocket();
+
+    virtual GSocket* clone() const;
+
+    void initSocket();
     int loadDomain() const;
     int loadType() const;
     int loadProtocol() const;
     int loadFamily() const;
-    int loadPort() const;
-    int loadPort(int _isTestEnv) const;
-    //
-    void createSocket(int _domain, int _type, int _protocol);
-    void createAddress(int _family, std::string _ip, int _port);
-    void listenSocket(int _backlog);
-    void bindSocket();
-    void connectSocket();
-    void startMessage();
-    void acceptSocket(GSocket& _socket);
-    void acceptSocket(GSocket* _socket);
-    int recvData(std::string& _data);
-    int recvData(std::string& _data, int _size);
-    int recvData(GSocket& _socket, std::string& _data);
-    int readData(std::string& _data);
-    int sendData(const std::string& _data);
-    int sendData(GSocket& _socket, const std::string& _data);
-    int writeData(const std::string& _data);
-    void closeSocket();
-    void startServer(void* _onServerTcp);
-    static void* onServerThread(GSocket* _client);
-    std::string callServer(const std::string& _dataIn);
-    //
-    void setReq(const std::string& _req);
-    std::string toReq() const;
-    std::queue<GSocket*>& getClientIns();
-    void addResponse(const std::string& _data, bool _isRoot = true);
-    bool clearErrors();
-    bool clearLogs();
-    bool addErrors();
-    void sendResponse();
-    //
-    std::string readAddressIp() const;
 
-private:
-    static const int BUFFER_DATA_SIZE = 1024;
-    static const int BUFFER_NDATA_SIZE = 256;
-    static const int BUFFER_HOSTNAME_SIZE = 256;
-    //
+    GString& getDataIn();
+    GString& getDataOut();
+
+    int readData(char* _data, int _size);
+    bool readData(int _diffSize);
+    bool readMethod();
+
+    int sendData(const char* _data, int _size);
+    bool sendResponse();
+
+    bool runServer();
+    bool runServerTcp();
+
+    static void* onThreadCB(void* _params);
+    bool runThreadCB();
+    bool runThreadTcp();
+
+    virtual bool onRunServerTcp();
+
+protected:
+    static const int BUFFER_SIZE = 1024;
+    static const int METHOD_SIZE = 1024;
+
+    bool m_isTestEnv;
+
+    int m_domain;
+    int m_type;
+    int m_protocol;
+    int m_family;
+    int m_port;
+    int m_backlog;
+
+    int m_portProd;
+    int m_portTest;
+
+    GString m_module;
+    GString m_hostname;
+    GString m_startMessage;
+    GString m_apiMethod;
+    GString m_apiKey;
+    GString m_apiUsername;
+    GString m_apiPassword;
+
+    GString m_serverIp;
+    GString m_clientIp;
+    GString m_domainName;
+    GString m_typeName;
+    GString m_protocolName;
+    GString m_familyName;
+    GString m_apiKeyProd;
+    GString m_apiKeyTest;
+
+    GString m_content;
+
     int m_socket;
-    struct sockaddr_in m_address;
-    //
-    GSocket* m_server;
-    std::queue<GSocket*> m_clientIns;
-    std::shared_ptr<GCode> m_res;
-    std::string m_req;
+    GString m_dataIn;
+    GString m_dataOut;
 };
 //==============================================
 #endif

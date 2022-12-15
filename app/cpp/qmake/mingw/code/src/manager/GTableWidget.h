@@ -2,31 +2,28 @@
 #ifndef _GTableWidget_
 #define _GTableWidget_
 //===============================================
-#include "GObject.h"
+#include "GInclude.h"
 //===============================================
-class QTableWidget;
-//===============================================
-class GTableWidget : public GObject {
+class GTableWidget : public QTableWidget {
     Q_OBJECT
 
 public:
-    GTableWidget(QObject* _parent = 0);
-    GTableWidget(int _rows, int _cols, QTableWidget* _tableWidget, QObject* _parent = 0);
+    GTableWidget(QWidget* parent = 0);
     ~GTableWidget();
-    void setSize();
-    void addData(const QString& _data);
-    void addData(int _data, const QVariant& _key);
-    void addData(const QString& _data, const QVariant& _key);
-    void addColHeader(const QString& _data);
-    void addRowHeader(const QString& _data);
+
+    void setSize(int _rows, int _cols);
+    void setHeader(int _col, const GString& _data);
+    void setData(int _row, int _col, const GString& _key, const GString& _data);
+    void addRow();
+    void addCol(int _col, const GString& _key, const GString& _data);
+    void setKey(const GString& _key);
+    GString getKey() const;
+
+public slots:
+    void onItemClicked(QTableWidgetItem* _item);
 
 private:
-    QTableWidget* m_tableWidget;
-    int m_rows;
-    int m_cols;
-    int m_index;
-    int m_indexRow;
-    int m_indexCol;
+    GString m_key;
 };
 //==============================================
 #endif

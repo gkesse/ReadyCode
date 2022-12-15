@@ -2,45 +2,47 @@
 #ifndef _GManager_
 #define _GManager_
 //===============================================
-#include "GSearch.h"
+#include "GObject.h"
 //===============================================
-class GSocket;
+#define GMODULE_REQUIRED()  GERROR_ADD(eGERR, "Le module est obligatoire.")
+#define GMODULE_UNKNOWN()   GERROR_ADD(eGERR, "Le module (%s) est inconnu.", m_moduleName.c_str())
+#define GMETHOD_REQUIRED()  GERROR_ADD(eGERR, "La méthode est obligatoire.")
+#define GMETHOD_UNKNOWN()   GERROR_ADD(eGERR, "La méthode (%s : %s) est inconnue.", m_moduleName.c_str(), m_methodName.c_str());
 //===============================================
-class GManager : public GSearch {
+class GServer;
+//===============================================
+class GManager : public GObject {
 public:
-    GManager();
-    ~GManager();
-    GObject* clone();
-    //
-    std::string serialize(const std::string& _code = "manager");
-    void deserialize(const std::string& _data, const std::string& _code = "manager");
-    //
-    bool onModule(GSocket* _client);
-    bool onCreateCode(GSocket* _client);
-    bool onSearchCode(GSocket* _client);
-    bool onNextCode(GSocket* _client);
-    bool onUpdateCode(GSocket* _client);
-    bool onDeleteCode(GSocket* _client);
-    //
-    bool createCode();
-    bool searchCode();
-    bool updateCode();
-    bool deleteCode();
-    //
-    bool loadId();
-    bool loadLastId();
-    bool loadDataCount();
-    bool loadDataMap();
-    //
-    bool saveData();
-    bool insertData();
-    bool updateData();
+    GManager(const GString& _code = "manager");
+    virtual ~GManager();
 
-private:
-    int m_id;
-    std::string m_code;
-    std::string m_label;
-    std::vector<GObject*> m_map;
+    GObject* clone() const;
+
+    void setManager(const GManager& _manager);
+    void setManager(GManager* _manager);
+    virtual void setServer(GServer* _server);
+
+    GString serialize(const GString& _code = "manager") const;
+    bool deserialize(const GString& _data, const GString& _code = "manager");
+
+    void setModule(const GString& _modules);
+    void setMethod(const GString& _method);
+
+    bool onManager();
+    bool onConnection();
+    bool onFile();
+    bool onModule();
+    bool onModuleData();
+    bool onModuleKey();
+    bool onModuleMap();
+    bool onModuleType();
+    bool onQuery();
+    bool onQueryType();
+
+protected:
+    GString m_moduleName;
+    GString m_methodName;
+    GServer* m_server;
 };
 //==============================================
 #endif

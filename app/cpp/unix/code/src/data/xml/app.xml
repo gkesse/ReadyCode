@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<rdv>
+    <datas>
+        <!-- ============================================ -->
+        <!-- socket -->
+        <!-- ============================================ -->
+        <data>
+            <code>socket</code>
+            <module>tcp</module>
+            <domain>AF_INET</domain>
+            <type>SOCK_STREAM</type>
+            <protocol>IPPROTO_TCP</protocol>
+            <family>AF_INET</family>
+            <port_prod>9090</port_prod>
+            <port_test>9091</port_test>
+            <backlog>5</backlog>
+            <client_ip>0.0.0.0</client_ip>
+            <server_ip>127.0.0.1</server_ip>
+            <api_method>RDVAPP</api_method>
+            <api_key_prod>16ac9e66cde8bd80d6141dadb74b5083</api_key_prod>
+            <api_key_test>admin</api_key_test>
+            <api_username>admin</api_username>
+            <api_password>admin</api_password>
+            <start_message>Démarrage du serveur...</start_message>
+        </data>
+        <!-- ============================================ -->
+        <!-- mysql -->
+        <!-- ============================================ -->
+        <data>
+            <code>mysql</code>
+            <protocol>tcp</protocol>
+            <hostname>127.0.0.1</hostname>
+            <port>3306</port>
+            <username>admin</username>
+            <password>xKCQY7GiGTVJ4l334QxN87@TKg</password>
+            <database_prod>pad</database_prod>
+            <database_test>dev</database_test>
+            <log_on>1</log_on>
+        </data>
+        <!-- ============================================ -->
+        <!-- log -->
+        <!-- ============================================ -->
+        <data>
+            <code>log</code>
+            <test_on>1</test_on>
+            <test_file_on>0</test_file_on>
+            <prod_on>1</prod_on>
+            <prod_file_on>1</prod_file_on>
+        </data>
+        <!-- ============================================ -->
+        <!-- end -->
+        <!-- ============================================ -->
+    </datas>
+</rdv>

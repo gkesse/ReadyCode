@@ -5,17 +5,21 @@
 #include "GObject.h"
 //===============================================
 class GEnv : public GObject {
-    Q_OBJECT
-
 public:
-    GEnv(QObject* _parent = 0);
+    GEnv();
     ~GEnv();
-    bool isProdEnv() const;
+    void initEnv();
     bool isTestEnv() const;
-    QString getEnvType() const;
-    QString getDataPath() const;
-    QString getTmpDir() const;
-    QString getEnv(const QString& _env, const QString& _defaultValue = "") const;
+    GString getDataPath() const;
+    GString getTmpDir() const;
+    GString getEnv(const GString& _env, const GString& _defaultValue = "") const;
+
+private:
+    GString m_envType;
+    GString m_dataPath;
+    GString m_tmpPath;
+    bool m_isProdEnv;
+    bool m_isTestEnv;
 };
 //==============================================
 #endif

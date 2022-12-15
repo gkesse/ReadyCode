@@ -22,73 +22,88 @@
 #define GLOG_SHOW(x)        GLOGI->showLogs(#x, x)
 #define GERROR_SHOWG(x)     GLOGI->showErrors(#x, x, this)
 #define GLOG_SHOWG(x)       GLOGI->showLogs(#x, x, this)
-#define GLOGT(x, y)         GLOGI->traceLog(#x, x, y)
+#define GLOGT(x, ...)       GLOGI->traceLog(#x, x, GFORMAT(__VA_ARGS__))
 #define GLOGW(x, y)         GLOGI->writeLog(#x, x, y)
 #define GSTRC               GLOGI->toString
 //===============================================
+#define GERROR_KEY(x, y)    GLOGI->onErrorKey(#x, x, y)
+#define GERROR_CAT(x, y)    GLOGI->onErrorCategory(#x, x, y)
+#define GERROR_TYPE(x, y)   GLOGI->onErrorKey(#x, x, y)
+//===============================================
 class GLog : public GObject {
 public:
-    GLog(QObject* _parent = 0);
+    GLog(const GString& _code = "logs");
     ~GLog();
     static GLog* Instance();
-    GObject* clone();
-    QString serialize(const QString& _code = "logs") const;
-    void deserialize(const QString& _data, const QString& _code = "logs");
-    //
-    bool isDebug() const;
-    bool isDebug(bool _isTestEnv) const;
-    bool isFileLog() const;
-    bool isFileLog(bool _isTestEnv) const;
-    bool isTestFileLog() const;
-    bool isProdFileLog() const;
-    bool isTestLog() const;
-    bool isProdLog() const;
+    GObject* clone() const;
+    GString serialize(const GString& _code = "logs");
+    bool deserialize(const GString& _data, const GString& _code = "logs");
+
+    void initLog();
+
     bool isConnectionError() const;
     void setConnectionError(bool _isConnectionError);
     //
-    FILE* getOutput(bool _isFileLog);
+    FILE* getOutput();
     FILE* getOutputFile();
     void closeLogFile();
     void catLogFile();
-    void tailLogFile(bool _isTestEnv);
+    void tailLogFile();
     //
-    void addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _error);
+    void addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _error);
     void showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func);
     void showLogs(const char* _name, int _level, const char* _file, int _line, const char* _func);
     void showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, QWidget* _parent);
     void showLogs(const char* _name, int _level, const char* _file, int _line, const char* _func, QWidget* _parent);
-    void showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog);
     void showLogs(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog);
-    void loadErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _data);
-    void loadLogs(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _data);
+    void loadErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _data);
+    void loadLogs(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _data);
     //
-    void writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _log);
-    void writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const QString& _log);
-    void traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const QString& _data = "");
-    void traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, bool _isDebug, bool _isFileLog, const QString& _data = "");
+    void writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _log);
+    void traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _data = "");
     //
-    bool hasErrors() const;
-    bool hasLogs() const;
+    bool hasErrors();
+    bool hasLogs();
     void clearErrors();
     void clearLogs();
-    //
-    QString toStringError();
-    QString toStringLog();
-    QString toString(bool _data) const;
-    QString toString(const QVector<QString>& _data) const;
-    QString toString(const QVector<QVector<QString>>& _data) const;
+
+    void onErrorKey(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _key);
+    void onErrorCategory(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _category);
+    void onErrorType(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _category, const GString& _type);
+
+    GString toStringError();
+    GString toStringLog();
+    GString toString(bool _data) const;
+    GString toString(const std::vector<GString>& _data) const;
+    GString toString(const std::vector<std::vector<GString>>& _data) const;
+
+    void enableLogs();
+    void disableLogs();
 
 private:
     static GLog* m_instance;
-    //
-    QString m_type;
-    QString m_side;
-    QString m_msg;
-    QVector<GObject*> m_map;
-    //
+
+    GString m_type;
+    GString m_side;
+    GString m_msg;
+
     FILE* m_file;
     bool m_isConnectionError;
     bool m_isClientSide;
+
+    bool m_isTestEnv;
+    bool m_isTestLog;
+    bool m_isProdLog;
+    bool m_isTestFile;
+    bool m_isProdFile;
+    bool m_isDebug;
+    bool m_isFileLog;
+
+    GString m_tmpPath;
+    GString m_currentDate;
+    GString m_logTestFile;
+    GString m_logProdFile;
+    GString m_logFilename;
 };
 //==============================================
 #endif

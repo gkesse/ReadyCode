@@ -45,12 +45,49 @@
 #include <Poco/Net/KeyConsoleHandler.h>
 #include <Poco/Net/ConsoleCertificateHandler.h>
 #include <Poco/Net/Context.h>
+#include <Poco/Net/ICMPClient.h>
+#include <Poco/Net/IPAddress.h>
+#include <Poco/Net/TCPServer.h>
+#include <Poco/Net/TCPServerConnection.h>
+#include <Poco/Net/StreamSocket.h>
+#include <Poco/Net/TCPServerConnectionFactory.h>
+#include <Poco/Net/ServerSocket.h>
+#include <Poco/Net/SocketReactor.h>
+#include <Poco/Net/SocketAcceptor.h>
+#include <Poco/Net/SocketNotification.h>
+#include <Poco/Net/DNS.h>
+#include <Poco/Net/HostEntry.h>
+#include <Poco/Net/SocketStream.h>
+#include <Poco/Net/HTTPCredentials.h>
+#include <Poco/Net/HTTPClientSession.h>
+#include <Poco/Net/HTTPRequest.h>
+#include <Poco/Net/HTTPResponse.h>
+#include <Poco/Net/HTTPMessage.h>
+#include <Poco/NullStream.h>
+//
+#include <Poco/Util/Application.h>
+#include <Poco/Util/ServerApplication.h>
+//
+#include "Poco/Delegate.h"
 #include <Poco/SharedPtr.h>
 #include <Poco/Path.h>
 #include <Poco/Exception.h>
+#include <Poco/NamedEvent.h>
+#include <Poco/Process.h>
+#include <Poco/Logger.h>
+#include <Poco/Timestamp.h>
+#include <Poco/DateTimeFormat.h>
+#include <Poco/DateTimeFormatter.h>
+#include <Poco/Thread.h>
+#include <Poco/FIFOBuffer.h>
+#include <Poco/NObserver.h>
+#include <Poco/StreamCopier.h>
+#include <Poco/URI.h>
 // libs
-#include <base64.hpp>
+#include <base64.h>
 #include <md5.h>
+//===============================================
+typedef unsigned char uchar;
 //===============================================
 #endif
 //===============================================

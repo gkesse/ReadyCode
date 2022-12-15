@@ -23,7 +23,7 @@ private:
     struct sigaction m_sigaction;
     struct itimerval m_timer;
     //
-    bool m_running;
+    bool m_isRunning;
 };
 //==============================================
 #endif

@@ -2,77 +2,67 @@
 #ifndef _GSocket_
 #define _GSocket_
 //===============================================
-#include "GInclude.h"
+#include "GObject.h"
 //===============================================
-class GCode;
-//===============================================
-class GSocket {
+class GSocket : public GObject {
 public:
     GSocket();
-    ~GSocket();
-    static GSocket* Instance();
-    //
-    void createDoms();
-    QString getItem(const QString& _key, const QString& _data) const;
-    QString getErrorMsg(const QString& _code, const QString& _lang) const;
-    //
+    virtual ~GSocket();
+
+    void initSocket();
+
     int loadDomain() const;
     int loadType() const;
     int loadProtocol() const;
     int loadFamily() const;
-    int loadPort() const;
-    int loadPort(int _isTestEnv) const;
-    QString loadErrorMsg() const;
-    //
-    bool initSocket(int _major, int _minor);
-    bool createSocket(int _domain, int _type, int _protocol);
-    bool createAddress(int _family, const QString& _addressIp, int _port);
-    bool listenSocket(int _backlog);
-    bool bindSocket();
-    bool connectSocket();
-    bool startMessage();
-    bool acceptSocket(GSocket& _socket);
-    bool acceptSocket(GSocket* _socket);
-    int recvData(QString& _data);
-    int recvData(QString& _data, int _size);
-    int recvData(GSocket& _socket, QString& _data);
-    int readData(QString& _data);
-    int readPack(QString& _data);
-    int sendData(const QString& _data);
-    int sendData(GSocket& _socket, const QString& _data);
-    int writeData(const QString& _data);
-    int writePack(const QString& _data);
-    QString loadAddressIp() const;
-    QString getHostname() const;
-    bool closeSocket();
-    bool cleanSocket();
-    void startServer(void* _onServerThread);
-    static DWORD WINAPI onServerThread(LPVOID _params);
-    QString callServer(const QString& _dataIn);
-    QString callServer(const QString& _module, const QString& _method, const QString& _data = "");
-    //
-    void setReq(const QString& _req);
-    QString toReq() const;
-    QStack<GSocket*>& getClientIns();
-    //
-    bool addErrors();
-    bool sendResponse();
 
-private:
-    QSharedPointer<GCode> m_dom;
-    QSharedPointer<GCode> m_domWsaError;
-    QSharedPointer<GCode> m_res;
-    QString m_req;
-    //
-    static const int BUFFER_DATA_SIZE = 1024;
-    static const int BUFFER_NDATA_SIZE = 256;
-    static const int BUFFER_HOSTNAME_SIZE = 256;
-    //
+    bool callServer();
+
+    virtual bool createData();
+    virtual bool onCallServer();
+
+    bool sendData();
+
+    int readData(char* _data, int _size);
+    bool readData(int _diffSize);
+    bool readMethod();
+
+protected:
+    static const int BUFFER_SIZE = 1024;
+    static const int METHOD_SIZE = 1024;
+
+    bool m_isTestEnv;
+
+    int m_major;
+    int m_minor;
+    int m_domain;
+    int m_type;
+    int m_protocol;
+    int m_family;
+    int m_port;
+    int m_backlog;
+
+    int m_portProd;
+    int m_portTest;
+
+    GString m_hostname;
+    GString m_apiMethod;
+    GString m_apiKey;
+    GString m_apiUsername;
+    GString m_apiPassword;
+
+    GString m_serverIp;
+    GString m_clientIp;
+    GString m_domainName;
+    GString m_typeName;
+    GString m_protocolName;
+    GString m_familyName;
+    GString m_apiKeyProd;
+    GString m_apiKeyTest;
+
+    GString m_dataIn;
+    GString m_dataOut;
     SOCKET m_socket;
-    SOCKADDR_IN m_address;
-    //
-    GSocket* m_server;
-    QStack<GSocket*> m_clientIns;
 };
 //==============================================
 #endif

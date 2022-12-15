@@ -2,43 +2,38 @@
 #include "GEnv.h"
 #include "GLog.h"
 //===============================================
-GEnv::GEnv(QObject* _parent) : GObject(_parent) {
-
+GEnv::GEnv()
+: GObject() {
+    initEnv();
 }
 //===============================================
 GEnv::~GEnv() {
 
 }
 //===============================================
-bool GEnv::isProdEnv() const {
-    QString lType = getEnvType();
-    if(lType == "PROD") return true;
-    return false;
+void GEnv::initEnv() {
+    m_envType   = getEnv("GPROJECT_ENV");
+    m_dataPath  = getEnv("GPROJECT_DATA");
+    m_tmpPath   = getEnv("GPROJECT_TMP");
+    m_isProdEnv = (m_envType == "PROD");
+    m_isTestEnv = !m_isProdEnv;
 }
 //===============================================
 bool GEnv::isTestEnv() const {
-    if(isProdEnv()) return false;
-    return true;
+    return m_isTestEnv;
 }
 //===============================================
-QString GEnv::getEnvType() const {
-    QString lData = getEnv("GPROJECT_ENV");
-    return lData;
+GString GEnv::getDataPath() const {
+    return m_dataPath;
 }
 //===============================================
-QString GEnv::getDataPath() const {
-    QString lData = getEnv("GPROJECT_DATA");
-    return lData;
+GString GEnv::getTmpDir() const {
+    return m_tmpPath;
 }
 //===============================================
-QString GEnv::getTmpDir() const {
-    QString lData = getEnv("GPROJECT_TMP");
-    return lData;
-}
-//===============================================
-QString GEnv::getEnv(const QString& _env, const QString& _defaultValue) const {
-    QString lEnv = QString :: fromLocal8Bit(qgetenv(_env.toStdString().c_str()));
-    if(lEnv == "") return _defaultValue;
+GString GEnv::getEnv(const GString& _env, const GString& _defaultValue) const {
+    char* lEnv = getenv(_env.c_str());
+    if(lEnv == 0) return _defaultValue;
     return lEnv;
 }
 //===============================================

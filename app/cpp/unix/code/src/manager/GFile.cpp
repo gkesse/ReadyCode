@@ -1,123 +1,179 @@
 //===============================================
 #include "GFile.h"
-#include "GFormat.h"
 #include "GShell.h"
+#include "GMySQL.h"
+#include "GCode.h"
 #include "GEnv.h"
-#include "GDate.h"
+#include "GLog.h"
+#include "GPath.h"
+#include "GBase64.h"
+#include "GServer.h"
 //===============================================
-GFile::GFile() : GObject() {
-    m_filename = "";
-    m_openType = "";
+GFile::GFile()
+: GManager() {
+    m_id = 0;
 }
 //===============================================
-GFile::GFile(const std::string& _filename) : GObject() {
-    m_filename = _filename;
-    m_openType = "";
-}
-//===============================================
-GFile::GFile(const std::string& _filename, const std::string& _openType) : GObject() {
-    m_filename = _filename;
-    m_openType = _openType;
+GFile::GFile(const GString& _fullname)
+: GManager() {
+    m_id = 0;
+    m_fullname = _fullname;
 }
 //===============================================
 GFile::~GFile() {
 
 }
 //===============================================
-bool GFile::existFile() const {
-    if(m_filename == "") return false;
-    struct stat lBuffer;
-    return (stat(m_filename.c_str(), &lBuffer) == 0);
+GString GFile::serialize() const {
+    GCode lDom;
+    lDom.createDoc();
+    lDom.addData(m_codeName, "id", m_id);
+    lDom.addData(m_codeName, "filename", m_filename);
+    lDom.addData(m_codeName, "content", m_content, true);
+    return lDom.toString();
 }
 //===============================================
-std::string GFile::getContent() const {
-    if(m_filename == "") return "";
+bool GFile::deserialize(const GString& _data) {
+    GManager::deserialize(_data);
+    GCode lDom;
+    lDom.loadXml(_data);
+    m_id = lDom.getData(m_codeName, "id").toInt();
+    m_filename = lDom.getData(m_codeName, "filename");
+    m_content = lDom.getData(m_codeName, "content");
+    return true;
+}
+//===============================================
+void GFile::setId(int _id) {
+    m_id = _id;
+}
+//===============================================
+void GFile::setFilename(const GString& _filename) {
+    m_filename = _filename;
+}
+//===============================================
+void GFile::setContent(const GString& _content) {
+    m_content = _content;
+}
+//===============================================
+GString GFile::getContent() const {
+    return m_content;
+}
+//===============================================
+void GFile::setFullname(const GString& _fullname) {
+    m_fullname = _fullname;
+}
+//===============================================
+bool GFile::existFile() const {
+    if(m_fullname == "") return false;
+    std::ifstream lFile(m_fullname.data());
+    return lFile.good();
+}
+//===============================================
+GString GFile::getContents() const {
+    if(m_fullname == "") return "";
     if(!existFile()) return "";
-    std::ifstream lFile(m_filename);
+    std::ifstream lFile(m_fullname.data());
     std::stringstream lBuffer;
     lBuffer << lFile.rdbuf();
-    return lBuffer.str();
+    return lBuffer.str().c_str();
 }
 //===============================================
-void GFile::setContent(const std::string& _data) {
-    if(m_filename == "") return;
-    std::ofstream lFile(m_filename);
-    lFile << _data;
+GString GFile::getContentBin() const {
+    if(m_fullname == "") return "";
+    if(!existFile()) return "";
+    std::ifstream lFile(m_fullname.c_str(), std::ios::in | std::ios::binary);
+    std::vector<char> lData = std::vector<char>(std::istreambuf_iterator<char>(lFile), std::istreambuf_iterator<char>());
+    return lData;
 }
 //===============================================
-std::string GFile::getAppendType() const {
-    return "a+";
+void GFile::setContents(const GString& _data) {
+    if(m_fullname == "") return;
+    std::ofstream lFile(m_fullname.c_str());
+    lFile << _data.c_str();
 }
 //===============================================
-std::string GFile::getLogFullname() const {
-    return getLogFullname(GEnv().isTestEnv());
+void GFile::setContentBin(const GString& _data) {
+    if(m_fullname == "") return;
+    std::ofstream lFile(m_fullname.c_str(), std::ios::out | std::ios::binary);
+    lFile.write(_data.data(), _data.size());
 }
 //===============================================
-std::string GFile::getLogFullname(bool _isTestEnv) const {
-    std::string lFilename = getDateFullname("log_prod_", ".txt");
-    if(_isTestEnv) lFilename = getDateFullname("log_test_", ".txt");
-    return lFilename;
+bool GFile::onModule() {
+    deserialize(m_server->getRequest());
+    if(m_methodName == "") {
+        GMETHOD_REQUIRED();
+    }
+    else if(m_methodName == "save_file") {
+        onSaveFile();
+    }
+    else {
+        GMETHOD_UNKNOWN();
+    }
+    m_server->addResponse(serialize());
+    return true;
 }
 //===============================================
-std::string GFile::getScriptInFilename() const {
-    std::string lFilename = getDateFilename("script_", "_in.txt");
-    return lFilename;
+bool GFile::onSaveFile() {
+    if(m_id != 0) {GERROR_ADD(eGERR, "Le fichier est déjà enregistré."); return false;}
+    if(m_filename == "") {GERROR_ADD(eGERR, "Le nom du fichier est obligatoire."); return false;}
+    if(m_content == "") {GERROR_ADD(eGERR, "Le contenu du fichier est vide."); return false;}
+    if(!saveFile()) return false;
+    return true;
 }
 //===============================================
-std::string GFile::getScriptOutFilename() const {
-    std::string lFilename = getDateFilename("script_", "_out.txt");
-    return lFilename;
+bool GFile::saveFile() {
+    if(!insertFile()) return false;
+    if(!updateFile()) return false;
+    if(!saveContent()) return false;
+    return true;
 }
 //===============================================
-std::string GFile::getDateFullname(const std::string& _key, const std::string& _ext) const {
-    std::string lTmpDir = GEnv().getTmpDir();
-    std::string lFilename = getDateFilename(_key, _ext);
-    lFilename = getFullname(lTmpDir, lFilename);
-    return lFilename;
+bool GFile::initFile() {
+    m_homePath = GEnv().getEnv("HOME");
+    m_filePath = GFORMAT("%s/.readydev/file", m_homePath.c_str());
+    GShell().createDir(m_filePath);
+    m_filePath.print();
+    return true;
 }
 //===============================================
-std::string GFile::getDateFilename(const std::string& _key, const std::string& _ext) const {
-    std::string lDate = GDate().getDate(GDate().getDateFileFormat());
-    return getFilename(_key, lDate, _ext);
+bool GFile::insertFile() {
+    if(m_id != 0) return false;
+    initFile();
+    GMySQL lMySQL2;
+    if(!lMySQL2.execQuery(GFORMAT(""
+            " insert into _file "
+            " ( _filename ) "
+            " values ( '%s' ) "
+            "", m_filename.c_str()
+    ))) return false;
+    m_id = lMySQL2.getId();
+    return true;
 }
 //===============================================
-std::string GFile::getFilename(const std::string& _key, const std::string& _date, const std::string& _ext) const {
-    std::string lFilename = sformat("%s%s%s", _key.c_str(), _date.c_str(), _ext.c_str());
-    return lFilename;
+bool GFile::updateFile() {
+    if(m_id == 0) return false;
+    m_fullname = GFORMAT("%s/%d_%s", m_filePath.c_str(), m_id, m_filename.c_str());
+    if(!GMySQL().execQuery(GFORMAT(""
+            " update _file "
+            " set _fullname = '%s' "
+            " where _id = %d "
+            "", m_fullname.c_str()
+            , m_id
+    ))) return false;
+    return true;
 }
 //===============================================
-std::string GFile::getFullname(const std::string& _path, const std::string& _filename) const {
-    GShell().createDir(_path);
-    std::string lFilename = sformat("%s/%s", _path.c_str(), _filename.c_str());
-    return lFilename;
+bool GFile::saveContent() {
+    if(m_id == 0) return false;
+    GFile lFile(m_fullname);
+    GString lDataBin(GBase64(m_content).decodeData());
+    lFile.setContentBin(lDataBin);
+    GLOG_ADD(eGLOG, "Le fichier a bien été enregistré.");
+    return true;
 }
 //===============================================
-FILE* GFile::openLogFile() {
-    FILE* lFile = openFile(getLogFullname(), getAppendType());
-    return lFile;
-}
-//===============================================
-FILE* GFile::openFile() {
-    if(m_filename == "") return 0;
-    if(m_openType == "") return 0;
-    FILE* lFile = fopen(m_filename.c_str(), m_openType.c_str());
-    return lFile;
-}
-//===============================================
-FILE* GFile::openFile(const std::string& _openType) {
-    if(m_filename == "") return 0;
-    FILE* lFile = fopen(m_filename.c_str(), _openType.c_str());
-    return lFile;
-}
-//===============================================
-FILE* GFile::openFile(const std::string& _filename, const std::string& _openType) {
-    FILE* lFile = fopen(_filename.c_str(), _openType.c_str());
-    m_filename = _filename;
-    m_openType = _openType;
-    return lFile;
-}
-//===============================================
-void GFile::closeFile(FILE* _file) {
-    fclose(_file);
+bool GFile::downloadFile() {
+
+    return true;
 }
 //===============================================

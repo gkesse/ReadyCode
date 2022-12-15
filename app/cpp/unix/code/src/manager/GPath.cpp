@@ -1,7 +1,6 @@
 //===============================================
 #include "GPath.h"
 #include "GLog.h"
-#include "GFormat.h"
 #include "GEnv.h"
 //===============================================
 GPath* GPath::m_instance = 0;
@@ -21,9 +20,9 @@ GPath* GPath::Instance() {
     return m_instance;
 }
 //===============================================
-std::string GPath::getPath() const {
+GString GPath::getDataPath() const {
     GEnv lEnv;
-    std::string lPath = lEnv.getEnv("GPROJECT_DATA");
+    GString lPath = lEnv.getEnv("GPROJECT_DATA");
     if(lPath == "") {
         GERROR_ADD(eGERR, "Erreur la methode (GPath::getDataPath) a echoue.");
         return "";
@@ -31,25 +30,29 @@ std::string GPath::getPath() const {
     return lPath;
 }
 //===============================================
-std::string GPath::getResourcePath(const std::string& _res, const std::string& _filename) const {
-    std::string lPath = "";
-    if(getPath() != "") {
-        lPath += sformat("%s", getPath().c_str());
+GString GPath::getResourcePath(const GString& _res, const GString& _filename) const {
+    return getResourcePath(getDataPath(), _res, _filename);
+}
+//===============================================
+GString GPath::getResourcePath(const GString& _root, const GString& _res, const GString& _filename) const {
+    GString lPath = "";
+    if(_root != "") {
+        lPath += GFORMAT("%s", _root.c_str());
     }
     if(_res != "") {
         if(lPath != "") {
-            lPath += sformat("/%s", _res.c_str());
+            lPath += GFORMAT("/%s", _res.c_str());
         }
         else {
-            lPath += sformat("%s", _res.c_str());
+            lPath += GFORMAT("%s", _res.c_str());
         }
     }
     if(_filename != "") {
         if(lPath != "") {
-            lPath += sformat("/%s", _filename.c_str());
+            lPath += GFORMAT("/%s", _filename.c_str());
         }
         else {
-            lPath += sformat("%s", _filename.c_str());
+            lPath += GFORMAT("%s", _filename.c_str());
         }
     }
     return lPath;

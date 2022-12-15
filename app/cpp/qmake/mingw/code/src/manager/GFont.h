@@ -4,13 +4,18 @@
 //===============================================
 #include "GObject.h"
 //===============================================
+#define GFONT       GFont::Instance()
+#define GFONT_LOAD  GFONT->loadFont
+//===============================================
 class GFont : public GObject {
-	Q_OBJECT
-
 public:
-    GFont(QObject* _parent = 0);
+    GFont();
     ~GFont();
+    static GFont* Instance();
     bool loadFont();
+
+private:
+    static GFont* m_instance;
 };
 //==============================================
 #endif

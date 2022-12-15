@@ -1,10 +1,9 @@
 //===============================================
 #include "GCode.h"
 #include "GLog.h"
-#include "GUser.h"
 //===============================================
-GCode::GCode(QObject* _parent)
-: GXml(_parent) {
+GCode::GCode()
+: GXml() {
 
 }
 //===============================================
@@ -12,180 +11,146 @@ GCode::~GCode() {
 
 }
 //===============================================
-void GCode::createReq(const QString& _module, const QString& _method) {
-    addData("request", "module", _module);
-    addData("request", "method", _method);
-}
-//===============================================
-bool GCode::hasCode() {
-    queryXPath(QString("/rdv/datas/data[code]"));
-    int lCount = countXPath();
-    return (lCount != 0);
-}
-//===============================================
-bool GCode::hasCode(const QString& _code) {
-    queryXPath(QString("/rdv/datas/data[code='%1']").arg(_code));
-    int lCount = countXPath();
-    return (lCount != 0);
-}
-//===============================================
-bool GCode::hasCode(const QString& _code, const QString& _key) {
-    queryXPath(QString("/rdv/datas/data[code='%1']/%2").arg(_code).arg(_key));
-    int lCount = countXPath();
-    return (lCount != 0);
-}
-//===============================================
-bool GCode::createCode(const QString& _code) {
-    if(!hasCode(_code)) {
-        createXNode("/rdv/datas");
-        createNode("data");
-        createXNode("code", _code);
+bool GCode::createCode() {
+    if(!getCode()) {
+        createNodePath("/rdv/datas");
     }
     return true;
 }
 //===============================================
-bool GCode::addData(const QString& _code, const QString& _key, const QString& _value, bool _isCData) {
-    if(_value == "") return false;
-    createCode(_code);
-    if(!hasCode(_code, _key)) {
+bool GCode::createCode(const GString& _code) {
+    if(!getCode(_code)) {
+        createCode();
+        createNode("data");
+        next();
+        createNode("code");
+        next();
+        setValue(_code);
         getCode(_code);
-        createXNode(_key, _value, _isCData);
-    }
-    else {
-        getCode(_code, _key);
-        setNodeValue(_value, _isCData);
     }
     return true;
 }
 //===============================================
-bool GCode::addData(const QString& _code, const QString& _key, int _value, bool _isCData) {
-    QString lData = QString("%1").arg(_value);
-    addData(_code, _key, lData, _isCData);
+bool GCode::createRequest(const GString& _modules, const GString& _method) {
+    addData("manager", "module", _modules);
+    addData("manager", "method", _method);
     return true;
 }
 //===============================================
-bool GCode::addData(const QString& _code, const QVector<QString>& _datas, bool _isCData) {
-    if(!_datas.size()) return false;
+bool GCode::loadData(const GString& _data) {
+    if(_data.trim() == "") return true;
+    GCode lDom;
+    lDom.loadXml(_data);
+    GString lData = lDom.toData();
+    createCode();
+    loadNode(lData);
+    return true;
+}
+//===============================================
+bool GCode::getCode() {
+    return getNode("/rdv/datas");
+}
+//===============================================
+bool GCode::getCode(const GString& _code) {
+    return getNode(GFORMAT("/rdv/datas/data[code='%s']", _code.c_str()));
+}
+//===============================================
+bool GCode::getCode(const GString& _code, const GString& _key) {
+    return getNode(GFORMAT("/rdv/datas/data[code='%s']/%s", _code.c_str(), _key.c_str()));
+}
+//===============================================
+bool GCode::getCode(const GString& _code, int _index) {
+    return getNode(GFORMAT("/rdv/datas/data[code='%s']/map/data[position()=%d]", _code.c_str(), _index + 1));
+}
+//===============================================
+bool GCode::getMap(const GString& _code, int _index) {
+    return getNode(GFORMAT("/rdv/datas/data[code='%s']/map/data[position()=%d]", _code.c_str(), _index + 1));
+}
+//===============================================
+GString GCode::getData(const GString& _code, const GString& _key) {
+    if(!getCode(_code, _key)) return "";
+    return getValue();
+}
+//===============================================
+GString GCode::getData(const GString& _code, int _index) {
+    if(!getCode(_code, _index)) return "";
+    return getValue();
+}
+//===============================================
+bool GCode::getData(const GString& _code, std::vector<GObject*>& _map, GObject* _obj) {
+    int lCount = countMap(_code);
+    for(int i = 0; i < lCount; i++) {
+        getMap(_code, i);
+        GString lData = toNode();
+        lData = GFORMAT("<rdv>%s</rdv>", lData.c_str());
+        GCode lDom;
+        lDom.createDoc();
+        lDom.createCode();
+        lDom.loadNode(lData);
+        lData = lDom.toString();
+        GObject* lObj = _obj->clone();
+        lObj->deserialize(lData, lObj->getCodeName());
+        _map.push_back(lObj);
+    }
+    return true;
+}
+//===============================================
+bool GCode::addData(const GString& _code, const GString& _key, const GString& _value, bool _isCData) {
+    if(_value.isEmpty()) return false;
+    if(_value.size() == 1 && _value == "0") return false;
     createCode(_code);
-    getCode(_code);
-    createXNode("map");
-    for(int i = 0; i < (int)_datas.size(); i++) {
-        QString lData = _datas[i];
-        saveNode();
-        createNode("data");
-        setNodeValue(lData, _isCData);
-        restoreNode();
+    if(!getCode(_code, _key)) {
+        createNode(_key);
+        next();
     }
+    setValue(_value, _isCData);
     return true;
 }
 //===============================================
-bool GCode::addData(const QString& _code, const QVector<GObject*>& _datas) {
-    if(!_datas.size()) return false;
+bool GCode::addData(const GString& _code, const std::vector<GObject*>& _map) {
+    if(_map.size() == 0) return false;
     createCode(_code);
-    getCode(_code);
-    createXNode("map");
-    for(int i = 0; i < (int)_datas.size(); i++) {
-        GObject* lObj = _datas[i];
-        lObj->setIsParent(false);
-        QString lData = lObj->serialize(_code);
+    if(!getCode(_code, "map")) {
+        createNode("map");
+        next();
+    }
+    for(int i = 0; i < (int)_map.size(); i++) {
+        GObject* lObj = _map.at(i);
+        GString lData = lObj->serialize(lObj->getCodeName());
+        GCode lDom;
+        lDom.loadXml(lData);
+        lData = lDom.toData();
         loadNode(lData);
     }
     return true;
 }
 //===============================================
-bool GCode::getCode(const QString& _code) {
-    getXPath(QString("/rdv/datas/data[code='%1']").arg(_code));
-    return true;
-}
-//===============================================
-bool GCode::getCode(const QString& _code, const QString& _key) {
-    getXPath(QString("/rdv/datas/data[code='%1']/%2").arg(_code).arg(_key));
-    return true;
-}
-//===============================================
-QString GCode::getItem(const QString& _code, const QString& _key) {
-    queryXPath(QString("/rdv/datas/data[code='%1']/%2").arg(_code).arg(_key));
-    getNodeXPath();
-    QString lData = getNodeValue();
-    return lData;
-}
-//===============================================
-QString GCode::getItem(const QString& _code, int _index) {
-    getXPath(QString("/rdv/datas/data[code='%1']/map/data[position()=%2]").arg(_code).arg(_index + 1));
-    QString lData = getNodeValue();
-    return lData;
-}
-//===============================================
-QString GCode::getItem(const QString& _code, const QString& _key, int _index) {
-    getXPath(QString("/rdv/datas/data[code='%1']/map/data[position()=%2]/%3").arg(_code).arg(_index + 1).arg(_key));
-    QString lData = getNodeValue();
-    return lData;
-}
-//===============================================
-QString GCode::getItem(const QString& _code, const QString& _category, const QString& _key) {
-    int lCount = countItem(_code);
-    for(int i = 0; i < lCount; i++) {
-        QString lCategory = getItem(_code, "category", i);
-        QString lData = getItem(_code, _key, i);
-        if(lCategory == _category) {
-            return lData;
-        }
-    }
-    return "";
-}
-//===============================================
-bool GCode::getItem(const QString& _code, QVector<GObject*>& _datas, GObject* _obj) {
-    int lCount = countItem(_code);
-
-    for(int i = 0; i < lCount; i++) {
-        QString lData = getMap(_code, i);
-        GObject* lObj = _obj->clone();
-        lObj->deserialize(lData, _code);
-        _datas.push_back(lObj);
-    }
-    return true;
-}
-//===============================================
-QString GCode::getMap(const QString& _code, int _index) {
-    getXPath(QString("/rdv/datas/data[code='%1']/map/data[position()=%2]").arg(_code).arg(_index + 1));
-    QString lData = toStringNode();
+bool GCode::addData(const GString& _data, GObject* _obj) {
+    if(_data.trim().isEmpty()) return false;
     GCode lDom;
-    lDom.createDoc();
-    lDom.createXNode("/rdv/datas");
-    GLOGT(eGOFF, lData);
-    lDom.loadNode(lData);
-    return lDom.toString();
-}
-//===============================================
-int GCode::countItem(const QString& _code) {
-    queryXPath(QString("/rdv/datas/data[code='%1']/map/data").arg(_code));
-    int lData = countXPath();
-    return lData;
-}
-//===============================================
-bool GCode::loadCode(const QString& _data, const QString& _encoding) {
-    if(_data == "") return false;
-    createXNode("/rdv/datas");
-    loadNode(_data, _encoding);
+    lDom.loadXml(_data);
+    if(!lDom.getNode("/rdv/datas/data/code")) return false;
+    GString lCode = lDom.getValue();
+    if(lCode.isEmpty()) return false;
+    if(!lDom.getCode(lCode)) return false;
+    if(!getCode(lCode)) {
+        loadData(_data);
+    }
+    else {
+        replaceNode(lDom);
+    }
     return true;
 }
 //===============================================
-QString GCode::toStringCode(const QString& _code) {
-    queryXPath(QString("/rdv/datas/data[code='%1']").arg(_code));
-    getNodeXPath();
-    QString lData = toStringNode();
+int GCode::countMap(const GString& _code) {
+    int lData = countNode(GFORMAT("/rdv/datas/data[code='%s']/map/data", _code.c_str()));
     return lData;
 }
 //===============================================
-QString GCode::toStringData() {
-    QString lData = "";
-    if(hasCode()) {
-        queryXPath(QString("/rdv/datas/data"));
-        int lCount = countXPath();
-        for(int i = 0; i < lCount; i++) {
-            getNodeXPath(i);
-            lData += toStringNode();
-        }
+GString GCode::toData() {
+    GString lData = "";
+    if(getCode()) {
+        lData = toNode();
     }
     return lData;
 }

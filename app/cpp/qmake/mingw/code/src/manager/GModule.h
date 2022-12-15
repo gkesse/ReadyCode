@@ -2,30 +2,40 @@
 #ifndef _GModule_
 #define _GModule_
 //===============================================
-#include "GSession.h"
+#include "GSearch.h"
 //===============================================
-class GSocket;
+class GTableWidgetUi;
 //===============================================
-class GModule : public GSession {
-    Q_OBJECT
-
+class GModule : public GSearch {
 public:
-    GModule(QObject* _parent = 0);
-    virtual ~GModule();
-    //
-    virtual QString serialize(const QString& _code = "request") const;
-    virtual void deserialize(const QString& _data, const QString& _code = "request");
-    virtual QString getModule() const;
-    virtual QString getMethod() const;
-    //
-    virtual void onModuleNone(GSocket* _client);
-    virtual void onMethodNone(GSocket* _client);
-    virtual void onModuleUnknown(GSocket* _client);
-    virtual void onMethodUnknown(GSocket* _client);
+    GModule(const GString& _code = "module");
+    ~GModule();
+    GObject* clone() const;
+    GString serialize(const GString& _code = "module");
+    bool deserialize(const GString& _data, const GString& _code = "module");
+
+    void setModule(const GModule& _module);
+    void setModule(GModule* _module);
+    void setModule(int _index);
+
+    void setId(int _id);
+    void setName(const GString& _name);
+
+    int getId() const;
+    GString getName() const;
+
+    void saveModule();
+    void searchModule();
+    void deleteModule();
+
+    bool showList();
+    bool showNextList();
+    void onNextData();
 
 protected:
-    QString m_module;
-    QString m_method;
+    int m_id;
+    GString m_name;
+    std::shared_ptr<GTableWidgetUi> m_tableWidget;
 };
 //==============================================
 #endif

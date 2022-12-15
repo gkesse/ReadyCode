@@ -1,10 +1,12 @@
 //===============================================
 #include "GFont.h"
 #include "GPath.h"
-#include "GLog.h"
+#include "GCode.h"
 //===============================================
-GFont::GFont(QObject* _parent) :
-GObject(_parent) {
+GFont* GFont::m_instance = 0;
+//===============================================
+GFont::GFont() :
+GObject() {
     createDoms();
 }
 //===============================================
@@ -12,14 +14,19 @@ GFont::~GFont() {
 
 }
 //===============================================
+GFont* GFont::Instance() {
+    if(m_instance == 0) {
+        m_instance = new GFont;
+    }
+    return m_instance;
+}
+//===============================================
 bool GFont::loadFont() {
-    if(GLOGI->hasErrors()) return false;
-    GPath lPath;
-    int lCount = countItem("fonts");
+    int lCount = m_dom->countMap("fonts");
     for(int i = 0; i < lCount; i++) {
-        QString lFont = getItem("fonts", i);
-        QString lFile = lPath.getPath("fonts", lFont);
-        QFontDatabase::addApplicationFont(lFile);
+        GString lFont = m_dom->getData("fonts", i);
+        GString lFile = GPATH("fonts", lFont);
+        QFontDatabase::addApplicationFont(lFile.c_str());
     }
     return true;
 }

@@ -2,21 +2,24 @@
 #ifndef _GSearch_
 #define _GSearch_
 //===============================================
-#include "GModule.h"
+#include "GManager.h"
 //===============================================
-class GSearch : public GModule {
+class GSearch : public GManager {
 public:
-    GSearch();
-    ~GSearch();
-    std::string serialize(const std::string& _code = "search");
-    void deserialize(const std::string& _data, const std::string& _code = "search");
+    GSearch(const GString& _code = "search");
+    virtual ~GSearch();
+    GString serialize(const GString& _code = "search") const;
+    bool deserialize(const GString& _data, const GString& _code = "search");
+
+    void setSearch(const GSearch& _search);
 
 protected:
     int m_lastId;
     int m_dataCount;
     int m_dataSize;
     int m_dataOffset;
-    std::string m_where;
+    bool m_hasData;
+    GString m_where;
 };
 //==============================================
 #endif

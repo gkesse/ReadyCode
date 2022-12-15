@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>GWindowUi</class>
+ <widget class="QMainWindow" name="GWindowUi">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>640</width>
+    <height>480</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>ReadyPad</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QMdiArea" name="mdiArea">
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAsNeeded</enum>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAsNeeded</enum>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>640</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuManagers">
+    <property name="title">
+     <string>Managers</string>
+    </property>
+    <addaction name="actionConfig"/>
+    <addaction name="actionQuery"/>
+   </widget>
+   <addaction name="menuManagers"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionSaveFile">
+   <property name="text">
+    <string>Enregistrer un fichier</string>
+   </property>
+  </action>
+  <action name="actionDownloadFile">
+   <property name="text">
+    <string>Télécharger un fichier</string>
+   </property>
+  </action>
+  <action name="actionCreateOption">
+   <property name="text">
+    <string>Créer une option</string>
+   </property>
+  </action>
+  <action name="actionEnableOption">
+   <property name="text">
+    <string>Activer une option</string>
+   </property>
+  </action>
+  <action name="actionDisableOption">
+   <property name="text">
+    <string>Désactiver une option</string>
+   </property>
+  </action>
+  <action name="actionReadOption">
+   <property name="text">
+    <string>Lire une option</string>
+   </property>
+  </action>
+  <action name="actionUpdateOption">
+   <property name="text">
+    <string>Modifier une option</string>
+   </property>
+  </action>
+  <action name="actionDeleteOption">
+   <property name="text">
+    <string>Supprimer une option</string>
+   </property>
+  </action>
+  <action name="actionSearchOption">
+   <property name="text">
+    <string>Rechercher une option</string>
+   </property>
+  </action>
+  <action name="actionCreateAccount">
+   <property name="text">
+    <string>Créer un compte</string>
+   </property>
+  </action>
+  <action name="actionEnableAccount">
+   <property name="text">
+    <string>Activer un compte</string>
+   </property>
+  </action>
+  <action name="actionDisableAccount">
+   <property name="text">
+    <string>Désactiver un compte</string>
+   </property>
+  </action>
+  <action name="actionSearchAccount">
+   <property name="text">
+    <string>Rechercher un compte</string>
+   </property>
+  </action>
+  <action name="actionUpdateAccount">
+   <property name="text">
+    <string>Modifier un compte</string>
+   </property>
+  </action>
+  <action name="actionDeleteAccount">
+   <property name="text">
+    <string>Supprimer un compte</string>
+   </property>
+  </action>
+  <action name="actionCreateGroup">
+   <property name="text">
+    <string>Créer un groupe</string>
+   </property>
+  </action>
+  <action name="actionSearchGroup">
+   <property name="text">
+    <string>Rechercher un groupe</string>
+   </property>
+  </action>
+  <action name="actionUpdateGroup">
+   <property name="text">
+    <string>Modifier un groupe</string>
+   </property>
+  </action>
+  <action name="actionDeleteGroup">
+   <property name="text">
+    <string>Supprimer un groupe</string>
+   </property>
+  </action>
+  <action name="actionStartConnection">
+   <property name="text">
+    <string>Démarrer une connexion</string>
+   </property>
+  </action>
+  <action name="actionStartDisconnection">
+   <property name="text">
+    <string>Démarrer une déconnexion</string>
+   </property>
+  </action>
+  <action name="actionSearchFile">
+   <property name="text">
+    <string>Rechercher un fichier</string>
+   </property>
+  </action>
+  <action name="actionDeleteFile">
+   <property name="text">
+    <string>Supprimer un fichier</string>
+   </property>
+  </action>
+  <action name="actionCreateModule">
+   <property name="text">
+    <string>Créer un module</string>
+   </property>
+  </action>
+  <action name="actionSearchModule">
+   <property name="text">
+    <string>Rechercher un module</string>
+   </property>
+  </action>
+  <action name="actionUpdateModule">
+   <property name="text">
+    <string>Modifier un module</string>
+   </property>
+  </action>
+  <action name="actionDeleteModule">
+   <property name="text">
+    <string>Supprimer un module</string>
+   </property>
+  </action>
+  <action name="actionManageModule">
+   <property name="text">
+    <string>Gérer un module</string>
+   </property>
+  </action>
+  <action name="actionQuery">
+   <property name="text">
+    <string>Requêtes</string>
+   </property>
+  </action>
+  <action name="actionConfig">
+   <property name="text">
+    <string>Configurations</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

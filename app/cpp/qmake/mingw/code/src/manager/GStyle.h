@@ -4,21 +4,20 @@
 //===============================================
 #include "GObject.h"
 //===============================================
-#define GSTYLEI GStyle::Instance()
-#define GSTYLE(x) GSTYLEI->loadStyle(x)
+#define GSTYLEI         GStyle::Instance()
+#define GSTYLE_LOAD     GSTYLEI->loadStyle
 //===============================================
 class GStyle : public GObject {
-	Q_OBJECT
-
 public:
-    GStyle(QObject* _parent = 0);
+    GStyle();
     ~GStyle();
     static GStyle* Instance();
+    void initStyle();
     bool loadStyle();
-    bool loadStyle(const QString& _filename);
 
 private:
     static GStyle* m_instance;
+    GString m_styleFile;
 };
 //==============================================
 #endif

@@ -51,3 +51,4 @@
 /**/Makefile
 /**/nohup.out
 /**/*.o
+/**/*.autosave

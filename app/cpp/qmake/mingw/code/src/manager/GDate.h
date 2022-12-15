@@ -5,15 +5,19 @@
 #include "GObject.h"
 //===============================================
 class GDate : public GObject {
-    Q_OBJECT
-
 public:
-    GDate(QObject* _parent = 0);
+    GDate();
     ~GDate();
-    QString getDateTimeLogFormat() const;
-    QString getDateTimeFileFormat() const;
-    QString getDateFileFormat() const;
-    QString getDate(const QString& _format) const;
+    void initDate();
+    GString getDateTimeLogFormat() const;
+    GString getDateTimeFileFormat() const;
+    GString getDateFileFormat() const;
+    GString getDate(const GString& _format) const;
+
+private:
+    GString m_dateTimeLogFormat;
+    GString m_dateTimeFileFormat;
+    GString m_dateFileFormat;
 };
 //==============================================
 #endif

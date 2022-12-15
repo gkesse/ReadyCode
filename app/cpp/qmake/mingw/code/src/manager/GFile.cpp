@@ -1,121 +1,109 @@
 //===============================================
 #include "GFile.h"
+#include "GDate.h"
 #include "GShell.h"
 #include "GEnv.h"
-#include "GDate.h"
+#include "GCode.h"
+#include "GClient.h"
 //===============================================
-GFile::GFile(QObject* _parent) : GObject(_parent) {
-    m_filename = "";
-    m_openType = "";
+GFile::GFile()
+: GManager() {
+    m_id = 0;
 }
 //===============================================
-GFile::GFile(const QString& _filename, QObject* _parent) : GObject(_parent) {
-    m_filename = _filename;
-    m_openType = "";
-}
-//===============================================
-GFile::GFile(const QString& _filename, const QString& _openType, QObject* _parent) : GObject(_parent) {
-    m_filename = _filename;
-    m_openType = _openType;
+GFile::GFile(const GString& _fullname)
+: GManager() {
+    m_id = 0;
+    m_fullname = _fullname;
 }
 //===============================================
 GFile::~GFile() {
 
 }
 //===============================================
-bool GFile::existFile() const {
-    if(m_filename == "") return false;
-    return QFileInfo::exists(m_filename);
+GString GFile::serialize() const {
+    GCode lDom;
+    lDom.createDoc();
+    lDom.addData(m_codeName, "id", m_id);
+    lDom.addData(m_codeName, "filename", m_filename);
+    lDom.addData(m_codeName, "content", m_content, true);
+    return lDom.toString();
 }
 //===============================================
-QString GFile::getContent() const {
-    if(m_filename == "") return "";
+bool GFile::deserialize(const GString& _data) {
+    GManager::deserialize(_data);
+    GCode lDom;
+    lDom.loadXml(_data);
+    m_id = lDom.getData(m_codeName, "id").toInt();
+    m_filename = lDom.getData(m_codeName, "filename");
+    m_content = lDom.getData(m_codeName, "content");
+    return true;
+}
+//===============================================
+void GFile::setId(int _id) {
+    m_id = _id;
+}
+//===============================================
+void GFile::setFilename(const GString& _filename) {
+    m_filename = _filename;
+}
+//===============================================
+void GFile::setContent(const GString& _content) {
+    m_content = _content;
+}
+//===============================================
+GString GFile::getContent() const {
+    return m_content;
+}
+//===============================================
+void GFile::setFullname(const GString& _fullname) {
+    m_fullname = _fullname;
+}
+//===============================================
+bool GFile::existFile() const {
+    if(m_fullname == "") return false;
+    std::ifstream lFile(m_fullname.data());
+    return lFile.good();
+}
+//===============================================
+GString GFile::getContents() const {
+    if(m_fullname == "") return "";
     if(!existFile()) return "";
-    std::ifstream lFile(m_filename.toStdString());
+    std::ifstream lFile(m_fullname.data());
     std::stringstream lBuffer;
     lBuffer << lFile.rdbuf();
     return lBuffer.str().c_str();
 }
 //===============================================
-void GFile::setContent(const QString& _data) {
-    if(m_filename == "") return;
-    std::ofstream lFile(m_filename.toStdString());
-    lFile << _data.toStdString();
+GString GFile::getContentBin() const {
+    if(m_fullname == "") return "";
+    if(!existFile()) return "";
+    std::ifstream lFile(m_fullname.c_str(), std::ios::in | std::ios::binary);
+    std::vector<char> lData = std::vector<char>(std::istreambuf_iterator<char>(lFile), std::istreambuf_iterator<char>());
+    return lData;
 }
 //===============================================
-QString GFile::getAppendType() const {
-    return "a+";
+void GFile::setContents(const GString& _data) {
+    if(m_fullname == "") return;
+    std::ofstream lFile(m_fullname.c_str());
+    lFile << _data.c_str();
 }
 //===============================================
-QString GFile::getLogFullname() const {
-    return getLogFullname(GEnv().isTestEnv());
+void GFile::setContentBin(const GString& _data) {
+    if(m_fullname == "") return;
+    std::ofstream lFile(m_fullname.c_str(), std::ios::out | std::ios::binary);
+    lFile.write(_data.data(), _data.size());
 }
 //===============================================
-QString GFile::getLogFullname(bool _isTestEnv) const {
-    QString lFilename = getDateFullname("log_prod_", ".txt");
-    if(_isTestEnv) lFilename = getDateFullname("log_test_", ".txt");
-    return lFilename;
+void GFile::saveFile() {
+    GString lData = serialize();
+    lData = GCALL_SERVER("file", "save_file", lData);
+    deserialize(lData);
 }
 //===============================================
-QString GFile::getScriptInFilename() const {
-    QString lFilename = getDateFilename("script_", "_in.txt");
-    return lFilename;
-}
-//===============================================
-QString GFile::getScriptOutFilename() const {
-    QString lFilename = getDateFilename("script_", "_out.txt");
-    return lFilename;
-}
-//===============================================
-QString GFile::getDateFullname(const QString& _key, const QString& _ext) const {
-    QString lTmpDir = GEnv().getTmpDir();
-    QString lFilename = getDateFilename(_key, _ext);
-    lFilename = getFullname(lTmpDir, lFilename);
-    return lFilename;
-}
-//===============================================
-QString GFile::getDateFilename(const QString& _key, const QString& _ext) const {
-    QString lDate = GDate().getDate(GDate().getDateFileFormat());
-    return getFilename(_key, lDate, _ext);
-}
-//===============================================
-QString GFile::getFilename(const QString& _key, const QString& _date, const QString& _ext) const {
-    QString lFilename = QString("%1%2%3").arg(_key).arg(_date).arg(_ext);
-    return lFilename;
-}
-//===============================================
-QString GFile::getFullname(const QString& _path, const QString& _filename) const {
-    GShell().createDir(_path);
-    QString lFilename = QString("%1/%2").arg(_path).arg(_filename);
-    return lFilename;
-}
-//===============================================
-FILE* GFile::openLogFile() {
-    FILE* lFile = openFile(getLogFullname(), getAppendType());
-    return lFile;
-}
-//===============================================
-FILE* GFile::openFile() {
-    if(m_filename == "") return 0;
-    if(m_openType == "") return 0;
-    FILE* lFile = fopen(m_filename.toStdString().c_str(), m_openType.toStdString().c_str());
-    return lFile;
-}
-//===============================================
-FILE* GFile::openFile(const QString& _openType) {
-    if(m_filename == "") return 0;
-    FILE* lFile = fopen(m_filename.toStdString().c_str(), _openType.toStdString().c_str());
-    return lFile;
-}
-//===============================================
-FILE* GFile::openFile(const QString& _filename, const QString& _openType) {
-    FILE* lFile = fopen(_filename.toStdString().c_str(), _openType.toStdString().c_str());
-    m_filename = _filename;
-    m_openType = _openType;
-    return lFile;
-}
-//===============================================
-void GFile::closeFile(FILE* _file) {
-    fclose(_file);
+void GFile::downloadFile() {
+    GString lData = serialize();
+    lData = GCALL_SERVER("file", "download_file", lData);
+    deserialize(lData);
 }
 //===============================================

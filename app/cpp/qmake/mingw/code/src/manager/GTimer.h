@@ -5,22 +5,20 @@
 #include "GObject.h"
 //===============================================
 class GTimer : public GObject {
-    Q_OBJECT
-
 public:
     typedef TIMERPROC GTIMER_CB;
 
 public:
-    GTimer(GObject* _parent = 0);
+    GTimer();
     ~GTimer();
     //
     void setTimer(void* _onTimer, int _ms);
     void pauseTimer();
-    bool& getRunning();
+    bool& isRunning();
     static VOID CALLBACK onTimer(HWND, UINT, UINT_PTR, DWORD);
 
 private:
-    bool m_running;
+    bool m_isRunning;
 };
 //==============================================
 #endif

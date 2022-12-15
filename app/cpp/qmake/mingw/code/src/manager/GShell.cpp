@@ -1,65 +1,55 @@
 //===============================================
-#include "GShell.h"
+#include "GDate.h"
 #include "GLog.h"
+#include "GShell.h"
 #include "GEnv.h"
 #include "GFile.h"
-#include "GDate.h"
 //===============================================
-GShell::GShell(QObject* _parent) : GObject(_parent) {
-
+GShell::GShell()
+: GObject() {
+    initShell();
 }
 //===============================================
 GShell::~GShell() {
 
 }
 //===============================================
-QString GShell::getTmpDir() const {
-    return GEnv().getTmpDir();
+void GShell::initShell() {
+    m_tmpPath       = GEnv().getTmpDir();
+    m_currentDate   = GDate().getDateFileFormat();
+    m_tmpInFile     = GFORMAT("%s/script_%s_in.txt", m_tmpPath.c_str(), m_currentDate.c_str());
+    m_tmpOutFile    = GFORMAT("%s/script_%s_out.txt", m_tmpPath.c_str(), m_currentDate.c_str());
 }
 //===============================================
-QString GShell::getTmpInFilename() const {
-    return GFile().getScriptInFilename();
-}
-//===============================================
-QString GShell::getTmpOutFilename() const {
-    return GFile().getScriptOutFilename();
-}
-//===============================================
-void GShell::createDir(const QString& _dir) {
+void GShell::createDir(const GString& _dir) {
     if(_dir == "") return;
-    QString lCommand = QString("if ! [ -d %1 ] ; then mkdir -p %1 ; fi").arg(_dir);
+    GString lCommand = GFORMAT("if ! [ -d %s ] ; then mkdir -p %s ; fi", _dir.c_str(), _dir.c_str());
     runCommand(lCommand);
 }
 //===============================================
-void GShell::tailFile(const QString& _file) {
+void GShell::tailFile(const GString& _file) {
     if(_file == "") return;
-    QString lCommand = QString("if [ -e %1 ] ; then tail -f %1 ; fi").arg(_file);
+    GString lCommand = GFORMAT("if [ -e %s ] ; then tail -f %s ; fi", _file.c_str(), _file.c_str());
     runCommand(lCommand);
 }
 //===============================================
-void GShell::cleanDir(const QString& _dir) {
+void GShell::cleanDir(const GString& _dir) {
     if(_dir == "") return;
-    QString lCommand = QString("if [ -d %1 ] ; then rm -rf %1/* ; fi").arg(_dir);
+    GString lCommand = GFORMAT("if [ -d %s ] ; then rm -rf %s/* ; fi", _dir.c_str(), _dir.c_str());
     runCommand(lCommand);
 }
 //===============================================
-void GShell::runCommand(const QString& _command) {
-    system(_command.toStdString().c_str());
+void GShell::runCommand(const GString& _command) {
+    system(_command.c_str());
 }
 //===============================================
-QString GShell::runSystem(const QString& _command) {
-    GLOGT(eGINF, _command);
-    return runSystem(_command, getTmpDir(), getTmpInFilename(), getTmpOutFilename());
-}
-//===============================================
-QString GShell::runSystem(const QString& _command, const QString& _tmpDir, const QString& _tmpInFile, const QString& _tmpOutFile) {
-    createDir(_tmpDir);
-    QString lFilenameIn = QString("%1/%2").arg(_tmpDir).arg(_tmpInFile);
-    QString lFilenameOut = QString("%1/%2").arg(_tmpDir).arg(_tmpOutFile);
-    GFile(lFilenameIn).setContent(_command);
-    QString lCommand = QString(". %1 > %2").arg(lFilenameIn).arg(lFilenameOut);
+GString GShell::runSystem(const GString& _command) {
+    GLOGT(eGINF, _command.c_str());
+    createDir(m_tmpPath);
+    GFile(m_tmpInFile).setContents(_command);
+    GString lCommand = GFORMAT(". %1 > %2", m_tmpInFile.c_str(), m_tmpOutFile.c_str());
     runCommand(lCommand);
-    QString lData = GFile(lFilenameOut).getContent();
+    GString lData = GFile(m_tmpOutFile).getContent();
     return lData;
 }
 //===============================================
