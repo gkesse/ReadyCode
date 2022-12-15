@@ -1,5 +1,6 @@
 //===============================================
 #include "GPoco.h"
+#include "GPocoServerApp.h"
 #include "GLog.h"
 //===============================================
 GPoco::GPoco(const GString& _code)
@@ -60,6 +61,12 @@ bool GPoco::doGet() {
 bool GPoco::doGet(const GString& _uri) {
     setUri(_uri);
     if(!doGet()) return false;
+    return true;
+}
+//===============================================
+bool GPoco::runServer(int _argc, char** _argv) {
+    GPocoServerApp lServerApp;
+    lServerApp.run(_argc, _argv);
     return true;
 }
 //===============================================

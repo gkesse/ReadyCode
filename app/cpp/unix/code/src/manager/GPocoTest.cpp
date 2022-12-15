@@ -18,6 +18,9 @@ void GPocoTest::run(int _argc, char** _argv) {
     if(lKey == "get") {
         runGet(_argc, _argv);
     }
+    else if(lKey == "server") {
+        runServer(_argc, _argv);
+    }
     else {
         runDefault(_argc, _argv);
     }
@@ -31,5 +34,11 @@ void GPocoTest::runGet(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GPoco lPoco;
     lPoco.doGet("http://example.com/");
+}
+//===============================================
+void GPocoTest::runServer(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    GPoco lPoco;
+    lPoco.runServer(_argc, _argv);
 }
 //===============================================

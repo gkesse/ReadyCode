@@ -14,6 +14,7 @@ public:
 
     bool doGet();
     bool doGet(const GString& _uri);
+    bool runServer(int _argc, char** _argv);
 
     bool doRequest(Poco::Net::HTTPClientSession& _session, Poco::Net::HTTPRequest& _request, Poco::Net::HTTPResponse& _response);
 
