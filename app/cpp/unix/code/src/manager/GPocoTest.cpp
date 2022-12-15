@@ -30,6 +30,6 @@ void GPocoTest::runDefault(int _argc, char** _argv) {
 void GPocoTest::runGet(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GPoco lPoco;
-    lPoco.doGet("https://example.com/");
+    lPoco.doGet("http://example.com/");
 }
 //===============================================
