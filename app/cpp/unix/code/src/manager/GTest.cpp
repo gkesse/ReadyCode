@@ -12,13 +12,10 @@ GTest::~GTest() {
 }
 //===============================================
 void GTest::run(int _argc, char** _argv) {
-    GString lKey = "";
+    GString lKey;
     if(_argc > 2) lKey = _argv[2];
-    if(lKey == "") {
-        runDefault(_argc, _argv);
-    }
-    else if(lKey == "default") {
-        runDefault(_argc, _argv);
+    if(lKey == "poco") {
+        runPoco(_argc, _argv);
     }
     else {
         runDefault(_argc, _argv);
@@ -27,5 +24,9 @@ void GTest::run(int _argc, char** _argv) {
 //===============================================
 void GTest::runDefault(int _argc, char** _argv) {
     GLOGT(eGFUN, "Le process est inconnu.");
+}
+//===============================================
+void GTest::runPoco(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
 }
 //===============================================
