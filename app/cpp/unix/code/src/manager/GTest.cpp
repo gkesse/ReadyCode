@@ -38,7 +38,7 @@ void GTest::runPoco(int _argc, char** _argv) {
 }
 //===============================================
 void GTest::runCurl(int _argc, char** _argv) {
-    GLOGT(eGFUN, "Le process est inconnu.");
+    GLOGT(eGFUN, "");
     GCurlTest lObj;
     lObj.run(_argc, _argv);
 }
