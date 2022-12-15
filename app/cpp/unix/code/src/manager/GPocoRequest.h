@@ -4,13 +4,18 @@
 //===============================================
 #include "GObject.h"
 //===============================================
+class GPoco;
+//===============================================
 class GPocoRequest : public Poco::Net::HTTPRequestHandler {
 public:
-    GPocoRequest();
+    GPocoRequest(GPoco* _poco);
     ~GPocoRequest();
 
 protected:
     void handleRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
+
+protected:
+    GPoco* m_poco;
 };
 //==============================================
 #endif
