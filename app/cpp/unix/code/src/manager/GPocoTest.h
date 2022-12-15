@@ -10,6 +10,7 @@ public:
     ~GPocoTest();
     void run(int _argc, char** _argv);
     void runDefault(int _argc, char** _argv);
+    void runGet(int _argc, char** _argv);
 };
 //==============================================
 #endif
