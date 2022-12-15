@@ -87,8 +87,11 @@
 #include <Poco/Timestamp.h>
 #include <Poco/Thread.h>
 #include <Poco/URI.h>
-// libs
+// curl
+#include <curl/curl.h>
+// base64
 #include <base64.h>
+// md5
 #include <md5.h>
 //===============================================
 typedef unsigned char uchar;

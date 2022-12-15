@@ -15,7 +15,7 @@
 #define eGLOG   8, __FILE__, __LINE__, __PRETTY_FUNCTION__
 //===============================================
 #define GLOGI               GLog::Instance()
-#define GERROR_ADD(x, y)    GLOGI->addError(#x, x, y)
+#define GERROR_ADD(x, ...)  GLOGI->addError(#x, x, GFORMAT(__VA_ARGS__))
 #define GERROR_LOAD(x, y)   GLOGI->loadErrors(#x, x, y)
 #define GLOG_LOAD(x, y)     GLOGI->loadLogs(#x, x, y)
 #define GERROR_SHOW(x)      GLOGI->showErrors(#x, x)

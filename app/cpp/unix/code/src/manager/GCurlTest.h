@@ -1,17 +1,16 @@
 //===============================================
-#ifndef _GPocoTest_
-#define _GPocoTest_
+#ifndef _GCurlTest_
+#define _GCurlTest_
 //===============================================
 #include "GObject.h"
 //===============================================
-class GPocoTest : public GObject {
+class GCurlTest : public GObject {
 public:
-    GPocoTest(const GString& _code = "poco_test");
-    ~GPocoTest();
+    GCurlTest(const GString& _code = "curl_test");
+    ~GCurlTest();
     void run(int _argc, char** _argv);
     void runDefault(int _argc, char** _argv);
     void runGet(int _argc, char** _argv);
-    void runServer(int _argc, char** _argv);
 };
 //==============================================
 #endif

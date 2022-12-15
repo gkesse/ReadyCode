@@ -1,35 +1,37 @@
 //===============================================
-#include "GTest.h"
 #include "GCurlTest.h"
+#include "GCurl.h"
 #include "GLog.h"
 //===============================================
-GTest::GTest()
-: GManager() {
+GCurlTest::GCurlTest(const GString& _code)
+: GObject(_code) {
 
 }
 //===============================================
-GTest::~GTest() {
+GCurlTest::~GCurlTest() {
 
 }
 //===============================================
-void GTest::run(int _argc, char** _argv) {
-	GString lKey;
-	if(_argc > 2) lKey = _argv[2];
-    if(lKey == "curl") {
-        runCurl(_argc, _argv);
+void GCurlTest::run(int _argc, char** _argv) {
+    GString lKey;
+    if(_argc > 3) lKey = _argv[3];
+    if(lKey == "get") {
+        runGet(_argc, _argv);
     }
     else {
         runDefault(_argc, _argv);
     }
 }
 //===============================================
-void GTest::runDefault(int _argc, char** _argv) {
+void GCurlTest::runDefault(int _argc, char** _argv) {
     GLOGT(eGFUN, "Le process est inconnu.");
 }
 //===============================================
-void GTest::runCurl(int _argc, char** _argv) {
+void GCurlTest::runGet(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
-    GCurlTest lObj;
-    lObj.run(_argc, _argv);
+    GCurl lCurl;
+    GString lResponse;
+    lCurl.doGet("http://example.com/", lResponse);
+    lResponse.print();
 }
 //===============================================

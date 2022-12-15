@@ -16,9 +16,8 @@ GProcess::~GProcess() {
 }
 //===============================================
 void GProcess::run(int _argc, char** _argv) {
-	QString lKey = "";
+	GString lKey;
 	if(_argc > 1) lKey = _argv[1];
-
 	if(lKey == "test") {
         runTest(_argc, _argv);
     }
