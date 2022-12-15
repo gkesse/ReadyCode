@@ -1,34 +1,28 @@
 //===============================================
-#include "GTest.h"
 #include "GPocoTest.h"
 #include "GLog.h"
 //===============================================
-GTest::GTest()
-: GManager() {
+GPocoTest::GPocoTest(const GString& _code)
+: GObject(_code) {
 
 }
 //===============================================
-GTest::~GTest() {
+GPocoTest::~GPocoTest() {
 
 }
 //===============================================
-void GTest::run(int _argc, char** _argv) {
+void GPocoTest::run(int _argc, char** _argv) {
     GString lKey;
-    if(_argc > 2) lKey = _argv[2];
-    if(lKey == "poco") {
-        runPoco(_argc, _argv);
+    if(_argc > 3) lKey = _argv[3];
+    if(lKey == "") {
+        runDefault(_argc, _argv);
     }
     else {
         runDefault(_argc, _argv);
     }
 }
 //===============================================
-void GTest::runDefault(int _argc, char** _argv) {
+void GPocoTest::runDefault(int _argc, char** _argv) {
     GLOGT(eGFUN, "Le process est inconnu.");
-}
-//===============================================
-void GTest::runPoco(int _argc, char** _argv) {
-    GPocoTest lObj;
-    lObj.run(_argc, _argv);
 }
 //===============================================
