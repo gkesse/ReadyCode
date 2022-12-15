@@ -63,6 +63,7 @@
 #include <Poco/Net/HTTPRequest.h>
 #include <Poco/Net/HTTPResponse.h>
 #include <Poco/Net/HTTPMessage.h>
+#include <Poco/Net/HTTPServer.h>
 #include <Poco/NullStream.h>
 //
 #include <Poco/Util/Application.h>
