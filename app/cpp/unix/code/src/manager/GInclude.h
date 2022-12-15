@@ -48,6 +48,8 @@
 #include <Poco/Net/HTTPRequestHandler.h>
 #include <Poco/Net/HTTPResponse.h>
 #include <Poco/Net/HTTPServer.h>
+#include <Poco/Net/HTTPServerRequest.h>
+#include <Poco/Net/HTTPServerResponse.h>
 #include <Poco/Net/ICMPClient.h>
 #include <Poco/Net/IPAddress.h>
 #include <Poco/Net/KeyConsoleHandler.h>
