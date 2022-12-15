@@ -5,7 +5,7 @@
 #include "GObject.h"
 //===============================================
 class GPocoRequestFactory : public Poco::Net::HTTPRequestHandlerFactory {
-protected:
+public:
     Poco::Net::HTTPRequestHandler* createRequestHandler(const Poco::Net::HTTPServerRequest& _request);
 };
 //==============================================

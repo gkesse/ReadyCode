@@ -5,7 +5,7 @@
 #include "GObject.h"
 //===============================================
 class GPocoRequest : public Poco::Net::HTTPRequestHandler {
-protected:
+public:
     void handleRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
 };
 //==============================================
