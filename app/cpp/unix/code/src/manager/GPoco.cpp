@@ -122,8 +122,9 @@ void GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
 
     if(m_response.isEmpty()) {
         m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
-        m_contentType = "text/html";
-        m_response = "<h1>ressource non trouvée</h1>";
+        m_contentType = "text/html; charset=UTF-8";
+        m_response += GFORMAT("<h1>ressource non trouvée</h1>");
+        m_response += GFORMAT("<p>URI : %s</p>", m_uri.c_str());
     }
 
     _response.setStatus((Poco::Net::HTTPResponse::HTTPStatus)m_status);
