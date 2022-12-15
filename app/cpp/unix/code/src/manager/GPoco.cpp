@@ -16,12 +16,22 @@ GPoco::~GPoco() {
 void GPoco::initPoco() {
     m_msgStarting = "Démarrage du serveur...";
     m_msgShutdown = "Arrêt du serveur...";
-
+    m_port = 9080;
     m_status = 0;
+}
+//===============================================
+void GPoco::initPoco(const Poco::Net::HTTPServerRequest& _request) {
+    m_host = _request.getHost();
+    m_method = _request.getMethod();
+    m_uri = _request.getURI();
 }
 //===============================================
 void GPoco::setUri(const GString& _uri) {
     m_uri = _uri;
+}
+//===============================================
+int GPoco::getPort() const {
+    return m_port;
 }
 //===============================================
 GString GPoco::getMsgStarting() const {
@@ -104,18 +114,32 @@ bool GPoco::runServer(int _argc, char** _argv) {
 }
 //===============================================
 void GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
-    GLOGT(eGFUN, "");
-    _response.setStatus(Poco::Net::HTTPResponse::HTTP_OK);
-    _response.setContentType("text/html");
-    std::ostream& out = _response.send();
-    out     << "<h1>Hello world!</h1>"
-            << "<p>Host: "   << _request.getHost()   << "</p>"
-            << "<p>Method: " << _request.getMethod() << "</p>"
-            << "<p>URI: "    << _request.getURI()    << "</p>";
-    out.flush();
+    initPoco(_request);
 
-    std::cout << std::endl
-            << "Response sent for count=" << 1
-            << " and URI=" << _request.getURI() << std::endl;
+    if(m_method == "GET") {
+        onGet(_request, _response);
+    }
+
+    if(m_response.isEmpty()) {
+        m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+        m_contentType = "text/html";
+        m_response = "<h1>ressource non trouvée</h1>";
+    }
+
+    _response.setStatus((Poco::Net::HTTPResponse::HTTPStatus)m_status);
+    _response.setContentType(m_contentType.c_str());
+    std::ostream& lStream = _response.send();
+    lStream << m_response.c_str();
+    lStream.flush();
+}
+//===============================================
+void GPoco::onGet(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
+    initPoco(_request);
+
+    if(m_method == "/") {
+        m_status = Poco::Net::HTTPResponse::HTTP_OK;
+        m_contentType = "text/html";
+        m_response = "<h1>Bonjour tout le monde</h1>";
+    }
 }
 //===============================================

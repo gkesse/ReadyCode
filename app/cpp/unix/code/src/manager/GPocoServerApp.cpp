@@ -13,7 +13,7 @@ GPocoServerApp::~GPocoServerApp() {
 }
 //===============================================
 int GPocoServerApp::main(const std::vector<std::string>& _args) {
-    Poco::Net::HTTPServer lServer(new GPocoRequestFactory(m_poco), Poco::Net::ServerSocket(9080), new Poco::Net::HTTPServerParams);
+    Poco::Net::HTTPServer lServer(new GPocoRequestFactory(m_poco), Poco::Net::ServerSocket(m_poco->getPort()), new Poco::Net::HTTPServerParams);
     lServer.start();
     std::cout << std::endl << m_poco->getMsgStarting() << std::endl;
     waitForTerminationRequest(); // wait for CTRL-C or kill
