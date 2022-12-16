@@ -27,15 +27,6 @@ void GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
     m_host = _request.getHost();
     m_method = _request.getMethod();
     m_uri = _request.getURI();
-
-    Poco::Net::HTMLForm lForm(_request, _request.stream());
-    Poco::Net::HTMLForm::ConstIterator it = lForm.begin();
-    for(; it != lForm.end(); it++) {
-        GString lKey = it->first;
-        GString lValue = it->second;
-        lKey.print();
-        lValue.print();
-    }
 }
 //===============================================
 void GPoco::setUri(const GString& _uri) {
