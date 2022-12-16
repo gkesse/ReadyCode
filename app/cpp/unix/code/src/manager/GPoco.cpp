@@ -28,11 +28,14 @@ void GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
     m_method = _request.getMethod();
     m_uri = _request.getURI();
 
-    auto & stream = _request.stream();
-    const size_t len = _request.getContentLength();
-    std::string buffer(len, 0);
-    stream.read((char*)buffer.data(), len);
-    std::cout << buffer;
+    Poco::Net::HTMLForm lForm(_request);
+    Poco::Net::HTMLForm::ConstIterator it = lForm.begin();
+    for(; it != lForm.end(); it++) {
+        GString lKey = it->first;
+        GString lValue = it->second;
+        lKey.print();
+        lValue.print();
+    }
 }
 //===============================================
 void GPoco::setUri(const GString& _uri) {
