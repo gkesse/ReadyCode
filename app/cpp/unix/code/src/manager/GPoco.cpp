@@ -16,6 +16,9 @@ GPoco::~GPoco() {
 void GPoco::initPoco() {
     m_msgStarting = "Démarrage du serveur...";
     m_msgShutdown = "Arrêt du serveur...";
+    m_contentType = "text/html";
+    m_charset = "UTF-8";
+    m_charset = "";
     m_port = 9080;
     m_status = 0;
 }
@@ -119,10 +122,12 @@ void GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
     if(m_method == "GET") {
         onGet(_request, _response);
     }
+    else if(m_method == "POST") {
+        onPost(_request, _response);
+    }
 
     if(m_response.isEmpty()) {
         m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
-        m_contentType = "text/html; charset=UTF-8";
         m_response += GFORMAT("<h1>ressource non trouvée</h1>");
         m_response += GFORMAT("<p>URI : %s</p>", m_uri.c_str());
 
@@ -136,7 +141,7 @@ void GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
     }
 
     _response.setStatus((Poco::Net::HTTPResponse::HTTPStatus)m_status);
-    _response.setContentType(m_contentType.c_str());
+    _response.setContentType(GFORMAT("%s;%s", m_contentType.c_str(), m_charset.c_str()).c_str());
     std::ostream& lStream = _response.send();
     lStream << m_response.c_str();
     lStream.flush();
@@ -148,12 +153,25 @@ void GPoco::onGet(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerR
     if(m_uri == "/") {
         m_status = Poco::Net::HTTPResponse::HTTP_OK;
         m_contentType = "text/html";
-        m_response = "<h1>Bonjour tout le monde</h1>";
+        m_response = "<h1>[GET] : Bonjour tout le monde</h1>";
     }
     else if(m_uri == "/hello") {
         m_status = Poco::Net::HTTPResponse::HTTP_OK;
         m_contentType = "text/html";
-        m_response = "<h1>Bonjour tout le monde</h1>";
+        m_response = "<h1>[GET] : Bonjour tout le monde</h1>";
+    }
+}
+//===============================================
+void GPoco::onPost(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
+    initPoco(_request);
+
+    if(m_uri == "/") {
+        m_status = Poco::Net::HTTPResponse::HTTP_OK;
+        m_response = "<h1>[POST] : Bonjour tout le monde</h1>";
+    }
+    else if(m_uri == "/hello") {
+        m_status = Poco::Net::HTTPResponse::HTTP_OK;
+        m_response = "<h1>[POST] : Bonjour tout le monde</h1>";
     }
 }
 //===============================================

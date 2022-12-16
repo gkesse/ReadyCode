@@ -25,6 +25,7 @@ public:
     bool runServer(int _argc, char** _argv);
     void onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
     void onGet(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
+    void onPost(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
 
     bool doRequest(Poco::Net::HTTPClientSession& _session, Poco::Net::HTTPRequest& _request, Poco::Net::HTTPResponse& _response);
 
@@ -36,6 +37,7 @@ private:
     GString m_method;
     GString m_host;
     GString m_contentType;
+    GString m_charset;
     GString m_response;
 
     GString m_msgStarting;
