@@ -41,6 +41,7 @@
 #include <Poco/Net/Context.h>
 #include <Poco/Net/DNS.h>
 #include <Poco/Net/HostEntry.h>
+#include <Poco/Net/HTMLForm.h>
 #include <Poco/Net/HTTPCredentials.h>
 #include <Poco/Net/HTTPClientSession.h>
 #include <Poco/Net/HTTPMessage.h>

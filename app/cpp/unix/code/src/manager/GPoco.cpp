@@ -23,10 +23,19 @@ void GPoco::initPoco() {
     m_status = 0;
 }
 //===============================================
-void GPoco::initPoco(const Poco::Net::HTTPServerRequest& _request) {
+void GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
     m_host = _request.getHost();
     m_method = _request.getMethod();
     m_uri = _request.getURI();
+
+    Poco::Net::HTMLForm lForm(_request, _request.stream());
+    Poco::Net::HTMLForm::ConstIterator it = lForm.begin();
+    for(; it != lForm.end(); it++) {
+        GString lKey = it->first;
+        GString lValue = it->second;
+        lKey.print();
+        lValue.print();
+    }
 }
 //===============================================
 void GPoco::setUri(const GString& _uri) {
@@ -164,7 +173,6 @@ void GPoco::onGet(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerR
 //===============================================
 void GPoco::onPost(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
     initPoco(_request);
-
     if(m_uri == "/") {
         m_status = Poco::Net::HTTPResponse::HTTP_OK;
         m_response = "<h1>[POST] : Bonjour tout le monde</h1>";

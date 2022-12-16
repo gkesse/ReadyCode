@@ -10,7 +10,7 @@ public:
     ~GPoco();
 
     void initPoco();
-    void initPoco(const Poco::Net::HTTPServerRequest& _request);
+    void initPoco(Poco::Net::HTTPServerRequest& _request);
 
     void setUri(const GString& _uri);
 
