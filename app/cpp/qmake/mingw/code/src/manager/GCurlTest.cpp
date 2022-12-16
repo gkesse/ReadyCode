@@ -44,7 +44,7 @@ void GCurlTest::runPost(int _argc, char** _argv) {
     GString lResponse;
     lCurl.addParam("name", "Gerard KESSE");
     lCurl.addParam("project", "cURL");
-    lCurl.doPost("http://readydev.ovh:9091/", lResponse);
+    lCurl.doPost("http://readydev.ovh:9081/", lResponse);
     lResponse.print();
 }
 //===============================================
