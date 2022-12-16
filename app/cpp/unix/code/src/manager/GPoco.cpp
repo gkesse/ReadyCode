@@ -27,6 +27,10 @@ void GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
     m_host = _request.getHost();
     m_method = _request.getMethod();
     m_uri = _request.getURI();
+
+    std::string recv_string;
+    Poco::StreamCopier::copyToString(_request.stream(), recv_string);
+    std::cout << recv_string << std::endl;
 }
 //===============================================
 void GPoco::setUri(const GString& _uri) {

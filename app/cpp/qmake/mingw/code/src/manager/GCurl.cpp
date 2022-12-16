@@ -1,6 +1,7 @@
 //===============================================
 #include "GCurl.h"
 #include "GLog.h"
+#include "GMap.h"
 //===============================================
 GCurl::GCurl(const GString& _code)
 : GObject(_code) {
