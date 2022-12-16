@@ -16,7 +16,7 @@ GString GMap::toParams() {
         GString lKey = it->first;
         GString lValue = it->second;
         if(i != 0) lData += "&";
-        lData += GFORMAT("%s:%s", lKey.c_str(), lValue.c_str());
+        lData += GFORMAT("%s=%s", lKey.c_str(), lValue.c_str());
     }
     return lData;
 }
