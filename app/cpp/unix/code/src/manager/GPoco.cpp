@@ -31,7 +31,7 @@ void GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
     auto & stream = _request.stream();
     const size_t len = _request.getContentLength();
     std::string buffer(len, 0);
-    stream.read(buffer.data(), len);
+    stream.read((char*)buffer.data(), len);
     std::cout << buffer;
 }
 //===============================================
