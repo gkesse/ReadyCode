@@ -54,6 +54,7 @@ void GServer::run(int _argc, char** _argv) {
 }
 //===============================================
 bool GServer::onRunServerTcp() {
+    m_dataIn.print();
     if(m_dataIn.startBy(m_apiMethod)) {
         onReadyApp();
     }
