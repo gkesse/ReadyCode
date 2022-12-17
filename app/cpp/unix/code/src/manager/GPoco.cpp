@@ -29,6 +29,22 @@ void GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
     m_uri = _request.getURI();
     m_version = _request.getVersion();
     GFORMAT("%s %s %s", m_host.c_str(), m_uri.c_str(), m_version.c_str()).print();
+
+    Poco::Net::HTTPServerRequest::ConstIterator it = _request.begin();
+    for(; it != _request.end(); it++) {
+        GString lKey = it->first;
+        GString lValue = it->second;
+        GFORMAT("%s: %s", lKey.c_str(), lValue.c_str()).print();
+    }
+
+    GString lContent;
+    if(_request.hasContentLength()) {
+        std::istream& lInput = _request.stream();
+        std::string lOutput;
+        Poco::StreamCopier::copyToString(lInput, lOutput, _request.getContentLength());
+        lContent = lOutput;
+    }
+    lContent.print();
 }
 //===============================================
 void GPoco::setUri(const GString& _uri) {
@@ -150,8 +166,6 @@ void GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
 }
 //===============================================
 void GPoco::onGet(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
-    initPoco(_request);
-
     if(m_uri == "/") {
         m_status = Poco::Net::HTTPResponse::HTTP_OK;
         m_contentType = "text/html";
@@ -165,24 +179,6 @@ void GPoco::onGet(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerR
 }
 //===============================================
 void GPoco::onPost(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
-    initPoco(_request);
-
-    Poco::Net::HTTPServerRequest::ConstIterator it = _request.begin();
-    for(; it != _request.end(); it++) {
-        GString lKey = it->first;
-        GString lValue = it->second;
-        GFORMAT("%s: %s", lKey.c_str(), lValue.c_str()).print();
-    }
-
-    GString lContent;
-    if(_request.hasContentLength()) {
-        std::istream& lInput = _request.stream();
-        std::string lOutput;
-        Poco::StreamCopier::copyToString(lInput, lOutput, _request.getContentLength());
-        lContent = lOutput;
-    }
-    lContent.print();
-
     if(m_uri == "/") {
         m_status = Poco::Net::HTTPResponse::HTTP_OK;
         m_response = "<h1>[POST] : Bonjour tout le monde</h1>";
