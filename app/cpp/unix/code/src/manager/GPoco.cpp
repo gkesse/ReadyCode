@@ -52,6 +52,9 @@ bool GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
         GString lUsername = lCreds.getUsername();
         GString lPassword = lCreds.getPassword();
         lInfos += GFORMAT("%s: %s\n", lUsername.c_str(), lPassword.c_str());
+
+        Poco::Net::HTTPBasicCredentials lCreds(m_username.c_str(), m_password.c_str());
+        lCreds.authenticate(_request);
     }
     else return false;
 
