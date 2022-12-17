@@ -31,6 +31,7 @@ public:
 
 private:
     GString m_uri;
+    GString m_version;
     GString m_username;
     GString m_password;
     GString m_reason;

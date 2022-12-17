@@ -27,15 +27,8 @@ void GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
     m_host = _request.getHost();
     m_method = _request.getMethod();
     m_uri = _request.getURI();
-
-    Poco::Net::HTMLForm lForm(_request);
-    Poco::Net::HTMLForm::ConstIterator it = lForm.begin();
-    for(; it != lForm.end(); it++) {
-        GString lKey = it->first;
-        GString lValue = it->second;
-        lKey.print();
-        lValue.print();
-    }
+    m_version = _request.getVersion();
+    GFORMAT("%s %s %s", m_host.c_str(), m_uri.c_str(), m_version.c_str());
 }
 //===============================================
 void GPoco::setUri(const GString& _uri) {
