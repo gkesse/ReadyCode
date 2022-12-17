@@ -2,6 +2,8 @@
 #ifndef _GInclude_
 #define _GInclude_
 //===============================================
+typedef unsigned char uchar;
+//===============================================
 // system
 #include <iostream>
 #include <cstring>
@@ -96,8 +98,6 @@
 #include <md5.h>
 // includes
 #include "GString.h"
-//===============================================
-typedef unsigned char uchar;
 //===============================================
 #endif
 //===============================================
