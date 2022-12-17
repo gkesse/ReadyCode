@@ -23,7 +23,7 @@
 #include <base64.h>
 // curl
 #include <curl/curl.h>
-//===============================================
+// includes
 #include "GString.h"
 //===============================================
 #endif

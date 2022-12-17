@@ -94,6 +94,8 @@
 #include <base64.h>
 // md5
 #include <md5.h>
+// includes
+#include "GString.h"
 //===============================================
 typedef unsigned char uchar;
 //===============================================
