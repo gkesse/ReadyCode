@@ -46,7 +46,8 @@ void GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
     }
     lContent.print();
 
-    const Poco::URI lUri(lContent.c_str());
+    Poco::URI lUri;
+    lUri.setQuery(lContent.c_str());
     const Poco::URI::QueryParameters lParams = lUri.getQueryParameters();
     for(int i = 0; i < (int)lParams.size(); i++) {
         GString lKey = lParams.at(i).first;
