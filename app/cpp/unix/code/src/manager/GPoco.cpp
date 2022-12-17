@@ -91,14 +91,19 @@ bool GPoco::doGet(const GString& _url, GString& _response) {
             Poco::Net::HTTPCredentials lCredentials(m_username.c_str(), m_password.c_str());
             lCredentials.authenticate(lRequest, lResponse);
             lSession.sendRequest(lRequest);
-            lStream = lSession.receiveResponse(lResponse);
+            std::istream& lStream = lSession.receiveResponse(lResponse);
             lStatus = lResponse.getStatus();
-            if (lStatus == Poco::Net::HTTPResponse::HTTP_UNAUTHORIZED) return false;
+            if (lStatus != Poco::Net::HTTPResponse::HTTP_UNAUTHORIZED) {
+                std::string lOutput;
+                Poco::StreamCopier::copyToString(lStream, lOutput);
+                _response = lOutput;
+            }
         }
-
-        std::string lOutput;
-        Poco::StreamCopier::copyToString(lStream, lOutput);
-        _response = lOutput;
+        else {
+            std::string lOutput;
+            Poco::StreamCopier::copyToString(lStream, lOutput);
+            _response = lOutput;
+        }
     }
     catch(Poco::Exception& e) {
         GERROR_ADD(eGERR, "Erreur lors de l'exécution de la requête.\n%s", e.displayText().c_str());
