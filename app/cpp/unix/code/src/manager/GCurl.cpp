@@ -22,7 +22,7 @@ bool GCurl::initGet(CURL*& _curl, const GString& _url, std::string* _buffer) {
     if(lCode != CURLE_OK) {GERROR_ADD(eGERR, "Erreur lors de l'initialisation de cURL [%s].", lError); return false;}
     lCode = curl_easy_setopt(_curl, CURLOPT_FOLLOWLOCATION, 1L);
     if(lCode != CURLE_OK) {GERROR_ADD(eGERR, "Erreur lors de l'initialisation de cURL [%s].", lError); return false;}
-    lCode = curl_easy_setopt(_curl, CURLOPT_WRITEFUNCTION, onGet);
+    lCode = curl_easy_setopt(_curl, CURLOPT_WRITEFUNCTION, onWrite);
     if(lCode != CURLE_OK) {GERROR_ADD(eGERR, "Erreur lors de l'initialisation de cURL [%s].", lError); return false;}
     lCode = curl_easy_setopt(_curl, CURLOPT_WRITEDATA, _buffer);
     if(lCode != CURLE_OK) {GERROR_ADD(eGERR, "Erreur lors de l'initialisation de cURL [%s].", lError); return false;}
@@ -43,7 +43,7 @@ bool GCurl::doGet(const GString& _url, GString& _response) {
     return true;
 }
 //===============================================
-int GCurl::onGet(char* _data, size_t _size, size_t _nmemb, std::string* _writerData) {
+int GCurl::onWrite(char* _data, size_t _size, size_t _nmemb, std::string* _writerData) {
     if(_writerData == NULL) return 0;
     _writerData->append(_data, _size * _nmemb);
     return _size * _nmemb;

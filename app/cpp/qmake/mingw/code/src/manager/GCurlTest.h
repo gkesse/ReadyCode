@@ -12,6 +12,7 @@ public:
     void runDefault(int _argc, char** _argv);
     void runGet(int _argc, char** _argv);
     void runPost(int _argc, char** _argv);
+    void runPostForm(int _argc, char** _argv);
 };
 //==============================================
 #endif

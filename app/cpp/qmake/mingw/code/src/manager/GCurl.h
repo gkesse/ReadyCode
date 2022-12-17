@@ -13,18 +13,19 @@ public:
     bool initCurl();
     bool cleanCurl();
 
-    void addParam(const GString& _key, const GString& _value);
+    void addHeader(const GString& _key, const GString& _value);
+    void addForm(const GString& _key, const GString& _value);
+    void addContent(const GString& _content);
     bool doGet(const GString& _url, GString& _response);
     bool doPost(const GString& _url, GString& _response);
 
 private:
-    bool initGet(CURL*& _curl, const GString& _url, std::string* _buffer);
-    bool initPost(CURL*& _curl, const GString& _url, std::string* _buffer);
-
-    static int onGet(char* _data, size_t _size, size_t _nmemb, std::string* _writerData);
+    static int onWrite(char* _data, size_t _size, size_t _nmemb, std::string* _writerData);
 
 private:
-    GMap m_params;
+    GMap m_forms;
+    GMap m_headers;
+    GString m_contents;
 };
 //==============================================
 #endif

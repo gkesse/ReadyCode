@@ -22,73 +22,66 @@ bool GCurl::cleanCurl() {
     return true;
 }
 //===============================================
-bool GCurl::initGet(CURL*& _curl, const GString& _url, std::string* _buffer) {
-    CURLcode lCode;
-    char lError[CURL_ERROR_SIZE];
-    _curl = curl_easy_init();
-    if(_curl == NULL) {GERROR_ADD(eGERR, "Erreur lors de l'initialisation de cURL."); return false;}
-    lCode = curl_easy_setopt(_curl, CURLOPT_ERRORBUFFER, lError);
-    if(lCode != CURLE_OK) {GERROR_ADD(eGERR, "Erreur lors de l'initialisation de cURL [%d].", lCode); return false;}
-    lCode = curl_easy_setopt(_curl, CURLOPT_URL, _url.c_str());
-    if(lCode != CURLE_OK) {GERROR_ADD(eGERR, "Erreur lors de l'initialisation de cURL [%s].", lError); return false;}
-    lCode = curl_easy_setopt(_curl, CURLOPT_FOLLOWLOCATION, 1L);
-    if(lCode != CURLE_OK) {GERROR_ADD(eGERR, "Erreur lors de l'initialisation de cURL [%s].", lError); return false;}
-    lCode = curl_easy_setopt(_curl, CURLOPT_WRITEFUNCTION, onGet);
-    if(lCode != CURLE_OK) {GERROR_ADD(eGERR, "Erreur lors de l'initialisation de cURL [%s].", lError); return false;}
-    lCode = curl_easy_setopt(_curl, CURLOPT_WRITEDATA, _buffer);
-    if(lCode != CURLE_OK) {GERROR_ADD(eGERR, "Erreur lors de l'initialisation de cURL [%s].", lError); return false;}
-    return true;
+void GCurl::addHeader(const GString& _key, const GString& _value) {
+    m_headers[_key] = _value;
 }
 //===============================================
-bool GCurl::initPost(CURL*& _curl, const GString& _url, std::string* _buffer) {
-    CURLcode lCode;
-    char lError[CURL_ERROR_SIZE];
-    _curl = curl_easy_init();
-    if(_curl == NULL) {GERROR_ADD(eGERR, "Erreur lors de l'initialisation de cURL."); return false;}
-    lCode = curl_easy_setopt(_curl, CURLOPT_ERRORBUFFER, lError);
-    if(lCode != CURLE_OK) {GERROR_ADD(eGERR, "Erreur lors de l'initialisation de cURL [%d].", lCode); return false;}
-    lCode = curl_easy_setopt(_curl, CURLOPT_URL, _url.c_str());
-    if(lCode != CURLE_OK) {GERROR_ADD(eGERR, "Erreur lors de l'initialisation de cURL [%s].", lError); return false;}
-    lCode = curl_easy_setopt(_curl, CURLOPT_FOLLOWLOCATION, 1L);
-    if(lCode != CURLE_OK) {GERROR_ADD(eGERR, "Erreur lors de l'initialisation de cURL [%s].", lError); return false;}
-    lCode = curl_easy_setopt(_curl, CURLOPT_WRITEFUNCTION, onGet);
-    if(lCode != CURLE_OK) {GERROR_ADD(eGERR, "Erreur lors de l'initialisation de cURL [%s].", lError); return false;}
-    lCode = curl_easy_setopt(_curl, CURLOPT_WRITEDATA, _buffer);
-    if(lCode != CURLE_OK) {GERROR_ADD(eGERR, "Erreur lors de l'initialisation de cURL [%s].", lError); return false;}
-    return true;
+void GCurl::addForm(const GString& _key, const GString& _value) {
+    m_forms[_key] = _value;
 }
 //===============================================
-void GCurl::addParam(const GString& _key, const GString& _value) {
-    m_params[_key] = _value;
+void GCurl::addContent(const GString& _content) {
+    m_contents += _content;
 }
-
 //===============================================
 bool GCurl::doGet(const GString& _url, GString& _response) {
-    CURL* lCurl = NULL;
-    CURLcode lCode;
     char lError[CURL_ERROR_SIZE];
     std::string lBuffer;
-    if(!initGet(lCurl, _url, &lBuffer)) return false;
-    lCode = curl_easy_perform(lCurl);
+
+    CURL* lCurl = curl_easy_init();
+
+    curl_easy_setopt(lCurl, CURLOPT_ERRORBUFFER, lError);
+    curl_easy_setopt(lCurl, CURLOPT_URL, _url.c_str());
+    curl_easy_setopt(lCurl, CURLOPT_FOLLOWLOCATION, 1L);
+    curl_easy_setopt(lCurl, CURLOPT_WRITEFUNCTION, onWrite);
+    curl_easy_setopt(lCurl, CURLOPT_WRITEDATA, &lBuffer);
+    curl_easy_setopt (lCurl, CURLOPT_VERBOSE, 0L);
+
+    curl_easy_perform(lCurl);
     curl_easy_cleanup(lCurl);
-    if(lCode != CURLE_OK) {GERROR_ADD(eGERR, "Erreur lors de l'exécution de cURL [%s].", lError); return false;}
+
     _response = lBuffer;
     return true;
 }
 //===============================================
 bool GCurl::doPost(const GString& _url, GString& _response) {
-    CURL* lCurl = curl_easy_init();
-    GString lParams =  m_params.toParams();
+    char lError[CURL_ERROR_SIZE];
+    std::string lBuffer;
 
+    CURL* lCurl = curl_easy_init();
+
+    m_contents +=  m_forms.toParams();
+
+    struct curl_slist *hs=NULL;
+    hs = curl_slist_append(hs, "Content-Type: application/xml");
+    curl_easy_setopt(lCurl, CURLOPT_HTTPHEADER, hs);
+
+    curl_easy_setopt(lCurl, CURLOPT_ERRORBUFFER, lError);
     curl_easy_setopt(lCurl, CURLOPT_URL, _url.c_str());
-    curl_easy_setopt(lCurl, CURLOPT_POSTFIELDS, lParams.c_str());
-    curl_easy_setopt(lCurl, CURLOPT_POSTFIELDSIZE, lParams.size());
+    curl_easy_setopt(lCurl, CURLOPT_POSTFIELDS, m_contents.c_str());
+    curl_easy_setopt(lCurl, CURLOPT_POSTFIELDSIZE, m_contents.size());
+    curl_easy_setopt(lCurl, CURLOPT_WRITEFUNCTION, onWrite);
+    curl_easy_setopt(lCurl, CURLOPT_WRITEDATA, &lBuffer);
+    curl_easy_setopt (lCurl, CURLOPT_VERBOSE, 0L);
+
     curl_easy_perform(lCurl);
     curl_easy_cleanup(lCurl);
+
+    _response = lBuffer;
     return true;
 }
 //===============================================
-int GCurl::onGet(char* _data, size_t _size, size_t _nmemb, std::string* _writerData) {
+int GCurl::onWrite(char* _data, size_t _size, size_t _nmemb, std::string* _writerData) {
     if(_writerData == NULL) return 0;
     _writerData->append(_data, _size * _nmemb);
     return _size * _nmemb;

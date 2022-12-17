@@ -2,6 +2,7 @@
 #include "GCurlTest.h"
 #include "GCurl.h"
 #include "GLog.h"
+#include "GCode.h"
 //===============================================
 GCurlTest::GCurlTest(const GString& _code)
 : GObject(_code) {
@@ -20,6 +21,9 @@ void GCurlTest::run(int _argc, char** _argv) {
     }
     else if(lKey == "post") {
         runPost(_argc, _argv);
+    }
+    else if(lKey == "post/form") {
+        runPostForm(_argc, _argv);
     }
     else {
         runDefault(_argc, _argv);
@@ -42,9 +46,20 @@ void GCurlTest::runPost(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GCurl lCurl;
     GString lResponse;
-    lCurl.addParam("name", "Gerard KESSE");
-    lCurl.addParam("project", "cURL");
+    GCode lDom;
+    lDom.createDoc();
+    lDom.createRequest("command", "load_command");
+    lCurl.addContent(lDom.toString());
     lCurl.doPost("http://readydev.ovh:9081/", lResponse);
     lResponse.print();
+}
+//===============================================
+void GCurlTest::runPostForm(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    GCurl lCurl;
+    GString lResponse;
+    lCurl.addForm("name", "Gerard KESSE");
+    lCurl.addForm("project", "cURL");
+    lCurl.doPost("http://readydev.ovh:9081/", lResponse);
 }
 //===============================================
