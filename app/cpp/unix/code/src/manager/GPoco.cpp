@@ -146,15 +146,14 @@ void GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
 
     if(m_response.isEmpty()) {
         m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
-        m_response += GFORMAT("<h1>ressource non trouvée</h1>");
-        m_response += GFORMAT("<p>URI : %s</p>", m_uri.c_str());
+        m_response = "<h1>ressource non trouvée</h1>";
 
         const Poco::URI lUri(m_uri.c_str());
-        const Poco::URI::QueryParameters lParms = lUri.getQueryParameters();
-        for(int i = 0; i < (int)lParms.size(); i++) {
-            GString lKey = lParms.at(i).first;
-            GString lValue = lParms.at(i).second;
-            m_response += GFORMAT("<p>%s : %s</p>", lKey.c_str(), lValue.c_str());
+        const Poco::URI::QueryParameters lParams = lUri.getQueryParameters();
+        for(int i = 0; i < (int)lParams.size(); i++) {
+            GString lKey = lParams.at(i).first;
+            GString lValue = lParams.at(i).second;
+            GFORMAT("%s : %s\n", lKey.c_str(), lValue.c_str()).print();
         }
     }
 
