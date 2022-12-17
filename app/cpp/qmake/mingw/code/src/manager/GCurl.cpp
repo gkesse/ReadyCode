@@ -78,17 +78,12 @@ bool GCurl::doGet(const GString& _url, GString& _response) {
 //===============================================
 bool GCurl::doPost(const GString& _url, GString& _response) {
     CURL* lCurl = curl_easy_init();
-    if(lCurl == NULL) {GERROR_ADD(eGERR, "Erreur lors de l'initialisation de cURL."); return false;}
+    GString lParams =  m_params.toParams();
 
-    CURLcode lCode;
-    char lError[CURL_ERROR_SIZE];
-
-    lCode = curl_easy_setopt(lCurl, CURLOPT_URL, _url.c_str());
-    if(lCode != CURLE_OK) {GERROR_ADD(eGERR, "Erreur lors de l'initialisation de CURLOPT_URL [%s].", lError); return false;}
-    lCode = curl_easy_setopt(lCurl, CURLOPT_POSTFIELDS, m_params.toParams().c_str());
-    if(lCode != CURLE_OK) {GERROR_ADD(eGERR, "Erreur lors de l'initialisation de CURLOPT_POSTFIELDS [%s].", lError); return false;}
-    lCode = curl_easy_perform(lCurl);
-    if(lCode != CURLE_OK) {GERROR_ADD(eGERR, "Erreur lors de l'exécution de cURL [%s].", lError); return false;}
+    curl_easy_setopt(lCurl, CURLOPT_URL, _url.c_str());
+    curl_easy_setopt(lCurl, CURLOPT_POSTFIELDS, lParams.c_str());
+    curl_easy_setopt(lCurl, CURLOPT_POSTFIELDSIZE, lParams.size());
+    curl_easy_perform(lCurl);
     curl_easy_cleanup(lCurl);
     return true;
 }

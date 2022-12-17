@@ -173,6 +173,9 @@ void GPoco::onGet(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerR
 //===============================================
 void GPoco::onPost(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
     initPoco(_request);
+    GString lSize = (int)_request.size();
+    lSize.print();
+
     if(m_uri == "/") {
         m_status = Poco::Net::HTTPResponse::HTTP_OK;
         m_response = "<h1>[POST] : Bonjour tout le monde</h1>";

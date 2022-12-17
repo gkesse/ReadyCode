@@ -34,7 +34,7 @@ void GCurlTest::runGet(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GCurl lCurl;
     GString lResponse;
-    lCurl.doGet("http://readydev.ovh:9080/", lResponse);
+    lCurl.doGet("http://readydev.ovh:9081/", lResponse);
     lResponse.print();
 }
 //===============================================
