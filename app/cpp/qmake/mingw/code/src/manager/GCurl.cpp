@@ -57,15 +57,14 @@ bool GCurl::doGet(const GString& _url, GString& _response) {
 bool GCurl::doPost(const GString& _url, GString& _response) {
     char lError[CURL_ERROR_SIZE];
     std::string lBuffer;
+    struct curl_slist* lHeaders = NULL;
 
     CURL* lCurl = curl_easy_init();
 
     m_contents +=  m_forms.toParams();
+    lHeaders = m_headers.toHeaders(lCurl, lHeaders);
 
-    struct curl_slist *hs=NULL;
-    hs = curl_slist_append(hs, "Content-Type: application/xml");
-    curl_easy_setopt(lCurl, CURLOPT_HTTPHEADER, hs);
-
+    curl_easy_setopt(lCurl, CURLOPT_HTTPHEADER, lHeaders);
     curl_easy_setopt(lCurl, CURLOPT_ERRORBUFFER, lError);
     curl_easy_setopt(lCurl, CURLOPT_URL, _url.c_str());
     curl_easy_setopt(lCurl, CURLOPT_POSTFIELDS, m_contents.c_str());

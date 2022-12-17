@@ -28,13 +28,15 @@ void GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
     m_method = _request.getMethod();
     m_uri = _request.getURI();
     m_version = _request.getVersion();
-    GFORMAT("%s %s %s", m_method.c_str(), m_uri.c_str(), m_version.c_str()).print();
+
+    GString lInfos;
+    lInfos += GFORMAT("%s %s %s", m_method.c_str(), m_uri.c_str(), m_version.c_str());
 
     Poco::Net::HTTPServerRequest::ConstIterator it = _request.begin();
     for(; it != _request.end(); it++) {
         GString lKey = it->first;
         GString lValue = it->second;
-        GFORMAT("%s: %s", lKey.c_str(), lValue.c_str()).print();
+        lInfos += GFORMAT("%s: %s", lKey.c_str(), lValue.c_str());
     }
 
     GString lContent;
@@ -44,7 +46,9 @@ void GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
         Poco::StreamCopier::copyToString(lInput, lOutput, _request.getContentLength());
         lContent = lOutput;
     }
-    lContent.print();
+    lInfos += lContent;
+
+    GLOGT(eGMSG, "%s", lInfos.c_str());
 }
 //===============================================
 void GPoco::setUri(const GString& _uri) {

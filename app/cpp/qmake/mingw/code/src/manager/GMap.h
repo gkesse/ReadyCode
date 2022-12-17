@@ -11,6 +11,7 @@ public:
 
 public:
     GString toParams();
+    struct curl_slist* toHeaders(CURL* _curl, struct curl_slist* _headers);
 
 protected:
 };

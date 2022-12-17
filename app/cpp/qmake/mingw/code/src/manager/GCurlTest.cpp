@@ -46,9 +46,13 @@ void GCurlTest::runPost(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GCurl lCurl;
     GString lResponse;
+
     GCode lDom;
     lDom.createDoc();
     lDom.createRequest("command", "load_command");
+
+    lCurl.addHeader("Content-Type", "application/xml");
+    lCurl.addHeader("X-Api-Key", "oooooooooooooooooooooooooooooo");
     lCurl.addContent(lDom.toString());
     lCurl.doPost("http://readydev.ovh:9081/", lResponse);
     lResponse.print();
