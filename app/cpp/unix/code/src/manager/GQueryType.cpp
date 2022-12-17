@@ -125,7 +125,7 @@ bool GQueryType::saveData() {
 bool GQueryType::searchData() {
     clearMap();
     GMySQL lMySQL;
-    GMap lDataMap = lMySQL.readMap(GFORMAT(""
+    GMaps lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _name "
             " from _query_type "
             " %s "
@@ -158,7 +158,7 @@ bool GQueryType::searchData() {
 bool GQueryType::searchNextData() {
     clearMap();
     GMySQL lMySQL;
-    GMap lDataMap = lMySQL.readMap(GFORMAT(""
+    GMaps lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _name "
             " from _query_type "
             " %s "

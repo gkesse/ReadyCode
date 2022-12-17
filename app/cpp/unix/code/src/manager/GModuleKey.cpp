@@ -147,7 +147,7 @@ bool GModuleKey::onSearchNextModuleKey() {
 bool GModuleKey::loadModuleKey() {
     clearMap();
     GMySQL lMySQL;
-    GMap lDataMap = lMySQL.readMap(GFORMAT(""
+    GMaps lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _type_id, _name, _label "
             " from _module_key "
             " where 1 = 1"
@@ -185,7 +185,7 @@ bool GModuleKey::saveModuleKey() {
 bool GModuleKey::searchModuleKey() {
     clearMap();
     GMySQL lMySQL;
-    GMap lDataMap = lMySQL.readMap(GFORMAT(""
+    GMaps lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _module_id, _type_id, _name, _label "
             " from _module_key "
             " %s "
@@ -229,7 +229,7 @@ bool GModuleKey::searchModuleKey() {
 bool GModuleKey::searchKey() {
     clearMap();
     GMySQL lMySQL;
-    GMap lDataMap = lMySQL.readMap(GFORMAT(""
+    GMaps lDataMap = lMySQL.readMap(GFORMAT(""
             " select _type_id, _name, _label "
             " from _module_key "
             " where 1 = 1 "
@@ -257,7 +257,7 @@ bool GModuleKey::searchKey() {
 bool GModuleKey::searchNextModuleKey() {
     clearMap();
     GMySQL lMySQL;
-    GMap lDataMap = lMySQL.readMap(GFORMAT(""
+    GMaps lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _type_id, _name, _label "
             " from _module_key "
             " %s "

@@ -125,7 +125,7 @@ bool GModule::saveModule() {
 bool GModule::searchModule() {
     clearMap();
     GMySQL lMySQL;
-    GMap lDataMap = lMySQL.readMap(GFORMAT(""
+    GMaps lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _name "
             " from _module "
             " %s "
@@ -155,7 +155,7 @@ bool GModule::searchModule() {
 bool GModule::searchModuleId() {
     clearMap();
     GMySQL lMySQL;
-    GMap lDataMap = lMySQL.readMap(GFORMAT(""
+    GMaps lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _name "
             " from _module "
             " where 1 = 1 "
@@ -175,7 +175,7 @@ bool GModule::searchModuleId() {
 bool GModule::searchNextModule() {
     clearMap();
     GMySQL lMySQL;
-    GMap lDataMap = lMySQL.readMap(GFORMAT(""
+    GMaps lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _name "
             " from _module "
             " %s "

@@ -159,7 +159,7 @@ bool GModuleMap::saveModuleMap() {
 bool GModuleMap::searchModuleMap() {
     clearMap();
     GMySQL lMySQL;
-    GMap lDataMap = lMySQL.readMap(GFORMAT(""
+    GMaps lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _position "
             " from _module_map "
             " %s "
@@ -215,7 +215,7 @@ bool GModuleMap::countData() {
 //===============================================
 bool GModuleMap::loadData() {
     GMySQL lMySQL;
-    GMap lDataMap = lMySQL.readMap(GFORMAT(""
+    GMaps lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _position "
             " from _module_map "
             " where 1 = 1 "

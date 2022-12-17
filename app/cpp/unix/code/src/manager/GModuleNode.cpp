@@ -62,7 +62,7 @@ void GModuleNode::setMapId(int _mapId) {
 bool GModuleNode::searchModuleNode() {
     clearMap();
     GMySQL lMySQL;
-    GMap lDataMap = lMySQL.readMap(GFORMAT(""
+    GMaps lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _key_id, _value "
             " from _module_node "
             " where 1 = 1 "

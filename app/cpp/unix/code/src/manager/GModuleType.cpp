@@ -122,7 +122,7 @@ bool GModuleType::onDeleteModuleType() {
 //===============================================
 bool GModuleType::loadModuleType() {
     GMySQL lMySQL;
-    GMap lDataMap = lMySQL.readMap(GFORMAT(""
+    GMaps lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _name "
             " from _module_type "
             " order by _name asc "
@@ -152,7 +152,7 @@ bool GModuleType::saveModuleType() {
 //===============================================
 bool GModuleType::searchModuleType() {
     GMySQL lMySQL;
-    GMap lDataMap = lMySQL.readMap(GFORMAT(""
+    GMaps lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _name "
             " from _module_type "
             " %s "
@@ -183,7 +183,7 @@ bool GModuleType::searchModuleType() {
 bool GModuleType::searchType() {
     clearMap();
     GMySQL lMySQL;
-    GMap lDataMap = lMySQL.readMap(GFORMAT(""
+    GMaps lDataMap = lMySQL.readMap(GFORMAT(""
             " select _name "
             " from _module_type "
             " where 1 = 1 "
@@ -202,7 +202,7 @@ bool GModuleType::searchType() {
 //===============================================
 bool GModuleType::searchNextModuleType() {
     GMySQL lMySQL;
-    GMap lDataMap = lMySQL.readMap(GFORMAT(""
+    GMaps lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _name "
             " from _module_type "
             " %s "
