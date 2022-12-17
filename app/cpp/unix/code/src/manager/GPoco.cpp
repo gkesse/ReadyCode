@@ -55,6 +55,7 @@ bool GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
         lInfos += GFORMAT("%s: %s\n", lUsername.c_str(), lPassword.c_str());
         if(lUsername != m_username || lPassword != m_password) {
             m_status = Poco::Net::HTTPResponse::HTTP_UNAUTHORIZED;
+            m_response = "<h1>Ressource non autorisée</h1>";
             return false;
         }
     }
@@ -140,9 +141,7 @@ void GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
 
     if(m_status == 0) {
         m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
-    }
-    if(m_response.isEmpty()) {
-        m_response = "<h1>Ressource indisponible</h1>";
+        m_response = "<h1>Ressource non trouvée</h1>";
     }
 
     _response.setStatus((Poco::Net::HTTPResponse::HTTPStatus)m_status);
