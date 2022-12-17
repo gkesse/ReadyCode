@@ -21,6 +21,7 @@ void GPoco::initPoco() {
     m_username = "admin_user";
     m_password = "admin_pass_ko";
     m_port = 9081;
+    m_status = 0;
 }
 //===============================================
 bool GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
@@ -132,8 +133,11 @@ void GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
         }
     }
 
-    if(m_response.isEmpty()) {
+    if(m_status == 0) {
         m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+    }
+    if(m_response.isEmpty()) {
+        m_response = "<h1>Ressource indisponible</h1>";
     }
 
     _response.setStatus((Poco::Net::HTTPResponse::HTTPStatus)m_status);
