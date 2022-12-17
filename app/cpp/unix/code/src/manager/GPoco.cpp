@@ -180,9 +180,12 @@ void GPoco::onPost(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServer
         GString lValue = it->second;
     }
 
+    GString lContent;
     if(_request.hasContentLength()) {
-        std::istream& lStream = _request.stream();
-        Poco::StreamCopier::copyStream(lStream, std::cout, _request.getContentLength());
+        std::istream& lInput = _request.stream();
+        std::string lOutput;
+        Poco::StreamCopier::copyToString(lInput, lOutput, _request.getContentLength());
+        lContent = lOutput;
     }
 
     if(m_uri == "/") {
