@@ -48,6 +48,10 @@ void GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
     }
     lInfos += GFORMAT("%s\n", lContent.c_str());
 
+    if(_request.hasCredentials()) {
+        GString("_request.hasCredentials()").print();
+    }
+
     GLOGT(eGMSG, "%s", lInfos.c_str());
 }
 //===============================================

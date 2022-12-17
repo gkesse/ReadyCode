@@ -21,7 +21,7 @@ public:
 
 private:
     bool initData();
-    static int onWrite(char* _data, size_t _size, size_t _nmemb, std::string* _writerData);
+     static int onWrite(char* _data, size_t _size, size_t _nmemb, std::string* _writerData);
 
 private:
     GMap m_forms;
