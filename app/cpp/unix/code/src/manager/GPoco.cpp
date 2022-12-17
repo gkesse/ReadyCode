@@ -19,7 +19,7 @@ void GPoco::initPoco() {
     m_contentType = "text/html";
     m_charset = "UTF-8";
     m_username = "admin_user";
-    m_password = "admin_pass_ko";
+    m_password = "admin_pass";
     m_port = 9081;
     m_status = 0;
 }
