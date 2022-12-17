@@ -178,7 +178,7 @@ void GPoco::onPost(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServer
     for(; it != _request.end(); it++) {
         GString lKey = it->first;
         GString lValue = it->second;
-        GFORMAT("%s: %s", lKey.c_str(), lValue.c_str());
+        GFORMAT("%s: %s", lKey.c_str(), lValue.c_str()).print();
     }
 
     GString lContent;
