@@ -39,17 +39,19 @@ void GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
         lInfos += GFORMAT("%s: %s\n", lKey.c_str(), lValue.c_str());
     }
 
-    GString lContent;
     if(_request.hasContentLength()) {
         std::istream& lInput = _request.stream();
         std::string lOutput;
         Poco::StreamCopier::copyToString(lInput, lOutput, _request.getContentLength());
-        lContent = lOutput;
+        m_request = lOutput;
     }
-    lInfos += GFORMAT("%s\n", lContent.c_str());
+    lInfos += GFORMAT("%s\n", m_request.c_str());
 
     if(_request.hasCredentials()) {
-        GString("_request.hasCredentials()").print();
+        Poco::Net::HTTPBasicCredentials lCreds(_request);
+        m_username = lCreds.getUsername();
+        m_password = lCreds.getPassword();
+        lInfos += GFORMAT("%s: %s\n", m_username.c_str(), m_password.c_str());
     }
 
     GLOGT(eGMSG, "%s", lInfos.c_str());

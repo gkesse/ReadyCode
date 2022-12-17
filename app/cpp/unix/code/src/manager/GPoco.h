@@ -39,6 +39,7 @@ private:
     GString m_host;
     GString m_contentType;
     GString m_charset;
+    GString m_request;
     GString m_response;
 
     GString m_msgStarting;
