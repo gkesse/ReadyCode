@@ -53,10 +53,15 @@ bool GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
         GString lUsername = lCredentials.getUsername();
         GString lPassword = lCredentials.getPassword();
         lInfos += GFORMAT("%s: %s\n", lUsername.c_str(), lPassword.c_str());
-        if(lUsername != m_username) return false;
-        if(lPassword != m_password) return false;
+        if(lUsername != m_username || lPassword != m_password) {
+            m_status = Poco::Net::HTTPResponse::HTTP_UNAUTHORIZED;
+            return false;
+        }
     }
-    else return false;
+    else {
+        m_status = Poco::Net::HTTPResponse::HTTP_UNAUTHORIZED;
+        return false;
+    }
 
     GLOGT(eGMSG, "%s", lInfos.c_str());
 
