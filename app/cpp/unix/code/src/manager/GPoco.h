@@ -19,7 +19,7 @@ public:
 
 private:
     void initPoco();
-    void initPoco(Poco::Net::HTTPServerRequest& _request);
+    bool initPoco(Poco::Net::HTTPServerRequest& _request);
 
     void onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
     void onGet(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);

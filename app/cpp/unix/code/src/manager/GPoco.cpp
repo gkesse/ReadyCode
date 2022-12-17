@@ -23,7 +23,7 @@ void GPoco::initPoco() {
     m_port = 9081;
 }
 //===============================================
-void GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
+bool GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
     GString lHost = _request.getHost();
     GString lMethod = _request.getMethod();
     GString lUri = _request.getURI();
@@ -53,11 +53,13 @@ void GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
         GString lPassword = lCreds.getPassword();
         lInfos += GFORMAT("%s: %s\n", lUsername.c_str(), lPassword.c_str());
     }
+    else return false;
 
     GLOGT(eGMSG, "%s", lInfos.c_str());
 
     m_method = lMethod;
     m_uri = lUri;
+    return true;
 }
 //===============================================
 int GPoco::getPort() const {
@@ -119,13 +121,13 @@ bool GPoco::runServer(int _argc, char** _argv) {
 }
 //===============================================
 void GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
-    initPoco(_request);
-
-    if(m_method == "GET") {
-        onGet(_request, _response);
-    }
-    else if(m_method == "POST") {
-        onPost(_request, _response);
+    if(initPoco(_request)) {
+        if(m_method == "GET") {
+            onGet(_request, _response);
+        }
+        else if(m_method == "POST") {
+            onPost(_request, _response);
+        }
     }
 
     if(m_response.isEmpty()) {
