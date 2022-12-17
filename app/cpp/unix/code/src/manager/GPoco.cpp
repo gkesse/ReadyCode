@@ -180,6 +180,11 @@ void GPoco::onPost(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServer
         GString lValue = it->second;
     }
 
+    if(_request.hasContentLength()) {
+        std::istream& lStream = _request.stream();
+        Poco::StreamCopier::copyStream(lStream, std::cout, _request.getContentLength());
+    }
+
     if(m_uri == "/") {
         m_status = Poco::Net::HTTPResponse::HTTP_OK;
         m_response = "<h1>[POST] : Bonjour tout le monde</h1>";
