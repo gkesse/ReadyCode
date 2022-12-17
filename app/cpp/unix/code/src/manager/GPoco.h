@@ -16,12 +16,12 @@ public:
 
     bool doGet(const GString& _url, GString& _response);
     bool runServer(int _argc, char** _argv);
+    void onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
 
 private:
     void initPoco();
     bool initPoco(Poco::Net::HTTPServerRequest& _request);
 
-    void onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
     void onGet(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
     void onPost(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
 
