@@ -61,6 +61,7 @@ bool GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
     }
     else {
         m_status = Poco::Net::HTTPResponse::HTTP_UNAUTHORIZED;
+        m_response = "<h1>Ressource non autorisée</h1>";
         return false;
     }
 
