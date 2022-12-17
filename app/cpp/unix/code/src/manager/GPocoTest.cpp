@@ -33,7 +33,9 @@ void GPocoTest::runDefault(int _argc, char** _argv) {
 void GPocoTest::runGet(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GPoco lPoco;
-    lPoco.doGet("http://example.com/");
+    GString lResponse;
+    lPoco.doGet("http://example.com/", lResponse);
+    lResponse.print();
 }
 //===============================================
 void GPocoTest::runServer(int _argc, char** _argv) {

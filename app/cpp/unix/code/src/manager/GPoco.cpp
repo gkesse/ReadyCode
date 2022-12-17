@@ -18,19 +18,19 @@ void GPoco::initPoco() {
     m_msgShutdown = "Arrêt du serveur...";
     m_contentType = "text/html";
     m_charset = "UTF-8";
-    m_charset = "";
+    m_username = "admin_user";
+    m_password = "admin_pass_ko";
     m_port = 9081;
-    m_status = 0;
 }
 //===============================================
 void GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
-    m_host = _request.getHost();
-    m_method = _request.getMethod();
-    m_uri = _request.getURI();
-    m_version = _request.getVersion();
+    GString lHost = _request.getHost();
+    GString lMethod = _request.getMethod();
+    GString lUri = _request.getURI();
+    GString lVersion = _request.getVersion();
 
     GString lInfos;
-    lInfos += GFORMAT("%s %s %s\n", m_method.c_str(), m_uri.c_str(), m_version.c_str());
+    lInfos += GFORMAT("%s %s %s\n", lMethod.c_str(), lUri.c_str(), lVersion.c_str());
 
     Poco::Net::HTTPServerRequest::ConstIterator it = _request.begin();
     for(; it != _request.end(); it++) {
@@ -49,16 +49,15 @@ void GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
 
     if(_request.hasCredentials()) {
         Poco::Net::HTTPBasicCredentials lCreds(_request);
-        m_username = lCreds.getUsername();
-        m_password = lCreds.getPassword();
-        lInfos += GFORMAT("%s: %s\n", m_username.c_str(), m_password.c_str());
+        GString lUsername = lCreds.getUsername();
+        GString lPassword = lCreds.getPassword();
+        lInfos += GFORMAT("%s: %s\n", lUsername.c_str(), lPassword.c_str());
     }
 
     GLOGT(eGMSG, "%s", lInfos.c_str());
-}
-//===============================================
-void GPoco::setUri(const GString& _uri) {
-    m_uri = _uri;
+
+    m_method = lMethod;
+    m_uri = lUri;
 }
 //===============================================
 int GPoco::getPort() const {
@@ -73,68 +72,38 @@ GString GPoco::getMsgShutdown() const {
     return m_msgShutdown;
 }
 //===============================================
-bool GPoco::extractCredentials() {
-    if(m_uri.isEmpty()) return false;
-    Poco::URI lUri(m_uri.c_str());
-    std::string lUsername;
-    std::string lPassword;
-    Poco::Net::HTTPCredentials::extractCredentials(lUri, lUsername, lPassword);
-    Poco::Net::HTTPCredentials credentials(lUsername, lPassword);
-    m_username = lUsername;
-    m_password = lPassword;
-    if(m_username.isEmpty()) return false;
-    if(m_password.isEmpty()) return false;
-    return true;
-}
-//===============================================
-bool GPoco::doGet() {
-    if(m_uri.isEmpty()) return false;
+bool GPoco::doGet(const GString& _url, GString& _response) {
     try {
-        Poco::URI lUri(m_uri.c_str());
+        Poco::URI lUri(_url.c_str());
         GString lPath(lUri.getPathAndQuery());
-        if (lPath.isEmpty()) lPath = "/";
+        if (lPath.isEmpty()) return false;
 
         Poco::Net::HTTPClientSession lSession(lUri.getHost(), lUri.getPort());
         Poco::Net::HTTPRequest lRequest(Poco::Net::HTTPRequest::HTTP_GET, lPath.c_str(), Poco::Net::HTTPMessage::HTTP_1_1);
         Poco::Net::HTTPResponse lResponse;
+        Poco::Net::HTTPResponse::HTTPStatus lStatus;
 
-        if (!doRequest(lSession, lRequest, lResponse)) {
-            extractCredentials();
+        lSession.sendRequest(lRequest);
+        std::istream& lStream = lSession.receiveResponse(lResponse);
+        lStatus = lResponse.getStatus();
+
+        if (lStatus == Poco::Net::HTTPResponse::HTTP_UNAUTHORIZED) {
             Poco::Net::HTTPCredentials lCredentials(m_username.c_str(), m_password.c_str());
             lCredentials.authenticate(lRequest, lResponse);
-            if (!doRequest(lSession, lRequest, lResponse)) {
-                GERROR_ADD(eGERR, "Erreur lors de l'exécution de la requête.");
-                return false;
-            }
+            lSession.sendRequest(lRequest);
+            lStream = lSession.receiveResponse(lResponse);
+            lStatus = lResponse.getStatus();
+            if (lStatus == Poco::Net::HTTPResponse::HTTP_UNAUTHORIZED) return false;
         }
+
+        std::string lOutput;
+        Poco::StreamCopier::copyToString(lStream, lOutput);
+        _response = lOutput;
     }
     catch(Poco::Exception& e) {
         GERROR_ADD(eGERR, "Erreur lors de l'exécution de la requête.\n%s", e.displayText().c_str());
         return false;
     }
-    return true;
-}
-//===============================================
-bool GPoco::doRequest(Poco::Net::HTTPClientSession& _session, Poco::Net::HTTPRequest& _request, Poco::Net::HTTPResponse& _response) {
-    _session.sendRequest(_request);
-    std::istream& lStream = _session.receiveResponse(_response);
-    m_status = _response.getStatus();
-    m_reason = _response.getReason();
-    if (m_status != Poco::Net::HTTPResponse::HTTP_UNAUTHORIZED) {
-        Poco::StreamCopier::copyStream(lStream, std::cout);
-        return true;
-    }
-    else {
-        Poco::NullOutputStream lNull;
-        Poco::StreamCopier::copyStream(lStream, lNull);
-        return false;
-    }
-    return true;
-}
-//===============================================
-bool GPoco::doGet(const GString& _uri) {
-    setUri(_uri);
-    if(!doGet()) return false;
     return true;
 }
 //===============================================
@@ -159,7 +128,7 @@ void GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
     }
 
     _response.setStatus((Poco::Net::HTTPResponse::HTTPStatus)m_status);
-    _response.setContentType(GFORMAT("%s;%s", m_contentType.c_str(), m_charset.c_str()).c_str());
+    _response.setContentType(GFORMAT("%s; %s", m_contentType.c_str(), m_charset.c_str()).c_str());
     std::ostream& lStream = _response.send();
     lStream << m_response.c_str();
     lStream.flush();
