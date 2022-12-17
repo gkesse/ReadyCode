@@ -10,16 +10,17 @@ public:
     ~GPoco();
 
 public:
-    bool doGet(const GString& _url, GString& _response);
     int getPort() const;
     GString getMsgStarting() const;
     GString getMsgShutdown() const;
+
+    bool doGet(const GString& _url, GString& _response);
+    bool runServer(int _argc, char** _argv);
 
 private:
     void initPoco();
     void initPoco(Poco::Net::HTTPServerRequest& _request);
 
-    bool runServer(int _argc, char** _argv);
     void onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
     void onGet(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
     void onPost(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
