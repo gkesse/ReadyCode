@@ -173,8 +173,12 @@ void GPoco::onGet(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerR
 //===============================================
 void GPoco::onPost(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
     initPoco(_request);
-    GString lSize = (int)_request.size();
-    lSize.print();
+
+    Poco::Net::HTTPServerRequest::ConstIterator it = _request.begin();
+    for(; it != _request.end(); it++) {
+        GString lKey = it->first;
+        GString lValue = it->second;
+    }
 
     if(m_uri == "/") {
         m_status = Poco::Net::HTTPResponse::HTTP_OK;
