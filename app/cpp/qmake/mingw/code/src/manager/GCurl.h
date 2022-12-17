@@ -20,12 +20,15 @@ public:
     bool doPost(const GString& _url, GString& _response);
 
 private:
+    bool initData();
     static int onWrite(char* _data, size_t _size, size_t _nmemb, std::string* _writerData);
 
 private:
     GMap m_forms;
     GMap m_headers;
     GString m_contents;
+    GString m_username;
+    GString m_password;
 };
 //==============================================
 #endif

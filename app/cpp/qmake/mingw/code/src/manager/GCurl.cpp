@@ -5,11 +5,17 @@
 //===============================================
 GCurl::GCurl(const GString& _code)
 : GObject(_code) {
-
+    initData();
 }
 //===============================================
 GCurl::~GCurl() {
 
+}
+//===============================================
+bool GCurl::initData() {
+    m_username = "admin_user";
+    m_password = "admin_pass";
+    return true;
 }
 //===============================================
 bool GCurl::initCurl() {
@@ -69,6 +75,8 @@ bool GCurl::doPost(const GString& _url, GString& _response) {
     curl_easy_setopt(lCurl, CURLOPT_URL, _url.c_str());
     curl_easy_setopt(lCurl, CURLOPT_POSTFIELDS, m_contents.c_str());
     curl_easy_setopt(lCurl, CURLOPT_POSTFIELDSIZE, m_contents.size());
+    curl_easy_setopt(lCurl, CURLOPT_USERNAME, m_username.c_str());
+    curl_easy_setopt(lCurl, CURLOPT_PASSWORD, m_password.c_str());
     curl_easy_setopt(lCurl, CURLOPT_WRITEFUNCTION, onWrite);
     curl_easy_setopt(lCurl, CURLOPT_WRITEDATA, &lBuffer);
     curl_easy_setopt (lCurl, CURLOPT_VERBOSE, 0L);
