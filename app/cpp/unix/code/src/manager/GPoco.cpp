@@ -22,6 +22,8 @@ void GPoco::cleanModule() {
 }
 //===============================================
 void GPoco::initPoco() {
+    m_module = POCO_SERVER_HTTP;
+
     m_msgStarting = "Démarrage du serveur...";
     m_msgShutdown = "Arrêt du serveur...";
     m_contentType = "text/html";
@@ -30,7 +32,6 @@ void GPoco::initPoco() {
     m_password = "admin_pass";
     m_port = 9071;
     m_status = 0;
-    m_module = POCO_SERVER_HTTP;
 
     m_privateKeyFile = "/etc/letsencrypt/live/readydev.ovh/privkey.pem";
     m_certificateFile = "/etc/letsencrypt/live/readydev.ovh/fullchain.pem";
