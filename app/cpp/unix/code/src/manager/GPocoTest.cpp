@@ -44,6 +44,7 @@ void GPocoTest::runGet(int _argc, char** _argv) {
 void GPocoTest::runServerHttp(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GPoco lPoco;
+    lPoco.setModule(GPoco::POCO_SERVER_HTTP);
     lPoco.runServer(_argc, _argv);
 }
 //===============================================

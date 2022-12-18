@@ -16,8 +16,11 @@ GCurlTest::~GCurlTest() {
 void GCurlTest::run(int _argc, char** _argv) {
     GString lKey;
     if(_argc > 3) lKey = _argv[3];
-    if(lKey == "get") {
-        runGet(_argc, _argv);
+    if(lKey == "get/http") {
+        runGetHttp(_argc, _argv);
+    }
+    else if(lKey == "get/https") {
+        runGetHttps(_argc, _argv);
     }
     else if(lKey == "post/xml") {
         runPostXml(_argc, _argv);
@@ -34,7 +37,15 @@ void GCurlTest::runDefault(int _argc, char** _argv) {
     GLOGT(eGFUN, "Le process est inconnu.");
 }
 //===============================================
-void GCurlTest::runGet(int _argc, char** _argv) {
+void GCurlTest::runGetHttp(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    GCurl lCurl;
+    GString lResponse;
+    lCurl.doGet("http://readydev.ovh:9071/", lResponse);
+    lResponse.print();
+}
+//===============================================
+void GCurlTest::runGetHttps(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GCurl lCurl;
     GString lResponse;

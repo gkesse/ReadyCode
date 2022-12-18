@@ -16,7 +16,7 @@ void GCurlTest::run(int _argc, char** _argv) {
     GString lKey;
     if(_argc > 3) lKey = _argv[3];
     if(lKey == "get") {
-        runGet(_argc, _argv);
+        runGetHttp(_argc, _argv);
     }
     else {
         runDefault(_argc, _argv);
@@ -27,7 +27,7 @@ void GCurlTest::runDefault(int _argc, char** _argv) {
     GLOGT(eGFUN, "Le process est inconnu.");
 }
 //===============================================
-void GCurlTest::runGet(int _argc, char** _argv) {
+void GCurlTest::runGetHttp(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GCurl lCurl;
     GString lResponse;
