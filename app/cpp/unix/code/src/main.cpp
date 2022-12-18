@@ -1,15 +1,16 @@
 //===============================================
 #include "GProcess.h"
-#include "GLog.h"
 #include "GXml.h"
+#include "GPoco.h"
+#include "GLog.h"
 //===============================================
 int main(int _argc, char** _argv) {
-    GXml lXml;
-    lXml.initModule();
-    GProcess lProcess;
-    lProcess.run(_argc, _argv);
+    GXml().initModule();
+    GPoco().initModule();
+    GProcess().run(_argc, _argv);
     GLOGI->showErrors();
-    lXml.cleanModule();
+    GPoco().cleanModule();
+    GXml().cleanModule();
     return 0;
 }
 //===============================================

@@ -13,6 +13,14 @@ GPoco::~GPoco() {
 
 }
 //===============================================
+void GPoco::initModule() {
+    Poco::Net::initializeSSL();
+}
+//===============================================
+void GPoco::cleanModule() {
+    Poco::Net::uninitializeSSL();
+}
+//===============================================
 void GPoco::initPoco() {
     m_msgStarting = "Démarrage du serveur...";
     m_msgShutdown = "Arrêt du serveur...";
@@ -22,6 +30,7 @@ void GPoco::initPoco() {
     m_password = "admin_pass";
     m_port = 9081;
     m_status = 0;
+    m_module = POCO_SERVER_HTTP;
 }
 //===============================================
 bool GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
@@ -74,6 +83,36 @@ bool GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
     return true;
 }
 //===============================================
+void GPoco::initSSL() {
+    Poco::Net::Context::Ptr ptrContext = new Poco::Net::Context(
+            Poco::Net::Context::SERVER_USE
+            , "./server.key"
+            , "./server.crt"
+            , "./ca.pem"
+            , Poco::Net::Context::VERIFY_STRICT
+            , 9
+            , false
+            , "ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH"
+    );
+
+    Poco::SharedPtr<Poco::Net::InvalidCertificateHandler> ptrCert = new Poco::Net::AcceptCertificateHandler(true);
+    Poco::SharedPtr<Poco::Net::PrivateKeyPassphraseHandler> ptrPrivateKeyPassphraseHandler;
+    ptrPrivateKeyPassphraseHandler = new Poco::Net::KeyConsoleHandler(true);
+    Poco::Net::SSLManager::instance().initializeServer(ptrPrivateKeyPassphraseHandler, ptrCert, ptrContext);
+}
+//===============================================
+void GPoco::setPoco(const GPoco& _poco) {
+    m_module = _poco.m_module;
+}
+//===============================================
+void GPoco::setPoco(GPoco* _poco) {
+    setPoco(*_poco);
+}
+//===============================================
+void GPoco::setModule(GPoco::eGModule _module) {
+    m_module = _module;
+}
+//===============================================
 int GPoco::getPort() const {
     return m_port;
 }
@@ -84,6 +123,10 @@ GString GPoco::getMsgStarting() const {
 //===============================================
 GString GPoco::getMsgShutdown() const {
     return m_msgShutdown;
+}
+//===============================================
+GPoco::eGModule GPoco::getModule() const {
+    return m_module;
 }
 //===============================================
 bool GPoco::doGet(const GString& _url, GString& _response) {
@@ -133,6 +176,34 @@ bool GPoco::runServer(int _argc, char** _argv) {
 }
 //===============================================
 void GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
+    if(m_module == GPoco::POCO_SERVER_HTTP) onRequestHttp(_request, _response);
+    else if(m_module == GPoco::POCO_SERVER_HTTPS) onRequestHttps(_request, _response);
+    else onRequestHttp(_request, _response);
+}
+//===============================================
+void GPoco::onRequestHttp(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
+    if(initPoco(_request)) {
+        if(m_method == "GET") {
+            onGet(_request, _response);
+        }
+        else if(m_method == "POST") {
+            onPost(_request, _response);
+        }
+    }
+
+    if(m_status == 0) {
+        m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+        m_response = "<h1>Ressource non trouvée</h1>";
+    }
+
+    _response.setStatus((Poco::Net::HTTPResponse::HTTPStatus)m_status);
+    _response.setContentType(GFORMAT("%s; %s", m_contentType.c_str(), m_charset.c_str()).c_str());
+    std::ostream& lStream = _response.send();
+    lStream << m_response.c_str();
+    lStream.flush();
+}
+//===============================================
+void GPoco::onRequestHttps(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
     if(initPoco(_request)) {
         if(m_method == "GET") {
             onGet(_request, _response);

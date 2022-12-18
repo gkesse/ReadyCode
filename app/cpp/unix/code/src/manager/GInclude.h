@@ -39,6 +39,7 @@ typedef unsigned char uchar;
 #include <cppconn/resultset.h>
 #include <cppconn/statement.h>
 // poco
+#include <Poco/Net/AcceptCertificateHandler.h>
 #include <Poco/Net/ConsoleCertificateHandler.h>
 #include <Poco/Net/Context.h>
 #include <Poco/Net/DNS.h>
@@ -64,6 +65,7 @@ typedef unsigned char uchar;
 #include <Poco/Net/TCPServer.h>
 #include <Poco/Net/TCPServerConnection.h>
 #include <Poco/Net/TCPServerConnectionFactory.h>
+#include <Poco/Net/SecureServerSocket.h>
 #include <Poco/Net/ServerSocket.h>
 #include <Poco/Net/SocketReactor.h>
 #include <Poco/Net/SocketAcceptor.h>
