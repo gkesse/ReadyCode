@@ -19,8 +19,8 @@ void GCurlTest::run(int _argc, char** _argv) {
     if(lKey == "get") {
         runGet(_argc, _argv);
     }
-    else if(lKey == "post") {
-        runPost(_argc, _argv);
+    else if(lKey == "post/xml") {
+        runPostXml(_argc, _argv);
     }
     else if(lKey == "post/form") {
         runPostForm(_argc, _argv);
@@ -38,11 +38,11 @@ void GCurlTest::runGet(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GCurl lCurl;
     GString lResponse;
-    lCurl.doGet("http://readydev.ovh:9081/", lResponse);
+    lCurl.doGet("http://www.example.com/", lResponse);
     lResponse.print();
 }
 //===============================================
-void GCurlTest::runPost(int _argc, char** _argv) {
+void GCurlTest::runPostXml(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GCurl lCurl;
     GString lResponse;
@@ -54,7 +54,7 @@ void GCurlTest::runPost(int _argc, char** _argv) {
     lCurl.addHeader("Content-Type", "application/xml");
     lCurl.addHeader("X-Api-Key", "oooooooooooooooooooooooooooooo");
     lCurl.addContent(lDom.toString());
-    lCurl.doPost("http://readydev.ovh:9081/", lResponse);
+    lCurl.doPost("https://api.sncf.com/v1/coverage/sncf/commercial_modes", lResponse);
     lResponse.print();
 }
 //===============================================

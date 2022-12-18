@@ -49,12 +49,16 @@ bool GCurl::doGet(const GString& _url, GString& _response) {
     curl_easy_setopt(lCurl, CURLOPT_ERRORBUFFER, lError);
     curl_easy_setopt(lCurl, CURLOPT_URL, _url.c_str());
     curl_easy_setopt(lCurl, CURLOPT_FOLLOWLOCATION, 1L);
+    curl_easy_setopt(lCurl, CURLOPT_SSL_VERIFYPEER, 0L);
+    curl_easy_setopt(lCurl, CURLOPT_SSL_VERIFYHOST, 0L);
+
     if(!m_username.isEmpty()) {
         curl_easy_setopt(lCurl, CURLOPT_USERNAME, m_username.c_str());
     }
     if(!m_password.isEmpty()) {
         curl_easy_setopt(lCurl, CURLOPT_PASSWORD, m_password.c_str());
     }
+
     curl_easy_setopt(lCurl, CURLOPT_WRITEFUNCTION, onWrite);
     curl_easy_setopt(lCurl, CURLOPT_WRITEDATA, &lBuffer);
     curl_easy_setopt (lCurl, CURLOPT_VERBOSE, 0L);
