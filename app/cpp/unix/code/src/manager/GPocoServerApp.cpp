@@ -31,7 +31,7 @@ int GPocoServerApp::mainHttp(const std::vector<std::string>& _args) {
 }
 //===============================================
 int GPocoServerApp::mainHttps(const std::vector<std::string>& _args) {
-    //m_poco->initSSL();
+    m_poco->initSSL();
     Poco::Net::SecureServerSocket lSocket(m_poco->getPort());
     Poco::Net::HTTPServer lServer(new GPocoRequestFactory(m_poco), lSocket, new Poco::Net::HTTPServerParams);
     std::cout << std::endl << m_poco->getMsgStarting() << std::endl;
