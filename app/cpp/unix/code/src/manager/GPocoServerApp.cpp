@@ -13,7 +13,6 @@ GPocoServerApp::~GPocoServerApp() {
 }
 //===============================================
 int GPocoServerApp::main(const std::vector<std::string>& _args) {
-    GLOGT(eGFUN, "");
     Poco::Net::HTTPServer lServer(new GPocoRequestFactory(m_poco), Poco::Net::ServerSocket(m_poco->getPort()), new Poco::Net::HTTPServerParams);
     lServer.start();
     std::cout << std::endl << m_poco->getMsgStarting() << std::endl;
