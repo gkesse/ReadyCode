@@ -33,9 +33,9 @@ void GPoco::initPoco() {
     m_port = 9071;
     m_status = 0;
 
-    m_privateKeyFile = "privkey.pem";
-    m_certificateFile = "fullchain.pem";
-    m_caLocation = "/etc/letsencrypt/live/readydev.ovh";
+    m_privateKeyFile = "/etc/letsencrypt/live/readydev.ovh/privkey.pem";
+    m_certificateFile = "/etc/letsencrypt/live/readydev.ovh/fullchain.pem";
+    m_caLocation = "";
 }
 //===============================================
 bool GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
