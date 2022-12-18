@@ -28,7 +28,7 @@ void GPoco::initPoco() {
     m_charset = "UTF-8";
     m_username = "admin_user";
     m_password = "admin_pass";
-    m_port = 9081;
+    m_port = 9071;
     m_status = 0;
     m_module = POCO_SERVER_HTTP;
 
