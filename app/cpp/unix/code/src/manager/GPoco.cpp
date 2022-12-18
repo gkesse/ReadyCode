@@ -34,7 +34,7 @@ void GPoco::initPoco() {
     m_status = 0;
 
     m_privateKeyFile = "/etc/letsencrypt/live/readydev.ovh/privkey.pem";
-    m_certificateFile = "/etc/letsencrypt/live/readydev.ovh/fullchain.pem";
+    m_certificateFile = "/etc/letsencrypt/live/readydev.ovh/chain.pem";
     m_caLocation = "";
 }
 //===============================================
