@@ -48,27 +48,29 @@ bool GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
     }
     lInfos += GFORMAT("%s\n", m_request.c_str());
 
+    bool lIsAuthenticate = false;
+
     if(_request.hasCredentials()) {
         Poco::Net::HTTPBasicCredentials lCredentials(_request);
         GString lUsername = lCredentials.getUsername();
         GString lPassword = lCredentials.getPassword();
         lInfos += GFORMAT("%s: %s\n", lUsername.c_str(), lPassword.c_str());
-        if(lUsername != m_username || lPassword != m_password) {
-            m_status = Poco::Net::HTTPResponse::HTTP_UNAUTHORIZED;
-            m_response = "<h1>Ressource non autorisée</h1>";
-            return false;
+        if(lUsername == m_username && lPassword == m_password) {
+            lIsAuthenticate = true;
         }
-    }
-    else {
-        m_status = Poco::Net::HTTPResponse::HTTP_UNAUTHORIZED;
-        m_response = "<h1>Ressource non autorisée</h1>";
-        return false;
     }
 
     GLOGT(eGMSG, "%s", lInfos.c_str());
 
     m_method = lMethod;
     m_uri = lUri;
+
+    if(!lIsAuthenticate) {
+        m_status = Poco::Net::HTTPResponse::HTTP_UNAUTHORIZED;
+        m_response = "<h1>Ressource non autorisée</h1>";
+        return false;
+    }
+
     return true;
 }
 //===============================================

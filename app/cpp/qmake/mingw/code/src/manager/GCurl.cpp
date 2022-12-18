@@ -14,7 +14,7 @@ GCurl::~GCurl() {
 //===============================================
 bool GCurl::initData() {
     m_username = "admin_user";
-    m_password = "admin_pass";
+    m_password = "admin_pass_ko";
     return true;
 }
 //===============================================
