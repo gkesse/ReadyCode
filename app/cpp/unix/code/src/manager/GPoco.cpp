@@ -91,8 +91,8 @@ bool GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
 void GPoco::initSSL() {
     Poco::Net::Context::Ptr ptrContext = new Poco::Net::Context(
             Poco::Net::Context::SERVER_USE
-            , m_certificateFile.c_str()
             , m_privateKeyFile.c_str()
+            , m_certificateFile.c_str()
             , m_caLocation.c_str()
             , Poco::Net::Context::VERIFY_STRICT
             , 9
