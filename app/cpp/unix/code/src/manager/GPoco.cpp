@@ -31,6 +31,10 @@ void GPoco::initPoco() {
     m_port = 9081;
     m_status = 0;
     m_module = POCO_SERVER_HTTP;
+
+    m_privateKeyFile = "/etc/letsencrypt/live/readydev.ovh/privkey.pem";
+    m_certificateFile = "/etc/letsencrypt/live/readydev.ovh/fullchain.pem";
+    m_caLocation = "/etc/letsencrypt/live/readydev.ovh";
 }
 //===============================================
 bool GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
@@ -86,9 +90,9 @@ bool GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
 void GPoco::initSSL() {
     Poco::Net::Context::Ptr ptrContext = new Poco::Net::Context(
             Poco::Net::Context::SERVER_USE
-            , "./server.key"
-            , "./server.crt"
-            , "./ca.pem"
+            , m_privateKeyFile.c_str()
+            , m_certificateFile.c_str()
+            , m_caLocation.c_str()
             , Poco::Net::Context::VERIFY_STRICT
             , 9
             , false

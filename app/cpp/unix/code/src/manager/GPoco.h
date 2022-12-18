@@ -61,6 +61,10 @@ private:
     GString m_msgStarting;
     GString m_msgShutdown;
 
+    GString m_privateKeyFile;
+    GString m_certificateFile;
+    GString m_caLocation;
+
     int m_port;
     int m_status;
 };
