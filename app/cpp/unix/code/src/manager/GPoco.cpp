@@ -133,6 +133,7 @@ bool GPoco::runServer(int _argc, char** _argv) {
 }
 //===============================================
 void GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
+    GLOGT(eGFUN, "");
     if(initPoco(_request)) {
         if(m_method == "GET") {
             onGet(_request, _response);
