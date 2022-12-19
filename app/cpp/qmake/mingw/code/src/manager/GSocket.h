@@ -25,7 +25,7 @@ public:
 
     int readData(char* _data, int _size);
     bool readData(int _diffSize);
-    bool readMethod();
+    bool readMethodReadyApp();
 
 protected:
     static const int BUFFER_SIZE = 1024;

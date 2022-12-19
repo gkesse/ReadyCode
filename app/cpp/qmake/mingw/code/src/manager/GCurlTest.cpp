@@ -41,7 +41,7 @@ void GCurlTest::runGetHttp(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GCurl lCurl;
     GString lResponse;
-    lCurl.doGet("http://readydev.ovh:80/", lResponse);
+    lCurl.doGet("http://readydev.ovh:9071/", lResponse);
     lResponse.print();
 }
 //===============================================
@@ -49,7 +49,7 @@ void GCurlTest::runGetHttps(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GCurl lCurl;
     GString lResponse;
-    lCurl.doGet("https://readydev.ovh:443/", lResponse);
+    lCurl.doGet("https://api.sncf.com/v1/coverage/sncf/commercial_modes", lResponse);
     lResponse.print();
 }
 //===============================================

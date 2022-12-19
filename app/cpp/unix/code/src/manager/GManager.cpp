@@ -3,7 +3,7 @@
 #include "GCode.h"
 #include "GFile.h"
 #include "GLog.h"
-#include "GServer.h"
+#include "GSocket.h"
 #include "GConnection.h"
 #include "GModule.h"
 #include "GModuleData.h"
@@ -34,8 +34,8 @@ void GManager::setManager(GManager* _manager) {
     setServer(_manager->m_server);
 }
 //===============================================
-void GManager::setServer(GServer* _server) {
-    m_server = _server;
+void GManager::setServer(GSocket* _socket) {
+    m_server = _socket;
 }
 //===============================================
 GString GManager::serialize(const GString& _code) const {

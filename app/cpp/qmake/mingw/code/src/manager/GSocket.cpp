@@ -82,7 +82,7 @@ bool GSocket::callServer() {
 
     if(createData()) {
         if(sendData()) {
-            if(readMethod()) {
+            if(readMethodReadyApp()) {
                 onCallServer();
             }
         }
@@ -132,7 +132,7 @@ bool GSocket::readData(int _diffSize) {
     return true;
 }
 //===============================================
-bool GSocket::readMethod() {
+bool GSocket::readMethodReadyApp() {
     char lBuffer[METHOD_SIZE + 1];
     int lBytes = readData(lBuffer, METHOD_SIZE);
     if(lBytes <= 0) return false;

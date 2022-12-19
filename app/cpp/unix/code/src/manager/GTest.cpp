@@ -2,6 +2,7 @@
 #include "GTest.h"
 #include "GPocoTest.h"
 #include "GCurlTest.h"
+#include "GSocketTest.h"
 #include "GLog.h"
 //===============================================
 GTest::GTest()
@@ -22,6 +23,9 @@ void GTest::run(int _argc, char** _argv) {
     else if(lKey == "curl") {
         runCurl(_argc, _argv);
     }
+    else if(lKey == "socket") {
+        runCurl(_argc, _argv);
+    }
     else {
         runDefault(_argc, _argv);
     }
@@ -40,6 +44,12 @@ void GTest::runPoco(int _argc, char** _argv) {
 void GTest::runCurl(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GCurlTest lObj;
+    lObj.run(_argc, _argv);
+}
+//===============================================
+void GTest::runSocket(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    GSocketTest lObj;
     lObj.run(_argc, _argv);
 }
 //===============================================
