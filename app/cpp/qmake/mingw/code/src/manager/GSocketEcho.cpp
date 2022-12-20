@@ -13,7 +13,7 @@ GSocketEcho::~GSocketEcho() {
 //===============================================
 bool GSocketEcho::onCallServer() {
     sendData(m_dataIn);
-    readData(m_dataOut, 1000);
+    readData(m_dataOut, 487);
     return true;
 }
 //===============================================
