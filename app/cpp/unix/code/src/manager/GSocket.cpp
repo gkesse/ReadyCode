@@ -104,8 +104,8 @@ void* GSocket::onThreadCB(void* _params) {
 }
 //===============================================
 bool GSocket::sendResponse() {
-    GLOGT(eGMSG, "[RECEPTION] : (%d)\n%s", (int)m_dataIn.size(), m_dataIn.c_str());
-    GLOGT(eGMSG, "[EMISSION] : (%d)\n%s", (int)m_dataOut.size(), m_dataOut.c_str());
+    GLOGT(eGMSG, "[RECEPTION] : (%d)\n\n%s", (int)m_dataIn.size(), m_dataIn.c_str());
+    GLOGT(eGMSG, "[EMISSION] : (%d)\n\n%s", (int)m_dataOut.size(), m_dataOut.c_str());
 
     if(m_dataOut.size() > 0) {
         int lIndex = 0;
