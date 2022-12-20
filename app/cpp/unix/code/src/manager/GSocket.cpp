@@ -104,8 +104,8 @@ void* GSocket::onThreadCB(void* _params) {
 }
 //===============================================
 bool GSocket::sendResponse() {
-    GLOGT(eGMSG, "[RECEPTION] : (%d)\n%s\n", (int)m_dataIn.size(), m_dataIn.c_str());
-    GLOGT(eGMSG, "[EMISSION] : (%d)\n%s\n", (int)m_dataOut.size(), m_dataOut.c_str());
+    GLOGT(eGMSG, "[RECEPTION] : (%d)\n%s\n", m_dataIn.size(), m_dataIn.c_str());
+    GLOGT(eGMSG, "[EMISSION] : (%d)\n%s\n", m_dataOut.size(), m_dataOut.c_str());
     sendData(m_dataOut);
     return true;
 }
@@ -138,6 +138,20 @@ int GSocket::sendData(const GString& _dataIn) {
         if(lIndex >= lSize) break;
     }
 
+    return true;
+}
+//===============================================
+bool GSocket::sendDatas(const GString& _dataIn) {
+    GString lSize = GFORMAT("%*d", _dataIn.size(), DATA_LENGTH_SIZE);
+    sendData(lSize);
+    sendData(_dataIn);
+    return true;
+}
+//===============================================
+bool GSocket::readDatas(GString& _dataOut) {
+    GString lSize;
+    readData(lSize, DATA_LENGTH_SIZE);
+    readData(_dataOut, lSize.toInt());
     return true;
 }
 //===============================================

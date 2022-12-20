@@ -42,6 +42,8 @@ protected:
     static void* onThreadCB(void* _params);
     bool readData(GString& _dataOut, int _size);
     int sendData(const GString& _dataIn);
+    bool sendDatas(const GString& _dataIn);
+    bool readDatas(GString& _dataOut);
     bool sendResponse();
 
     virtual bool runThreadCB();
@@ -49,6 +51,7 @@ protected:
 protected:
     static const int BUFFER_SIZE = 1024;
     static const int METHOD_SIZE = 1024;
+    static const int DATA_LENGTH_SIZE = 20;
 
     eGModule m_module;
     eGProtocol m_protocol;

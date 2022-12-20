@@ -82,8 +82,8 @@ bool GSocket::callServerTcp(const GString& _dataIn, GString& _dataOut) {
     lSocket->setSocket(this);
     lSocket->onCallServer(_dataIn, _dataOut);
 
-    GLOGT(eGMSG, "[EMISSION] : (%d)\n%s\n", (int)_dataIn.size(), _dataIn.c_str());
-    GLOGT(eGMSG, "[RECEPTION] : (%d)\n%s\n", (int)_dataOut.size(), _dataOut.c_str());
+    GLOGT(eGMSG, "[EMISSION] : (%d)\n%s\n", _dataIn.size(), _dataIn.c_str());
+    GLOGT(eGMSG, "[RECEPTION] : (%d)\n%s\n", _dataOut.size(), _dataOut.c_str());
 
     closesocket(m_socket);
     WSACleanup();
@@ -122,6 +122,20 @@ bool GSocket::readData(GString& _dataOut, int _size) {
         lSize += lBytes;
         if(lSize >= _size) return true;
     }
+    return true;
+}
+//===============================================
+bool GSocket::sendDatas(const GString& _dataIn) {
+    GString lSize = GFORMAT("%*d", _dataIn.size(), DATA_LENGTH_SIZE);
+    sendData(lSize);
+    sendData(_dataIn);
+    return true;
+}
+//===============================================
+bool GSocket::readDatas(GString& _dataOut) {
+    GString lSize;
+    readData(lSize, DATA_LENGTH_SIZE);
+    readData(_dataOut, lSize.toInt());
     return true;
 }
 //===============================================
