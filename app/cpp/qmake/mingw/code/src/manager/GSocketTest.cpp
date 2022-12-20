@@ -1,6 +1,7 @@
 //===============================================
 #include "GSocketTest.h"
 #include "GSocket.h"
+#include "GModule.h"
 #include "GCode.h"
 #include "GLog.h"
 //===============================================
@@ -19,6 +20,9 @@ void GSocketTest::run(int _argc, char** _argv) {
     if(lKey == "client/tcp/echo") {
         runClientTcpEcho(_argc, _argv);
     }
+    if(lKey == "client/tcp/echo/xml") {
+        runClientTcpEchoXml(_argc, _argv);
+    }
     else {
         runDefault(_argc, _argv);
     }
@@ -29,6 +33,20 @@ void GSocketTest::runDefault(int _argc, char** _argv) {
 }
 //===============================================
 void GSocketTest::runClientTcpEcho(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    GSocket lSocket;
+    lSocket.setModule(GSocket::SOCKET_CLIENT_TCP);
+    lSocket.setProtocol(GSocket::PROTOCOL_ECHO);
+    GString lResponse;
+    GModule lModule;
+    lModule.setId(1000);
+    lModule.setName("css");
+    GString lData = lModule.serialize();
+    lData = lSocket.callServer("module", "upadate_module", lData);
+    lData.print();
+}
+//===============================================
+void GSocketTest::runClientTcpEchoXml(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GSocket lSocket;
     lSocket.setModule(GSocket::SOCKET_CLIENT_TCP);

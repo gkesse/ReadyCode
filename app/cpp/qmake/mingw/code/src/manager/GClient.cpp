@@ -27,10 +27,10 @@ void GClient::setRequest(const GString& _request) {
     m_request = _request;
 }
 //===============================================
-GString GClient::callServer(const GString& _modules, const GString& _method, const GString& _data) {
+GString GClient::callServer(const GString& _module, const GString& _method, const GString& _data) {
     GCode lDom;
     lDom.createDoc();
-    lDom.createRequest(_modules, _method);
+    lDom.createRequest(_module, _method);
     lDom.loadData(_data);
     GString lData = lDom.toString();
     setRequest(lData);

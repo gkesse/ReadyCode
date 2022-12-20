@@ -24,6 +24,7 @@ public:
     void setModule(eGModule _module);
     void setProtocol(eGProtocol _protocol);
     bool callServer(const GString& _dataIn, GString& _dataOut);
+    GString callServer(const GString& _module, const GString& _method, const GString& _data);
 
 protected:
     void initSocket();

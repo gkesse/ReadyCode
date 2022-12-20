@@ -18,6 +18,14 @@
             <api_password>admin</api_password>
         </data>
         <!-- ============================================ -->
+        <!-- openssl -->
+        <!-- ============================================ -->
+        <data>
+            <code>openssl</code>
+            <certificate_file>path/certificate_file</certificate_file>
+            <private_key_file>path/private_key_file</private_key_file>
+        </data>
+        <!-- ============================================ -->
         <!-- log -->
         <!-- ============================================ -->
         <data>

@@ -55,6 +55,20 @@ bool GSocket::callServer(const GString& _dataIn, GString& _dataOut) {
     return callServerTcp(_dataIn, _dataOut);
 }
 //===============================================
+GString GSocket::callServer(const GString& _module, const GString& _method, const GString& _data) {
+    GCode lDom;
+    lDom.createDoc();
+    lDom.createRequest(_module, _method);
+    lDom.loadData(_data);
+    GString lDataIn = lDom.toString();
+    GString lDataOut;
+    GLOGT(eGMSG, lDataIn.c_str());
+    callServer(lDataIn, lDataOut);
+    GLOGT(eGMSG, lDataOut.c_str());
+    GLOGI->deserialize(lDataOut);
+    return lDataOut;
+}
+//===============================================
 bool GSocket::callServerTcp(const GString& _dataIn, GString& _dataOut) {
     std::shared_ptr<GSocket> lSocket(createSocket());
     lSocket->onCallServerTcp(_dataIn, _dataOut);
@@ -132,7 +146,6 @@ bool GSocket::readDatas(GString& _dataOut) {
     int lDataSize = lHeader.substr(0, DATA_LENGTH_SIZE).toInt();
     if(lDataSize <= 0) return false;
     int lHeaderSize = lHeader.size();
-    int lDataSize = lHeader.substr(0, DATA_LENGTH_SIZE).toInt();
     int lTotalSize = lDataSize + DATA_LENGTH_SIZE;
     int lDiffSize = lTotalSize - lHeaderSize;
     _dataOut = lHeader.substr(DATA_LENGTH_SIZE);

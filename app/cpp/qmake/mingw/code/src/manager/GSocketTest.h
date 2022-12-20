@@ -11,6 +11,7 @@ public:
     void run(int _argc, char** _argv);
     void runDefault(int _argc, char** _argv);
     void runClientTcpEcho(int _argc, char** _argv);
+    void runClientTcpEchoXml(int _argc, char** _argv);
 };
 //==============================================
 #endif
