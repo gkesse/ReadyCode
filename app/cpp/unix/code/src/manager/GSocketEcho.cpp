@@ -23,6 +23,9 @@ bool GSocketEcho::runRequest() {
     readData(lSize, 10);
     readData(m_dataIn, lSize.toInt());
     m_dataOut = GFORMAT("[SERVER] : %s", m_dataIn.c_str());
+    GString lSize = GFORMAT("%10d", m_dataOut.size());
+    sendData(lSize);
+    sendData(m_dataOut);
     return true;
 }
 //===============================================
