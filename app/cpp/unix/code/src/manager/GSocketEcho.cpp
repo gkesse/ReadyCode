@@ -11,7 +11,7 @@ GSocketEcho::~GSocketEcho() {
 }
 //===============================================
 bool GSocketEcho::runThreadCB() {
-    runRequest()();
+    runRequest();
     sendResponse();
     close(m_socket);
     delete this;
