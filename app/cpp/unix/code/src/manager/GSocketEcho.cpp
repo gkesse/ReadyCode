@@ -30,8 +30,8 @@ bool GSocketEcho::runRequest() {
             "failing function call. These error codes and a short text "
             "description associated with an error code are defined in the Winerror.h "
             "header file. The FormatMessage function can be used to obtain "
-            "the message string for the returned error."
-    sendData(m_dataOut);
+            "the message string for the returned error.";
+    sendDatas(m_dataOut);
     return true;
 }
 //===============================================
