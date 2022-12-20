@@ -39,7 +39,7 @@ GSocket* GSocket::createSocket() {
     if(m_protocol == GSocket::PROTOCOL_ECHO) return new GSocketEcho;
     if(m_protocol == GSocket::PROTOCOL_RDVAPP) return new GSocketReadyApp;
     if(m_protocol == GSocket::PROTOCOL_HTTP) return new GSocketHttpApp;
-    return new GSocket;
+    return new GSocketEcho;
 }
 //===============================================
 void GSocket::setModule(GSocket::eGModule _module) {
@@ -48,14 +48,6 @@ void GSocket::setModule(GSocket::eGModule _module) {
 //===============================================
 void GSocket::setProtocol(GSocket::eGProtocol _protocol) {
     m_protocol = _protocol;
-}
-//===============================================
-GString& GSocket::getDataIn() {
-    return m_dataIn;
-}
-//===============================================
-GString& GSocket::getDataOut() {
-    return m_dataOut;
 }
 //===============================================
 bool GSocket::runServer() {
@@ -126,31 +118,35 @@ bool GSocket::sendResponse() {
     return true;
 }
 //===============================================
-bool GSocket::readData(int _diffSize) {
-    if(_diffSize < 0) return false;
-    if(_diffSize == 0) return true;
+bool GSocket::readData(GString& _dataOut, int _size) {
+    if(_size < 0) return false;
+    if(_size == 0) return true;
     char lBuffer[BUFFER_SIZE + 1];
-    int lIndex = 0;
     int lSize = 0;
     while(1) {
-        int lBytes = readData(lBuffer, BUFFER_SIZE);
+        int lBytes = recv(m_socket, lBuffer, BUFFER_SIZE, 0);
         if(lBytes <= 0) return false;
         lBuffer[lBytes] = 0;
-        m_dataIn += lBuffer;
+        _dataOut += lBuffer;
         lSize += lBytes;
-        if(lSize >= _diffSize) return true;
+        if(lSize >= _size) return true;
     }
     return true;
 }
 //===============================================
-int GSocket::readData(char* _data, int _size) {
-    int lBytes = recv(m_socket, _data, _size, 0);
-    return lBytes;
-}
-//===============================================
-int GSocket::sendData(const char* _data, int _size) {
-    int lBytes = send(m_socket, _data, _size, 0);
-    return lBytes;
+int GSocket::sendData(const GString& _dataIn, int _size) {
+    int lIndex = 0;
+    int lSize = _dataIn.size();
+    const char* lBuffer = _dataIn.c_str();
+
+    while(1) {
+        int lBytes = send(m_socket, &lBuffer[lIndex], lSize - lIndex, 0);
+        if(lBytes <= 0) return false;
+        lIndex += lBytes;
+        if(lIndex >= lSize) break;
+    }
+
+    return true;
 }
 //===============================================
 bool GSocket::runThreadCB() {return true;}

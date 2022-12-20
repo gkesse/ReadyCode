@@ -11,7 +11,7 @@ public:
 
 protected:
     bool runThreadCB();
-    bool readEcho();
+    bool runRequest();
 };
 //==============================================
 #endif

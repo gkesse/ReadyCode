@@ -36,18 +36,11 @@ public:
 protected:
     void initSocket();
     GSocket* createSocket();
-
-    GString& getDataIn();
-    GString& getDataOut();
-
-    int readData(char* _data, int _size);
-    bool readData(int _diffSize);
-    int sendData(const char* _data, int _size);
-
     bool runServerTcp();
     static void* onThreadCB(void* _params);
     virtual bool runThreadCB();
-
+    bool readData(GString& _dataOut, int _size);
+    int sendData(const GString& _dataIn, int _size);
     bool sendResponse();
 
 protected:
