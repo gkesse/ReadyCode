@@ -113,10 +113,9 @@ bool GSocket::sendResponse() {
 bool GSocket::readData(GString& _dataOut, int _size) {
     if(_size <= 0) return false;
     char lBuffer[BUFFER_SIZE + 1];
-    int lLength = (_size >= BUFFER_SIZE) ? BUFFER_SIZE : _size;
     int lSize = 0;
     while(1) {
-        int lBytes = recv(m_socket, lBuffer, lLength, 0);
+        int lBytes = recv(m_socket, lBuffer, BUFFER_SIZE, 0);
         if(lBytes <= 0) return false;
         lBuffer[lBytes] = 0;
         _dataOut += lBuffer;
@@ -150,9 +149,11 @@ bool GSocket::sendDatas(const GString& _dataIn) {
 }
 //===============================================
 bool GSocket::readDatas(GString& _dataOut) {
-    GString lSize;
-    readData(lSize, DATA_LENGTH_SIZE);
-    readData(_dataOut, lSize.toInt());
+    GString lHeader;
+    readData(lHeader, DATA_LENGTH_SIZE);
+    int lSize = lHeader.substr(0, DATA_LENGTH_SIZE).toInt();
+    int dSize = lSize - lHeader.size();
+    readData(_dataOut, dSize);
     return true;
 }
 //===============================================
