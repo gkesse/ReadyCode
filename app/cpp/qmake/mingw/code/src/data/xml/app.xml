@@ -6,16 +6,10 @@
         <!-- ============================================ -->
         <data>
             <code>socket</code>
-            <major>2</major>
-            <minor>2</minor>
-            <domain>AF_INET</domain>
-            <type>SOCK_STREAM</type>
-            <protocol>IPPROTO_TCP</protocol>
-            <family>AF_INET</family>
             <server_ip>82.65.62.124</server_ip>
             <client_ip>0.0.0.0</client_ip>
             <port_prod>9090</port_prod>
-            <port_test>9081</port_test>
+            <port_test>9091</port_test>
             <backlog>5</backlog>
             <api_method>RDVAPP</api_method>
             <api_key_prod>16ac9e66cde8bd80d6141dadb74b5083</api_key_prod>
