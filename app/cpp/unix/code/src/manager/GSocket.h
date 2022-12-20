@@ -41,7 +41,7 @@ protected:
     bool runServerTcp();
     static void* onThreadCB(void* _params);
     bool readData(GString& _dataOut, int _size);
-    int sendData(const GString& _dataIn, int _size);
+    int sendData(const GString& _dataIn);
     bool sendResponse();
 
     virtual bool runThreadCB();

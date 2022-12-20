@@ -106,25 +106,12 @@ void* GSocket::onThreadCB(void* _params) {
 bool GSocket::sendResponse() {
     GLOGT(eGMSG, "[RECEPTION] : (%d)\n%s\n", (int)m_dataIn.size(), m_dataIn.c_str());
     GLOGT(eGMSG, "[EMISSION] : (%d)\n%s\n", (int)m_dataOut.size(), m_dataOut.c_str());
-
-    if(m_dataOut.size() > 0) {
-        int lIndex = 0;
-        int lSize = m_dataOut.size();
-        const char* lBuffer = m_dataOut.c_str();
-
-        while(1) {
-            int lBytes = sendData(&lBuffer[lIndex], lSize - lIndex);
-            if(lBytes <= 0) return false;
-            lIndex += lBytes;
-            if(lIndex >= lSize) break;
-        }
-    }
+    sendData(m_dataOut);
     return true;
 }
 //===============================================
 bool GSocket::readData(GString& _dataOut, int _size) {
-    if(_size < 0) return false;
-    if(_size == 0) return true;
+    if(_size <= 0) return false;
     char lBuffer[BUFFER_SIZE + 1];
     int lSize = 0;
     while(1) {
@@ -138,10 +125,11 @@ bool GSocket::readData(GString& _dataOut, int _size) {
     return true;
 }
 //===============================================
-int GSocket::sendData(const GString& _dataIn, int _size) {
-    int lIndex = 0;
+int GSocket::sendData(const GString& _dataIn) {
+    if(_dataIn.isEmpty()) return false;
     int lSize = _dataIn.size();
     const char* lBuffer = _dataIn.c_str();
+    int lIndex = 0;
 
     while(1) {
         int lBytes = send(m_socket, &lBuffer[lIndex], lSize - lIndex, 0);

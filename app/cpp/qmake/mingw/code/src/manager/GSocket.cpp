@@ -95,9 +95,10 @@ bool GSocket::callServerUdp(const GString& _dataIn, GString& _dataOut) {
 }
 //===============================================
 bool GSocket::sendData(const GString& _dataIn) {
-    int lIndex = 0;
+    if(_dataIn.isEmpty()) return false;
     int lSize = _dataIn.size();
     const char* lBuffer = _dataIn.c_str();
+    int lIndex = 0;
 
     while(1) {
         int lBytes = send(m_socket, &lBuffer[lIndex], lSize - lIndex, 0);
@@ -110,8 +111,7 @@ bool GSocket::sendData(const GString& _dataIn) {
 }
 //===============================================
 bool GSocket::readData(GString& _dataOut, int _size) {
-    if(_size < 0) return false;
-    if(_size == 0) return true;
+    if(_size <= 0) return false;
     char lBuffer[BUFFER_SIZE + 1];
     int lSize = 0;
     while(1) {
