@@ -34,16 +34,6 @@ void GSocket::initSocket() {
     m_apiPassword   = m_dom->getData("socket", "api_password");
 }
 //===============================================
-void GSocket::setSocket(const GSocket& _socket) {
-    m_socket = _socket.m_socket;
-    m_module = _socket.m_module;
-    m_protocol = _socket.m_protocol;
-}
-//===============================================
-void GSocket::setSocket(GSocket* _socket) {
-    setSocket(*_socket);
-}
-//===============================================
 GSocket* GSocket::createSocket() {
     if(m_protocol == eGProtocol::PROTOCOL_ECHO) return new GSocketEcho;
     if(m_protocol == eGProtocol::PROTOCOL_RDVAPP) return new GSocket;
@@ -66,6 +56,12 @@ bool GSocket::callServer(const GString& _dataIn, GString& _dataOut) {
 }
 //===============================================
 bool GSocket::callServerTcp(const GString& _dataIn, GString& _dataOut) {
+    std::shared_ptr<GSocket> lSocket(createSocket());
+    lSocket->onCallServerTcp(_dataIn, _dataOut);
+    return true;
+}
+//===============================================
+bool GSocket::onCallServerTcp(const GString& _dataIn, GString& _dataOut) {
     WSADATA lWsaData;
     WSAStartup(MAKEWORD(2, 2), &lWsaData);
     m_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -79,9 +75,7 @@ bool GSocket::callServerTcp(const GString& _dataIn, GString& _dataOut) {
     if(lAnswer == SOCKET_ERROR) {GERROR_ADD(eGERR, "Erreur lors de la connexion au serveur."); return false;}
 
     m_dataIn = _dataIn;
-    std::shared_ptr<GSocket> lSocket(createSocket());
-    lSocket->setSocket(this);
-    lSocket->onCallServer();
+    onCallServer();
 
     GLOGT(eGMSG, "[EMISSION] : (%d)\n%s\n", m_dataIn.size(), m_dataIn.c_str());
     GLOGT(eGMSG, "[RECEPTION] : (%d)\n%s\n", m_dataOut.size(), m_dataOut.c_str());

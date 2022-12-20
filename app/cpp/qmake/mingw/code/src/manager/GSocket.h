@@ -27,10 +27,9 @@ public:
 
 protected:
     void initSocket();
-    void setSocket(const GSocket& _socket);
-    void setSocket(GSocket* _socket);
     GSocket* createSocket();
     bool callServerTcp(const GString& _dataIn, GString& _dataOut);
+    bool onCallServerTcp(const GString& _dataIn, GString& _dataOut);
     bool callServerUdp(const GString& _dataIn, GString& _dataOut);
     virtual bool onCallServer();
     bool sendData(const GString& _dataIn);
