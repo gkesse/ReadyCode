@@ -129,6 +129,8 @@ bool GSocket::sendDatas(const GString& _dataIn) {
 bool GSocket::readDatas(GString& _dataOut) {
     GString lHeader;
     readData(lHeader, DATA_LENGTH_SIZE);
+    int lDataSize = lHeader.substr(0, DATA_LENGTH_SIZE).toInt();
+    if(lDataSize <= 0) return false;
     int lHeaderSize = lHeader.size();
     int lDataSize = lHeader.substr(0, DATA_LENGTH_SIZE).toInt();
     int lTotalSize = lDataSize + DATA_LENGTH_SIZE;
