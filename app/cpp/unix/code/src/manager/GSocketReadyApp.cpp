@@ -15,6 +15,14 @@ GSocketReadyApp::~GSocketReadyApp() {
 
 }
 //===============================================
+void GSocketReadyApp::setRequest(const GString& _request) {
+    m_request = _request;
+}
+//===============================================
+GString GSocketReadyApp::getRequest() const {
+    return m_request;
+}
+//===============================================
 void GSocketReadyApp::initReadyApp() {
     m_apiKeyProd    = m_dom->getData("socket", "api_key_prod");
     m_apiKeyTest    = m_dom->getData("socket", "api_key_test");
@@ -32,24 +40,15 @@ bool GSocketReadyApp::runThreadCB() {
 }
 //===============================================
 bool GSocketReadyApp::runRequest() {
-    if(!readMethod()) return false;
+    if(!readData(m_dataIn, METHOD_SIZE)) return false;
     if(!isValidRequest()) return false;
     if(!readHeader()) return false;
-    if(!readData(m_diffSize)) return false;
+    if(!readData(m_dataIn, m_diffSize)) return false;
     if(!readRequest()) return false;
     analyzeRequest();
     integrateErrors();
     createResponse();
     createData();
-    return true;
-}
-//===============================================
-bool GSocketReadyApp::readMethod() {
-    char lBuffer[METHOD_SIZE + 1];
-    int lBytes = readData(lBuffer, METHOD_SIZE);
-    if(lBytes <= 0) return false;
-    lBuffer[lBytes] = 0;
-    m_dataIn += lBuffer;
     return true;
 }
 //===============================================
@@ -102,10 +101,6 @@ bool GSocketReadyApp::readRequest() {
     return true;
 }
 //===============================================
-GString GSocketReadyApp::getRequest() const {
-    return m_request;
-}
-//===============================================
 bool GSocketReadyApp::analyzeRequest() {
     GManager lManager;
     lManager.setServer(this);
@@ -120,9 +115,13 @@ bool GSocketReadyApp::integrateErrors() {
 }
 //===============================================
 bool GSocketReadyApp::createResponse() {
-    if(!m_domResponse->hasCode()) return false;
+    if(!m_domResponse->hasCode()) return "";
     m_response = m_domResponse->toString();
     return true;
+}
+//===============================================
+GString GSocketReadyApp::getResponse() const {
+    return m_response;
 }
 //===============================================
 bool GSocketReadyApp::addResponse(const GString& _data) {

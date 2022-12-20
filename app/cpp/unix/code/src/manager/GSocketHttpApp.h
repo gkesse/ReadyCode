@@ -12,7 +12,6 @@ public:
 protected:
     bool runThreadCB();
     bool runRequest();
-    bool readMethod();
     bool isValidRequest();
     bool readHeader();
     bool readRequest();

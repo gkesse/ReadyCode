@@ -20,11 +20,9 @@ bool GSocketEcho::runThreadCB() {
 //===============================================
 bool GSocketEcho::runRequest() {
     GString lSize;
-    GString lData;
     readData(lSize, 10);
-    readData(lData, lSize.toInt());
-    m_dataIn = lData;
-    m_dataOut = lData;
+    readData(m_dataIn, lSize.toInt());
+    m_dataOut = m_dataIn;
     return true;
 }
 //===============================================

@@ -32,7 +32,7 @@ bool GSocketHttpApp::runThreadCB() {
 }
 //===============================================
 bool GSocketHttpApp::runRequest() {
-    if(!readMethod()) return false;
+    if(!readData(m_dataIn, METHOD_SIZE)) return false;
     if(!isValidRequest()) return false;
     if(!readHeader()) return false;
     //if(!readData(m_diffSize)) return false;
@@ -41,15 +41,6 @@ bool GSocketHttpApp::runRequest() {
     integrateErrors();
     createResponse();
     createData();
-    return true;
-}
-//===============================================
-bool GSocketHttpApp::readMethod() {
-    char lBuffer[METHOD_SIZE + 1];
-    int lBytes = readData(lBuffer, METHOD_SIZE);
-    if(lBytes <= 0) return false;
-    lBuffer[lBytes] = 0;
-    m_dataIn += lBuffer;
     return true;
 }
 //===============================================

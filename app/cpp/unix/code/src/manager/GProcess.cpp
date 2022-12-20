@@ -1,5 +1,6 @@
 //===============================================
 #include "GProcess.h"
+#include "GSocket.h"
 #include "GLog.h"
 #include "GTest.h"
 //===============================================
@@ -31,11 +32,16 @@ void GProcess::runDefault(int _argc, char** _argv) {
 }
 //===============================================
 void GProcess::runTest(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
     GTest lObj;
     lObj.run(_argc, _argv);
 }
 //===============================================
 void GProcess::runServer(int _argc, char** _argv) {
-    GRUN_SERVER(_argc, _argv);
+    GLOGT(eGFUN, "");
+    GSocket lSocket;
+    lSocket.setModule(GSocket::SOCKET_SERVER_TCP);
+    lSocket.setProtocol(GSocket::PROTOCOL_RDVAPP);
+    lSocket.runServer();
 }
 //===============================================

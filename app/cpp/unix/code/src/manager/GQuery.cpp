@@ -1,9 +1,9 @@
 //===============================================
 #include "GQuery.h"
 #include "GMySQL.h"
+#include "GSocket.h"
 #include "GCode.h"
 #include "GLog.h"
-#include "GManager.h"
 //===============================================
 GQuery::GQuery(const GString& _code)
 : GSearch(_code) {
@@ -53,14 +53,16 @@ bool GQuery::onModule() {
 //===============================================
 bool GQuery::onSendQuery() {
     if(m_emission == "") {GERROR_ADD(eGERR, "La requête est obligatoire."); return false;}
-    GServer lServer;
-    lServer.setRequest(m_emission);
+    GSocket* lServer = m_server->createSocket();
+    lServer->setRequest(m_emission);
     GManager lManager;
-    lManager.setServer(&lServer);
+    lManager.setServer(lServer);
     lManager.onManager();
-    m_reception = lServer.toResponse();
+    lServer->createResponse();
+    m_reception = lServer->getResponse();
     m_emission = m_emission.toBase64();
     m_reception = m_reception.toBase64();
+    delete lServer;
     return true;
 }
 //===============================================

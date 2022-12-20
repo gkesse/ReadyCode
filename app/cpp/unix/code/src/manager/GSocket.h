@@ -27,21 +27,24 @@ public:
 
     void setModule(eGModule _module);
     void setProtocol(eGProtocol _protocol);
-
+    GSocket* createSocket();
     bool runServer();
 
+    virtual void setRequest(const GString& _request);
     virtual GString getRequest() const;
     virtual bool addResponse(const GString& _data);
+    virtual bool createResponse();
+    virtual GString getResponse() const;
 
 protected:
     void initSocket();
-    GSocket* createSocket();
     bool runServerTcp();
     static void* onThreadCB(void* _params);
-    virtual bool runThreadCB();
     bool readData(GString& _dataOut, int _size);
     int sendData(const GString& _dataIn, int _size);
     bool sendResponse();
+
+    virtual bool runThreadCB();
 
 protected:
     static const int BUFFER_SIZE = 1024;

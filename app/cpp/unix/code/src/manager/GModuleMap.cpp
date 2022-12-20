@@ -1,8 +1,9 @@
 //===============================================
 #include "GModuleMap.h"
-#include "GModule.h"
 #include "GModuleNode.h"
+#include "GModule.h"
 #include "GMySQL.h"
+#include "GSocket.h"
 #include "GCode.h"
 #include "GLog.h"
 //===============================================
