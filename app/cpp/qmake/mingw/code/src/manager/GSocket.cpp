@@ -121,17 +121,20 @@ bool GSocket::readData(GString& _dataOut, int _size) {
 }
 //===============================================
 bool GSocket::sendDatas(const GString& _dataIn) {
-    GString lDataIn = GFORMAT("%*d%s", _dataIn.size(), DATA_LENGTH_SIZE, _dataIn.c_str());
-    sendData(lDataIn);
+    GString lData = GFORMAT("%*d%s", DATA_LENGTH_SIZE, _dataIn.size(), _dataIn.c_str());
+    sendData(lData);
     return true;
 }
 //===============================================
 bool GSocket::readDatas(GString& _dataOut) {
     GString lHeader;
     readData(lHeader, DATA_LENGTH_SIZE);
-    int lSize = lHeader.substr(0, DATA_LENGTH_SIZE).toInt();
-    int dSize = lSize - lHeader.size();
-    readData(_dataOut, dSize);
+    int lHeaderSize = lHeader.size();
+    int lDataSize = lHeader.substr(0, DATA_LENGTH_SIZE).toInt();
+    int lTotalSize = lDataSize + DATA_LENGTH_SIZE;
+    int lDiffSize = lTotalSize - lHeaderSize;
+    _dataOut = lHeader.substr(DATA_LENGTH_SIZE);
+    readData(_dataOut, lDiffSize);
     return true;
 }
 //===============================================

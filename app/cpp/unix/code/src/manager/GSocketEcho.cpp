@@ -19,17 +19,18 @@ bool GSocketEcho::runThreadCB() {
 }
 //===============================================
 bool GSocketEcho::runRequest() {
-    GString lHeader;
-    readData(lHeader, DATA_LENGTH_SIZE);
-    int lHeaderSize = lHeader.size();
-    int lDataSize = lHeader.substr(0, DATA_LENGTH_SIZE).toInt();
-    int lTotalSize = lDataSize + DATA_LENGTH_SIZE;
-    int lDiffSize = lTotalSize - lHeaderSize;
-    m_dataIn = lHeader.substr(DATA_LENGTH_SIZE);
-    readData(m_dataIn, lDiffSize);
-
+    readDatas(m_dataIn);
     m_dataOut = GFORMAT("[SERVER] : %s", m_dataIn.c_str());
-    m_dataOut = GFORMAT("%*d%s", DATA_LENGTH_SIZE, m_dataOut.size(), m_dataOut.c_str());
+    m_dataOut += ""
+            "The WSAGetLastError function returns the last "
+            "error that occurred for the calling thread. "
+            "When a particular Windows Sockets function indicates "
+            "an error has occurred, this function should be called "
+            "immediately to retrieve the extended error code for the "
+            "failing function call. These error codes and a short text "
+            "description associated with an error code are defined in the Winerror.h "
+            "header file. The FormatMessage function can be used to obtain "
+            "the message string for the returned error."
     sendData(m_dataOut);
     return true;
 }
