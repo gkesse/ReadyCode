@@ -98,6 +98,10 @@ typedef unsigned char uchar;
 #include <base64.h>
 // md5
 #include <md5.h>
+// openssl
+#include <openssl/bio.h>
+#include <openssl/ssl.h>
+#include <openssl/err.h>
 // includes
 #include "GString.h"
 //===============================================
