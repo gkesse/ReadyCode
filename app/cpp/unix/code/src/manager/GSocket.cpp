@@ -142,9 +142,8 @@ int GSocket::sendData(const GString& _dataIn) {
 }
 //===============================================
 bool GSocket::sendDatas(const GString& _dataIn) {
-    GString lDataIn = GFORMAT("%*d", _dataIn.size(), DATA_LENGTH_SIZE);
-    lDataIn += _dataIn;
-    sendData(_dataIn);
+    GString lDataIn = GFORMAT("%*d%s", _dataIn.size(), DATA_LENGTH_SIZE, _dataIn.c_str());
+    sendData(lDataIn);
     return true;
 }
 //===============================================
