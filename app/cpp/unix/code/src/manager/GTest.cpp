@@ -24,7 +24,7 @@ void GTest::run(int _argc, char** _argv) {
         runCurl(_argc, _argv);
     }
     else if(lKey == "socket") {
-        runCurl(_argc, _argv);
+        runSocket(_argc, _argv);
     }
     else {
         runDefault(_argc, _argv);
