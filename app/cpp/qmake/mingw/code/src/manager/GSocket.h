@@ -32,7 +32,7 @@ protected:
     GSocket* createSocket();
     bool callServerTcp(const GString& _dataIn, GString& _dataOut);
     bool callServerUdp(const GString& _dataIn, GString& _dataOut);
-    virtual bool onCallServer(const GString& _dataIn, GString& _dataOut);
+    virtual bool onCallServer();
     bool sendData(const GString& _dataIn);
     bool readData(GString& _dataOut, int _size);
     bool sendDatas(const GString& _dataIn);
@@ -65,6 +65,9 @@ protected:
     GString m_apiPassword;
 
     SOCKET m_socket;
+
+    GString m_dataIn;
+    GString m_dataOut;
 };
 //==============================================
 #endif

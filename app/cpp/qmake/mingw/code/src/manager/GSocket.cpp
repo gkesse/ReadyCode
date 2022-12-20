@@ -78,12 +78,13 @@ bool GSocket::callServerTcp(const GString& _dataIn, GString& _dataOut) {
     int lAnswer = connect(m_socket, (SOCKADDR*)(&lAddress), sizeof(lAddress));
     if(lAnswer == SOCKET_ERROR) {GERROR_ADD(eGERR, "Erreur lors de la connexion au serveur."); return false;}
 
+    m_dataIn = _dataIn;
     std::shared_ptr<GSocket> lSocket(createSocket());
     lSocket->setSocket(this);
-    lSocket->onCallServer(_dataIn, _dataOut);
+    lSocket->onCallServer();
 
-    GLOGT(eGMSG, "[EMISSION] : (%d)\n%s\n", _dataIn.size(), _dataIn.c_str());
-    GLOGT(eGMSG, "[RECEPTION] : (%d)\n%s\n", _dataOut.size(), _dataOut.c_str());
+    GLOGT(eGMSG, "[EMISSION] : (%d)\n%s\n", m_dataIn.size(), m_dataIn.c_str());
+    GLOGT(eGMSG, "[RECEPTION] : (%d)\n%s\n", m_dataOut.size(), m_dataOut.c_str());
 
     closesocket(m_socket);
     WSACleanup();
@@ -140,5 +141,5 @@ bool GSocket::readDatas(GString& _dataOut) {
     return true;
 }
 //===============================================
-bool GSocket::onCallServer(const GString& _dataIn, GString& _dataOut) {return true;}
+bool GSocket::onCallServer() {return true;}
 //===============================================

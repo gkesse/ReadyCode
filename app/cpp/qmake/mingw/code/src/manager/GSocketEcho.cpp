@@ -11,9 +11,9 @@ GSocketEcho::~GSocketEcho() {
 
 }
 //===============================================
-bool GSocketEcho::onCallServer(const GString& _dataIn, GString& _dataOut) {
-    sendData(_dataIn);
-    readData(_dataOut, 1000);
+bool GSocketEcho::onCallServer() {
+    sendData(m_dataIn);
+    readData(m_dataOut, 1000);
     return true;
 }
 //===============================================

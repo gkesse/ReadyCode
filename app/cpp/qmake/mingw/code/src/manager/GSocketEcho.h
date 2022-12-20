@@ -8,7 +8,7 @@ class GSocketEcho : public GSocket {
 public:
     GSocketEcho(const GString& _code = "socket_echo");
     ~GSocketEcho();
-    bool onCallServer(const GString& _dataIn, GString& _dataOut);
+    bool onCallServer();
 };
 //==============================================
 #endif
