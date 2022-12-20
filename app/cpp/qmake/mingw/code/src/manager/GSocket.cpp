@@ -83,7 +83,7 @@ bool GSocket::callServerTcp(const GString& _dataIn, GString& _dataOut) {
     lSocket->onCallServer(_dataIn, _dataOut);
 
     GLOGT(eGMSG, "[EMISSION] : (%d)\n%s\n", (int)_dataIn.size(), _dataIn.c_str());
-    GLOGT(eGMSG, "[RECEPTION] : (%d)\%s\n", (int)_dataOut.size(), _dataOut.c_str());
+    GLOGT(eGMSG, "[RECEPTION] : (%d)\n%s\n", (int)_dataOut.size(), _dataOut.c_str());
 
     closesocket(m_socket);
     WSACleanup();
