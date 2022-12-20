@@ -35,15 +35,15 @@ void GSocketTest::runClientTcpEcho(int _argc, char** _argv) {
     lSocket.setProtocol(GSocket::PROTOCOL_ECHO);
     GString lResponse;
     GString lRequest = ""
-            "Sous HTTP 1.0, les connexions doivent toujours être "
-            "fermées par le serveur après l'envoi de la réponse. [1]"
-            "Depuis fin 1996, les développeurs de produits populaires "
+            "Sous HTTP 1.0, les connexions doivent toujours etre "
+            "fermees par le serveur apres l'envoi de la reponse. [1]"
+            "Depuis fin 1996, les developpeurs de produits populaires "
             "(navigateurs, serveurs web, etc.) utilisant HTTP/1.0, ont "
-            "commencé à ajouter une extension non officielle (au protocole) nommée "
-            "keep-alive afin de permettre la réutilisation d'une connexion "
-            "pour plusieurs demandes/réponses. [2] [3]"
+            "commence a ajouter une extension non officielle (au protocole) nommee "
+            "keep-alive afin de permettre la reutilisation d'une connexion "
+            "pour plusieurs demandes/reponses. [2] [3]"
             "Si le client prend en charge le keep-alive, "
-            "il ajoute un en-tête supplémentaire à la requête"
+            "il ajoute un en-tete supplémentaire a la requete"
             "";
     lSocket.callServer(lRequest, lResponse);
 }

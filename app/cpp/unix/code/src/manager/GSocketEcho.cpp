@@ -22,7 +22,7 @@ bool GSocketEcho::runRequest() {
     GString lSize;
     readData(lSize, 10);
     readData(m_dataIn, lSize.toInt());
-    m_dataOut = m_dataIn;
+    m_dataOut = GFORMAT("[SERVER] : %s", m_dataIn.c_str());
     return true;
 }
 //===============================================
