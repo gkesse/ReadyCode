@@ -16,7 +16,7 @@ GINCS =\
 	
 GLIBS =\
     -L/usr/local/lib \
-    -lxml2 -lmysqlcppconn -lcurl \
+    -lxml2 -lmysqlcppconn -lcurl -lssl -lcrypto \
     -lPocoFoundation -lPocoNet  -lPocoNetSSL -lPocoUtil -lPocoXML \
 	
 GOBJS =\
