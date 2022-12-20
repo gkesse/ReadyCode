@@ -8,6 +8,10 @@
 #include "GCode.h"
 #include "GLog.h"
 //===============================================
+const char* GSocket::METHOD_RDVAPP        = "RDVAPP";
+const char* GSocket::METHOD_HTTP_GET      = "GET";
+const char* GSocket::METHOD_HTTP_POST     = "POST";
+//===============================================
 GSocket::GSocket()
 : GObject() {
     createDoms();
