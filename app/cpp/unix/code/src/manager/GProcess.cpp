@@ -1,7 +1,6 @@
 //===============================================
 #include "GProcess.h"
 #include "GLog.h"
-#include "GServer.h"
 #include "GTest.h"
 //===============================================
 GProcess::GProcess()

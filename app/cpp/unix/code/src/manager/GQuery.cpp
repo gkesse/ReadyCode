@@ -3,7 +3,6 @@
 #include "GMySQL.h"
 #include "GCode.h"
 #include "GLog.h"
-#include "GServer.h"
 #include "GManager.h"
 //===============================================
 GQuery::GQuery(const GString& _code)

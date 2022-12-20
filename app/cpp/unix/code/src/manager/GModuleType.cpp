@@ -3,7 +3,6 @@
 #include "GCode.h"
 #include "GModuleType.h"
 #include "GLog.h"
-#include "GServer.h"
 //===============================================
 GModuleType::GModuleType(const GString& _code)
 : GSearch(_code) {

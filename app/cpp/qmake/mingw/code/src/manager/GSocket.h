@@ -6,62 +6,61 @@
 //===============================================
 class GSocket : public GObject {
 public:
-    GSocket();
+    enum eGModule {
+        SOCKET_CLIENT_TCP
+        , SOCKET_CLIENT_UDP
+    };
+
+    enum eGProtocol {
+        PROTOCOL_ECHO
+        , PROTOCOL_RDVAPP
+        , PROTOCOL_HTTP
+    };
+
+public:
+    GSocket(const GString& _code = "socket");
     virtual ~GSocket();
 
+    void setModule(eGModule _module);
+    void setProtocol(eGProtocol _protocol);
+    bool callServer(const GString& _dataIn, GString& _dataOut);
+
+protected:
     void initSocket();
-
-    int loadDomain() const;
-    int loadType() const;
-    int loadProtocol() const;
-    int loadFamily() const;
-
-    bool callServer();
-
-    virtual bool createData();
-    virtual bool onCallServer();
-
-    bool sendData();
-
-    int readData(char* _data, int _size);
-    bool readData(int _diffSize);
-    bool readMethodReadyApp();
+    void setSocket(const GSocket& _socket);
+    void setSocket(GSocket* _socket);
+    GSocket* createSocket();
+    bool callServerTcp(const GString& _dataIn, GString& _dataOut);
+    bool callServerUdp(const GString& _dataIn, GString& _dataOut);
+    virtual bool onCallServer(const GString& _dataIn, GString& _dataOut);
+    bool sendData(const GString& _dataIn);
+    bool readData(GString& _dataOut, int _size);
 
 protected:
     static const int BUFFER_SIZE = 1024;
     static const int METHOD_SIZE = 1024;
 
+    eGModule m_module;
+    eGProtocol m_protocol;
+
     bool m_isTestEnv;
 
-    int m_major;
-    int m_minor;
-    int m_domain;
-    int m_type;
-    int m_protocol;
-    int m_family;
     int m_port;
-    int m_backlog;
-
     int m_portProd;
     int m_portTest;
+    int m_backlog;
+
 
     GString m_hostname;
+    GString m_serverIp;
+    GString m_clientIp;
     GString m_apiMethod;
     GString m_apiKey;
+    GString m_apiKeyProd;
+    GString m_apiKeyTest;
     GString m_apiUsername;
     GString m_apiPassword;
 
-    GString m_serverIp;
-    GString m_clientIp;
-    GString m_domainName;
-    GString m_typeName;
-    GString m_protocolName;
-    GString m_familyName;
-    GString m_apiKeyProd;
-    GString m_apiKeyTest;
-
-    GString m_dataIn;
-    GString m_dataOut;
     SOCKET m_socket;
 };
 //==============================================

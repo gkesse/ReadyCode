@@ -1,12 +1,12 @@
 //===============================================
-#include "GLog.h"
 #include "GSocket.h"
-#include "GPath.h"
-#include "GCode.h"
+#include "GSocketEcho.h"
 #include "GEnv.h"
+#include "GCode.h"
+#include "GLog.h"
 //===============================================
-GSocket::GSocket()
-: GObject() {
+GSocket::GSocket(const GString& _code)
+: GObject(_code) {
     createDoms();
     initSocket();
 }
@@ -16,90 +16,88 @@ GSocket::~GSocket() {
 }
 //===============================================
 void GSocket::initSocket() {
+    m_module        = GSocket::SOCKET_CLIENT_TCP;
     m_isTestEnv     = GEnv().isTestEnv();
 
-    m_major         = m_dom->getData("socket", "major").toInt();
-    m_minor         = m_dom->getData("socket", "minor").toInt();
-    m_domainName    = m_dom->getData("socket", "domain");
-    m_typeName      = m_dom->getData("socket", "type");
-    m_protocolName  = m_dom->getData("socket", "protocol");
-    m_familyName    = m_dom->getData("socket", "family");
     m_portProd      = m_dom->getData("socket", "port_prod").toInt();
     m_portTest      = m_dom->getData("socket", "port_test").toInt();
+    m_port          = (m_isTestEnv ? m_portTest : m_portProd);
     m_backlog       = m_dom->getData("socket", "backlog").toInt();
     m_serverIp      = m_dom->getData("socket", "server_ip");
     m_clientIp      = m_dom->getData("socket", "client_ip");
+    m_hostname      = m_serverIp;
     m_apiMethod     = m_dom->getData("socket", "api_method");
     m_apiKeyProd    = m_dom->getData("socket", "api_key_prod");
     m_apiKeyTest    = m_dom->getData("socket", "api_key_test");
+    m_apiKey        = (m_isTestEnv ? m_apiKeyTest : m_apiKeyProd);
     m_apiUsername   = m_dom->getData("socket", "api_username");
     m_apiPassword   = m_dom->getData("socket", "api_password");
-
-    m_domain        = loadDomain();
-    m_type          = loadType();
-    m_protocol      = loadProtocol();
-    m_family        = loadFamily();
-    m_hostname      = m_serverIp;
-    m_port          = (m_isTestEnv ? m_portTest : m_portProd);
-    m_apiKey        = (m_isTestEnv ? m_apiKeyTest : m_apiKeyProd);
 }
 //===============================================
-int GSocket::loadDomain() const {
-    if(m_domainName == "AF_INET") return AF_INET;
-    return AF_INET;
+void GSocket::setSocket(const GSocket& _socket) {
+    m_socket = _socket.m_socket;
+    m_module = _socket.m_module;
+    m_protocol = _socket.m_protocol;
 }
 //===============================================
-int GSocket::loadType() const {
-    if(m_typeName == "SOCK_STREAM") return SOCK_STREAM;
-    return SOCK_STREAM;
+void GSocket::setSocket(GSocket* _socket) {
+    setSocket(*_socket);
 }
 //===============================================
-int GSocket::loadProtocol() const {
-    if(m_protocolName == "IPPROTO_TCP") return IPPROTO_TCP;
-    return IPPROTO_TCP;
+GSocket* GSocket::createSocket() {
+    if(m_protocol == eGProtocol::PROTOCOL_ECHO) return new GSocketEcho;
+    if(m_protocol == eGProtocol::PROTOCOL_RDVAPP) return new GSocket;
+    if(m_protocol == eGProtocol::PROTOCOL_HTTP) return new GSocket;
+    return new GSocketEcho;
 }
 //===============================================
-int GSocket::loadFamily() const {
-    if(m_familyName == "AF_INET") return AF_INET;
-    return AF_INET;
+void GSocket::setModule(eGModule _module) {
+    m_module = _module;
 }
 //===============================================
-bool GSocket::callServer() {
+void GSocket::setProtocol(eGProtocol _protocol) {
+    m_protocol = _protocol;
+}
+//===============================================
+bool GSocket::callServer(const GString& _dataIn, GString& _dataOut) {
+    if(m_module == GSocket::SOCKET_CLIENT_TCP) return callServerTcp(_dataIn, _dataOut);
+    if(m_module == GSocket::SOCKET_CLIENT_UDP) return callServerUdp(_dataIn, _dataOut);
+    return callServerTcp(_dataIn, _dataOut);
+}
+//===============================================
+bool GSocket::callServerTcp(const GString& _dataIn, GString& _dataOut) {
     WSADATA lWsaData;
-    WSAStartup(MAKEWORD(m_major, m_minor), &lWsaData);
-    m_socket = socket(m_domain, m_type, m_protocol);
+    WSAStartup(MAKEWORD(2, 2), &lWsaData);
+    m_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if(m_socket == INVALID_SOCKET) {GERROR_ADD(eGERR, "Erreur lors de la connexion au serveur."); return false;}
     SOCKADDR_IN lAddress;
-    lAddress.sin_family = m_family;
+    lAddress.sin_family = AF_INET;
     lAddress.sin_addr.s_addr = inet_addr(m_hostname.c_str());
     lAddress.sin_port = htons(m_port);
     memset(&lAddress.sin_zero, 0, sizeof(lAddress.sin_zero));
     int lAnswer = connect(m_socket, (SOCKADDR*)(&lAddress), sizeof(lAddress));
     if(lAnswer == SOCKET_ERROR) {GERROR_ADD(eGERR, "Erreur lors de la connexion au serveur."); return false;}
 
-    m_dataOut = "";
-    m_dataIn = "";
+    std::shared_ptr<GSocket> lSocket(createSocket());
+    lSocket->setSocket(this);
+    lSocket->onCallServer(_dataIn, _dataOut);
 
-    if(createData()) {
-        if(sendData()) {
-            if(readMethodReadyApp()) {
-                onCallServer();
-            }
-        }
-    }
-
-    GLOGT(eGMSG, "[EMISSION] : (%d)\n%s", (int)m_dataOut.size(), m_dataOut.c_str());
-    GLOGT(eGMSG, "[RECEPTION] : (%d)\n%s", (int)m_dataIn.size(), m_dataIn.c_str());
+    GLOGT(eGMSG, "[EMISSION] : (%d)\n%s", (int)_dataIn.size(), _dataIn.c_str());
+    GLOGT(eGMSG, "[RECEPTION] : (%d)\n%s", (int)_dataOut.size(), _dataOut.c_str());
 
     closesocket(m_socket);
     WSACleanup();
     return true;
 }
 //===============================================
-bool GSocket::sendData() {
+bool GSocket::callServerUdp(const GString& _dataIn, GString& _dataOut) {
+    return true;
+}
+//===============================================
+bool GSocket::sendData(const GString& _dataIn) {
     int lIndex = 0;
-    int lSize = m_dataOut.size();
-    const char* lBuffer = m_dataOut.c_str();
+    int lSize = _dataIn.size();
+    const char* lBuffer = _dataIn.c_str();
 
     while(1) {
         int lBytes = send(m_socket, &lBuffer[lIndex], lSize - lIndex, 0);
@@ -111,36 +109,21 @@ bool GSocket::sendData() {
     return true;
 }
 //===============================================
-int GSocket::readData(char* _data, int _size) {
-    int lBytes = recv(m_socket, _data, _size, 0);
-    return lBytes;
-}
-//===============================================
-bool GSocket::readData(int _diffSize) {
-    if(_diffSize < 0) return false;
-    if(_diffSize == 0) return true;
+bool GSocket::readData(GString& _dataOut, int _size) {
+    if(_size < 0) return false;
+    if(_size == 0) return true;
     char lBuffer[BUFFER_SIZE + 1];
     int lSize = 0;
     while(1) {
-        int lBytes = readData(lBuffer, BUFFER_SIZE);
+        int lBytes = recv(m_socket, lBuffer, BUFFER_SIZE, 0);
         if(lBytes <= 0) return false;
         lBuffer[lBytes] = 0;
-        m_dataIn += lBuffer;
+        _dataOut += lBuffer;
         lSize += lBytes;
-        if(lSize >= _diffSize) return true;
+        if(lSize >= _size) return true;
     }
     return true;
 }
 //===============================================
-bool GSocket::readMethodReadyApp() {
-    char lBuffer[METHOD_SIZE + 1];
-    int lBytes = readData(lBuffer, METHOD_SIZE);
-    if(lBytes <= 0) return false;
-    lBuffer[lBytes] = 0;
-    m_dataIn += lBuffer;
-    return true;
-}
-//===============================================
-bool GSocket::createData() {return false;}
-bool GSocket::onCallServer() {return false;}
+bool GSocket::onCallServer(const GString& _dataIn, GString& _dataOut) {return true;}
 //===============================================

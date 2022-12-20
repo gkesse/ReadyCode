@@ -35,7 +35,7 @@ GString GClient::callServer(const GString& _modules, const GString& _method, con
     GString lData = lDom.toString();
     setRequest(lData);
     GLOGT(eGOFF, lData.c_str());
-    GSocket::callServer();
+    //GSocket::callServer();
     GLOGI->deserialize(m_response);
     GLOGT(eGOFF, m_response.c_str());
     return m_response;
@@ -70,7 +70,7 @@ bool GClient::onCallServer() {
 //===============================================
 bool GClient::onReadyApp() {
     if(!isReadyApp()) return false;
-    if(!readData(m_diffSize)) return false;
+    if(!readData(m_dataOut, m_diffSize)) return false;
     if(!readResponse()) return false;
     return true;
 }

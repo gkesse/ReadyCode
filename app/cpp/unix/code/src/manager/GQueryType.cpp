@@ -3,7 +3,6 @@
 #include "GCode.h"
 #include "GQueryType.h"
 #include "GLog.h"
-#include "GServer.h"
 //===============================================
 GQueryType::GQueryType(const GString& _code)
 : GSearch(_code) {
