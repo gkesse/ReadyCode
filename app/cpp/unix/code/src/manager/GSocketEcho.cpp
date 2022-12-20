@@ -20,6 +20,7 @@ bool GSocketEcho::runThreadCB() {
 //===============================================
 bool GSocketEcho::runRequest() {
     readData(m_dataIn, 487);
+    m_dataOut = m_dataIn;
     sendData(m_dataOut);
     return true;
 }
