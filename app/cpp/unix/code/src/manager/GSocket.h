@@ -17,9 +17,9 @@ public:
         , PROTOCOL_HTTP
     };
 
-    static constexpr char* METHOD_RDVAPP        = "RDVAPP";
-    static constexpr char* METHOD_HTTP_GET      = "GET";
-    static constexpr char* METHOD_HTTP_POST     = "POST";
+    static const char* METHOD_RDVAPP        = "RDVAPP";
+    static const char* METHOD_HTTP_GET      = "GET";
+    static const char* METHOD_HTTP_POST     = "POST";
 
 public:
     GSocket();
