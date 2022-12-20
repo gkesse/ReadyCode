@@ -126,8 +126,8 @@ bool GSocket::readData(GString& _dataOut, int _size) {
 }
 //===============================================
 bool GSocket::sendDatas(const GString& _dataIn) {
-    GString lSize = GFORMAT("%*d", _dataIn.size(), DATA_LENGTH_SIZE);
-    sendData(lSize);
+    GString lDataIn = GFORMAT("%*d", _dataIn.size(), DATA_LENGTH_SIZE);
+    lDataIn += _dataIn;
     sendData(_dataIn);
     return true;
 }
