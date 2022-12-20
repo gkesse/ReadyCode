@@ -43,7 +43,7 @@ void GSocketTest::runClientTcpEcho(int _argc, char** _argv) {
             "keep-alive afin de permettre la reutilisation d'une connexion "
             "pour plusieurs demandes/reponses. [2] [3]"
             "Si le client prend en charge le keep-alive, "
-            "il ajoute un en-tete supplémentaire a la requete"
+            "il ajoute un en-tete supplementaire a la requete"
             "";
     lSocket.callServer(lRequest, lResponse);
 }
