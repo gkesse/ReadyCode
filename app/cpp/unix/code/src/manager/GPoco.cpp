@@ -36,6 +36,8 @@ void GPoco::initPoco() {
     m_privateKeyFile = "/etc/letsencrypt/live/readydev.ovh/privkey.pem";
     m_certificateFile = "/etc/letsencrypt/live/readydev.ovh/fullchain.pem";
     m_caLocation = "/etc/letsencrypt/live/readydev.ovh";
+
+    m_mode = eGMode::MODE_NO_AUTHENTICATION;
 }
 //===============================================
 bool GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
@@ -89,6 +91,68 @@ bool GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
 }
 //===============================================
 void GPoco::initSSL() {
+    if(m_mode == eGMode::MODE_NO_AUTHENTICATION) initSSLNoAuthentication();
+    else if(m_mode == eGMode::MODE_USERNAME_PASSWORD) initSSLUsernamePassword();
+    else if(m_mode == eGMode::MODE_API_KEY) initSSLApiKey();
+    else if(m_mode == eGMode::MODE_CERTIFICATE) initSSLCertificate();
+    else initSSLNoAuthentication();
+}
+//===============================================
+void GPoco::initSSLNoAuthentication() {
+    Poco::Net::Context::Ptr ptrContext = new Poco::Net::Context(
+            Poco::Net::Context::SERVER_USE
+            , ""
+            , ""
+            , ""
+            , Poco::Net::Context::VERIFY_RELAXED
+            , 9
+            , false
+            , "ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH"
+    );
+
+    Poco::SharedPtr<Poco::Net::InvalidCertificateHandler> ptrCert = new Poco::Net::AcceptCertificateHandler(true);
+    Poco::SharedPtr<Poco::Net::PrivateKeyPassphraseHandler> ptrPrivateKeyPassphraseHandler;
+    ptrPrivateKeyPassphraseHandler = new Poco::Net::KeyConsoleHandler(true);
+    Poco::Net::SSLManager::instance().initializeServer(ptrPrivateKeyPassphraseHandler, ptrCert, ptrContext);
+}
+//===============================================
+void GPoco::initSSLUsernamePassword() {
+    Poco::Net::Context::Ptr ptrContext = new Poco::Net::Context(
+            Poco::Net::Context::SERVER_USE
+            , m_privateKeyFile.c_str()
+            , m_certificateFile.c_str()
+            , m_caLocation.c_str()
+            , Poco::Net::Context::VERIFY_RELAXED
+            , 9
+            , false
+            , "ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH"
+    );
+
+    Poco::SharedPtr<Poco::Net::InvalidCertificateHandler> ptrCert = new Poco::Net::AcceptCertificateHandler(true);
+    Poco::SharedPtr<Poco::Net::PrivateKeyPassphraseHandler> ptrPrivateKeyPassphraseHandler;
+    ptrPrivateKeyPassphraseHandler = new Poco::Net::KeyConsoleHandler(true);
+    Poco::Net::SSLManager::instance().initializeServer(ptrPrivateKeyPassphraseHandler, ptrCert, ptrContext);
+}
+//===============================================
+void GPoco::initSSLApiKey() {
+    Poco::Net::Context::Ptr ptrContext = new Poco::Net::Context(
+            Poco::Net::Context::SERVER_USE
+            , m_privateKeyFile.c_str()
+            , m_certificateFile.c_str()
+            , m_caLocation.c_str()
+            , Poco::Net::Context::VERIFY_RELAXED
+            , 9
+            , false
+            , "ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH"
+    );
+
+    Poco::SharedPtr<Poco::Net::InvalidCertificateHandler> ptrCert = new Poco::Net::AcceptCertificateHandler(true);
+    Poco::SharedPtr<Poco::Net::PrivateKeyPassphraseHandler> ptrPrivateKeyPassphraseHandler;
+    ptrPrivateKeyPassphraseHandler = new Poco::Net::KeyConsoleHandler(true);
+    Poco::Net::SSLManager::instance().initializeServer(ptrPrivateKeyPassphraseHandler, ptrCert, ptrContext);
+}
+//===============================================
+void GPoco::initSSLCertificate() {
     Poco::Net::Context::Ptr ptrContext = new Poco::Net::Context(
             Poco::Net::Context::SERVER_USE
             , m_privateKeyFile.c_str()
@@ -108,6 +172,7 @@ void GPoco::initSSL() {
 //===============================================
 void GPoco::setPoco(const GPoco& _poco) {
     m_module = _poco.m_module;
+    m_mode = _poco.m_mode;
 }
 //===============================================
 void GPoco::setPoco(GPoco* _poco) {
@@ -116,6 +181,10 @@ void GPoco::setPoco(GPoco* _poco) {
 //===============================================
 void GPoco::setModule(GPoco::eGModule _module) {
     m_module = _module;
+}
+//===============================================
+void GPoco::setMode(eGMode _mode) {
+    m_mode = _mode;
 }
 //===============================================
 int GPoco::getPort() const {

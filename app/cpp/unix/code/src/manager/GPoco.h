@@ -12,6 +12,13 @@ public:
         , POCO_SERVER_HTTPS
     };
 
+    enum eGMode {
+        MODE_NO_AUTHENTICATION
+        , MODE_USERNAME_PASSWORD
+        , MODE_API_KEY
+        , MODE_CERTIFICATE
+    };
+
 public:
     GPoco(const GString& _code = "poco");
     ~GPoco();
@@ -25,6 +32,7 @@ public:
     void setPoco(const GPoco& _poco);
     void setPoco(GPoco* _poco);
     void setModule(eGModule _module);
+    void setMode(eGMode _mode);
 
     int getPort() const;
     GString getMsgStarting() const;
@@ -38,6 +46,10 @@ public:
 private:
     void initPoco();
     bool initPoco(Poco::Net::HTTPServerRequest& _request);
+    void initSSLNoAuthentication();
+    void initSSLUsernamePassword();
+    void initSSLApiKey();
+    void initSSLCertificate();
 
     void onGet(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
     void onPost(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
@@ -67,6 +79,8 @@ private:
 
     int m_port;
     int m_status;
+
+    Poco::Net::Context::VerificationMode m_mode;
 };
 //==============================================
 #endif

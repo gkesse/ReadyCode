@@ -13,6 +13,7 @@ public:
     void runGet(int _argc, char** _argv);
     void runServerHttp(int _argc, char** _argv);
     void runServerHttps(int _argc, char** _argv);
+    void runServerHttpsUserPass(int _argc, char** _argv);
 };
 //==============================================
 #endif
