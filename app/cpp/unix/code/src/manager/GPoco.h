@@ -80,7 +80,7 @@ private:
     int m_port;
     int m_status;
 
-    Poco::Net::Context::VerificationMode m_mode;
+    eGMode m_mode;
 };
 //==============================================
 #endif
