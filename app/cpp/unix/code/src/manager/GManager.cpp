@@ -2,7 +2,6 @@
 #include "GManager.h"
 #include "GCode.h"
 #include "GFile.h"
-#include "GLog.h"
 #include "GSocket.h"
 #include "GConnection.h"
 #include "GModule.h"

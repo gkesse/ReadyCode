@@ -1,7 +1,6 @@
 //===============================================
 #include "GProcess.h"
 #include "GSocket.h"
-#include "GLog.h"
 #include "GTest.h"
 //===============================================
 GProcess::GProcess()

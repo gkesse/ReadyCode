@@ -1,6 +1,5 @@
 //===============================================
 #include "GCurl.h"
-#include "GLog.h"
 //===============================================
 GCurl::GCurl(const GString& _code)
 : GObject(_code) {

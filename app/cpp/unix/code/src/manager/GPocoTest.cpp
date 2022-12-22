@@ -1,7 +1,6 @@
 //===============================================
 #include "GPocoTest.h"
 #include "GPoco.h"
-#include "GLog.h"
 //===============================================
 GPocoTest::GPocoTest(const GString& _code)
 : GObject(_code) {

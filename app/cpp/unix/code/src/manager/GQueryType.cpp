@@ -3,7 +3,6 @@
 #include "GMySQL.h"
 #include "GSocket.h"
 #include "GCode.h"
-#include "GLog.h"
 //===============================================
 GQueryType::GQueryType(const GString& _code)
 : GSearch(_code) {

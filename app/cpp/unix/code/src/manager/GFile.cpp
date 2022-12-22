@@ -7,7 +7,6 @@
 #include "GEnv.h"
 #include "GPath.h"
 #include "GCode.h"
-#include "GLog.h"
 //===============================================
 GFile::GFile()
 : GManager() {

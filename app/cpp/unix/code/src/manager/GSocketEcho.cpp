@@ -1,6 +1,5 @@
 //===============================================
 #include "GSocketEcho.h"
-#include "GLog.h"
 //===============================================
 GSocketEcho::GSocketEcho()
 : GSocket() {

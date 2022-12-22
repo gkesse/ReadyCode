@@ -2,7 +2,6 @@
 #include "GPocoServerApp.h"
 #include "GPocoRequestFactory.h"
 #include "GPoco.h"
-#include "GLog.h"
 //===============================================
 GPocoServerApp::GPocoServerApp(GPoco* _poco) {
     m_poco = _poco;

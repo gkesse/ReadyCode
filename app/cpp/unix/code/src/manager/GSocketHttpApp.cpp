@@ -3,7 +3,6 @@
 #include "GManager.h"
 #include "GEnv.h"
 #include "GCode.h"
-#include "GLog.h"
 //===============================================
 GSocketHttpApp::GSocketHttpApp()
 : GSocket() {

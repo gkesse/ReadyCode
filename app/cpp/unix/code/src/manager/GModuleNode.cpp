@@ -4,7 +4,6 @@
 #include "GModuleKey.h"
 #include "GMySQL.h"
 #include "GCode.h"
-#include "GLog.h"
 //===============================================
 GModuleNode::GModuleNode(const GString& _code)
 : GSearch(_code) {

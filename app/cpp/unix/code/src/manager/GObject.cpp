@@ -1,7 +1,6 @@
 //===============================================
 #include "GCode.h"
 #include "GObject.h"
-#include "GLog.h"
 #include "GPath.h"
 //===============================================
 GObject::GObject(const GString& _code) {

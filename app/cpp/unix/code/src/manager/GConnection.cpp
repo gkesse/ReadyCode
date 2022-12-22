@@ -4,7 +4,6 @@
 #include "GSocket.h"
 #include "GMd5.h"
 #include "GCode.h"
-#include "GLog.h"
 //===============================================
 GConnection::GConnection()
 : GManager() {
