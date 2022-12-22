@@ -53,7 +53,7 @@ bool GLog::deserialize(const GString& _data, const GString& _code) {
 void GLog::initLog() {
     m_file = 0;
 
-    m_isTestEnv     = GEnv().isTestEnv();
+    m_isTestEnv     = true;//GEnv().isTestEnv();
     m_isTestLog     = (GAPP->getData("log", "test_on") == "1");
     m_isProdLog     = (GAPP->getData("log", "prod_on") == "1");
     m_isTestFile    = (GAPP->getData("log", "test_file_on") == "1");
