@@ -27,6 +27,9 @@ void GPocoTest::run(int _argc, char** _argv) {
     else if(lKey == "server/https/userpass") {
         runServerHttpsUserPass(_argc, _argv);
     }
+    else if(lKey == "server/https/cert") {
+        runServerHttpsCert(_argc, _argv);
+    }
     else {
         runDefault(_argc, _argv);
     }
@@ -63,6 +66,14 @@ void GPocoTest::runServerHttpsUserPass(int _argc, char** _argv) {
     GPoco lPoco;
     lPoco.setModule(GPoco::POCO_SERVER_HTTPS);
     lPoco.setMode(GPoco::MODE_USERNAME_PASSWORD);
+    lPoco.runServer(_argc, _argv);
+}
+//===============================================
+void GPocoTest::runServerHttpsCert(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    GPoco lPoco;
+    lPoco.setModule(GPoco::POCO_SERVER_HTTPS);
+    lPoco.setMode(GPoco::MODE_CERTIFICATE);
     lPoco.runServer(_argc, _argv);
 }
 //===============================================

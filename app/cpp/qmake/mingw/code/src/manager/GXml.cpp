@@ -113,6 +113,7 @@ bool GXml::next() {
 }
 //===============================================
 bool GXml::getNode(const GString& _path) {
+    if(!m_doc) return false;
     if(!m_xpath) return false;
     m_xpathObj = xmlXPathEvalExpression(BAD_CAST(_path.c_str()), m_xpath);
     if(!m_xpathObj) return false;

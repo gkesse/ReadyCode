@@ -26,6 +26,16 @@
             <private_key_file>path/private_key_file</private_key_file>
         </data>
         <!-- ============================================ -->
+        <!-- curl -->
+        <!-- ============================================ -->
+        <data>
+            <code>curl</code>
+			<username>admin</username>
+			<password>admin</password>
+			<api_key>16ac9e66cde8bd80d6141dadb74b5083</api_key>
+            <certificate_file>C:/Users/tiaka/.readydev/data/certificates/fullchain.pem</certificate_file>
+        </data>
+        <!-- ============================================ -->
         <!-- log -->
         <!-- ============================================ -->
         <data>

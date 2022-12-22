@@ -14,6 +14,7 @@ public:
     void runServerHttp(int _argc, char** _argv);
     void runServerHttps(int _argc, char** _argv);
     void runServerHttpsUserPass(int _argc, char** _argv);
+    void runServerHttpsCert(int _argc, char** _argv);
 };
 //==============================================
 #endif

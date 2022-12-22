@@ -6,11 +6,11 @@
 //===============================================
 int main(int _argc, char** _argv) {
     GXml().initModule();
-    GCurl().initCurl();
+    GCurl().initModule();
 	GProcess().run(_argc, _argv);
     GERROR_SHOW(eGERR);
     GLOG_SHOW(eGERR);
-	GCurl().cleanCurl();
+	GCurl().cleanModule();
     GXml().cleanModule();
 	return 0;
 }

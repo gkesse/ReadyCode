@@ -22,6 +22,9 @@ void GCurlTest::run(int _argc, char** _argv) {
     else if(lKey == "get/https") {
         runGetHttps(_argc, _argv);
     }
+    else if(lKey == "get/https/cert") {
+        runGetHttpsCert(_argc, _argv);
+    }
     else if(lKey == "post/xml") {
         runPostXml(_argc, _argv);
     }
@@ -50,6 +53,15 @@ void GCurlTest::runGetHttps(int _argc, char** _argv) {
     GCurl lCurl;
     GString lResponse;
     lCurl.doGet("https://readydev.ovh:9071", lResponse);
+    lResponse.print();
+}
+//===============================================
+void GCurlTest::runGetHttpsCert(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    GCurl lCurl;
+    GString lResponse;
+    lCurl.setMode(GCurl::MODE_CERTIFICATE);
+    lCurl.doGet("https://readydev.ovh", lResponse);
     lResponse.print();
 }
 //===============================================

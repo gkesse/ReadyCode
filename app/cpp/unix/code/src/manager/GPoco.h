@@ -46,6 +46,8 @@ public:
 private:
     void initPoco();
     bool initPoco(Poco::Net::HTTPServerRequest& _request);
+    bool initPocoNoAuthentication(Poco::Net::HTTPServerRequest& _request);
+    bool initPocoCertificate(Poco::Net::HTTPServerRequest& _request);
     void initSSLNoAuthentication();
     void initSSLUsernamePassword();
     void initSSLApiKey();

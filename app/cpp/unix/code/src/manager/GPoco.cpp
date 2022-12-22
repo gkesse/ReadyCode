@@ -41,6 +41,12 @@ void GPoco::initPoco() {
 }
 //===============================================
 bool GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
+    if(m_mode == GPoco::MODE_NO_AUTHENTICATION) return initPocoNoAuthentication(_request);
+    if(m_mode == GPoco::MODE_CERTIFICATE) return initPocoCertificate(_request);
+    return initPocoNoAuthentication(_request);
+}
+//===============================================
+bool GPoco::initPocoNoAuthentication(Poco::Net::HTTPServerRequest& _request) {
     GString lHost = _request.getHost();
     GString lMethod = _request.getMethod();
     GString lUri = _request.getURI();
@@ -86,6 +92,38 @@ bool GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
         m_response = "<h1>Ressource non autorisée</h1>";
         return false;
     }
+
+    return true;
+}
+//===============================================
+bool GPoco::initPocoCertificate(Poco::Net::HTTPServerRequest& _request) {
+    GString lHost = _request.getHost();
+    GString lMethod = _request.getMethod();
+    GString lUri = _request.getURI();
+    GString lVersion = _request.getVersion();
+
+    GString lInfos;
+    lInfos += GFORMAT("%s %s %s\n", lMethod.c_str(), lUri.c_str(), lVersion.c_str());
+
+    Poco::Net::HTTPServerRequest::ConstIterator it = _request.begin();
+    for(; it != _request.end(); it++) {
+        GString lKey = it->first;
+        GString lValue = it->second;
+        lInfos += GFORMAT("%s: %s\n", lKey.c_str(), lValue.c_str());
+    }
+
+    if(_request.hasContentLength()) {
+        std::istream& lInput = _request.stream();
+        std::string lOutput;
+        Poco::StreamCopier::copyToString(lInput, lOutput, _request.getContentLength());
+        m_request = lOutput;
+    }
+    lInfos += GFORMAT("%s\n", m_request.c_str());
+
+    GLOGT(eGMSG, "%s", lInfos.c_str());
+
+    m_method = lMethod;
+    m_uri = lUri;
 
     return true;
 }
@@ -158,7 +196,7 @@ void GPoco::initSSLCertificate() {
             , m_privateKeyFile.c_str()
             , m_certificateFile.c_str()
             , m_caLocation.c_str()
-            , Poco::Net::Context::VERIFY_RELAXED
+            , Poco::Net::Context::VERIFY_STRICT
             , 9
             , false
             , "ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH"
