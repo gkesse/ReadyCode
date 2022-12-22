@@ -195,7 +195,7 @@ void GPoco::initSSLCertificate() {
             Poco::Net::Context::SERVER_USE
             , m_privateKeyFile.c_str()
             , m_certificateFile.c_str()
-            , m_caLocation.c_str()
+            , m_certificateFile.c_str()
             , Poco::Net::Context::VERIFY_STRICT
             , 9
             , false
