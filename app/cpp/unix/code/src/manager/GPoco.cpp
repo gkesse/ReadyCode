@@ -196,7 +196,7 @@ void GPoco::initSSLCertificate() {
             , m_privateKeyFile.c_str()
             , m_certificateFile.c_str()
             , m_certificateFile.c_str()
-            , Poco::Net::Context::VERIFY_STRICT
+            , Poco::Net::Context::VERIFY_ONCE
             , 9
             , false
             , "ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH"
