@@ -2,7 +2,7 @@
 #ifndef _GLog_
 #define _GLog_
 //===============================================
-#include "GInclude.h"
+#include "GString.h"
 //===============================================
 #define eGOFF   0, __FILE__, __LINE__, __PRETTY_FUNCTION__
 #define eGFUN   1, __FILE__, __LINE__, __PRETTY_FUNCTION__

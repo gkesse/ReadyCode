@@ -103,7 +103,6 @@ typedef unsigned char uchar;
 #include <openssl/ssl.h>
 #include <openssl/err.h>
 // includes
-#include "GLog.h"
 #include "GString.h"
 //===============================================
 #endif
