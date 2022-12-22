@@ -4,10 +4,10 @@
 #include "GPocoRequestFactory.h"
 #include "GEnv.h"
 #include "GCode.h"
+#include "GApp.h"
 //===============================================
 GPoco::GPoco(const GString& _code)
 : GObject(_code) {
-    createDoms();
     initPoco();
 }
 //===============================================
@@ -28,19 +28,19 @@ void GPoco::initPoco() {
     m_mode              = eGMode::MODE_NO_AUTHENTICATION;
     m_isTestEnv         = GEnv().isTestEnv();
 
-    m_startMessage      = m_dom->getData("poco", "start_message");
-    m_stopMessage       = m_dom->getData("poco", "stop_message");
-    m_contentType       = m_dom->getData("poco", "content_type");
-    m_charset           = m_dom->getData("poco", "charset");
-    m_apiUsername       = m_dom->getData("poco", "api_username");
-    m_apiPassword       = m_dom->getData("poco", "api_password");
-    m_portProd          = m_dom->getData("poco", "port_prod").toInt();
-    m_portTest          = m_dom->getData("poco", "port_test").toInt();
+    m_startMessage      = GAPP->getData("poco", "start_message");
+    m_stopMessage       = GAPP->getData("poco", "stop_message");
+    m_contentType       = GAPP->getData("poco", "content_type");
+    m_charset           = GAPP->getData("poco", "charset");
+    m_apiUsername       = GAPP->getData("poco", "api_username");
+    m_apiPassword       = GAPP->getData("poco", "api_password");
+    m_portProd          = GAPP->getData("poco", "port_prod").toInt();
+    m_portTest          = GAPP->getData("poco", "port_test").toInt();
     m_port              = (m_isTestEnv ? m_portTest : m_portProd);
     m_status            = 0;
 
-    m_privateKeyFile    = m_dom->getData("poco", "private_key_file");
-    m_certificateFile   = m_dom->getData("poco", "certificate_file");
+    m_privateKeyFile    = GAPP->getData("poco", "private_key_file");
+    m_certificateFile   = GAPP->getData("poco", "certificate_file");
 }
 //===============================================
 bool GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
@@ -50,7 +50,7 @@ bool GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
 }
 //===============================================
 bool GPoco::initPocoNoAuthentication(Poco::Net::HTTPServerRequest& _request) {
-    m_logs.clearErrors();
+    m_logs.clearMap();
 
     if(_request.getContentType().empty()) {
         m_logs.addError("Erreur le type du contenu est obligatoire");
@@ -68,10 +68,14 @@ bool GPoco::initPocoNoAuthentication(Poco::Net::HTTPServerRequest& _request) {
     }
 
     std::istream& lInput = _request.stream();
-    std::string lOutput;
-    Poco::StreamCopier::copyToString(lInput, lOutput, _request.getContentLength());
-    GString lRequest = lOutput;
+    std::string lRequest;
+    Poco::StreamCopier::copyToString(lInput, lRequest, _request.getContentLength());
+
     GXml lXml;
+    if(lXml.loadXml(lRequest)) {
+        m_logs.addError("Erreur le contenu de la requête est obligatoire");
+        return false;
+    }
 
     GString lHost = _request.getHost();
     GString lMethod = _request.getMethod();

@@ -19,15 +19,15 @@ void GCurl::initCurl() {
     m_mode              = GCurl::MODE_NO_AUTENTICATION;
     m_isTestEnv         = GEnv().isTestEnv();
 
-    m_contentType       = m_dom->getData("curl", "content_type");
-    m_apiUsername       = m_dom->getData("curl", "username");
-    m_apiPassword       = m_dom->getData("curl", "password");
-    m_apiKeyProd        = m_dom->getData("curl", "api_key_prod");
-    m_apiKeyTest        = m_dom->getData("curl", "api_key_test");
+    m_contentType       = GAPP->getData("curl", "content_type");
+    m_apiUsername       = GAPP->getData("curl", "username");
+    m_apiPassword       = GAPP->getData("curl", "password");
+    m_apiKeyProd        = GAPP->getData("curl", "api_key_prod");
+    m_apiKeyTest        = GAPP->getData("curl", "api_key_test");
     m_apiKey            = (m_isTestEnv ? m_apiKeyTest : m_apiKeyProd);
-    m_certificateFile   = m_dom->getData("curl", "certificate_file");
-    m_urlProd           = m_dom->getData("curl", "url_prod");
-    m_urlTest           = m_dom->getData("curl", "url_test");
+    m_certificateFile   = GAPP->getData("curl", "certificate_file");
+    m_urlProd           = GAPP->getData("curl", "url_prod");
+    m_urlTest           = GAPP->getData("curl", "url_test");
     m_url               = (m_isTestEnv ? m_urlProd : m_urlTest);
 }
 //===============================================

@@ -6,7 +6,7 @@
 #include "GThread.h"
 #include "GEnv.h"
 #include "GCode.h"
-#include "GLog.h"
+#include "GApp.h"
 //===============================================
 const char* GSocket::METHOD_RDVAPP        = "RDVAPP";
 const char* GSocket::METHOD_HTTP_GET      = "GET";
@@ -14,7 +14,6 @@ const char* GSocket::METHOD_HTTP_POST     = "POST";
 //===============================================
 GSocket::GSocket()
 : GObject() {
-    createDoms();
     initSocket();
 }
 //===============================================
@@ -28,15 +27,15 @@ void GSocket::initSocket() {
 
     m_isTestEnv     = GEnv().isTestEnv();
 
-    m_portProd      = m_dom->getData("socket", "port_prod").toInt();
-    m_portTest      = m_dom->getData("socket", "port_test").toInt();
+    m_portProd      = GAPP->getData("socket", "port_prod").toInt();
+    m_portTest      = GAPP->getData("socket", "port_test").toInt();
     m_port          = (m_isTestEnv ? m_portTest : m_portProd);
-    m_backlog       = m_dom->getData("socket", "backlog").toInt();
-    m_serverIp      = m_dom->getData("socket", "server_ip");
-    m_clientIp      = m_dom->getData("socket", "client_ip");
+    m_backlog       = GAPP->getData("socket", "backlog").toInt();
+    m_serverIp      = GAPP->getData("socket", "server_ip");
+    m_clientIp      = GAPP->getData("socket", "client_ip");
     m_hostname      = m_clientIp;
-    m_startMessage  = m_dom->getData("socket", "start_message");
-    m_stopMessage   = m_dom->getData("socket", "stop_message");
+    m_startMessage  = GAPP->getData("socket", "start_message");
+    m_stopMessage   = GAPP->getData("socket", "stop_message");
 }
 //===============================================
 GSocket* GSocket::createSocket() {

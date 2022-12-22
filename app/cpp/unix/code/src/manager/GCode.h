@@ -22,9 +22,11 @@ public:
 
     GString getData(const GString& _code, const GString& _key);
     bool getData(const GString& _code, std::vector<GObject*>& _map, GObject* _obj);
+    bool getData(const GString& _code, std::vector<GLog*>& _map, GLog* _obj);
 
     bool addData(const GString& _code, const GString& _key, const GString& _value , bool _isCData = false);
     bool addData(const GString& _code, const std::vector<GObject*>& _map);
+    bool addData(const GString& _code, const std::vector<GLog*>& _map);
     bool addData(const GString& _data);
 
     int countMap(const GString& _code);

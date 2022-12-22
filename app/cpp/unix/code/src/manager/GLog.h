@@ -1,6 +1,6 @@
 //===============================================
-#ifndef _GLog2_
-#define _GLog2_
+#ifndef _GLog_
+#define _GLog_
 //===============================================
 #include "GObject.h"
 //===============================================
@@ -22,19 +22,20 @@
 #define GLOGW(x, ...)       GLOGI->writeLog(#x, x, GFORMAT(__VA_ARGS__))
 #define GSTRC               GLOGI->toString
 //===============================================
-class GLog : public GObject {
+class GLog {
 public:
     GLog(const GString& _code = "logs");
     ~GLog();
     static GLog* Instance();
+    GLog* clone() const;
 
     GString serialize(const GString& _code = "logs") const;
     bool deserialize(const GString& _data, const GString& _code = "logs");
 
-    void initLog();
-
     FILE* getOutput();
     FILE* getOutputFile();
+    GString getCodeName() const;
+
     void closeLogFile();
     void catLogFile();
     void tailLogFile(bool _isTestEnv);
@@ -46,9 +47,9 @@ public:
     void showErrors();
     bool hasErrors();
     bool hasLogs();
-    void clearMaps();
     void clearErrors();
     void clearLogs();
+    void clearMap();
     void loadErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _data);
 
     void writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _log);
@@ -58,6 +59,9 @@ public:
     const char* toString(const GString& _data) const;
     GString toString(const std::vector<GString>& _data) const;
     GString toString(const std::vector<std::vector<GString>>& _data) const;
+
+private:
+    void initLog();
 
 private:
     static GLog* m_instance;
@@ -81,6 +85,9 @@ private:
     GString m_logTestFile;
     GString m_logProdFile;
     GString m_logFilename;
+
+    GString m_codeName;
+    std::vector<GLog*> m_map;
 };
 //==============================================
 #endif

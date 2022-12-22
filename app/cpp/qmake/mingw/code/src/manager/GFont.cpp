@@ -24,7 +24,7 @@ GFont* GFont::Instance() {
 bool GFont::loadFont() {
     int lCount = m_dom->countMap("fonts");
     for(int i = 0; i < lCount; i++) {
-        GString lFont = m_dom->getData("fonts", i);
+        GString lFont = GAPP->getData("fonts", i);
         GString lFile = GPATH("fonts", lFont);
         QFontDatabase::addApplicationFont(lFile.c_str());
     }

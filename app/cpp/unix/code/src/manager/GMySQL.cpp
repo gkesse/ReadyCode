@@ -1,13 +1,12 @@
 //===============================================
 #include "GMySQL.h"
 #include "GCode.h"
-#include "GLog.h"
 #include "GPath.h"
 #include "GEnv.h"
+#include "GApp.h"
 //===============================================
 GMySQL::GMySQL(const GString& _code)
 : GObject(_code) {
-    createDoms();
     initMySQL();
 }
 //===============================================
@@ -18,15 +17,15 @@ GMySQL::~GMySQL() {
 void GMySQL::initMySQL() {
     m_isTestEnv     = GEnv().isTestEnv();
 
-    m_protocol      = m_dom->getData("mysql", "protocol");
-    m_hostname      = m_dom->getData("mysql", "hostname");
-    m_port          = m_dom->getData("mysql", "port").toInt();
-    m_username      = m_dom->getData("mysql", "username");
-    m_password      = m_dom->getData("mysql", "password");
-    m_databaseProd  = m_dom->getData("mysql", "database_prod");
-    m_databaseTest  = m_dom->getData("mysql", "database_test");
+    m_protocol      = GAPP->getData("mysql", "protocol");
+    m_hostname      = GAPP->getData("mysql", "hostname");
+    m_port          = GAPP->getData("mysql", "port").toInt();
+    m_username      = GAPP->getData("mysql", "username");
+    m_password      = GAPP->getData("mysql", "password");
+    m_databaseProd  = GAPP->getData("mysql", "database_prod");
+    m_databaseTest  = GAPP->getData("mysql", "database_test");
     m_database      = (m_isTestEnv ? m_databaseTest : m_databaseProd);
-    m_logOn         = m_dom->getData("mysql", "log_on").toInt();
+    m_logOn         = GAPP->getData("mysql", "log_on").toInt();
 
     m_driver = 0;
 }

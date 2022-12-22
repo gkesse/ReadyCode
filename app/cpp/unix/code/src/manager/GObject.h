@@ -4,16 +4,15 @@
 //===============================================
 #include "GInclude.h"
 #include "GMap.h"
+#include "GLog.h"
 //===============================================
 class GCode;
-class GLog;
 //===============================================
 class GObject {
 public:
     GObject(const GString& _code = "object");
     virtual ~GObject();
     virtual GObject* clone() const;
-    virtual bool createDoms();
     virtual GString serialize(const GString& _code = "object") const;
     virtual bool deserialize(const GString& _data, const GString& _code = "object");
     virtual void clearMap();
@@ -26,9 +25,9 @@ public:
     virtual void print();
 
 protected:
+    GString m_codeName;
     std::shared_ptr<GCode> m_dom;
     std::vector<GObject*> m_map;
-    GString m_codeName;
     GLog m_logs;
 };
 //===============================================

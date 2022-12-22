@@ -19,19 +19,19 @@ void GSocket::initSocket() {
     m_module        = GSocket::SOCKET_CLIENT_TCP;
     m_isTestEnv     = GEnv().isTestEnv();
 
-    m_portProd      = m_dom->getData("socket", "port_prod").toInt();
-    m_portTest      = m_dom->getData("socket", "port_test").toInt();
+    m_portProd      = GAPP->getData("socket", "port_prod").toInt();
+    m_portTest      = GAPP->getData("socket", "port_test").toInt();
     m_port          = (m_isTestEnv ? m_portTest : m_portProd);
-    m_backlog       = m_dom->getData("socket", "backlog").toInt();
-    m_serverIp      = m_dom->getData("socket", "server_ip");
-    m_clientIp      = m_dom->getData("socket", "client_ip");
+    m_backlog       = GAPP->getData("socket", "backlog").toInt();
+    m_serverIp      = GAPP->getData("socket", "server_ip");
+    m_clientIp      = GAPP->getData("socket", "client_ip");
     m_hostname      = m_serverIp;
-    m_apiMethod     = m_dom->getData("socket", "api_method");
-    m_apiKeyProd    = m_dom->getData("socket", "api_key_prod");
-    m_apiKeyTest    = m_dom->getData("socket", "api_key_test");
+    m_apiMethod     = GAPP->getData("socket", "api_method");
+    m_apiKeyProd    = GAPP->getData("socket", "api_key_prod");
+    m_apiKeyTest    = GAPP->getData("socket", "api_key_test");
     m_apiKey        = (m_isTestEnv ? m_apiKeyTest : m_apiKeyProd);
-    m_apiUsername   = m_dom->getData("socket", "api_username");
-    m_apiPassword   = m_dom->getData("socket", "api_password");
+    m_apiUsername   = GAPP->getData("socket", "api_username");
+    m_apiPassword   = GAPP->getData("socket", "api_password");
 }
 //===============================================
 GSocket* GSocket::createSocket() {

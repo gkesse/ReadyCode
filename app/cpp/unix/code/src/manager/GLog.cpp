@@ -6,12 +6,12 @@
 #include "GEnv.h"
 #include "GFile.h"
 #include "GPath.h"
+#include "GApp.h"
 //===============================================
 GLog* GLog::m_instance = 0;
 //===============================================
-GLog::GLog(const GString& _code)
-: GObject(_code) {
-    createDoms();
+GLog::GLog(const GString& _code) {
+    m_codeName = _code;
     initLog();
 }
 //===============================================
@@ -26,6 +26,10 @@ GLog* GLog::Instance() {
     return m_instance;
 }
 //===============================================
+GLog* GLog::clone() const {
+    return new GLog;
+}
+//===============================================
 GString GLog::serialize(const GString& _code) const {
     GCode lDom;
     lDom.createDoc();
@@ -37,7 +41,6 @@ GString GLog::serialize(const GString& _code) const {
 }
 //===============================================
 bool GLog::deserialize(const GString& _data, const GString& _code) {
-    clearMap();
     GCode lDom;
     lDom.loadXml(_data);
     m_type = lDom.getData(_code, "type");
@@ -51,10 +54,10 @@ void GLog::initLog() {
     m_file = 0;
 
     m_isTestEnv     = GEnv().isTestEnv();
-    m_isTestLog     = (m_dom->getData("log", "test_on") == "1");
-    m_isProdLog     = (m_dom->getData("log", "prod_on") == "1");
-    m_isTestFile    = (m_dom->getData("log", "test_file_on") == "1");
-    m_isProdFile    = (m_dom->getData("log", "prod_file_on") == "1");
+    m_isTestLog     = (GAPP->getData("log", "test_on") == "1");
+    m_isProdLog     = (GAPP->getData("log", "prod_on") == "1");
+    m_isTestFile    = (GAPP->getData("log", "test_file_on") == "1");
+    m_isProdFile    = (GAPP->getData("log", "prod_file_on") == "1");
     m_isDebug       = (m_isTestEnv ? m_isTestLog : m_isProdLog);
     m_isFileLog     = (m_isTestEnv ? m_isTestFile : m_isProdFile);
 
@@ -75,6 +78,10 @@ FILE* GLog::getOutputFile() {
     FILE* lFile = fopen(m_logFilename.c_str(), "a+");
     m_file = lFile;
     return lFile;
+}
+//===============================================
+GString GLog::getCodeName() const {
+    return m_codeName;
 }
 //===============================================
 void GLog::closeLogFile() {
@@ -141,8 +148,8 @@ void GLog::showErrors() {
     if(!m_isDebug) return;
     if(!hasErrors()) return;
     GString lErrors = "";
-    for(int i = 0; i < size(); i++) {
-        GLog* lLog = (GLog*)at(i);
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GLog* lLog = m_map.at(i);
         if(lLog->m_type == "error") {
             if(i != 0) lErrors += "\n";
             lErrors += lLog->m_msg;
@@ -152,8 +159,8 @@ void GLog::showErrors() {
 }
 //===============================================
 bool GLog::hasErrors() {
-    for(int i = 0; i < size(); i++) {
-        GLog* lLog = (GLog*)at(i);
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GLog* lLog = m_map.at(i);
         if(lLog->m_type == "error") {
             return true;
         }
@@ -162,8 +169,8 @@ bool GLog::hasErrors() {
 }
 //===============================================
 bool GLog::hasLogs() {
-    for(int i = 0; i < size(); i++) {
-        GLog* lLog = (GLog*)at(i);
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GLog* lLog = m_map.at(i);
         if(lLog->m_type == "log") {
             return true;
         }
@@ -171,28 +178,32 @@ bool GLog::hasLogs() {
     return false;
 }
 //===============================================
-void GLog::clearMaps() {
-    clearMap();
-}
-//===============================================
 void GLog::clearErrors() {
-    for(int i = 0; i < size(); i++) {
-        GLog* lLog = (GLog*)at(i);
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GLog* lLog = m_map.at(i);
         if(lLog->m_type == "error") {
             delete lLog;
-            m_map.erase (m_map.begin() + i);
+            m_map.erase(m_map.begin() + i);
         }
     }
 }
 //===============================================
 void GLog::clearLogs() {
-    for(int i = 0; i < size(); i++) {
-        GLog* lLog = (GLog*)at(i);
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GLog* lLog = m_map.at(i);
         if(lLog->m_type == "log") {
             delete lLog;
-            m_map.erase (m_map.begin() + i);
+            m_map.erase(m_map.begin() + i);
         }
     }
+}
+//===============================================
+void GLog::clearMap() {
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GLog* lObj = m_map.at(i);
+        delete lObj;
+    }
+    m_map.clear();
 }
 //===============================================
 void GLog::loadErrors(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _data) {

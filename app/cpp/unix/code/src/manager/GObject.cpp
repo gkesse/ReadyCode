@@ -12,12 +12,6 @@ GObject::~GObject() {
 
 }
 //===============================================
-bool GObject::createDoms() {
-    m_dom.reset(new GCode);
-    m_dom->loadFile(GPATH("xml", "app.xml"));
-    return true;
-}
-//===============================================
 void GObject::clearMap() {
     clearMap(m_map);
 }

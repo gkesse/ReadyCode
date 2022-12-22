@@ -1,11 +1,10 @@
 //===============================================
 #include "GOpenSSL.h"
 #include "GCode.h"
-#include "GLog.h"
+#include "GApp.h"
 //===============================================
 GOpenSSL::GOpenSSL(const GString& _code)
 : GObject(_code) {
-    createDoms();
     initOpenSSL();
 }
 //===============================================
@@ -15,8 +14,8 @@ GOpenSSL::~GOpenSSL() {
 //===============================================
 bool GOpenSSL::initOpenSSL() {
     m_ssl = 0;
-    m_certificateFile = m_dom->getData("openssl", "certificate_file");
-    m_privateKeyFile = m_dom->getData("openssl", "private_key_file");
+    m_certificateFile = GAPP->getData("openssl", "certificate_file");
+    m_privateKeyFile = GAPP->getData("openssl", "private_key_file");
     return true;
 }
 //===============================================

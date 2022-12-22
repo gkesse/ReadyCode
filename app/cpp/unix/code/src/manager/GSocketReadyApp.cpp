@@ -3,11 +3,10 @@
 #include "GManager.h"
 #include "GEnv.h"
 #include "GCode.h"
-#include "GLog.h"
+#include "GApp.h"
 //===============================================
 GSocketReadyApp::GSocketReadyApp()
 : GSocket() {
-    createDoms();
     initReadyApp();
 }
 //===============================================
@@ -24,11 +23,11 @@ GString GSocketReadyApp::getRequest() const {
 }
 //===============================================
 void GSocketReadyApp::initReadyApp() {
-    m_apiKeyProd    = m_dom->getData("socket", "api_key_prod");
-    m_apiKeyTest    = m_dom->getData("socket", "api_key_test");
+    m_apiKeyProd    = GAPP->getData("socket", "api_key_prod");
+    m_apiKeyTest    = GAPP->getData("socket", "api_key_test");
     m_apiKey        = (m_isTestEnv ? m_apiKeyTest : m_apiKeyProd);
-    m_apiUsername   = m_dom->getData("socket", "api_username");
-    m_apiPassword   = m_dom->getData("socket", "api_password");
+    m_apiUsername   = GAPP->getData("socket", "api_username");
+    m_apiPassword   = GAPP->getData("socket", "api_password");
 }
 //===============================================
 bool GSocketReadyApp::runThreadCB() {
@@ -110,7 +109,7 @@ bool GSocketReadyApp::analyzeRequest() {
 //===============================================
 bool GSocketReadyApp::integrateErrors() {
     addResponse(GLOGI->serialize());
-    GLOGI->clearMaps();
+    GLOGI->clearMap();
     return true;
 }
 //===============================================
