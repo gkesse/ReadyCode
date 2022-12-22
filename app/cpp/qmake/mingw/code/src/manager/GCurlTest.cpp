@@ -61,7 +61,7 @@ void GCurlTest::runGetHttpsCert(int _argc, char** _argv) {
     GCurl lCurl;
     GString lResponse;
     lCurl.setMode(GCurl::MODE_CERTIFICATE);
-    lCurl.doGet("https://readydev.ovh", lResponse);
+    lCurl.doGet("https://readydev.ovh:9071", lResponse);
     lResponse.print();
 }
 //===============================================
