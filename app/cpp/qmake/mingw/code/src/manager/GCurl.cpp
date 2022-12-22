@@ -179,7 +179,7 @@ bool GCurl::doGetCertificate(const GString& _url, GString& _response) {
     curl_easy_setopt(lCurl, CURLOPT_URL, _url.c_str());
     curl_easy_setopt(lCurl, CURLOPT_FOLLOWLOCATION, 1L);
     curl_easy_setopt(lCurl, CURLOPT_SSL_VERIFYPEER, 1L);
-    curl_easy_setopt(lCurl, CURLOPT_SSL_VERIFYHOST, 1L);
+    curl_easy_setopt(lCurl, CURLOPT_SSL_VERIFYHOST, 0L);
     curl_easy_setopt(lCurl, CURLOPT_CAINFO, m_certificateFile.c_str());
     curl_easy_setopt(lCurl, CURLOPT_WRITEFUNCTION, onWrite);
     curl_easy_setopt(lCurl, CURLOPT_WRITEDATA, &lBuffer);
