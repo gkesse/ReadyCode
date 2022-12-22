@@ -177,7 +177,7 @@ bool GCurl::doGetCertificate(const GString& _url, GString& _response) {
 
     CURL* lCurl = curl_easy_init();
     curl_easy_setopt(lCurl, CURLOPT_HTTPGET, 1L);
-    curl_easy_setopt(lCurl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_2_0);
+    curl_easy_setopt(lCurl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
 
     addHeader("Content-Type", m_contentType);
 
