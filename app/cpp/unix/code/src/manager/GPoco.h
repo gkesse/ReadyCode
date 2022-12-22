@@ -87,6 +87,8 @@ private:
     int m_portProd;
     int m_portTest;
     int m_status;
+
+    GLog m_logs;
 };
 //==============================================
 #endif

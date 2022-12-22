@@ -2,11 +2,11 @@
 #ifndef _GEnv_
 #define _GEnv_
 //===============================================
-#include "GObject.h"
+#include "GInclude.h"
 //===============================================
-class GEnv : public GObject {
+class GEnv {
 public:
-    GEnv(const GString& _codeName = "envs");
+    GEnv();
     ~GEnv();
     void initEnv();
     bool isTestEnv() const;
