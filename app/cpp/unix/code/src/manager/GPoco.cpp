@@ -4,7 +4,6 @@
 #include "GPocoRequestFactory.h"
 #include "GEnv.h"
 #include "GCode.h"
-#include "GLog.h"
 //===============================================
 GPoco::GPoco(const GString& _code)
 : GObject(_code) {
@@ -51,6 +50,29 @@ bool GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
 }
 //===============================================
 bool GPoco::initPocoNoAuthentication(Poco::Net::HTTPServerRequest& _request) {
+    m_logs.clearErrors();
+
+    if(_request.getContentType().empty()) {
+        m_logs.addError("Erreur le type du contenu est obligatoire");
+        return false;
+    }
+
+    if(_request.getContentType() != "application/xml") {
+        m_logs.addError("Erreur le type du contenu n'est pas pris en charge.");
+        return false;
+    }
+
+    if(!_request.hasContentLength()) {
+        m_logs.addError("Erreur le contenu de la requête est obligatoire");
+        return false;
+    }
+
+    std::istream& lInput = _request.stream();
+    std::string lOutput;
+    Poco::StreamCopier::copyToString(lInput, lOutput, _request.getContentLength());
+    GString lRequest = lOutput;
+    GXml lXml;
+
     GString lHost = _request.getHost();
     GString lMethod = _request.getMethod();
     GString lUri = _request.getURI();
@@ -65,6 +87,7 @@ bool GPoco::initPocoNoAuthentication(Poco::Net::HTTPServerRequest& _request) {
         GString lValue = it->second;
         lInfos += GFORMAT("%s: %s\n", lKey.c_str(), lValue.c_str());
     }
+
 
     if(_request.hasContentLength()) {
         std::istream& lInput = _request.stream();
@@ -97,7 +120,7 @@ bool GPoco::initPocoNoAuthentication(Poco::Net::HTTPServerRequest& _request) {
         return false;
     }
 
-    return true;
+    return !m_logs.hasErrors();
 }
 //===============================================
 bool GPoco::initPocoCertificate(Poco::Net::HTTPServerRequest& _request) {
@@ -125,6 +148,18 @@ bool GPoco::initPocoCertificate(Poco::Net::HTTPServerRequest& _request) {
     lInfos += GFORMAT("%s\n", m_request.c_str());
 
     GLOGT(eGMSG, "%s", lInfos.c_str());
+
+    bool lIsAuthenticate = false;
+
+    if(_request.hasCredentials()) {
+        Poco::Net::HTTPBasicCredentials lCredentials(_request);
+        GString lUsername = lCredentials.getUsername();
+        GString lPassword = lCredentials.getPassword();
+        lInfos += GFORMAT("%s: %s\n", lUsername.c_str(), lPassword.c_str());
+        if(lUsername == m_apiUsername && lPassword == m_apiPassword) {
+            lIsAuthenticate = true;
+        }
+    }
 
     m_method = lMethod;
     m_uri = lUri;

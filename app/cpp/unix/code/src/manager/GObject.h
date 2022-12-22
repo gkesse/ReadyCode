@@ -6,6 +6,7 @@
 #include "GMap.h"
 //===============================================
 class GCode;
+class GLog;
 //===============================================
 class GObject {
 public:
@@ -28,6 +29,7 @@ protected:
     std::shared_ptr<GCode> m_dom;
     std::vector<GObject*> m_map;
     GString m_codeName;
+    GLog m_logs;
 };
 //===============================================
 #endif

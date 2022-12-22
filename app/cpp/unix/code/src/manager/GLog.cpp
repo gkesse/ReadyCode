@@ -103,12 +103,28 @@ void GLog::tailLogFile(bool _isTestEnv) {
     }
 }
 //===============================================
+void GLog::addError(const GString& _error) {
+    GLog* lLog = new GLog;
+    lLog->m_type = "error";
+    lLog->m_side = "server";
+    lLog->m_msg = _error;
+    m_map.push_back(lLog);
+}
+//===============================================
 void GLog::addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _error) {
     traceLog(_name, _level, _file, _line, _func, _error);
     GLog* lLog = new GLog;
     lLog->m_type = "error";
     lLog->m_side = "server";
     lLog->m_msg = _error;
+    m_map.push_back(lLog);
+}
+//===============================================
+void GLog::addLog(const GString& _log) {
+    GLog* lLog = new GLog;
+    lLog->m_type = "log";
+    lLog->m_side = "server";
+    lLog->m_msg = _log;
     m_map.push_back(lLog);
 }
 //===============================================

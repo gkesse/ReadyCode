@@ -61,6 +61,7 @@ private:
 private:
     eGModule m_module;
     bool m_isTestEnv;
+    eGMode m_mode;
 
     GString m_apiKey;
     GString m_apiKeyProd;
@@ -86,8 +87,6 @@ private:
     int m_portProd;
     int m_portTest;
     int m_status;
-
-    eGMode m_mode;
 };
 //==============================================
 #endif

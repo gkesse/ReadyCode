@@ -146,7 +146,6 @@ bool GCurl::doGetApiKey(const GString& _url, GString& _response) {
     CURL* lCurl = curl_easy_init();
 
     addHeader("Content-Type", m_contentType);
-    addHeader("X-Api-Key", m_apiKey);
 
     struct curl_slist* lHeaders = NULL;
     lHeaders = m_headers.toHeaders(lCurl, lHeaders);
@@ -157,6 +156,7 @@ bool GCurl::doGetApiKey(const GString& _url, GString& _response) {
     curl_easy_setopt(lCurl, CURLOPT_FOLLOWLOCATION, 1L);
     curl_easy_setopt(lCurl, CURLOPT_SSL_VERIFYPEER, 0L);
     curl_easy_setopt(lCurl, CURLOPT_SSL_VERIFYHOST, 0L);
+    curl_easy_setopt(lCurl, CURLOPT_USERNAME, m_apiKey.c_str());
     curl_easy_setopt(lCurl, CURLOPT_WRITEFUNCTION, onWrite);
     curl_easy_setopt(lCurl, CURLOPT_WRITEDATA, &lBuffer);
     curl_easy_setopt (lCurl, CURLOPT_VERBOSE, 0L);
@@ -189,8 +189,9 @@ bool GCurl::doGetCertificate(const GString& _url, GString& _response) {
     curl_easy_setopt(lCurl, CURLOPT_URL, _url.c_str());
     curl_easy_setopt(lCurl, CURLOPT_FOLLOWLOCATION, 1L);
     curl_easy_setopt(lCurl, CURLOPT_SSL_VERIFYPEER, 1L);
-    curl_easy_setopt(lCurl, CURLOPT_CAINFO, m_certificateFile.c_str());
     curl_easy_setopt(lCurl, CURLOPT_SSL_VERIFYHOST, 1L);
+    curl_easy_setopt(lCurl, CURLOPT_CAINFO, m_certificateFile.c_str());
+    curl_easy_setopt(lCurl, CURLOPT_USERNAME, m_apiKey.c_str());
     curl_easy_setopt(lCurl, CURLOPT_WRITEFUNCTION, onWrite);
     curl_easy_setopt(lCurl, CURLOPT_WRITEDATA, &lBuffer);
     curl_easy_setopt (lCurl, CURLOPT_VERBOSE, 0L);

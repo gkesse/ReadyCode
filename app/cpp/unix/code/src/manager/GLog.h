@@ -39,8 +39,10 @@ public:
     void catLogFile();
     void tailLogFile(bool _isTestEnv);
 
+    void addError(const GString& _error);
     void addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _error);
-    void addLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _error);
+    void addLog(const GString& _log);
+    void addLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _log);
     void showErrors();
     bool hasErrors();
     bool hasLogs();
