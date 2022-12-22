@@ -24,7 +24,7 @@
 //===============================================
 class GLog {
 public:
-    GLog(const GString& _code = "logs");
+    GLog(const GString& _codeName = "logs");
     ~GLog();
     static GLog* Instance();
     GLog* clone() const;

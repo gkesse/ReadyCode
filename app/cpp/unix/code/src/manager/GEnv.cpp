@@ -1,9 +1,8 @@
 //===============================================
 #include "GEnv.h"
-#include "GLog.h"
 //===============================================
-GEnv::GEnv()
-: GObject() {
+GEnv::GEnv(const GString& _codeName)
+: GObject(_codeName) {
     initEnv();
 }
 //===============================================

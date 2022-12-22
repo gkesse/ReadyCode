@@ -6,7 +6,7 @@
 //===============================================
 class GEnv : public GObject {
 public:
-    GEnv();
+    GEnv(const GString& _codeName = "envs");
     ~GEnv();
     void initEnv();
     bool isTestEnv() const;

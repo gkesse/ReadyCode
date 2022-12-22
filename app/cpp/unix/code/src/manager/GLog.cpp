@@ -10,8 +10,8 @@
 //===============================================
 GLog* GLog::m_instance = 0;
 //===============================================
-GLog::GLog(const GString& _code) {
-    m_codeName = _code;
+GLog::GLog(const GString& _codeName) {
+    m_codeName = _codeName;
     initLog();
 }
 //===============================================
