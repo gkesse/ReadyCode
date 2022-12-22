@@ -32,8 +32,12 @@
             <code>curl</code>
 			<username>admin</username>
 			<password>admin</password>
-			<api_key>16ac9e66cde8bd80d6141dadb74b5083</api_key>
+			<api_key_prod>16ac9e66cde8bd80d6141dadb74b5083</api_key_prod>
+			<api_key_test>admin</api_key_test>
             <certificate_file>C:/Users/tiaka/.readydev/data/certificates/fullchain.pem</certificate_file>
+            <url_prod>https://readydev.ovh:9070/</url_prod>
+            <url_test>https://readydev.ovh:9071/</url_test>
+            <content_type>application/xml</content_type>
         </data>
         <!-- ============================================ -->
         <!-- log -->

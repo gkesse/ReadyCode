@@ -44,17 +44,23 @@ private:
 
 private:
     eGMode m_mode;
+    bool m_isTestEnv;
 
     GMap m_forms;
     GMap m_headers;
     GString m_contents;
 
-    GString m_username;
-    GString m_password;
+    GString m_apiUsername;
+    GString m_apiPassword;
     GString m_apiKey;
+    GString m_apiKeyProd;
+    GString m_apiKeyTest;
     GString m_certificateFile;
     GString m_certificatePath;
     GString m_contentType;
+    GString m_url;
+    GString m_urlProd;
+    GString m_urlTest;
 
     long m_responseCode;
 };

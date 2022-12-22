@@ -35,8 +35,8 @@ public:
     void setMode(eGMode _mode);
 
     int getPort() const;
-    GString getMsgStarting() const;
-    GString getMsgShutdown() const;
+    GString getStartMessage() const;
+    GString getStopMessage() const;
     eGModule getModule() const;
 
     bool doGet(const GString& _url, GString& _response);
@@ -60,9 +60,13 @@ private:
 
 private:
     eGModule m_module;
+    bool m_isTestEnv;
 
-    GString m_username;
-    GString m_password;
+    GString m_apiKey;
+    GString m_apiKeyProd;
+    GString m_apiKeyTest;
+    GString m_apiUsername;
+    GString m_apiPassword;
     GString m_method;
     GString m_uri;
 
@@ -72,14 +76,15 @@ private:
     GString m_request;
     GString m_response;
 
-    GString m_msgStarting;
-    GString m_msgShutdown;
+    GString m_startMessage;
+    GString m_stopMessage;
 
-    GString m_privkeyFile;
+    GString m_privatekeyFile;
     GString m_certificateFile;
-    GString m_caLocation;
 
     int m_port;
+    int m_portProd;
+    int m_portTest;
     int m_status;
 
     eGMode m_mode;

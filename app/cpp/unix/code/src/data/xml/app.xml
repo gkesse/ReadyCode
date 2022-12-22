@@ -20,6 +20,24 @@
             <stop_message>Arrêt du serveur...</stop_message>
         </data>
         <!-- ============================================ -->
+        <!-- poco -->
+        <!-- ============================================ -->
+        <data>
+            <code>poco</code>
+            <port_prod>9070</port_prod>
+            <port_test>9071</port_test>
+            <api_key_prod>16ac9e66cde8bd80d6141dadb74b5083</api_key_prod>
+            <api_key_test>admin</api_key_test>
+            <api_username>admin</api_username>
+            <api_password>admin</api_password>
+            <start_message>Démarrage du serveur...</start_message>
+            <stop_message>Arrêt du serveur...</stop_message>
+            <charset>UTF-8</charset>
+            <content_type>application/xml</content_type>
+            <certificate_file>/etc/letsencrypt/live/readydev.ovh/fullchain.pem</certificate_file>
+            <privatekey_file>/etc/letsencrypt/live/readydev.ovh/privkey.pem</privatekey_file>
+        </data>
+        <!-- ============================================ -->
         <!-- mysql -->
         <!-- ============================================ -->
         <data>

@@ -1,5 +1,6 @@
 //===============================================
 #include "GCurl.h"
+#include "GEnv.h"
 #include "GMap.h"
 #include "GCode.h"
 #include "GLog.h"
@@ -16,11 +17,18 @@ GCurl::~GCurl() {
 //===============================================
 void GCurl::initCurl() {
     m_mode              = GCurl::MODE_NO_AUTENTICATION;
-    m_contentType       = "application/xml";
-    m_username          = m_dom->getData("curl", "username");
-    m_password          = m_dom->getData("curl", "password");
-    m_apiKey            = m_dom->getData("curl", "api_key");
+    m_isTestEnv         = GEnv().isTestEnv();
+
+    m_contentType       = m_dom->getData("curl", "content_type");
+    m_apiUsername       = m_dom->getData("curl", "username");
+    m_apiPassword       = m_dom->getData("curl", "password");
+    m_apiKeyProd        = m_dom->getData("curl", "api_key_prod");
+    m_apiKeyTest        = m_dom->getData("curl", "api_key_test");
+    m_apiKey            = (m_isTestEnv ? m_apiKeyTest : m_apiKeyProd);
     m_certificateFile   = m_dom->getData("curl", "certificate_file");
+    m_urlProd           = m_dom->getData("curl", "url_prod");
+    m_urlTest           = m_dom->getData("curl", "url_test");
+    m_url               = (m_isTestEnv ? m_urlProd : m_urlTest);
 }
 //===============================================
 void GCurl::initModule() {
@@ -115,8 +123,8 @@ bool GCurl::doGetUsernamePassword(const GString& _url, GString& _response) {
     curl_easy_setopt(lCurl, CURLOPT_FOLLOWLOCATION, 1L);
     curl_easy_setopt(lCurl, CURLOPT_SSL_VERIFYPEER, 0L);
     curl_easy_setopt(lCurl, CURLOPT_SSL_VERIFYHOST, 0L);
-    curl_easy_setopt(lCurl, CURLOPT_USERNAME, m_username.c_str());
-    curl_easy_setopt(lCurl, CURLOPT_PASSWORD, m_password.c_str());
+    curl_easy_setopt(lCurl, CURLOPT_USERNAME, m_apiUsername.c_str());
+    curl_easy_setopt(lCurl, CURLOPT_PASSWORD, m_apiPassword.c_str());
     curl_easy_setopt(lCurl, CURLOPT_WRITEFUNCTION, onWrite);
     curl_easy_setopt(lCurl, CURLOPT_WRITEDATA, &lBuffer);
     curl_easy_setopt(lCurl, CURLOPT_VERBOSE, 0L);
@@ -212,11 +220,11 @@ bool GCurl::doPost(const GString& _url, GString& _response) {
     curl_easy_setopt(lCurl, CURLOPT_URL, _url.c_str());
     curl_easy_setopt(lCurl, CURLOPT_POSTFIELDS, m_contents.c_str());
     curl_easy_setopt(lCurl, CURLOPT_POSTFIELDSIZE, m_contents.size());
-    if(!m_username.isEmpty()) {
-        curl_easy_setopt(lCurl, CURLOPT_USERNAME, m_username.c_str());
+    if(!m_apiUsername.isEmpty()) {
+        curl_easy_setopt(lCurl, CURLOPT_USERNAME, m_apiUsername.c_str());
     }
-    if(!m_password.isEmpty()) {
-        curl_easy_setopt(lCurl, CURLOPT_PASSWORD, m_password.c_str());
+    if(!m_apiPassword.isEmpty()) {
+        curl_easy_setopt(lCurl, CURLOPT_PASSWORD, m_apiPassword.c_str());
     }
     curl_easy_setopt(lCurl, CURLOPT_WRITEFUNCTION, onWrite);
     curl_easy_setopt(lCurl, CURLOPT_WRITEDATA, &lBuffer);

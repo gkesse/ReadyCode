@@ -2,6 +2,8 @@
 #include "GPoco.h"
 #include "GPocoServerApp.h"
 #include "GPocoRequestFactory.h"
+#include "GEnv.h"
+#include "GCode.h"
 #include "GLog.h"
 //===============================================
 GPoco::GPoco(const GString& _code)
@@ -22,20 +24,22 @@ void GPoco::cleanModule() {
 }
 //===============================================
 void GPoco::initPoco() {
-    m_module = POCO_SERVER_HTTP;
+    m_module        = POCO_SERVER_HTTP;
+    m_isTestEnv     = GEnv().isTestEnv();
 
-    m_msgStarting = "Démarrage du serveur...";
-    m_msgShutdown = "Arrêt du serveur...";
-    m_contentType = "text/html";
-    m_charset = "UTF-8";
-    m_username = "admin_user";
-    m_password = "admin_pass";
-    m_port = 443;
-    m_status = 0;
+    m_startMessage  = m_dom->getData("poco", "start_message");
+    m_stopMessage   = m_dom->getData("poco", "stop_message");
+    m_contentType   = m_dom->getData("poco", "content_type");
+    m_charset       = m_dom->getData("poco", "charset");
+    m_apiUsername   = m_dom->getData("poco", "api_username");
+    m_apiPassword   = m_dom->getData("poco", "api_password");
+    m_portProd      = m_dom->getData("poco", "port_prod").toInt();
+    m_portTest      = m_dom->getData("poco", "port_test").toInt();
+    m_port          = (m_isTestEnv ? m_portTest : m_portProd);
+    m_status        = 0;
 
-    m_privkeyFile = "/etc/letsencrypt/live/readydev.ovh/privkey.pem";
-    m_certificateFile = "/etc/letsencrypt/live/readydev.ovh/fullchain.pem";
-    m_caLocation = "/etc/letsencrypt/live/readydev.ovh";
+    m_privatekeyFile = m_dom->getData("poco", "certificate_file");
+    m_certificateFile = m_dom->getData("poco", "privatekey_file");
 
     m_mode = eGMode::MODE_NO_AUTHENTICATION;
 }
@@ -77,7 +81,7 @@ bool GPoco::initPocoNoAuthentication(Poco::Net::HTTPServerRequest& _request) {
         GString lUsername = lCredentials.getUsername();
         GString lPassword = lCredentials.getPassword();
         lInfos += GFORMAT("%s: %s\n", lUsername.c_str(), lPassword.c_str());
-        if(lUsername == m_username && lPassword == m_password) {
+        if(lUsername == m_apiUsername && lPassword == m_apiPassword) {
             lIsAuthenticate = true;
         }
     }
@@ -157,9 +161,9 @@ void GPoco::initSSLNoAuthentication() {
 void GPoco::initSSLUsernamePassword() {
     Poco::Net::Context::Ptr ptrContext = new Poco::Net::Context(
             Poco::Net::Context::SERVER_USE
-            , m_privkeyFile.c_str()
+            , m_privatekeyFile.c_str()
             , m_certificateFile.c_str()
-            , m_caLocation.c_str()
+            , ""
             , Poco::Net::Context::VERIFY_RELAXED
             , 9
             , false
@@ -175,9 +179,9 @@ void GPoco::initSSLUsernamePassword() {
 void GPoco::initSSLApiKey() {
     Poco::Net::Context::Ptr ptrContext = new Poco::Net::Context(
             Poco::Net::Context::SERVER_USE
-            , m_privkeyFile.c_str()
+            , m_privatekeyFile.c_str()
             , m_certificateFile.c_str()
-            , m_caLocation.c_str()
+            , ""
             , Poco::Net::Context::VERIFY_RELAXED
             , 9
             , false
@@ -193,7 +197,7 @@ void GPoco::initSSLApiKey() {
 void GPoco::initSSLCertificate() {
     Poco::Net::Context::Ptr ptrContext = new Poco::Net::Context(
             Poco::Net::Context::SERVER_USE
-            , m_privkeyFile.c_str()
+            , m_privatekeyFile.c_str()
             , m_certificateFile.c_str()
             , ""
             , Poco::Net::Context::VERIFY_STRICT
@@ -229,12 +233,12 @@ int GPoco::getPort() const {
     return m_port;
 }
 //===============================================
-GString GPoco::getMsgStarting() const {
-    return m_msgStarting;
+GString GPoco::getStartMessage() const {
+    return m_startMessage;
 }
 //===============================================
-GString GPoco::getMsgShutdown() const {
-    return m_msgShutdown;
+GString GPoco::getStopMessage() const {
+    return m_stopMessage;
 }
 //===============================================
 GPoco::eGModule GPoco::getModule() const {
@@ -257,7 +261,7 @@ bool GPoco::doGet(const GString& _url, GString& _response) {
         lStatus = lResponse.getStatus();
 
         if (lStatus == Poco::Net::HTTPResponse::HTTP_UNAUTHORIZED) {
-            Poco::Net::HTTPCredentials lCredentials(m_username.c_str(), m_password.c_str());
+            Poco::Net::HTTPCredentials lCredentials(m_apiUsername.c_str(), m_apiPassword.c_str());
             lCredentials.authenticate(lRequest, lResponse);
             lSession.sendRequest(lRequest);
             std::istream& lStream = lSession.receiveResponse(lResponse);

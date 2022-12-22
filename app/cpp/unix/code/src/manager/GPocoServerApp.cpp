@@ -21,11 +21,11 @@ int GPocoServerApp::main(const std::vector<std::string>& _args) {
 //===============================================
 int GPocoServerApp::mainHttp(const std::vector<std::string>& _args) {
     Poco::Net::HTTPServer lServer(new GPocoRequestFactory(m_poco), Poco::Net::ServerSocket(m_poco->getPort()), new Poco::Net::HTTPServerParams);
-    std::cout << std::endl << m_poco->getMsgStarting() << std::endl;
+    std::cout << std::endl << m_poco->getStartMessage() << std::endl;
     lServer.start();
     // wait for CTRL-C or kill
     waitForTerminationRequest();
-    std::cout << std::endl << m_poco->getMsgShutdown() << std::endl;
+    std::cout << std::endl << m_poco->getStopMessage() << std::endl;
     lServer.stop();
     return Application::EXIT_OK;
 }
@@ -34,11 +34,11 @@ int GPocoServerApp::mainHttps(const std::vector<std::string>& _args) {
     m_poco->initSSL();
     Poco::Net::SecureServerSocket lSocket(m_poco->getPort());
     Poco::Net::HTTPServer lServer(new GPocoRequestFactory(m_poco), lSocket, new Poco::Net::HTTPServerParams);
-    std::cout << std::endl << m_poco->getMsgStarting() << std::endl;
+    std::cout << std::endl << m_poco->getStartMessage() << std::endl;
     lServer.start();
     // wait for CTRL-C or kill
     waitForTerminationRequest();
-    std::cout << std::endl << m_poco->getMsgShutdown() << std::endl;
+    std::cout << std::endl << m_poco->getStopMessage() << std::endl;
     lServer.stop();
     return Application::EXIT_OK;
 }
