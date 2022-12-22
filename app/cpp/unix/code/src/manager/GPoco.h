@@ -79,7 +79,7 @@ private:
     GString m_startMessage;
     GString m_stopMessage;
 
-    GString m_privatekeyFile;
+    GString m_privateKeyFile;
     GString m_certificateFile;
 
     int m_port;

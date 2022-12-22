@@ -35,7 +35,7 @@
             <charset>UTF-8</charset>
             <content_type>application/xml</content_type>
             <certificate_file>/etc/letsencrypt/live/readydev.ovh/fullchain.pem</certificate_file>
-            <privatekey_file>/etc/letsencrypt/live/readydev.ovh/privkey.pem</privatekey_file>
+            <private_key_file>/etc/letsencrypt/live/readydev.ovh/privkey.pem</private_key_file>
         </data>
         <!-- ============================================ -->
         <!-- mysql -->

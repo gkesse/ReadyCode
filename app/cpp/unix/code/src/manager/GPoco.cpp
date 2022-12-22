@@ -25,24 +25,23 @@ void GPoco::cleanModule() {
 }
 //===============================================
 void GPoco::initPoco() {
-    m_module        = POCO_SERVER_HTTP;
-    m_isTestEnv     = GEnv().isTestEnv();
+    m_module            = POCO_SERVER_HTTP;
+    m_mode              = eGMode::MODE_NO_AUTHENTICATION;
+    m_isTestEnv         = GEnv().isTestEnv();
 
-    m_startMessage  = m_dom->getData("poco", "start_message");
-    m_stopMessage   = m_dom->getData("poco", "stop_message");
-    m_contentType   = m_dom->getData("poco", "content_type");
-    m_charset       = m_dom->getData("poco", "charset");
-    m_apiUsername   = m_dom->getData("poco", "api_username");
-    m_apiPassword   = m_dom->getData("poco", "api_password");
-    m_portProd      = m_dom->getData("poco", "port_prod").toInt();
-    m_portTest      = m_dom->getData("poco", "port_test").toInt();
-    m_port          = (m_isTestEnv ? m_portTest : m_portProd);
-    m_status        = 0;
+    m_startMessage      = m_dom->getData("poco", "start_message");
+    m_stopMessage       = m_dom->getData("poco", "stop_message");
+    m_contentType       = m_dom->getData("poco", "content_type");
+    m_charset           = m_dom->getData("poco", "charset");
+    m_apiUsername       = m_dom->getData("poco", "api_username");
+    m_apiPassword       = m_dom->getData("poco", "api_password");
+    m_portProd          = m_dom->getData("poco", "port_prod").toInt();
+    m_portTest          = m_dom->getData("poco", "port_test").toInt();
+    m_port              = (m_isTestEnv ? m_portTest : m_portProd);
+    m_status            = 0;
 
-    m_privatekeyFile = m_dom->getData("poco", "certificate_file");
-    m_certificateFile = m_dom->getData("poco", "privatekey_file");
-
-    m_mode = eGMode::MODE_NO_AUTHENTICATION;
+    m_privateKeyFile    = m_dom->getData("poco", "private_key_file");
+    m_certificateFile   = m_dom->getData("poco", "certificate_file");
 }
 //===============================================
 bool GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
@@ -162,7 +161,7 @@ void GPoco::initSSLNoAuthentication() {
 void GPoco::initSSLUsernamePassword() {
     Poco::Net::Context::Ptr ptrContext = new Poco::Net::Context(
             Poco::Net::Context::SERVER_USE
-            , m_privatekeyFile.c_str()
+            , m_privateKeyFile.c_str()
             , m_certificateFile.c_str()
             , ""
             , Poco::Net::Context::VERIFY_RELAXED
@@ -180,7 +179,7 @@ void GPoco::initSSLUsernamePassword() {
 void GPoco::initSSLApiKey() {
     Poco::Net::Context::Ptr ptrContext = new Poco::Net::Context(
             Poco::Net::Context::SERVER_USE
-            , m_privatekeyFile.c_str()
+            , m_privateKeyFile.c_str()
             , m_certificateFile.c_str()
             , ""
             , Poco::Net::Context::VERIFY_RELAXED
@@ -198,7 +197,7 @@ void GPoco::initSSLApiKey() {
 void GPoco::initSSLCertificate() {
     Poco::Net::Context::Ptr ptrContext = new Poco::Net::Context(
             Poco::Net::Context::SERVER_USE
-            , m_privatekeyFile.c_str()
+            , m_privateKeyFile.c_str()
             , m_certificateFile.c_str()
             , ""
             , Poco::Net::Context::VERIFY_STRICT
