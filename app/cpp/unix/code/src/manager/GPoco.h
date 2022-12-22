@@ -75,7 +75,7 @@ private:
     GString m_msgStarting;
     GString m_msgShutdown;
 
-    GString m_privateKeyFile;
+    GString m_privkeyFile;
     GString m_certificateFile;
     GString m_caLocation;
 

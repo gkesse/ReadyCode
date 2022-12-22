@@ -33,7 +33,7 @@ void GPoco::initPoco() {
     m_port = 443;
     m_status = 0;
 
-    m_privateKeyFile = "/etc/letsencrypt/live/readydev.ovh/privkey.pem";
+    m_privkeyFile = "/etc/letsencrypt/live/readydev.ovh/privkey.pem";
     m_certificateFile = "/etc/letsencrypt/live/readydev.ovh/fullchain.pem";
     m_caLocation = "/etc/letsencrypt/live/readydev.ovh";
 
@@ -157,7 +157,7 @@ void GPoco::initSSLNoAuthentication() {
 void GPoco::initSSLUsernamePassword() {
     Poco::Net::Context::Ptr ptrContext = new Poco::Net::Context(
             Poco::Net::Context::SERVER_USE
-            , m_privateKeyFile.c_str()
+            , m_privkeyFile.c_str()
             , m_certificateFile.c_str()
             , m_caLocation.c_str()
             , Poco::Net::Context::VERIFY_RELAXED
@@ -175,7 +175,7 @@ void GPoco::initSSLUsernamePassword() {
 void GPoco::initSSLApiKey() {
     Poco::Net::Context::Ptr ptrContext = new Poco::Net::Context(
             Poco::Net::Context::SERVER_USE
-            , m_privateKeyFile.c_str()
+            , m_privkeyFile.c_str()
             , m_certificateFile.c_str()
             , m_caLocation.c_str()
             , Poco::Net::Context::VERIFY_RELAXED
@@ -193,9 +193,9 @@ void GPoco::initSSLApiKey() {
 void GPoco::initSSLCertificate() {
     Poco::Net::Context::Ptr ptrContext = new Poco::Net::Context(
             Poco::Net::Context::SERVER_USE
-            , m_privateKeyFile.c_str()
+            , m_privkeyFile.c_str()
             , m_certificateFile.c_str()
-            , m_certificateFile.c_str()
+            , ""
             , Poco::Net::Context::VERIFY_STRICT
             , 9
             , false
