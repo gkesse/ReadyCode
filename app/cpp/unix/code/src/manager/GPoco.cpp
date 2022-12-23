@@ -394,14 +394,12 @@ void GPoco::onError() {
 }
 //===============================================
 void GPoco::onResponse(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
-    if(m_logs.hasErrors()) {
-        m_status = Poco::Net::HTTPResponse::HTTP_NO_CONTENT;
-    }
-    std::cout << m_responseXml->toString().c_str() << "................\n";
+    GString lResponse = m_responseXml->toString();
     _response.setStatus(m_status);
+    _response.setContentLength(lResponse.size());
     _response.setContentType(GFORMAT("%s; %s", m_contentType.c_str(), m_charset.c_str()).c_str());
     std::ostream& lStream = _response.send();
-    lStream << m_responseXml->toString().c_str();
+    lStream << lResponse.c_str();
     lStream.flush();
 }
 //===============================================
