@@ -28,6 +28,7 @@ protected:
     GString m_codeName;
     std::shared_ptr<GCode> m_dom;
     std::vector<GObject*> m_map;
+    GLog m_logs;
 };
 //===============================================
 #endif

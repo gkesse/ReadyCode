@@ -27,7 +27,9 @@ GLog* GLog::Instance() {
 }
 //===============================================
 GLog* GLog::clone() const {
-    return new GLog;
+    GLog* lClone = new GLog;
+    lClone->setLog(this);
+    return lClone;
 }
 //===============================================
 GString GLog::serialize(const GString& _code) const {
@@ -68,6 +70,16 @@ void GLog::initLog() {
     m_logFilename   = (m_isTestEnv ? m_logTestFile : m_logProdFile);
 }
 //===============================================
+void GLog::setLog(const GLog& _log) {
+    m_type  = _log.m_type;
+    m_side  = _log.m_side;
+    m_msg   = _log.m_msg;
+}
+//===============================================
+void GLog::setLog(GLog* _log) {
+    setLog(*_log);
+}
+//===============================================
 FILE* GLog::getOutput() {
     FILE* lFile = stdout;
     if(m_isFileLog) lFile = getOutputFile();
@@ -82,6 +94,29 @@ FILE* GLog::getOutputFile() {
 //===============================================
 GString GLog::getCodeName() const {
     return m_codeName;
+}
+//===============================================
+int GLog::size() const {
+    return (int)m_map.size();
+}
+//===============================================
+GLog* GLog::at(int _index) const {
+    if(_index >= 0 && _index < size()) {
+        return m_map.at(_index);
+    }
+    return 0;
+}
+//===============================================
+void GLog::(GLog* _log) {
+    m_map.push_back(_log);
+}
+//===============================================
+void GLog::add(const GLog& _logs) {
+    GString lErrors = "";
+    for(int i = 0; i < _logs.size(); i++) {
+        GLog* lLog = _logs.at(i);
+        add(lLog->clone());
+    }
 }
 //===============================================
 void GLog::closeLogFile() {

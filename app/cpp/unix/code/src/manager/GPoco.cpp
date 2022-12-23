@@ -319,23 +319,23 @@ bool GPoco::runServer(int _argc, char** _argv) {
 }
 //===============================================
 void GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
-    m_logs.clearMap();
+    m_logsTech.clearMap();
 
     if(_request.getContentType().empty()) {
         m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
-        m_logs.addError("Erreur le type du contenu est obligatoire");
+        m_logsTech.addError("Erreur le type du contenu est obligatoire");
         return;
     }
 
     if(_request.getContentType() != "application/xml") {
         m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
-        m_logs.addError("Erreur le type du contenu n'est pas pris en charge.");
+        m_logsTech.addError("Erreur le type du contenu n'est pas pris en charge.");
         return;
     }
 
     if(!_request.hasContentLength()) {
         m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
-        m_logs.addError("Erreur le contenu de la requête est obligatoire");
+        m_logsTech.addError("Erreur le contenu de la requête est obligatoire");
         return;
     }
 
@@ -395,6 +395,7 @@ bool GPoco::addResponse(const GString& _data) {
 }
 //===============================================
 void GPoco::onError() {
+    m_logs.add(m_logsTech);
     addResponse(m_logs.serialize());
 }
 //===============================================
@@ -403,6 +404,10 @@ void GPoco::onResponse(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSe
 
     GLOGT(eGMSG, "[RECEPTION] : (%d)\n%s\n", m_request.size(), m_request.c_str());
     GLOGT(eGMSG, "[EMISSION] : (%d)\n%s\n", m_response.size(), m_response.c_str());
+
+    if(m_logsTech.hasErrors()) {
+        m_response = "";
+    }
 
     _response.setStatus(m_status);
     _response.setContentLength(m_response.size());

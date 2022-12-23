@@ -94,7 +94,7 @@ private:
     int m_portTest;
     Poco::Net::HTTPResponse::HTTPStatus m_status;
 
-    GLog m_logs;
+    GLog m_logsTech;
 };
 //==============================================
 #endif

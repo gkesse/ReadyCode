@@ -32,9 +32,17 @@ public:
     GString serialize(const GString& _code = "logs") const;
     bool deserialize(const GString& _data, const GString& _code = "logs");
 
+    void setLog(const GLog& _log);
+    void setLog(GLog* _log);
+
     FILE* getOutput();
     FILE* getOutputFile();
     GString getCodeName() const;
+
+    int size() const;
+    GLog* at(int _index) const;
+    void add(GLog* _log);
+    void add(const GLog& _logs);
 
     void closeLogFile();
     void catLogFile();
