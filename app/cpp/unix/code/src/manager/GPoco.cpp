@@ -6,6 +6,8 @@
 #include "GCode.h"
 #include "GApp.h"
 //===============================================
+const char* GPoco::DEF_READYDEV_API = "/readydev/api/v1";
+//===============================================
 GPoco::GPoco(const GString& _code)
 : GObject(_code) {
     initPoco();
@@ -321,9 +323,21 @@ bool GPoco::runServer(int _argc, char** _argv) {
 void GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
     m_logsTech.clearMap();
 
+    if(_request.getURI() != "/") {
+        m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+        m_logsTech.addError("Erreur le chemin de l'api est obligatoire.");
+        return;
+    }
+
+    if(_request.getURI() != DEF_READYDEV_API) {
+        m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+        m_logsTech.addError("Erreur le chemin de l'api est incorrect.");
+        return;
+    }
+
     if(_request.getContentType().empty()) {
         m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
-        m_logsTech.addError("Erreur le type du contenu est obligatoire");
+        m_logsTech.addError("Erreur le type du contenu est obligatoire.");
         return;
     }
 

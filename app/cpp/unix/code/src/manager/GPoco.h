@@ -21,6 +21,8 @@ public:
         , MODE_CERTIFICATE
     };
 
+    static const char* DEF_READYDEV_API;
+
 public:
     GPoco(const GString& _code = "poco");
     ~GPoco();
@@ -94,6 +96,7 @@ private:
     int m_portTest;
     Poco::Net::HTTPResponse::HTTPStatus m_status;
 
+    GLog m_logs;
     GLog m_logsTech;
 };
 //==============================================
