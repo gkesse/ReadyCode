@@ -24,6 +24,8 @@ void GPoco::cleanModule() {
 }
 //===============================================
 void GPoco::initPoco() {
+    m_responseXml.reset(new GCode);
+
     m_module            = POCO_SERVER_HTTP;
     m_mode              = eGMode::MODE_NO_AUTHENTICATION;
     m_isTestEnv         = GEnv().isTestEnv();
@@ -37,7 +39,7 @@ void GPoco::initPoco() {
     m_portProd          = GAPP->getData("poco", "port_prod").toInt();
     m_portTest          = GAPP->getData("poco", "port_test").toInt();
     m_port              = (m_isTestEnv ? m_portTest : m_portProd);
-    m_status            = 0;
+    m_status            = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
 
     m_privateKeyFile    = GAPP->getData("poco", "private_key_file");
     m_certificateFile   = GAPP->getData("poco", "certificate_file");
@@ -50,33 +52,6 @@ bool GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
 }
 //===============================================
 bool GPoco::initPocoNoAuthentication(Poco::Net::HTTPServerRequest& _request) {
-    m_logs.clearMap();
-
-    if(_request.getContentType().empty()) {
-        m_logs.addError("Erreur le type du contenu est obligatoire");
-        return false;
-    }
-
-    if(_request.getContentType() != "application/xml") {
-        m_logs.addError("Erreur le type du contenu n'est pas pris en charge.");
-        return false;
-    }
-
-    if(!_request.hasContentLength()) {
-        m_logs.addError("Erreur le contenu de la requête est obligatoire");
-        return false;
-    }
-
-    std::istream& lInput = _request.stream();
-    std::string lRequest;
-    Poco::StreamCopier::copyToString(lInput, lRequest, _request.getContentLength());
-
-    GXml lXml;
-    if(lXml.loadXml(lRequest)) {
-        m_logs.addError("Erreur le contenu de la requête est obligatoire");
-        return false;
-    }
-
     GString lHost = _request.getHost();
     GString lMethod = _request.getMethod();
     GString lUri = _request.getURI();
@@ -128,6 +103,33 @@ bool GPoco::initPocoNoAuthentication(Poco::Net::HTTPServerRequest& _request) {
 }
 //===============================================
 bool GPoco::initPocoCertificate(Poco::Net::HTTPServerRequest& _request) {
+    m_logs.clearMap();
+
+    if(_request.getContentType().empty()) {
+        m_logs.addError("Erreur le type du contenu est obligatoire");
+        return false;
+    }
+
+    if(_request.getContentType() != "application/xml") {
+        m_logs.addError("Erreur le type du contenu n'est pas pris en charge.");
+        return false;
+    }
+
+    if(!_request.hasContentLength()) {
+        m_logs.addError("Erreur le contenu de la requête est obligatoire");
+        return false;
+    }
+
+    std::istream& lInput = _request.stream();
+    std::string lRequest;
+    Poco::StreamCopier::copyToString(lInput, lRequest, _request.getContentLength());
+
+    GXml lXml;
+    if(lXml.loadXml(lRequest)) {
+        m_logs.addError("Erreur le contenu de la requête est obligatoire");
+        return false;
+    }
+
     GString lHost = _request.getHost();
     GString lMethod = _request.getMethod();
     GString lUri = _request.getURI();
@@ -351,7 +353,7 @@ void GPoco::onRequestHttp(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTT
         m_response = "<h1>Ressource non trouvée</h1>";
     }
 
-    _response.setStatus((Poco::Net::HTTPResponse::HTTPStatus)m_status);
+    _response.setStatus(m_status);
     _response.setContentType(GFORMAT("%s; %s", m_contentType.c_str(), m_charset.c_str()).c_str());
     std::ostream& lStream = _response.send();
     lStream << m_response.c_str();
@@ -373,10 +375,28 @@ void GPoco::onRequestHttps(Poco::Net::HTTPServerRequest& _request, Poco::Net::HT
         m_response = "<h1>Ressource non trouvée</h1>";
     }
 
-    _response.setStatus((Poco::Net::HTTPResponse::HTTPStatus)m_status);
+    _response.setStatus(m_status);
     _response.setContentType(GFORMAT("%s; %s", m_contentType.c_str(), m_charset.c_str()).c_str());
     std::ostream& lStream = _response.send();
     lStream << m_response.c_str();
+    lStream.flush();
+}
+//===============================================
+bool GPoco::addResponse(const GString& _data) {
+    m_responseXml->createCode();
+    m_responseXml->loadData(_data);
+    return true;
+}
+//===============================================
+void GPoco::onError() {
+    addResponse(m_logs.serialize());
+}
+//===============================================
+void GPoco::onResponse(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
+    _response.setStatus(m_status);
+    _response.setContentType(GFORMAT("%s; %s", m_contentType.c_str(), m_charset.c_str()).c_str());
+    std::ostream& lStream = _response.send();
+    lStream << m_responseXml->toString().c_str();
     lStream.flush();
 }
 //===============================================

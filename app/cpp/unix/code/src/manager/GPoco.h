@@ -4,6 +4,8 @@
 //===============================================
 #include "GObject.h"
 //===============================================
+class GCode;
+//===============================================
 class GPoco : public GObject {
 public:
     enum eGModule {
@@ -42,6 +44,9 @@ public:
     bool doGet(const GString& _url, GString& _response);
     bool runServer(int _argc, char** _argv);
     void onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
+    bool addResponse(const GString& _data);
+    void onError();
+    void onResponse(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
 
 private:
     void initPoco();
@@ -76,6 +81,7 @@ private:
 
     GString m_request;
     GString m_response;
+    std::shared_ptr<GCode> m_responseXml;
 
     GString m_startMessage;
     GString m_stopMessage;
@@ -86,7 +92,7 @@ private:
     int m_port;
     int m_portProd;
     int m_portTest;
-    int m_status;
+    Poco::Net::HTTPResponse::HTTPStatus m_status;
 
     GLog m_logs;
 };
