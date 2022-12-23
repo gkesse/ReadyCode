@@ -108,7 +108,7 @@ GLog* GLog::at(int _index) const {
 }
 //===============================================
 void GLog::add(GLog* _log) {
-    add(_log);
+    m_map.push_back(_log);
 }
 //===============================================
 void GLog::add(const GLog& _logs) {
