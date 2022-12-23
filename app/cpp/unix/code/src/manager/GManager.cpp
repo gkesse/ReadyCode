@@ -61,6 +61,12 @@ void GManager::setMethod(const GString& _method) {
     m_methodName = _method;
 }
 //===============================================
+bool GManager::isValid() const {
+    if(m_methodName.isEmpty()) return false;
+    if(m_moduleName.isEmpty()) return false;
+    return true;
+}
+//===============================================
 bool GManager::onManager() {
     deserialize(m_server->getRequest());
     if(m_moduleName == "") {

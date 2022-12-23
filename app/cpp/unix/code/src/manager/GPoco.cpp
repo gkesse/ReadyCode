@@ -3,6 +3,7 @@
 #include "GPocoServerApp.h"
 #include "GPocoRequestFactory.h"
 #include "GEnv.h"
+#include "GManager.h"
 #include "GCode.h"
 #include "GApp.h"
 //===============================================
@@ -337,10 +338,18 @@ void GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
 
                         GXml lXml;
                         if(lXml.loadXml(m_request)) {
+                            GManager lManager;
+                            lManager.deserialize(m_request);
+                            if(lManager.isValid()) {
 
+                            }
+                            else {
+                                m_logsTech.addError("Erreur le format de la requête est incorrect.");
+                                return;
+                            }
                         }
                         else {
-                            m_logsTech.addError("Erreur la requête doit être au format XML.");
+                            m_logsTech.addError("Erreur le format de la requête est invalide.");
                             return;
                         }
 

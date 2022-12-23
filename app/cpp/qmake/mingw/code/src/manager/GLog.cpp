@@ -95,7 +95,7 @@ GString GLog::getCodeName() const {
 }
 //===============================================
 int GLog::size() const {
-    return size();
+    return (int)m_map.size();
 }
 //===============================================
 GLog* GLog::at(int _index) const {

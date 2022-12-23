@@ -27,6 +27,7 @@ public:
 
     void setModule(const GString& _modules);
     void setMethod(const GString& _method);
+    bool isValid() const;
 
     bool onManager();
     bool onConnection();
