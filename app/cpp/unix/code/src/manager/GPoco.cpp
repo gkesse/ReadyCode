@@ -24,7 +24,8 @@ void GPoco::cleanModule() {
 }
 //===============================================
 void GPoco::initPoco() {
-    m_responseXml.createDoc();
+    m_responseXml.reset(new GCode);
+    m_responseXml->createDoc();
 
     m_module            = POCO_SERVER_HTTP;
     m_mode              = eGMode::MODE_NO_AUTHENTICATION;
@@ -383,8 +384,8 @@ void GPoco::onRequestHttps(Poco::Net::HTTPServerRequest& _request, Poco::Net::HT
 }
 //===============================================
 bool GPoco::addResponse(const GString& _data) {
-    m_responseXml.createCode();
-    m_responseXml.loadData(_data);
+    m_responseXml->createCode();
+    m_responseXml->loadData(_data);
     return true;
 }
 //===============================================
