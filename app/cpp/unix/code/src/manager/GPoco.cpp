@@ -322,16 +322,19 @@ void GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
     m_logs.clearMap();
 
     if(_request.getContentType().empty()) {
+        m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
         m_logs.addError("Erreur le type du contenu est obligatoire");
         return;
     }
 
     if(_request.getContentType() != "application/xml") {
+        m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
         m_logs.addError("Erreur le type du contenu n'est pas pris en charge.");
         return;
     }
 
     if(!_request.hasContentLength()) {
+        m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
         m_logs.addError("Erreur le contenu de la requête est obligatoire");
         return;
     }
