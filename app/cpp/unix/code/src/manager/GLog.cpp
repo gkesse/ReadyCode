@@ -26,7 +26,7 @@ GLog* GLog::Instance() {
     return m_instance;
 }
 //===============================================
-GLog* GLog::clone() const {
+GLog* GLog::clone() {
     GLog* lClone = new GLog;
     lClone->setLog(this);
     return lClone;

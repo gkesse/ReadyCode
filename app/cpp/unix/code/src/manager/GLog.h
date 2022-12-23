@@ -27,7 +27,7 @@ public:
     GLog(const GString& _codeName = "logs");
     ~GLog();
     static GLog* Instance();
-    GLog* clone() const;
+    GLog* clone();
 
     GString serialize(const GString& _code = "logs") const;
     bool deserialize(const GString& _data, const GString& _code = "logs");
