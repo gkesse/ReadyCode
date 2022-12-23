@@ -7,6 +7,7 @@
 #include "GFile.h"
 #include "GShell.h"
 #include "GClient.h"
+#include "GApp.h"
 //===============================================
 GLog* GLog::m_instance = 0;
 //===============================================

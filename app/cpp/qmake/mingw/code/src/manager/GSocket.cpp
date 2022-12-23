@@ -4,6 +4,7 @@
 #include "GEnv.h"
 #include "GCode.h"
 #include "GLog.h"
+#include "GApp.h"
 //===============================================
 GSocket::GSocket(const GString& _code)
 : GObject(_code) {

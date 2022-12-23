@@ -40,7 +40,7 @@ void GPoco::initPoco() {
     m_portProd          = GAPP->getData("poco", "port_prod").toInt();
     m_portTest          = GAPP->getData("poco", "port_test").toInt();
     m_port              = (m_isTestEnv ? m_portTest : m_portProd);
-    m_status            = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+    m_status            = Poco::Net::HTTPResponse::HTTP_OK;
 
     m_privateKeyFile    = GAPP->getData("poco", "private_key_file");
     m_certificateFile   = GAPP->getData("poco", "certificate_file");
@@ -394,6 +394,10 @@ void GPoco::onError() {
 }
 //===============================================
 void GPoco::onResponse(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
+    if(m_logs.hasErrors()) {
+        m_status = Poco::Net::HTTPResponse::HTTP_NO_CONTENT;
+    }
+    m_responseXml->print();
     _response.setStatus(m_status);
     _response.setContentType(GFORMAT("%s; %s", m_contentType.c_str(), m_charset.c_str()).c_str());
     std::ostream& lStream = _response.send();

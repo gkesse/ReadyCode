@@ -4,6 +4,7 @@
 #include "GMap.h"
 #include "GCode.h"
 #include "GLog.h"
+#include "GApp.h"
 //===============================================
 GCurl::GCurl(const GString& _code)
 : GObject(_code) {

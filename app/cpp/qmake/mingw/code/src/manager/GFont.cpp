@@ -2,6 +2,7 @@
 #include "GFont.h"
 #include "GPath.h"
 #include "GCode.h"
+#include "GApp.h"
 //===============================================
 GFont* GFont::m_instance = 0;
 //===============================================
