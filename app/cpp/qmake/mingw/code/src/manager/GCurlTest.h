@@ -14,6 +14,7 @@ public:
     void runGetHttps(int _argc, char** _argv);
     void runGetHttpsCert(int _argc, char** _argv);
     void runPostXml(int _argc, char** _argv);
+    void runPostHttpsXml(int _argc, char** _argv);
     void runPostForm(int _argc, char** _argv);
 };
 //==============================================

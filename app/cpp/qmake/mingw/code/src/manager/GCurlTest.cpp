@@ -28,6 +28,9 @@ void GCurlTest::run(int _argc, char** _argv) {
     else if(lKey == "post/xml") {
         runPostXml(_argc, _argv);
     }
+    else if(lKey == "post/https/xml") {
+        runPostHttpsXml(_argc, _argv);
+    }
     else if(lKey == "post/form") {
         runPostForm(_argc, _argv);
     }
@@ -78,6 +81,21 @@ void GCurlTest::runPostXml(int _argc, char** _argv) {
     lCurl.addHeader("X-Api-Key", "oooooooooooooooooooooooooooooo");
     lCurl.addContent(lDom.toString());
     lCurl.doPost("https://api.sncf.com/v1/coverage/sncf/commercial_modes", lResponse);
+    lResponse.print();
+}
+//===============================================
+void GCurlTest::runPostHttpsXml(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    GCurl lCurl;
+    GString lResponse;
+
+    GCode lDom;
+    lDom.createDoc();
+    lDom.createRequest("command", "load_command");
+
+    lCurl.addContent("");
+    lCurl.setMode(GCurl::MODE_CERTIFICATE);
+    lCurl.doPost("https://readydev.ovh:9071/readydev/com/v1", lResponse);
     lResponse.print();
 }
 //===============================================

@@ -40,6 +40,8 @@ private:
     bool doGetUsernamePassword(const GString& _url, GString& _response);
     bool doGetApiKey(const GString& _url, GString& _response);
     bool doGetCertificate(const GString& _url, GString& _response);
+    bool doPostNoAuthentication(const GString& _url, GString& _response);
+    bool doPostCertificate(const GString& _url, GString& _response);
     static int onWrite(char* _data, size_t _size, size_t _nmemb, std::string* _writerData);
 
 private:

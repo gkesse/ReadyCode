@@ -329,7 +329,7 @@ void GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
         if(_request.getURI() == DEF_READYDEV_COM) {
             if(!_request.getContentType().empty()) {
                 if(_request.getContentType() == "application/xml") {
-                    if(_request.hasContentLength()) {
+                    if(_request.hasContentLength() && _request.getContentLength() != 0) {
                         std::istream& lInput = _request.stream();
                         std::string lRequest;
                         Poco::StreamCopier::copyToString(lInput, lRequest, _request.getContentLength());
@@ -375,6 +375,7 @@ void GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
         m_logsTech.addError("Erreur la méthode n'est pas prise en charge.");
         return;
     }
+    // OTHERS
     else {
         m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
         m_logsTech.addError("Erreur la méthode n'est pas prise en charge.");
