@@ -1,7 +1,6 @@
 //===============================================
 #include "GStyle.h"
 #include "GPath.h"
-#include "GLog.h"
 #include "GFile.h"
 //===============================================
 GStyle* GStyle::m_instance = 0;

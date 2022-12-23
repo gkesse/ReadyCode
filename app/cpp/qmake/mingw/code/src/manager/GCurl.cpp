@@ -3,12 +3,10 @@
 #include "GEnv.h"
 #include "GMap.h"
 #include "GCode.h"
-#include "GLog.h"
 #include "GApp.h"
 //===============================================
 GCurl::GCurl(const GString& _code)
 : GObject(_code) {
-    createDoms();
     initCurl();
 }
 //===============================================
@@ -77,8 +75,16 @@ bool GCurl::doGet(const GString& _url, GString& _response) {
 }
 //===============================================
 bool GCurl::doPost(const GString& _url, GString& _response) {
-    if(m_mode == GCurl::MODE_CERTIFICATE) return doPostCertificate(_url, _response);
-    return doPostCertificate(_url, _response);
+    m_logs.clearMap();
+
+    if(m_mode == GCurl::MODE_CERTIFICATE) {
+        return doPostCertificate(_url, _response);
+    }
+    else {
+        m_logs.addError("Error le mode n'est pas pris en charge");
+        return false;
+    }
+    return true;
 }
 //===============================================
 bool GCurl::doGetNoAuthentication(const GString& _url, GString& _response) {

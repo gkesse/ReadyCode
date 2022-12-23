@@ -1,7 +1,6 @@
 //===============================================
 #include "GModule.h"
 #include "GCode.h"
-#include "GLog.h"
 #include "GClient.h"
 #include "GTableWidgetUi.h"
 //===============================================

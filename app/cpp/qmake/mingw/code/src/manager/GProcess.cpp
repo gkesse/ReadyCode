@@ -3,7 +3,6 @@
 #include "GFont.h"
 #include "GProcess.h"
 #include "GTest.h"
-#include "GLog.h"
 #include "GWindowUi.h"
 //===============================================
 GProcess::GProcess()

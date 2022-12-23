@@ -1,7 +1,6 @@
 //===============================================
 #include "GTableWidgetUi.h"
 #include "ui_GTableWidgetUi.h"
-#include "GLog.h"
 #include "GPath.h"
 #include "GSearch.h"
 //===============================================

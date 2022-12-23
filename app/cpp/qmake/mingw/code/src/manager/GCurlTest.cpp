@@ -1,7 +1,6 @@
 //===============================================
 #include "GCurlTest.h"
 #include "GCurl.h"
-#include "GLog.h"
 #include "GCode.h"
 //===============================================
 GCurlTest::GCurlTest(const GString& _code)

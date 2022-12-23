@@ -108,7 +108,7 @@ GLog* GLog::at(int _index) const {
 }
 //===============================================
 void GLog::add(GLog* _log) {
-    m_map.push_back(_log);
+    add(_log);
 }
 //===============================================
 void GLog::add(const GLog& _logs) {
@@ -150,7 +150,7 @@ void GLog::addError(const GString& _error) {
     lLog->m_type = "error";
     lLog->m_side = "server";
     lLog->m_msg = _error;
-    m_map.push_back(lLog);
+    add(lLog);
 }
 //===============================================
 void GLog::addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _error) {
@@ -159,7 +159,7 @@ void GLog::addError(const char* _name, int _level, const char* _file, int _line,
     lLog->m_type = "error";
     lLog->m_side = "server";
     lLog->m_msg = _error;
-    m_map.push_back(lLog);
+    add(lLog);
 }
 //===============================================
 void GLog::addLog(const GString& _log) {
@@ -167,7 +167,7 @@ void GLog::addLog(const GString& _log) {
     lLog->m_type = "log";
     lLog->m_side = "server";
     lLog->m_msg = _log;
-    m_map.push_back(lLog);
+    add(lLog);
 }
 //===============================================
 void GLog::addLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _log) {
@@ -176,7 +176,7 @@ void GLog::addLog(const char* _name, int _level, const char* _file, int _line, c
     lLog->m_type = "log";
     lLog->m_side = "server";
     lLog->m_msg = _log;
-    m_map.push_back(lLog);
+    add(lLog);
 }
 //===============================================
 void GLog::showErrors() {

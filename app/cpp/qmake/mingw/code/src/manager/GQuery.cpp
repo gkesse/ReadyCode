@@ -1,7 +1,6 @@
 //===============================================
 #include "GQuery.h"
 #include "GCode.h"
-#include "GLog.h"
 #include "GBase64.h"
 #include "GClient.h"
 //===============================================

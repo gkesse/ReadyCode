@@ -1,6 +1,5 @@
 //===============================================
 #include "GTreeWidget.h"
-#include "GLog.h"
 //===============================================
 GTreeWidget::GTreeWidget(QWidget* _parent)
 : QTreeWidget(_parent) {

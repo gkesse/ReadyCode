@@ -4,6 +4,7 @@
 //===============================================
 #include "GInclude.h"
 #include "GMap.h"
+#include "GLog.h"
 //===============================================
 class GCode;
 //===============================================
@@ -12,7 +13,6 @@ public:
     GObject(const GString& _code = "object");
     virtual ~GObject();
     virtual GObject* clone() const;
-    virtual bool createDoms();
     virtual GString serialize(const GString& _code = "object");
     virtual bool deserialize(const GString& _data, const GString& _code = "object");
     virtual void clearMap();

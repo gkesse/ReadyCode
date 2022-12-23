@@ -2,7 +2,6 @@
 #include "GQueryType.h"
 #include "GCode.h"
 #include "GClient.h"
-#include "GLog.h"
 #include "GTableWidgetUi.h"
 //===============================================
 GQueryType::GQueryType(const GString& _code)

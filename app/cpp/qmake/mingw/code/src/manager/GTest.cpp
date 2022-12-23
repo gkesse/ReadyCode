@@ -2,7 +2,6 @@
 #include "GTest.h"
 #include "GCurlTest.h"
 #include "GSocketTest.h"
-#include "GLog.h"
 //===============================================
 GTest::GTest()
 : GObject() {

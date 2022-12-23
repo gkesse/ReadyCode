@@ -1,6 +1,5 @@
 //===============================================
 #include "GManager.h"
-#include "GLog.h"
 #include "GSocket.h"
 #include "GCode.h"
 //===============================================

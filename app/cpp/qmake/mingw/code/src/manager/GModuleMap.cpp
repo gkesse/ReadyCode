@@ -5,7 +5,6 @@
 #include "GModuleType.h"
 #include "GModuleKey.h"
 #include "GCode.h"
-#include "GLog.h"
 #include "GClient.h"
 #include "GTreeWidgetUi.h"
 #include "GTreeWidget.h"

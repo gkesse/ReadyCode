@@ -1,7 +1,6 @@
 //===============================================
 #include "GTreeWidgetUi.h"
 #include "ui_GTreeWidgetUi.h"
-#include "GLog.h"
 #include "GPath.h"
 #include "GSearch.h"
 //===============================================

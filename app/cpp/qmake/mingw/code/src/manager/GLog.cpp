@@ -11,12 +11,8 @@
 //===============================================
 GLog* GLog::m_instance = 0;
 //===============================================
-GLog::GLog(const GString& _code)
-: GObject(_code) {
-    createDoms();
-    m_file = 0;
-    m_isConnectionError = false;
-    m_isClientSide = true;
+GLog::GLog(const GString& _codeName) {
+    m_codeName = _codeName;
     initLog();
 }
 //===============================================
@@ -31,8 +27,10 @@ GLog* GLog::Instance() {
     return m_instance;
 }
 //===============================================
-GObject* GLog::clone() const {
-    return new GLog;
+GLog* GLog::clone() {
+    GLog* lClone = new GLog;
+    lClone->setLog(this);
+    return lClone;
 }
 //===============================================
 GString GLog::serialize(const GString& _code) {
@@ -56,6 +54,10 @@ bool GLog::deserialize(const GString& _data, const GString& _code) {
 }
 //===============================================
 void GLog::initLog() {
+    m_file              = 0;
+    m_isConnectionError = false;
+    m_isClientSide      = true;
+
     m_isTestEnv     = GEnv().isTestEnv();
     m_isTestLog     = GAPP->getData("log", "test_on").toBool();
     m_isProdLog     = GAPP->getData("log", "prod_on").toBool();
@@ -70,12 +72,49 @@ void GLog::initLog() {
     m_logFilename   = (m_isTestEnv ? m_logTestFile : m_logProdFile);
 }
 //===============================================
+void GLog::setLog(const GLog& _log) {
+    m_type  = _log.m_type;
+    m_side  = _log.m_side;
+    m_msg   = _log.m_msg;
+}
+//===============================================
+void GLog::setLog(GLog* _log) {
+    setLog(*_log);
+}
+//===============================================
 bool GLog::isConnectionError() const {
     return m_isConnectionError;
 }
 //===============================================
 void GLog::setConnectionError(bool _isConnectionError) {
     m_isConnectionError = _isConnectionError;
+}
+//===============================================
+GString GLog::getCodeName() const {
+    return m_codeName;
+}
+//===============================================
+int GLog::size() const {
+    return size();
+}
+//===============================================
+GLog* GLog::at(int _index) const {
+    if(_index >= 0 && _index < size()) {
+        return m_map.at(_index);
+    }
+    return 0;
+}
+//===============================================
+void GLog::add(GLog* _log) {
+    m_map.push_back(_log);
+}
+//===============================================
+void GLog::add(const GLog& _logs) {
+    GString lErrors = "";
+    for(int i = 0; i < _logs.size(); i++) {
+        GLog* lLog = _logs.at(i);
+        add(lLog->clone());
+    }
 }
 //===============================================
 FILE* GLog::getOutput() {
@@ -114,6 +153,14 @@ void GLog::tailLogFile() {
     else {
         printf("%s\n", lData.c_str());
     }
+}
+//===============================================
+void GLog::addError(const GString& _error) {
+    GLog* lLog = new GLog;
+    lLog->m_type = "error";
+    lLog->m_side = "server";
+    lLog->m_msg = _error;
+    add(lLog);
 }
 //===============================================
 void GLog::addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _error) {
@@ -250,6 +297,14 @@ void GLog::clearLogs() {
             m_map.erase (m_map.begin() + i);
         }
     }
+}
+//===============================================
+void GLog::clearMap() {
+    for(int i = 0; i < size(); i++) {
+        GLog* lObj = at(i);
+        delete lObj;
+    }
+    m_map.clear();
 }
 //===============================================
 void GLog::onErrorKey(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _key) {

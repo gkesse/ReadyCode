@@ -30,26 +30,40 @@
 #define GERROR_CAT(x, y)    GLOGI->onErrorCategory(#x, x, y)
 #define GERROR_TYPE(x, y)   GLOGI->onErrorKey(#x, x, y)
 //===============================================
-class GLog : public GObject {
+class GLog {
 public:
-    GLog(const GString& _code = "logs");
+    GLog(const GString& _codeName = "logs");
     ~GLog();
+
     static GLog* Instance();
-    GObject* clone() const;
+
+    GLog* clone();
+
     GString serialize(const GString& _code = "logs");
     bool deserialize(const GString& _data, const GString& _code = "logs");
 
     void initLog();
 
+    void setLog(const GLog& _log);
+    void setLog(GLog* _log);
+
     bool isConnectionError() const;
     void setConnectionError(bool _isConnectionError);
-    //
+
+    int size() const;
+    GLog* at(int _index) const;
+    void add(GLog* _log);
+    void add(const GLog& _logs);
+
     FILE* getOutput();
     FILE* getOutputFile();
+    GString getCodeName() const;
+
     void closeLogFile();
     void catLogFile();
     void tailLogFile();
     //
+    void addError(const GString& _error);
     void addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _error);
     void showErrors(const char* _name, int _level, const char* _file, int _line, const char* _func);
     void showLogs(const char* _name, int _level, const char* _file, int _line, const char* _func);
@@ -66,6 +80,7 @@ public:
     bool hasLogs();
     void clearErrors();
     void clearLogs();
+    void clearMap();
 
     void onErrorKey(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _key);
     void onErrorCategory(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _category);
@@ -104,6 +119,9 @@ private:
     GString m_logTestFile;
     GString m_logProdFile;
     GString m_logFilename;
+    GString m_codeName;
+
+    std::vector<GLog*> m_map;
 };
 //==============================================
 #endif

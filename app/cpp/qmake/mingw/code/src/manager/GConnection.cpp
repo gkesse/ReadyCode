@@ -1,6 +1,5 @@
 //===============================================
 #include "GConnection.h"
-#include "GLog.h"
 #include "GCode.h"
 #include "GClient.h"
 //===============================================

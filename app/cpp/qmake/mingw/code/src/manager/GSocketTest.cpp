@@ -3,7 +3,6 @@
 #include "GSocket.h"
 #include "GModule.h"
 #include "GCode.h"
-#include "GLog.h"
 //===============================================
 GSocketTest::GSocketTest(const GString& _code)
 : GObject(_code) {

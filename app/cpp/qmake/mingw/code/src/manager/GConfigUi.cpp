@@ -1,7 +1,6 @@
 //===============================================
 #include "GConfigUi.h"
 #include "ui_GConfigUi.h"
-#include "GLog.h"
 #include "GModule.h"
 #include "GModuleData.h"
 #include "GModuleKey.h"
