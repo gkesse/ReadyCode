@@ -323,7 +323,7 @@ bool GPoco::runServer(int _argc, char** _argv) {
 void GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
     m_logsTech.clearMap();
 
-    if(_request.getURI() != "/") {
+    if(_request.getURI() == "/") {
         m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
         m_logsTech.addError("Erreur le chemin de l'api est obligatoire.");
         return;
