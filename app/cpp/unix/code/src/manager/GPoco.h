@@ -21,7 +21,9 @@ public:
         , MODE_CERTIFICATE
     };
 
+    static const char* DEF_READYDEV_COM;
     static const char* DEF_READYDEV_API;
+    static const char* DEF_READYDEV_APP_ENC;
 
 public:
     GPoco(const GString& _code = "poco");

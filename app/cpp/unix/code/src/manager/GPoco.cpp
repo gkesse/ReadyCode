@@ -6,7 +6,8 @@
 #include "GCode.h"
 #include "GApp.h"
 //===============================================
-const char* GPoco::DEF_READYDEV_API = "/readydev/api/v1";
+const char* GPoco::DEF_READYDEV_COM         = "/readydev/com/v1";
+const char* GPoco::DEF_READYDEV_API         = "/readydev/api/v1";
 //===============================================
 GPoco::GPoco(const GString& _code)
 : GObject(_code) {
@@ -323,39 +324,62 @@ bool GPoco::runServer(int _argc, char** _argv) {
 void GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
     m_logsTech.clearMap();
 
-    if(_request.getURI() == "/") {
+    // POST
+    if(_request.getMethod() == "POST") {
+        if(_request.getURI() == DEF_READYDEV_COM) {
+            if(!_request.getContentType().empty()) {
+                if(_request.getContentType() == "application/xml") {
+                    if(_request.hasContentLength()) {
+                        std::istream& lInput = _request.stream();
+                        std::string lRequest;
+                        Poco::StreamCopier::copyToString(lInput, lRequest, _request.getContentLength());
+                        m_request = lRequest;
+
+                        GXml lXml;
+                        if(lXml.loadXml(m_request)) {
+
+                        }
+                        else {
+                            m_logsTech.addError("Erreur la requête doit être au format XML.");
+                            return;
+                        }
+
+                    }
+                    else {
+                        m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+                        m_logsTech.addError("Erreur le contenu de la requête est obligatoire");
+                        return;
+                    }
+                }
+                else {
+                    m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+                    m_logsTech.addError("Erreur le type du contenu n'est pas pris en charge.");
+                    return;
+                }
+            }
+            else {
+                m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+                m_logsTech.addError("Erreur le type du contenu est obligatoire.");
+                return;
+            }
+        }
+        else {
+            m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+            m_logsTech.addError("Erreur le verbe n'est pas pris en charge.");
+            return;
+        }
+    }
+    // GET
+    else if(_request.getMethod() == "GET") {
         m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
-        m_logsTech.addError("Erreur le chemin de l'api est obligatoire.");
+        m_logsTech.addError("Erreur la méthode n'est pas prise en charge.");
         return;
     }
-
-    if(_request.getURI() != DEF_READYDEV_API) {
+    else {
         m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
-        m_logsTech.addError("Erreur le chemin de l'api est incorrect.");
+        m_logsTech.addError("Erreur la méthode n'est pas prise en charge.");
         return;
     }
-
-    if(_request.getContentType().empty()) {
-        m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
-        m_logsTech.addError("Erreur le type du contenu est obligatoire.");
-        return;
-    }
-
-    if(_request.getContentType() != "application/xml") {
-        m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
-        m_logsTech.addError("Erreur le type du contenu n'est pas pris en charge.");
-        return;
-    }
-
-    if(!_request.hasContentLength()) {
-        m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
-        m_logsTech.addError("Erreur le contenu de la requête est obligatoire");
-        return;
-    }
-
-    if(m_module == GPoco::POCO_SERVER_HTTP) onRequestHttp(_request, _response);
-    else if(m_module == GPoco::POCO_SERVER_HTTPS) onRequestHttps(_request, _response);
-    else onRequestHttp(_request, _response);
 }
 //===============================================
 void GPoco::onRequestHttp(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
