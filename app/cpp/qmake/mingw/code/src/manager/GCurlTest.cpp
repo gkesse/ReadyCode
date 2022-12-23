@@ -92,7 +92,7 @@ void GCurlTest::runPostHttpsXml(int _argc, char** _argv) {
     lDom.createDoc();
     lDom.createRequest("command", "load_command");
 
-    lCurl.addContent("<a>bonjour</a>");
+    lCurl.addContent(lDom.toString());
     lCurl.setMode(GCurl::MODE_CERTIFICATE);
     lCurl.doPost("https://readydev.ovh:9071/readydev/com/v1", lResponse);
     lResponse.print();
