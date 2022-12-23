@@ -124,9 +124,10 @@ bool GPoco::initPocoCertificate(Poco::Net::HTTPServerRequest& _request) {
     std::istream& lInput = _request.stream();
     std::string lRequest;
     Poco::StreamCopier::copyToString(lInput, lRequest, _request.getContentLength());
+    m_request = lRequest;
 
     GXml lXml;
-    if(lXml.loadXml(lRequest)) {
+    if(lXml.loadXml(m_request)) {
         m_logs.addError("Erreur le contenu de la requête est obligatoire");
         return false;
     }
@@ -394,12 +395,16 @@ void GPoco::onError() {
 }
 //===============================================
 void GPoco::onResponse(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
-    GString lResponse = m_responseXml->toString();
+    m_response = m_responseXml->toString();
+
+    GLOGT(eGMSG, "[RECEPTION] : (%d)\n%s\n", m_request.size(), m_request.c_str());
+    GLOGT(eGMSG, "[EMISSION] : (%d)\n%s\n", m_response.size(), m_response.c_str());
+
     _response.setStatus(m_status);
-    _response.setContentLength(lResponse.size());
+    _response.setContentLength(m_response.size());
     _response.setContentType(GFORMAT("%s; charset=%s", m_contentType.c_str(), m_charset.c_str()).c_str());
     std::ostream& lStream = _response.send();
-    lStream << lResponse.c_str();
+    lStream << m_response.c_str();
     lStream.flush();
 }
 //===============================================
