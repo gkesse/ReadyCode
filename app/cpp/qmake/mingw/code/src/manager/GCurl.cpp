@@ -78,13 +78,14 @@ bool GCurl::doPost(const GString& _url, GString& _response) {
     m_logs.clearMap();
 
     if(m_mode == GCurl::MODE_CERTIFICATE) {
-        return doPostCertificate(_url, _response);
+        doPostCertificate(_url, _response);
     }
     else {
         m_logs.addError("Error le mode n'est pas pris en charge");
         return false;
     }
-    return true;
+
+    return !m_logs.hasErrors();
 }
 //===============================================
 bool GCurl::doGetNoAuthentication(const GString& _url, GString& _response) {
@@ -278,13 +279,17 @@ bool GCurl::doPostCertificate(const GString& _url, GString& _response) {
     curl_easy_setopt (lCurl, CURLOPT_VERBOSE, 0L);
 
     CURLcode lCurlOk = curl_easy_perform(lCurl);
-    if(lCurlOk != CURLE_OK) {GLOGT(eGMSG, "Erreur lors de la connexion au serveur.\n%s", curl_easy_strerror(lCurlOk));}
+
+    if(lCurlOk != CURLE_OK) {
+        m_logs.addError(GFORMAT("Erreur lors de la connexion au serveur.\n%s", curl_easy_strerror(lCurlOk)));
+    }
+
     curl_easy_getinfo(lCurl, CURLINFO_RESPONSE_CODE, &m_responseCode);
     curl_easy_cleanup(lCurl);
     curl_slist_free_all(lHeaders);
 
     _response = lBuffer;
-    return true;
+    return !m_logs.hasErrors();
 }
 //===============================================
 int GCurl::onWrite(char* _data, size_t _size, size_t _nmemb, std::string* _writerData) {

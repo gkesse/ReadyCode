@@ -23,7 +23,6 @@ public:
     virtual void print();
 
 protected:
-    std::shared_ptr<GCode> m_dom;
     std::vector<GObject*> m_map;
     GString m_codeName;
 };
