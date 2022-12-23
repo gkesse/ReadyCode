@@ -104,22 +104,6 @@ bool GPoco::initPocoNoAuthentication(Poco::Net::HTTPServerRequest& _request) {
 }
 //===============================================
 bool GPoco::initPocoCertificate(Poco::Net::HTTPServerRequest& _request) {
-    m_logs.clearMap();
-
-    if(_request.getContentType().empty()) {
-        m_logs.addError("Erreur le type du contenu est obligatoire");
-        return false;
-    }
-
-    if(_request.getContentType() != "application/xml") {
-        m_logs.addError("Erreur le type du contenu n'est pas pris en charge.");
-        return false;
-    }
-
-    if(!_request.hasContentLength()) {
-        m_logs.addError("Erreur le contenu de la requête est obligatoire");
-        return false;
-    }
 
     std::istream& lInput = _request.stream();
     std::string lRequest;
@@ -335,6 +319,23 @@ bool GPoco::runServer(int _argc, char** _argv) {
 }
 //===============================================
 void GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
+    m_logs.clearMap();
+
+    if(_request.getContentType().empty()) {
+        m_logs.addError("Erreur le type du contenu est obligatoire");
+        return;
+    }
+
+    if(_request.getContentType() != "application/xml") {
+        m_logs.addError("Erreur le type du contenu n'est pas pris en charge.");
+        return;
+    }
+
+    if(!_request.hasContentLength()) {
+        m_logs.addError("Erreur le contenu de la requête est obligatoire");
+        return;
+    }
+
     if(m_module == GPoco::POCO_SERVER_HTTP) onRequestHttp(_request, _response);
     else if(m_module == GPoco::POCO_SERVER_HTTPS) onRequestHttps(_request, _response);
     else onRequestHttp(_request, _response);
