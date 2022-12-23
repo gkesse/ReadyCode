@@ -397,7 +397,7 @@ void GPoco::onResponse(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSe
     if(m_logs.hasErrors()) {
         m_status = Poco::Net::HTTPResponse::HTTP_NO_CONTENT;
     }
-    m_responseXml->print();
+    std::cout << m_responseXml->toString().c_str() << "................\n";
     _response.setStatus(m_status);
     _response.setContentType(GFORMAT("%s; %s", m_contentType.c_str(), m_charset.c_str()).c_str());
     std::ostream& lStream = _response.send();
