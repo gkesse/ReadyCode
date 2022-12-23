@@ -81,7 +81,7 @@ private:
 
     GString m_request;
     GString m_response;
-    std::shared_ptr<GCode> m_responseXml;
+    GCode m_responseXml;
 
     GString m_startMessage;
     GString m_stopMessage;
