@@ -341,7 +341,13 @@ void GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
                             GManager lManager;
                             lManager.deserialize(m_request);
                             if(lManager.isValid()) {
-                                m_logs.addLog("La requête a bien été exécutée.");
+                                if(_request.secure()) {
+                                    m_logs.addLog("La requête a bien été exécutée.");
+                                }
+                                else {
+                                    m_logsTech.addError("Erreur la communication doit être sécurisée.");
+                                    return;
+                                }
                             }
                             else {
                                 m_logsTech.addError("Erreur le format de la requête est incorrect.");
