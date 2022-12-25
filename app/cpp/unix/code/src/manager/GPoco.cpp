@@ -29,10 +29,8 @@ void GPoco::initPoco() {
     m_responseXml->createDoc();
 
     m_protocol          = "https";
-    m_authentication    = "no_certificate";
+    m_hasCertificate    = false;
 
-    m_module            = POCO_SERVER_HTTP;
-    m_mode              = eGMode::MODE_no_certificate;
     m_isTestEnv         = GEnv().isTestEnv();
 
     m_startMessage      = GAPP->getData("poco", "start_message");
@@ -48,12 +46,6 @@ void GPoco::initPoco() {
 
     m_privateKeyFile    = GAPP->getData("poco", "private_key_file");
     m_certificateFile   = GAPP->getData("poco", "certificate_file");
-}
-//===============================================
-bool GPoco::initPoco(Poco::Net::HTTPServerRequest& _request) {
-    if(m_mode == GPoco::MODE_no_certificate) return initPocoNoAuthentication(_request);
-    if(m_mode == GPoco::MODE_CERTIFICATE) return initPocoCertificate(_request);
-    return initPocoNoAuthentication(_request);
 }
 //===============================================
 bool GPoco::initPocoNoAuthentication(Poco::Net::HTTPServerRequest& _request) {
@@ -166,7 +158,7 @@ bool GPoco::initPocoCertificate(Poco::Net::HTTPServerRequest& _request) {
 bool GPoco::initSSL() {
     Poco::Net::Context::Ptr lContext = NULL;
 
-    if(m_authentication == "no_certificate") {
+    if(!m_hasCertificate) {
         lContext = new Poco::Net::Context(
                 Poco::Net::Context::SERVER_USE
                 , ""
@@ -178,7 +170,7 @@ bool GPoco::initSSL() {
                 , "ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH"
         );
     }
-    else if(m_authentication == "no_certificate") {
+    else {
         Poco::Net::Context::Ptr ptrContext = new Poco::Net::Context(
                 Poco::Net::Context::SERVER_USE
                 , m_privateKeyFile.c_str()
@@ -189,9 +181,6 @@ bool GPoco::initSSL() {
                 , false
                 , "ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH"
         );
-    }
-    else {
-        m_logs.addError("Erreur la méthode d'authentification n'est pas prise en charge.");
     }
 
     if(lContext) {
@@ -208,21 +197,12 @@ bool GPoco::initSSL() {
 }
 //===============================================
 void GPoco::setPoco(const GPoco& _poco) {
-    m_contentType   = _poco.m_contentType;
-    m_module        = _poco.m_module;
-    m_mode          = _poco.m_mode;
+    m_contentType       = _poco.m_contentType;
+    m_hasCertificate    = _poco.m_hasCertificate;
 }
 //===============================================
 void GPoco::setPoco(GPoco* _poco) {
     setPoco(*_poco);
-}
-//===============================================
-void GPoco::setModule(GPoco::eGModule _module) {
-    m_module = _module;
-}
-//===============================================
-void GPoco::setMode(eGMode _mode) {
-    m_mode = _mode;
 }
 //===============================================
 int GPoco::getPort() const {
@@ -239,10 +219,6 @@ GString GPoco::getStartMessage() const {
 //===============================================
 GString GPoco::getStopMessage() const {
     return m_stopMessage;
-}
-//===============================================
-GPoco::eGModule GPoco::getModule() const {
-    return m_module;
 }
 //===============================================
 bool GPoco::doGet(const GString& _url, GString& _response) {
@@ -382,7 +358,7 @@ bool GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
 }
 //===============================================
 void GPoco::onRequestHttp(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
-    if(initPoco(_request)) {
+    if(1) {
         if(m_method == "GET") {
             onGet(_request, _response);
         }
@@ -404,7 +380,7 @@ void GPoco::onRequestHttp(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTT
 }
 //===============================================
 void GPoco::onRequestHttps(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
-    if(initPoco(_request)) {
+    if(1) {
         if(m_method == "GET") {
             onGet(_request, _response);
         }
