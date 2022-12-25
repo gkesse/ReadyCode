@@ -52,30 +52,24 @@ void GPocoTest::runGet(int _argc, char** _argv) {
 void GPocoTest::runServerHttp(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GPoco lPoco;
-    lPoco.setModule(GPoco::POCO_SERVER_HTTP);
     lPoco.runServer(_argc, _argv);
 }
 //===============================================
 void GPocoTest::runServerHttps(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GPoco lPoco;
-    lPoco.setModule(GPoco::POCO_SERVER_HTTPS);
     lPoco.runServer(_argc, _argv);
 }
 //===============================================
 void GPocoTest::runServerHttpsUserPass(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GPoco lPoco;
-    lPoco.setModule(GPoco::POCO_SERVER_HTTPS);
-    lPoco.setMode(GPoco::MODE_USERNAME_PASSWORD);
     lPoco.runServer(_argc, _argv);
 }
 //===============================================
 void GPocoTest::runServerHttpsCert(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GPoco lPoco;
-    lPoco.setModule(GPoco::POCO_SERVER_HTTPS);
-    lPoco.setMode(GPoco::MODE_CERTIFICATE);
     lPoco.runServer(_argc, _argv);
 }
 //===============================================
