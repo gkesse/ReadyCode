@@ -445,7 +445,7 @@ void GPoco::onRequestHttps(Poco::Net::HTTPServerRequest& _request, Poco::Net::HT
 }
 //===============================================
 bool GPoco::addResponse(const GString& _data) {
-    if(m_contentType == "application/type") {
+    if(m_contentType == "application/xml") {
         m_responseXml->createCode();
         m_responseXml->loadData(_data);
     }
