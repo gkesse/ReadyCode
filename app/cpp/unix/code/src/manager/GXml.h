@@ -2,7 +2,7 @@
 #ifndef _GXml_
 #define _GXml_
 //===============================================
-#include "GObject.h"
+#include "GInclude.h"
 //===============================================
 class GXml : public GObject {
 public:
