@@ -28,7 +28,7 @@ void GPoco::initPoco() {
     m_responseXml.reset(new GCode);
     m_responseXml->createDoc();
 
-    m_protocol          = "https";
+    m_protocol          = "http";
     m_hasCertificate    = false;
 
     m_isTestEnv         = GEnv().isTestEnv();
