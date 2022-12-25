@@ -4,8 +4,8 @@
 //===============================================
 #include "GXml.h"
 //===============================================
-class GLog;
 class GObject;
+class GLog;
 //===============================================
 class GCode : public GXml {
 public:
@@ -32,6 +32,7 @@ public:
     bool addData(const GString& _code, const std::vector<GLog*>& _map);
     bool addData(const GString& _data);
 
+    void clearMap(std::vector<GObject*>& _map);
     int countMap(const GString& _code);
     bool hasCode();
 

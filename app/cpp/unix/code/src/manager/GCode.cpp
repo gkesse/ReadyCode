@@ -1,5 +1,7 @@
 //===============================================
 #include "GCode.h"
+#include "GObject.h"
+#include "GLog.h"
 //===============================================
 GCode::GCode()
 : GXml() {
@@ -167,6 +169,14 @@ bool GCode::addData(const GString& _data) {
         replaceNode(lDom);
     }
     return true;
+}
+//===============================================
+void GCode::clearMap(std::vector<GObject*>& _map) {
+    for(int i = 0; i < (int)_map.size(); i++) {
+        GObject* lObj = _map.at(i);
+        delete lObj;
+    }
+    _map.clear();
 }
 //===============================================
 int GCode::countMap(const GString& _code) {
