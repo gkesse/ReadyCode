@@ -323,7 +323,19 @@ bool GPoco::runServer(int _argc, char** _argv) {
 }
 //===============================================
 void GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
-    m_logsTech.clearMap();
+    GString lHost = _request.getHost();
+    GString lMethod = _request.getMethod();
+    GString lUri = _request.getURI();
+    GString lVersion = _request.getVersion();
+
+    m_headers += GFORMAT("%s %s %s\n", lMethod.c_str(), lUri.c_str(), lVersion.c_str());
+
+    Poco::Net::HTTPServerRequest::ConstIterator it = _request.begin();
+    for(; it != _request.end(); it++) {
+        GString lKey = it->first;
+        GString lValue = it->second;
+        m_headers += GFORMAT("%s: %s\n", lKey.c_str(), lValue.c_str());
+    }
 
     // POST
     if(_request.getMethod() == "POST") {
@@ -454,9 +466,10 @@ void GPoco::onError() {
 }
 //===============================================
 void GPoco::onResponse(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
+    GString lRequest = m_headers + m_request;
     m_response = m_responseXml->toString();
 
-    GLOGT(eGMSG, "[RECEPTION] : (%d)\n%s\n", m_request.size(), m_request.c_str());
+    GLOGT(eGMSG, "[RECEPTION] : (%d)\n%s\n", lRequest.size(), lRequest.c_str());
     GLOGT(eGMSG, "[EMISSION] : (%d)\n%s\n", m_response.size(), m_response.c_str());
 
     if(m_logsTech.hasErrors()) {

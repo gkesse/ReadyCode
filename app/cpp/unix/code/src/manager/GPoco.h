@@ -83,6 +83,7 @@ private:
     GString m_contentType;
     GString m_charset;
 
+    GString m_headers;
     GString m_request;
     GString m_response;
     std::shared_ptr<GCode> m_responseXml;
