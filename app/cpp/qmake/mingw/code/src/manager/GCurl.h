@@ -42,6 +42,7 @@ private:
     GString m_methodAuth;
     GString m_apiBearer;
     bool m_hasCertificate;
+    bool m_hasUserPass;
     bool m_isFullUrl;
 
     bool m_isTestEnv;

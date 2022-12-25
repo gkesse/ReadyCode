@@ -25,7 +25,6 @@ public:
     GString getStartMessage() const;
     GString getStopMessage() const;
 
-    bool doGet(const GString& _url, GString& _response);
     bool runServer(int _argc, char** _argv);
     bool onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
     bool addResponse(const GString& _data);
@@ -39,6 +38,7 @@ private:
     GString m_protocol;
     bool m_hasCertificate;
     bool m_hasLogsTech;
+    bool m_hasUserPass;
 
     bool m_isTestEnv;
 
@@ -48,7 +48,6 @@ private:
     GString m_apiUsername;
     GString m_apiPassword;
     GString m_method;
-    GString m_uri;
 
     GString m_contentType;
     GString m_charset;

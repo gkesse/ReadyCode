@@ -30,6 +30,7 @@ void GCurl::initCurl() {
     m_apiBearer         = "1ab9cb22ba269a7";
     m_contentType       = "application/xml";
     m_hasCertificate    = true;
+    m_hasUserPass       = false;
     m_isFullUrl         = false;
 
     m_isTestEnv         = GEnv().isTestEnv();
@@ -90,9 +91,9 @@ bool GCurl::doCall(GString& _response) {
     if(lCurl) {
         // http
         if(m_protocol == "http") {
-            // post
+            // http : post
             if(m_method == "post") {
-                if(m_methodAuth == "userpass") {
+                if(m_hasUserPass) {
                     curl_easy_setopt(lCurl, CURLOPT_USERNAME, m_apiUsername.c_str());
                     curl_easy_setopt(lCurl, CURLOPT_PASSWORD, m_apiPassword.c_str());
                 }
@@ -126,9 +127,9 @@ bool GCurl::doCall(GString& _response) {
 
                 _response = lBuffer;
             }
-            // get
+            // http : get
             if(m_method == "get") {
-                if(m_methodAuth == "userpass") {
+                if(m_hasUserPass) {
                     curl_easy_setopt(lCurl, CURLOPT_USERNAME, m_apiUsername.c_str());
                     curl_easy_setopt(lCurl, CURLOPT_PASSWORD, m_apiPassword.c_str());
                 }
@@ -160,14 +161,14 @@ bool GCurl::doCall(GString& _response) {
 
                 _response = lBuffer;
             }
-            // methode inconnue
+            // http : methode inconnue
             else {
                 m_logs.addError("Erreur la méthode n'est pas prise en charge.");
             }
         }
         // https
         else if(m_protocol == "https") {
-            // post
+            // https : post
             if(m_method == "POST") {
                 if(m_hasCertificate) {
                     curl_easy_setopt(lCurl, CURLOPT_SSL_VERIFYPEER, 1L);
@@ -212,7 +213,7 @@ bool GCurl::doCall(GString& _response) {
 
                 _response = lBuffer;
             }
-            // methode inconnue
+            // https : methode inconnue
             else {
                 m_logs.addError("Erreur la méthode n'est pas prise en charge.");
             }
