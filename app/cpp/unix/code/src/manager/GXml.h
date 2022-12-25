@@ -4,7 +4,7 @@
 //===============================================
 #include "GInclude.h"
 //===============================================
-class GXml : public GObject {
+class GXml {
 public:
     GXml();
     virtual ~GXml();
