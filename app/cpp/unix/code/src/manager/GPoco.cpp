@@ -310,6 +310,9 @@ bool GPoco::doResponse() {
     if(m_contentType == "application/xml") {
         m_response = m_responseXml->toString();
     }
+    else {
+        m_response = m_logs.serialize();
+    }
     return !m_logs.hasErrors();
 }
 //===============================================
