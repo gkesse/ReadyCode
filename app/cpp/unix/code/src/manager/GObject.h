@@ -4,9 +4,8 @@
 //===============================================
 #include "GInclude.h"
 #include "GMap.h"
+#include "GCode.h"
 #include "GLog.h"
-//===============================================
-class GCode;
 //===============================================
 class GObject {
 public:

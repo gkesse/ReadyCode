@@ -123,7 +123,7 @@ bool GCode::addData(const GString& _code, const std::vector<GObject*>& _map) {
         createNode("map");
         next();
     }
-    for(int i = 0; i < _map.size(); i++) {
+    for(int i = 0; i < (int)_map.size(); i++) {
         GObject* lObj = _map.at(i);
         GString lData = lObj->serialize(lObj->getCodeName());
         GCode lDom;
@@ -141,7 +141,7 @@ bool GCode::addData(const GString& _code, const std::vector<GLog*>& _map) {
         createNode("map");
         next();
     }
-    for(int i = 0; i < _map.size(); i++) {
+    for(int i = 0; i < (int)_map.size(); i++) {
         GLog* lObj = _map.at(i);
         GString lData = lObj->serialize();
         GCode lDom;

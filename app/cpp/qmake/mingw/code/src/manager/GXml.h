@@ -4,7 +4,7 @@
 //===============================================
 #include "GObject.h"
 //===============================================
-class GXml : public GObject {
+class GXml {
 public:
     GXml();
     virtual ~GXml();

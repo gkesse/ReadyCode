@@ -68,6 +68,7 @@ private:
     long m_responseCode;
 
     GLog m_logs;
+    GCode domTest;
 };
 //==============================================
 #endif

@@ -29,7 +29,7 @@ public:
     void initModule();
     void cleanModule();
 
-    void initSSL();
+    bool initSSL();
 
     void setPoco(const GPoco& _poco);
     void setPoco(GPoco* _poco);
@@ -54,10 +54,6 @@ private:
     bool initPoco(Poco::Net::HTTPServerRequest& _request);
     bool initPocoNoAuthentication(Poco::Net::HTTPServerRequest& _request);
     bool initPocoCertificate(Poco::Net::HTTPServerRequest& _request);
-    void initSSLNoAuthentication();
-    void initSSLUsernamePassword();
-    void initSSLApiKey();
-    void initSSLCertificate();
 
     void onGet(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
     void onPost(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
@@ -66,6 +62,8 @@ private:
 
 private:
     GString m_protocol;
+    GString m_authentication;
+
     eGModule m_module;
     bool m_isTestEnv;
     eGMode m_mode;
