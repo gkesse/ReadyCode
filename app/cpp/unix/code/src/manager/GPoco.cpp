@@ -301,7 +301,13 @@ bool GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
             if(!_request.getContentType().empty()) {
                 m_contentType = _request.getContentType();
                 if(m_contentType == "application/xml") {
-                    m_logs.addLog("La requête a bien été exécutée.");
+                    if(_request.getURI() == "/readydev/api/vi") {
+                        m_logs.addLog("La requête a bien été exécutée.");
+                    }
+                    else {
+                        m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+                        m_logsTech.addError("Erreur le verbe n'est pas géré.");
+                    }
                 }
                 else {
                     m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
