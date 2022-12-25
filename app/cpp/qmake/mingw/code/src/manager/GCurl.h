@@ -6,14 +6,6 @@
 //===============================================
 class GCurl : public GObject {
 public:
-    enum eGMode {
-        MODE_NO_AUTENTICATION
-        , MODE_USERNAME_PASSWORD
-        , MODE_API_KEY
-        , MODE_CERTIFICATE
-    };
-
-public:
     GCurl(const GString& _code = "curl");
     ~GCurl();
 
@@ -21,32 +13,37 @@ public:
     void initModule();
     void cleanModule();
 
-    void setMode(eGMode _mode);
     void setContentType(const GString& _contentType);
     void setApiKey(const GString& _apiKey);
-
-    long getResponseCode() const;
-
     void addHeader(const GString& _key, const GString& _value);
     void addForm(const GString& _key, const GString& _value);
     void addContent(const GString& _content);
 
+    long getResponseCode() const;
+
     bool doCall(GString& _response);
-    bool doGet(const GString& _url, GString& _response);
-    bool doPost(const GString& _url, GString& _response);
 
 private:
     void initCurl();
-    bool doGetNoAuthentication(const GString& _url, GString& _response);
-    bool doGetUsernamePassword(const GString& _url, GString& _response);
-    bool doGetApiKey(const GString& _url, GString& _response);
-    bool doGetCertificate(const GString& _url, GString& _response);
-    bool doPostNoAuthentication(const GString& _url, GString& _response);
-    bool doPostCertificate(const GString& _url, GString& _response);
     static int onWrite(char* _data, size_t _size, size_t _nmemb, std::string* _writerData);
 
 private:
-    eGMode m_mode;
+    GString m_protocol;
+    GString m_fullUrl;
+    GString m_fullUrlHttp;
+    GString m_fullUrlHttps;
+    GString m_serverUrl;
+    GString m_serverUrlHttp;
+    GString m_serverUrlHttps;
+    GString m_verb;
+    GString m_verbPost;
+    GString m_verbGet;
+    GString m_method;
+    GString m_methodAuth;
+    GString m_apiBearer;
+    bool m_hasCertificate;
+    bool m_isFullUrl;
+
     bool m_isTestEnv;
 
     GMap m_forms;
@@ -68,7 +65,6 @@ private:
     long m_responseCode;
 
     GLog m_logs;
-    GCode domTest;
 };
 //==============================================
 #endif

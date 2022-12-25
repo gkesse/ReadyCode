@@ -15,7 +15,23 @@ GCurl::~GCurl() {
 }
 //===============================================
 void GCurl::initCurl() {
-    m_mode              = GCurl::MODE_NO_AUTENTICATION;
+    m_protocol          = "http";
+    m_method            = "get";
+    m_fullUrlHttp       = "http://readydev.ovh:9071/readydev/com/v1";
+    m_fullUrlHttps      = "https://readydev.ovh:9071/readydev/com/v1";
+    m_fullUrl           = (m_protocol == "http" ? m_fullUrlHttp : m_fullUrlHttps);
+    m_serverUrlHttp     = "http://readydev.ovh:9071";
+    m_serverUrlHttps    = "https://readydev.ovh:9071";
+    m_serverUrl         = (m_protocol == "http" ? m_serverUrlHttp : m_serverUrlHttps);
+    m_verbPost          = "readydev/com/v1";
+    m_verbGet           = "readydev/api/v1";
+    m_verb              = (m_method == "get" ? m_verbGet : m_verbPost);
+    m_methodAuth        = "bearer";
+    m_apiBearer         = "1ab9cb22ba269a7";
+    m_contentType       = "application/xml";
+    m_hasCertificate    = true;
+    m_isFullUrl         = false;
+
     m_isTestEnv         = GEnv().isTestEnv();
 
     m_contentType       = GAPP->getData("curl", "content_type");
@@ -36,10 +52,6 @@ void GCurl::initModule() {
 //===============================================
 void GCurl::cleanModule() {
     curl_global_cleanup();
-}
-//===============================================
-void GCurl::setMode(GCurl::eGMode _mode) {
-    m_mode = _mode;
 }
 //===============================================
 void GCurl::setContentType(const GString& _contentType) {
@@ -71,27 +83,16 @@ bool GCurl::doCall(GString& _response) {
     char lError[CURL_ERROR_SIZE];
     std::string lBuffer;
 
-    GString lProtocol       = "http";
-    GString lFullUrl        = "http://readydev.ovh:9071/readydev/com/v1";
-    GString lUrl            = "http://readydev.ovh:9071";
-    GString lVerb           = "readydev/com/v1";
-    GString lMethod         = "get";
-    GString lMethodAuth     = "bearer";
-    GString lBearer         = "1ab9cb22ba269a7";
-    GString lContentType    = "application/xml";
-    bool lHasCertificate    = true;
-    bool lIsFullUrl         = false;
-
-    if(!lIsFullUrl) {
-        lFullUrl = lUrl + "/" + lVerb;
+    if(!m_isFullUrl) {
+        m_fullUrl = m_serverUrl + "/" + m_verb;
     }
 
     if(lCurl) {
         // http
-        if(lProtocol == "http") {
+        if(m_protocol == "http") {
             // post
-            if(lMethod == "post") {
-                if(lMethodAuth == "userpass") {
+            if(m_method == "post") {
+                if(m_methodAuth == "userpass") {
                     curl_easy_setopt(lCurl, CURLOPT_USERNAME, m_apiUsername.c_str());
                     curl_easy_setopt(lCurl, CURLOPT_PASSWORD, m_apiPassword.c_str());
                 }
@@ -99,7 +100,7 @@ bool GCurl::doCall(GString& _response) {
                 curl_easy_setopt(lCurl, CURLOPT_HTTPPOST, 1L);
                 curl_easy_setopt(lCurl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
                 curl_easy_setopt(lCurl, CURLOPT_ERRORBUFFER, lError);
-                curl_easy_setopt(lCurl, CURLOPT_URL, lFullUrl.c_str());
+                curl_easy_setopt(lCurl, CURLOPT_URL, m_fullUrl.c_str());
                 curl_easy_setopt(lCurl, CURLOPT_FOLLOWLOCATION, 1L);
                 curl_easy_setopt(lCurl, CURLOPT_WRITEFUNCTION, onWrite);
                 curl_easy_setopt(lCurl, CURLOPT_WRITEDATA, &lBuffer);
@@ -126,8 +127,8 @@ bool GCurl::doCall(GString& _response) {
                 _response = lBuffer;
             }
             // get
-            if(lMethod == "get") {
-                if(lMethodAuth == "userpass") {
+            if(m_method == "get") {
+                if(m_methodAuth == "userpass") {
                     curl_easy_setopt(lCurl, CURLOPT_USERNAME, m_apiUsername.c_str());
                     curl_easy_setopt(lCurl, CURLOPT_PASSWORD, m_apiPassword.c_str());
                 }
@@ -135,7 +136,7 @@ bool GCurl::doCall(GString& _response) {
                 curl_easy_setopt(lCurl, CURLOPT_HTTPGET, 1L);
                 curl_easy_setopt(lCurl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
                 curl_easy_setopt(lCurl, CURLOPT_ERRORBUFFER, lError);
-                curl_easy_setopt(lCurl, CURLOPT_URL, lFullUrl.c_str());
+                curl_easy_setopt(lCurl, CURLOPT_URL, m_fullUrl.c_str());
                 curl_easy_setopt(lCurl, CURLOPT_FOLLOWLOCATION, 1L);
                 curl_easy_setopt(lCurl, CURLOPT_WRITEFUNCTION, onWrite);
                 curl_easy_setopt(lCurl, CURLOPT_WRITEDATA, &lBuffer);
@@ -165,27 +166,27 @@ bool GCurl::doCall(GString& _response) {
             }
         }
         // https
-        else if(lProtocol == "https") {
+        else if(m_protocol == "https") {
             // post
-            if(lMethod == "POST") {
-                if(lHasCertificate) {
+            if(m_method == "POST") {
+                if(m_hasCertificate) {
                     curl_easy_setopt(lCurl, CURLOPT_SSL_VERIFYPEER, 1L);
                     curl_easy_setopt(lCurl, CURLOPT_SSL_VERIFYHOST, 1L);
                     curl_easy_setopt(lCurl, CURLOPT_CAINFO, m_certificateFile.c_str());
                 }
 
-                if(lMethodAuth == "userpass") {
+                if(m_methodAuth == "userpass") {
                     curl_easy_setopt(lCurl, CURLOPT_USERNAME, m_apiUsername.c_str());
                     curl_easy_setopt(lCurl, CURLOPT_PASSWORD, m_apiPassword.c_str());
                 }
-                else if(lMethodAuth == "bearer") {
-                    curl_easy_setopt(lCurl, CURLOPT_XOAUTH2_BEARER, lBearer.c_str());
+                else if(m_methodAuth == "bearer") {
+                    curl_easy_setopt(lCurl, CURLOPT_XOAUTH2_BEARER, m_apiBearer.c_str());
                 }
 
                 curl_easy_setopt(lCurl, CURLOPT_HTTPPOST, 1L);
                 curl_easy_setopt(lCurl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
                 curl_easy_setopt(lCurl, CURLOPT_ERRORBUFFER, lError);
-                curl_easy_setopt(lCurl, CURLOPT_URL, lFullUrl.c_str());
+                curl_easy_setopt(lCurl, CURLOPT_URL, m_fullUrl.c_str());
                 curl_easy_setopt(lCurl, CURLOPT_FOLLOWLOCATION, 1L);
                 curl_easy_setopt(lCurl, CURLOPT_WRITEFUNCTION, onWrite);
                 curl_easy_setopt(lCurl, CURLOPT_WRITEDATA, &lBuffer);
@@ -226,7 +227,7 @@ bool GCurl::doCall(GString& _response) {
         m_logs.addError("Erreur le module n'a pas été initialisé.");
     }
 
-    if(lContentType == "application/xml") {
+    if(m_contentType == "application/xml") {
         GCode lResponseDom;
         lResponseDom.createDoc();
         lResponseDom.loadXml(_response);
@@ -234,232 +235,6 @@ bool GCurl::doCall(GString& _response) {
         _response = lResponseDom.toString();
     }
 
-    return !m_logs.hasErrors();
-}
-//===============================================
-bool GCurl::doGet(const GString& _url, GString& _response) {
-    if(m_mode == GCurl::MODE_NO_AUTENTICATION) return doGetNoAuthentication(_url, _response);
-    if(m_mode == GCurl::MODE_USERNAME_PASSWORD) return doGetUsernamePassword(_url, _response);
-    if(m_mode == GCurl::MODE_API_KEY) return doGetApiKey(_url, _response);
-    if(m_mode == GCurl::MODE_CERTIFICATE) return doGetCertificate(_url, _response);
-    return doGetNoAuthentication(_url, _response);
-}
-//===============================================
-bool GCurl::doPost(const GString& _url, GString& _response) {
-    m_logs.clearMap();
-
-    if(m_mode == GCurl::MODE_CERTIFICATE) {
-        doPostCertificate(_url, _response);
-    }
-    else {
-        m_logs.addError("Error le mode n'est pas pris en charge");
-        return false;
-    }
-
-    return !m_logs.hasErrors();
-}
-//===============================================
-bool GCurl::doGetNoAuthentication(const GString& _url, GString& _response) {
-    char lError[CURL_ERROR_SIZE];
-    std::string lBuffer;
-
-    CURL* lCurl = curl_easy_init();
-
-    addHeader("Content-Type", m_contentType);
-
-    struct curl_slist* lHeaders = NULL;
-    lHeaders = m_headers.toHeaders(lCurl, lHeaders);
-    curl_easy_setopt(lCurl, CURLOPT_HTTPHEADER, lHeaders);
-
-    curl_easy_setopt(lCurl, CURLOPT_ERRORBUFFER, lError);
-    curl_easy_setopt(lCurl, CURLOPT_URL, _url.c_str());
-    curl_easy_setopt(lCurl, CURLOPT_FOLLOWLOCATION, 1L);
-    curl_easy_setopt(lCurl, CURLOPT_SSL_VERIFYPEER, 0L);
-    curl_easy_setopt(lCurl, CURLOPT_SSL_VERIFYHOST, 0L);
-    curl_easy_setopt(lCurl, CURLOPT_WRITEFUNCTION, onWrite);
-    curl_easy_setopt(lCurl, CURLOPT_WRITEDATA, &lBuffer);
-    curl_easy_setopt(lCurl, CURLOPT_VERBOSE, 0L);
-
-    CURLcode lCurlOk = curl_easy_perform(lCurl);
-    if(lCurlOk != CURLE_OK) {GLOGT(eGMSG, "Erreur lors de la connexion au serveur.\n%s", curl_easy_strerror(lCurlOk));}
-    curl_easy_getinfo(lCurl, CURLINFO_RESPONSE_CODE, &m_responseCode);
-    curl_easy_cleanup(lCurl);
-    curl_slist_free_all(lHeaders);
-
-    _response = lBuffer;
-    return true;
-}
-//===============================================
-bool GCurl::doGetUsernamePassword(const GString& _url, GString& _response) {
-    char lError[CURL_ERROR_SIZE];
-    std::string lBuffer;
-
-    CURL* lCurl = curl_easy_init();
-
-    addHeader("Content-Type", m_contentType);
-
-    struct curl_slist* lHeaders = NULL;
-    lHeaders = m_headers.toHeaders(lCurl, lHeaders);
-    curl_easy_setopt(lCurl, CURLOPT_HTTPHEADER, lHeaders);
-
-    curl_easy_setopt(lCurl, CURLOPT_ERRORBUFFER, lError);
-    curl_easy_setopt(lCurl, CURLOPT_URL, _url.c_str());
-    curl_easy_setopt(lCurl, CURLOPT_FOLLOWLOCATION, 1L);
-    curl_easy_setopt(lCurl, CURLOPT_SSL_VERIFYPEER, 0L);
-    curl_easy_setopt(lCurl, CURLOPT_SSL_VERIFYHOST, 0L);
-    curl_easy_setopt(lCurl, CURLOPT_USERNAME, m_apiUsername.c_str());
-    curl_easy_setopt(lCurl, CURLOPT_PASSWORD, m_apiPassword.c_str());
-    curl_easy_setopt(lCurl, CURLOPT_WRITEFUNCTION, onWrite);
-    curl_easy_setopt(lCurl, CURLOPT_WRITEDATA, &lBuffer);
-    curl_easy_setopt(lCurl, CURLOPT_VERBOSE, 0L);
-
-    CURLcode lCurlOk = curl_easy_perform(lCurl);
-    if(lCurlOk != CURLE_OK) {GLOGT(eGMSG, "Erreur lors de la connexion au serveur.\n%s", curl_easy_strerror(lCurlOk));}
-    curl_easy_getinfo(lCurl, CURLINFO_RESPONSE_CODE, &m_responseCode);
-    curl_easy_cleanup(lCurl);
-    curl_slist_free_all(lHeaders);
-
-    _response = lBuffer;
-    return true;
-}
-//===============================================
-bool GCurl::doGetApiKey(const GString& _url, GString& _response) {
-    char lError[CURL_ERROR_SIZE];
-    std::string lBuffer;
-
-    CURL* lCurl = curl_easy_init();
-
-    addHeader("Content-Type", m_contentType);
-
-    struct curl_slist* lHeaders = NULL;
-    lHeaders = m_headers.toHeaders(lCurl, lHeaders);
-    curl_easy_setopt(lCurl, CURLOPT_HTTPHEADER, lHeaders);
-
-    curl_easy_setopt(lCurl, CURLOPT_ERRORBUFFER, lError);
-    curl_easy_setopt(lCurl, CURLOPT_URL, _url.c_str());
-    curl_easy_setopt(lCurl, CURLOPT_FOLLOWLOCATION, 1L);
-    curl_easy_setopt(lCurl, CURLOPT_SSL_VERIFYPEER, 0L);
-    curl_easy_setopt(lCurl, CURLOPT_SSL_VERIFYHOST, 0L);
-    curl_easy_setopt(lCurl, CURLOPT_USERNAME, m_apiKey.c_str());
-    curl_easy_setopt(lCurl, CURLOPT_WRITEFUNCTION, onWrite);
-    curl_easy_setopt(lCurl, CURLOPT_WRITEDATA, &lBuffer);
-    curl_easy_setopt (lCurl, CURLOPT_VERBOSE, 0L);
-
-    CURLcode lCurlOk = curl_easy_perform(lCurl);
-    if(lCurlOk != CURLE_OK) {GLOGT(eGMSG, "Erreur lors de la connexion au serveur.\n%s", curl_easy_strerror(lCurlOk));}
-    curl_easy_getinfo(lCurl, CURLINFO_RESPONSE_CODE, &m_responseCode);
-    curl_easy_cleanup(lCurl);
-    curl_slist_free_all(lHeaders);
-
-    _response = lBuffer;
-    return true;
-}
-//===============================================
-bool GCurl::doPostNoAuthentication(const GString& _url, GString& _response) {
-    char lError[CURL_ERROR_SIZE];
-    std::string lBuffer;
-    struct curl_slist* lHeaders = NULL;
-
-    CURL* lCurl = curl_easy_init();
-
-    m_contents +=  m_forms.toParams();
-    lHeaders = m_headers.toHeaders(lCurl, lHeaders);
-
-    curl_easy_setopt(lCurl, CURLOPT_HTTPHEADER, lHeaders);
-    curl_easy_setopt(lCurl, CURLOPT_ERRORBUFFER, lError);
-    curl_easy_setopt(lCurl, CURLOPT_URL, _url.c_str());
-    curl_easy_setopt(lCurl, CURLOPT_POSTFIELDS, m_contents.c_str());
-    curl_easy_setopt(lCurl, CURLOPT_POSTFIELDSIZE, m_contents.size());
-    if(!m_apiUsername.isEmpty()) {
-        curl_easy_setopt(lCurl, CURLOPT_USERNAME, m_apiUsername.c_str());
-    }
-    if(!m_apiPassword.isEmpty()) {
-        curl_easy_setopt(lCurl, CURLOPT_PASSWORD, m_apiPassword.c_str());
-    }
-    curl_easy_setopt(lCurl, CURLOPT_WRITEFUNCTION, onWrite);
-    curl_easy_setopt(lCurl, CURLOPT_WRITEDATA, &lBuffer);
-    curl_easy_setopt (lCurl, CURLOPT_VERBOSE, 0L);
-
-    curl_easy_perform(lCurl);
-    curl_easy_cleanup(lCurl);
-
-    _response = lBuffer;
-    return true;
-}
-//===============================================
-bool GCurl::doGetCertificate(const GString& _url, GString& _response) {
-    char lError[CURL_ERROR_SIZE];
-    std::string lBuffer;
-
-    CURL* lCurl = curl_easy_init();
-    curl_easy_setopt(lCurl, CURLOPT_HTTPGET, 1L);
-    curl_easy_setopt(lCurl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-
-    addHeader("Content-Type", m_contentType);
-
-    struct curl_slist* lHeaders = NULL;
-    lHeaders = m_headers.toHeaders(lCurl, lHeaders);
-    curl_easy_setopt(lCurl, CURLOPT_HTTPHEADER, lHeaders);
-
-    curl_easy_setopt(lCurl, CURLOPT_ERRORBUFFER, lError);
-    curl_easy_setopt(lCurl, CURLOPT_URL, _url.c_str());
-    curl_easy_setopt(lCurl, CURLOPT_FOLLOWLOCATION, 1L);
-    curl_easy_setopt(lCurl, CURLOPT_SSL_VERIFYPEER, 1L);
-    curl_easy_setopt(lCurl, CURLOPT_SSL_VERIFYHOST, 1L);
-    curl_easy_setopt(lCurl, CURLOPT_CAINFO, m_certificateFile.c_str());
-    curl_easy_setopt(lCurl, CURLOPT_USERNAME, m_apiKey.c_str());
-    curl_easy_setopt(lCurl, CURLOPT_WRITEFUNCTION, onWrite);
-    curl_easy_setopt(lCurl, CURLOPT_WRITEDATA, &lBuffer);
-    curl_easy_setopt (lCurl, CURLOPT_VERBOSE, 0L);
-
-    CURLcode lCurlOk = curl_easy_perform(lCurl);
-    if(lCurlOk != CURLE_OK) {GLOGT(eGMSG, "Erreur lors de la connexion au serveur.\n%s", curl_easy_strerror(lCurlOk));}
-    curl_easy_getinfo(lCurl, CURLINFO_RESPONSE_CODE, &m_responseCode);
-    curl_easy_cleanup(lCurl);
-    curl_slist_free_all(lHeaders);
-
-    _response = lBuffer;
-    return true;
-}
-//===============================================
-bool GCurl::doPostCertificate(const GString& _url, GString& _response) {
-    char lError[CURL_ERROR_SIZE];
-    std::string lBuffer;
-
-    CURL* lCurl = curl_easy_init();
-    curl_easy_setopt(lCurl, CURLOPT_HTTPPOST, 1L);
-    curl_easy_setopt(lCurl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-
-    addHeader("Content-Type", m_contentType);
-
-    struct curl_slist* lHeaders = NULL;
-    lHeaders = m_headers.toHeaders(lCurl, lHeaders);
-    curl_easy_setopt(lCurl, CURLOPT_HTTPHEADER, lHeaders);
-
-    curl_easy_setopt(lCurl, CURLOPT_ERRORBUFFER, lError);
-    curl_easy_setopt(lCurl, CURLOPT_URL, _url.c_str());
-    curl_easy_setopt(lCurl, CURLOPT_FOLLOWLOCATION, 1L);
-    curl_easy_setopt(lCurl, CURLOPT_SSL_VERIFYPEER, 1L);
-    curl_easy_setopt(lCurl, CURLOPT_SSL_VERIFYHOST, 1L);
-    curl_easy_setopt(lCurl, CURLOPT_CAINFO, m_certificateFile.c_str());
-    curl_easy_setopt(lCurl, CURLOPT_USERNAME, m_apiKey.c_str());
-    curl_easy_setopt(lCurl, CURLOPT_POSTFIELDS, m_contents.c_str());
-    curl_easy_setopt(lCurl, CURLOPT_POSTFIELDSIZE, m_contents.size());
-    curl_easy_setopt(lCurl, CURLOPT_WRITEFUNCTION, onWrite);
-    curl_easy_setopt(lCurl, CURLOPT_WRITEDATA, &lBuffer);
-    curl_easy_setopt (lCurl, CURLOPT_VERBOSE, 0L);
-
-    CURLcode lCurlOk = curl_easy_perform(lCurl);
-
-    if(lCurlOk != CURLE_OK) {
-        m_logs.addError(GFORMAT("Erreur lors de la connexion au serveur.\n%s", curl_easy_strerror(lCurlOk)));
-    }
-
-    curl_easy_getinfo(lCurl, CURLINFO_RESPONSE_CODE, &m_responseCode);
-    curl_easy_cleanup(lCurl);
-    curl_slist_free_all(lHeaders);
-
-    _response = lBuffer;
     return !m_logs.hasErrors();
 }
 //===============================================
