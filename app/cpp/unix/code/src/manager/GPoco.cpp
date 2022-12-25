@@ -159,7 +159,8 @@ bool GPoco::runServer(int _argc, char** _argv) {
 }
 //===============================================
 bool GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
-    m_responseXml.createDoc();
+    m_responseXml.reset(new GCode);
+    m_responseXml->createDoc();
 
     GString lHost = _request.getHost();
     GString lMethod = _request.getMethod();
@@ -299,15 +300,15 @@ bool GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
 //===============================================
 bool GPoco::addResponse(const GString& _data) {
     if(m_contentType == "application/xml") {
-        m_responseXml.createCode();
-        m_responseXml.loadData(_data);
+        m_responseXml->createCode();
+        m_responseXml->loadData(_data);
     }
     return !m_logs.hasErrors();
 }
 //===============================================
 bool GPoco::doResponse() {
     if(m_contentType == "application/xml") {
-        m_response = m_responseXml.toString();
+        m_response = m_responseXml->toString();
     }
     return !m_logs.hasErrors();
 }
