@@ -68,6 +68,7 @@ bool GXml::loadNode(const GString& _data) {
 }
 //===============================================
 bool GXml::createDoc() {
+    release();
     m_doc = xmlNewDoc(BAD_CAST "1.0");
     if(!m_doc) {GERROR_ADD(eGERR, "Erreur lors de la création du document."); return false;}
     m_xpath = xmlXPathNewContext(m_doc);

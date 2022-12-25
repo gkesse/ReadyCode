@@ -34,13 +34,6 @@ public:
 
 private:
     void initPoco();
-    bool initPocoNoAuthentication(Poco::Net::HTTPServerRequest& _request);
-    bool initPocoCertificate(Poco::Net::HTTPServerRequest& _request);
-
-    void onGet(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
-    void onPost(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
-    void onRequestHttp(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
-    void onRequestHttps(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
 
 private:
     GString m_protocol;
@@ -63,7 +56,7 @@ private:
     GString m_headers;
     GString m_request;
     GString m_response;
-    std::shared_ptr<GCode> m_responseXml;
+    GCode m_responseXml;
 
     GString m_startMessage;
     GString m_stopMessage;
