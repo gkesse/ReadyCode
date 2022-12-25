@@ -302,7 +302,7 @@ bool GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
             if(!_request.getContentType().empty()) {
                 m_contentType = _request.getContentType();
                 if(m_contentType == "application/xml") {
-                    if(_request.getURI() == "/readydev/api/vi") {
+                    if(_request.getURI() == "/readydev/api/v1") {
                         m_logs.addLog("La requête a bien été exécutée.");
                     }
                     else {
