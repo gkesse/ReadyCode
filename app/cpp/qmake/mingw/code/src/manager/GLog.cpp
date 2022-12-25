@@ -158,7 +158,7 @@ void GLog::tailLogFile() {
 void GLog::addError(const GString& _error) {
     GLog* lLog = new GLog;
     lLog->m_type = "error";
-    lLog->m_side = "server";
+    lLog->m_side = "client";
     lLog->m_msg = _error;
     add(lLog);
 }

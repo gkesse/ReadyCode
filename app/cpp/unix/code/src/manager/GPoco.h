@@ -21,10 +21,6 @@ public:
         , MODE_CERTIFICATE
     };
 
-    static const char* DEF_READYDEV_COM;
-    static const char* DEF_READYDEV_API;
-    static const char* DEF_READYDEV_APP_ENC;
-
 public:
     GPoco(const GString& _code = "poco");
     ~GPoco();
@@ -47,10 +43,10 @@ public:
 
     bool doGet(const GString& _url, GString& _response);
     bool runServer(int _argc, char** _argv);
-    void onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
+    bool onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
     bool addResponse(const GString& _data);
-    void onError();
-    void onResponse(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
+    bool doResponse();
+    bool onResponse(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
 
 private:
     void initPoco();

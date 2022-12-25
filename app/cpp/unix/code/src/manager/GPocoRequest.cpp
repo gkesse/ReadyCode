@@ -14,7 +14,7 @@ void GPocoRequest::handleRequest(Poco::Net::HTTPServerRequest& _request, Poco::N
     GPoco lPoco;
     lPoco.setPoco(m_poco);
     lPoco.onRequest(_request, _response);
-    lPoco.onError();
+    lPoco.doResponse();
     lPoco.onResponse(_request, _response);
 }
 //===============================================

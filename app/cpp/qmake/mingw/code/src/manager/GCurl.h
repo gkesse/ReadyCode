@@ -31,6 +31,7 @@ public:
     void addForm(const GString& _key, const GString& _value);
     void addContent(const GString& _content);
 
+    bool doCall(GString& _response);
     bool doGet(const GString& _url, GString& _response);
     bool doPost(const GString& _url, GString& _response);
 

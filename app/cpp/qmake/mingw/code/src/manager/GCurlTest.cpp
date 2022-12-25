@@ -33,6 +33,9 @@ void GCurlTest::run(int _argc, char** _argv) {
     else if(lKey == "post/form") {
         runPostForm(_argc, _argv);
     }
+    else if(lKey == "call") {
+        runCall(_argc, _argv);
+    }
     else {
         runDefault(_argc, _argv);
     }
@@ -105,5 +108,13 @@ void GCurlTest::runPostForm(int _argc, char** _argv) {
     lCurl.addForm("name", "Gerard KESSE");
     lCurl.addForm("project", "cURL");
     lCurl.doPost("http://readydev.ovh:9081/", lResponse);
+}
+//===============================================
+void GCurlTest::runCall(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    GCurl lCurl;
+    GString lResponse;
+    lCurl.doCall(lResponse);
+    lResponse.print();
 }
 //===============================================

@@ -7,9 +7,6 @@
 #include "GCode.h"
 #include "GApp.h"
 //===============================================
-const char* GPoco::DEF_READYDEV_COM         = "/readydev/com/v1";
-const char* GPoco::DEF_READYDEV_API         = "/readydev/api/v1";
-//===============================================
 GPoco::GPoco(const GString& _code)
 : GObject(_code) {
     initPoco();
@@ -322,7 +319,9 @@ bool GPoco::runServer(int _argc, char** _argv) {
     return true;
 }
 //===============================================
-void GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
+bool GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
+    bool lLogsTechOn = true;
+
     GString lHost = _request.getHost();
     GString lMethod = _request.getMethod();
     GString lUri = _request.getURI();
@@ -339,9 +338,10 @@ void GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
 
     // POST
     if(_request.getMethod() == "POST") {
-        if(_request.getURI() == DEF_READYDEV_COM) {
+        if(_request.getURI() == "/readydev/com/v1") {
             if(!_request.getContentType().empty()) {
-                if(_request.getContentType() == "application/xml") {
+                m_contentType = _request.getContentType();
+                if(m_contentType == "application/xml") {
                     if(_request.hasContentLength() && _request.getContentLength() != 0) {
                         std::istream& lInput = _request.stream();
                         std::string lRequest;
@@ -358,56 +358,55 @@ void GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
                                 }
                                 else {
                                     m_logsTech.addError("Erreur la communication doit être sécurisée.");
-                                    return;
                                 }
                             }
                             else {
                                 m_logsTech.addError("Erreur le format de la requête est incorrect.");
-                                return;
                             }
                         }
                         else {
                             m_logsTech.addError("Erreur le format de la requête est invalide.");
-                            return;
                         }
 
                     }
                     else {
                         m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
                         m_logsTech.addError("Erreur le contenu de la requête est obligatoire");
-                        return;
                     }
                 }
                 else {
                     m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
                     m_logsTech.addError("Erreur le type du contenu n'est pas pris en charge.");
-                    return;
                 }
             }
             else {
                 m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
                 m_logsTech.addError("Erreur le type du contenu est obligatoire.");
-                return;
             }
         }
         else {
             m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
             m_logsTech.addError("Erreur le verbe n'est pas pris en charge.");
-            return;
         }
     }
     // GET
     else if(_request.getMethod() == "GET") {
         m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
         m_logsTech.addError("Erreur la méthode n'est pas prise en charge.");
-        return;
     }
     // OTHERS
     else {
         m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
         m_logsTech.addError("Erreur la méthode n'est pas prise en charge.");
-        return;
     }
+
+    if(lLogsTechOn) {
+        m_logs.add(m_logsTech);
+    }
+
+    addResponse(m_logs.serialize());
+
+    return !m_logs.hasErrors();
 }
 //===============================================
 void GPoco::onRequestHttp(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
@@ -455,26 +454,25 @@ void GPoco::onRequestHttps(Poco::Net::HTTPServerRequest& _request, Poco::Net::HT
 }
 //===============================================
 bool GPoco::addResponse(const GString& _data) {
-    m_responseXml->createCode();
-    m_responseXml->loadData(_data);
-    return true;
+    if(m_contentType == "application/type") {
+        m_responseXml->createCode();
+        m_responseXml->loadData(_data);
+    }
+    return !m_logs.hasErrors();
 }
 //===============================================
-void GPoco::onError() {
-    m_logs.add(m_logsTech);
-    addResponse(m_logs.serialize());
+bool GPoco::doResponse() {
+    if(m_contentType == "application/type") {
+        m_response = m_responseXml->toString();
+    }
+    return !m_logs.hasErrors();
 }
 //===============================================
-void GPoco::onResponse(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
+bool GPoco::onResponse(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
     GString lRequest = m_headers + m_request;
-    m_response = m_responseXml->toString();
 
     GLOGT(eGMSG, "[RECEPTION] : (%d)\n%s\n", lRequest.size(), lRequest.c_str());
     GLOGT(eGMSG, "[EMISSION] : (%d)\n%s\n", m_response.size(), m_response.c_str());
-
-    if(m_logsTech.hasErrors()) {
-        m_response = "";
-    }
 
     _response.setStatus(m_status);
     _response.setContentLength(m_response.size());
@@ -482,6 +480,8 @@ void GPoco::onResponse(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSe
     std::ostream& lStream = _response.send();
     lStream << m_response.c_str();
     lStream.flush();
+
+    return !m_logs.hasErrors();
 }
 //===============================================
 void GPoco::onGet(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
