@@ -288,11 +288,30 @@ bool GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
     if(m_protocol == "http") {
         // post
         if(_request.getMethod() == "POST") {
-            m_logs.addLog("La requête a bien été exécutée [POST].");
+            if(!_request.getContentType().empty()) {
+                m_logs.addLog("La requête a bien été exécutée.");
+            }
+            else {
+                m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+                m_logsTech.addError("Erreur le type du contenu est obligatoire.");
+            }
         }
         // get
         else if(_request.getMethod() == "GET") {
-            m_logs.addLog("La requête a bien été exécutée [GET].");
+            if(!_request.getContentType().empty()) {
+                m_contentType = _request.getContentType();
+                if(m_contentType == "application/xml") {
+                    m_logs.addLog("La requête a bien été exécutée.");
+                }
+                else {
+                    m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+                    m_logsTech.addError("Erreur le type du contenu n'est pas géré.");
+                }
+            }
+            else {
+                m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+                m_logsTech.addError("Erreur le type du contenu est obligatoire.");
+            }
         }
         // method unknown
         else {
@@ -342,7 +361,7 @@ bool GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
                     }
                     else {
                         m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
-                        m_logsTech.addError("Erreur le type du contenu n'est pas pris en charge.");
+                        m_logsTech.addError("Erreur le type du contenu n'est pas géré.");
                     }
                 }
                 else {
@@ -352,7 +371,7 @@ bool GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
             }
             else {
                 m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
-                m_logsTech.addError("Erreur le verbe n'est pas pris en charge.");
+                m_logsTech.addError("Erreur le verbe n'est pas géré.");
             }
         }
         // get

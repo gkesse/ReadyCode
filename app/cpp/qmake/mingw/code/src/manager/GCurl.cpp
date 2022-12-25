@@ -75,7 +75,7 @@ bool GCurl::doCall(GString& _response) {
     GString lFullUrl        = "http://readydev.ovh:9071/readydev/com/v1";
     GString lUrl            = "http://readydev.ovh:9071";
     GString lVerb           = "readydev/com/v1";
-    GString lMethod         = "post";
+    GString lMethod         = "get";
     GString lMethodAuth     = "bearer";
     GString lBearer         = "1ab9cb22ba269a7";
     GString lContentType    = "application/xml";
@@ -132,7 +132,7 @@ bool GCurl::doCall(GString& _response) {
                     curl_easy_setopt(lCurl, CURLOPT_PASSWORD, m_apiPassword.c_str());
                 }
 
-                curl_easy_setopt(lCurl, CURLOPT_HTTPPOST, 1L);
+                curl_easy_setopt(lCurl, CURLOPT_HTTPGET, 1L);
                 curl_easy_setopt(lCurl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
                 curl_easy_setopt(lCurl, CURLOPT_ERRORBUFFER, lError);
                 curl_easy_setopt(lCurl, CURLOPT_URL, lFullUrl.c_str());
@@ -140,8 +140,6 @@ bool GCurl::doCall(GString& _response) {
                 curl_easy_setopt(lCurl, CURLOPT_WRITEFUNCTION, onWrite);
                 curl_easy_setopt(lCurl, CURLOPT_WRITEDATA, &lBuffer);
                 curl_easy_setopt (lCurl, CURLOPT_VERBOSE, 0L);
-                curl_easy_setopt(lCurl, CURLOPT_POSTFIELDS, m_contents.c_str());
-                curl_easy_setopt(lCurl, CURLOPT_POSTFIELDSIZE, m_contents.size());
 
                 addHeader("Content-Type", m_contentType);
 
