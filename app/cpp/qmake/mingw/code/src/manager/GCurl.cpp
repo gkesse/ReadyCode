@@ -71,70 +71,159 @@ bool GCurl::doCall(GString& _response) {
     char lError[CURL_ERROR_SIZE];
     std::string lBuffer;
 
-    GString lFullUrl = "https://readydev.ovh:9071/readydev/com/v1";
-    GString lUrl = "https://readydev.ovh:9071";
-    GString lVerb = "readydev/com/v1";
-    GString lMethod = "POST";
-    GString lMethodAuth = "userpass";
-    GString lBearer = "1ab9cb22ba269a7";
-    GString lContentType = "application/xml";
-    bool lHasSecure = true;
-    bool lHasFullUrl = false;
+    GString lProtocol       = "http";
+    GString lFullUrl        = "http://readydev.ovh:9071/readydev/com/v1";
+    GString lUrl            = "http://readydev.ovh:9071";
+    GString lVerb           = "readydev/com/v1";
+    GString lMethod         = "post";
+    GString lMethodAuth     = "bearer";
+    GString lBearer         = "1ab9cb22ba269a7";
+    GString lContentType    = "application/xml";
+    bool lHasCertificate    = true;
+    bool lIsFullUrl         = false;
 
-    if(!lHasFullUrl) {
+    if(!lIsFullUrl) {
         lFullUrl = lUrl + "/" + lVerb;
     }
 
     if(lCurl) {
+        // http
+        if(lProtocol == "http") {
+            // post
+            if(lMethod == "post") {
+                if(lMethodAuth == "userpass") {
+                    curl_easy_setopt(lCurl, CURLOPT_USERNAME, m_apiUsername.c_str());
+                    curl_easy_setopt(lCurl, CURLOPT_PASSWORD, m_apiPassword.c_str());
+                }
 
-        if(lMethod == "POST") {
-            if(lHasSecure) {
-                curl_easy_setopt(lCurl, CURLOPT_SSL_VERIFYPEER, 1L);
-                curl_easy_setopt(lCurl, CURLOPT_SSL_VERIFYHOST, 1L);
-                curl_easy_setopt(lCurl, CURLOPT_CAINFO, m_certificateFile.c_str());
+                curl_easy_setopt(lCurl, CURLOPT_HTTPPOST, 1L);
+                curl_easy_setopt(lCurl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+                curl_easy_setopt(lCurl, CURLOPT_ERRORBUFFER, lError);
+                curl_easy_setopt(lCurl, CURLOPT_URL, lFullUrl.c_str());
+                curl_easy_setopt(lCurl, CURLOPT_FOLLOWLOCATION, 1L);
+                curl_easy_setopt(lCurl, CURLOPT_WRITEFUNCTION, onWrite);
+                curl_easy_setopt(lCurl, CURLOPT_WRITEDATA, &lBuffer);
+                curl_easy_setopt (lCurl, CURLOPT_VERBOSE, 0L);
+                curl_easy_setopt(lCurl, CURLOPT_POSTFIELDS, m_contents.c_str());
+                curl_easy_setopt(lCurl, CURLOPT_POSTFIELDSIZE, m_contents.size());
+
+                addHeader("Content-Type", m_contentType);
+
+                struct curl_slist* lHeaders = NULL;
+                lHeaders = m_headers.toHeaders(lCurl, lHeaders);
+                curl_easy_setopt(lCurl, CURLOPT_HTTPHEADER, lHeaders);
+
+                CURLcode lCurlOk = curl_easy_perform(lCurl);
+
+                if(lCurlOk != CURLE_OK) {
+                    m_logs.addError(GFORMAT("Erreur lors de la connexion au serveur.\n%s", curl_easy_strerror(lCurlOk)));
+                }
+
+                curl_easy_getinfo(lCurl, CURLINFO_RESPONSE_CODE, &m_responseCode);
+                curl_easy_cleanup(lCurl);
+                curl_slist_free_all(lHeaders);
+
+                _response = lBuffer;
             }
+            // get
+            if(lMethod == "get") {
+                if(lMethodAuth == "userpass") {
+                    curl_easy_setopt(lCurl, CURLOPT_USERNAME, m_apiUsername.c_str());
+                    curl_easy_setopt(lCurl, CURLOPT_PASSWORD, m_apiPassword.c_str());
+                }
 
-            if(lMethodAuth == "userpass") {
-                curl_easy_setopt(lCurl, CURLOPT_USERNAME, m_apiUsername.c_str());
-                curl_easy_setopt(lCurl, CURLOPT_PASSWORD, m_apiPassword.c_str());
+                curl_easy_setopt(lCurl, CURLOPT_HTTPPOST, 1L);
+                curl_easy_setopt(lCurl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+                curl_easy_setopt(lCurl, CURLOPT_ERRORBUFFER, lError);
+                curl_easy_setopt(lCurl, CURLOPT_URL, lFullUrl.c_str());
+                curl_easy_setopt(lCurl, CURLOPT_FOLLOWLOCATION, 1L);
+                curl_easy_setopt(lCurl, CURLOPT_WRITEFUNCTION, onWrite);
+                curl_easy_setopt(lCurl, CURLOPT_WRITEDATA, &lBuffer);
+                curl_easy_setopt (lCurl, CURLOPT_VERBOSE, 0L);
+                curl_easy_setopt(lCurl, CURLOPT_POSTFIELDS, m_contents.c_str());
+                curl_easy_setopt(lCurl, CURLOPT_POSTFIELDSIZE, m_contents.size());
+
+                addHeader("Content-Type", m_contentType);
+
+                struct curl_slist* lHeaders = NULL;
+                lHeaders = m_headers.toHeaders(lCurl, lHeaders);
+                curl_easy_setopt(lCurl, CURLOPT_HTTPHEADER, lHeaders);
+
+                CURLcode lCurlOk = curl_easy_perform(lCurl);
+
+                if(lCurlOk != CURLE_OK) {
+                    m_logs.addError(GFORMAT("Erreur lors de la connexion au serveur.\n%s", curl_easy_strerror(lCurlOk)));
+                }
+
+                curl_easy_getinfo(lCurl, CURLINFO_RESPONSE_CODE, &m_responseCode);
+                curl_easy_cleanup(lCurl);
+                curl_slist_free_all(lHeaders);
+
+                _response = lBuffer;
             }
-            if(lMethodAuth == "bearer") {
-                curl_easy_setopt(lCurl, CURLOPT_XOAUTH2_BEARER, lBearer.c_str());
+            // methode inconnue
+            else {
+                m_logs.addError("Erreur la méthode n'est pas prise en charge.");
             }
-
-            curl_easy_setopt(lCurl, CURLOPT_HTTPPOST, 1L);
-            curl_easy_setopt(lCurl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-            curl_easy_setopt(lCurl, CURLOPT_ERRORBUFFER, lError);
-            curl_easy_setopt(lCurl, CURLOPT_URL, lFullUrl.c_str());
-            curl_easy_setopt(lCurl, CURLOPT_FOLLOWLOCATION, 1L);
-            curl_easy_setopt(lCurl, CURLOPT_WRITEFUNCTION, onWrite);
-            curl_easy_setopt(lCurl, CURLOPT_WRITEDATA, &lBuffer);
-            curl_easy_setopt (lCurl, CURLOPT_VERBOSE, 0L);
-            curl_easy_setopt(lCurl, CURLOPT_POSTFIELDS, m_contents.c_str());
-            curl_easy_setopt(lCurl, CURLOPT_POSTFIELDSIZE, m_contents.size());
-
-            addHeader("Content-Type", m_contentType);
-
-            struct curl_slist* lHeaders = NULL;
-            lHeaders = m_headers.toHeaders(lCurl, lHeaders);
-            curl_easy_setopt(lCurl, CURLOPT_HTTPHEADER, lHeaders);
-
-            CURLcode lCurlOk = curl_easy_perform(lCurl);
-
-            if(lCurlOk != CURLE_OK) {
-                m_logs.addError(GFORMAT("Erreur lors de la connexion au serveur.\n%s", curl_easy_strerror(lCurlOk)));
-            }
-
-            curl_easy_getinfo(lCurl, CURLINFO_RESPONSE_CODE, &m_responseCode);
-            curl_easy_cleanup(lCurl);
-            curl_slist_free_all(lHeaders);
-
-            _response = lBuffer;
         }
+        // https
+        else if(lProtocol == "https") {
+            // post
+            if(lMethod == "POST") {
+                if(lHasCertificate) {
+                    curl_easy_setopt(lCurl, CURLOPT_SSL_VERIFYPEER, 1L);
+                    curl_easy_setopt(lCurl, CURLOPT_SSL_VERIFYHOST, 1L);
+                    curl_easy_setopt(lCurl, CURLOPT_CAINFO, m_certificateFile.c_str());
+                }
+
+                if(lMethodAuth == "userpass") {
+                    curl_easy_setopt(lCurl, CURLOPT_USERNAME, m_apiUsername.c_str());
+                    curl_easy_setopt(lCurl, CURLOPT_PASSWORD, m_apiPassword.c_str());
+                }
+                else if(lMethodAuth == "bearer") {
+                    curl_easy_setopt(lCurl, CURLOPT_XOAUTH2_BEARER, lBearer.c_str());
+                }
+
+                curl_easy_setopt(lCurl, CURLOPT_HTTPPOST, 1L);
+                curl_easy_setopt(lCurl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+                curl_easy_setopt(lCurl, CURLOPT_ERRORBUFFER, lError);
+                curl_easy_setopt(lCurl, CURLOPT_URL, lFullUrl.c_str());
+                curl_easy_setopt(lCurl, CURLOPT_FOLLOWLOCATION, 1L);
+                curl_easy_setopt(lCurl, CURLOPT_WRITEFUNCTION, onWrite);
+                curl_easy_setopt(lCurl, CURLOPT_WRITEDATA, &lBuffer);
+                curl_easy_setopt (lCurl, CURLOPT_VERBOSE, 0L);
+                curl_easy_setopt(lCurl, CURLOPT_POSTFIELDS, m_contents.c_str());
+                curl_easy_setopt(lCurl, CURLOPT_POSTFIELDSIZE, m_contents.size());
+
+                addHeader("Content-Type", m_contentType);
+
+                struct curl_slist* lHeaders = NULL;
+                lHeaders = m_headers.toHeaders(lCurl, lHeaders);
+                curl_easy_setopt(lCurl, CURLOPT_HTTPHEADER, lHeaders);
+
+                CURLcode lCurlOk = curl_easy_perform(lCurl);
+
+                if(lCurlOk != CURLE_OK) {
+                    m_logs.addError(GFORMAT("Erreur lors de la connexion au serveur.\n%s", curl_easy_strerror(lCurlOk)));
+                }
+
+                curl_easy_getinfo(lCurl, CURLINFO_RESPONSE_CODE, &m_responseCode);
+                curl_easy_cleanup(lCurl);
+                curl_slist_free_all(lHeaders);
+
+                _response = lBuffer;
+            }
+            // methode inconnue
+            else {
+                m_logs.addError("Erreur la méthode n'est pas prise en charge.");
+            }
+        }
+        // protocole inconnu
         else {
-            m_logs.addError("Erreur la méthode n'est pas prise en charge.");
+            m_logs.addError("Erreur le protocole n'est pas géré.");
         }
     }
+    // module non initialise
     else {
         m_logs.addError("Erreur le module n'a pas été initialisé.");
     }

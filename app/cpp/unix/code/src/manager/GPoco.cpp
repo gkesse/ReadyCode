@@ -284,68 +284,92 @@ bool GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
         m_headers += GFORMAT("%s: %s\n", lKey.c_str(), lValue.c_str());
     }
 
-    // POST
-    if(_request.getMethod() == "POST") {
-        if(_request.getURI() == "/readydev/com/v1") {
-            if(!_request.getContentType().empty()) {
-                m_contentType = _request.getContentType();
-                if(m_contentType == "application/xml") {
-                    if(_request.hasContentLength() && _request.getContentLength() != 0) {
-                        std::istream& lInput = _request.stream();
-                        std::string lRequest;
-                        Poco::StreamCopier::copyToString(lInput, lRequest, _request.getContentLength());
-                        m_request = lRequest;
+    // http
+    if(m_protocol == "http") {
+        // post
+        if(_request.getMethod() == "POST") {
+            m_logs.addLog("La requête a bien été exécutée [POST].");
+        }
+        // get
+        else if(_request.getMethod() == "GET") {
+            m_logs.addLog("La requête a bien été exécutée [GET].");
+        }
+        // method unknown
+        else {
+            m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+            m_logsTech.addError("Erreur la méthode n'est pas gérée.");
+        }
+    }
+    // https
+    else if(m_protocol == "https") {
+        // post
+        if(_request.getMethod() == "POST") {
+            if(_request.getURI() == "/readydev/com/v1") {
+                if(!_request.getContentType().empty()) {
+                    m_contentType = _request.getContentType();
+                    if(m_contentType == "application/xml") {
+                        if(_request.hasContentLength() && _request.getContentLength() != 0) {
+                            std::istream& lInput = _request.stream();
+                            std::string lRequest;
+                            Poco::StreamCopier::copyToString(lInput, lRequest, _request.getContentLength());
+                            m_request = lRequest;
 
-                        GXml lXml;
-                        if(lXml.loadXml(m_request)) {
-                            GManager lManager;
-                            lManager.deserialize(m_request);
-                            if(lManager.isValid()) {
-                                if(_request.secure()) {
-                                    m_logs.addLog("La requête a bien été exécutée.");
+                            GXml lXml;
+                            if(lXml.loadXml(m_request)) {
+                                GManager lManager;
+                                lManager.deserialize(m_request);
+                                if(lManager.isValid()) {
+                                    if(_request.secure()) {
+                                        m_logs.addLog("La requête a bien été exécutée.");
+                                    }
+                                    else {
+                                        m_logsTech.addError("Erreur la communication doit être sécurisée.");
+                                    }
                                 }
                                 else {
-                                    m_logsTech.addError("Erreur la communication doit être sécurisée.");
+                                    m_logsTech.addError("Erreur le format de la requête est incorrect.");
                                 }
                             }
                             else {
-                                m_logsTech.addError("Erreur le format de la requête est incorrect.");
+                                m_logsTech.addError("Erreur le format de la requête est invalide.");
                             }
+
                         }
                         else {
-                            m_logsTech.addError("Erreur le format de la requête est invalide.");
+                            m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+                            m_logsTech.addError("Erreur le contenu de la requête est obligatoire");
                         }
-
                     }
                     else {
                         m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
-                        m_logsTech.addError("Erreur le contenu de la requête est obligatoire");
+                        m_logsTech.addError("Erreur le type du contenu n'est pas pris en charge.");
                     }
                 }
                 else {
                     m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
-                    m_logsTech.addError("Erreur le type du contenu n'est pas pris en charge.");
+                    m_logsTech.addError("Erreur le type du contenu est obligatoire.");
                 }
             }
             else {
                 m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
-                m_logsTech.addError("Erreur le type du contenu est obligatoire.");
+                m_logsTech.addError("Erreur le verbe n'est pas pris en charge.");
             }
         }
+        // get
+        else if(_request.getMethod() == "GET") {
+            m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+            m_logsTech.addError("Erreur la méthode n'est pas prise en charge.");
+        }
+        // method unknown
         else {
             m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
-            m_logsTech.addError("Erreur le verbe n'est pas pris en charge.");
+            m_logsTech.addError("Erreur la méthode n'est pas prise en charge.");
         }
     }
-    // GET
-    else if(_request.getMethod() == "GET") {
-        m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
-        m_logsTech.addError("Erreur la méthode n'est pas prise en charge.");
-    }
-    // OTHERS
+    // protocol unknown
     else {
         m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
-        m_logsTech.addError("Erreur la méthode n'est pas prise en charge.");
+        m_logsTech.addError("Erreur le protocole n'est pas géré.");
     }
 
     if(lLogsTechOn) {
