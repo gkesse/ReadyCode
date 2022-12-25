@@ -28,6 +28,7 @@ void GPoco::initPoco() {
     m_responseXml.reset(new GCode);
     m_responseXml->createDoc();
 
+    m_protocol          = "https";
     m_module            = POCO_SERVER_HTTP;
     m_mode              = eGMode::MODE_NO_AUTHENTICATION;
     m_isTestEnv         = GEnv().isTestEnv();
@@ -261,6 +262,10 @@ int GPoco::getPort() const {
     return m_port;
 }
 //===============================================
+GString GPoco::getProtocol() const {
+    return m_protocol;
+}
+//===============================================
 GString GPoco::getStartMessage() const {
     return m_startMessage;
 }
@@ -316,7 +321,7 @@ bool GPoco::doGet(const GString& _url, GString& _response) {
 bool GPoco::runServer(int _argc, char** _argv) {
     GPocoServerApp lServerApp(this);
     lServerApp.run(_argc, _argv);
-    return true;
+    return !m_logs.hasErrors();
 }
 //===============================================
 bool GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
@@ -462,7 +467,7 @@ bool GPoco::addResponse(const GString& _data) {
 }
 //===============================================
 bool GPoco::doResponse() {
-    if(m_contentType == "application/type") {
+    if(m_contentType == "application/xml") {
         m_response = m_responseXml->toString();
     }
     return !m_logs.hasErrors();

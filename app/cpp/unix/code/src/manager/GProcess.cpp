@@ -34,6 +34,7 @@ void GProcess::runTest(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GTest lObj;
     lObj.run(_argc, _argv);
+    m_logs.add(lObj.m_logs);
 }
 //===============================================
 void GProcess::runServer(int _argc, char** _argv) {

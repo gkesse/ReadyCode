@@ -37,6 +37,7 @@ public:
     void setMode(eGMode _mode);
 
     int getPort() const;
+    GString getProtocol() const;
     GString getStartMessage() const;
     GString getStopMessage() const;
     eGModule getModule() const;
@@ -64,6 +65,7 @@ private:
     void onRequestHttps(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
 
 private:
+    GString m_protocol;
     eGModule m_module;
     bool m_isTestEnv;
     eGMode m_mode;
@@ -95,8 +97,10 @@ private:
     int m_portTest;
     Poco::Net::HTTPResponse::HTTPStatus m_status;
 
-    GLog m_logs;
     GLog m_logsTech;
+
+public:
+    GLog m_logs;
 };
 //==============================================
 #endif

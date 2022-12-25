@@ -38,6 +38,7 @@ void GTest::runPoco(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GPocoTest lObj;
     lObj.run(_argc, _argv);
+    m_logs.add(lObj.m_logs);
 }
 //===============================================
 void GTest::runCurl(int _argc, char** _argv) {

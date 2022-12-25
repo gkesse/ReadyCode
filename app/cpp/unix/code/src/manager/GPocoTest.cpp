@@ -29,6 +29,9 @@ void GPocoTest::run(int _argc, char** _argv) {
     else if(lKey == "server/https/cert") {
         runServerHttpsCert(_argc, _argv);
     }
+    else if(lKey == "server") {
+        runServer(_argc, _argv);
+    }
     else {
         runDefault(_argc, _argv);
     }
@@ -74,5 +77,12 @@ void GPocoTest::runServerHttpsCert(int _argc, char** _argv) {
     lPoco.setModule(GPoco::POCO_SERVER_HTTPS);
     lPoco.setMode(GPoco::MODE_CERTIFICATE);
     lPoco.runServer(_argc, _argv);
+}
+//===============================================
+void GPocoTest::runServer(int _argc, char** _argv) {
+    GLOGT(eGFUN, "");
+    GPoco lPoco;
+    lPoco.runServer(_argc, _argv);
+    m_logs.add(lPoco.m_logs);
 }
 //===============================================

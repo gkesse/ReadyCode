@@ -183,8 +183,8 @@ void GLog::showErrors() {
     if(!m_isDebug) return;
     if(!hasErrors()) return;
     GString lErrors = "";
-    for(int i = 0; i < (int)m_map.size(); i++) {
-        GLog* lLog = m_map.at(i);
+    for(int i = 0; i < size(); i++) {
+        GLog* lLog = at(i);
         if(lLog->m_type == "error") {
             if(i != 0) lErrors += "\n";
             lErrors += lLog->m_msg;
@@ -194,8 +194,8 @@ void GLog::showErrors() {
 }
 //===============================================
 bool GLog::hasErrors() {
-    for(int i = 0; i < (int)m_map.size(); i++) {
-        GLog* lLog = m_map.at(i);
+    for(int i = 0; i < size(); i++) {
+        GLog* lLog = at(i);
         if(lLog->m_type == "error") {
             return true;
         }
@@ -204,8 +204,8 @@ bool GLog::hasErrors() {
 }
 //===============================================
 bool GLog::hasLogs() {
-    for(int i = 0; i < (int)m_map.size(); i++) {
-        GLog* lLog = m_map.at(i);
+    for(int i = 0; i < size(); i++) {
+        GLog* lLog = at(i);
         if(lLog->m_type == "log") {
             return true;
         }
@@ -214,8 +214,8 @@ bool GLog::hasLogs() {
 }
 //===============================================
 void GLog::clearErrors() {
-    for(int i = 0; i < (int)m_map.size(); i++) {
-        GLog* lLog = m_map.at(i);
+    for(int i = 0; i < size(); i++) {
+        GLog* lLog = at(i);
         if(lLog->m_type == "error") {
             delete lLog;
             m_map.erase(m_map.begin() + i);
@@ -224,8 +224,8 @@ void GLog::clearErrors() {
 }
 //===============================================
 void GLog::clearLogs() {
-    for(int i = 0; i < (int)m_map.size(); i++) {
-        GLog* lLog = m_map.at(i);
+    for(int i = 0; i < size(); i++) {
+        GLog* lLog = at(i);
         if(lLog->m_type == "log") {
             delete lLog;
             m_map.erase(m_map.begin() + i);
@@ -234,8 +234,8 @@ void GLog::clearLogs() {
 }
 //===============================================
 void GLog::clearMap() {
-    for(int i = 0; i < (int)m_map.size(); i++) {
-        GLog* lObj = m_map.at(i);
+    for(int i = 0; i < size(); i++) {
+        GLog* lObj = at(i);
         delete lObj;
     }
     m_map.clear();

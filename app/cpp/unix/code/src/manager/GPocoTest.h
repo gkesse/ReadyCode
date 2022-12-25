@@ -15,6 +15,10 @@ public:
     void runServerHttps(int _argc, char** _argv);
     void runServerHttpsUserPass(int _argc, char** _argv);
     void runServerHttpsCert(int _argc, char** _argv);
+    void runServer(int _argc, char** _argv);
+
+public:
+    GLog m_logs;
 };
 //==============================================
 #endif
