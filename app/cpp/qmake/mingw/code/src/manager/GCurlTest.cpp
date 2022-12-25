@@ -33,7 +33,7 @@ void GCurlTest::runCall(int _argc, char** _argv) {
     GString lResponse;
     lCurl.addForm("name", "Gerard KESSE");
     lCurl.addForm("project", "cURL");
-    lCurl.setContentType("application/json");
+    lCurl.setContentType("application/xml");
     lCurl.doCall(lResponse);
     lResponse.print();
 }

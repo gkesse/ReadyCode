@@ -322,7 +322,7 @@ bool GPoco::onResponse(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSe
     GLOGT(eGMSG, "[RECEPTION] : (%d)\n%s\n", lRequest.size(), lRequest.c_str());
     GLOGT(eGMSG, "[EMISSION] : (%d)\n%s\n", m_response.size(), m_response.c_str());
 
-    if(!m_hasLogsTech) {
+    if(m_logsTech.hasErrors() && !m_hasLogsTech) {
         m_response = "";
     }
 
