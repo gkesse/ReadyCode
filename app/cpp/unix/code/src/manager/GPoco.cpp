@@ -30,6 +30,7 @@ void GPoco::initPoco() {
 
     m_protocol          = "http";
     m_hasCertificate    = false;
+    m_hasLogsTech       = false;
 
     m_isTestEnv         = GEnv().isTestEnv();
 
@@ -470,6 +471,10 @@ bool GPoco::onResponse(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSe
 
     GLOGT(eGMSG, "[RECEPTION] : (%d)\n%s\n", lRequest.size(), lRequest.c_str());
     GLOGT(eGMSG, "[EMISSION] : (%d)\n%s\n", m_response.size(), m_response.c_str());
+
+    if(!m_hasLogsTech) {
+        m_response = "";
+    }
 
     _response.setStatus(m_status);
     _response.setContentLength(m_response.size());

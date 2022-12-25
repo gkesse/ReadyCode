@@ -45,6 +45,7 @@ private:
 private:
     GString m_protocol;
     bool m_hasCertificate;
+    bool m_hasLogsTech;
 
     bool m_isTestEnv;
 
