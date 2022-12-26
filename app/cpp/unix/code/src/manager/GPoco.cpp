@@ -363,7 +363,7 @@ bool GPoco::onHttpsGetNoCertificateNoUsernamePassword(Poco::Net::HTTPServerReque
 bool GPoco::initSSL() {
     Poco::Net::Context::Ptr lContext = NULL;
 
-    Poco::Net::Context::Ptr ptrContext = new Poco::Net::Context(
+    lContext = new Poco::Net::Context(
             Poco::Net::Context::SERVER_USE
             , m_privateKeyFile.c_str()
             , m_certificateFile.c_str()
