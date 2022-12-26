@@ -363,32 +363,16 @@ bool GPoco::onHttpsGetNoCertificateNoUsernamePassword(Poco::Net::HTTPServerReque
 bool GPoco::initSSL() {
     Poco::Net::Context::Ptr lContext = NULL;
 
-    // https : certificate
-    if(!m_hasCertificate) {
-        lContext = new Poco::Net::Context(
-                Poco::Net::Context::SERVER_USE
-                , ""
-                , ""
-                , ""
-                , Poco::Net::Context::VERIFY_NONE
-                , 9
-                , false
-                , "ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH"
-        );
-    }
-    // https : no certificate
-    else {
-        Poco::Net::Context::Ptr ptrContext = new Poco::Net::Context(
-                Poco::Net::Context::SERVER_USE
-                , m_privateKeyFile.c_str()
-                , m_certificateFile.c_str()
-                , ""
-                , Poco::Net::Context::VERIFY_RELAXED
-                , 9
-                , false
-                , "ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH"
-        );
-    }
+    Poco::Net::Context::Ptr ptrContext = new Poco::Net::Context(
+            Poco::Net::Context::SERVER_USE
+            , m_privateKeyFile.c_str()
+            , m_certificateFile.c_str()
+            , ""
+            , Poco::Net::Context::VERIFY_RELAXED
+            , 9
+            , false
+            , "ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH"
+    );
 
     if(lContext) {
         Poco::SharedPtr<Poco::Net::InvalidCertificateHandler> lCertificate = new Poco::Net::AcceptCertificateHandler(true);
