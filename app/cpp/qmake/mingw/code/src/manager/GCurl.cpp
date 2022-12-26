@@ -26,11 +26,11 @@ void GCurl::initCurl() {
     m_verbPost          = "readydev/com/v1";
     m_verbGet           = "readydev/api/v1";
     m_verb              = (m_method == "get" ? m_verbGet : m_verbPost);
-    m_methodAuth        = "bearer";
+    m_methodAuth        = "no_authentication";
     m_apiBearer         = "1ab9cb22ba269a7";
     m_contentType       = "application/xml";
-    m_hasCertificate    = true;
-    m_hasUserPass       = false;
+    m_hasCertificate    = false;
+    m_hasUserPass       = true;
     m_isFullUrl         = false;
 
     m_isTestEnv         = GEnv().isTestEnv();
@@ -93,6 +93,7 @@ bool GCurl::doCall(GString& _response) {
         if(m_protocol == "http") {
             // http : post
             if(m_method == "post") {
+                // http : post : username password
                 if(m_hasUserPass) {
                     curl_easy_setopt(lCurl, CURLOPT_USERNAME, m_apiUsername.c_str());
                     curl_easy_setopt(lCurl, CURLOPT_PASSWORD, m_apiPassword.c_str());
@@ -129,6 +130,7 @@ bool GCurl::doCall(GString& _response) {
             }
             // http : get
             else if(m_method == "get") {
+                // http : get : username password
                 if(m_hasUserPass) {
                     curl_easy_setopt(lCurl, CURLOPT_USERNAME, m_apiUsername.c_str());
                     curl_easy_setopt(lCurl, CURLOPT_PASSWORD, m_apiPassword.c_str());
@@ -170,17 +172,21 @@ bool GCurl::doCall(GString& _response) {
         else if(m_protocol == "https") {
             // https : post
             if(m_method == "POST") {
+                // https : post : certificate
                 if(m_hasCertificate) {
                     curl_easy_setopt(lCurl, CURLOPT_SSL_VERIFYPEER, 1L);
                     curl_easy_setopt(lCurl, CURLOPT_SSL_VERIFYHOST, 1L);
                     curl_easy_setopt(lCurl, CURLOPT_CAINFO, m_certificateFile.c_str());
                 }
 
+                // https : post : username password
                 if(m_methodAuth == "userpass") {
                     curl_easy_setopt(lCurl, CURLOPT_USERNAME, m_apiUsername.c_str());
                     curl_easy_setopt(lCurl, CURLOPT_PASSWORD, m_apiPassword.c_str());
                 }
+                // https : post : bearer
                 else if(m_methodAuth == "bearer") {
+                    curl_easy_setopt(lCurl, CURLOPT_HTTPAUTH, CURLAUTH_BEARER);
                     curl_easy_setopt(lCurl, CURLOPT_XOAUTH2_BEARER, m_apiBearer.c_str());
                 }
 
@@ -213,21 +219,22 @@ bool GCurl::doCall(GString& _response) {
 
                 _response = lBuffer;
             }
-            // https : methode inconnue
+            // https : unknown method
             else {
                 m_logs.addError("Erreur la méthode n'est pas prise en charge.");
             }
         }
-        // protocole inconnu
+        // unknown protocol
         else {
             m_logs.addError("Erreur le protocole n'est pas géré.");
         }
     }
-    // module non initialise
+    // unknown module
     else {
         m_logs.addError("Erreur le module n'a pas été initialisé.");
     }
 
+    // application/xml
     if(m_contentType == "application/xml") {
         GCode lResponseDom;
         lResponseDom.createDoc();

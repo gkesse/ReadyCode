@@ -13,6 +13,7 @@ GPocoServerApp::~GPocoServerApp() {
 //===============================================
 int GPocoServerApp::main(const std::vector<std::string>& _args) {
     GString lProtocol = m_poco->getProtocol();
+    // http
     if(lProtocol == "http") {
         Poco::Net::HTTPServer lServer(new GPocoRequestFactory(m_poco), Poco::Net::ServerSocket(m_poco->getPort()), new Poco::Net::HTTPServerParams);
         std::cout << std::endl << m_poco->getStartMessage() << std::endl;
@@ -23,6 +24,7 @@ int GPocoServerApp::main(const std::vector<std::string>& _args) {
         lServer.stop();
 
     }
+    // https
     else if(lProtocol == "https") {
         m_poco->initSSL();
         Poco::Net::SecureServerSocket lSocket(m_poco->getPort());
@@ -34,6 +36,7 @@ int GPocoServerApp::main(const std::vector<std::string>& _args) {
         std::cout << std::endl << m_poco->getStopMessage() << std::endl;
         lServer.stop();
     }
+    // unknown protocol
     else {
         m_logs.addError("Erreur le protocol n'est pas pris en charge.");
     }
