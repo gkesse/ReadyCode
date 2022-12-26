@@ -16,11 +16,13 @@ GCurl::~GCurl() {
 //===============================================
 void GCurl::initCurl() {
     m_protocol          = "https";
-    m_method            = "post";
+    m_method            = "get";
     m_hasCertificate    = false;
     m_hasUserPass       = false;
-    m_isFullUrl         = false;
+    m_isFullUrl         = true;
 
+    m_fullUrlHttp       = "http://readydev.ovh";
+    m_fullUrlHttps      = "https://readydev.ovh";
     m_fullUrlHttp       = "http://readydev.ovh:9071/readydev/com/v1";
     m_fullUrlHttps      = "https://readydev.ovh:9071/readydev/com/v1";
     m_fullUrl           = (m_protocol == "http" ? m_fullUrlHttp : m_fullUrlHttps);
@@ -138,6 +140,11 @@ bool GCurl::onHttpsPost(CURL* _curl, GString& _response) {
         curl_easy_setopt(_curl, CURLOPT_SSL_VERIFYHOST, 1L);
         curl_easy_setopt(_curl, CURLOPT_CAINFO, m_certificateFile.c_str());
     }
+    // https : post : no certificate
+    else {
+        curl_easy_setopt(_curl, CURLOPT_SSL_VERIFYPEER, 0L);
+        curl_easy_setopt(_curl, CURLOPT_SSL_VERIFYHOST, 0L);
+    }
 
     // https : post : username password
     if(m_methodAuth == "userpass") {
@@ -157,7 +164,7 @@ bool GCurl::onHttpsPost(CURL* _curl, GString& _response) {
     curl_easy_setopt(_curl, CURLOPT_FOLLOWLOCATION, 1L);
     curl_easy_setopt(_curl, CURLOPT_WRITEFUNCTION, onWrite);
     curl_easy_setopt(_curl, CURLOPT_WRITEDATA, &lBuffer);
-    curl_easy_setopt (_curl, CURLOPT_VERBOSE, 0L);
+    curl_easy_setopt(_curl, CURLOPT_VERBOSE, 0L);
     curl_easy_setopt(_curl, CURLOPT_POSTFIELDS, m_contents.c_str());
     curl_easy_setopt(_curl, CURLOPT_POSTFIELDSIZE, m_contents.size());
 
@@ -182,6 +189,58 @@ bool GCurl::onHttpsPost(CURL* _curl, GString& _response) {
 }
 //===============================================
 bool GCurl::onHttpsGet(CURL* _curl, GString& _response) {
+    char lError[CURL_ERROR_SIZE];
+    std::string lBuffer;
+
+    // https : get : certificate
+    if(m_hasCertificate) {
+        curl_easy_setopt(_curl, CURLOPT_SSL_VERIFYPEER, 1L);
+        curl_easy_setopt(_curl, CURLOPT_SSL_VERIFYHOST, 1L);
+        curl_easy_setopt(_curl, CURLOPT_CAINFO, m_certificateFile.c_str());
+    }
+    // https : get : no certificate
+    else {
+        curl_easy_setopt(_curl, CURLOPT_SSL_VERIFYPEER, 0L);
+        curl_easy_setopt(_curl, CURLOPT_SSL_VERIFYHOST, 0L);
+    }
+
+    // https : get : username password
+    if(m_methodAuth == "userpass") {
+        curl_easy_setopt(_curl, CURLOPT_USERNAME, m_apiUsername.c_str());
+        curl_easy_setopt(_curl, CURLOPT_PASSWORD, m_apiPassword.c_str());
+    }
+    // https : get : bearer
+    else if(m_methodAuth == "bearer") {
+        curl_easy_setopt(_curl, CURLOPT_HTTPAUTH, CURLAUTH_BEARER);
+        curl_easy_setopt(_curl, CURLOPT_XOAUTH2_BEARER, m_apiBearer.c_str());
+    }
+
+    curl_easy_setopt(_curl, CURLOPT_HTTPGET, 1L);
+    curl_easy_setopt(_curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+    curl_easy_setopt(_curl, CURLOPT_ERRORBUFFER, lError);
+    curl_easy_setopt(_curl, CURLOPT_URL, m_fullUrl.c_str());
+    curl_easy_setopt(_curl, CURLOPT_FOLLOWLOCATION, 1L);
+    curl_easy_setopt(_curl, CURLOPT_WRITEFUNCTION, onWrite);
+    curl_easy_setopt(_curl, CURLOPT_WRITEDATA, &lBuffer);
+    curl_easy_setopt (_curl, CURLOPT_VERBOSE, 0L);
+
+    addHeader("Content-Type", m_contentType);
+
+    struct curl_slist* lHeaders = NULL;
+    lHeaders = m_headers.toHeaders(_curl, lHeaders);
+    curl_easy_setopt(_curl, CURLOPT_HTTPHEADER, lHeaders);
+
+    CURLcode lCurlOk = curl_easy_perform(_curl);
+
+    if(lCurlOk != CURLE_OK) {
+        m_logs.addError(GFORMAT("Erreur lors de la connexion au serveur.\n%s", curl_easy_strerror(lCurlOk)));
+    }
+
+    curl_easy_getinfo(_curl, CURLINFO_RESPONSE_CODE, &m_responseCode);
+    curl_easy_cleanup(_curl);
+    curl_slist_free_all(lHeaders);
+
+    _response = lBuffer;
     return !m_logs.hasErrors();
 }
 //===============================================
@@ -219,8 +278,6 @@ void GCurl::addContent(const GString& _content) {
 //===============================================
 bool GCurl::doCall(GString& _response) {
     CURL* lCurl = curl_easy_init();
-    char lError[CURL_ERROR_SIZE];
-    std::string lBuffer;
 
     if(!m_isFullUrl) {
         m_fullUrl = m_serverUrl + "/" + m_verb;
@@ -245,8 +302,12 @@ bool GCurl::doCall(GString& _response) {
         // https
         else if(m_protocol == "https") {
             // https : post
-            if(m_method == "POST") {
+            if(m_method == "post") {
                 onHttpsPost(lCurl, _response);
+            }
+            // https : get
+            else if(m_method == "get") {
+                onHttpsGet(lCurl, _response);
             }
             // https : unknown method
             else {
