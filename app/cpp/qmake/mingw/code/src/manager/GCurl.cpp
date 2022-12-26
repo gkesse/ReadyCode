@@ -16,7 +16,7 @@ GCurl::~GCurl() {
 //===============================================
 void GCurl::initCurl() {
     m_protocol          = "http";
-    m_method            = "get";
+    m_method            = "post";
     m_fullUrlHttp       = "http://readydev.ovh:9071/readydev/com/v1";
     m_fullUrlHttps      = "https://readydev.ovh:9071/readydev/com/v1";
     m_fullUrl           = (m_protocol == "http" ? m_fullUrlHttp : m_fullUrlHttps);
@@ -128,7 +128,7 @@ bool GCurl::doCall(GString& _response) {
                 _response = lBuffer;
             }
             // http : get
-            if(m_method == "get") {
+            else if(m_method == "get") {
                 if(m_hasUserPass) {
                     curl_easy_setopt(lCurl, CURLOPT_USERNAME, m_apiUsername.c_str());
                     curl_easy_setopt(lCurl, CURLOPT_PASSWORD, m_apiPassword.c_str());
@@ -161,7 +161,7 @@ bool GCurl::doCall(GString& _response) {
 
                 _response = lBuffer;
             }
-            // http : methode inconnue
+            // http : unknown method
             else {
                 m_logs.addError("Erreur la méthode n'est pas prise en charge.");
             }

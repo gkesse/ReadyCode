@@ -143,17 +143,7 @@ bool GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
     if(m_protocol == "http") {
         // http : post
         if(_request.getMethod() == "POST") {
-            if(!_request.getContentType().empty()) {
-                m_logs.addLog("La requête a bien été exécutée.");
-            }
-            else {
-                m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
-                m_logsTech.addError("Erreur le type du contenu est obligatoire.");
-            }
-        }
-        // http : get
-        else if(_request.getMethod() == "GET") {
-            // http : get : username password
+            // http : post : username password
             if(m_hasUserPass) {
                 if(_request.hasCredentials()) {
                     Poco::Net::HTTPBasicCredentials lCredentials(_request);
@@ -166,9 +156,11 @@ bool GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
                             m_contentType = _request.getContentType();
                             // http : get : username password : application/xml
                             if(m_contentType == "application/xml") {
-                                if(_request.getURI() == "/readydev/api/v1") {
+                                // http : post : username password : application/xml : /readydev/com/v1
+                                if(_request.getURI() == "/readydev/com/v1") {
                                     m_logs.addLog("La requête a bien été exécutée.");
                                 }
+                                // http : post : username password : application/xml : unknown verb
                                 else {
                                     m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
                                     m_logsTech.addError("Erreur le verbe n'est pas géré.");
@@ -186,6 +178,85 @@ bool GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
                             m_logsTech.addError("Erreur le type du contenu est obligatoire.");
                         }
                     }
+                    // http : post : unknown username password
+                    else {
+                        m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+                        m_logsTech.addError("Erreur les identifiants sont incorrects.");
+                    }
+                }
+                // http : post : empty username password
+                else {
+                    m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+                    m_logsTech.addError("Erreur les identifiants sont obligatoires.");
+                }
+            }
+            // http : post : no username password
+            else {
+                if(!_request.getContentType().empty()) {
+                    m_contentType = _request.getContentType();
+                    // http : post : no username password : application/xml
+                    if(m_contentType == "application/xml") {
+                        // http : post : no username password : application/xml : /readydev/com/v1
+                        if(_request.getURI() == "/readydev/com/v1") {
+                            m_logs.addLog("La requête a bien été exécutée.");
+                        }
+                        // http : post : no username password : application/xml : unknown verb
+                        else {
+                            m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+                            m_logsTech.addError("Erreur le verbe n'est pas géré.");
+                        }
+                    }
+                    // http : get : no username password : unknown content type
+                    else {
+                        m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+                        m_logsTech.addError("Erreur le type du contenu n'est pas géré.");
+                    }
+                }
+                // http : get : no username password : empty content type
+                else {
+                    m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+                    m_logsTech.addError("Erreur le type du contenu est obligatoire.");
+                }
+            }
+        }
+        // http : get
+        else if(_request.getMethod() == "GET") {
+            // http : get : username password
+            if(m_hasUserPass) {
+                if(_request.hasCredentials()) {
+                    Poco::Net::HTTPBasicCredentials lCredentials(_request);
+                    GString lUsername = lCredentials.getUsername();
+                    GString lPassword = lCredentials.getPassword();
+                    bool lUserPassOn = (lUsername == m_apiUsername)
+                            && (lPassword == m_apiPassword);
+                    if(lUserPassOn) {
+                        if(!_request.getContentType().empty()) {
+                            m_contentType = _request.getContentType();
+                            // http : get : username password : application/xml
+                            if(m_contentType == "application/xml") {
+                                // http : get : username password : application/xml : /readydev/api/v1
+                                if(_request.getURI() == "/readydev/api/v1") {
+                                    m_logs.addLog("La requête a bien été exécutée.");
+                                }
+                                // http : get : username password : application/xml : unknown verb
+                                else {
+                                    m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+                                    m_logsTech.addError("Erreur le verbe n'est pas géré.");
+                                }
+                            }
+                            // http : get : username password : unknown application
+                            else {
+                                m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+                                m_logsTech.addError("Erreur le type du contenu n'est pas géré.");
+                            }
+                        }
+                        // http : get : username password : empty application
+                        else {
+                            m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+                            m_logsTech.addError("Erreur le type du contenu est obligatoire.");
+                        }
+                    }
+                    // http : get : unknown username password
                     else {
                         m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
                         m_logsTech.addError("Erreur les identifiants sont incorrects.");
@@ -203,9 +274,11 @@ bool GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
                     m_contentType = _request.getContentType();
                     // http : get : no username password : application/xml
                     if(m_contentType == "application/xml") {
+                        // http : get : no username password : application/xml : /readydev/api/v1
                         if(_request.getURI() == "/readydev/api/v1") {
                             m_logs.addLog("La requête a bien été exécutée.");
                         }
+                        // http : get : no username password : application/xml : unknown verb
                         else {
                             m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
                             m_logsTech.addError("Erreur le verbe n'est pas géré.");
