@@ -45,6 +45,7 @@ void GPoco::initPoco() {
 
     m_privateKeyFile    = GAPP->getData("poco", "private_key_file");
     m_certificateFile   = GAPP->getData("poco", "certificate_file");
+    m_cacertFile        = GAPP->getData("poco", "cacert_file");
 }
 //===============================================
 bool GPoco::onHttpPostUsernamePassword(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
@@ -365,14 +366,17 @@ bool GPoco::initSSL() {
             Poco::Net::Context::SERVER_USE
             , m_privateKeyFile.c_str()
             , m_certificateFile.c_str()
-            , m_certificateFile.c_str()
+            , m_cacertFile.c_str()
             , Poco::Net::Context::VERIFY_RELAXED
             , 9
             , false
             , "ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH"
     );
 
-    Poco::Net::SSLManager::instance().initializeServer(NULL, NULL, lContext);
+    Poco::SharedPtr<Poco::Net::InvalidCertificateHandler> lCertificate = new Poco::Net::AcceptCertificateHandler(true);
+    Poco::SharedPtr<Poco::Net::PrivateKeyPassphraseHandler> lPrivateKeyPassphraseHandler;
+    lPrivateKeyPassphraseHandler = new Poco::Net::KeyConsoleHandler(true);
+    Poco::Net::SSLManager::instance().initializeServer(lPrivateKeyPassphraseHandler, lCertificate, lContext);
 
     return !m_logs.hasErrors();
 }

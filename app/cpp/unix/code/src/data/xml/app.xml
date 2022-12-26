@@ -34,8 +34,9 @@
             <stop_message>Arrêt du serveur...</stop_message>
             <charset>UTF-8</charset>
             <content_type>application/xml</content_type>
-            <certificate_file>/etc/letsencrypt/live/readydev.ovh/fullchain.pem</certificate_file>
-            <private_key_file>/etc/letsencrypt/live/readydev.ovh/privkey.pem</private_key_file>
+            <certificate_file>/home/gkesse/.readydev/data/certificates/fullchain.pem</certificate_file>
+            <private_key_file>/home/gkesse/.readydev/data/certificates/privkey.pem</private_key_file>
+            <cacert_file>/home/gkesse/.readydev/data/certificates/cacert.pem</cacert_file>
         </data>
         <!-- ============================================ -->
         <!-- mysql -->
