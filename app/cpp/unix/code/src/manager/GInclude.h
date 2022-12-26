@@ -53,6 +53,7 @@ typedef unsigned char uchar;
 #include <Poco/Net/HTTPResponse.h>
 #include <Poco/Net/HTTPServer.h>
 #include <Poco/Net/HTTPServerRequest.h>
+#include <Poco/Net/HTTPServerRequestImpl.h>
 #include <Poco/Net/HTTPServerResponse.h>
 #include <Poco/Net/ICMPClient.h>
 #include <Poco/Net/IPAddress.h>
@@ -60,6 +61,7 @@ typedef unsigned char uchar;
 #include <Poco/Net/MailMessage.h>
 #include <Poco/Net/MailRecipient.h>
 #include <Poco/Net/SecureSMTPClientSession.h>
+#include <Poco/Net/SecureStreamSocket.h>
 #include <Poco/Net/SSLManager.h>
 #include <Poco/Net/StringPartSource.h>
 #include <Poco/Net/TCPServer.h>
@@ -72,6 +74,7 @@ typedef unsigned char uchar;
 #include <Poco/Net/SocketNotification.h>
 #include <Poco/Net/StreamSocket.h>
 #include <Poco/Net/SocketStream.h>
+#include <Poco/Net/X509Certificate.h>
 //
 #include <Poco/Util/Application.h>
 #include <Poco/Util/ServerApplication.h>
