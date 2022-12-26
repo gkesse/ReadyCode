@@ -198,7 +198,7 @@ bool GPoco::onHttpGetUsernamePassword(Poco::Net::HTTPServerRequest& _request, Po
         GString lUsername = lCredentials.getUsername();
         GString lPassword = lCredentials.getPassword();
         bool lUserPassOn = (lUsername == m_apiUsername)
-                                        && (lPassword == m_apiPassword);
+                                                && (lPassword == m_apiPassword);
         if(lUserPassOn) {
             if(!_request.getContentType().empty()) {
                 m_contentType = _request.getContentType();
@@ -361,34 +361,16 @@ bool GPoco::onHttpsGetNoCertificateNoUsernamePassword(Poco::Net::HTTPServerReque
 }
 //===============================================
 bool GPoco::initSSL() {
-    Poco::Net::Context::Ptr lContext = NULL;
-
-    // https : certificate
-    if(m_hasCertificate) {
-        lContext = new Poco::Net::Context(
-                Poco::Net::Context::SERVER_USE
-                , m_privateKeyFile.c_str()
-                , m_certificateFile.c_str()
-                , ""
-                , Poco::Net::Context::VERIFY_ONCE
-                , 9
-                , false
-                , "ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH"
-        );
-    }
-    // https : no certificate
-    else {
-        lContext = new Poco::Net::Context(
-                Poco::Net::Context::SERVER_USE
-                , m_privateKeyFile.c_str()
-                , m_certificateFile.c_str()
-                , ""
-                , Poco::Net::Context::VERIFY_NONE
-                , 9
-                , false
-                , "ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH"
-        );
-    }
+    Poco::Net::Context::Ptr lContext = new Poco::Net::Context(
+            Poco::Net::Context::SERVER_USE
+            , m_privateKeyFile.c_str()
+            , m_certificateFile.c_str()
+            , ""
+            , Poco::Net::Context::VERIFY_RELAXED
+            , 9
+            , false
+            , "ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH"
+    );
 
     if(lContext) {
         Poco::SharedPtr<Poco::Net::InvalidCertificateHandler> lCertificate = new Poco::Net::AcceptCertificateHandler(true);
