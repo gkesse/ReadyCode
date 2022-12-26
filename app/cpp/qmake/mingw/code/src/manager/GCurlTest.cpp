@@ -31,9 +31,13 @@ void GCurlTest::runCall(int _argc, char** _argv) {
     GLOGT(eGFUN, "");
     GCurl lCurl;
     GString lResponse;
+    GCode lDom;
+    lDom.createDoc();
+    lDom.createRequest("module", "load_module");
     lCurl.addForm("name", "Gerard KESSE");
     lCurl.addForm("project", "cURL");
     lCurl.setContentType("application/xml");
+    lCurl.addContent(lDom.toString());
     lCurl.doCall(lResponse);
     lResponse.print();
 }

@@ -25,10 +25,10 @@ void GPoco::cleanModule() {
 }
 //===============================================
 void GPoco::initPoco() {
-    m_protocol          = "http";
+    m_protocol          = "https";
     m_hasCertificate    = false;
-    m_hasLogsTech       = false;
     m_hasUserPass       = true;
+    m_hasLogsTech       = false;
 
     m_isTestEnv         = GEnv().isTestEnv();
 
@@ -130,60 +130,60 @@ bool GPoco::onHttpPostUsernamePassword(Poco::Net::HTTPServerRequest& _request, P
 }
 //===============================================
 bool GPoco::onHttpPostNoUsernamePassword(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
-    // http : post : username password : content
+    // http : post : no username password : content
     if(_request.hasContentLength() && _request.getContentLength() != 0) {
         std::istream& lInput = _request.stream();
         std::string lRequest;
         Poco::StreamCopier::copyToString(lInput, lRequest, _request.getContentLength());
         m_request = lRequest;
 
-        // http : post : username password : /readydev/com/v1
+        // http : post : no username password : /readydev/com/v1
         if(_request.getURI() == "/readydev/com/v1") {
-            // http : post : username password : /readydev/com/v1 : type
+            // http : post : no username password : /readydev/com/v1 : type
             if(!_request.getContentType().empty()) {
                 m_contentType = _request.getContentType();
-                // http : post : username password : /readydev/com/v1 : application/xml
+                // http : post : no username password : /readydev/com/v1 : application/xml
                 if(m_contentType == "application/xml") {
                     GXml lXml;
-                    // http : post : username password : /readydev/com/v1 : application/xml
+                    // http : post : no username password : /readydev/com/v1 : application/xml
                     if(lXml.loadXml(m_request)) {
                         GManager lManager;
                         lManager.deserialize(m_request);
-                        // http : post : username password : /readydev/com/v1 : application/xml : request
+                        // http : post : no username password : /readydev/com/v1 : application/xml : request
                         if(lManager.isValid()) {
                             m_logs.addLog("La requête a bien été exécutée.");
                         }
-                        // http : post : username password : /readydev/com/v1 : application/xml : unknown request
+                        // http : post : no username password : /readydev/com/v1 : application/xml : unknown request
                         else {
                             m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
                             m_logsTech.addError("Erreur le format de la requête est incorrect.");
                         }
                     }
-                    // http : post : username password : /readydev/com/v1 : unknown type
+                    // http : post : no username password : /readydev/com/v1 : unknown type
                     else {
                         m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
                         m_logsTech.addError("Erreur le format de la requête est invalide.");
                     }
                 }
-                // http : post : username password : /readydev/com/v1 : unknown type
+                // http : post : no username password : /readydev/com/v1 : unknown type
                 else {
                     m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
                     m_logsTech.addError("Erreur le type du contenu n'est pas géré.");
                 }
             }
-            // http : post : username password : /readydev/com/v1 : no type
+            // http : post : no username password : /readydev/com/v1 : no type
             else {
                 m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
                 m_logsTech.addError("Erreur le type du contenu est obligatoire.");
             }
         }
-        // http : post : username password : content : unknown verb
+        // http : post : no username password : content : unknown verb
         else {
             m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
             m_logsTech.addError("Erreur le verbe n'est pas géré.");
         }
     }
-    // http : post : username password : no content
+    // http : post : no username password : no content
     else {
         m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
         m_logsTech.addError("Erreur le contenu de la requête est obligatoire");
@@ -270,6 +270,96 @@ bool GPoco::onHttpGetNoUsernamePassword(Poco::Net::HTTPServerRequest& _request, 
     return !m_logs.hasErrors();
 }
 //===============================================
+bool GPoco::onHttpsPostCertificateUsernamePassword(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
+    return !m_logs.hasErrors();
+}
+//===============================================
+bool GPoco::onHttpsPostCertificateNoUsernamePassword(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
+    return !m_logs.hasErrors();
+}
+//===============================================
+bool GPoco::onHttpsPostNoCertificateUsernamePassword(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
+    return !m_logs.hasErrors();
+}
+//===============================================
+bool GPoco::onHttpsPostNoCertificateNoUsernamePassword(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
+    // https : post : no username password : content
+    if(_request.hasContentLength() && _request.getContentLength() != 0) {
+        std::istream& lInput = _request.stream();
+        std::string lRequest;
+        Poco::StreamCopier::copyToString(lInput, lRequest, _request.getContentLength());
+        m_request = lRequest;
+
+        // https : post : no username password : /readydev/com/v1
+        if(_request.getURI() == "/readydev/com/v1") {
+            // https : post : username password : /readydev/com/v1 : type
+            if(!_request.getContentType().empty()) {
+                m_contentType = _request.getContentType();
+                // https : post : no username password : /readydev/com/v1 : application/xml
+                if(m_contentType == "application/xml") {
+                    GXml lXml;
+                    // https : post : no username password : /readydev/com/v1 : application/xml
+                    if(lXml.loadXml(m_request)) {
+                        GManager lManager;
+                        lManager.deserialize(m_request);
+                        // https : post : no username password : /readydev/com/v1 : application/xml : request
+                        if(lManager.isValid()) {
+                            m_logs.addLog("La requête a bien été exécutée.");
+                        }
+                        // https : post : no username password : /readydev/com/v1 : application/xml : unknown request
+                        else {
+                            m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+                            m_logsTech.addError("Erreur le format de la requête est incorrect.");
+                        }
+                    }
+                    // https : post : no username password : /readydev/com/v1 : unknown type
+                    else {
+                        m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+                        m_logsTech.addError("Erreur le format de la requête est invalide.");
+                    }
+                }
+                // https : post : no username password : /readydev/com/v1 : unknown type
+                else {
+                    m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+                    m_logsTech.addError("Erreur le type du contenu n'est pas géré.");
+                }
+            }
+            // https : post : no username password : /readydev/com/v1 : no type
+            else {
+                m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+                m_logsTech.addError("Erreur le type du contenu est obligatoire.");
+            }
+        }
+        // https : post : no username password : content : unknown verb
+        else {
+            m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+            m_logsTech.addError("Erreur le verbe n'est pas géré.");
+        }
+    }
+    // https : post : no username password : no content
+    else {
+        m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+        m_logsTech.addError("Erreur le contenu de la requête est obligatoire");
+    }
+    return !m_logs.hasErrors();
+}
+//===============================================
+bool GPoco::onHttpsGetCertificateUsernamePassword(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
+    return !m_logs.hasErrors();
+}
+//===============================================
+bool GPoco::onHttpsGetCertificateNoUsernamePassword(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
+    return !m_logs.hasErrors();
+}
+//===============================================
+bool GPoco::onHttpsGetNoCertificateUsernamePassword(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
+    return !m_logs.hasErrors();
+}
+//===============================================
+bool GPoco::onHttpsGetNoCertificateNoUsernamePassword(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
+    return !m_logs.hasErrors();
+}
+//===============================================
 bool GPoco::initSSL() {
     Poco::Net::Context::Ptr lContext = NULL;
 
@@ -316,8 +406,8 @@ bool GPoco::initSSL() {
 void GPoco::setPoco(const GPoco& _poco) {
     m_contentType       = _poco.m_contentType;
     m_hasCertificate    = _poco.m_hasCertificate;
-    m_hasLogsTech       = _poco.m_hasLogsTech;
     m_hasUserPass       = _poco.m_hasUserPass;
+    m_hasLogsTech       = _poco.m_hasLogsTech;
 }
 //===============================================
 void GPoco::setPoco(GPoco* _poco) {
@@ -402,74 +492,23 @@ bool GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
             if(m_hasCertificate) {
                 // https : post : certificate : username password
                 if(m_hasUserPass) {
-
+                    onHttpsPostCertificateUsernamePassword(_request, _response);
                 }
                 // https : post : certificate : no username password
                 else {
-
+                    onHttpsPostCertificateNoUsernamePassword(_request, _response);
                 }
             }
             // https : post : no certificate
             else {
                 // https : post : certificate : username password
                 if(m_hasUserPass) {
-
+                    onHttpsPostNoCertificateUsernamePassword(_request, _response);
                 }
                 // https : post : certificate : no username password
                 else {
-
+                    onHttpsPostNoCertificateNoUsernamePassword(_request, _response);
                 }
-            }
-
-            if(_request.getURI() == "/readydev/com/v1") {
-                if(!_request.getContentType().empty()) {
-                    m_contentType = _request.getContentType();
-                    if(m_contentType == "application/xml") {
-                        if(_request.hasContentLength() && _request.getContentLength() != 0) {
-                            std::istream& lInput = _request.stream();
-                            std::string lRequest;
-                            Poco::StreamCopier::copyToString(lInput, lRequest, _request.getContentLength());
-                            m_request = lRequest;
-
-                            GXml lXml;
-                            if(lXml.loadXml(m_request)) {
-                                GManager lManager;
-                                lManager.deserialize(m_request);
-                                if(lManager.isValid()) {
-                                    if(_request.secure()) {
-                                        m_logs.addLog("La requête a bien été exécutée.");
-                                    }
-                                    else {
-                                        m_logsTech.addError("Erreur la communication doit être sécurisée.");
-                                    }
-                                }
-                                else {
-                                    m_logsTech.addError("Erreur le format de la requête est incorrect.");
-                                }
-                            }
-                            else {
-                                m_logsTech.addError("Erreur le format de la requête est invalide.");
-                            }
-
-                        }
-                        else {
-                            m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
-                            m_logsTech.addError("Erreur le contenu de la requête est obligatoire");
-                        }
-                    }
-                    else {
-                        m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
-                        m_logsTech.addError("Erreur le type du contenu n'est pas géré.");
-                    }
-                }
-                else {
-                    m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
-                    m_logsTech.addError("Erreur le type du contenu est obligatoire.");
-                }
-            }
-            else {
-                m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
-                m_logsTech.addError("Erreur le verbe n'est pas géré.");
             }
         }
         // https : get
@@ -478,28 +517,24 @@ bool GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
             if(m_hasCertificate) {
                 // https : get : certificate : username password
                 if(m_hasUserPass) {
-
+                    onHttpsGetCertificateUsernamePassword(_request, _response);
                 }
                 // https : get : certificate : no username password
                 else {
-
+                    onHttpsGetCertificateNoUsernamePassword(_request, _response);
                 }
             }
             // https : get : no certificate
             else {
                 // https : get : certificate : username password
                 if(m_hasUserPass) {
-
+                    onHttpsGetNoCertificateUsernamePassword(_request, _response);
                 }
                 // https : get : certificate : no username password
                 else {
-
+                    onHttpsGetNoCertificateNoUsernamePassword(_request, _response);
                 }
             }
-
-
-            m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
-            m_logsTech.addError("Erreur la méthode n'est pas prise en charge.");
         }
         // https : unknown method
         else {

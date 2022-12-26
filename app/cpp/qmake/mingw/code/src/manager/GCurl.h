@@ -25,6 +25,10 @@ public:
 
 private:
     void initCurl();
+    bool onHttpPost(CURL* _curl, GString& _response);
+    bool onHttpGet(CURL* _curl, GString& _response);
+    bool onHttpsPost(CURL* _curl, GString& _response);
+    bool onHttpsGet(CURL* _curl, GString& _response);
     static int onWrite(char* _data, size_t _size, size_t _nmemb, std::string* _writerData);
 
 private:
