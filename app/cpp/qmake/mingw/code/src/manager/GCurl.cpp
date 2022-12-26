@@ -134,6 +134,17 @@ bool GCurl::onHttpsPost(CURL* _curl, GString& _response) {
     char lError[CURL_ERROR_SIZE];
     std::string lBuffer;
 
+    curl_easy_setopt(_curl, CURLOPT_HTTPPOST, 1L);
+    curl_easy_setopt(_curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_2_0);
+    curl_easy_setopt(_curl, CURLOPT_ERRORBUFFER, lError);
+    curl_easy_setopt(_curl, CURLOPT_URL, m_fullUrl.c_str());
+    curl_easy_setopt(_curl, CURLOPT_FOLLOWLOCATION, 1L);
+    curl_easy_setopt(_curl, CURLOPT_WRITEFUNCTION, onWrite);
+    curl_easy_setopt(_curl, CURLOPT_WRITEDATA, &lBuffer);
+    curl_easy_setopt(_curl, CURLOPT_VERBOSE, 0L);
+    curl_easy_setopt(_curl, CURLOPT_POSTFIELDS, m_contents.c_str());
+    curl_easy_setopt(_curl, CURLOPT_POSTFIELDSIZE, m_contents.size());
+
     // https : post : certificate
     if(m_hasCertificate) {
         curl_easy_setopt(_curl, CURLOPT_SSL_VERIFYPEER, 1L);
@@ -157,17 +168,6 @@ bool GCurl::onHttpsPost(CURL* _curl, GString& _response) {
         curl_easy_setopt(_curl, CURLOPT_HTTPAUTH, CURLAUTH_BEARER);
         curl_easy_setopt(_curl, CURLOPT_XOAUTH2_BEARER, m_apiBearer.c_str());
     }
-
-    curl_easy_setopt(_curl, CURLOPT_HTTPPOST, 1L);
-    curl_easy_setopt(_curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_2_0);
-    curl_easy_setopt(_curl, CURLOPT_ERRORBUFFER, lError);
-    curl_easy_setopt(_curl, CURLOPT_URL, m_fullUrl.c_str());
-    curl_easy_setopt(_curl, CURLOPT_FOLLOWLOCATION, 1L);
-    curl_easy_setopt(_curl, CURLOPT_WRITEFUNCTION, onWrite);
-    curl_easy_setopt(_curl, CURLOPT_WRITEDATA, &lBuffer);
-    curl_easy_setopt(_curl, CURLOPT_VERBOSE, 0L);
-    curl_easy_setopt(_curl, CURLOPT_POSTFIELDS, m_contents.c_str());
-    curl_easy_setopt(_curl, CURLOPT_POSTFIELDSIZE, m_contents.size());
 
     addHeader("Content-Type", m_contentType);
 
