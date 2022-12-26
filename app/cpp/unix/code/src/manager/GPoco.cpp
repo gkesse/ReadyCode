@@ -463,6 +463,7 @@ bool GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
         Poco::Net::SecureStreamSocket lSocket = static_cast<Poco::Net::HTTPServerRequestImpl&>(_request).socket();
         if (lSocket.havePeerCertificate()) {
             Poco::Net::X509Certificate cert = lSocket.peerCertificate();
+            printf("oooooooooooooooooooooooooooooooooooooooooo\n");
         }
 
         // https : post
