@@ -27,7 +27,7 @@ void GPoco::cleanModule() {
 void GPoco::initPoco() {
     m_protocol          = "https";
     m_hasCertificate    = false;
-    m_hasUserPass       = true;
+    m_hasUserPass       = false;
     m_hasLogsTech       = false;
 
     m_isTestEnv         = GEnv().isTestEnv();

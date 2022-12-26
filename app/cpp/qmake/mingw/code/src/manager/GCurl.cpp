@@ -15,8 +15,12 @@ GCurl::~GCurl() {
 }
 //===============================================
 void GCurl::initCurl() {
-    m_protocol          = "http";
+    m_protocol          = "https";
     m_method            = "post";
+    m_hasCertificate    = false;
+    m_hasUserPass       = false;
+    m_isFullUrl         = false;
+
     m_fullUrlHttp       = "http://readydev.ovh:9071/readydev/com/v1";
     m_fullUrlHttps      = "https://readydev.ovh:9071/readydev/com/v1";
     m_fullUrl           = (m_protocol == "http" ? m_fullUrlHttp : m_fullUrlHttps);
@@ -29,9 +33,6 @@ void GCurl::initCurl() {
     m_methodAuth        = "no_authentication";
     m_apiBearer         = "1ab9cb22ba269a7";
     m_contentType       = "application/xml";
-    m_hasCertificate    = false;
-    m_hasUserPass       = true;
-    m_isFullUrl         = false;
 
     m_isTestEnv         = GEnv().isTestEnv();
 
