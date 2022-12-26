@@ -17,7 +17,7 @@ GCurl::~GCurl() {
 void GCurl::initCurl() {
     m_protocol          = "https";
     m_method            = "post";
-    m_hasCertificate    = false;
+    m_hasCertificate    = true;
     m_hasUserPass       = false;
     m_isFullUrl         = true;
 
