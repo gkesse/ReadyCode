@@ -17,7 +17,7 @@ GCurl::~GCurl() {
 void GCurl::initCurl() {
     m_protocol          = "https";
     m_method            = "post";
-    m_hasCertificate    = false;
+    m_hasCertificate    = true;
     m_hasUserPass       = false;
     m_isFullUrl         = true;
 
@@ -137,7 +137,8 @@ bool GCurl::onHttpsPost(CURL* _curl, GString& _response) {
     // https : post : certificate
     if(m_hasCertificate) {
         curl_easy_setopt(_curl, CURLOPT_SSL_VERIFYPEER, 1L);
-        curl_easy_setopt(_curl, CURLOPT_SSL_VERIFYHOST, 1L);
+        curl_easy_setopt(_curl, CURLOPT_SSL_VERIFYHOST, 2L);
+        curl_easy_setopt(_curl, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
         curl_easy_setopt(_curl, CURLOPT_CAINFO, m_certificateFile.c_str());
     }
     // https : post : no certificate
@@ -158,7 +159,7 @@ bool GCurl::onHttpsPost(CURL* _curl, GString& _response) {
     }
 
     curl_easy_setopt(_curl, CURLOPT_HTTPPOST, 1L);
-    curl_easy_setopt(_curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+    curl_easy_setopt(_curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_2_0);
     curl_easy_setopt(_curl, CURLOPT_ERRORBUFFER, lError);
     curl_easy_setopt(_curl, CURLOPT_URL, m_fullUrl.c_str());
     curl_easy_setopt(_curl, CURLOPT_FOLLOWLOCATION, 1L);
