@@ -380,10 +380,10 @@ bool GPoco::initSSL() {
     else {
         lContext = new Poco::Net::Context(
                 Poco::Net::Context::SERVER_USE
+                , m_privateKeyFile.c_str()
+                , m_certificateFile.c_str()
                 , ""
-                , ""
-                , ""
-                , Poco::Net::Context::VERIFY_RELAXED
+                , Poco::Net::Context::VERIFY_NONE
                 , 9
                 , false
                 , "ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH"
