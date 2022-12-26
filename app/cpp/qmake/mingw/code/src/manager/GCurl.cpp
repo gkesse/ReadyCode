@@ -45,6 +45,7 @@ void GCurl::initCurl() {
     m_apiKeyTest        = GAPP->getData("curl", "api_key_test");
     m_apiKey            = (m_isTestEnv ? m_apiKeyTest : m_apiKeyProd);
     m_certificateFile   = GAPP->getData("curl", "certificate_file");
+    m_cacertFile        = GAPP->getData("curl", "cacert_file");
     m_urlProd           = GAPP->getData("curl", "url_prod");
     m_urlTest           = GAPP->getData("curl", "url_test");
     m_url               = (m_isTestEnv ? m_urlProd : m_urlTest);
@@ -148,8 +149,8 @@ bool GCurl::onHttpsPost(CURL* _curl, GString& _response) {
     // https : post : certificate
     if(m_hasCertificate) {
         curl_easy_setopt(_curl, CURLOPT_SSL_VERIFYPEER, 1L);
-        curl_easy_setopt(_curl, CURLOPT_SSL_VERIFYHOST, 2L);
-        curl_easy_setopt(_curl, CURLOPT_CAINFO, m_certificateFile.c_str());
+        curl_easy_setopt(_curl, CURLOPT_SSL_VERIFYHOST, 1L);
+        curl_easy_setopt(_curl, CURLOPT_CAINFO, m_cacertFile.c_str());
     }
     // https : post : no certificate
     else {

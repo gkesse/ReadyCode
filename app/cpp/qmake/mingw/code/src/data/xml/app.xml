@@ -35,6 +35,7 @@
 			<api_key_prod>16ac9e66cde8bd80d6141dadb74b5083</api_key_prod>
 			<api_key_test>admin</api_key_test>
             <certificate_file>C:/Users/tiaka/.readydev/data/certificates/fullchain.pem</certificate_file>
+            <cacert_file>C:/Users/tiaka/.readydev/data/certificates/isrgrootx1.pem</cacert_file>
             <url_prod>https://readydev.ovh:9070/readydev/com/v1</url_prod>
             <url_test>https://readydev.ovh:9071/readydev/com/v1</url_test>
             <content_type>application/xml</content_type>

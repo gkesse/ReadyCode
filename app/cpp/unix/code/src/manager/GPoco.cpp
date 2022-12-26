@@ -365,7 +365,7 @@ bool GPoco::initSSL() {
             Poco::Net::Context::SERVER_USE
             , m_privateKeyFile.c_str()
             , m_certificateFile.c_str()
-            , ""
+            , m_certificateFile.c_str()
             , Poco::Net::Context::VERIFY_RELAXED
             , 9
             , false
