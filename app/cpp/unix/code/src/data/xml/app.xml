@@ -36,7 +36,7 @@
             <content_type>application/xml</content_type>
             <certificate_file>/home/gkesse/.readydev/data/certificates/fullchain.pem</certificate_file>
             <private_key_file>/home/gkesse/.readydev/data/certificates/privkey.pem</private_key_file>
-            <cacert_file>/home/gkesse/.readydev/data/certificates/cacert.pem</cacert_file>
+            <cacert_file>/home/gkesse/.readydev/data/certificates/cert.pem</cacert_file>
         </data>
         <!-- ============================================ -->
         <!-- mysql -->

@@ -135,23 +135,23 @@ bool GCurl::onHttpsPost(CURL* _curl, GString& _response) {
     char lError[CURL_ERROR_SIZE];
     std::string lBuffer;
 
+    curl_easy_setopt(_curl, CURLOPT_VERBOSE, 1L);
+    curl_easy_setopt(_curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_2_0);
     curl_easy_setopt(_curl, CURLOPT_HTTPPOST, 1L);
-    curl_easy_setopt(_curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
     curl_easy_setopt(_curl, CURLOPT_ERRORBUFFER, lError);
     curl_easy_setopt(_curl, CURLOPT_URL, m_fullUrl.c_str());
     curl_easy_setopt(_curl, CURLOPT_FOLLOWLOCATION, 1L);
     curl_easy_setopt(_curl, CURLOPT_WRITEFUNCTION, onWrite);
     curl_easy_setopt(_curl, CURLOPT_WRITEDATA, &lBuffer);
-    curl_easy_setopt(_curl, CURLOPT_VERBOSE, 0L);
     curl_easy_setopt(_curl, CURLOPT_POSTFIELDS, m_contents.c_str());
     curl_easy_setopt(_curl, CURLOPT_POSTFIELDSIZE, m_contents.size());
 
     // https : post : certificate
     if(m_hasCertificate) {
         curl_easy_setopt(_curl, CURLOPT_SSL_VERIFYPEER, 1L);
-        curl_easy_setopt(_curl, CURLOPT_SSL_VERIFYHOST, 1L);
-        curl_easy_setopt(_curl, CURLOPT_SSLCERTTYPE, "PEM");
-        curl_easy_setopt(_curl, CURLOPT_SSLCERT, m_certificateFile.c_str());
+        curl_easy_setopt(_curl, CURLOPT_SSL_VERIFYHOST, 0L);
+        //curl_easy_setopt(_curl, CURLOPT_SSLCERTTYPE, "PEM");
+        //curl_easy_setopt(_curl, CURLOPT_SSLCERT, m_certificateFile.c_str());
         curl_easy_setopt(_curl, CURLOPT_CAINFO, m_cacertFile.c_str());
     }
     // https : post : no certificate
@@ -248,7 +248,7 @@ bool GCurl::onHttpsGet(CURL* _curl, GString& _response) {
 }
 //===============================================
 void GCurl::initModule() {
-    curl_global_init(CURL_GLOBAL_DEFAULT);
+    curl_global_init(CURL_GLOBAL_ALL);
 }
 //===============================================
 void GCurl::cleanModule() {
