@@ -60,8 +60,11 @@ private:
     GString m_apiKey;
     GString m_apiKeyProd;
     GString m_apiKeyTest;
+
     GString m_certificateFile;
+    GString m_privateKeyFile;
     GString m_cacertFile;
+
     GString m_contentType;
     GString m_url;
     GString m_urlProd;
