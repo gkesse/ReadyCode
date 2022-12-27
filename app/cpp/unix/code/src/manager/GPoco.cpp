@@ -367,16 +367,13 @@ bool GPoco::initSSL() {
             , m_privateKeyFile.c_str()
             , m_certificateFile.c_str()
             , m_cacertFile.c_str()
-            , Poco::Net::Context::VERIFY_STRICT
+            , Poco::Net::Context::VERIFY_RELAXED
             , 9
             , false
             , "ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH"
     );
 
-    Poco::SharedPtr<Poco::Net::InvalidCertificateHandler> lCertificate = new Poco::Net::AcceptCertificateHandler(true);
-    Poco::SharedPtr<Poco::Net::PrivateKeyPassphraseHandler> lPrivateKeyPassphraseHandler;
-    lPrivateKeyPassphraseHandler = new Poco::Net::KeyConsoleHandler(true);
-    Poco::Net::SSLManager::instance().initializeServer(lPrivateKeyPassphraseHandler, lCertificate, lContext);
+    Poco::Net::SSLManager::instance().initializeServer(0, 0, lContext);
 
     return !m_logs.hasErrors();
 }
