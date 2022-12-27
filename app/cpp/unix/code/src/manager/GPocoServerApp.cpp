@@ -26,7 +26,7 @@ int GPocoServerApp::main(const std::vector<std::string>& _args) {
     }
     // https
     else if(lProtocol == "https") {
-        m_poco->initSSL();
+        //m_poco->initSSL();
         Poco::Net::SecureServerSocket lSocket(m_poco->getPort());
         Poco::Net::HTTPServer lServer(new GPocoRequestFactory(m_poco), lSocket, new Poco::Net::HTTPServerParams);
         std::cout << std::endl << m_poco->getStartMessage() << std::endl;
