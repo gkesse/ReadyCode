@@ -47,6 +47,7 @@ void GCurl::initCurl() {
     m_certificateFile   = GAPP->getData("curl", "certificate_file");
     m_privateKeyFile    = GAPP->getData("curl", "private_key_file");
     m_cacertFile        = GAPP->getData("curl", "cacert_file");
+    m_cacertPath        = GAPP->getData("curl", "cacert_path");
     m_urlProd           = GAPP->getData("curl", "url_prod");
     m_urlTest           = GAPP->getData("curl", "url_test");
     m_url               = (m_isTestEnv ? m_urlProd : m_urlTest);
@@ -110,7 +111,7 @@ bool GCurl::onHttpGet(CURL* _curl, GString& _response) {
     curl_easy_setopt(_curl, CURLOPT_FOLLOWLOCATION, 1L);
     curl_easy_setopt(_curl, CURLOPT_WRITEFUNCTION, onWrite);
     curl_easy_setopt(_curl, CURLOPT_WRITEDATA, &lBuffer);
-    curl_easy_setopt (_curl, CURLOPT_VERBOSE, 0L);
+    curl_easy_setopt(_curl, CURLOPT_VERBOSE, 0L);
 
     addHeader("Content-Type", m_contentType);
 
@@ -137,7 +138,7 @@ bool GCurl::onHttpsPost(CURL* _curl, GString& _response) {
     std::string lBuffer;
 
     curl_easy_setopt(_curl, CURLOPT_VERBOSE, 1L);
-    curl_easy_setopt(_curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_2_0);
+    curl_easy_setopt(_curl, CURLOPT_USE_SSL, CURLUSESSL_ALL);
     curl_easy_setopt(_curl, CURLOPT_HTTPPOST, 1L);
     curl_easy_setopt(_curl, CURLOPT_ERRORBUFFER, lError);
     curl_easy_setopt(_curl, CURLOPT_URL, m_fullUrl.c_str());
@@ -155,6 +156,7 @@ bool GCurl::onHttpsPost(CURL* _curl, GString& _response) {
         curl_easy_setopt(_curl, CURLOPT_SSLCERT, m_certificateFile.c_str());
         curl_easy_setopt(_curl, CURLOPT_SSLKEY, m_privateKeyFile.c_str());
         curl_easy_setopt(_curl, CURLOPT_CAINFO, m_cacertFile.c_str());
+        //curl_easy_setopt(_curl, CURLOPT_CAPATH, m_cacertFile.c_str());
     }
     // https : post : no certificate
     else {

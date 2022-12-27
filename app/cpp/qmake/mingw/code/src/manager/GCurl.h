@@ -64,6 +64,7 @@ private:
     GString m_certificateFile;
     GString m_privateKeyFile;
     GString m_cacertFile;
+    GString m_cacertPath;
 
     GString m_contentType;
     GString m_url;
