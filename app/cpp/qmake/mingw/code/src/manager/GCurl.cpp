@@ -24,7 +24,7 @@ void GCurl::initCurl() {
     m_fullUrlHttp       = "http://readydev.ovh";
     m_fullUrlHttps      = "https://readydev.ovh";
     m_fullUrlHttp       = "http://readydev.ovh:9071/readydev/com/v1";
-    m_fullUrlHttps      = "https://readydev.ovh:9071/readydev/com/v1";
+    m_fullUrlHttps      = "https://readydev.ovh:443/readydev/com/v1";
     m_fullUrl           = (m_protocol == "http" ? m_fullUrlHttp : m_fullUrlHttps);
     m_serverUrlHttp     = "http://readydev.ovh:9071";
     m_serverUrlHttps    = "https://readydev.ovh:9071";
@@ -151,11 +151,11 @@ bool GCurl::onHttpsPost(CURL* _curl, GString& _response) {
     // https : post : certificate
     if(m_hasCertificate) {
         curl_easy_setopt(_curl, CURLOPT_SSL_VERIFYPEER, 1L);
-        curl_easy_setopt(_curl, CURLOPT_SSL_VERIFYHOST, 1L);
-        curl_easy_setopt(_curl, CURLOPT_SSLCERTTYPE, "PEM");
-        curl_easy_setopt(_curl, CURLOPT_SSLCERT, m_certificateFile.c_str());
-        curl_easy_setopt(_curl, CURLOPT_SSLKEY, m_privateKeyFile.c_str());
-        curl_easy_setopt(_curl, CURLOPT_CAINFO, m_cacertFile.c_str());
+        curl_easy_setopt(_curl, CURLOPT_SSL_VERIFYHOST, 0L);
+        //curl_easy_setopt(_curl, CURLOPT_SSLCERTTYPE, "PEM");
+        //curl_easy_setopt(_curl, CURLOPT_SSLCERT, m_certificateFile.c_str());
+        //curl_easy_setopt(_curl, CURLOPT_SSLKEY, m_privateKeyFile.c_str());
+        curl_easy_setopt(_curl, CURLOPT_CAINFO, m_certificateFile.c_str());
     }
     // https : post : no certificate
     else {
