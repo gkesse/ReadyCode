@@ -367,9 +367,9 @@ bool GPoco::initSSL() {
             , m_privateKeyFile.c_str()
             , m_certificateFile.c_str()
             , m_cacertFile.c_str()
-            , Poco::Net::Context::VERIFY_RELAXED
+            , Poco::Net::Context::VERIFY_STRICT
             , 9
-            , false
+            , true
             , "ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH"
     );
 

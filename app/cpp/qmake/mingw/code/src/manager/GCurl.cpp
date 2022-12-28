@@ -138,7 +138,7 @@ bool GCurl::onHttpsPost(CURL* _curl, GString& _response) {
     std::string lBuffer;
 
     curl_easy_setopt(_curl, CURLOPT_VERBOSE, 1L);
-    curl_easy_setopt(_curl, CURLOPT_USE_SSL, CURLUSESSL_ALL);
+    curl_easy_setopt(_curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
     curl_easy_setopt(_curl, CURLOPT_HTTPPOST, 1L);
     curl_easy_setopt(_curl, CURLOPT_ERRORBUFFER, lError);
     curl_easy_setopt(_curl, CURLOPT_URL, m_fullUrl.c_str());
@@ -151,7 +151,7 @@ bool GCurl::onHttpsPost(CURL* _curl, GString& _response) {
     // https : post : certificate
     if(m_hasCertificate) {
         curl_easy_setopt(_curl, CURLOPT_SSL_VERIFYPEER, 1L);
-        curl_easy_setopt(_curl, CURLOPT_SSL_VERIFYHOST, 1L);
+        curl_easy_setopt(_curl, CURLOPT_SSL_VERIFYHOST, 0L);
         curl_easy_setopt(_curl, CURLOPT_SSLCERTTYPE, "PEM");
         curl_easy_setopt(_curl, CURLOPT_SSLCERT, m_certificateFile.c_str());
         curl_easy_setopt(_curl, CURLOPT_SSLKEY, m_privateKeyFile.c_str());
