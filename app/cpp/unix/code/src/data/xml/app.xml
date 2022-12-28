@@ -35,7 +35,7 @@
             <charset>UTF-8</charset>
             <content_type>application/xml</content_type>
             <certificate_file>/home/gkesse/.readydev/data/certificates/fullchain.pem</certificate_file>
-            <private_key_file>/home/gkesse/.readydev/data/certificates/privkey.prm</private_key_file>
+            <private_key_file>/home/gkesse/.readydev/data/certificates/privkey.pem</private_key_file>
             <cacert_file>/home/gkesse/.readydev/data/certificates/ca_bundle.crt</cacert_file>
         </data>
         <!-- ============================================ -->
