@@ -46,6 +46,7 @@
 /**/*.res
 /**/*.rc
 /**/*.docx
+!/guide/guide.docx
 /**/*.pdsprj
 /**/*.bak
 /**/Makefile
