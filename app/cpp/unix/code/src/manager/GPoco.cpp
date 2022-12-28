@@ -367,7 +367,7 @@ bool GPoco::initSSL() {
             , m_privateKeyFile.c_str()
             , m_certificateFile.c_str()
             , ""
-            , Poco::Net::Context::VERIFY_STRICT
+            , Poco::Net::Context::VERIFY_RELAXED
             , 9
             , false
             , "ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH"
@@ -462,6 +462,7 @@ bool GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
     // https
     else if(m_protocol == "https") {
         Poco::Net::SecureStreamSocket lSocket = static_cast<Poco::Net::HTTPServerRequestImpl&>(_request).socket();
+        lSocket.completeHandshake();
         if (lSocket.havePeerCertificate()) {
             Poco::Net::X509Certificate cert = lSocket.peerCertificate();
             printf("oooooooooooooooooooooooooooooooooooooooooo\n");
