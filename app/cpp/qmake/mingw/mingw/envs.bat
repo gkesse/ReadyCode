@@ -1,5 +1,7 @@
 @echo off
 ::===============================================
+set "OPENSSL_CONF=C:\Program Files\Git\usr\ssl\openssl.cnf"
+::===============================================
 set "GPROJECT_ROOT=C:\Users\tiaka\Downloads\eTools\ePrograms"
 ::===============================================
 set "PATH=C:\Qt\6.3.1\mingw_64\bin;%PATH%"

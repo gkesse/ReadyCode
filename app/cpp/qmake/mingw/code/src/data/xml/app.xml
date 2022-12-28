@@ -34,9 +34,9 @@
 			<password>admin</password>
 			<api_key_prod>16ac9e66cde8bd80d6141dadb74b5083</api_key_prod>
 			<api_key_test>admin</api_key_test>
-            <certificate_file>C:/Users/tiaka/.readydev/data/certificates/fullchain.pem</certificate_file>
-            <private_key_file>C:/Users/tiaka/.readydev/data/certificates/privkey.pem</private_key_file>
-            <cacert_file>C:/Users/tiaka/.readydev/data/certificates/curl-ca-bundle.crt</cacert_file>
+            <certificate_file>C:/Users/tiaka/.readydev/data/certificates/certificate.crt</certificate_file>
+            <private_key_file>C:/Users/tiaka/.readydev/data/certificates/private.key</private_key_file>
+            <cacert_file>C:/Users/tiaka/.readydev/data/certificates/ca_bundle.crt</cacert_file>
             <cacert_path>C:/Users/tiaka/.readydev/data/certificates</cacert_path>
             <url_prod>https://readydev.ovh:9070/readydev/com/v1</url_prod>
             <url_test>https://readydev.ovh:9071/readydev/com/v1</url_test>
