@@ -151,7 +151,7 @@ bool GCurl::onHttpsPost(CURL* _curl, GString& _response) {
     // https : post : certificate
     if(m_hasCertificate) {
         curl_easy_setopt(_curl, CURLOPT_SSL_VERIFYPEER, 1L);
-        curl_easy_setopt(_curl, CURLOPT_SSL_VERIFYHOST, 0L);
+        curl_easy_setopt(_curl, CURLOPT_SSL_VERIFYHOST, 1L);
         //curl_easy_setopt(_curl, CURLOPT_SSLCERTTYPE, "PEM");
         //curl_easy_setopt(_curl, CURLOPT_SSLCERT, m_certificateFile.c_str());
         //curl_easy_setopt(_curl, CURLOPT_SSLKEY, m_privateKeyFile.c_str());
