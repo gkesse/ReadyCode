@@ -1,44 +1,39 @@
 //===============================================
 #include "GProcess.h"
+#include "GEnv.h"
 #include "GSocket.h"
 #include "GTest.h"
 //===============================================
 GProcess::GProcess()
 : GObject() {
-
+    m_isTestEnv = false;
 }
 //===============================================
 GProcess::~GProcess() {
 
 }
 //===============================================
-void GProcess::run(int _argc, char** _argv) {
-    GString lKey;
-    if(_argc > 1) lKey = _argv[1];
-    if(lKey == "test") {
-        runTest(_argc, _argv);
-    }
-    else if(lKey == "server") {
-        runServer(_argc, _argv);
-    }
-    else {
-        runDefault(_argc, _argv);
-    }
+void GProcess::initProcess() {
+    GEnv lEnv;
+    m_isTestEnv = lEnv.isTestEnv();
 }
 //===============================================
-void GProcess::runDefault(int _argc, char** _argv) {
-    GLOGT(eGMSG, "Le process est inconnu.");
+void GProcess::run(int _argc, char** _argv) {
+    if(m_isTestEnv) {
+        runTest(_argc, _argv);
+    }
+    else {
+        runProd(_argc, _argv);
+    }
 }
 //===============================================
 void GProcess::runTest(int _argc, char** _argv) {
-    GLOGT(eGFUN, "");
-    GTest lObj;
-    lObj.run(_argc, _argv);
-    m_logs.add(lObj.m_logs);
+    GTest lTest;
+    lTest.run(_argc, _argv);
+    m_logs.add(lTest.m_logs);
 }
 //===============================================
-void GProcess::runServer(int _argc, char** _argv) {
-    GLOGT(eGFUN, "");
+void GProcess::runProd(int _argc, char** _argv) {
     GSocket lSocket;
     lSocket.setModule(GSocket::SOCKET_SERVER_TCP);
     lSocket.setProtocol(GSocket::PROTOCOL_RDVAPP);

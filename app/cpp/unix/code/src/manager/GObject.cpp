@@ -46,6 +46,10 @@ void GObject::print() {
     printf("%s\n", serialize(getCodeName()).c_str());
 }
 //===============================================
+void GObject::addError(const GString& _msg) {
+
+}
+//===============================================
 GObject* GObject::clone() const {return new GObject;}
 GString GObject::serialize(const GString& _code) const {return "";}
 bool GObject::deserialize(const GString& _data, const GString& _code) {return false;}

@@ -22,10 +22,14 @@ public:
     virtual GObject* back();
     virtual void add(GObject* _obj);
     virtual void print();
+    virtual void addError(const GString& _msg);
 
 protected:
     GString m_codeName;
     std::vector<GObject*> m_map;
+
+public:
+    GLog m_logs;
 };
 //===============================================
 #endif

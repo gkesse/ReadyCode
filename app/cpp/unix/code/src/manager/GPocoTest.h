@@ -6,10 +6,10 @@
 //===============================================
 class GPocoTest : public GObject {
 public:
-    GPocoTest(const GString& _code = "poco_test");
+    GPocoTest();
     ~GPocoTest();
     void run(int _argc, char** _argv);
-    void runDefault(int _argc, char** _argv);
+    void runTest(int _argc, char** _argv);
     void runServer(int _argc, char** _argv);
 
 public:

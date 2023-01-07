@@ -10,6 +10,7 @@ public:
     ~GEnv();
     void initEnv();
     bool isTestEnv() const;
+    bool isProdEnv() const;
     GString getDataPath() const;
     GString getTmpDir() const;
     GString getEnv(const GString& _env, const GString& _defaultValue = "") const;

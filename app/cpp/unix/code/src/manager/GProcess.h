@@ -8,13 +8,13 @@ class GProcess : public GObject {
 public:
     GProcess();
     ~GProcess();
+    void initProcess();
     void run(int _argc, char** _argv);
-    void runDefault(int _argc, char** _argv);
     void runTest(int _argc, char** _argv);
-    void runServer(int _argc, char** _argv);
+    void runProd(int _argc, char** _argv);
 
 public:
-    GLog m_logs;
+    bool m_isTestEnv;
 };
 //===============================================
 #endif

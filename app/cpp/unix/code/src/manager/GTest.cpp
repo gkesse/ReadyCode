@@ -14,31 +14,29 @@ GTest::~GTest() {
 }
 //===============================================
 void GTest::run(int _argc, char** _argv) {
-    GString lKey;
-    if(_argc > 2) lKey = _argv[2];
-    if(lKey == "poco") {
+    GString lModule;
+    if(_argc > 2) lModule = _argv[2];
+    if(lModule == "") {
+        m_logs.addError("Erreur le module est obligatoire.");
+    }
+    else if(lModule == "poco") {
         runPoco(_argc, _argv);
     }
-    else if(lKey == "curl") {
+    else if(lModule == "curl") {
         runCurl(_argc, _argv);
     }
-    else if(lKey == "socket") {
+    else if(lModule == "socket") {
         runSocket(_argc, _argv);
     }
     else {
-        runDefault(_argc, _argv);
+        m_logs.addError("Erreur le module est inconnu.");
     }
 }
 //===============================================
-void GTest::runDefault(int _argc, char** _argv) {
-    GLOGT(eGFUN, "Le process est inconnu.");
-}
-//===============================================
 void GTest::runPoco(int _argc, char** _argv) {
-    GLOGT(eGFUN, "");
-    GPocoTest lObj;
-    lObj.run(_argc, _argv);
-    m_logs.add(lObj.m_logs);
+    GPocoTest lPoco;
+    lPoco.run(_argc, _argv);
+    m_logs.add(lPoco.m_logs);
 }
 //===============================================
 void GTest::runCurl(int _argc, char** _argv) {
