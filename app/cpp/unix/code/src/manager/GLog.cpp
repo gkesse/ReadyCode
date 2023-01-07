@@ -10,9 +10,8 @@
 //===============================================
 GLog* GLog::m_instance = 0;
 //===============================================
-GLog::GLog(const GString& _codeName) {
-    m_codeName = _codeName;
-    initLog();
+GLog::GLog() {
+
 }
 //===============================================
 GLog::~GLog() {
@@ -53,9 +52,10 @@ bool GLog::deserialize(const GString& _data, const GString& _code) {
 }
 //===============================================
 void GLog::initLog() {
+    GEnv lEnv;
     m_file = 0;
 
-    m_isTestEnv     = GEnv().isTestEnv();
+    m_isTestEnv     = lEnv.isTestEnv();
     m_isTestLog     = (GAPP->getData("log", "test_on") == "1");
     m_isProdLog     = (GAPP->getData("log", "prod_on") == "1");
     m_isTestFile    = (GAPP->getData("log", "test_file_on") == "1");
@@ -63,7 +63,7 @@ void GLog::initLog() {
     m_isDebug       = (m_isTestEnv ? m_isTestLog : m_isProdLog);
     m_isFileLog     = (m_isTestEnv ? m_isTestFile : m_isProdFile);
 
-    m_tmpPath       = GEnv().getTmpDir();
+    m_tmpPath       = lEnv.getTmpDir();
     m_currentDate   = GDate().getDateFileFormat();
     m_logTestFile   = GFORMAT("%s/log_test_%s.txt", m_tmpPath.c_str(), m_currentDate.c_str());
     m_logProdFile   = GFORMAT("%s/log_prod_%s.txt", m_tmpPath.c_str(), m_currentDate.c_str());
