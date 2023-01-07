@@ -6,7 +6,7 @@ GApp* GApp::m_instance = 0;
 //===============================================
 GApp::GApp()
 : GCode() {
-    loadFile(GPATH("xml", "app.xml"));
+
 }
 //===============================================
 GApp::~GApp() {
@@ -16,6 +16,7 @@ GApp::~GApp() {
 GApp* GApp::Instance() {
     if(m_instance == 0) {
         m_instance = new GApp;
+        m_instance->loadFile(GPATH("xml", "app.xml"));
     }
     return m_instance;
 }
