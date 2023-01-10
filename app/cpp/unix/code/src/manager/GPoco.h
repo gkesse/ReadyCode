@@ -32,7 +32,6 @@ public:
 
     bool run(int _argc, char** _argv);
     bool onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
-    bool doResponse();
     bool onResponse(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
 
 private:

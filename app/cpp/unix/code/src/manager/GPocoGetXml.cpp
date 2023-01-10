@@ -38,12 +38,17 @@ bool GPocoGetXml::run(const GString& _url) {
         m_contentType = "image/png";
         m_response = GFile(lFavicon).getContentBin();
     }
-    else if(m_verb == m_verb.c_str()) {
-        m_logs.addLog("La requête a bien été exécutée.");
-    }
     else {
-        m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
-        m_logsTech.addError("Erreur le verbe est inconnu.");
+        if(m_verb == m_verb.c_str()) {
+            m_logs.addLog("La requête a bien été exécutée.");
+        }
+        else {
+            m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+            m_logsTech.addError("Erreur le verbe est inconnu.");
+        }
+
+        m_responseXml.loadData(m_logs.serialize());
+        m_response = m_responseXml.toString();
     }
     return !m_logs.hasErrors();
 }

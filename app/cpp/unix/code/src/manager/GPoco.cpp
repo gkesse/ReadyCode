@@ -264,10 +264,7 @@ bool GPoco::onGetNoUsernamePasswordNoContentType(Poco::Net::HTTPServerRequest& _
 bool GPoco::onGetXml(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
     GPocoGetXml lPoco;
     lPoco.run(_request.getURI());
-    m_logs.addLogs(lPoco.getLogs());
-    m_responseXml.loadData(lPoco.getResponse());
-    m_responseXml.loadData(m_logs.serialize());
-    m_response = m_responseXml.toString();
+    m_response = lPoco.m_response;
     return !m_logs.hasErrors();
 }
 //===============================================

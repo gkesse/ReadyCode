@@ -359,22 +359,22 @@ void GString::print() const {
 }
 //===============================================
 GString& GString::operator=(const GString& _data) {
-    assign(_data);
+    assign(_data.c_str(), _data.size());
     return *this;
 }
 //===============================================
 GString& GString::operator=(const std::vector<char>& _data) {
-    assign(_data);
+    assign(_data.data(), (int)_data.size());
     return *this;
 }
 //===============================================
 GString& GString::operator=(const std::vector<uchar>& _data) {
-    assign(_data);
+    assign(_data.data(), (int)_data.size());
     return *this;
 }
 //===============================================
 GString& GString::operator=(const std::string& _data) {
-    assign(_data);
+    assign(_data.data());
     return *this;
 }
 //===============================================
