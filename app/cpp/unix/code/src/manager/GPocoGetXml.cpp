@@ -47,6 +47,7 @@ bool GPocoGetXml::run(const GString& _url) {
             m_logsTech.addError("Erreur le verbe est inconnu.");
         }
 
+        m_logs.addLogs(m_logsTech);
         m_responseXml.loadData(m_logs.serialize());
         m_response = m_responseXml.toString();
     }
