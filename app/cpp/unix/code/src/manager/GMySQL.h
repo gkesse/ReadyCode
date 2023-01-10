@@ -11,7 +11,7 @@ typedef std::vector<GString> GRow;
 //===============================================
 class GMySQL : public GObject {
 public:
-    GMySQL(const GString& _code = "mysql");
+    GMySQL();
     ~GMySQL();
 
     void initMySQL();

@@ -10,11 +10,11 @@ class GFormLayout;
 //===============================================
 class GModuleMap : public GSearch {
 public:
-    GModuleMap(const GString& _code = "module_map");
+    GModuleMap();
     ~GModuleMap();
     GObject* clone() const;
     GString serialize(const GString& _code = "module_map");
-    bool deserialize(const GString& _data, const GString& _code = "module_map");
+    void deserialize(const GString& _data, const GString& _code = "module_map");
 
     void setModuleMap(const GModuleMap& _moduleMap);
     void setModuleMap(GModuleMap* _moduleMap);

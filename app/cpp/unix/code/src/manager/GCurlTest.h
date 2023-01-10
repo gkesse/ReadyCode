@@ -6,10 +6,10 @@
 //===============================================
 class GCurlTest : public GObject {
 public:
-    GCurlTest(const GString& _code = "curl_test");
+    GCurlTest();
     ~GCurlTest();
     void run(int _argc, char** _argv);
-    void runDefault(int _argc, char** _argv);
+    void runTest(int _argc, char** _argv);
     void runGetHttp(int _argc, char** _argv);
 };
 //==============================================

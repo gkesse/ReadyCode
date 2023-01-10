@@ -9,7 +9,7 @@ int main(int _argc, char** _argv) {
     GProcess lProcess;
     lProcess.initProcess();
     lProcess.run(_argc, _argv);
-    lProcess.m_logs.showErrors();
+    lProcess.showErrors();
     GPoco().cleanModule();
     GXml().cleanModule();
     return 0;

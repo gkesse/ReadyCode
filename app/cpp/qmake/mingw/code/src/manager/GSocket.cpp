@@ -5,8 +5,8 @@
 #include "GCode.h"
 #include "GApp.h"
 //===============================================
-GSocket::GSocket(const GString& _code)
-: GObject(_code) {
+GSocket::GSocket()
+: GObject() {
     initSocket();
 }
 //===============================================

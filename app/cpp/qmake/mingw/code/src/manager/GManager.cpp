@@ -3,8 +3,8 @@
 #include "GSocket.h"
 #include "GCode.h"
 //===============================================
-GManager::GManager(const GString& _code)
-: GObject(_code) {
+GManager::GManager()
+: GObject() {
     m_server = 0;
 }
 //===============================================
@@ -24,11 +24,10 @@ GString GManager::serialize(const GString& _code) {
     return lDom.toString();
 }
 //===============================================
-bool GManager::deserialize(const GString& _data, const GString& _code) {
+void GManager::deserialize(const GString& _data, const GString& _code) {
     GCode lDom;
     lDom.loadXml(_data);
     m_moduleName = lDom.getData(_code, "module");
     m_methodName = lDom.getData(_code, "method");
-    return true;
 }
 //===============================================

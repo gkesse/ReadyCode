@@ -10,14 +10,13 @@ class GPocoServerApp : public Poco::Util::ServerApplication {
 public:
     GPocoServerApp(GPoco* _poco);
     ~GPocoServerApp();
+    const GLog& getLogs() const;
 
 protected:
     int main(const std::vector<std::string>& _args);
 
-private:
+protected:
     GPoco* m_poco;
-
-public:
     GLog m_logs;
 };
 //==============================================

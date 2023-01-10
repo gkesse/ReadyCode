@@ -6,7 +6,7 @@
 //===============================================
 class GCurl : public GObject {
 public:
-    GCurl(const GString& _code = "curl");
+    GCurl();
     ~GCurl();
 
     bool initGet(CURL*& _curl, const GString& _url, std::string* _buffer);

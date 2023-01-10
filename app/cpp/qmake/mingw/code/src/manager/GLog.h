@@ -32,7 +32,7 @@
 //===============================================
 class GLog {
 public:
-    GLog(const GString& _codeName = "logs");
+    GLog();
     ~GLog();
 
     static GLog* Instance();
@@ -40,7 +40,7 @@ public:
     GLog* clone();
 
     GString serialize(const GString& _code = "logs");
-    bool deserialize(const GString& _data, const GString& _code = "logs");
+    void deserialize(const GString& _data, const GString& _code = "logs");
 
     void initLog();
 
@@ -57,7 +57,6 @@ public:
 
     FILE* getOutput();
     FILE* getOutputFile();
-    GString getCodeName() const;
 
     void closeLogFile();
     void catLogFile();
@@ -119,7 +118,6 @@ private:
     GString m_logTestFile;
     GString m_logProdFile;
     GString m_logFilename;
-    GString m_codeName;
 
     std::vector<GLog*> m_map;
 };

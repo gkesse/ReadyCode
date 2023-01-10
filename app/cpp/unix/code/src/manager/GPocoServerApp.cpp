@@ -11,18 +11,22 @@ GPocoServerApp::~GPocoServerApp() {
 
 }
 //===============================================
+const GLog& GPocoServerApp::getLogs() const {
+    return m_logs;
+}
+//===============================================
 int GPocoServerApp::main(const std::vector<std::string>& _args) {
     GString lProtocol = m_poco->getProtocol();
-    // http
-    if(lProtocol == "http") {
+    if(lProtocol == "") {
+        m_logs.addError("Erreur le protocol est obligatoire.");
+    }
+    else if(lProtocol == "http") {
         Poco::Net::HTTPServer lServer(new GPocoRequestFactory(m_poco), Poco::Net::ServerSocket(m_poco->getPort()), new Poco::Net::HTTPServerParams);
         std::cout << std::endl << m_poco->getStartMessage() << std::endl;
         lServer.start();
-        // wait for CTRL-C or kill
         waitForTerminationRequest();
         std::cout << std::endl << m_poco->getStopMessage() << std::endl;
         lServer.stop();
-
     }
     // https
     else if(lProtocol == "https") {
@@ -31,16 +35,14 @@ int GPocoServerApp::main(const std::vector<std::string>& _args) {
         Poco::Net::HTTPServer lServer(new GPocoRequestFactory(m_poco), lSocket, new Poco::Net::HTTPServerParams);
         std::cout << std::endl << m_poco->getStartMessage() << std::endl;
         lServer.start();
-        // wait for CTRL-C or kill
         waitForTerminationRequest();
         std::cout << std::endl << m_poco->getStopMessage() << std::endl;
         lServer.stop();
     }
-    // unknown protocol
     else {
-        m_logs.addError("Erreur le protocol n'est pas pris en charge.");
+        m_logs.addError("Erreur le protocol est inconnu.");
     }
-    m_poco->m_logs.add(m_logs);
+    m_poco->addLogs(m_logs);
     return Application::EXIT_OK;
 }
 //===============================================

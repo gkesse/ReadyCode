@@ -108,8 +108,7 @@ bool GSocketReadyApp::analyzeRequest() {
 }
 //===============================================
 bool GSocketReadyApp::integrateErrors() {
-    addResponse(GLOGI->serialize());
-    GLOGI->clearMap();
+
     return true;
 }
 //===============================================

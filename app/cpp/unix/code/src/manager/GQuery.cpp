@@ -4,8 +4,8 @@
 #include "GSocket.h"
 #include "GCode.h"
 //===============================================
-GQuery::GQuery(const GString& _code)
-: GSearch(_code) {
+GQuery::GQuery()
+: GSearch() {
 
 }
 //===============================================
@@ -17,7 +17,7 @@ GObject* GQuery::clone() const {
     return new GQuery;
 }
 //===============================================
-GString GQuery::serialize(const GString& _code) const {
+GString GQuery::serialize(const GString& _code)  {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "emission", m_emission, true);
@@ -26,25 +26,24 @@ GString GQuery::serialize(const GString& _code) const {
     return lDom.toString();
 }
 //===============================================
-bool GQuery::deserialize(const GString& _data, const GString& _code) {
+void GQuery::deserialize(const GString& _data, const GString& _code) {
     GSearch::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
     m_emission = lDom.getData(_code, "emission").fromBase64();
     m_reception = lDom.getData(_code, "reception").fromBase64();
-    return true;
 }
 //===============================================
 bool GQuery::onModule() {
     deserialize(m_server->getRequest());
     if(m_methodName == "") {
-        GMETHOD_REQUIRED();
+        m_logs.addError("Erreur la méthode est obligatoire.");
     }
     else if(m_methodName == "send_query") {
         onSendQuery();
     }
     else {
-        GMETHOD_UNKNOWN();
+        m_logs.addError("Erreur la méthode est inconnue.");
     }
     m_server->addResponse(serialize());
     return true;

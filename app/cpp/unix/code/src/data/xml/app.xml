@@ -25,7 +25,7 @@
         <data>
             <code>poco</code>
             <port_prod>9070</port_prod>
-            <port_test>443</port_test>
+            <port_test>9071</port_test>
             <api_key_prod>16ac9e66cde8bd80d6141dadb74b5083</api_key_prod>
             <api_key_test>admin</api_key_test>
             <api_username>admin</api_username>

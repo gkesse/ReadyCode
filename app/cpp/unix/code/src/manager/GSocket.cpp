@@ -164,5 +164,4 @@ void GSocket::setRequest(const GString& _request) {}
 GString GSocket::getRequest() const {return "";}
 bool GSocket::addResponse(const GString& _data) {return true;}
 bool GSocket::createResponse() {return true;}
-GString GSocket::getResponse() const {return "";}
 //===============================================

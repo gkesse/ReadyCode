@@ -13,7 +13,7 @@ class GSocket;
 //===============================================
 class GManager : public GObject {
 public:
-    GManager(const GString& _code = "manager");
+    GManager();
     virtual ~GManager();
 
     GObject* clone() const;
@@ -22,8 +22,8 @@ public:
     void setManager(GManager* _manager);
     void setServer(GSocket* _server);
 
-    GString serialize(const GString& _code = "manager") const;
-    bool deserialize(const GString& _data, const GString& _code = "manager");
+    GString serialize(const GString& _code = "manager");
+    void deserialize(const GString& _data, const GString& _code = "manager");
 
     void setModule(const GString& _modules);
     void setMethod(const GString& _method);

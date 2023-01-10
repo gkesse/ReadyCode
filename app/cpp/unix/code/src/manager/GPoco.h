@@ -8,52 +8,54 @@ class GCode;
 //===============================================
 class GPoco : public GObject {
 public:
-    GPoco(const GString& _code = "poco");
+    GPoco();
     ~GPoco();
 
 public:
     void initModule();
     void cleanModule();
 
+    void initPoco();
     bool initSSL();
 
     void setPoco(const GPoco& _poco);
-    void setPoco(GPoco* _poco);
+    void setProtocol(const GString& _protocol);
+    void setVerb(const GString& _verb);
+    void setPort(int _port);
+    void setHasUserPass(bool _hasUserPass);
+    void setHasContentType(bool _hasContentType);
 
     int getPort() const;
     GString getProtocol() const;
     GString getStartMessage() const;
     GString getStopMessage() const;
 
-    bool runServer(int _argc, char** _argv);
+    bool run(int _argc, char** _argv);
     bool onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
-    bool addResponse(const GString& _data);
     bool doResponse();
     bool onResponse(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
 
 private:
-    void initPoco();
-
     bool onHttpPostUsernamePassword(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
     bool onHttpPostNoUsernamePassword(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
     bool onHttpGetUsernamePassword(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
-    bool onHttpGetNoUsernamePassword(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
+    bool onGetNoUsernamePasswordContentType(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
+    bool onGetNoUsernamePasswordNoContentType(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
+    bool onGetXml(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
 
     bool onHttpsPostCertificateUsernamePassword(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
     bool onHttpsPostCertificateNoUsernamePassword(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
-    bool onHttpsPostNoCertificateUsernamePassword(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
-    bool onHttpsPostNoCertificateNoUsernamePassword(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
     bool onHttpsGetCertificateUsernamePassword(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
     bool onHttpsGetCertificateNoUsernamePassword(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
     bool onHttpsGetNoCertificateUsernamePassword(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
     bool onHttpsGetNoCertificateNoUsernamePassword(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
 
 
-private:
+protected:
     GString m_protocol;
-    bool m_hasCertificate;
-    bool m_hasLogsTech;
+    GString m_verb;
     bool m_hasUserPass;
+    bool m_hasContentType;
 
     bool m_isTestEnv;
 
@@ -64,13 +66,12 @@ private:
     GString m_apiPassword;
     GString m_method;
 
-    GString m_contentType;
     GString m_charset;
+    GString m_contentType;
 
     GString m_headers;
     GString m_request;
     GString m_response;
-    std::shared_ptr<GCode> m_responseXml;
 
     GString m_startMessage;
     GString m_stopMessage;
@@ -85,9 +86,6 @@ private:
     Poco::Net::HTTPResponse::HTTPStatus m_status;
 
     GLog m_logsTech;
-
-public:
-    GLog m_logs;
 };
 //==============================================
 #endif

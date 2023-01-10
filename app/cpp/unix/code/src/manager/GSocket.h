@@ -34,7 +34,6 @@ public:
     virtual GString getRequest() const;
     virtual bool addResponse(const GString& _data);
     virtual bool createResponse();
-    virtual GString getResponse() const;
 
 protected:
     void initSocket();

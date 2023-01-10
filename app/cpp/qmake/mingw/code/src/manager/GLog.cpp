@@ -11,8 +11,7 @@
 //===============================================
 GLog* GLog::m_instance = 0;
 //===============================================
-GLog::GLog(const GString& _codeName) {
-    m_codeName = _codeName;
+GLog::GLog() {
     initLog();
 }
 //===============================================
@@ -43,14 +42,13 @@ GString GLog::serialize(const GString& _code) {
     return lDom.toString();
 }
 //===============================================
-bool GLog::deserialize(const GString& _data, const GString& _code) {
+void GLog::deserialize(const GString& _data, const GString& _code) {
     GCode lDom;
     lDom.loadXml(_data);
     m_type = lDom.getData(_code, "type");
     m_side = lDom.getData(_code, "side");
     m_msg = lDom.getData(_code, "msg");
     lDom.getData(_code, m_map, this);
-    return true;
 }
 //===============================================
 void GLog::initLog() {
@@ -88,10 +86,6 @@ bool GLog::isConnectionError() const {
 //===============================================
 void GLog::setConnectionError(bool _isConnectionError) {
     m_isConnectionError = _isConnectionError;
-}
-//===============================================
-GString GLog::getCodeName() const {
-    return m_codeName;
 }
 //===============================================
 int GLog::size() const {

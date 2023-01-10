@@ -3,8 +3,8 @@
 #include "GObject.h"
 #include "GPath.h"
 //===============================================
-GObject::GObject(const GString& _code) {
-    m_codeName = _code;
+GObject::GObject() {
+
 }
 //===============================================
 GObject::~GObject() {
@@ -43,15 +43,26 @@ void GObject::add(GObject* _obj) {
 }
 //===============================================
 void GObject::print() {
-    printf("%s\n", serialize(getCodeName()).c_str());
+    printf("%s\n", serialize().c_str());
 }
 //===============================================
-void GObject::addError(const GString& _msg) {
-
+void GObject::showErrors() {
+    m_logs.showErrors();
+}
+//===============================================
+void GObject::addLogs(const GLog& _obj) {
+    m_logs.addLogs(_obj);
+}
+//===============================================
+const GLog& GObject::getLogs() const {
+    return m_logs;
+}
+//===============================================
+GString GObject::getResponse() const {
+    return m_responseXml.toString();
 }
 //===============================================
 GObject* GObject::clone() const {return new GObject;}
-GString GObject::serialize(const GString& _code) const {return "";}
-bool GObject::deserialize(const GString& _data, const GString& _code) {return false;}
-GString GObject::getCodeName() const {return m_codeName;}
+GString GObject::serialize(const GString& _code)  {return "";}
+void GObject::deserialize(const GString& _data, const GString& _code) {}
 //===============================================

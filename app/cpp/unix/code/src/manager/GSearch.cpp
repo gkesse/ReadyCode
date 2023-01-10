@@ -2,8 +2,8 @@
 #include "GSearch.h"
 #include "GCode.h"
 //===============================================
-GSearch::GSearch(const GString& _code)
-: GManager(_code) {
+GSearch::GSearch()
+: GManager() {
     m_lastId = 0;
     m_dataCount = 0;
     m_dataSize = 0;
@@ -16,7 +16,7 @@ GSearch::~GSearch() {
 
 }
 //===============================================
-GString GSearch::serialize(const GString& _code) const {
+GString GSearch::serialize(const GString& _code)  {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "last_id", m_lastId);
@@ -27,7 +27,7 @@ GString GSearch::serialize(const GString& _code) const {
     return lDom.toString();
 }
 //===============================================
-bool GSearch::deserialize(const GString& _data, const GString& _code) {
+void GSearch::deserialize(const GString& _data, const GString& _code) {
     GManager::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
@@ -36,7 +36,6 @@ bool GSearch::deserialize(const GString& _data, const GString& _code) {
     m_dataSize = lDom.getData(_code, "data_size").toInt();
     m_dataOffset = lDom.getData(_code, "data_offset").toInt();
     m_hasData = lDom.getData(_code, "has_data").toBool();
-    return true;
 }
 //===============================================
 void GSearch::setSearch(const GSearch& _search) {

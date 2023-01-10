@@ -30,7 +30,7 @@ void GProcess::run(int _argc, char** _argv) {
 void GProcess::runTest(int _argc, char** _argv) {
     GTest lTest;
     lTest.run(_argc, _argv);
-    m_logs.add(lTest.m_logs);
+    m_logs.addLogs(lTest.m_logs);
 }
 //===============================================
 void GProcess::runProd(int _argc, char** _argv) {

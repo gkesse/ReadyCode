@@ -6,7 +6,7 @@
 //===============================================
 class GSocketTest : public GObject {
 public:
-    GSocketTest(const GString& _code = "socket_test");
+    GSocketTest();
     ~GSocketTest();
     void run(int _argc, char** _argv);
     void runDefault(int _argc, char** _argv);

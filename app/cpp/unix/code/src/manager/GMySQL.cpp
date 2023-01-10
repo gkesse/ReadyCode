@@ -5,8 +5,8 @@
 #include "GEnv.h"
 #include "GApp.h"
 //===============================================
-GMySQL::GMySQL(const GString& _code)
-: GObject(_code) {
+GMySQL::GMySQL()
+: GObject() {
     initMySQL();
 }
 //===============================================
@@ -52,14 +52,14 @@ bool GMySQL::execQuery(const GString& _sql) {
         m_stmt->execute(_sql.c_str());
     }
     catch (sql::SQLException &e) {
-        GERROR_ADD(eGERR, "Erreur lors de l'exécution de la requête SQL.\n%s : %d : %s", e.what(), e.getErrorCode(), e.getSQLStateCStr());
+        m_logs.addError(GFORMAT("Erreur lors de l'exécution de la requête SQL.\n%s : %d : %s", e.what(), e.getErrorCode(), e.getSQLStateCStr()));
         return false;
     }
     return true;
 }
 //===============================================
 bool GMySQL::readQuery(const GString& _sql) {
-    if(m_logOn) GLOGT(eGMSG, "%s", _sql.c_str());
+    if(m_logOn) m_logs.addLog(GFORMAT("%s", _sql.c_str()));
     try {
         if(!openDatabase()) return false;
         m_stmt.reset(m_con->createStatement());

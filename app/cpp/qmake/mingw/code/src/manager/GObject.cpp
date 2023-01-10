@@ -3,8 +3,8 @@
 #include "GPath.h"
 #include "GCode.h"
 //===============================================
-GObject::GObject(const GString& _codeName) {
-    m_codeName = _codeName;
+GObject::GObject() {
+
 }
 //===============================================
 GObject::~GObject() {
@@ -35,11 +35,10 @@ void GObject::add(GObject* _obj) {
 }
 //===============================================
 void GObject::print() {
-    printf("%s\n", serialize(getCodeName()).c_str());
+    printf("%s\n", serialize().c_str());
 }
 //===============================================
 GObject* GObject::clone() const {return new GObject;}
 GString GObject::serialize(const GString& _code) {return "";}
-bool GObject::deserialize(const GString& _data, const GString& _code) {return false;}
-GString GObject::getCodeName() const {return m_codeName;}
+void GObject::deserialize(const GString& _data, const GString& _code) {}
 //===============================================

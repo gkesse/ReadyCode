@@ -5,8 +5,8 @@
 #include "GMySQL.h"
 #include "GCode.h"
 //===============================================
-GModuleNode::GModuleNode(const GString& _code)
-: GSearch(_code) {
+GModuleNode::GModuleNode()
+: GSearch() {
     m_id = 0;
     m_moduleId = 0;
     m_mapId = 0;
@@ -21,7 +21,7 @@ GObject* GModuleNode::clone() const {
     return new GModuleNode;
 }
 //===============================================
-GString GModuleNode::serialize(const GString& _code) const {
+GString GModuleNode::serialize(const GString& _code)  {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
@@ -35,7 +35,7 @@ GString GModuleNode::serialize(const GString& _code) const {
     return lDom.toString();
 }
 //===============================================
-bool GModuleNode::deserialize(const GString& _data, const GString& _code) {
+void GModuleNode::deserialize(const GString& _data, const GString& _code) {
     GSearch::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
@@ -46,7 +46,6 @@ bool GModuleNode::deserialize(const GString& _data, const GString& _code) {
     m_value = lDom.getData(_code, "value");
     m_key = lDom.getData(_code, "key").fromBase64();
     lDom.getData(_code, m_map, this);
-    return true;
 }
 //===============================================
 void GModuleNode::setModuleId(int _moduleId) {

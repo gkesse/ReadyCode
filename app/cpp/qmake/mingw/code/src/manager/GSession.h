@@ -9,7 +9,7 @@ public:
     GSession();
     ~GSession();
     GString serialize() const;
-    bool deserialize(const GString& _data);
+    void deserialize(const GString& _data);
 
 protected:
     int m_userId;

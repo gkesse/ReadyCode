@@ -1,8 +1,8 @@
 //===============================================
 #include "GSocketEcho.h"
 //===============================================
-GSocketEcho::GSocketEcho(const GString& _code)
-: GSocket(_code) {
+GSocketEcho::GSocketEcho()
+: GSocket() {
 
 }
 //===============================================

@@ -12,8 +12,8 @@
 #include "GQuery.h"
 #include "GQueryType.h"
 //===============================================
-GManager::GManager(const GString& _code)
-: GObject(_code) {
+GManager::GManager()
+: GObject() {
     m_server = 0;
 }
 //===============================================
@@ -37,7 +37,7 @@ void GManager::setServer(GSocket* _socket) {
     m_server = _socket;
 }
 //===============================================
-GString GManager::serialize(const GString& _code) const {
+GString GManager::serialize(const GString& _code)  {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "module", m_moduleName);
@@ -45,12 +45,11 @@ GString GManager::serialize(const GString& _code) const {
     return lDom.toString();
 }
 //===============================================
-bool GManager::deserialize(const GString& _data, const GString& _code) {
+void GManager::deserialize(const GString& _data, const GString& _code) {
     GCode lDom;
     lDom.loadXml(_data);
     m_moduleName = lDom.getData(_code, "module");
     m_methodName = lDom.getData(_code, "method");
-    return true;
 }
 //===============================================
 void GManager::setModule(const GString& _module) {

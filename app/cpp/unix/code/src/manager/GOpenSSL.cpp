@@ -3,8 +3,8 @@
 #include "GCode.h"
 #include "GApp.h"
 //===============================================
-GOpenSSL::GOpenSSL(const GString& _code)
-: GObject(_code) {
+GOpenSSL::GOpenSSL()
+: GObject() {
     initOpenSSL();
 }
 //===============================================

@@ -15,6 +15,7 @@ public:
     bool createResponse();
     GString getResponse() const;
 
+
 protected:
     void initReadyApp();
     bool runThreadCB();

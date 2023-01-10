@@ -9,13 +9,12 @@
 //===============================================
 class GObject {
 public:
-    GObject(const GString& _code = "object");
+    GObject();
     virtual ~GObject();
     virtual GObject* clone() const;
     virtual GString serialize(const GString& _code = "object");
-    virtual bool deserialize(const GString& _data, const GString& _code = "object");
+    virtual void deserialize(const GString& _data, const GString& _code = "object");
     virtual void clearMap();
-    virtual GString getCodeName() const;
     virtual int size() const;
     virtual GObject* at(int _index) const;
     virtual void add(GObject* _obj);
@@ -23,7 +22,6 @@ public:
 
 protected:
     std::vector<GObject*> m_map;
-    GString m_codeName;
 };
 //===============================================
 #endif

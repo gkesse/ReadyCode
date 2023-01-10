@@ -6,7 +6,7 @@
 //===============================================
 class GSocketEcho : public GSocket {
 public:
-    GSocketEcho(const GString& _code = "socket_echo");
+    GSocketEcho();
     ~GSocketEcho();
 
 protected:

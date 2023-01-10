@@ -8,8 +8,8 @@
 #include "GTableWidgetUi.h"
 #include "GFormLayout.h"
 //===============================================
-GModuleNode::GModuleNode(const GString& _code)
-: GSearch(_code) {
+GModuleNode::GModuleNode()
+: GSearch() {
     m_id = 0;
     m_moduleId = 0;
     m_mapId = 0;
@@ -39,7 +39,7 @@ GString GModuleNode::serialize(const GString& _code) {
     return lDom.toString();
 }
 //===============================================
-bool GModuleNode::deserialize(const GString& _data, const GString& _code) {
+void GModuleNode::deserialize(const GString& _data, const GString& _code) {
     GSearch::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
@@ -50,7 +50,6 @@ bool GModuleNode::deserialize(const GString& _data, const GString& _code) {
     m_value = lDom.getData(_code, "value");
     m_key = lDom.getData(_code, "key").fromBase64();
     lDom.getData(_code, m_map, this);
-    return true;
 }
 //===============================================
 void GModuleNode::setModuleNode(const GModuleNode& _moduleNode) {

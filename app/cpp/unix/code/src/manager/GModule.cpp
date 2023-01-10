@@ -4,8 +4,8 @@
 #include "GSocket.h"
 #include "GCode.h"
 //===============================================
-GModule::GModule(const GString& _code)
-: GSearch(_code) {
+GModule::GModule()
+: GSearch() {
     m_id = 0;
 }
 //===============================================
@@ -17,7 +17,7 @@ GObject* GModule::clone() const {
     return new GModule;
 }
 //===============================================
-GString GModule::serialize(const GString& _code) const {
+GString GModule::serialize(const GString& _code)  {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
@@ -27,14 +27,13 @@ GString GModule::serialize(const GString& _code) const {
     return lDom.toString();
 }
 //===============================================
-bool GModule::deserialize(const GString& _data, const GString& _code) {
+void GModule::deserialize(const GString& _data, const GString& _code) {
     GSearch::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
     m_name = lDom.getData(_code, "name");
     lDom.getData(_code, m_map, this);
-    return true;
 }
 //===============================================
 void GModule::setId(int _id) {
@@ -48,7 +47,7 @@ int GModule::getId() const {
 bool GModule::onModule() {
     deserialize(m_server->getRequest());
     if(m_methodName == "") {
-        GMETHOD_REQUIRED();
+        m_logs.addError("Erreur la méthode est obligatoire.");
     }
     else if(m_methodName == "save_module") {
         onSaveModule();
@@ -63,7 +62,7 @@ bool GModule::onModule() {
         onDeleteModule();
     }
     else {
-        GMETHOD_UNKNOWN();
+        m_logs.addError("Erreur la méthode est inconnue.");
     }
     m_server->addResponse(serialize());
     return true;
@@ -73,7 +72,7 @@ bool GModule::onSaveModule() {
     if(m_name == "") {GERROR_ADD(eGERR, "Le nom du module est obligatoire."); return false;}
     if(!saveModule()) return false;
     if(m_id == 0) {GERROR_ADD(eGERR, "Erreur lors de l'enregistrement du module."); return false;}
-    GLOG_ADD(eGLOG, "La donnée a bien été enregistrée.");
+    m_logs.addLog("La donnée a bien été enregistrée.");
     return true;
 }
 //===============================================
@@ -107,7 +106,7 @@ bool GModule::onSearchNextModule() {
 bool GModule::onDeleteModule() {
     if(m_id == 0) {GERROR_ADD(eGERR, "L'identifiant de la donnée est obligatoire."); return false;}
     if(!deleteModule()) return false;
-    GLOG_ADD(eGLOG, "La donnée a bien été supprimée.");
+    m_logs.addLog("La donnée a bien été supprimée.");
     return true;
 }
 //===============================================

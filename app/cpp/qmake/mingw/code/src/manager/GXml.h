@@ -20,7 +20,7 @@ public:
 
     bool createDoc();
     bool createNode(const GString& _name);
-    bool createNodePath(const GString& _name);
+    bool createXNode(const GString& _name);
 
     bool next();
 

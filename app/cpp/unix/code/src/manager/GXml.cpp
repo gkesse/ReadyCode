@@ -1,6 +1,5 @@
 //===============================================
 #include "GXml.h"
-#include "GLog.h"
 //===============================================
 GXml::GXml() {
     m_doc = 0;
@@ -34,27 +33,46 @@ bool GXml::loadXml(const GString& _xml) {
     GString lXml = _xml.trim();
     if(lXml == "") return false;
     m_doc = xmlParseDoc(BAD_CAST(lXml.c_str()));
-    if(!m_doc) {GERROR_ADD(eGERR, "Erreur lors de la création du document."); return false;}
+    if(!m_doc) {
+        m_logs.addError("Erreur le document n'a pas été initialisé.");
+        return false;
+    }
     m_xpath = xmlXPathNewContext(m_doc);
-    if(!m_xpath) {GERROR_ADD(eGERR, "Erreur lors de la création du xpath."); return false;}
+    if(!m_xpath) {
+        m_logs.addError("Erreur le xpath n'a pas été initialisé.");
+        return false;
+    }
     m_node = xmlDocGetRootElement(m_doc);
-    if(!m_node) {GERROR_ADD(eGERR, "Erreur lors de la lecture du noeud racine."); return false;}
+    if(!m_node) {
+        m_logs.addError("Erreur le noeud racine n'a pas été initialisé.");
+        return false;
+    }
     return true;
 }
 //===============================================
 bool GXml::loadFile(const GString& _filename) {
     if(_filename == "") return false;
     m_doc = xmlParseFile(_filename.c_str());
-    if(!m_doc) {GERROR_ADD(eGERR, "Erreur lors de la création du document."); return false;}
+    if(!m_doc) {
+        m_logs.addError("Erreur le document n'a pas été initialisé.");
+        return false;
+    }
     m_xpath = xmlXPathNewContext(m_doc);
-    if(!m_xpath) {GERROR_ADD(eGERR, "Erreur lors de la création du xpath."); return false;}
+    if(!m_xpath) {
+        m_logs.addError("Erreur le xpath n'a pas été initialisé.");
+        return false;
+    }
     m_node = xmlDocGetRootElement(m_doc);
-    if(!m_node) {GERROR_ADD(eGERR, "Erreur lors de la lecture du noeud racine."); return false;}
+    if(!m_node) {
+        m_logs.addError("Erreur le noeud racine n'a pas été initialisé.");
+        return false;
+    }
     return true;
 }
 //===============================================
 bool GXml::loadNode(const GString& _data) {
     if(_data.trim().isEmpty()) return false;
+    if(!m_doc) return false;
     if(!m_node) return false;
     xmlNodePtr lNewNode;
     xmlParseInNodeContext(m_node, _data.c_str(), _data.size(), 0, &lNewNode);
@@ -69,33 +87,57 @@ bool GXml::loadNode(const GString& _data) {
 //===============================================
 bool GXml::createDoc() {
     m_doc = xmlNewDoc(BAD_CAST "1.0");
-    if(!m_doc) {GERROR_ADD(eGERR, "Erreur lors de la création du document."); return false;}
+    if(!m_doc) {
+        m_logs.addError("Erreur le document n'a pas été initialisé.");
+        return false;
+    }
     m_xpath = xmlXPathNewContext(m_doc);
-    if(!m_xpath) {GERROR_ADD(eGERR, "Erreur lors de la création du xpath."); return false;}
+    if(!m_xpath) {
+        m_logs.addError("Erreur le xpath n'a pas été initialisé.");
+        return false;
+    }
     return true;
 }
 //===============================================
 bool GXml::createNode(const GString& _name) {
     if(!m_node) {
+        createDoc();
         m_node = xmlNewNode(NULL, BAD_CAST(_name.c_str()));
-        if(!m_node) {GERROR_ADD(eGERR, "Erreur lors de la création du noeud."); return false;}
+        if(!m_node) {
+            m_logs.addError("Erreur le noeud racine n'a pas été initialisé.");
+            return false;
+        }
         xmlDocSetRootElement(m_doc, m_node);
     }
     else {
         m_next = xmlNewNode(NULL, BAD_CAST(_name.c_str()));
-        if(!m_next) {GERROR_ADD(eGERR, "Erreur lors de la création du noeud."); return false;}
+        if(!m_next) {
+            m_logs.addError("Erreur le noeud n'a pas été initialisé.");
+            return false;
+        }
         xmlAddChild(m_node, m_next);
     }
     return true;
 }
 //===============================================
-bool GXml::createNodePath(const GString& _path) {
+bool GXml::createVNode(const GString& _name, const GString& _value, bool _isCData) {
+    pushNode();
+    createNode(_name);
+    next();
+    setValue(_value, _isCData);
+    popNode();
+    return true;
+}
+//===============================================
+bool GXml::createXNode(const GString& _path) {
     int lCount = _path.countSep("/");
+    GString lFirst = _path[0];
     GString lPath = "";
-    for(int i = 0; i < lCount; i++) {
+    if(lFirst == "/") lPath = "/";
+    for(int i = 0, j = 0; i < lCount; i++) {
         GString lItem = _path.extract(i, "/");
         if(lItem == "") continue;
-        lPath += "/";
+        if(j++ != 0) lPath += "/";
         lPath += lItem;
         if(!getNode(lPath)) {
             createNode(lItem);
@@ -111,7 +153,19 @@ bool GXml::next() {
     return true;
 }
 //===============================================
+void GXml::pushNode() {
+    if(!m_node) return;
+    m_stack.push(m_node);
+}
+//===============================================
+void GXml::popNode() {
+    if(m_stack.empty()) return;
+    m_node = m_stack.top();
+    m_stack.pop();
+}
+//===============================================
 bool GXml::getNode(const GString& _path) {
+    if(!m_doc) return false;
     if(!m_xpath) return false;
     m_xpathObj = xmlXPathEvalExpression(BAD_CAST(_path.c_str()), m_xpath);
     if(!m_xpathObj) return false;
@@ -137,7 +191,10 @@ bool GXml::setValue(const GString& _value, bool _isCData) {
     }
     else {
         xmlNodePtr lNode = xmlNewCDataBlock(m_doc, BAD_CAST(_value.c_str()), _value.size());
-        if(!lNode) {GERROR_ADD(eGERR, "Erreur lors de la création du noeud."); return false;}
+        if(!lNode) {
+            m_logs.addError("Erreur le noeud n'a pas été initialisé.");
+            return false;
+        }
         xmlAddChild(m_node, lNode);
     }
     return true;
@@ -181,5 +238,9 @@ GString GXml::toNode() const {
 //===============================================
 void GXml::print() const {
     printf("%s\n", toString().c_str());
+}
+//===============================================
+const GLog& GXml::getLogs() const {
+    return m_logs;
 }
 //===============================================

@@ -89,7 +89,7 @@ bool GXml::createNode(const GString& _name) {
     return true;
 }
 //===============================================
-bool GXml::createNodePath(const GString& _path) {
+bool GXml::createXNode(const GString& _path) {
     int lCount = _path.countSep("/");
     GString lPath = "";
     for(int i = 0; i < lCount; i++) {

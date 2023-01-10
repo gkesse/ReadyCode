@@ -6,7 +6,7 @@
 //===============================================
 class GCurl : public GObject {
 public:
-    GCurl(const GString& _code = "curl");
+    GCurl();
     ~GCurl();
 
 public:

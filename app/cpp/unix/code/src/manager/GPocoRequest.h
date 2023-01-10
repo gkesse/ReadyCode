@@ -16,6 +16,7 @@ protected:
 
 protected:
     GPoco* m_poco;
+    GLog m_logs;
 };
 //==============================================
 #endif

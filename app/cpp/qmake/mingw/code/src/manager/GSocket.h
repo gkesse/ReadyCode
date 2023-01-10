@@ -18,7 +18,7 @@ public:
     };
 
 public:
-    GSocket(const GString& _code = "socket");
+    GSocket();
     virtual ~GSocket();
 
     void setModule(eGModule _module);

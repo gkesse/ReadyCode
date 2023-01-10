@@ -2,7 +2,7 @@
 #ifndef _GXml_
 #define _GXml_
 //===============================================
-#include "GInclude.h"
+#include "GLog.h"
 //===============================================
 class GXml {
 public:
@@ -20,9 +20,12 @@ public:
 
     bool createDoc();
     bool createNode(const GString& _name);
-    bool createNodePath(const GString& _name);
+    bool createVNode(const GString& _name, const GString& _value, bool _isCData = false);
+    bool createXNode(const GString& _name);
 
     bool next();
+    void pushNode();
+    void popNode();
 
     bool getNode(const GString& _path);
     GString getValue() const;
@@ -36,6 +39,7 @@ public:
     GString toNode() const;
 
     void print() const;
+    const GLog& getLogs() const;
 
 protected:
     xmlDocPtr m_doc;
@@ -43,6 +47,8 @@ protected:
     xmlXPathObjectPtr m_xpathObj;
     xmlNodePtr m_node;
     xmlNodePtr m_next;
+    std::stack<xmlNodePtr> m_stack;
+    GLog m_logs;
 };
 //==============================================
 #endif

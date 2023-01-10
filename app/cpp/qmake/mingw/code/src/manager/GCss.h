@@ -12,7 +12,7 @@ public:
     ~GCss();
     GObject* clone() const;
     GString serialize(const GString& _code = "css");
-    bool deserialize(const GString& _data, const GString& _code = "css");
+    void deserialize(const GString& _data, const GString& _code = "css");
 
     void setKey(const GString& _key);
     void setFilename(const GString& _filename);

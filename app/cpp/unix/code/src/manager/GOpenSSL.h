@@ -6,7 +6,7 @@
 //===============================================
 class GOpenSSL : public GObject {
 public:
-    GOpenSSL(const GString& _code = "openssl");
+    GOpenSSL();
     ~GOpenSSL();
 
     bool initModule();

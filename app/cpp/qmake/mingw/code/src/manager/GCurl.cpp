@@ -5,8 +5,8 @@
 #include "GCode.h"
 #include "GApp.h"
 //===============================================
-GCurl::GCurl(const GString& _code)
-: GObject(_code) {
+GCurl::GCurl()
+: GObject() {
     initCurl();
 }
 //===============================================

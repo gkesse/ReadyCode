@@ -3,8 +3,8 @@
 #include "GCurl.h"
 #include "GCode.h"
 //===============================================
-GCurlTest::GCurlTest(const GString& _code)
-: GObject(_code) {
+GCurlTest::GCurlTest()
+: GObject() {
 
 }
 //===============================================
@@ -19,11 +19,11 @@ void GCurlTest::run(int _argc, char** _argv) {
         runCall(_argc, _argv);
     }
     else {
-        runDefault(_argc, _argv);
+        runTest(_argc, _argv);
     }
 }
 //===============================================
-void GCurlTest::runDefault(int _argc, char** _argv) {
+void GCurlTest::runTest(int _argc, char** _argv) {
     GLOGT(eGFUN, "Le process est inconnu.");
 }
 //===============================================

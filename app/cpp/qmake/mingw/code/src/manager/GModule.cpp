@@ -4,8 +4,8 @@
 #include "GClient.h"
 #include "GTableWidgetUi.h"
 //===============================================
-GModule::GModule(const GString& _code)
-: GSearch(_code) {
+GModule::GModule()
+: GSearch() {
     m_id = 0;
     m_tableWidget.reset(new GTableWidgetUi);
 }
@@ -28,14 +28,13 @@ GString GModule::serialize(const GString& _code) {
     return lDom.toString();
 }
 //===============================================
-bool GModule::deserialize(const GString& _data, const GString& _code) {
+void GModule::deserialize(const GString& _data, const GString& _code) {
     GSearch::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
     m_name = lDom.getData(_code, "name");
     lDom.getData(_code, m_map, this);
-    return true;
 }
 //===============================================
 void GModule::setModule(const GModule& _module) {

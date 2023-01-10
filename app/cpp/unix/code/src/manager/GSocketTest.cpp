@@ -2,8 +2,8 @@
 #include "GSocketTest.h"
 #include "GSocket.h"
 //===============================================
-GSocketTest::GSocketTest(const GString& _code)
-: GObject(_code) {
+GSocketTest::GSocketTest()
+: GObject() {
 
 }
 //===============================================

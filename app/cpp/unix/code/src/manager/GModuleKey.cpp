@@ -6,8 +6,8 @@
 #include "GSocket.h"
 #include "GCode.h"
 //===============================================
-GModuleKey::GModuleKey(const GString& _code)
-: GSearch(_code) {
+GModuleKey::GModuleKey()
+: GSearch() {
     m_id = 0;
     m_moduleId = 0;
     m_typeId = 0;
@@ -21,7 +21,7 @@ GObject* GModuleKey::clone() const {
     return new GModuleKey;
 }
 //===============================================
-GString GModuleKey::serialize(const GString& _code) const {
+GString GModuleKey::serialize(const GString& _code)  {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
@@ -36,7 +36,7 @@ GString GModuleKey::serialize(const GString& _code) const {
     return lDom.toString();
 }
 //===============================================
-bool GModuleKey::deserialize(const GString& _data, const GString& _code) {
+void GModuleKey::deserialize(const GString& _data, const GString& _code) {
     GSearch::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
@@ -48,7 +48,6 @@ bool GModuleKey::deserialize(const GString& _data, const GString& _code) {
     m_type = lDom.getData(_code, "type").fromBase64();
     m_module = lDom.getData(_code, "module").fromBase64();
     lDom.getData(_code, m_map, this);
-    return true;
 }
 //===============================================
 void GModuleKey::setId(int _id) {
@@ -62,7 +61,7 @@ void GModuleKey::setModuleId(int _moduleId) {
 bool GModuleKey::onModule() {
     deserialize(m_server->getRequest());
     if(m_methodName == "") {
-        GMETHOD_REQUIRED();
+        m_logs.addError("Erreur la méthode est obligatoire.");
     }
     else if(m_methodName == "load_module_key") {
         onLoadModuleKey();
@@ -77,7 +76,7 @@ bool GModuleKey::onModule() {
         onSearchNextModuleKey();
     }
     else {
-        GMETHOD_UNKNOWN();
+        m_logs.addError("Erreur la méthode est inconnue.");
     }
     m_server->addResponse(serialize());
     return true;
@@ -96,7 +95,7 @@ bool GModuleKey::onSaveModuleKey() {
     if(m_typeId == 0) {GERROR_ADD(eGERR, "Le type de la donnée est obligatoire."); return false;}
     if(!saveModuleKey()) return false;
     if(m_id == 0) {GERROR_ADD(eGERR, "Erreur lors de l'enregistrement de la donnée."); return false;}
-    GLOG_ADD(eGLOG, "La donnée a bien été enregistrée.");
+    m_logs.addLog("La donnée a bien été enregistrée.");
     return true;
 }
 //===============================================

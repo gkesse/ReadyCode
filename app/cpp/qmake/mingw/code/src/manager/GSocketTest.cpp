@@ -4,8 +4,8 @@
 #include "GModule.h"
 #include "GCode.h"
 //===============================================
-GSocketTest::GSocketTest(const GString& _code)
-: GObject(_code) {
+GSocketTest::GSocketTest()
+: GObject() {
 
 }
 //===============================================

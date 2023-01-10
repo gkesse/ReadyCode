@@ -13,7 +13,7 @@ GCode::~GCode() {
 //===============================================
 bool GCode::createCode() {
     if(!getCode()) {
-        createNodePath("/rdv/datas");
+        createXNode("/rdv/datas");
     }
     return true;
 }
@@ -89,7 +89,7 @@ bool GCode::getData(const GString& _code, std::vector<GObject*>& _map, GObject* 
         lDom.loadNode(lData);
         lData = lDom.toString();
         GObject* lObj = _obj->clone();
-        lObj->deserialize(lData, lObj->getCodeName());
+        lObj->deserialize(lData, _code);
         _map.push_back(lObj);
     }
     return true;
@@ -107,7 +107,7 @@ bool GCode::getData(const GString& _code, std::vector<GLog*>& _map, GLog* _obj) 
         lDom.loadNode(lData);
         lData = lDom.toString();
         GLog* lObj = _obj->clone();
-        lObj->deserialize(lData, lObj->getCodeName());
+        lObj->deserialize(lData, _code);
         _map.push_back(lObj);
     }
     return true;
@@ -134,7 +134,7 @@ bool GCode::addData(const GString& _code, const std::vector<GObject*>& _map) {
     }
     for(int i = 0; i < (int)_map.size(); i++) {
         GObject* lObj = _map.at(i);
-        GString lData = lObj->serialize(lObj->getCodeName());
+        GString lData = lObj->serialize(_code);
         GCode lDom;
         lDom.loadXml(lData);
         lData = lDom.toData();
