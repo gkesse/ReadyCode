@@ -2,6 +2,7 @@
 #include "GPocoGetXml.h"
 #include "GFile.h"
 #include "GPath.h"
+#include "GBase64.h"
 //===============================================
 GPocoGetXml::GPocoGetXml()
 : GPoco() {
@@ -36,7 +37,7 @@ bool GPocoGetXml::run(const GString& _url) {
     else if(m_verb == "favicon.ico") {
         GString lFavicon = GPATH("img", "readydev.png");
         m_contentType = "image/png";
-        m_response = GFile(lFavicon).getContentBin();
+        m_response = GBase64(GFile(lFavicon).getContentBin()).encodeData();
     }
     else {
         if(m_verb == m_verb.c_str()) {
