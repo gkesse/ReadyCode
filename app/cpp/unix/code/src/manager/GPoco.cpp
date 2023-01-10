@@ -264,7 +264,7 @@ bool GPoco::onGetNoUsernamePasswordNoContentType(Poco::Net::HTTPServerRequest& _
 bool GPoco::onGetXml(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
     GPocoGetXml lPoco;
     lPoco.run(_request.getURI());
-    m_response = lPoco.m_response;
+    setPoco(lPoco);
     return !m_logs.hasErrors();
 }
 //===============================================
@@ -318,6 +318,8 @@ void GPoco::setPoco(const GPoco& _poco) {
     m_protocol = _poco.m_protocol;
     m_verb = _poco.m_verb;
     m_port = _poco.m_port;
+    m_contentType = _poco.m_contentType;
+    m_response = _poco.m_response;
     m_hasUserPass = _poco.m_hasUserPass;
     m_hasContentType = _poco.m_hasContentType;
 }
@@ -473,14 +475,14 @@ bool GPoco::onResponse(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSe
     }
 
     if(m_contentType.isEmpty()) {
-        m_contentType = "application/xml";
+        m_contentType = "application/xml; charset=UTF-8";
     }
 
     _response.setStatus(m_status);
     _response.setContentLength(m_response.size());
-    _response.setContentType(GFORMAT("%s; charset=%s", m_contentType.c_str(), m_charset.c_str()).c_str());
+    _response.setContentType(m_contentType.c_str());
     std::ostream& lStream = _response.send();
-    lStream << m_response.c_str();
+    lStream.write(m_response.c_str(), m_response.size());
     lStream.flush();
 
     return !m_logs.hasErrors();

@@ -2,7 +2,6 @@
 #include "GPocoGetXml.h"
 #include "GFile.h"
 #include "GPath.h"
-#include "GBase64.h"
 //===============================================
 GPocoGetXml::GPocoGetXml()
 : GPoco() {
@@ -35,9 +34,9 @@ bool GPocoGetXml::run(const GString& _url) {
         m_logsTech.addError("Erreur le verbe est obligatoire.");
     }
     else if(m_verb == "favicon.ico") {
-        GString lFavicon = GPATH("img", "readydev.png");
         m_contentType = "image/png";
-        m_response = GBase64(GFile(lFavicon).getContentBin()).encodeData();
+        GString lFavicon = GPATH("img", "readydev.png");
+        m_response = GFile(lFavicon).getContentBin();
     }
     else {
         if(m_verb == m_verb.c_str()) {
