@@ -105,6 +105,8 @@ typedef unsigned char uchar;
 #include <openssl/bio.h>
 #include <openssl/ssl.h>
 #include <openssl/err.h>
+// json-c
+#include <json-c/json.h>
 // includes
 #include "GString.h"
 //===============================================

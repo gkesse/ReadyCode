@@ -61,7 +61,6 @@ void GXmlTest::runTest(int _argc, char** _argv) {
 
     GPage lPage;
     lPage.deserialize(lXml.toString());
-    lPage.print();
 
     m_logs.addData(lPage.serialize());
 }
@@ -93,7 +92,6 @@ void GXmlTest::runSerialize(int _argc, char** _argv) {
 
     GPage lPage;
     lPage.deserialize(lXml.toString());
-    lPage.print();
 
     m_logs.addData(lPage.serialize());
 }

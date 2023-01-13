@@ -14,11 +14,16 @@ public:
     void clearMap();
     void setLog(const GLog& _log);
     void addError(const GString& _msg);
+    void addTechError(const GString& _msg);
     void addLog(const GString& _msg);
     void addData(const GString& _msg);
     void addLogs(const GLog& _obj);
-    bool hasErrors() const;
     void showErrors();
+    bool hasErrors() const;
+    bool hasTechErrors() const;
+    int size() const;
+    bool isEmpty() const;
+    GString toJson() const;
 
 private:
     GString m_type;

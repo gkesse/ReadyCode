@@ -28,28 +28,25 @@ void GPocoGetXml::deserialize(const GString& _data, const GString& _code) {
 }
 //===============================================
 bool GPocoGetXml::run(const GString& _url) {
-    deserialize(_url);
-    if(m_verb == "") {
+    GPocoGetXml lPoco;
+    lPoco.deserialize(_url);
+    if(lPoco.m_verb == "") {
         m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
-        m_logsTech.addError("Erreur le verbe est obligatoire.");
+        m_logs.addTechError("Erreur le verbe est obligatoire.");
     }
-    else if(m_verb == "favicon.ico") {
+    else if(lPoco.m_verb == "favicon.ico") {
         m_contentType = "image/png";
         GString lFavicon = GPATH("img", "readydev.png");
         m_response = GFile(lFavicon).getContentBin();
     }
     else {
-        if(m_verb == m_verb.c_str()) {
+        if(lPoco.m_verb == m_verb) {
             m_logs.addLog("La requête a bien été exécutée.");
         }
         else {
             m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
-            m_logsTech.addError("Erreur le verbe est inconnu.");
+            m_logs.addTechError("Erreur le verbe est inconnu.");
         }
-
-        m_logs.addLogs(m_logsTech);
-        m_responseXml.loadData(m_logs.serialize());
-        m_response = m_responseXml.toString();
     }
     return !m_logs.hasErrors();
 }

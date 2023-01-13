@@ -2,6 +2,7 @@
 #include "GTest.h"
 #include "GPocoTest.h"
 #include "GXmlTest.h"
+#include "GJsonTest.h"
 #include "GCurlTest.h"
 #include "GSocketTest.h"
 //===============================================
@@ -26,6 +27,9 @@ void GTest::run(int _argc, char** _argv) {
     else if(lModule == "xml") {
         runXml(_argc, _argv);
     }
+    else if(lModule == "json") {
+        runJson(_argc, _argv);
+    }
     else if(lModule == "curl") {
         runCurl(_argc, _argv);
     }
@@ -47,6 +51,12 @@ void GTest::runXml(int _argc, char** _argv) {
     GXmlTest lXml;
     lXml.run(_argc, _argv);
     m_logs.addLogs(lXml.getLogs());
+}
+//===============================================
+void GTest::runJson(int _argc, char** _argv) {
+    GJsonTest lJson;
+    lJson.run(_argc, _argv);
+    m_logs.addLogs(lJson.getLogs());
 }
 //===============================================
 void GTest::runCurl(int _argc, char** _argv) {

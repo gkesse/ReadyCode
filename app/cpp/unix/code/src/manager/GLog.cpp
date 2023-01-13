@@ -41,6 +41,7 @@ void GLog::clearMap() {
         GLog* lObj = m_map.at(i);
         delete lObj;
     }
+    m_map.clear();
 }
 //===============================================
 void GLog::setLog(const GLog& _obj) {
@@ -52,6 +53,14 @@ void GLog::setLog(const GLog& _obj) {
 void GLog::addError(const GString& _msg) {
     GLog* lObj = new GLog;
     lObj->m_type = "error";
+    lObj->m_side = "server";
+    lObj->m_msg = _msg;
+    m_map.push_back(lObj);
+}
+//===============================================
+void GLog::addTechError(const GString& _msg) {
+    GLog* lObj = new GLog;
+    lObj->m_type = "tech_error";
     lObj->m_side = "server";
     lObj->m_msg = _msg;
     m_map.push_back(lObj);
@@ -80,14 +89,6 @@ void GLog::addLogs(const GLog& _obj) {
     }
 }
 //===============================================
-bool GLog::hasErrors() const {
-    for(int i = 0; i < (int)m_map.size(); i++) {
-        GLog* lObj = m_map.at(i);
-        if(lObj->m_type == "error") return true;
-    }
-    return false;
-}
-//===============================================
 void GLog::showErrors() {
     if(!m_map.size()) return;
     printf("\n");
@@ -95,6 +96,9 @@ void GLog::showErrors() {
         GLog* lObj = m_map.at(i);
         if(lObj->m_type == "error") {
             printf("[ERROR] : %s\n", lObj->m_msg.c_str());
+        }
+        if(lObj->m_type == "tech_error") {
+            printf("[ETECH] : %s\n", lObj->m_msg.c_str());
         }
         else if(lObj->m_type == "log") {
             printf("[INFOS] : %s\n", lObj->m_msg.c_str());
@@ -104,5 +108,54 @@ void GLog::showErrors() {
         }
     }
     printf("\n");
+}
+//===============================================
+bool GLog::hasErrors() const {
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GLog* lObj = m_map.at(i);
+        if(lObj->m_type == "error") return true;
+        if(lObj->m_type == "tech_error") return true;
+    }
+    return false;
+}
+//===============================================
+bool GLog::hasTechErrors() const {
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GLog* lObj = m_map.at(i);
+        if(lObj->m_type == "tech_error") return true;
+    }
+    return false;
+}
+//===============================================
+int GLog::size() const {
+    return (int)m_map.size();
+}
+//===============================================
+bool GLog::isEmpty() const {
+    return (size() == 0);
+}
+//===============================================
+GString GLog::toJson() const {
+    GJson lJson;
+    lJson.createObject();
+    lJson.pushObject();
+    lJson.createArray();
+    for(int i = 0; i < (int)m_map.size(); i++) {
+        GLog* lObj = m_map.at(i);
+        lJson.pushObject();
+        lJson.createObject();
+        lJson.addData("status", lObj->m_type);
+        lJson.addData("msg", lObj->m_msg);
+        lJson.initChild();
+        lJson.popObject();
+        lJson.initParent();
+        lJson.addObject();
+        break;
+    }
+    lJson.initChild();
+    lJson.popObject();
+    lJson.initParent();
+    lJson.addObject("logs");
+    return lJson.toString();
 }
 //===============================================

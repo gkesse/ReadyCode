@@ -15,7 +15,6 @@ public:
     bool run(const GString& _url);
 
 protected:
-    GString m_verb;
     GString m_module;
     GString m_method;
 };

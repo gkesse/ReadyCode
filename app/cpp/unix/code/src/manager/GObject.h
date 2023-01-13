@@ -5,8 +5,9 @@
 #include "GInclude.h"
 #include "GMap.h"
 #include "GCode.h"
-#include "GLogUi.h"
 #include "GLog.h"
+#include "GLogUi.h"
+#include "GJson.h"
 //===============================================
 class GObject {
 public:

@@ -11,6 +11,7 @@ public:
     void run(int _argc, char** _argv);
     void runPoco(int _argc, char** _argv);
     void runXml(int _argc, char** _argv);
+    void runJson(int _argc, char** _argv);
     void runCurl(int _argc, char** _argv);
     void runSocket(int _argc, char** _argv);
 

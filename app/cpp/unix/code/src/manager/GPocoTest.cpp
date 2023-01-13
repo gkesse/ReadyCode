@@ -32,7 +32,8 @@ void GPocoTest::runTest(int _argc, char** _argv) {
     GPoco lPoco;
     lPoco.initPoco();
     lPoco.setProtocol("http");
-    lPoco.setVerb("");
+    lPoco.setVerb("readyapi-1.0");
+    lPoco.setUserAgent("rdvapp/1.0");
     lPoco.setPort(9071);
     lPoco.setHasUserPass(false);
     lPoco.setHasContentType(false);
@@ -44,7 +45,8 @@ void GPocoTest::runHttpGet(int _argc, char** _argv) {
     GPoco lPoco;
     lPoco.initPoco();
     lPoco.setProtocol("http");
-    lPoco.setVerb("/");
+    lPoco.setVerb("readyapi-1.0");
+    lPoco.setUserAgent("rdvapp/1.0");
     lPoco.setPort(9071);
     lPoco.setHasUserPass(false);
     lPoco.setHasContentType(false);
