@@ -17,6 +17,7 @@ GPoco::GPoco()
     m_port = 0;
     m_hasUserPass = false;
     m_hasContentType = false;
+    m_hasUserAgent = false;
 }
 //===============================================
 GPoco::~GPoco() {
@@ -37,8 +38,8 @@ void GPoco::initPoco() {
 
     m_startMessage      = GAPP->getData("poco", "start_message");
     m_stopMessage       = GAPP->getData("poco", "stop_message");
-    m_apiUsername       = GAPP->getData("poco", "api_username");
-    m_apiPassword       = GAPP->getData("poco", "api_password");
+    m_username       = GAPP->getData("poco", "api_username");
+    m_password       = GAPP->getData("poco", "api_password");
     m_portProd          = GAPP->getData("poco", "port_prod").toInt();
     m_portTest          = GAPP->getData("poco", "port_test").toInt();
     m_port              = (m_isTestEnv ? m_portTest : m_portProd);
@@ -47,6 +48,58 @@ void GPoco::initPoco() {
     m_privateKeyFile    = GAPP->getData("poco", "private_key_file");
     m_certificateFile   = GAPP->getData("poco", "certificate_file");
     m_cacertFile        = GAPP->getData("poco", "cacert_file");
+}
+//===============================================
+bool GPoco::onGetUsernamePasswordContentType(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
+    if(_request.hasCredentials()) {
+        Poco::Net::HTTPBasicCredentials lCredentials(_request);
+        GString lUsername = lCredentials.getUsername();
+        GString lPassword = lCredentials.getPassword();
+        if(lUsername == m_username && lPassword == m_password) {
+            if(!_request.getContentType().empty()) {
+                if(_request.getContentType() == "application/xml") {
+                    onGetXml(_request, _response);
+                }
+                else {
+                    m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+                    m_logs.addTechError("Erreur le type du contenu est inconnu.");
+                }
+            }
+            else {
+                m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+                m_logs.addTechError("Erreur le type du contenu est obligatoire.");
+            }
+        }
+        else {
+            m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+            m_logs.addTechError("Erreur le mot de passe est incorrect.");
+        }
+    }
+    else {
+        m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+        m_logs.addTechError("Erreur le mot de passe est obligatoire.");
+    }
+    return !m_logs.hasErrors();
+}
+//===============================================
+bool GPoco::onGetUsernamePasswordNoContentType(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
+    if(_request.hasCredentials()) {
+        Poco::Net::HTTPBasicCredentials lCredentials(_request);
+        GString lUsername = lCredentials.getUsername();
+        GString lPassword = lCredentials.getPassword();
+        if(lUsername == m_username && lPassword == m_password) {
+            onGetXml(_request, _response);
+        }
+        else {
+            m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+            m_logs.addTechError("Erreur le mot de passe est incorrect.");
+        }
+    }
+    else {
+        m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+        m_logs.addTechError("Erreur le mot de passe est obligatoire.");
+    }
+    return !m_logs.hasErrors();
 }
 //===============================================
 bool GPoco::onGetNoUsernamePasswordContentType(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
@@ -134,7 +187,10 @@ void GPoco::setPoco(const GPoco& _obj) {
     m_response = _obj.m_response;
     m_hasUserPass = _obj.m_hasUserPass;
     m_hasContentType = _obj.m_hasContentType;
+    m_hasUserAgent = _obj.m_hasUserAgent;
     m_userAgent = _obj.m_userAgent;
+    m_username = _obj.m_username;
+    m_password = _obj.m_password;
     m_logs.addLogs(_obj.m_logs);
 }
 //===============================================
@@ -158,8 +214,20 @@ void GPoco::setHasContentType(bool _hasContentType) {
     m_hasContentType = _hasContentType;
 }
 //===============================================
+void GPoco::setHasUserAgent(bool _hasUserAgent) {
+    m_hasUserAgent = _hasUserAgent;
+}
+//===============================================
 void GPoco::setUserAgent(const GString& _userAgent) {
     m_userAgent = _userAgent;
+}
+//===============================================
+void GPoco::setUsername(const GString& _username) {
+    m_username = _username;
+}
+//===============================================
+void GPoco::setPassword(const GString& _password) {
+    m_password = _password;
 }
 //===============================================
 int GPoco::getPort() const {
@@ -226,7 +294,12 @@ bool GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
         // http : get
         else if(_request.getMethod() == "GET") {
             if(m_hasUserPass) {
-                //onGetUsernamePassword(_request, _response);
+                if(m_hasContentType) {
+                    onGetUsernamePasswordContentType(_request, _response);
+                }
+                else {
+                    onGetUsernamePasswordNoContentType(_request, _response);
+                }
             }
             else {
                 if(m_hasContentType) {
@@ -237,7 +310,6 @@ bool GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
                 }
             }
         }
-        // unknown method
         else {
             m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
             m_logs.addTechError("Erreur la méthode est inconnue.");
@@ -286,16 +358,14 @@ bool GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
 bool GPoco::onResponse(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
     GString lRequest = m_headers + m_request;
 
-    if(!m_logs.isEmpty()) {
-        m_responseXml.loadData(m_logs.serialize());
-        if(m_userAgentData == m_userAgent) {
-            m_response = m_responseXml.toString();
-            m_contentType = "application/xml; charset=UTF-8";
-        }
-        else {
-            m_response = m_responseXml.toJson();
-            m_contentType = "application/json; charset=UTF-8";
-        }
+    m_responseXml.loadData(m_logs.serialize());
+    if(m_userAgentData == m_userAgent || !m_hasUserAgent) {
+        m_response = m_responseXml.toString();
+        m_contentType = "application/xml; charset=UTF-8";
+    }
+    else {
+        m_response = m_responseXml.toJson();
+        m_contentType = "application/json; charset=UTF-8";
     }
 
     GLOGT(eGMSG, "[RECEPTION] : (%d)(%d)\n%s\n", lRequest.size(), (int)m_status, lRequest.c_str());
@@ -305,7 +375,7 @@ bool GPoco::onResponse(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSe
         m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
         GLog lLog;
         lLog.addError("Erreur lors de la connexion au serveur.");
-        if(m_userAgentData == m_userAgent) {
+        if(m_userAgentData == m_userAgent || !m_hasUserAgent) {
             m_response = lLog.serialize();
             m_contentType = "application/xml; charset=UTF-8";
         }

@@ -24,7 +24,10 @@ public:
     void setPort(int _port);
     void setHasUserPass(bool _hasUserPass);
     void setHasContentType(bool _hasContentType);
+    void setHasUserAgent(bool _hasUserAgent);
     void setUserAgent(const GString& _userAgent);
+    void setUsername(const GString& _username);
+    void setPassword(const GString& _password);
 
     int getPort() const;
     GString getProtocol() const;
@@ -36,6 +39,8 @@ public:
     bool onResponse(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
 
 private:
+    bool onGetUsernamePasswordContentType(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
+    bool onGetUsernamePasswordNoContentType(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
     bool onGetNoUsernamePasswordContentType(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
     bool onGetNoUsernamePasswordNoContentType(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
     bool onGetXml(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response);
@@ -53,15 +58,12 @@ protected:
     GString m_verb;
     bool m_hasUserPass;
     bool m_hasContentType;
+    bool m_hasUserAgent;
 
     bool m_isTestEnv;
 
-    GString m_apiKey;
-    GString m_apiKeyProd;
-    GString m_apiKeyTest;
-    GString m_apiUsername;
-    GString m_apiPassword;
-
+    GString m_username;
+    GString m_password;
     GString m_contentType;
 
     GString m_headers;

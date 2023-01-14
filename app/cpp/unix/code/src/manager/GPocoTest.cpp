@@ -34,9 +34,12 @@ void GPocoTest::runTest(int _argc, char** _argv) {
     lPoco.setProtocol("http");
     lPoco.setVerb("readyapi-1.0");
     lPoco.setUserAgent("rdvapp/1.0");
+    lPoco.setUsername("admin");
+    lPoco.setPassword("adminpass");
     lPoco.setPort(9071);
-    lPoco.setHasUserPass(false);
-    lPoco.setHasContentType(false);
+    lPoco.setHasUserPass(true);
+    lPoco.setHasContentType(true);
+    lPoco.setHasUserAgent(true);
     lPoco.run(_argc, _argv);
     m_logs.addLogs(lPoco.getLogs());
 }
@@ -47,15 +50,12 @@ void GPocoTest::runHttpGet(int _argc, char** _argv) {
     lPoco.setProtocol("http");
     lPoco.setVerb("readyapi-1.0");
     lPoco.setUserAgent("rdvapp/1.0");
+    lPoco.setUsername("admin");
+    lPoco.setPassword("adminpass");
     lPoco.setPort(9071);
-    lPoco.setHasUserPass(false);
-    lPoco.setHasContentType(false);
-    lPoco.run(_argc, _argv);
-    m_logs.addLogs(lPoco.getLogs());
-}
-//===============================================
-void GPocoTest::runServer(int _argc, char** _argv) {
-    GPoco lPoco;
+    lPoco.setHasUserPass(true);
+    lPoco.setHasContentType(true);
+    lPoco.setHasUserAgent(true);
     lPoco.run(_argc, _argv);
     m_logs.addLogs(lPoco.getLogs());
 }
