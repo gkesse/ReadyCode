@@ -198,28 +198,23 @@ GString GCode::toData() {
 //===============================================
 GString GCode::toJson() {
     GJson lJson;
-    GString lData = "";
     int lState = 0;
-    lData += "{";
+    GString lCode;
     lJson.createObject();
     if(getXNode("/rdv/datas")) {
-        toJson(m_node, lState, lData, lJson);
+        toJson(m_node, lState, lCode, lJson);
     }
-    lData += "}";
     return lJson.toString();
 }
 //===============================================
-void GCode::toJson(xmlNodePtr _node, int& _state, GString& _data, GJson& _json) {
-    GString lCode;
-    GString lCodeMap;
-    int lSizeMap = 0;
+void GCode::toJson(xmlNodePtr _node, int& _state, GString& _code, GJson& _json) {
     for (xmlNodePtr lNode = _node; lNode; lNode = lNode->next) {
         if (lNode->type == XML_ELEMENT_NODE) {
             GString lName = (const char*)lNode->name;
             GString lValue = (const char*)xmlNodeGetContent(lNode);
             if(_state == 0) {
                 if(lName == "code") {
-                    lCode = lValue;
+                    _code = lValue;
                     _json.pushObject();
                     _json.createObject();
                     _state = 1;
@@ -235,7 +230,7 @@ void GCode::toJson(xmlNodePtr _node, int& _state, GString& _data, GJson& _json) 
                     _json.initChild();
                     _json.popObject();
                     _json.initParent();
-                    _json.addObject(lCode);
+                    _json.addObject(_code);
                     _state = 0;
                 }
                 else {
@@ -246,7 +241,6 @@ void GCode::toJson(xmlNodePtr _node, int& _state, GString& _data, GJson& _json) 
                 if(lName == "code") {
                     _json.pushObject();
                     _json.createObject();
-                    _json.addData(lName, lValue);
                     _state = 3;
                 }
             }
@@ -256,23 +250,56 @@ void GCode::toJson(xmlNodePtr _node, int& _state, GString& _data, GJson& _json) 
                         _json.initChild();
                         _json.popObject();
                         _json.initParent();
-                        _json.addObject(lCode);
+                        _json.addObject();
                         _state = 2;
                     }
                     else {
                         _json.initChild();
                         _json.popObject();
                         _json.initParent();
+                        _json.addObject();
+
+                        _json.initChild();
+                        _json.popObject();
+                        _json.initParent();
                         _json.addObject("map");
+
+                        _json.initChild();
+                        _json.popObject();
+                        _json.initParent();
+                        _json.addObject(_code);
+
                         _state = 0;
                     }
                 }
                 else {
                     _json.addData(lName, lValue);
+                    if(!xmlNextElementSibling(lNode)) {
+                        if(!xmlNextElementSibling(lNode->parent)) {
+                            if(!xmlNextElementSibling(lNode->parent->parent->parent)) {
+                                _json.initChild();
+                                _json.popObject();
+                                _json.initParent();
+                                _json.addObject();
+
+                                _json.initChild();
+                                _json.popObject();
+                                _json.initParent();
+                                _json.addObject("map");
+
+                                _json.initChild();
+                                _json.popObject();
+                                _json.initParent();
+                                _json.addObject(_code);
+
+                                _state = 0;
+                            }
+                        }
+                    }
                 }
             }
         }
-        toJson(lNode->children, _state, _data, _json);
+        toJson(lNode->children, _state, _code, _json);
     }
 }
 //===============================================

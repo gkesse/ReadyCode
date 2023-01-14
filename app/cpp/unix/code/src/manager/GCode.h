@@ -39,7 +39,7 @@ public:
 
     GString toData();
     GString toJson();
-    void toJson(xmlNodePtr _node, int& _state, GString& _data, GJson& _json);
+    void toJson(xmlNodePtr _node, int& _state, GString& _code, GJson& _json);
 };
 //==============================================
 #endif
