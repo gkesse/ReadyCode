@@ -62,6 +62,12 @@ GString GObject::getResponse() const {
     return m_responseXml.toString();
 }
 //===============================================
+GString GObject::toJson() {
+    GCode lDom;
+    lDom.loadXml(serialize());
+    return lDom.toJson();
+}
+//===============================================
 GObject* GObject::clone() const {return new GObject;}
 GString GObject::serialize(const GString& _code)  {return "";}
 void GObject::deserialize(const GString& _data, const GString& _code) {}

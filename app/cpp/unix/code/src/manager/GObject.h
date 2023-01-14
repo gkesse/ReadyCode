@@ -27,6 +27,7 @@ public:
     virtual void addLogs(const GLog& _obj);
     virtual const GLog& getLogs() const;
     virtual GString getResponse() const;
+    virtual GString toJson();
 
 protected:
     GLog m_logs;

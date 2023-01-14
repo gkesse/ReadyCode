@@ -135,27 +135,9 @@ bool GLog::isEmpty() const {
     return (size() == 0);
 }
 //===============================================
-GString GLog::toJson() const {
-    GJson lJson;
-    lJson.createObject();
-    lJson.pushObject();
-    lJson.createArray();
-    for(int i = 0; i < (int)m_map.size(); i++) {
-        GLog* lObj = m_map.at(i);
-        lJson.pushObject();
-        lJson.createObject();
-        lJson.addData("status", lObj->m_type);
-        lJson.addData("msg", lObj->m_msg);
-        lJson.initChild();
-        lJson.popObject();
-        lJson.initParent();
-        lJson.addObject();
-        break;
-    }
-    lJson.initChild();
-    lJson.popObject();
-    lJson.initParent();
-    lJson.addObject("logs");
-    return lJson.toString();
+GString GLog::toJson() {
+    GCode lDom;
+    lDom.loadXml(serialize());
+    return lDom.toJson();
 }
 //===============================================

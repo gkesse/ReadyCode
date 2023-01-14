@@ -23,7 +23,7 @@ public:
     bool hasTechErrors() const;
     int size() const;
     bool isEmpty() const;
-    GString toJson() const;
+    GString toJson();
 
 private:
     GString m_type;

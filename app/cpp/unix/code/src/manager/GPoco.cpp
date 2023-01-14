@@ -287,12 +287,13 @@ bool GPoco::onResponse(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSe
     GString lRequest = m_headers + m_request;
 
     if(!m_logs.isEmpty()) {
+        m_responseXml.loadData(m_logs.serialize());
         if(m_userAgentData == m_userAgent) {
-            m_responseXml.loadData(m_logs.serialize());
             m_response = m_responseXml.toString();
+            m_contentType = "application/xml; charset=UTF-8";
         }
         else {
-            m_response = m_logs.toJson();
+            m_response = m_responseXml.toJson();
             m_contentType = "application/json; charset=UTF-8";
         }
     }
