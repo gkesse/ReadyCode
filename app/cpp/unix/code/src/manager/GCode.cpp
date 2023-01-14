@@ -198,108 +198,61 @@ GString GCode::toData() {
 //===============================================
 GString GCode::toJson() {
     GJson lJson;
-    int lState = 0;
-    GString lCode;
     lJson.createObject();
+    GString lName;
+    GString lValue;
+    GString lCode;
     if(getXNode("/rdv/datas")) {
-        toJson(m_node, lState, lCode, lJson);
-    }
-    return lJson.toString();
-}
-//===============================================
-void GCode::toJson(xmlNodePtr _node, int& _state, GString& _code, GJson& _json) {
-    for (xmlNodePtr lNode = _node; lNode; lNode = lNode->next) {
-        if (lNode->type == XML_ELEMENT_NODE) {
-            GString lName = (const char*)lNode->name;
-            GString lValue = (const char*)xmlNodeGetContent(lNode);
-            if(_state == 0) {
-                if(lName == "code") {
-                    _code = lValue;
-                    _json.pushObject();
-                    _json.createObject();
-                    _state = 1;
-                }
-            }
-            else if(_state == 1) {
-                if(lName == "map") {
-                    _json.pushObject();
-                    _json.createArray();
-                    _state = 2;
-                }
-                else if(lName == "data") {
-                    _json.initChild();
-                    _json.popObject();
-                    _json.initParent();
-                    _json.addObject(_code);
-                    _state = 0;
-                }
-                else {
-                    _json.addData(lName, lValue);
-                }
-            }
-            else if(_state == 2) {
-                if(lName == "code") {
-                    _json.pushObject();
-                    _json.createObject();
-                    _state = 3;
-                }
-            }
-            else if(_state == 3) {
-                if(lName == "data") {
-                    if(xmlNextElementSibling(lNode)) {
-                        _json.initChild();
-                        _json.popObject();
-                        _json.initParent();
-                        _json.addObject();
-                        _state = 2;
-                    }
-                    else {
-                        _json.initChild();
-                        _json.popObject();
-                        _json.initParent();
-                        _json.addObject();
-
-                        _json.initChild();
-                        _json.popObject();
-                        _json.initParent();
-                        _json.addObject("map");
-
-                        _json.initChild();
-                        _json.popObject();
-                        _json.initParent();
-                        _json.addObject(_code);
-
-                        _state = 0;
-                    }
-                }
-                else {
-                    _json.addData(lName, lValue);
-                    if(!xmlNextElementSibling(lNode)) {
-                        if(!xmlNextElementSibling(lNode->parent)) {
-                            if(!xmlNextElementSibling(lNode->parent->parent->parent)) {
-                                _json.initChild();
-                                _json.popObject();
-                                _json.initParent();
-                                _json.addObject();
-
-                                _json.initChild();
-                                _json.popObject();
-                                _json.initParent();
-                                _json.addObject("map");
-
-                                _json.initChild();
-                                _json.popObject();
-                                _json.initParent();
-                                _json.addObject(_code);
-
-                                _state = 0;
+        for (xmlNodePtr lRootNode = m_node->children; lRootNode; lRootNode = lRootNode->next) {
+            if (lRootNode->type == XML_ELEMENT_NODE) {
+                for (xmlNodePtr lDataNode = lRootNode->children; lDataNode; lDataNode = lDataNode->next) {
+                    if (lDataNode->type == XML_ELEMENT_NODE) {
+                        lName = (const char*)lDataNode->name;
+                        lValue = (const char*)xmlNodeGetContent(lDataNode);
+                        if(lName == "code") {
+                            lCode = lValue;
+                            lJson.pushObject();
+                            lJson.createObject();
+                            continue;
+                        }
+                        else if(lName == "map") {
+                            lJson.pushObject();
+                            lJson.createArray();
+                            for (xmlNodePtr lMapNode = lDataNode->children; lMapNode; lMapNode = lMapNode->next) {
+                                if (lMapNode->type == XML_ELEMENT_NODE) {
+                                    lJson.pushObject();
+                                    lJson.createObject();
+                                    for (xmlNodePtr lItemNode = lMapNode->children; lItemNode; lItemNode = lItemNode->next) {
+                                        if (lItemNode->type == XML_ELEMENT_NODE) {
+                                            lName = (const char*)lItemNode->name;
+                                            lValue = (const char*)xmlNodeGetContent(lItemNode);
+                                            if(lName == "code") continue;
+                                            lJson.addData(lName, lValue);
+                                        }
+                                    }
+                                    lJson.initChild();
+                                    lJson.popObject();
+                                    lJson.initParent();
+                                    lJson.addObject();
+                                }
                             }
+                            lJson.initChild();
+                            lJson.popObject();
+                            lJson.initParent();
+                            lJson.addObject("map");
+                        }
+                        else {
+                            lJson.addData(lName, lValue);
                         }
                     }
                 }
+                lJson.initChild();
+                lJson.popObject();
+                lJson.initParent();
+                lJson.addObject(lCode);
             }
         }
-        toJson(lNode->children, _state, _code, _json);
     }
+    return lJson.toString();
 }
 //===============================================

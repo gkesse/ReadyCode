@@ -50,7 +50,7 @@ void GXmlTest::runTest(int _argc, char** _argv) {
     lDom.createNode("map");
     lDom.next();
 
-    for(int i = 0; i < 1; i++) {
+    for(int i = 0; i < 3; i++) {
         GCode lData;
         lData.addData("page", "id", i + 1);
         lData.addData("page", "name", "admin");
@@ -74,7 +74,6 @@ void GXmlTest::runTest(int _argc, char** _argv) {
     }
 
     m_logs.addData(lDom.toJson());
-    //m_logs.addData(lDom.toString());
 }
 //===============================================
 void GXmlTest::runSerialize(int _argc, char** _argv) {
