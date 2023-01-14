@@ -48,23 +48,23 @@ bool GCode::loadData(const GString& _data) {
 }
 //===============================================
 bool GCode::getCode() {
-    return getNode("/rdv/datas");
+    return getXNode("/rdv/datas");
 }
 //===============================================
 bool GCode::getCode(const GString& _code) {
-    return getNode(GFORMAT("/rdv/datas/data[code='%s']", _code.c_str()));
+    return getXNode(GFORMAT("/rdv/datas/data[code='%s']", _code.c_str()));
 }
 //===============================================
 bool GCode::getCode(const GString& _code, const GString& _key) {
-    return getNode(GFORMAT("/rdv/datas/data[code='%s']/%s", _code.c_str(), _key.c_str()));
+    return getXNode(GFORMAT("/rdv/datas/data[code='%s']/%s", _code.c_str(), _key.c_str()));
 }
 //===============================================
 bool GCode::getCode(const GString& _code, int _index) {
-    return getNode(GFORMAT("/rdv/datas/data[code='%s']/map/data[position()=%d]", _code.c_str(), _index + 1));
+    return getXNode(GFORMAT("/rdv/datas/data[code='%s']/map/data[position()=%d]", _code.c_str(), _index + 1));
 }
 //===============================================
 bool GCode::getMap(const GString& _code, int _index) {
-    return getNode(GFORMAT("/rdv/datas/data[code='%s']/map/data[position()=%d]", _code.c_str(), _index + 1));
+    return getXNode(GFORMAT("/rdv/datas/data[code='%s']/map/data[position()=%d]", _code.c_str(), _index + 1));
 }
 //===============================================
 GString GCode::getData(const GString& _code, const GString& _key) {
@@ -165,7 +165,7 @@ bool GCode::addData(const GString& _data, GObject* _obj) {
     if(_data.trim().isEmpty()) return false;
     GCode lDom;
     lDom.loadXml(_data);
-    if(!lDom.getNode("/rdv/datas/data/code")) return false;
+    if(!lDom.getXNode("/rdv/datas/data/code")) return false;
     GString lCode = lDom.getValue();
     if(lCode.isEmpty()) return false;
     if(!lDom.getCode(lCode)) return false;

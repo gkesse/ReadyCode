@@ -97,7 +97,7 @@ bool GXml::createXNode(const GString& _path) {
         if(lItem == "") continue;
         lPath += "/";
         lPath += lItem;
-        if(!getNode(lPath)) {
+        if(!getXNode(lPath)) {
             createNode(lItem);
             next();
         }
@@ -111,7 +111,7 @@ bool GXml::next() {
     return true;
 }
 //===============================================
-bool GXml::getNode(const GString& _path) {
+bool GXml::getXNode(const GString& _path) {
     if(!m_doc) return false;
     if(!m_xpath) return false;
     m_xpathObj = xmlXPathEvalExpression(BAD_CAST(_path.c_str()), m_xpath);

@@ -6,6 +6,7 @@
 //===============================================
 class GObject;
 class GLog;
+class GJson;
 //===============================================
 class GCode : public GXml {
 public:
@@ -37,6 +38,8 @@ public:
     bool hasCode();
 
     GString toData();
+    GString toJson();
+    void toJson(xmlNodePtr _node, int& _state, GString& _data, GJson& _json);
 };
 //==============================================
 #endif

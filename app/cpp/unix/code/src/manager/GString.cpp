@@ -57,7 +57,7 @@ void GString::clear(bool _isNew) {
 //===============================================
 bool GString::allocate(int _size, bool _isNew) {
     if(!_isNew) delete[] m_data;
-    if(_size < 0) m_size = 0;
+    if(_size <= 0) m_size = 0;
     m_size = _size;
     m_data = new char[m_size + 1];
     m_data[m_size] = '\0';
@@ -74,7 +74,11 @@ void GString::assign(const char* _data, int _size, bool _isNew) {
 }
 //===============================================
 void GString::assign(const char* _data, bool _isNew) {
-    assign(_data, (int)strlen(_data), _isNew);
+    int lSize = 0;
+    if(_data != 0) {
+        lSize = (int)strlen(_data);
+    }
+    assign(_data, lSize, _isNew);
 }
 //===============================================
 void GString::assign(const std::string& _data, bool _isNew) {

@@ -35,34 +35,46 @@ void GXmlTest::run(int _argc, char** _argv) {
 }
 //===============================================
 void GXmlTest::runTest(int _argc, char** _argv) {
-    GXml lXml;
+    GCode lDom;
 
-    lXml.createXNode("/rdv/datas/data");
+    lDom.addData("page", "name", "admin");
+    lDom.addData("page", "title", "Administration");
+    lDom.addData("page", "url", "home/admin");
+    lDom.addData("page", "path", "/path/home/admin.php");
 
-    lXml.createVNode("code", "page");
-    lXml.createVNode("name", "admin");
-    lXml.createVNode("title", "Administration");
-    lXml.createVNode("url", "home/admin");
-    lXml.createVNode("path", "/path/home/admin.php");
+    lDom.addData("logs", "type", "error");
+    lDom.addData("logs", "side", "server");
+    lDom.addData("logs", "msg", "Erreur lors de la lecture des données.");
 
-    lXml.createXNode("map");
+    lDom.getCode("page");
+    lDom.createNode("map");
+    lDom.next();
 
-    for(int i = 0; i < 3; i++) {
-        lXml.pushNode();
-        lXml.createXNode("data");
-        lXml.createVNode("id", i + 1);
-        lXml.createVNode("code", "page");
-        lXml.createVNode("name", "admin");
-        lXml.createVNode("title", "Administration");
-        lXml.createVNode("url", "home/admin");
-        lXml.createVNode("path", "/path/home/admin.php");
-        lXml.popNode();
+    for(int i = 0; i < 1; i++) {
+        GCode lData;
+        lData.addData("page", "id", i + 1);
+        lData.addData("page", "name", "admin");
+        lData.addData("page", "title", "Administration");
+        lData.addData("page", "url", "home/admin");
+        lData.addData("page", "path", "/path/home/admin.php");
+        lDom.loadNode(lData.toData());
     }
 
-    GPage lPage;
-    lPage.deserialize(lXml.toString());
+    lDom.getCode("logs");
+    lDom.createNode("map");
+    lDom.next();
 
-    m_logs.addData(lPage.serialize());
+    for(int i = 0; i < 1; i++) {
+        GCode lData;
+        lData.addData("logs", "id", i + 1);
+        lData.addData("logs", "type", "error");
+        lData.addData("logs", "side", "server");
+        lData.addData("logs", "msg", "Erreur lors de la lecture des données.");
+        lDom.loadNode(lData.toData());
+    }
+
+    m_logs.addData(lDom.toJson());
+    //m_logs.addData(lDom.toString());
 }
 //===============================================
 void GXmlTest::runSerialize(int _argc, char** _argv) {

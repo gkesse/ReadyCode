@@ -104,7 +104,7 @@ void GLog::showErrors() {
             printf("[INFOS] : %s\n", lObj->m_msg.c_str());
         }
         else if(lObj->m_type == "data") {
-            printf("[DATAS] : %s\n", GBase64(lObj->m_msg).decodeData().c_str());
+            printf("[DATAS] :\n %s\n", GBase64(lObj->m_msg).decodeData().c_str());
         }
     }
     printf("\n");
