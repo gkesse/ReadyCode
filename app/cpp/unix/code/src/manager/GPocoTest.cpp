@@ -20,8 +20,11 @@ void GPocoTest::run(int _argc, char** _argv) {
     else if(lMethod == "test") {
         runTest(_argc, _argv);
     }
-    else if(lMethod == "http_get") {
-        runHttpGet(_argc, _argv);
+    else if(lMethod == "http") {
+        runHttp(_argc, _argv);
+    }
+    else if(lMethod == "https") {
+        runHttps(_argc, _argv);
     }
     else {
         m_logs.addError("Erreur la méthode est inconnue.");
@@ -31,7 +34,7 @@ void GPocoTest::run(int _argc, char** _argv) {
 void GPocoTest::runTest(int _argc, char** _argv) {
     GPoco lPoco;
     lPoco.initPoco();
-    lPoco.setProtocol("http");
+    lPoco.setProtocol("https");
     lPoco.setVerb("readyapi-1.0");
     lPoco.setUserAgent("rdvapp/1.0");
     lPoco.setUsername("admin");
@@ -44,7 +47,23 @@ void GPocoTest::runTest(int _argc, char** _argv) {
     m_logs.addLogs(lPoco.getLogs());
 }
 //===============================================
-void GPocoTest::runHttpGet(int _argc, char** _argv) {
+void GPocoTest::runHttps(int _argc, char** _argv) {
+    GPoco lPoco;
+    lPoco.initPoco();
+    lPoco.setProtocol("https");
+    lPoco.setVerb("readyapi-1.0");
+    lPoco.setUserAgent("rdvapp/1.0");
+    lPoco.setUsername("admin");
+    lPoco.setPassword("adminpass");
+    lPoco.setPort(9071);
+    lPoco.setHasUserPass(true);
+    lPoco.setHasContentType(true);
+    lPoco.setHasUserAgent(true);
+    lPoco.run(_argc, _argv);
+    m_logs.addLogs(lPoco.getLogs());
+}
+//===============================================
+void GPocoTest::runHttp(int _argc, char** _argv) {
     GPoco lPoco;
     lPoco.initPoco();
     lPoco.setProtocol("http");
