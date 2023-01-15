@@ -1,19 +1,19 @@
 //===============================================
-#ifndef _GPocoGetXml_
-#define _GPocoGetXml_
+#ifndef _GPocoPostXml_
+#define _GPocoPostXml_
 //===============================================
 #include "GPoco.h"
 //===============================================
-class GPocoGetXml : public GPoco {
+class GPocoPostXml : public GPoco {
 public:
-    GPocoGetXml();
-    ~GPocoGetXml();
+    GPocoPostXml();
+    ~GPocoPostXml();
     GString serialize(const GString& _code = "poco");
     void deserialize(const GString& _data, const GString& _code = "poco");
 
 public:
     bool run(const GString& _url);
-    bool onGet();
+    bool onPost();
 
 protected:
     GString m_module;

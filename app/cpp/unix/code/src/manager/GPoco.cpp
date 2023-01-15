@@ -3,6 +3,7 @@
 #include "GPocoServerApp.h"
 #include "GPocoRequestFactory.h"
 #include "GPocoGetXml.h"
+#include "GPocoPostXml.h"
 #include "GEnv.h"
 #include "GManager.h"
 #include "GCode.h"
@@ -38,8 +39,8 @@ void GPoco::initPoco() {
 
     m_startMessage      = GAPP->getData("poco", "start_message");
     m_stopMessage       = GAPP->getData("poco", "stop_message");
-    m_username       = GAPP->getData("poco", "api_username");
-    m_password       = GAPP->getData("poco", "api_password");
+    m_username          = GAPP->getData("poco", "api_username");
+    m_password          = GAPP->getData("poco", "api_password");
     m_portProd          = GAPP->getData("poco", "port_prod").toInt();
     m_portTest          = GAPP->getData("poco", "port_test").toInt();
     m_port              = (m_isTestEnv ? m_portTest : m_portProd);
@@ -48,6 +49,88 @@ void GPoco::initPoco() {
     m_privateKeyFile    = GAPP->getData("poco", "private_key_file");
     m_certificateFile   = GAPP->getData("poco", "certificate_file");
     m_cacertFile        = GAPP->getData("poco", "cacert_file");
+}
+//===============================================
+bool GPoco::onPostUsernamePasswordContentType(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
+    if(_request.hasCredentials()) {
+        Poco::Net::HTTPBasicCredentials lCredentials(_request);
+        GString lUsername = lCredentials.getUsername();
+        GString lPassword = lCredentials.getPassword();
+        if(lUsername == m_username && lPassword == m_password) {
+            if(!_request.getContentType().empty()) {
+                if(_request.getContentType() == "application/xml") {
+                    onPostXml(_request, _response);
+                }
+                else {
+                    m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+                    m_logs.addTechError("Erreur le type du contenu est inconnu.");
+                }
+            }
+            else {
+                m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+                m_logs.addTechError("Erreur le type du contenu est obligatoire.");
+            }
+        }
+        else {
+            m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+            m_logs.addTechError("Erreur le mot de passe est incorrect.");
+        }
+    }
+    else {
+        m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+        m_logs.addTechError("Erreur le mot de passe est obligatoire.");
+    }
+    return !m_logs.hasErrors();
+}
+//===============================================
+bool GPoco::onPostUsernamePasswordNoContentType(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
+    if(_request.hasCredentials()) {
+        Poco::Net::HTTPBasicCredentials lCredentials(_request);
+        GString lUsername = lCredentials.getUsername();
+        GString lPassword = lCredentials.getPassword();
+        if(lUsername == m_username && lPassword == m_password) {
+            onGetXml(_request, _response);
+        }
+        else {
+            m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+            m_logs.addTechError("Erreur le mot de passe est incorrect.");
+        }
+    }
+    else {
+        m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+        m_logs.addTechError("Erreur le mot de passe est obligatoire.");
+    }
+    return !m_logs.hasErrors();
+}
+//===============================================
+bool GPoco::onPostNoUsernamePasswordContentType(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
+    if(!_request.getContentType().empty()) {
+        if(_request.getContentType() == "application/xml") {
+            onPostXml(_request, _response);
+        }
+        else {
+            m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+            m_logs.addTechError("Erreur le type du contenu est inconnu.");
+        }
+    }
+    else {
+        m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+        m_logs.addTechError("Erreur le type du contenu est obligatoire.");
+    }
+    return !m_logs.hasErrors();
+}
+//===============================================
+bool GPoco::onPostNoUsernamePasswordNoContentType(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
+    onPostXml(_request, _response);
+    return !m_logs.hasErrors();
+}
+//===============================================
+bool GPoco::onPostXml(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
+    GPocoPostXml lPoco;
+    lPoco.setPoco(*this);
+    lPoco.run(_request.getURI());
+    setPoco(lPoco);
+    return !m_logs.hasErrors();
 }
 //===============================================
 bool GPoco::onGetUsernamePasswordContentType(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
@@ -132,30 +215,6 @@ bool GPoco::onGetXml(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServ
     return !m_logs.hasErrors();
 }
 //===============================================
-bool GPoco::onHttpsPostCertificateUsernamePassword(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
-    return !m_logs.hasErrors();
-}
-//===============================================
-bool GPoco::onHttpsPostCertificateNoUsernamePassword(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
-    return !m_logs.hasErrors();
-}
-//===============================================
-bool GPoco::onHttpsGetCertificateUsernamePassword(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
-    return !m_logs.hasErrors();
-}
-//===============================================
-bool GPoco::onHttpsGetCertificateNoUsernamePassword(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
-    return !m_logs.hasErrors();
-}
-//===============================================
-bool GPoco::onHttpsGetNoCertificateUsernamePassword(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
-    return !m_logs.hasErrors();
-}
-//===============================================
-bool GPoco::onHttpsGetNoCertificateNoUsernamePassword(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
-    return !m_logs.hasErrors();
-}
-//===============================================
 bool GPoco::initSSL() {
     Poco::Net::Context::Ptr lContext = new Poco::Net::Context(
             Poco::Net::Context::SERVER_USE
@@ -184,6 +243,7 @@ void GPoco::setPoco(const GPoco& _obj) {
     m_port = _obj.m_port;
     m_status = _obj.m_status;
     m_contentType = _obj.m_contentType;
+    m_request = _obj.m_request;
     m_response = _obj.m_response;
     m_hasUserPass = _obj.m_hasUserPass;
     m_hasContentType = _obj.m_hasContentType;
@@ -271,13 +331,19 @@ bool GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
         }
     }
 
+    if(_request.hasContentLength()) {
+        std::istream& lInput = _request.stream();
+        std::string lOutput;
+        Poco::StreamCopier::copyToString(lInput, lOutput, _request.getContentLength());
+        m_request = lOutput;
+    }
+
     if(m_protocol == "") {
         m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
         m_logs.addTechError("Erreur le protocol est obligatoire.");
     }
     // http
     else if(m_protocol == "http") {
-        // http : no method
         if(_request.getMethod() == "") {
             m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
             m_logs.addTechError("Erreur la méthode est obligatoire.");
@@ -285,10 +351,20 @@ bool GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
         // http : post
         else if(_request.getMethod() == "POST") {
             if(m_hasUserPass) {
-                //onHttpPostUsernamePassword(_request, _response);
+                if(m_hasContentType) {
+                    onPostUsernamePasswordContentType(_request, _response);
+                }
+                else {
+                    onPostUsernamePasswordNoContentType(_request, _response);
+                }
             }
             else {
-                //onHttpPostNoUsernamePassword(_request, _response);
+                if(m_hasContentType) {
+                    onPostNoUsernamePasswordContentType(_request, _response);
+                }
+                else {
+                    onPostNoUsernamePasswordNoContentType(_request, _response);
+                }
             }
         }
         // http : get
@@ -317,7 +393,6 @@ bool GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
     }
     // https
     else if(m_protocol == "https") {
-        // https : no method
         if(_request.getMethod() == "") {
             m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
             m_logs.addTechError("Erreur la méthode est obligatoire.");
@@ -325,28 +400,46 @@ bool GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
         // https : post
         else if(_request.getMethod() == "POST") {
             if(m_hasUserPass) {
-                onHttpsPostCertificateUsernamePassword(_request, _response);
+                if(m_hasContentType) {
+                    onPostUsernamePasswordContentType(_request, _response);
+                }
+                else {
+                    onPostUsernamePasswordNoContentType(_request, _response);
+                }
             }
             else {
-                onHttpsPostCertificateNoUsernamePassword(_request, _response);
+                if(m_hasContentType) {
+                    onPostNoUsernamePasswordContentType(_request, _response);
+                }
+                else {
+                    onPostNoUsernamePasswordNoContentType(_request, _response);
+                }
             }
         }
         // https : get
         else if(_request.getMethod() == "GET") {
             if(m_hasUserPass) {
-                onHttpsGetCertificateUsernamePassword(_request, _response);
+                if(m_hasContentType) {
+                    onGetUsernamePasswordContentType(_request, _response);
+                }
+                else {
+                    onGetUsernamePasswordNoContentType(_request, _response);
+                }
             }
             else {
-                onHttpsGetCertificateNoUsernamePassword(_request, _response);
+                if(m_hasContentType) {
+                    onGetNoUsernamePasswordContentType(_request, _response);
+                }
+                else {
+                    onGetNoUsernamePasswordNoContentType(_request, _response);
+                }
             }
         }
-        // https : unknown method
         else {
             m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
             m_logs.addTechError("Erreur la méthode est inconnue.");
         }
     }
-    // unknown protocol
     else {
         m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
         m_logs.addTechError("Erreur le protocole n'est pas géré.");

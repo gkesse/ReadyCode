@@ -1,18 +1,19 @@
 //===============================================
-#include "GPocoGetXml.h"
+#include "GPocoPostXml.h"
 #include "GFile.h"
 #include "GPath.h"
+#include "GManager.h"
 //===============================================
-GPocoGetXml::GPocoGetXml()
+GPocoPostXml::GPocoPostXml()
 : GPoco() {
 
 }
 //===============================================
-GPocoGetXml::~GPocoGetXml() {
+GPocoPostXml::~GPocoPostXml() {
 
 }
 //===============================================
-GString GPocoGetXml::serialize(const GString& _code) {
+GString GPocoPostXml::serialize(const GString& _code) {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "verb", m_verb);
@@ -21,14 +22,14 @@ GString GPocoGetXml::serialize(const GString& _code) {
     return lDom.toString();
 }
 //===============================================
-void GPocoGetXml::deserialize(const GString& _data, const GString& _code) {
+void GPocoPostXml::deserialize(const GString& _data, const GString& _code) {
     m_verb = _data.extract(1, "/");
     m_method = _data.extract(2, "/");
     m_module = _data.extract(3, "/");
 }
 //===============================================
-bool GPocoGetXml::run(const GString& _url) {
-    GPocoGetXml lPoco;
+bool GPocoPostXml::run(const GString& _url) {
+    GPocoPostXml lPoco;
     lPoco.deserialize(_url);
     if(lPoco.m_verb == "") {
         m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
@@ -41,7 +42,7 @@ bool GPocoGetXml::run(const GString& _url) {
     }
     else {
         if(lPoco.m_verb == m_verb) {
-            onGet();
+            onPost();
         }
         else {
             m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
@@ -51,8 +52,23 @@ bool GPocoGetXml::run(const GString& _url) {
     return !m_logs.hasErrors();
 }
 //===============================================
-bool GPocoGetXml::onGet() {
-    m_logs.addLog("La requête a bien été exécutée.");
+bool GPocoPostXml::onPost() {
+    GXml lXml;
+    if(lXml.loadXml(m_request)) {
+        GManager lManager;
+        lManager.deserialize(m_request);
+        if(lManager.isValid()) {
+            m_logs.addLog("La requête a bien été exécutée.");
+        }
+        else {
+            m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+            m_logs.addTechError("Erreur le format de la requête est incorrect.");
+        }
+    }
+    else {
+        m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
+        m_logs.addTechError("Erreur le format de la requête est invalide.");
+    }
     return !m_logs.hasErrors();
 }
 //===============================================
