@@ -5,6 +5,7 @@
 #include "GJsonTest.h"
 #include "GCurlTest.h"
 #include "GSocketTest.h"
+#include "GOpenSSLTest.h"
 //===============================================
 GTest::GTest()
 : GManager() {
@@ -36,38 +37,47 @@ void GTest::run(int _argc, char** _argv) {
     else if(lModule == "socket") {
         runSocket(_argc, _argv);
     }
+    else if(lModule == "openssl") {
+        runOpenSSL(_argc, _argv);
+    }
     else {
         m_logs.addError("Erreur le module est inconnu.");
     }
 }
 //===============================================
 void GTest::runPoco(int _argc, char** _argv) {
-    GPocoTest lPoco;
-    lPoco.run(_argc, _argv);
-    m_logs.addLogs(lPoco.getLogs());
+    GPocoTest lTest;
+    lTest.run(_argc, _argv);
+    m_logs.addLogs(lTest.getLogs());
 }
 //===============================================
 void GTest::runXml(int _argc, char** _argv) {
-    GXmlTest lXml;
-    lXml.run(_argc, _argv);
-    m_logs.addLogs(lXml.getLogs());
+    GXmlTest lTest;
+    lTest.run(_argc, _argv);
+    m_logs.addLogs(lTest.getLogs());
 }
 //===============================================
 void GTest::runJson(int _argc, char** _argv) {
-    GJsonTest lJson;
-    lJson.run(_argc, _argv);
-    m_logs.addLogs(lJson.getLogs());
+    GJsonTest lTest;
+    lTest.run(_argc, _argv);
+    m_logs.addLogs(lTest.getLogs());
 }
 //===============================================
 void GTest::runCurl(int _argc, char** _argv) {
-    GLOGT(eGFUN, "");
-    GCurlTest lObj;
-    lObj.run(_argc, _argv);
+    GCurlTest lTest;
+    lTest.run(_argc, _argv);
+    m_logs.addLogs(lTest.getLogs());
 }
 //===============================================
 void GTest::runSocket(int _argc, char** _argv) {
-    GLOGT(eGFUN, "");
-    GSocketTest lObj;
-    lObj.run(_argc, _argv);
+    GSocketTest lTest;
+    lTest.run(_argc, _argv);
+    m_logs.addLogs(lTest.getLogs());
+}
+//===============================================
+void GTest::runOpenSSL(int _argc, char** _argv) {
+    GOpenSSLTest lTest;
+    lTest.run(_argc, _argv);
+    m_logs.addLogs(lTest.getLogs());
 }
 //===============================================

@@ -4,11 +4,12 @@
 #include "GPath.h"
 //===============================================
 GObject::GObject() {
-    clearMap();
+
 }
 //===============================================
 GObject::~GObject() {
-
+    clearMap();
+    m_logs.clearMap();
 }
 //===============================================
 void GObject::clearMap() {

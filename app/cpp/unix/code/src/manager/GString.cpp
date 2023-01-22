@@ -359,7 +359,7 @@ GString GString::getFilename() const {
 }
 //===============================================
 void GString::print() const {
-    printf("%s\n", m_data);
+    printf("[%d]\n%s\n", m_size, m_data);
 }
 //===============================================
 GString& GString::operator=(const GString& _data) {

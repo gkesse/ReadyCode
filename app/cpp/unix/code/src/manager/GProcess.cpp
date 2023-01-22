@@ -34,9 +34,6 @@ void GProcess::runTest(int _argc, char** _argv) {
 }
 //===============================================
 void GProcess::runProd(int _argc, char** _argv) {
-    GSocket lSocket;
-    lSocket.setModule(GSocket::SOCKET_SERVER_TCP);
-    lSocket.setProtocol(GSocket::PROTOCOL_RDVAPP);
-    lSocket.runServer();
+
 }
 //===============================================

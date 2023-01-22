@@ -31,8 +31,17 @@ int GPocoServerApp::main(const std::vector<std::string>& _args) {
     // https
     else if(lProtocol == "https") {
         m_poco->initSSL();
+
+        Poco::Net::HTTPServerParams* lParams = new Poco::Net::HTTPServerParams;
+        lParams->setMaxQueued(100);
+        lParams->setMaxThreads(100);
+        lParams->setKeepAlive(false);
+        lParams->setMaxKeepAliveRequests(0);
+        lParams->setKeepAliveTimeout(Poco::Timespan(60, 0));
+        lParams->setThreadIdleTime(Poco::Timespan(60, 0));
+
         Poco::Net::SecureServerSocket lSocket(m_poco->getPort());
-        Poco::Net::HTTPServer lServer(new GPocoRequestFactory(m_poco), lSocket, new Poco::Net::HTTPServerParams);
+        Poco::Net::HTTPServer lServer(new GPocoRequestFactory(m_poco), lSocket, lParams);
         std::cout << std::endl << m_poco->getStartMessage() << std::endl;
         lServer.start();
         waitForTerminationRequest();

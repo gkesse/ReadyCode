@@ -20,6 +20,8 @@ public:
 
     void setPoco(const GPoco& _obj);
     void setProtocol(const GString& _protocol);
+    void setStartMessage(const GString& _startMessage);
+    void setStopMessage(const GString& _stopMessage);
     void setVerb(const GString& _verb);
     void setPort(int _port);
     void setHasUserPass(bool _hasUserPass);
@@ -28,6 +30,9 @@ public:
     void setUserAgent(const GString& _userAgent);
     void setUsername(const GString& _username);
     void setPassword(const GString& _password);
+    void setPrivateKeyFile(const GString& _privateKeyFile);
+    void setCertificateFile(const GString& _certificateFile);
+    void setCacertFile(const GString& _cacertFile);
 
     int getPort() const;
     GString getProtocol() const;

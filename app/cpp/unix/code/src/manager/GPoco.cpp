@@ -51,6 +51,120 @@ void GPoco::initPoco() {
     m_cacertFile        = GAPP->getData("poco", "cacert_file");
 }
 //===============================================
+bool GPoco::initSSL() {
+    Poco::SharedPtr<Poco::Net::PrivateKeyPassphraseHandler> lPrivateKeyPassphraseHandler = new Poco::Net::KeyConsoleHandler(false);
+    Poco::SharedPtr<Poco::Net::InvalidCertificateHandler> lInvalidCertificateHandler = new Poco::Net::ConsoleCertificateHandler(false);
+
+    Poco::Net::Context::Ptr lContext = new Poco::Net::Context(
+            Poco::Net::Context::TLS_SERVER_USE
+            , m_privateKeyFile.c_str()
+            , m_certificateFile.c_str()
+            , m_cacertFile.c_str()
+            , Poco::Net::Context::VERIFY_RELAXED
+            , 9
+            , false
+            , "ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH"
+    );
+
+    if(lContext) {
+        Poco::Net::SSLManager::instance().initializeServer(lPrivateKeyPassphraseHandler, lInvalidCertificateHandler, lContext);
+    }
+    else {
+        m_logs.addError("Erreur le context n'est pas initialisé.");
+    }
+
+    return !m_logs.hasErrors();
+}
+//===============================================
+void GPoco::setPoco(const GPoco& _obj) {
+    m_protocol = _obj.m_protocol;
+    m_verb = _obj.m_verb;
+    m_port = _obj.m_port;
+    m_status = _obj.m_status;
+    m_contentType = _obj.m_contentType;
+    m_request = _obj.m_request;
+    m_response = _obj.m_response;
+    m_hasUserPass = _obj.m_hasUserPass;
+    m_hasContentType = _obj.m_hasContentType;
+    m_hasUserAgent = _obj.m_hasUserAgent;
+    m_userAgent = _obj.m_userAgent;
+    m_username = _obj.m_username;
+    m_password = _obj.m_password;
+    m_logs.addLogs(_obj.m_logs);
+}
+//===============================================
+void GPoco::setProtocol(const GString& _protocol) {
+    m_protocol = _protocol;
+}
+//===============================================
+void GPoco::setStartMessage(const GString& _startMessage) {
+    m_startMessage = _startMessage;
+}
+//===============================================
+void GPoco::setStopMessage(const GString& _stopMessage) {
+    m_stopMessage = _stopMessage;
+}
+//===============================================
+void GPoco::setVerb(const GString& _verb) {
+    m_verb = _verb;
+}
+//===============================================
+void GPoco::setPort(int _port) {
+    m_port = _port;
+}
+//===============================================
+void GPoco::setHasUserPass(bool _hasUserPass) {
+    m_hasUserPass = _hasUserPass;
+}
+//===============================================
+void GPoco::setHasContentType(bool _hasContentType) {
+    m_hasContentType = _hasContentType;
+}
+//===============================================
+void GPoco::setHasUserAgent(bool _hasUserAgent) {
+    m_hasUserAgent = _hasUserAgent;
+}
+//===============================================
+void GPoco::setUserAgent(const GString& _userAgent) {
+    m_userAgent = _userAgent;
+}
+//===============================================
+void GPoco::setUsername(const GString& _username) {
+    m_username = _username;
+}
+//===============================================
+void GPoco::setPassword(const GString& _password) {
+    m_password = _password;
+}
+//===============================================
+void GPoco::setPrivateKeyFile(const GString& _privateKeyFile) {
+    m_privateKeyFile = _privateKeyFile;
+}
+//===============================================
+void GPoco::setCertificateFile(const GString& _certificateFile) {
+    m_certificateFile = _certificateFile;
+}
+//===============================================
+void GPoco::setCacertFile(const GString& _cacertFile) {
+    m_cacertFile = _cacertFile;
+}
+//===============================================
+int GPoco::getPort() const {
+    return m_port;
+}
+//===============================================
+GString GPoco::getProtocol() const {
+    return m_protocol;
+}
+//===============================================
+GString GPoco::getStartMessage() const {
+    return m_startMessage;
+}
+//===============================================
+GString GPoco::getStopMessage() const {
+    return m_stopMessage;
+}
+//===============================================
 bool GPoco::onPostUsernamePasswordContentType(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServerResponse& _response) {
     if(_request.hasCredentials()) {
         Poco::Net::HTTPBasicCredentials lCredentials(_request);
@@ -213,97 +327,6 @@ bool GPoco::onGetXml(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPServ
     lPoco.run(_request.getURI());
     setPoco(lPoco);
     return !m_logs.hasErrors();
-}
-//===============================================
-bool GPoco::initSSL() {
-    Poco::Net::Context::Ptr lContext = new Poco::Net::Context(
-            Poco::Net::Context::SERVER_USE
-            , m_privateKeyFile.c_str()
-            , m_certificateFile.c_str()
-            , ""
-            , Poco::Net::Context::VERIFY_RELAXED
-            , 9
-            , false
-            , "ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH"
-    );
-
-    if(lContext) {
-        Poco::Net::SSLManager::instance().initializeServer(0, 0, lContext);
-    }
-    else {
-        m_logs.addError("Erreur le context n'est pas initialisé.");
-    }
-
-    return !m_logs.hasErrors();
-}
-//===============================================
-void GPoco::setPoco(const GPoco& _obj) {
-    m_protocol = _obj.m_protocol;
-    m_verb = _obj.m_verb;
-    m_port = _obj.m_port;
-    m_status = _obj.m_status;
-    m_contentType = _obj.m_contentType;
-    m_request = _obj.m_request;
-    m_response = _obj.m_response;
-    m_hasUserPass = _obj.m_hasUserPass;
-    m_hasContentType = _obj.m_hasContentType;
-    m_hasUserAgent = _obj.m_hasUserAgent;
-    m_userAgent = _obj.m_userAgent;
-    m_username = _obj.m_username;
-    m_password = _obj.m_password;
-    m_logs.addLogs(_obj.m_logs);
-}
-//===============================================
-void GPoco::setProtocol(const GString& _protocol) {
-    m_protocol = _protocol;
-}
-//===============================================
-void GPoco::setVerb(const GString& _verb) {
-    m_verb = _verb;
-}
-//===============================================
-void GPoco::setPort(int _port) {
-    m_port = _port;
-}
-//===============================================
-void GPoco::setHasUserPass(bool _hasUserPass) {
-    m_hasUserPass = _hasUserPass;
-}
-//===============================================
-void GPoco::setHasContentType(bool _hasContentType) {
-    m_hasContentType = _hasContentType;
-}
-//===============================================
-void GPoco::setHasUserAgent(bool _hasUserAgent) {
-    m_hasUserAgent = _hasUserAgent;
-}
-//===============================================
-void GPoco::setUserAgent(const GString& _userAgent) {
-    m_userAgent = _userAgent;
-}
-//===============================================
-void GPoco::setUsername(const GString& _username) {
-    m_username = _username;
-}
-//===============================================
-void GPoco::setPassword(const GString& _password) {
-    m_password = _password;
-}
-//===============================================
-int GPoco::getPort() const {
-    return m_port;
-}
-//===============================================
-GString GPoco::getProtocol() const {
-    return m_protocol;
-}
-//===============================================
-GString GPoco::getStartMessage() const {
-    return m_startMessage;
-}
-//===============================================
-GString GPoco::getStopMessage() const {
-    return m_stopMessage;
 }
 //===============================================
 bool GPoco::run(int _argc, char** _argv) {
@@ -482,6 +505,7 @@ bool GPoco::onResponse(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSe
         m_contentType = "application/xml; charset=UTF-8";
     }
 
+    _response.setVersion(Poco::Net::HTTPMessage::HTTP_1_1);
     _response.setStatus(m_status);
     _response.setContentLength(m_response.size());
     _response.setContentType(m_contentType.c_str());

@@ -33,8 +33,12 @@ void GPocoTest::run(int _argc, char** _argv) {
 //===============================================
 void GPocoTest::runTest(int _argc, char** _argv) {
     GPoco lPoco;
-    lPoco.initPoco();
-    lPoco.setProtocol("https");
+    lPoco.setPrivateKeyFile("/home/gkesse/.readydev/data/certificates/privkey.pem");
+    lPoco.setCertificateFile("/home/gkesse/.readydev/data/certificates/fullchain.pem");
+    lPoco.setCacertFile("/home/gkesse/.readydev/data/certificates/cert.pem");
+    lPoco.setStartMessage("Démarrage du serveur...");
+    lPoco.setStopMessage("Arrêt du serveur...");
+    lPoco.setProtocol("http");
     lPoco.setVerb("readyapi-1.0");
     lPoco.setUserAgent("rdvapp/1.0");
     lPoco.setUsername("admin");

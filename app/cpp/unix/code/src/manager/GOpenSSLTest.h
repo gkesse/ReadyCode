@@ -1,16 +1,15 @@
 //===============================================
-#ifndef _GSocketTest_
-#define _GSocketTest_
+#ifndef _GOpenSSLTest_
+#define _GOpenSSLTest_
 //===============================================
 #include "GObject.h"
 //===============================================
-class GSocketTest : public GObject {
+class GOpenSSLTest : public GObject {
 public:
-    GSocketTest();
-    ~GSocketTest();
+    GOpenSSLTest();
+    ~GOpenSSLTest();
     void run(int _argc, char** _argv);
     void runTest(int _argc, char** _argv);
-    void runServerTcp(int _argc, char** _argv);
 };
 //==============================================
 #endif

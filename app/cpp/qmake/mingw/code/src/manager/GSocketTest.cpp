@@ -23,11 +23,11 @@ void GSocketTest::run(int _argc, char** _argv) {
         runClientTcpEchoXml(_argc, _argv);
     }
     else {
-        runDefault(_argc, _argv);
+        runTest(_argc, _argv);
     }
 }
 //===============================================
-void GSocketTest::runDefault(int _argc, char** _argv) {
+void GSocketTest::runTest(int _argc, char** _argv) {
     GLOGT(eGFUN, "Le process est inconnu.");
 }
 //===============================================

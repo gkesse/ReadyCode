@@ -9,7 +9,7 @@ public:
     GSocketTest();
     ~GSocketTest();
     void run(int _argc, char** _argv);
-    void runDefault(int _argc, char** _argv);
+    void runTest(int _argc, char** _argv);
     void runClientTcpEcho(int _argc, char** _argv);
     void runClientTcpEchoXml(int _argc, char** _argv);
 };
