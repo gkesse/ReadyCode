@@ -35,13 +35,16 @@ public:
 
     bool readData(GString& _dataOut, int _size);
     bool sendData(const GString& _dataIn);
+    bool sendHttp();
 
     bool run();
     static int onPasswordCB(char* _buf, int _size, int _rwflag, void* _password);
     static void* onThreadCB(void* _params);
     bool initSSL();
-    void runThreadCB();
-    void closeSocket();
+    bool acceptSSL();
+    bool runThreadCB();
+    void closeSSL();
+    void cleanSSL();
 
 private:
     static const int BUFFER_SIZE = 1024;
@@ -49,8 +52,6 @@ private:
     SSL* m_ssl;
     EVP_PKEY* m_privateKey;
     X509* m_certificate;
-    BIO* m_acceptBio;
-    BIO* m_popBio;
     SSL_CTX* m_context;
 
     GString m_startMessage;

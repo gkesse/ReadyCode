@@ -2,6 +2,7 @@
 #include "GOpenSSL.h"
 #include "GSocket.h"
 #include "GThread.h"
+#include "GHttp.h"
 //===============================================
 GOpenSSL::GOpenSSL()
 : GObject() {
@@ -11,8 +12,6 @@ GOpenSSL::GOpenSSL()
     m_port = 0;
     m_backlog = 0;
     m_hasGenerateCertificate = false;
-    m_acceptBio = 0;
-    m_popBio = 0;
     m_socket = 0;
     m_context = 0;
 }
@@ -34,11 +33,7 @@ void GOpenSSL::clearModule() {
 }
 //===============================================
 void GOpenSSL::setOpenSSL(const GOpenSSL& _obj) {
-    m_hasGenerateCertificate = _obj.m_hasGenerateCertificate;
-    m_certificateFile = _obj.m_certificateFile;
-    m_privateKeyFile = _obj.m_privateKeyFile;
-    m_certificate = _obj.m_certificate;
-    m_privateKey = _obj.m_privateKey;
+    m_context = _obj.m_context;
 }
 //===============================================
 void GOpenSSL::setStartMessage(const GString& _startMessage) {
@@ -212,6 +207,16 @@ bool GOpenSSL::sendData(const GString& _dataIn) {
     return true;
 }
 //===============================================
+bool GOpenSSL::sendHttp() {
+    GHttp lHttp;
+    lHttp.setModule("response");
+    lHttp.setContentText("Hello World!");
+    lHttp.run();
+    lHttp.getResponseText().print();
+    sendData(lHttp.getResponseText());
+    return !m_logs.hasErrors();
+}
+//===============================================
 bool GOpenSSL::run() {
     GSocket lSocket;
     lSocket.setHostname(m_hostname);
@@ -227,13 +232,10 @@ bool GOpenSSL::run() {
     struct sockaddr_in lClientAddress;
     socklen_t lClientAddressSize = sizeof(lClientAddress);
 
+    if(!initSSL()) return false;
+
     GThread lThread;
     lThread.setThreadCB((void*)onThreadCB);
-
-    if(m_hasGenerateCertificate) {
-        if(!generatePrivateKey()) return false;
-        if(!generateCertificate()) return false;
-    }
 
     printf("\n%s\n", m_startMessage.c_str());
 
@@ -242,7 +244,7 @@ bool GOpenSSL::run() {
         m_logs.clearMap();
         GOpenSSL* lClient = new GOpenSSL;
         lClient->m_socket = accept(m_socket, (struct sockaddr*)&lClientAddress, &lClientAddressSize);
-        if(lClient->m_socket == -1) {
+        if(lClient->m_socket <= 0) {
             m_logs.addError(GFORMAT("Erreur lors de l'acceptation de la connexion client.\n[%lu]:%s", errno, strerror(errno)));
             continue;
         }
@@ -256,6 +258,7 @@ bool GOpenSSL::run() {
 
     printf("\n%s\n", m_stopMessage.c_str());
 
+    cleanSSL();
     return !m_logs.hasErrors();
 }
 //===============================================
@@ -267,16 +270,15 @@ int GOpenSSL::onPasswordCB(char* _buf, int _size, int _rwflag, void* _password) 
 //===============================================
 void* GOpenSSL::onThreadCB(void* _params) {
     GOpenSSL* lClient = (GOpenSSL*)_params;
-    if(lClient->initSSL()) {
-        lClient->runThreadCB();
-    }
-    lClient->closeSocket();
+    lClient->acceptSSL();
+    lClient->runThreadCB();
+    lClient->closeSSL();
     delete lClient;
     return 0;
 }
 //===============================================
 bool GOpenSSL::initSSL() {
-    m_context = SSL_CTX_new( SSLv23_server_method());
+    m_context = SSL_CTX_new(SSLv23_server_method());
     if(!m_context) {
         m_logs.addError(GFORMAT("Erreur lors de l'initialisation du contexte.\n[%lu]:%s", ERR_get_error(), ERR_error_string(ERR_get_error(), NULL)));
         return false;
@@ -285,8 +287,11 @@ bool GOpenSSL::initSSL() {
     SSL_CTX_set_options(m_context, SSL_OP_SINGLE_DH_USE);
 
     if(m_hasGenerateCertificate) {
+        if(!generatePrivateKey()) return false;
+        if(!generateCertificate()) return false;
+
         int lCertificateOk = SSL_CTX_use_certificate(m_context, m_certificate);
-        if(lCertificateOk != 1) {
+        if(lCertificateOk <= 0) {
             m_logs.addError(GFORMAT("Erreur lors de l'initialisation du certificat.\n[%lu]:%s", ERR_get_error(), ERR_error_string(ERR_get_error(), NULL)));
             return false;
         }
@@ -294,14 +299,14 @@ bool GOpenSSL::initSSL() {
         SSL_CTX_set_default_passwd_cb(m_context, onPasswordCB);
 
         int lPrivateKeyOk = SSL_CTX_use_PrivateKey(m_context, m_privateKey);
-        if(lPrivateKeyOk != 1) {
+        if(lPrivateKeyOk <= 0) {
             m_logs.addError(GFORMAT("Erreur lors de l'initialisation de la clé privée.\n[%lu]:%s", ERR_get_error(), ERR_error_string(ERR_get_error(), NULL)));
             return false;
         }
     }
     else {
         int lCertificateOk = SSL_CTX_use_certificate_file(m_context, m_certificateFile.c_str() , SSL_FILETYPE_PEM);
-        if(lCertificateOk != 1) {
+        if(lCertificateOk <= 0) {
             m_logs.addError(GFORMAT("Erreur lors de l'initialisation du certificat.\n[%lu]:%s", ERR_get_error(), ERR_error_string(ERR_get_error(), NULL)));
             return false;
         }
@@ -309,54 +314,57 @@ bool GOpenSSL::initSSL() {
         SSL_CTX_set_default_passwd_cb(m_context, onPasswordCB);
 
         int lPrivateKeyOk = SSL_CTX_use_PrivateKey_file(m_context, m_privateKeyFile.c_str(), SSL_FILETYPE_PEM);
-        if(lPrivateKeyOk != 1) {
+        if(lPrivateKeyOk <= 0) {
             m_logs.addError(GFORMAT("Erreur lors de l'initialisation de la clé privée.\n[%lu]:%s", ERR_get_error(), ERR_error_string(ERR_get_error(), NULL)));
             return false;
         }
     }
 
-    RSA* lRsa = RSA_generate_key(2048, RSA_F4, NULL, NULL);
-    SSL_CTX_set_tmp_rsa(lContext, lRsa);
-    RSA_free(lRsa);
-
     SSL_CTX_set_verify(m_context, SSL_VERIFY_NONE, 0);
 
+    return !m_logs.hasErrors();
+}
+//===============================================
+bool GOpenSSL::acceptSSL() {
     m_ssl = SSL_new(m_context);
     if(!m_ssl) {
         m_logs.addError(GFORMAT("Erreur lors de l'initialisation du socket sécurisé.\n[%lu]:%s", ERR_get_error(), ERR_error_string(ERR_get_error(), NULL)));
         return false;
     }
 
-    m_acceptBio = BIO_new_socket(m_socket, BIO_CLOSE);
-    if(!m_acceptBio) {
-        m_logs.addError(GFORMAT("Erreur lors de l'initialisation du acceptBIO.\n[%lu]:%s", ERR_get_error(), ERR_error_string(ERR_get_error(), NULL)));
+    int lSetOk = SSL_set_fd(m_ssl, m_socket);
+    if(lSetOk <= 0) {
+        m_logs.addError(GFORMAT("Erreur lors de l'initialisation du descripteur.\n[%lu]:%s", ERR_get_error(), ERR_error_string(ERR_get_error(), NULL)));
         return false;
     }
 
-    SSL_set_bio(m_ssl, m_acceptBio, m_acceptBio);
     int lAcceptOk = SSL_accept(m_ssl);
-
-    if(lAcceptOk == -1) {
-        m_logs.addError(GFORMAT("Erreur lors de l'acceptation du certificat.\n[%lu]:%s", ERR_get_error(), ERR_error_string(ERR_get_error(), NULL)));
+    if(lAcceptOk <= 0) {
+        m_logs.addError(GFORMAT("Erreur lors de l'acceptation de la connexion.\n[%lu]:%s", ERR_get_error(), ERR_error_string(ERR_get_error(), NULL)));
         return false;
     }
-
-    m_popBio = BIO_pop(m_acceptBio);
 
     return !m_logs.hasErrors();
 }
 //===============================================
-void GOpenSSL::runThreadCB() {
+bool GOpenSSL::runThreadCB() {
+    if(m_logs.hasErrors()) return false;
     GString lRequest;
-    readData(lRequest, BUFFER_SIZE);
+    readData(lRequest, 500);
     lRequest.print();
+    sendHttp();
+    return true;
 }
 //===============================================
-void GOpenSSL::closeSocket() {
+void GOpenSSL::closeSSL() {
     m_logs.showErrors();
     m_logs.clearMap();
-    if(m_context) SSL_CTX_free(m_context);
-    if(m_ssl) SSL_free(m_ssl);
-    if(m_socket > 0) close(m_socket);
+    if(m_ssl) {SSL_free(m_ssl); m_ssl = 0;}
+    if(m_socket > 0) {close(m_socket); m_socket = 0;}
+}
+//===============================================
+void GOpenSSL::cleanSSL() {
+    if(m_socket > 0) {close(m_socket); m_socket = 0;}
+    if(m_context) {SSL_CTX_free(m_context); m_context = 0;}
 }
 //===============================================
