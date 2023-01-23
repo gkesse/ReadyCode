@@ -18,7 +18,6 @@
 #define GERROR_ADD(x, ...)  GLOGI->addError(#x, x, GFORMAT(__VA_ARGS__))
 #define GLOG_ADD(x, ...)    GLOGI->addLog(#x, x, GFORMAT(__VA_ARGS__))
 #define GERROR_LOAD(x, y)   GLOGI->loadErrors(#x, x, y)
-#define GLOGT(x, ...)       GLOGI->traceLog(#x, x, GFORMAT(__VA_ARGS__))
 #define GLOGW(x, ...)       GLOGI->writeLog(#x, x, GFORMAT(__VA_ARGS__))
 #define GSTRC               GLOGI->toString
 //===============================================
@@ -36,7 +35,8 @@ public:
     void catLogFile();
     void tailLogFile(bool _isTestEnv);
 
-    void addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _log);
+    void addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _log) {}
+
     void writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _log);
     void traceLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _data = "");
 

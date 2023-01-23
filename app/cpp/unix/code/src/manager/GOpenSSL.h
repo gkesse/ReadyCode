@@ -33,9 +33,9 @@ public:
     bool generateCertificate();
     bool generateRSA();
 
-    bool readData(GString& _dataOut, int _size);
+    bool readData(GString& _dataOut);
     bool sendData(const GString& _dataIn);
-    bool sendHttp();
+    bool sendEchoHttp();
 
     bool run();
     static int onPasswordCB(char* _buf, int _size, int _rwflag, void* _password);
@@ -48,6 +48,7 @@ public:
 
 private:
     static const int BUFFER_SIZE = 1024;
+    static const int BUFFER_MAX = 1024*1024;
 
     SSL* m_ssl;
     EVP_PKEY* m_privateKey;

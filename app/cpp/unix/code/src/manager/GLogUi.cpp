@@ -90,10 +90,6 @@ void GLogUi::tailLogFile(bool _isTestEnv) {
     }
 }
 //===============================================
-void GLogUi::addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _data) {
-
-}
-//===============================================
 void GLogUi::writeLog(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _data) {
     if(_level == 0) return;
     if(!m_isDebug) return;

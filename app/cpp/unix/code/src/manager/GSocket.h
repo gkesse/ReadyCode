@@ -33,6 +33,7 @@ public:
     static const char* METHOD_HTTP_POST;
     static const char* METHOD_RDVAPP;
     bool m_isTestEnv;
+    bool readData(GString& _dataOut, int _size) {return true;}
 
     bool run();
     bool runServerTcp();
@@ -40,11 +41,13 @@ public:
     virtual bool runThreadCB();
     void closeSocket();
 
-    bool readData(GString& _dataOut, int _size);
-    int sendData(const GString& _dataIn);
+    bool readData(GString& _dataOut);
+    bool sendData(const GString& _dataIn);
+    bool sendEchoHttp();
 
 protected:
     static const int BUFFER_SIZE = 1024;
+    static const int BUFFER_MAX = 1024*1024;
 
     int m_backlog;
     int m_port;

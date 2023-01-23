@@ -7,6 +7,7 @@
 #include "GCode.h"
 #include "GLog.h"
 #include "GLogUi.h"
+#include "GLogTrace.h"
 #include "GJson.h"
 //===============================================
 class GObject {

@@ -1,6 +1,7 @@
 //===============================================
 #include "GSocket.h"
 #include "GThread.h"
+#include "GHttp.h"
 //===============================================
 const char* GSocket::METHOD_HTTP_GET = "GET";
 const char* GSocket::METHOD_HTTP_POST = "POST";
@@ -141,45 +142,63 @@ void* GSocket::onThreadCB(void* _params) {
 //===============================================
 bool GSocket::runThreadCB() {
     GString lRequest;
-    readData(lRequest, BUFFER_SIZE);
-    lRequest.print();
+    readData(lRequest);
+    GLOGT(eGMSG, "RECEPTION [%d] :\n%s\n", lRequest.size(), lRequest.c_str());
+    sendEchoHttp();
     return !m_logs.hasErrors();
 }
 //===============================================
 void GSocket::closeSocket() {
     m_logs.showErrors();
     m_logs.clearMap();
-    close(m_socket);
+    if(m_socket > 0) {close(m_socket); m_socket = 0;}
 }
 //===============================================
-bool GSocket::readData(GString& _dataOut, int _size) {
-    if(_size <= 0) return false;
+bool GSocket::readData(GString& _dataOut) {
     char lBuffer[BUFFER_SIZE + 1];
     int lSize = 0;
     while(1) {
         int lBytes = recv(m_socket, lBuffer, BUFFER_SIZE, 0);
-        if(lBytes <= 0) return false;
+        lSize += lBytes;
+        if(lSize >= BUFFER_MAX) {
+            m_logs.addError("Erreur le nombre d'octets maximal a été atteint.");
+            break;
+        }
+        if(lBytes <= 0) break;
         lBuffer[lBytes] = 0;
         _dataOut += lBuffer;
-        lSize += lBytes;
-        if(lSize >= _size) return true;
+        int lIoctlOk = ioctl(m_socket, FIONREAD, &lBytes);
+        if(lIoctlOk == -1) break;
+        if(lBytes <= 0) break;
     }
-    return true;
+    return !m_logs.hasErrors();
 }
 //===============================================
-int GSocket::sendData(const GString& _dataIn) {
-    if(_dataIn.isEmpty()) return false;
+bool GSocket::sendData(const GString& _dataIn) {
+    if(_dataIn.isEmpty()) return true;
     int lSize = _dataIn.size();
     const char* lBuffer = _dataIn.c_str();
     int lIndex = 0;
 
     while(1) {
         int lBytes = send(m_socket, &lBuffer[lIndex], lSize - lIndex, 0);
-        if(lBytes <= 0) return false;
+        if(lBytes <= 0) break;
         lIndex += lBytes;
         if(lIndex >= lSize) break;
     }
 
-    return true;
+    return !m_logs.hasErrors();
+}
+//===============================================
+bool GSocket::sendEchoHttp() {
+    GHttp lHttp;
+    lHttp.setModule("response");
+    lHttp.setContentText("Bonjour tout le monde !");
+    lHttp.run();
+    m_logs.addLogs(lHttp.getLogs());
+    GString lResponse = lHttp.getResponseText();
+    GLOGT(eGMSG, "EMISSION [%d] :\n%s\n", lResponse.size(), lResponse.c_str());
+    sendData(lResponse);
+    return !m_logs.hasErrors();
 }
 //===============================================

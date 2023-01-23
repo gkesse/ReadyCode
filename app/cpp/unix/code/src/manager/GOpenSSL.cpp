@@ -176,19 +176,22 @@ bool GOpenSSL::generateRSA() {
     return !m_logs.hasErrors();
 }
 //===============================================
-bool GOpenSSL::readData(GString& _dataOut, int _size) {
-    if(_size <= 0) return false;
+bool GOpenSSL::readData(GString& _dataOut) {
     char lBuffer[BUFFER_SIZE + 1];
     int lSize = 0;
     while(1) {
         int lBytes = SSL_read(m_ssl, lBuffer, BUFFER_SIZE);
-        if(lBytes <= 0) return false;
+        if(lBytes <= 0) break;
+        if(lSize >= BUFFER_MAX) {
+            m_logs.addError("Erreur le nombre d'octets maximal a été atteint.");
+            break;
+        }
         lBuffer[lBytes] = 0;
         _dataOut += lBuffer;
-        lSize += lBytes;
-        if(lSize >= _size) return true;
+        int lPending = SSL_pending(m_ssl);
+        if(lPending <= 0) break;
     }
-    return true;
+    return !m_logs.hasErrors();
 }
 //===============================================
 bool GOpenSSL::sendData(const GString& _dataIn) {
@@ -207,12 +210,14 @@ bool GOpenSSL::sendData(const GString& _dataIn) {
     return true;
 }
 //===============================================
-bool GOpenSSL::sendHttp() {
+bool GOpenSSL::sendEchoHttp() {
     GHttp lHttp;
     lHttp.setModule("response");
-    lHttp.setContentText("Hello World!");
+    lHttp.setContentText("Bonjour tout le monde !");
     lHttp.run();
-    lHttp.getResponseText().print();
+    m_logs.addLogs(lHttp.getLogs());
+    GString lResponse = lHttp.getResponseText();
+    GLOGT(eGMSG, "EMISSION [%d] :\n%s\n", lResponse.size(), lResponse.c_str());
     sendData(lHttp.getResponseText());
     return !m_logs.hasErrors();
 }
@@ -350,9 +355,9 @@ bool GOpenSSL::acceptSSL() {
 bool GOpenSSL::runThreadCB() {
     if(m_logs.hasErrors()) return false;
     GString lRequest;
-    readData(lRequest, 500);
-    lRequest.print();
-    sendHttp();
+    readData(lRequest);
+    GLOGT(eGMSG, "RECEPTION [%d] :\n%s\n", lRequest.size(), lRequest.c_str());
+    sendEchoHttp();
     return true;
 }
 //===============================================

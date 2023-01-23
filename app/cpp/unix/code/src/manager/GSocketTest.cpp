@@ -33,6 +33,7 @@ void GSocketTest::runTest(int _argc, char** _argv) {
     lServer.setModule("server_tcp");
     lServer.setHostname("0.0.0.0");
     lServer.setPort(9081);
+    lServer.setBacklog(10);
     lServer.setStartMessage("Démarrage du serveur...\n");
     lServer.setStopMessage("Arrêt du serveur...\n");
     lServer.run();
