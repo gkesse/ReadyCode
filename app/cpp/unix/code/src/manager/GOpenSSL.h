@@ -6,6 +6,9 @@
 //===============================================
 class GOpenSSL : public GObject {
 public:
+    typedef struct _sGData sGData;
+
+public:
     GOpenSSL();
     ~GOpenSSL();
 
@@ -13,6 +16,8 @@ public:
     void clearModule();
 
     void setOpenSSL(const GOpenSSL& _obj);
+    void setVerify(const GString& _verify);
+    void setDepth(int _depth);
     void setStartMessage(const GString& _startMessage);
     void setStopMessage(const GString& _startMessage);
     void setHostname(const GString& _hostname);
@@ -35,12 +40,12 @@ public:
 
     bool readData(GString& _dataOut);
     bool sendData(const GString& _dataIn);
-    bool sendEchoHttp();
 
     bool run();
     static int onPasswordCB(char* _buf, int _size, int _rwflag, void* _password);
     static void* onThreadCB(void* _params);
     bool initSSL();
+    static int onPeerClientCB(int _preverifyOk, X509_STORE_CTX* _ctx);
     bool acceptSSL();
     bool runThreadCB();
     void closeSSL();
@@ -50,11 +55,14 @@ private:
     static const int BUFFER_SIZE = 1024;
     static const int BUFFER_MAX = 1024*1024;
 
+    static int m_dataIndex;
+
     SSL* m_ssl;
     EVP_PKEY* m_privateKey;
     X509* m_certificate;
     SSL_CTX* m_context;
 
+    GString m_verify;
     GString m_startMessage;
     GString m_stopMessage;
 
@@ -73,6 +81,7 @@ private:
     int m_socket;
     int m_port;
     int m_backlog;
+    int m_depth;
     bool m_hasGenerateCertificate;
 };
 //==============================================

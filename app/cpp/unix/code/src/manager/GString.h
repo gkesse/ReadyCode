@@ -40,6 +40,7 @@ public:
     const char* data() const;
     const char* c_str() const;
 
+    GString extract(int _pos, const GString& _sep);
     GString extract(int _pos, const GString& _sep) const;
     std::vector<GString> split(const GString& _sep = ";") const;
 
@@ -105,6 +106,7 @@ private:
     static GString* m_instance;
     char* m_data;
     int m_size;
+    int m_pos;
 };
 //==============================================
 #endif

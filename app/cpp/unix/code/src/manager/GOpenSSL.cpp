@@ -2,7 +2,15 @@
 #include "GOpenSSL.h"
 #include "GSocket.h"
 #include "GThread.h"
-#include "GHttp.h"
+#include "GRequest.h"
+//===============================================
+struct _sGData {
+    int verbose_mode;
+    int verify_depth;
+    int always_continue;
+};
+//===============================================
+int GOpenSSL::m_dataIndex = 0;
 //===============================================
 GOpenSSL::GOpenSSL()
 : GObject() {
@@ -14,6 +22,7 @@ GOpenSSL::GOpenSSL()
     m_hasGenerateCertificate = false;
     m_socket = 0;
     m_context = 0;
+    m_depth = 0;
 }
 //===============================================
 GOpenSSL::~GOpenSSL() {
@@ -34,6 +43,15 @@ void GOpenSSL::clearModule() {
 //===============================================
 void GOpenSSL::setOpenSSL(const GOpenSSL& _obj) {
     m_context = _obj.m_context;
+    m_verify = _obj.m_verify;
+}
+//===============================================
+void GOpenSSL::setVerify(const GString& _verify) {
+    m_verify = _verify;
+}
+//===============================================
+void GOpenSSL::setDepth(int _depth) {
+    m_depth = _depth;
 }
 //===============================================
 void GOpenSSL::setStartMessage(const GString& _startMessage) {
@@ -210,18 +228,6 @@ bool GOpenSSL::sendData(const GString& _dataIn) {
     return true;
 }
 //===============================================
-bool GOpenSSL::sendEchoHttp() {
-    GHttp lHttp;
-    lHttp.setModule("response");
-    lHttp.setContentText("Bonjour tout le monde !");
-    lHttp.run();
-    m_logs.addLogs(lHttp.getLogs());
-    GString lResponse = lHttp.getResponseText();
-    GLOGT(eGMSG, "EMISSION [%d] :\n%s\n", lResponse.size(), lResponse.c_str());
-    sendData(lHttp.getResponseText());
-    return !m_logs.hasErrors();
-}
-//===============================================
 bool GOpenSSL::run() {
     GSocket lSocket;
     lSocket.setHostname(m_hostname);
@@ -325,9 +331,48 @@ bool GOpenSSL::initSSL() {
         }
     }
 
-    SSL_CTX_set_verify(m_context, SSL_VERIFY_NONE, 0);
-
     return !m_logs.hasErrors();
+}
+//===============================================
+int GOpenSSL::onPeerClientCB(int _preverifyOk, X509_STORE_CTX* _ctx) {
+    char lBuffer[256];
+    X509* lErrorCert;
+    int lError, lDepth;
+    SSL* lSSl;
+    sGData* lData;
+
+    lErrorCert = X509_STORE_CTX_get_current_cert(_ctx);
+    lError = X509_STORE_CTX_get_error(_ctx);
+    lDepth = X509_STORE_CTX_get_error_depth(_ctx);
+
+    lSSl = (SSL*)X509_STORE_CTX_get_ex_data(_ctx, SSL_get_ex_data_X509_STORE_CTX_idx());
+    lData = (sGData*)SSL_get_ex_data(lSSl, m_dataIndex);
+
+    X509_NAME_oneline(X509_get_subject_name(lErrorCert), lBuffer, 256);
+
+    if (lDepth > lData->verify_depth) {
+        _preverifyOk = 0;
+        lError = X509_V_ERR_CERT_CHAIN_TOO_LONG;
+        X509_STORE_CTX_set_error(_ctx, lError);
+    }
+    if (!_preverifyOk) {
+        printf("verify error:num=%d:%s:depth=%d:%s\n", lError,
+                X509_verify_cert_error_string(lError), lDepth, lBuffer);
+    }
+    else if (lData->verbose_mode) {
+        printf("depth=%d:%s\n", lDepth, lBuffer);
+    }
+
+    if (!_preverifyOk && (lError == X509_V_ERR_UNABLE_TO_GET_ISSUER_CERT)) {
+        X509_NAME_oneline(X509_get_issuer_name(lErrorCert), lBuffer, 256);
+        printf("issuer= %s\n", lBuffer);
+    }
+
+    if (lData->always_continue)
+        return 1;
+    else
+        return _preverifyOk;
+    return 1;
 }
 //===============================================
 bool GOpenSSL::acceptSSL() {
@@ -341,6 +386,22 @@ bool GOpenSSL::acceptSSL() {
     if(lSetOk <= 0) {
         m_logs.addError(GFORMAT("Erreur lors de l'initialisation du descripteur.\n[%lu]:%s", ERR_get_error(), ERR_error_string(ERR_get_error(), NULL)));
         return false;
+    }
+
+    sGData lData;
+    m_dataIndex = SSL_get_ex_new_index(0, (void*)"data_index", NULL, NULL, NULL);
+
+    if(m_verify == "none") {
+        SSL_CTX_set_verify(m_context, SSL_VERIFY_NONE, 0);
+    }
+    else if(m_verify == "peer_client") {
+        SSL_CTX_set_verify(m_context, SSL_VERIFY_PEER | SSL_VERIFY_CLIENT_ONCE, onPeerClientCB);
+        SSL_CTX_set_verify_depth(m_context, m_depth + 1);
+        lData.verify_depth = m_depth;
+        SSL_set_ex_data(m_ssl, m_dataIndex, &lData);
+    }
+    else {
+        SSL_CTX_set_verify(m_context, SSL_VERIFY_NONE, 0);
     }
 
     int lAcceptOk = SSL_accept(m_ssl);
@@ -357,8 +418,14 @@ bool GOpenSSL::runThreadCB() {
     GString lRequest;
     readData(lRequest);
     GLOGT(eGMSG, "RECEPTION [%d] :\n%s\n", lRequest.size(), lRequest.c_str());
-    sendEchoHttp();
-    return true;
+    GRequest lReq;
+    lReq.setRequest(lRequest);
+    lReq.run();
+    m_logs.addLogs(lReq.getLogs());
+    GString lResponse = lReq.getResponse();
+    GLOGT(eGMSG, "EMISSION [%d] :\n%s\n", lResponse.size(), lResponse.c_str());
+    sendData(lResponse);
+    return !m_logs.hasErrors();
 }
 //===============================================
 void GOpenSSL::closeSSL() {

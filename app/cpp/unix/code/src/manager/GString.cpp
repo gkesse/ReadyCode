@@ -61,6 +61,7 @@ bool GString::allocate(int _size, bool _isNew) {
     m_size = _size;
     m_data = new char[m_size + 1];
     m_data[m_size] = '\0';
+    m_pos = 0;
     return (m_size != 0);
 }
 //===============================================
@@ -137,6 +138,7 @@ void GString::assign(const std::vector<uchar>& _data, bool _isNew) {
 }
 //===============================================
 void GString::assign(const GString& _data, bool _isNew) {
+    m_pos = _data.m_pos;
     assign(_data.c_str(), _isNew);
 }
 //===============================================
@@ -179,6 +181,25 @@ GString GString::extract(int _pos, const GString& _sep) const {
     int lPos = 0;
     for(int i = 0; i < m_size; i++) {
         char lChar = m_data[i];
+        m_pos = i;
+        if(_sep.isSep(lChar)) {
+            if(lPos == _pos) return lWord;
+            lWord = "";
+            lPos++;
+        }
+        else {
+            lWord += lChar;
+        }
+    }
+    return lWord;
+}
+//===============================================
+GString GString::extract(int _pos, const GString& _sep) {
+    GString lWord = "";
+    int lPos = 0;
+    for(int i = m_pos; i < m_size; i++) {
+        char lChar = m_data[i];
+        m_pos = i;
         if(_sep.isSep(lChar)) {
             if(lPos == _pos) return lWord;
             lWord = "";
@@ -363,6 +384,7 @@ void GString::print() const {
 }
 //===============================================
 GString& GString::operator=(const GString& _data) {
+    m_pos = _data.m_pos;
     assign(_data.c_str(), _data.size());
     return *this;
 }
