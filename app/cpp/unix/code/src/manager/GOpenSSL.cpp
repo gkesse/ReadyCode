@@ -345,7 +345,7 @@ bool GOpenSSL::acceptSSL() {
 
     int lAcceptOk = SSL_accept(m_ssl);
     if(lAcceptOk <= 0) {
-        m_logs.addError(GFORMAT("Erreur lors de l'acceptation de la connexion.\n[%lu]:%s", ERR_get_error(), ERR_error_string(ERR_get_error(), NULL)));
+        m_logs.addError(GFORMAT("Erreur lors de l'acceptation de la connexion sécurisée.\n[%lu]:%s", ERR_get_error(), ERR_error_string(ERR_get_error(), NULL)));
         return false;
     }
 

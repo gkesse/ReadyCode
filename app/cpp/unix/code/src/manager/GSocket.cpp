@@ -129,6 +129,7 @@ bool GSocket::runServerTcp() {
 
     printf("\n%s\n", m_stopMessage.c_str());
 
+    closeSocket();
     return !m_logs.hasErrors();
 }
 //===============================================
