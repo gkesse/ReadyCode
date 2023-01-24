@@ -1,6 +1,9 @@
 //===============================================
 #include "GHttp.h"
 //===============================================
+const char* GHttp::HTTP_1_0 = "HTTP/1.0";
+const char* GHttp::HTTP_1_1 = "HTTP/1.1";
+//===============================================
 GHttp::GHttp()
 : GObject() {
     initHttp();
@@ -12,7 +15,7 @@ GHttp::~GHttp() {
 //===============================================
 void GHttp::initHttp() {
     setVersion("HTTP/1.1");
-    setStatus(200);
+    setStatus(HTTP_OK);
     setContentType("text/html");
     setConnection("close");
 }

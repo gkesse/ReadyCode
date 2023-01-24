@@ -42,7 +42,9 @@ public:
 
     GString extract(int _pos, const GString& _sep);
     GString extract(int _pos, const GString& _sep) const;
+    GString end() const;
     std::vector<GString> split(const GString& _sep = ";") const;
+    void move(int _pos);
 
     int countSep(const GString& _sep) const;
 

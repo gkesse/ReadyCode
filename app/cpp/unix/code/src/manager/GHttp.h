@@ -23,6 +23,12 @@ public:
     bool run();
     bool runResponse();
 
+public:
+    static const char* HTTP_1_0;
+    static const char* HTTP_1_1;
+    static const int HTTP_OK = 200;
+    static const int HTTP_NOT_FOUND = 404;
+
 private:
     GString m_module;
     GString m_version;

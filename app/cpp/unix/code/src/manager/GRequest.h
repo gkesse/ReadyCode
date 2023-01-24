@@ -16,12 +16,18 @@ public:
     bool runGet();
     bool runPost();
     bool runApp();
+    bool runPostRequest();
+    bool runHttp();
 
 private:
     static const int NBR_LINE_MAX = 20;
 
     GString m_request;
+    GString m_requestBody;
     GString m_response;
+    GString m_responseBody;
+    GString m_contentType;
+    int m_status;
 };
 //==============================================
 #endif

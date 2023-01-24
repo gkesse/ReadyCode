@@ -181,7 +181,6 @@ GString GString::extract(int _pos, const GString& _sep) const {
     int lPos = 0;
     for(int i = 0; i < m_size; i++) {
         char lChar = m_data[i];
-        m_pos = i;
         if(_sep.isSep(lChar)) {
             if(lPos == _pos) return lWord;
             lWord = "";
@@ -197,7 +196,7 @@ GString GString::extract(int _pos, const GString& _sep) const {
 GString GString::extract(int _pos, const GString& _sep) {
     GString lWord = "";
     int lPos = 0;
-    for(int i = m_pos; i < m_size; i++) {
+    for(int i = 0; i < m_size; i++) {
         char lChar = m_data[i];
         m_pos = i;
         if(_sep.isSep(lChar)) {
@@ -212,6 +211,15 @@ GString GString::extract(int _pos, const GString& _sep) {
     return lWord;
 }
 //===============================================
+GString GString::end() const {
+    GString lWord;
+    for(int i = m_pos; i < m_size; i++) {
+        char lChar = m_data[i];
+        lWord += lChar;
+    }
+    return lWord;
+}
+//===============================================
 std::vector<GString> GString::split(const GString& _sep) const {
     std::vector<GString> lMap;
     int lCount = countSep(_sep);
@@ -220,6 +228,10 @@ std::vector<GString> GString::split(const GString& _sep) const {
         lMap.push_back(lData);
     }
     return lMap;
+}
+//===============================================
+void GString::move(int _pos) {
+    m_pos += _pos;
 }
 //===============================================
 int GString::countSep(const GString& _sep) const {
