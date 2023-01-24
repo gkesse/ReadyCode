@@ -11,6 +11,7 @@
 #include "GModuleType.h"
 #include "GQuery.h"
 #include "GQueryType.h"
+#include "GPage.h"
 //===============================================
 GManager::GManager()
 : GObject() {
@@ -63,7 +64,29 @@ void GManager::setMethod(const GString& _method) {
 bool GManager::isValid() const {
     if(m_methodName.isEmpty()) return false;
     if(m_moduleName.isEmpty()) return false;
-    return true;
+    return !m_logs.hasErrors();
+}
+//===============================================
+bool GManager::run(const GString& _request) {
+    deserialize(_request);
+    if(m_moduleName == "") {
+        m_logs.addError("Le module est obligatoire.");
+    }
+    else if(m_moduleName == "page") {
+        onPage(_request);
+    }
+    else {
+        m_logs.addError("Le module est inconnu.");
+    }
+    return !m_logs.hasErrors();
+}
+//===============================================
+bool GManager::onPage(const GString& _request) {
+    GPage lObj;
+    lObj.run(_request);
+    m_logs.addLogs(lObj.getLogs());
+    m_responseXml.loadData(lObj.serialize());
+    return !m_logs.hasErrors();
 }
 //===============================================
 bool GManager::onManager() {

@@ -13,7 +13,7 @@ public:
     GString getRequest() const;
     bool addResponse(const GString& _data);
     bool createResponse();
-    GString getResponse() const;
+    GString toResponse() const;
 
 
 protected:

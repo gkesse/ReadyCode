@@ -18,6 +18,7 @@ public:
     bool runApp();
     bool runPostRequest();
     bool runHttp();
+    bool runManager();
 
 private:
     static const int NBR_LINE_MAX = 20;

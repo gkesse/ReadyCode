@@ -88,7 +88,7 @@ bool GRequest::runPostRequest() {
         GManager lManager;
         lManager.deserialize(m_requestBody);
         if(lManager.isValid()) {
-            m_logs.addLog("La requête a bien été exécutée.");
+            runManager();
         }
         else {
             m_status = GHttp::HTTP_NOT_FOUND;
@@ -116,3 +116,12 @@ bool GRequest::runHttp() {
     return !m_logs.hasErrors();
 }
 //===============================================
+bool GRequest::runManager() {
+    GManager lManager;
+    lManager.run(m_requestBody);
+    m_logs.addLogs(lManager.getLogs());
+    m_responseXml.loadData(lManager.toResponse());
+    return !m_logs.hasErrors();
+}
+//===============================================
+

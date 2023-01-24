@@ -29,6 +29,8 @@ public:
     void setMethod(const GString& _method);
     bool isValid() const;
 
+    bool run(const GString& _request);
+    bool onPage(const GString& _request);
     bool onManager();
     bool onConnection();
     bool onFile();

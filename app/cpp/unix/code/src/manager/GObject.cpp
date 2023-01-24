@@ -59,7 +59,7 @@ const GLog& GObject::getLogs() const {
     return m_logs;
 }
 //===============================================
-GString GObject::getResponse() const {
+GString GObject::toResponse() const {
     return m_responseXml.toString();
 }
 //===============================================

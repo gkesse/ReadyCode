@@ -7,7 +7,7 @@ GPage::GPage()
 }
 //===============================================
 GPage::~GPage() {
-    clearMap();
+
 }
 //===============================================
 GString GPage::serialize(const GString& _code)  {
@@ -23,6 +23,7 @@ GString GPage::serialize(const GString& _code)  {
 }
 //===============================================
 void GPage::deserialize(const GString& _data, const GString& _code) {
+    GSearch::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
@@ -45,5 +46,33 @@ void GPage::setPage(const GPage& _obj) {
     m_title = _obj.m_title;
     m_url = _obj.m_url;
     m_path = _obj.m_path;
+}
+//===============================================
+bool GPage::run(const GString& _request) {
+    deserialize(_request);
+    if(m_methodName == "") {
+        m_logs.addError("La méthode est obligatoire.");
+    }
+    else if(m_methodName == "page") {
+        onSavePage();
+    }
+    else {
+        m_logs.addError("La méthode est inconnu.");
+    }
+    return !m_logs.hasErrors();
+}
+//===============================================
+bool GPage::onSavePage() {
+    for(int i = 0; i < 3; i++) {
+        GPage* lObj = new GPage;
+        lObj->m_id = i + 1;
+        lObj->m_name = "admin";
+        lObj->m_title = "Administration";
+        lObj->m_url = "home/admin";
+        lObj->m_path = "/path/home/admin.php";
+        m_map.push_back(lObj);
+    }
+    m_logs.addLog("La donnée a bien été enregistrée.");
+    return !m_logs.hasErrors();
 }
 //===============================================

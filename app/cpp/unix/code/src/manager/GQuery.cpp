@@ -57,7 +57,7 @@ bool GQuery::onSendQuery() {
     lManager.setServer(lServer);
     lManager.onManager();
     lServer->createResponse();
-    m_reception = lServer->getResponse();
+    m_reception = lServer->toResponse();
     m_emission = m_emission.toBase64();
     m_reception = m_reception.toBase64();
     delete lServer;

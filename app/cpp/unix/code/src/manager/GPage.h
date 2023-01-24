@@ -12,6 +12,8 @@ public:
     void deserialize(const GString& _data, const GString& _code = "page");
     GObject* clone() const;
     void setPage(const GPage& _obj);
+    bool run(const GString& _request);
+    bool onSavePage();
 
 private:
     int m_id;

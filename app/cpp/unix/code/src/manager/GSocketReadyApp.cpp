@@ -118,7 +118,7 @@ bool GSocketReadyApp::createResponse() {
     return true;
 }
 //===============================================
-GString GSocketReadyApp::getResponse() const {
+GString GSocketReadyApp::toResponse() const {
     return m_response;
 }
 //===============================================
