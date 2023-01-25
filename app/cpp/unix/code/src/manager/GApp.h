@@ -12,7 +12,6 @@ private:
 
 public:
     ~GApp();
-
     static GApp* Instance();
 
 private:

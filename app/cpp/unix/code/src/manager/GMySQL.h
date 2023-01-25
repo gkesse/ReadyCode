@@ -4,8 +4,6 @@
 //===============================================
 #include "GObject.h"
 //===============================================
-#define GMySQLI     GMySQL::Instance()
-//===============================================
 typedef std::vector<std::vector<GString>> GMaps;
 typedef std::vector<GString> GRow;
 //===============================================
@@ -13,12 +11,14 @@ class GMySQL : public GObject {
 public:
     GMySQL();
     ~GMySQL();
-
     void initMySQL();
-
+    void setAction(const GString& _action);
+    void setSql(const GString& _sql);
     bool openDatabase();
     bool execQuery(const GString& _sql);
-    bool readQuery(const GString& _sql);
+    bool run();
+    bool runWrite();
+    bool runRead();
     int getColumnCount() const;
     int getId();
     GString readData(const GString& _sql);
@@ -32,18 +32,14 @@ private:
     std::shared_ptr<sql::Statement> m_stmt;
     std::shared_ptr<sql::ResultSet> m_res;
 
-    bool m_isTestEnv;
-
+    GString m_action;
+    GString m_sql;
     GString m_protocol;
     GString m_hostname;
     GString m_username;
     GString m_password;
     GString m_database;
     int m_port;
-
-    GString m_databaseTest;
-    GString m_databaseProd;
-    bool m_logOn;
 };
 //==============================================
 #endif

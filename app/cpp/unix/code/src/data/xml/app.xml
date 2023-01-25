@@ -50,7 +50,6 @@
             <password>xKCQY7GiGTVJ4l334QxN87@TKg</password>
             <database_prod>pad</database_prod>
             <database_test>dev</database_test>
-            <log_on>1</log_on>
         </data>
         <!-- ============================================ -->
         <!-- log -->

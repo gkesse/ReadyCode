@@ -1,12 +1,23 @@
 //===============================================
 #include "GEnv.h"
 //===============================================
+GEnv* GEnv::m_instance = 0;
+//===============================================
 GEnv::GEnv() {
-    initEnv();
+    m_isProdEnv = false;
+    m_isTestEnv = false;
 }
 //===============================================
 GEnv::~GEnv() {
 
+}
+//===============================================
+GEnv* GEnv::Instance() {
+    if(m_instance == 0) {
+        m_instance = new GEnv;
+        m_instance->initEnv();
+    }
+    return m_instance;
 }
 //===============================================
 void GEnv::initEnv() {

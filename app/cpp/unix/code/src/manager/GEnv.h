@@ -4,10 +4,13 @@
 //===============================================
 #include "GInclude.h"
 //===============================================
+#define GENV    GEnv::Instance()
+//===============================================
 class GEnv {
 public:
     GEnv();
     ~GEnv();
+    static GEnv* Instance();
     void initEnv();
     bool isTestEnv() const;
     bool isProdEnv() const;
@@ -16,6 +19,7 @@ public:
     GString getEnv(const GString& _env, const GString& _defaultValue = "") const;
 
 private:
+    static GEnv* m_instance;
     GString m_envType;
     GString m_dataPath;
     GString m_tmpPath;

@@ -4,6 +4,22 @@
 use dev;
 
 -- ==============================================
+-- _page
+-- ==============================================
+drop table if exists _page;
+
+create table if not exists _page (
+    _id int not null auto_increment
+    , _parent_id int null
+    , _name varchar(255) not null
+    , _c_date datetime default current_timestamp
+    , _u_date datetime on update current_timestamp
+    , primary key (_id)
+    , unique (_parent_id, _name)
+    , foreign key (_parent_id) references _module (_id)    
+);
+
+-- ==============================================
 -- _maj
 -- ==============================================
 drop table if exists _maj;
