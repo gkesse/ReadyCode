@@ -17,7 +17,7 @@ GString GPage::serialize(const GString& _code)  {
     lDom.addData(_code, "name", m_name);
     lDom.addData(_code, "title", m_title);
     lDom.addData(_code, "url", m_url);
-    lDom.addData(_code, "path", m_name);
+    lDom.addData(_code, "path", m_path);
     lDom.addData(_code, m_map);
     return lDom.toString();
 }
@@ -53,7 +53,7 @@ bool GPage::run(const GString& _request) {
     if(m_methodName == "") {
         m_logs.addError("La méthode est obligatoire.");
     }
-    else if(m_methodName == "page") {
+    else if(m_methodName == "save_page") {
         onSavePage();
     }
     else {
