@@ -417,13 +417,13 @@ bool GOpenSSL::runThreadCB() {
     if(m_logs.hasErrors()) return false;
     GString lRequest;
     readData(lRequest);
-    GLOGT(eGMSG, "RECEPTION [%d] :\n%s\n", lRequest.size(), lRequest.c_str());
+    GLOGT(eGMSG, "\nRECEPTION [%d] :\n%s\n", lRequest.size(), lRequest.c_str());
     GRequest lReq;
     lReq.setRequest(lRequest);
     lReq.run();
     m_logs.addLogs(lReq.getLogs());
     GString lResponse = lReq.getResponse();
-    GLOGT(eGMSG, "EMISSION [%d] :\n%s\n", lResponse.size(), lResponse.c_str());
+    GLOGT(eGMSG, "\nEMISSION [%d] :\n%s\n", lResponse.size(), lResponse.c_str());
     sendData(lResponse);
     return !m_logs.hasErrors();
 }

@@ -8,16 +8,21 @@ use dev;
 -- ==============================================
 drop table if exists _page;
 
+insert into _page (_id, _name)
+values (1, 'root');
+
 create table if not exists _page (
     _id int not null auto_increment
-    , _parent_id int null
+    , _parent_id int
     , _name varchar(255) not null
     , _c_date datetime default current_timestamp
     , _u_date datetime on update current_timestamp
     , primary key (_id)
     , unique (_parent_id, _name)
-    , foreign key (_parent_id) references _module (_id)    
+    , foreign key (_parent_id) references _page (_id)    
 );
+
+select _name  from _page  where 1 = 1  and _parent_id = 1;
 
 -- ==============================================
 -- _maj

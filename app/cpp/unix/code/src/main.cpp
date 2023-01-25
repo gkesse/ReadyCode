@@ -9,7 +9,6 @@ int main(int _argc, char** _argv) {
     GPoco().initModule();
     GOpenSSL().initModule();
     GProcess lProcess;
-    lProcess.initProcess();
     lProcess.run(_argc, _argv);
     lProcess.showErrors();
     GOpenSSL().clearModule();

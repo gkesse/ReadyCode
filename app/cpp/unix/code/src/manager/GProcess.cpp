@@ -6,20 +6,16 @@
 //===============================================
 GProcess::GProcess()
 : GObject() {
-    m_isTestEnv = false;
+
 }
 //===============================================
 GProcess::~GProcess() {
 
 }
 //===============================================
-void GProcess::initProcess() {
-    GEnv lEnv;
-    m_isTestEnv = lEnv.isTestEnv();
-}
-//===============================================
 void GProcess::run(int _argc, char** _argv) {
-    if(m_isTestEnv) {
+    bool lIsTestEnv = GENV->isTestEnv();
+    if(lIsTestEnv) {
         runTest(_argc, _argv);
     }
     else {

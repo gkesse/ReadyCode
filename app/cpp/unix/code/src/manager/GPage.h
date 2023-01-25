@@ -14,8 +14,10 @@ public:
     void setPage(const GPage& _obj);
     bool run(const GString& _request);
     bool onSavePage();
+    bool onLoadPages();
     bool insertPage();
     bool updatePage();
+    bool loadPages();
 
 private:
     int m_id;

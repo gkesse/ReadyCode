@@ -54,11 +54,15 @@ void GPage::setPage(const GPage& _obj) {
 //===============================================
 bool GPage::run(const GString& _request) {
     deserialize(_request);
+    if(!m_parentId) m_parentId = 1;
     if(m_methodName == "") {
         m_logs.addError("La méthode est obligatoire.");
     }
     else if(m_methodName == "save_page") {
         onSavePage();
+    }
+    else if(m_methodName == "load_pages") {
+        onLoadPages();
     }
     else {
         m_logs.addError("La méthode est inconnu.");
@@ -77,26 +81,65 @@ bool GPage::onSavePage() {
     else {
         updatePage();
     }
-    m_logs.addLog("La donnée a bien été enregistrée.");
+    if(!m_logs.hasErrors()) {
+        m_logs.addLog("La donnée a bien été enregistrée.");
+    }
+    return !m_logs.hasErrors();
+}
+//===============================================
+bool GPage::onLoadPages() {
+    loadPages();
     return !m_logs.hasErrors();
 }
 //===============================================
 bool GPage::insertPage() {
     GMySQL lMySQL;
-    if(!GMySQL().execQuery(GFORMAT(""
-            " insert into _user "
-            " ( _pseudo, _password ) "
-            " values ( '%s', '%s' ) "
-            "", m_pseudo.c_str()
-            , m_passwordMd5.c_str()
-    ))) return false;
+    lMySQL.execQuery(GFORMAT(""
+            " insert into _page "
+            " ( _parent_id, _name ) "
+            " values ( %d, '%s' ) "
+            "", m_parentId
+            , m_name.c_str()
+    ));
     m_logs.addLogs(lMySQL.getLogs());
+    if(!m_logs.hasErrors()) {
+        m_id = lMySQL.getId();
+    }
     return !m_logs.hasErrors();
 }
 //===============================================
 bool GPage::updatePage() {
     GMySQL lMySQL;
-
+    lMySQL.execQuery(GFORMAT(""
+            " update _page set "
+            " _name = '%s' "
+            " where 1 = 1 "
+            " and _id = %d "
+            "", m_name.c_str()
+            , m_id
+    ));
+    m_logs.addLogs(lMySQL.getLogs());
+    return !m_logs.hasErrors();
+}
+//===============================================
+bool GPage::loadPages() {
+    GMySQL lMySQL;
+    GMySQL::GMap lDataMap = lMySQL.readMap(GFORMAT(""
+            " select _name "
+            " from _page "
+            " where 1 = 1 "
+            " and _parent_id = %d "
+            "", m_parentId
+    ));
+    for(int i = 0; i < (int)lDataMap.size(); i++) {
+        GMySQL::GRow lDataRow = lDataMap.at(i);
+        int j = 0;
+        GPage* lObj = new GPage;
+        lObj->m_id = lDataRow.at(j++).toInt();
+        lObj->m_parentId = lDataRow.at(j++).toInt();
+        lObj->m_name = lDataRow.at(j++);
+        m_map.push_back(lObj);
+    }
     m_logs.addLogs(lMySQL.getLogs());
     return !m_logs.hasErrors();
 }

@@ -12,9 +12,6 @@ public:
     void run(int _argc, char** _argv);
     void runTest(int _argc, char** _argv);
     void runProd(int _argc, char** _argv);
-
-public:
-    bool m_isTestEnv;
 };
 //===============================================
 #endif

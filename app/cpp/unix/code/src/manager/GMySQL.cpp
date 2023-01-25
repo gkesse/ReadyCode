@@ -5,6 +5,8 @@
 #include "GEnv.h"
 #include "GApp.h"
 //===============================================
+GMySQL* GMySQL::m_instance = 0;
+//===============================================
 GMySQL::GMySQL()
 : GObject() {
     initMySQL();
@@ -12,6 +14,13 @@ GMySQL::GMySQL()
 //===============================================
 GMySQL::~GMySQL() {
 
+}
+//===============================================
+GMySQL* GMySQL::Instance() {
+    if(m_instance == 0) {
+        m_instance = new GMySQL;
+    }
+    return m_instance;
 }
 //===============================================
 void GMySQL::initMySQL() {
@@ -34,6 +43,11 @@ void GMySQL::setAction(const GString& _action) {
 void GMySQL::setSql(const GString& _sql) {
     m_sql = _sql;
     GLOGT(eGMSG, "%s", _sql.c_str());
+}
+//===============================================
+GString GMySQL::convertZeroToNull(int _data) {
+    if(_data == 0) return "null";
+    return _data;
 }
 //===============================================
 bool GMySQL::openDatabase() {
@@ -87,7 +101,7 @@ bool GMySQL::run() {
     if(m_action == "write") {
         runWrite();
     }
-    else if(m_action == "write") {
+    else if(m_action == "read") {
         runRead();
     }
     else {
@@ -103,7 +117,13 @@ bool GMySQL::runWrite() {
         m_stmt->execute(m_sql.c_str());
     }
     catch (sql::SQLException &e) {
-        m_logs.addError(GFORMAT("L'exécution de la requête SQL a échoué.\n%s : %d : %s", e.what(), e.getErrorCode(), e.getSQLStateCStr()));
+        if(e.getErrorCode() == 1062) {
+            m_logs.addError("Cette donnée existe déjà.");
+        }
+        else {
+            m_logs.addError("L'opération a rencontré un problème.");
+        }
+        GLOGT(eGERR, "Erreur SQL : %s : %d : %s", e.what(), e.getErrorCode(), e.getSQLStateCStr());
         return false;
     }
     return !m_logs.hasErrors();
@@ -116,7 +136,8 @@ bool GMySQL::runRead() {
         m_res.reset(m_stmt->executeQuery(m_sql.c_str()));
     }
     catch (sql::SQLException &e) {
-        m_logs.addError(GFORMAT("L'exécution de la requête SQL a échoué.\n%s : %d : %s", e.what(), e.getErrorCode(), e.getSQLStateCStr()));
+        m_logs.addError("L'opération a rencontré un problème.");
+        GLOGT(eGERR, "Erreur SQL : %s : %d : %s", e.what(), e.getErrorCode(), e.getSQLStateCStr());
         return false;
     }
     return !m_logs.hasErrors();
@@ -135,7 +156,8 @@ int GMySQL::getId() {
         lId = (int)m_res->getInt64("id");
     }
     catch (sql::SQLException &e) {
-        m_logs.addError(GFORMAT("La lecture de l'ID a échoué.\n%s : %d : %s", e.what(), e.getErrorCode(), e.getSQLStateCStr()));
+        m_logs.addError("L'opération a rencontré un problème.");
+        GLOGT(eGERR, "Erreur SQL : %s : %d : %s", e.what(), e.getErrorCode(), e.getSQLStateCStr());
     }
     return lId;
 }
@@ -152,8 +174,8 @@ GString GMySQL::readData(const GString& _sql) {
     return lData;
 }
 //===============================================
-std::vector<GString> GMySQL::readCol(const GString& _sql) {
-    std::vector<GString> lDataMap;
+GMySQL::GRow GMySQL::readCol(const GString& _sql) {
+    GMySQL::GRow lDataMap;
     setSql(_sql);
     setAction("read");
     if(!run()) return lDataMap;
@@ -164,8 +186,8 @@ std::vector<GString> GMySQL::readCol(const GString& _sql) {
     return lDataMap;
 }
 //===============================================
-std::vector<GString> GMySQL::readRow(const GString& _sql) {
-    std::vector<GString> lDataMap;
+GMySQL::GRow GMySQL::readRow(const GString& _sql) {
+    GMySQL::GRow lDataMap;
     setSql(_sql);
     setAction("read");
     if(!run()) return lDataMap;
@@ -180,14 +202,14 @@ std::vector<GString> GMySQL::readRow(const GString& _sql) {
     return lDataMap;
 }
 //===============================================
-std::vector<std::vector<GString>> GMySQL::readMap(const GString& _sql) {
-    std::vector<std::vector<GString>> lDataMap;
+GMySQL::GMap GMySQL::readMap(const GString& _sql) {
+    GMySQL::GMap lDataMap;
     setSql(_sql);
     setAction("read");
     if(!run()) return lDataMap;
     int lColumns = getColumnCount();
     while(m_res->next()) {
-        std::vector<GString> lDataRow;
+        GMySQL::GRow lDataRow;
         for(int i = 1; i <= lColumns; i++) {
             GString lData = m_res->getString(i).c_str();
             lDataRow.push_back(lData);

@@ -144,7 +144,7 @@ void* GSocket::onThreadCB(void* _params) {
 bool GSocket::runThreadCB() {
     GString lRequest;
     readData(lRequest);
-    GLOGT(eGMSG, "RECEPTION [%d] :\n%s\n", lRequest.size(), lRequest.c_str());
+    GLOGT(eGMSG, "\nRECEPTION [%d] :\n%s\n", lRequest.size(), lRequest.c_str());
     sendEchoHttp();
     return !m_logs.hasErrors();
 }
@@ -198,7 +198,7 @@ bool GSocket::sendEchoHttp() {
     lHttp.run();
     m_logs.addLogs(lHttp.getLogs());
     GString lResponse = lHttp.getResponseText();
-    GLOGT(eGMSG, "EMISSION [%d] :\n%s\n", lResponse.size(), lResponse.c_str());
+    GLOGT(eGMSG, "\nEMISSION [%d] :\n%s\n", lResponse.size(), lResponse.c_str());
     sendData(lResponse);
     return !m_logs.hasErrors();
 }
