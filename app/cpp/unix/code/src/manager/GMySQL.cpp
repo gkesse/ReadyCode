@@ -174,8 +174,8 @@ GString GMySQL::readData(const GString& _sql) {
     return lData;
 }
 //===============================================
-GMySQL::GRow GMySQL::readCol(const GString& _sql) {
-    GMySQL::GRow lDataMap;
+GMySQL::GRows GMySQL::readCol(const GString& _sql) {
+    GMySQL::GRows lDataMap;
     setSql(_sql);
     setAction("read");
     if(!run()) return lDataMap;
@@ -186,8 +186,8 @@ GMySQL::GRow GMySQL::readCol(const GString& _sql) {
     return lDataMap;
 }
 //===============================================
-GMySQL::GRow GMySQL::readRow(const GString& _sql) {
-    GMySQL::GRow lDataMap;
+GMySQL::GRows GMySQL::readRow(const GString& _sql) {
+    GMySQL::GRows lDataMap;
     setSql(_sql);
     setAction("read");
     if(!run()) return lDataMap;
@@ -202,14 +202,14 @@ GMySQL::GRow GMySQL::readRow(const GString& _sql) {
     return lDataMap;
 }
 //===============================================
-GMySQL::GMap GMySQL::readMap(const GString& _sql) {
-    GMySQL::GMap lDataMap;
+GMySQL::GMaps GMySQL::readMap(const GString& _sql) {
+    GMySQL::GMaps lDataMap;
     setSql(_sql);
     setAction("read");
     if(!run()) return lDataMap;
     int lColumns = getColumnCount();
     while(m_res->next()) {
-        GMySQL::GRow lDataRow;
+        GMySQL::GRows lDataRow;
         for(int i = 1; i <= lColumns; i++) {
             GString lData = m_res->getString(i).c_str();
             lDataRow.push_back(lData);

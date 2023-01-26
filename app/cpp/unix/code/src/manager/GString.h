@@ -21,20 +21,7 @@ public:
     ~GString();
 
     static GString* Instance();
-
-    void clear(bool _isNew = false);
-    bool allocate(int _size, bool _isNew = false);
-    void assign(const char* _data, int _size, bool _isNew = false);
-    void assign(const char* _data, bool _isNew = false);
-    void assign(const std::string& _data, bool _isNew = false);
-    void assign(char _data, bool _isNew = false);
-    void assign(bool _data, bool _isNew = false);
-    void assign(int _data, bool _isNew = false);
-    void assign(const std::vector<char>& _data, bool _isNew = false);
-    void assign(const std::vector<uchar>& _data, bool _isNew = false);
-    void assign(const GString& _data, bool _isNew = false);
-    void assign(const std::vector<GString>& _data, bool _isNew = false);
-    void assign(const std::vector<std::vector<GString>>& _data, bool _isNew = false);
+    bool create(char* _data);
 
     char*& data();
     const char* data() const;

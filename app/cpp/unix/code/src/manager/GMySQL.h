@@ -4,17 +4,13 @@
 //===============================================
 #include "GObject.h"
 //===============================================
-typedef std::vector<std::vector<GString>> GMaps;
-typedef std::vector<GString> GRow;
-//===============================================
 #define GMYSQL      GMySQL::Instance()
 #define czton       GMYSQL->convertZeroToNull
 //===============================================
+typedef std::vector<GString> GRows;
+typedef std::vector<GRows> GMaps;
+//===============================================
 class GMySQL : public GObject {
-public:
-    typedef std::vector<GString> GRow;
-    typedef std::vector<GRow> GMap;
-
 public:
     GMySQL();
     ~GMySQL();
@@ -31,9 +27,9 @@ public:
     int getColumnCount() const;
     int getId();
     GString readData(const GString& _sql);
-    GRow readCol(const GString& _sql);
-    GRow readRow(const GString& _sql);
-    GMap readMap(const GString& _sql);
+    GRows readCol(const GString& _sql);
+    GRows readRow(const GString& _sql);
+    GMaps readMap(const GString& _sql);
 
 private:
     static GMySQL* m_instance;
