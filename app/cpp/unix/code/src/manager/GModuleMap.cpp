@@ -157,7 +157,7 @@ bool GModuleMap::saveModuleMap() {
 bool GModuleMap::searchModuleMap() {
     clearMap();
     GMySQL lMySQL;
-    GMaps lDataMap = lMySQL.readMap(GFORMAT(""
+    GMySQL::GMaps lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _position "
             " from _module_map "
             " %s "
@@ -168,7 +168,7 @@ bool GModuleMap::searchModuleMap() {
     ));
 
     for(int i = 0; i < (int)lDataMap.size(); i++) {
-        GRow lRow = lDataMap.at(i);
+        GMySQL::GRows lRow = lDataMap.at(i);
         int j = 0;
         GModuleMap* lObj = new GModuleMap;
         GModuleNode lNode;
@@ -213,7 +213,7 @@ bool GModuleMap::countData() {
 //===============================================
 bool GModuleMap::loadData() {
     GMySQL lMySQL;
-    GMaps lDataMap = lMySQL.readMap(GFORMAT(""
+    GMySQL::GMaps lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _position "
             " from _module_map "
             " where 1 = 1 "
@@ -223,7 +223,7 @@ bool GModuleMap::loadData() {
     ));
     clearMap();
     for(int i = 0; i < (int)lDataMap.size(); i++) {
-        GRow lDataRow = lDataMap.at(i);
+        GMySQL::GRows lDataRow = lDataMap.at(i);
         int j = 0;
         GModuleMap* lObj = new GModuleMap;
         lObj->m_id = lDataRow.at(j++).toInt();

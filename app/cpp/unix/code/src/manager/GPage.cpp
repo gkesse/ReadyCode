@@ -124,15 +124,15 @@ bool GPage::updatePage() {
 //===============================================
 bool GPage::loadPages() {
     GMySQL lMySQL;
-    GMySQL::GMap lDataMap = lMySQL.readMap(GFORMAT(""
-            " select _name "
+    GMySQL::GMaps lDataMap = lMySQL.readMap(GFORMAT(""
+            " select _id, _parent_id, _name "
             " from _page "
             " where 1 = 1 "
             " and _parent_id = %d "
             "", m_parentId
     ));
     for(int i = 0; i < (int)lDataMap.size(); i++) {
-        GMySQL::GRow lDataRow = lDataMap.at(i);
+        GMySQL::GRows lDataRow = lDataMap.at(i);
         int j = 0;
         GPage* lObj = new GPage;
         lObj->m_id = lDataRow.at(j++).toInt();

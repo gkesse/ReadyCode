@@ -120,7 +120,7 @@ bool GModuleType::onDeleteModuleType() {
 //===============================================
 bool GModuleType::loadModuleType() {
     GMySQL lMySQL;
-    GMaps lDataMap = lMySQL.readMap(GFORMAT(""
+    GMySQL::GMaps lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _name "
             " from _module_type "
             " order by _name asc "
@@ -128,7 +128,7 @@ bool GModuleType::loadModuleType() {
     ));
     clearMap();
     for(int i = 0; i < (int)lDataMap.size(); i++) {
-        GRow lDataRow = lDataMap.at(i);
+        GMySQL::GRows lDataRow = lDataMap.at(i);
         int j = 0;
         GModuleType* lObj = new GModuleType;
         lObj->m_id = lDataRow.at(j++).toInt();
@@ -150,7 +150,7 @@ bool GModuleType::saveModuleType() {
 //===============================================
 bool GModuleType::searchModuleType() {
     GMySQL lMySQL;
-    GMaps lDataMap = lMySQL.readMap(GFORMAT(""
+    GMySQL::GMaps lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _name "
             " from _module_type "
             " %s "
@@ -161,7 +161,7 @@ bool GModuleType::searchModuleType() {
     ));
     clearMap();
     for(int i = 0; i < (int)lDataMap.size(); i++) {
-        GRow lDataRow = lDataMap.at(i);
+        GMySQL::GRows lDataRow = lDataMap.at(i);
         int j = 0;
         GModuleType* lObj = new GModuleType;
         lObj->m_id = lDataRow.at(j++).toInt();
@@ -181,7 +181,7 @@ bool GModuleType::searchModuleType() {
 bool GModuleType::searchType() {
     clearMap();
     GMySQL lMySQL;
-    GMaps lDataMap = lMySQL.readMap(GFORMAT(""
+    GMySQL::GMaps lDataMap = lMySQL.readMap(GFORMAT(""
             " select _name "
             " from _module_type "
             " where 1 = 1 "
@@ -190,7 +190,7 @@ bool GModuleType::searchType() {
             "", m_id
     ));
     for(int i = 0; i < (int)lDataMap.size(); i++) {
-        GRow lDataRow = lDataMap.at(i);
+        GMySQL::GRows lDataRow = lDataMap.at(i);
         int j = 0;
         m_name = lDataRow.at(j++);
         break;
@@ -200,7 +200,7 @@ bool GModuleType::searchType() {
 //===============================================
 bool GModuleType::searchNextModuleType() {
     GMySQL lMySQL;
-    GMaps lDataMap = lMySQL.readMap(GFORMAT(""
+    GMySQL::GMaps lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _name "
             " from _module_type "
             " %s "
@@ -210,7 +210,7 @@ bool GModuleType::searchNextModuleType() {
             , m_dataSize
     ));
     for(int i = 0; i < (int)lDataMap.size(); i++) {
-        GRow lDataRow = lDataMap.at(i);
+        GMySQL::GRows lDataRow = lDataMap.at(i);
         int j = 0;
         GModuleType* lObj = new GModuleType;
         lObj->m_id = lDataRow.at(j++).toInt();

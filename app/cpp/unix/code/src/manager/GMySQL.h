@@ -7,10 +7,11 @@
 #define GMYSQL      GMySQL::Instance()
 #define czton       GMYSQL->convertZeroToNull
 //===============================================
-typedef std::vector<GString> GRows;
-typedef std::vector<GRows> GMaps;
-//===============================================
 class GMySQL : public GObject {
+public:
+    typedef std::vector<GString> GRows;
+    typedef std::vector<GRows> GMaps;
+
 public:
     GMySQL();
     ~GMySQL();

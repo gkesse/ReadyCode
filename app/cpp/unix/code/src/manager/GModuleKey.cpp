@@ -145,7 +145,7 @@ bool GModuleKey::onSearchNextModuleKey() {
 bool GModuleKey::loadModuleKey() {
     clearMap();
     GMySQL lMySQL;
-    GMaps lDataMap = lMySQL.readMap(GFORMAT(""
+    GMySQL::GMaps lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _type_id, _name, _label "
             " from _module_key "
             " where 1 = 1"
@@ -154,7 +154,7 @@ bool GModuleKey::loadModuleKey() {
             "", m_moduleId
     ));
     for(int i = 0; i < (int)lDataMap.size(); i++) {
-        GRow lDataRow = lDataMap.at(i);
+        GMySQL::GRows lDataRow = lDataMap.at(i);
         int j = 0;
         GModuleKey* lObj = new GModuleKey;
         GModuleType lType;
@@ -183,7 +183,7 @@ bool GModuleKey::saveModuleKey() {
 bool GModuleKey::searchModuleKey() {
     clearMap();
     GMySQL lMySQL;
-    GMaps lDataMap = lMySQL.readMap(GFORMAT(""
+    GMySQL::GMaps lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _module_id, _type_id, _name, _label "
             " from _module_key "
             " %s "
@@ -194,7 +194,7 @@ bool GModuleKey::searchModuleKey() {
     ));
 
     for(int i = 0; i < (int)lDataMap.size(); i++) {
-        GRow lDataRow = lDataMap.at(i);
+        GMySQL::GRows lDataRow = lDataMap.at(i);
         int j = 0;
         GModuleKey* lObj = new GModuleKey;
         GModule lModule;
@@ -227,7 +227,7 @@ bool GModuleKey::searchModuleKey() {
 bool GModuleKey::searchKey() {
     clearMap();
     GMySQL lMySQL;
-    GMaps lDataMap = lMySQL.readMap(GFORMAT(""
+    GMySQL::GMaps lDataMap = lMySQL.readMap(GFORMAT(""
             " select _type_id, _name, _label "
             " from _module_key "
             " where 1 = 1 "
@@ -238,7 +238,7 @@ bool GModuleKey::searchKey() {
             , m_moduleId
     ));
     for(int i = 0; i < (int)lDataMap.size(); i++) {
-        GRow lDataRow = lDataMap.at(i);
+        GMySQL::GRows lDataRow = lDataMap.at(i);
         int j = 0;
         GModuleType lType;
         m_typeId = lDataRow.at(j++).toInt();
@@ -255,7 +255,7 @@ bool GModuleKey::searchKey() {
 bool GModuleKey::searchNextModuleKey() {
     clearMap();
     GMySQL lMySQL;
-    GMaps lDataMap = lMySQL.readMap(GFORMAT(""
+    GMySQL::GMaps lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _type_id, _name, _label "
             " from _module_key "
             " %s "
@@ -265,7 +265,7 @@ bool GModuleKey::searchNextModuleKey() {
             , m_dataSize
     ));
     for(int i = 0; i < (int)lDataMap.size(); i++) {
-        GRow lDataRow = lDataMap.at(i);
+        GMySQL::GRows lDataRow = lDataMap.at(i);
         int j = 0;
         GModuleKey* lObj = new GModuleKey;
         lObj->m_id = lDataRow.at(j++).toInt();

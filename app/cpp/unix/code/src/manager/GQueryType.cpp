@@ -123,7 +123,7 @@ bool GQueryType::saveData() {
 bool GQueryType::searchData() {
     clearMap();
     GMySQL lMySQL;
-    GMaps lDataMap = lMySQL.readMap(GFORMAT(""
+    GMySQL::GMaps lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _name "
             " from _query_type "
             " %s "
@@ -134,7 +134,7 @@ bool GQueryType::searchData() {
     ));
 
     for(int i = 0; i < (int)lDataMap.size(); i++) {
-        GRow lDataRow = lDataMap.at(i);
+        GMySQL::GRows lDataRow = lDataMap.at(i);
         int j = 0;
         GQueryType* lObj = new GQueryType;
         lObj->m_id = lDataRow.at(j++).toInt();
@@ -156,7 +156,7 @@ bool GQueryType::searchData() {
 bool GQueryType::searchNextData() {
     clearMap();
     GMySQL lMySQL;
-    GMaps lDataMap = lMySQL.readMap(GFORMAT(""
+    GMySQL::GMaps lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _name "
             " from _query_type "
             " %s "
@@ -166,7 +166,7 @@ bool GQueryType::searchNextData() {
             , m_dataSize
     ));
     for(int i = 0; i < (int)lDataMap.size(); i++) {
-        GRow lDataRow = lDataMap.at(i);
+        GMySQL::GRows lDataRow = lDataMap.at(i);
         int j = 0;
         GQueryType* lObj = new GQueryType;
         lObj->m_id = lDataRow.at(j++).toInt();

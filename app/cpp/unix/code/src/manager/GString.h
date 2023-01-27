@@ -12,6 +12,7 @@ public:
     GString();
     GString(const std::string& _data);
     GString(const char* _data);
+    GString(char* _data, int _size);
     GString(char _data);
     GString(bool _data);
     GString(int _data);
@@ -22,6 +23,7 @@ public:
 
     static GString* Instance();
     bool create(char* _data);
+    void clear();
 
     char*& data();
     const char* data() const;
