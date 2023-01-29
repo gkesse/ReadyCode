@@ -22,6 +22,7 @@ public:
 private:
     int m_id;
     int m_parentId;
+    int m_typeId;
     GString m_name;
     GString m_title;
     GString m_url;

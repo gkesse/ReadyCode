@@ -13,16 +13,34 @@ values (1, 'root');
 
 create table if not exists _page (
     _id int not null auto_increment
-    , _parent_id int
+    , _parent_id int null
+    , _type_id int not null
     , _name varchar(255) not null
     , _c_date datetime default current_timestamp
     , _u_date datetime on update current_timestamp
     , primary key (_id)
     , unique (_parent_id, _name)
     , foreign key (_parent_id) references _page (_id)    
+    , foreign key (_type_id) references _page_type (_id)    
 );
 
-select _name  from _page  where 1 = 1  and _parent_id = 1;
+-- ==============================================
+-- _page_type
+-- ==============================================
+drop table if exists _page_type;
+
+insert into _page_type (_id, _name, _label) values
+(1, 'file', 'Fichier')
+, (2, 'dir', 'Répertoire');
+
+create table if not exists _page_type (
+    _id int not null auto_increment
+    , _name varchar(255) not null
+    , _label varchar(255) not null
+    , _c_date datetime default current_timestamp
+    , _u_date datetime on update current_timestamp
+    , primary key (_id)
+);
 
 -- ==============================================
 -- _maj

@@ -6,6 +6,7 @@ GPage::GPage()
 : GSearch() {
     m_id = 0;
     m_parentId = 0;
+    m_typeId = 0;
 }
 //===============================================
 GPage::~GPage() {
@@ -17,6 +18,7 @@ GString GPage::serialize(const GString& _code)  {
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
     lDom.addData(_code, "parent_id", m_parentId);
+    lDom.addData(_code, "type_id", m_typeId);
     lDom.addData(_code, "name", m_name);
     lDom.addData(_code, "title", m_title);
     lDom.addData(_code, "url", m_url);
@@ -31,6 +33,7 @@ void GPage::deserialize(const GString& _data, const GString& _code) {
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
     m_parentId = lDom.getData(_code, "parent_id").toInt();
+    m_typeId = lDom.getData(_code, "type_id").toInt();
     m_name = lDom.getData(_code, "name");
     m_title = lDom.getData(_code, "title");
     m_url = lDom.getData(_code, "url");
@@ -46,6 +49,8 @@ GObject* GPage::clone() const {
 //===============================================
 void GPage::setPage(const GPage& _obj) {
     m_id = _obj.m_id;
+    m_parentId = _obj.m_parentId;
+    m_typeId = _obj.m_typeId;
     m_name = _obj.m_name;
     m_title = _obj.m_title;
     m_url = _obj.m_url;
@@ -75,6 +80,10 @@ bool GPage::onSavePage() {
         m_logs.addError("Le nom de la page est obligatoire.");
         return false;
     }
+    if(!m_typeId) {
+        m_logs.addError("Le type de la page est obligatoire.");
+        return false;
+    }
     if(!m_id) {
         insertPage();
     }
@@ -96,9 +105,10 @@ bool GPage::insertPage() {
     GMySQL lMySQL;
     lMySQL.execQuery(GFORMAT(""
             " insert into _page "
-            " ( _parent_id, _name ) "
-            " values ( %d, '%s' ) "
+            " ( _parent_id, _type_id, _name ) "
+            " values ( %d, %d, '%s' ) "
             "", m_parentId
+            , m_typeId
             , m_name.c_str()
     ));
     m_logs.addLogs(lMySQL.getLogs());
@@ -112,10 +122,14 @@ bool GPage::updatePage() {
     GMySQL lMySQL;
     lMySQL.execQuery(GFORMAT(""
             " update _page set "
-            " _name = '%s' "
+            " _type_id = %d "
+            " , _parent_id = %d "
+            " , _name = '%s' "
             " where 1 = 1 "
             " and _id = %d "
-            "", m_name.c_str()
+            "", m_parentId
+            , m_typeId
+            , m_name.c_str()
             , m_id
     ));
     m_logs.addLogs(lMySQL.getLogs());
@@ -125,7 +139,7 @@ bool GPage::updatePage() {
 bool GPage::loadPages() {
     GMySQL lMySQL;
     GMySQL::GMaps lDataMap = lMySQL.readMap(GFORMAT(""
-            " select _id, _parent_id, _name "
+            " select _id, _parent_id, _type_id, _name "
             " from _page "
             " where 1 = 1 "
             " and _parent_id = %d "
@@ -137,6 +151,7 @@ bool GPage::loadPages() {
         GPage* lObj = new GPage;
         lObj->m_id = lDataRow.at(j++).toInt();
         lObj->m_parentId = lDataRow.at(j++).toInt();
+        lObj->m_typeId = lDataRow.at(j++).toInt();
         lObj->m_name = lDataRow.at(j++);
         m_map.push_back(lObj);
     }
