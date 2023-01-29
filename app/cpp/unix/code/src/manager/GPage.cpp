@@ -122,8 +122,8 @@ bool GPage::updatePage() {
     GMySQL lMySQL;
     lMySQL.execQuery(GFORMAT(""
             " update _page set "
-            " _type_id = %d "
-            " , _parent_id = %d "
+            " _parent_id = %d "
+            " , _type_id = %d "
             " , _name = '%s' "
             " where 1 = 1 "
             " and _id = %d "
