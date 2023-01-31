@@ -24,6 +24,7 @@ private:
     int m_parentId;
     int m_typeId;
     GString m_name;
+    GString m_typeName;
     GString m_title;
     GString m_url;
     GString m_path;

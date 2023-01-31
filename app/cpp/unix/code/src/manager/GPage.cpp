@@ -20,6 +20,7 @@ GString GPage::serialize(const GString& _code)  {
     lDom.addData(_code, "parent_id", m_parentId);
     lDom.addData(_code, "type_id", m_typeId);
     lDom.addData(_code, "name", m_name);
+    lDom.addData(_code, "type_name", m_typeName);
     lDom.addData(_code, "title", m_title);
     lDom.addData(_code, "url", m_url);
     lDom.addData(_code, "path", m_path);
@@ -35,6 +36,7 @@ void GPage::deserialize(const GString& _data, const GString& _code) {
     m_parentId = lDom.getData(_code, "parent_id").toInt();
     m_typeId = lDom.getData(_code, "type_id").toInt();
     m_name = lDom.getData(_code, "name");
+    m_typeName = lDom.getData(_code, "type_name");
     m_title = lDom.getData(_code, "title");
     m_url = lDom.getData(_code, "url");
     m_path = lDom.getData(_code, "path");
@@ -52,6 +54,7 @@ void GPage::setPage(const GPage& _obj) {
     m_parentId = _obj.m_parentId;
     m_typeId = _obj.m_typeId;
     m_name = _obj.m_name;
+    m_typeName = _obj.m_typeName;
     m_title = _obj.m_title;
     m_url = _obj.m_url;
     m_path = _obj.m_path;
@@ -139,10 +142,13 @@ bool GPage::updatePage() {
 bool GPage::loadPages() {
     GMySQL lMySQL;
     GMySQL::GMaps lDataMap = lMySQL.readMap(GFORMAT(""
-            " select _id, _parent_id, _type_id, _name "
-            " from _page "
+            " select t1._id, t1._parent_id, t1._type_id, t1._name, t2._name "
+            " from _page t1 "
+            " inner join _page_type t2 on 1 = 1 "
+            " and t2._id = t1._type_id "
             " where 1 = 1 "
-            " and _parent_id = %d "
+            " and t1._parent_id = %d "
+            " order by t1._name asc "
             "", m_parentId
     ));
     for(int i = 0; i < (int)lDataMap.size(); i++) {
@@ -153,6 +159,7 @@ bool GPage::loadPages() {
         lObj->m_parentId = lDataRow.at(j++).toInt();
         lObj->m_typeId = lDataRow.at(j++).toInt();
         lObj->m_name = lDataRow.at(j++);
+        lObj->m_typeName = lDataRow.at(j++);
         m_map.push_back(lObj);
     }
     m_logs.addLogs(lMySQL.getLogs());

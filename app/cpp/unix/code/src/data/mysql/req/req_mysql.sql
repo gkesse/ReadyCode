@@ -8,8 +8,8 @@ use dev;
 -- ==============================================
 drop table if exists _page;
 
-insert into _page (_id, _name)
-values (1, 'root');
+insert into _page (_id, _name, _type_id)
+values (1, 'root', 1);
 
 create table if not exists _page (
     _id int not null auto_increment
