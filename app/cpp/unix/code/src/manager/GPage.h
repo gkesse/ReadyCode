@@ -21,6 +21,7 @@ public:
     bool loadPages();
     bool searchPage();
     bool isParentDirectory();
+    bool isTypeNoChange();
 
 private:
     int m_id;

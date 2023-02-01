@@ -98,6 +98,10 @@ bool GPage::onSavePage() {
         insertPage();
     }
     else {
+        if(!isTypeNoChange()) {
+            m_logs.addError("Le type de la page a changé.");
+            return false;
+        }
         updatePage();
     }
     if(!m_logs.hasErrors()) {
@@ -227,6 +231,20 @@ bool GPage::isParentDirectory() {
             " and t1._id = %d "
             " and t1._type_id = 2 "
             "", m_parentId
+    )).toInt();
+    return (lCount);
+}
+//===============================================
+bool GPage::isTypeNoChange() {
+    GMySQL lMySQL;
+    int lCount = lMySQL.readData(GFORMAT(""
+            " select count(*) "
+            " from _page t1 "
+            " where 1 = 1 "
+            " and t1._id = %d "
+            " and t1._type_id = %d "
+            "", m_id
+            , m_typeId
     )).toInt();
     return (lCount);
 }
