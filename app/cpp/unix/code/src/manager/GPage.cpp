@@ -75,6 +75,9 @@ bool GPage::run(const GString& _request) {
     else if(m_methodName == "search_page") {
         onSearchPage();
     }
+    else if(m_methodName == "delete_page") {
+        onDeletePage();
+    }
     else {
         m_logs.addError("La méthode est inconnu.");
     }
@@ -131,6 +134,18 @@ bool GPage::onSearchPage() {
         }
     }
     searchPage();
+    return !m_logs.hasErrors();
+}
+//===============================================
+bool GPage::onDeletePage() {
+    if(m_id == 0) {
+        m_logs.addError("Aucune page n'a été sélectionnée.");
+        return false;
+    }
+    deletePage();
+    if(!m_logs.hasErrors()) {
+        m_logs.addLog("La donnée a bien été supprimée.");
+    }
     return !m_logs.hasErrors();
 }
 //===============================================
@@ -218,6 +233,18 @@ bool GPage::searchPage() {
         lObj->m_typeName = lDataRow.at(j++);
         m_map.push_back(lObj);
     }
+    m_logs.addLogs(lMySQL.getLogs());
+    return !m_logs.hasErrors();
+}
+//===============================================
+bool GPage::deletePage() {
+    GMySQL lMySQL;
+    lMySQL.execQuery(GFORMAT(""
+            " delete from _page "
+            " where 1 = 1 "
+            " and _id = %d "
+            "", m_id
+    ));
     m_logs.addLogs(lMySQL.getLogs());
     return !m_logs.hasErrors();
 }

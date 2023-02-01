@@ -16,10 +16,12 @@ public:
     bool onSavePage();
     bool onLoadPage();
     bool onSearchPage();
+    bool onDeletePage();
     bool insertPage();
     bool updatePage();
     bool loadPages();
     bool searchPage();
+    bool deletePage();
     bool isParentDirectory();
     bool isTypeNoChange();
 
