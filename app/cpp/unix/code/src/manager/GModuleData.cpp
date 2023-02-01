@@ -47,7 +47,7 @@ void GModuleData::deserialize(const GString& _data, const GString& _code) {
 bool GModuleData::onModule() {
     deserialize(m_server->getRequest());
     if(m_methodName == "") {
-        m_logs.addError("Erreur la méthode est obligatoire.");
+        m_logs.addError("La méthode est obligatoire.");
     }
     else if(m_methodName == "save_module_data") {
         onSaveModuleData();
@@ -62,7 +62,7 @@ bool GModuleData::onModule() {
         onDeleteModuleData();
     }
     else {
-        m_logs.addError("Erreur la méthode est inconnue.");
+        m_logs.addError("La méthode est inconnue.");
     }
     m_server->addResponse(serialize());
     return true;

@@ -14,10 +14,13 @@ public:
     void setPage(const GPage& _obj);
     bool run(const GString& _request);
     bool onSavePage();
-    bool onLoadPages();
+    bool onLoadPage();
+    bool onSearchPage();
     bool insertPage();
     bool updatePage();
     bool loadPages();
+    bool searchPage();
+    bool isParentDirectory();
 
 private:
     int m_id;

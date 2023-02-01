@@ -47,7 +47,7 @@ int GModule::getId() const {
 bool GModule::onModule() {
     deserialize(m_server->getRequest());
     if(m_methodName == "") {
-        m_logs.addError("Erreur la méthode est obligatoire.");
+        m_logs.addError("La méthode est obligatoire.");
     }
     else if(m_methodName == "save_module") {
         onSaveModule();
@@ -62,7 +62,7 @@ bool GModule::onModule() {
         onDeleteModule();
     }
     else {
-        m_logs.addError("Erreur la méthode est inconnue.");
+        m_logs.addError("La méthode est inconnue.");
     }
     m_server->addResponse(serialize());
     return true;

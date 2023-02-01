@@ -99,13 +99,13 @@ void GFile::setContentBin(const GString& _data) {
 bool GFile::onModule() {
     deserialize(m_server->getRequest());
     if(m_methodName == "") {
-        m_logs.addError("Erreur la méthode est obligatoire.");
+        m_logs.addError("La méthode est obligatoire.");
     }
     else if(m_methodName == "save_file") {
         onSaveFile();
     }
     else {
-        m_logs.addError("Erreur la méthode est inconnue.");
+        m_logs.addError("La méthode est inconnue.");
     }
     m_server->addResponse(serialize());
     return true;

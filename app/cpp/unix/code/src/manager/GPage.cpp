@@ -69,8 +69,11 @@ bool GPage::run(const GString& _request) {
     else if(m_methodName == "save_page") {
         onSavePage();
     }
-    else if(m_methodName == "load_pages") {
-        onLoadPages();
+    else if(m_methodName == "load_page") {
+        onLoadPage();
+    }
+    else if(m_methodName == "search_page") {
+        onSearchPage();
     }
     else {
         m_logs.addError("La méthode est inconnu.");
@@ -87,6 +90,10 @@ bool GPage::onSavePage() {
         m_logs.addError("Le type de la page est obligatoire.");
         return false;
     }
+    if(!isParentDirectory()) {
+        m_logs.addError("Le parent de la page est un fichier.");
+        return false;
+    }
     if(!m_id) {
         insertPage();
     }
@@ -99,8 +106,27 @@ bool GPage::onSavePage() {
     return !m_logs.hasErrors();
 }
 //===============================================
-bool GPage::onLoadPages() {
+bool GPage::onLoadPage() {
     loadPages();
+    return !m_logs.hasErrors();
+}
+//===============================================
+bool GPage::onSearchPage() {
+    if(m_id != 0) {
+        m_where += GFORMAT(" and t1._id = %d ", m_id);
+    }
+    else {
+        if(m_parentId != 0) {
+            m_where += GFORMAT(" and t1._parent_id = %d ", m_parentId);
+        }
+        if(!m_name.isEmpty()) {
+            m_where += GFORMAT(" and t1._name like '%s%%' ", m_name.c_str());
+        }
+        if(m_typeId != 0) {
+            m_where += GFORMAT(" and t1._type_id = %d ", m_typeId);
+        }
+    }
+    searchPage();
     return !m_logs.hasErrors();
 }
 //===============================================
@@ -164,5 +190,44 @@ bool GPage::loadPages() {
     }
     m_logs.addLogs(lMySQL.getLogs());
     return !m_logs.hasErrors();
+}
+//===============================================
+bool GPage::searchPage() {
+    GMySQL lMySQL;
+    GMySQL::GMaps lDataMap = lMySQL.readMap(GFORMAT(""
+            " select t1._id, t1._parent_id, t1._type_id, t1._name, t2._name "
+            " from _page t1 "
+            " inner join _page_type t2 on 1 = 1 "
+            " and t2._id = t1._type_id "
+            " %s "
+            " order by t2._name, t1._name asc "
+            "", m_where.c_str()
+    ));
+    for(int i = 0; i < (int)lDataMap.size(); i++) {
+        GMySQL::GRows lDataRow = lDataMap.at(i);
+        int j = 0;
+        GPage* lObj = new GPage;
+        lObj->m_id = lDataRow.at(j++).toInt();
+        lObj->m_parentId = lDataRow.at(j++).toInt();
+        lObj->m_typeId = lDataRow.at(j++).toInt();
+        lObj->m_name = lDataRow.at(j++);
+        lObj->m_typeName = lDataRow.at(j++);
+        m_map.push_back(lObj);
+    }
+    m_logs.addLogs(lMySQL.getLogs());
+    return !m_logs.hasErrors();
+}
+//===============================================
+bool GPage::isParentDirectory() {
+    GMySQL lMySQL;
+    int lCount = lMySQL.readData(GFORMAT(""
+            " select count(*) "
+            " from _page t1 "
+            " where 1 = 1 "
+            " and t1._id = %d "
+            " and t1._type_id = 2 "
+            "", m_parentId
+    )).toInt();
+    return (lCount);
 }
 //===============================================

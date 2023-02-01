@@ -15,7 +15,7 @@ void GSocketTest::run(int _argc, char** _argv) {
     GString lMethod;
     if(_argc > 2) lMethod = _argv[2];
     if(lMethod == "") {
-        m_logs.addError("Erreur la méthode est obligatoire.");
+        m_logs.addError("La méthode est obligatoire.");
     }
     else if(lMethod == "test") {
         runTest(_argc, _argv);
@@ -24,7 +24,7 @@ void GSocketTest::run(int _argc, char** _argv) {
         runServerTcp(_argc, _argv);
     }
     else {
-        m_logs.addError("Erreur la méthode est inconnue.");
+        m_logs.addError("La méthode est inconnue.");
     }
 }
 //===============================================

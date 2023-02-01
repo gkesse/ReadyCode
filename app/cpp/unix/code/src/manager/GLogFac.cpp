@@ -34,7 +34,7 @@ void GLogFac::deserialize(const GString& _data, const GString& _code) {
 bool GLogFac::onModule(const GString& _data) {
     deserialize(_data);
     if(m_methodName == "") {
-        m_logs.addError("Erreur la méthode est obligatoire.");
+        m_logs.addError("La méthode est obligatoire.");
     }
     else if(m_methodName == "cat_log_file") {
         onCatLogFile();
@@ -43,7 +43,7 @@ bool GLogFac::onModule(const GString& _data) {
         onTailLogFile();
     }
     else {
-        m_logs.addError("Erreur la méthode est inconnue.");
+        m_logs.addError("La méthode est inconnue.");
     }
     return !m_logs.hasErrors();
 }

@@ -369,7 +369,7 @@ bool GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
     else if(m_protocol == "http") {
         if(_request.getMethod() == "") {
             m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
-            m_logs.addTechError("Erreur la méthode est obligatoire.");
+            m_logs.addTechError("La méthode est obligatoire.");
         }
         // http : post
         else if(_request.getMethod() == "POST") {
@@ -411,14 +411,14 @@ bool GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
         }
         else {
             m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
-            m_logs.addTechError("Erreur la méthode est inconnue.");
+            m_logs.addTechError("La méthode est inconnue.");
         }
     }
     // https
     else if(m_protocol == "https") {
         if(_request.getMethod() == "") {
             m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
-            m_logs.addTechError("Erreur la méthode est obligatoire.");
+            m_logs.addTechError("La méthode est obligatoire.");
         }
         // https : post
         else if(_request.getMethod() == "POST") {
@@ -460,7 +460,7 @@ bool GPoco::onRequest(Poco::Net::HTTPServerRequest& _request, Poco::Net::HTTPSer
         }
         else {
             m_status = Poco::Net::HTTPResponse::HTTP_NOT_FOUND;
-            m_logs.addTechError("Erreur la méthode est inconnue.");
+            m_logs.addTechError("La méthode est inconnue.");
         }
     }
     else {

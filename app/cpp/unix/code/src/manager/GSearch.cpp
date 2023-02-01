@@ -9,7 +9,7 @@ GSearch::GSearch()
     m_dataSize = 0;
     m_dataOffset = 0;
     m_hasData = false;
-    m_where = "where 1 = 1";
+    m_where = " where 1 = 1 ";
 }
 //===============================================
 GSearch::~GSearch() {

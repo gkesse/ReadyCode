@@ -15,13 +15,13 @@ void GCurlTest::run(int _argc, char** _argv) {
     GString lMethod;
     if(_argc > 3) lMethod = _argv[3];
     if(lMethod == "") {
-        m_logs.addError("Erreur la méthode est obligatoire.");
+        m_logs.addError("La méthode est obligatoire.");
     }
     else if(lMethod == "test") {
         runTest(_argc, _argv);
     }
     else {
-        m_logs.addError("Erreur la méthode est inconnue.");
+        m_logs.addError("La méthode est inconnue.");
     }
 }
 //===============================================
