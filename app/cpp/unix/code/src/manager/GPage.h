@@ -19,7 +19,7 @@ public:
     bool onDeletePage();
     bool insertPage();
     bool updatePage();
-    bool loadPages();
+    bool loadPage();
     bool searchPage();
     bool deletePage();
     bool isParentDirectory();

@@ -114,7 +114,7 @@ bool GPage::onSavePage() {
 }
 //===============================================
 bool GPage::onLoadPage() {
-    loadPages();
+    loadPage();
     return !m_logs.hasErrors();
 }
 //===============================================
@@ -184,7 +184,7 @@ bool GPage::updatePage() {
     return !m_logs.hasErrors();
 }
 //===============================================
-bool GPage::loadPages() {
+bool GPage::loadPage() {
     GMySQL lMySQL;
     GMySQL::GMaps lDataMap = lMySQL.readMap(GFORMAT(""
             " select t1._id, t1._parent_id, t1._type_id, t1._name, t2._name "
@@ -193,6 +193,7 @@ bool GPage::loadPages() {
             " and t2._id = t1._type_id "
             " where 1 = 1 "
             " and t1._parent_id = %d "
+            " and t1._type_id = 2 "
             " order by t1._name asc "
             "", m_parentId
     ));
