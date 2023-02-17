@@ -13,8 +13,8 @@ GTest::~GTest() {
 }
 //===============================================
 void GTest::run(int _argc, char** _argv) {
-	GString lKey;
-	if(_argc > 2) lKey = _argv[2];
+    GString lKey;
+    if(_argc > 2) lKey = _argv[2];
     if(lKey == "curl") {
         runCurl(_argc, _argv);
     }

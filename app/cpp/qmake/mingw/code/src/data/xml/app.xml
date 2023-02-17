@@ -30,10 +30,10 @@
         <!-- ============================================ -->
         <data>
             <code>curl</code>
-			<username>admin</username>
-			<password>admin</password>
-			<api_key_prod>16ac9e66cde8bd80d6141dadb74b5083</api_key_prod>
-			<api_key_test>admin</api_key_test>
+            <username>admin</username>
+            <password>admin</password>
+            <api_key_prod>16ac9e66cde8bd80d6141dadb74b5083</api_key_prod>
+            <api_key_test>admin</api_key_test>
             <certificate_file>C:/Users/tiaka/.readydev/data/certificates/fullchain.pem</certificate_file>
             <private_key_file>C:/Users/tiaka/.readydev/data/certificates/fullchain.pem</private_key_file>
             <cacert_file>C:/Users/tiaka/.readydev/data/certificates/fullchain.pem</cacert_file>
@@ -56,15 +56,15 @@
         <!-- fonts -->
         <!-- ============================================ -->
         <data>
-        	<code>fonts</code>
-        	<map>
-        		<data>Aclonica-Regular.ttf</data>
-        		<data>Akronim-Regular.ttf</data>
-        		<data>Allan-Regular.ttf</data>
-        		<data>ArchivoNarrow-Regular.ttf</data>
-        		<data>CourierPrime-Regular.ttf</data>
-        		<data>Lobster-Regular.ttf</data>
-        	</map>
+            <code>fonts</code>
+            <map>
+                <data>Aclonica-Regular.ttf</data>
+                <data>Akronim-Regular.ttf</data>
+                <data>Allan-Regular.ttf</data>
+                <data>ArchivoNarrow-Regular.ttf</data>
+                <data>CourierPrime-Regular.ttf</data>
+                <data>Lobster-Regular.ttf</data>
+            </map>
         </data>
         <!-- ============================================ -->
         <!-- end -->

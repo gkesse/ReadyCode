@@ -6,9 +6,9 @@
 //===============================================
 class GTest : public GObject {
 public:
-	GTest();
-	~GTest();
-	void run(int _argc, char** _argv);
+    GTest();
+    ~GTest();
+    void run(int _argc, char** _argv);
     void runTest(int _argc, char** _argv);
     void runCurl(int _argc, char** _argv);
     void runSocket(int _argc, char** _argv);

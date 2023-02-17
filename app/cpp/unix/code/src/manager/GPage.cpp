@@ -7,6 +7,7 @@ GPage::GPage()
     m_id = 0;
     m_parentId = 0;
     m_typeId = 0;
+    m_isDefault = 0;
 }
 //===============================================
 GPage::~GPage() {
@@ -19,6 +20,7 @@ GString GPage::serialize(const GString& _code)  {
     lDom.addData(_code, "id", m_id);
     lDom.addData(_code, "parent_id", m_parentId);
     lDom.addData(_code, "type_id", m_typeId);
+    lDom.addData(_code, "default", m_isDefault);
     lDom.addData(_code, "name", m_name);
     lDom.addData(_code, "type_name", m_typeName);
     lDom.addData(_code, "title", m_title);
@@ -35,6 +37,7 @@ void GPage::deserialize(const GString& _data, const GString& _code) {
     m_id = lDom.getData(_code, "id").toInt();
     m_parentId = lDom.getData(_code, "parent_id").toInt();
     m_typeId = lDom.getData(_code, "type_id").toInt();
+    m_isDefault = lDom.getData(_code, "name").toBool();
     m_name = lDom.getData(_code, "name");
     m_typeName = lDom.getData(_code, "type_name");
     m_title = lDom.getData(_code, "title");
@@ -53,6 +56,7 @@ void GPage::setPage(const GPage& _obj) {
     m_id = _obj.m_id;
     m_parentId = _obj.m_parentId;
     m_typeId = _obj.m_typeId;
+    m_isDefault = _obj.m_isDefault;
     m_name = _obj.m_name;
     m_typeName = _obj.m_typeName;
     m_title = _obj.m_title;
@@ -153,11 +157,12 @@ bool GPage::insertPage() {
     GMySQL lMySQL;
     lMySQL.execQuery(GFORMAT(""
             " insert into _page "
-            " ( _parent_id, _type_id, _name ) "
-            " values ( %d, %d, '%s' ) "
+            " ( _parent_id, _type_id, _default, _name ) "
+            " values ( %d, %d, '%s', '%s') "
             "", m_parentId
             , m_typeId
             , m_name.c_str()
+            , GString(m_isDefault).c_str()
     ));
     m_logs.addLogs(lMySQL.getLogs());
     if(!m_logs.hasErrors()) {
@@ -172,11 +177,13 @@ bool GPage::updatePage() {
             " update _page set "
             " _parent_id = %d "
             " , _type_id = %d "
+            " , _default = '%s' "
             " , _name = '%s' "
             " where 1 = 1 "
             " and _id = %d "
             "", m_parentId
             , m_typeId
+            , GString(m_isDefault).c_str()
             , m_name.c_str()
             , m_id
     ));
@@ -187,7 +194,7 @@ bool GPage::updatePage() {
 bool GPage::loadPage() {
     GMySQL lMySQL;
     GMySQL::GMaps lDataMap = lMySQL.readMap(GFORMAT(""
-            " select t1._id, t1._parent_id, t1._type_id, t1._name, t2._name "
+            " select t1._id, t1._parent_id, t1._type_id, t1._default, t1._name, t2._name "
             " from _page t1 "
             " inner join _page_type t2 on 1 = 1 "
             " and t2._id = t1._type_id "
@@ -204,6 +211,7 @@ bool GPage::loadPage() {
         lObj->m_id = lDataRow.at(j++).toInt();
         lObj->m_parentId = lDataRow.at(j++).toInt();
         lObj->m_typeId = lDataRow.at(j++).toInt();
+        lObj->m_isDefault = lDataRow.at(j++).toBool();
         lObj->m_name = lDataRow.at(j++);
         lObj->m_typeName = lDataRow.at(j++);
         m_map.push_back(lObj);
@@ -215,7 +223,7 @@ bool GPage::loadPage() {
 bool GPage::searchPage() {
     GMySQL lMySQL;
     GMySQL::GMaps lDataMap = lMySQL.readMap(GFORMAT(""
-            " select t1._id, t1._parent_id, t1._type_id, t1._name, t2._name "
+            " select t1._id, t1._parent_id, t1._type_id, t1._default, t1._name, t2._name "
             " from _page t1 "
             " inner join _page_type t2 on 1 = 1 "
             " and t2._id = t1._type_id "
@@ -230,6 +238,7 @@ bool GPage::searchPage() {
         lObj->m_id = lDataRow.at(j++).toInt();
         lObj->m_parentId = lDataRow.at(j++).toInt();
         lObj->m_typeId = lDataRow.at(j++).toInt();
+        lObj->m_isDefault = lDataRow.at(j++).toBool();
         lObj->m_name = lDataRow.at(j++);
         lObj->m_typeName = lDataRow.at(j++);
         m_map.push_back(lObj);

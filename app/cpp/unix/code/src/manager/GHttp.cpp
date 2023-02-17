@@ -99,13 +99,13 @@ GString GHttp::getResponseText() const {
 //===============================================
 bool GHttp::run()  {
     if(m_module == "") {
-        m_logs.addError("Erreur le module est obligatoire.");
+        m_logs.addError("Le module est obligatoire.");
     }
     else if(m_module == "response") {
         runResponse();
     }
     else {
-        m_logs.addError("Erreur le module est inconnu.");
+        m_logs.addError("Le module est inconnu.");
     }
     return !m_logs.hasErrors();
 }

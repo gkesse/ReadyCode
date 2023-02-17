@@ -20,7 +20,7 @@ void GTest::run(int _argc, char** _argv) {
     GString lModule;
     if(_argc > 1) lModule = _argv[1];
     if(lModule == "") {
-        m_logs.addError("Erreur le module est obligatoire.");
+        m_logs.addError("Le module est obligatoire.");
     }
     else if(lModule == "poco") {
         runPoco(_argc, _argv);
@@ -41,7 +41,7 @@ void GTest::run(int _argc, char** _argv) {
         runOpenSSL(_argc, _argv);
     }
     else {
-        m_logs.addError("Erreur le module est inconnu.");
+        m_logs.addError("Le module est inconnu.");
     }
 }
 //===============================================

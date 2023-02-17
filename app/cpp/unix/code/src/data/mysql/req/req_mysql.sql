@@ -24,6 +24,8 @@ create table if not exists _page (
     , foreign key (_type_id) references _page_type (_id)    
 );
 
+alter table _page add column _default char(1) default '0';
+
 -- ==============================================
 -- _page_type
 -- ==============================================

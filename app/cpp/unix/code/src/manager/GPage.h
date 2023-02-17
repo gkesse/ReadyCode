@@ -29,6 +29,7 @@ private:
     int m_id;
     int m_parentId;
     int m_typeId;
+    bool m_isDefault;
     GString m_name;
     GString m_typeName;
     GString m_title;

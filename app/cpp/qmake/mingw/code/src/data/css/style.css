@@ -2,98 +2,98 @@
 /* QWidget */
 /* ============================================== */
 QWidget {
-	background-color: transparent;
-	color: #eeeeee;
-	font-family: Allan;
-	font-size: 18px;
+    background-color: transparent;
+    color: #eeeeee;
+    font-family: Allan;
+    font-size: 18px;
 }
 /* ============================================== */
 /* QDialog */
 /* ============================================== */
 QDialog {
-	background-color: #111133;
-	border: 2px solid #aaaaff;
+    background-color: #111133;
+    border: 2px solid #aaaaff;
 }
 /* ============================================== */
 /* QFrame */
 /* ============================================== */
 QFrame {
-	background-color: #111133;
+    background-color: #111133;
 }
 QFrame#GModuleUi {
-	border: 2px solid #aaaaff;
+    border: 2px solid #aaaaff;
 }
 /* ============================================== */
 /* QMainWindow */
 /* ============================================== */
 QMainWindow {
-	background-color: #111133;
-	border: 2px solid #aaaaff;
+    background-color: #111133;
+    border: 2px solid #aaaaff;
 }
 /* ============================================== */
 /* QMdiArea */
 /* ============================================== */
 QMdiArea {
-	qproperty-background: transparent;
+    qproperty-background: transparent;
 }
 /* ============================================== */
 /* QMenu */
 /* ============================================== */
 QMenu {
     border: 1px solid #aaaaff;
-	background-color: #111133;
+    background-color: #111133;
 }
 QMenu::item:selected { 
-	background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.2);
 }
 /* ============================================== */
 /* QPushButton */
 /* ============================================== */
 QPushButton {
-	background-color: transparent;
-	border: 2px solid #aaaaff;
-	padding: 2px 5px;
-	border-radius: 5px;
-	text-align: left;
+    background-color: transparent;
+    border: 2px solid #aaaaff;
+    padding: 2px 5px;
+    border-radius: 5px;
+    text-align: left;
 }
 QPushButton:hover {
-	background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.2);
 }
 QPushButton:pressed {
-	background-color: transparent;
+    background-color: transparent;
 }
 QPushButton:disabled {
-	background-color: #555555;
-	border: 2px solid #aaaaaa;
+    background-color: #555555;
+    border: 2px solid #aaaaaa;
     color: #aaaaaa;
 }
 /* ============================================== */
 /* QLineEdit */
 /* ============================================== */
 QLineEdit {
-	background-color: transparent;
-	border: 2px solid #aaaaff;
-	padding: 0px 5px;
-	border-radius: 5px;
+    background-color: transparent;
+    border: 2px solid #aaaaff;
+    padding: 0px 5px;
+    border-radius: 5px;
 }
 /* ============================================== */
 /* QMessageBox */
 /* ============================================== */
 QMessageBox {
-	background-color: #111133;
-	border: 2px solid #aaaaff;
+    background-color: #111133;
+    border: 2px solid #aaaaff;
 }
 QMessageBox QDialogButtonBox#qt_msgbox_buttonbox QPushButton {
-	background-color: transparent;
-	border: 2px solid #aaaaff;
-	padding: 2px 5px;
-	border-radius: 5px;
+    background-color: transparent;
+    border: 2px solid #aaaaff;
+    padding: 2px 5px;
+    border-radius: 5px;
 }
 QMessageBox QDialogButtonBox#qt_msgbox_buttonbox QPushButton:hover {
-	background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.2);
 }
 QMessageBox QDialogButtonBox#qt_msgbox_buttonbox QPushButton:pressed {
-	background-color: transparent;
+    background-color: transparent;
 }
 /* ============================================== */
 /* QTabWidget */
@@ -111,7 +111,7 @@ QTabWidget QTabBar::tab {
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
     min-width: 8ex;
-	padding: 0px 5px;
+    padding: 0px 5px;
 }
 QTabWidget QTabBar::tab:selected, 
 QTabBar::tab:hover {
@@ -128,7 +128,7 @@ QTabWidget QTabBar::tab:!selected {
 /* QTableView */
 /* ============================================== */
 QTableView {
-	border: 1px solid #aaaaff;
+    border: 1px solid #aaaaff;
 }
 QTableView {
     gridline-color: transparent;
@@ -137,23 +137,23 @@ QTableView {
     background-color: transparent;
 }
 QTableView::item {
-	background-color: transparent;
-	border: 1px solid #aaaaff;
-	padding: 0px 10px;
+    background-color: transparent;
+    border: 1px solid #aaaaff;
+    padding: 0px 10px;
     border-collapse: collapse;
 }
 QTableView::item:selected {
-	background-color: rgba(255, 255, 255, 0.2);
-	color: cyan;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: cyan;
 }
 /* ============================================== */
 /* QTreeWidget */
 /* ============================================== */
 QTreeWidget {
-	border: 1px solid #aaaaff;
+    border: 1px solid #aaaaff;
 }
 QTreeView {
-	border: 1px solid #aaaaff;
+    border: 1px solid #aaaaff;
 }
 QTreeView {
     gridline-color: transparent;
@@ -162,14 +162,14 @@ QTreeView {
     background-color: transparent;
 }
 QTreeView::item {
-	background-color: transparent;
-	border: 1px solid #aaaaff;
-	padding: 0px 10px;
+    background-color: transparent;
+    border: 1px solid #aaaaff;
+    padding: 0px 10px;
     border-collapse: collapse;
 }
 QTreeView::item:selected {
-	background-color: rgba(255, 255, 255, 0.2);
-	color: cyan;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: cyan;
 }
 QTreeView::branch:has-children:!has-siblings:closed,
 QTreeView::branch:closed:has-children:has-siblings {
@@ -187,13 +187,13 @@ QTreeView::branch:open:has-children:has-siblings  {
 /* ============================================== */
 QHeaderView::section {
     background-color: #5555AA;
-	border: 1px solid #aaaaff;
+    border: 1px solid #aaaaff;
 }
 QHeaderView::section:vertical {
-	padding: 0px 10px;
+    padding: 0px 10px;
 }
 QHeaderView::section:horizontal {
-	padding: 0px 10px;
+    padding: 0px 10px;
 }
 /* ============================================== */
 /* QTableCornerButton */
@@ -206,26 +206,26 @@ QTableCornerButton::section {
 /* ============================================== */
 QTextEdit {
     background-color: transparent;
-	border: 2px solid #aaaaff;
-	font-family: courier;
-	font-size: 14px;
+    border: 2px solid #aaaaff;
+    font-family: courier;
+    font-size: 14px;
 }
 /* ============================================== */
 /* QComboBox */
 /* ============================================== */
 QComboBox {
     background-color: transparent;
-	border: 2px solid #aaaaff;
+    border: 2px solid #aaaaff;
     border-radius: 5px;
-	padding: 0px 5px;
+    padding: 0px 5px;
 }
 /* ============================================== */
 /* QComboBox */
 /* ============================================== */
 QComboBox {
     background-color: transparent;
-	border: 2px solid #aaaaff;
+    border: 2px solid #aaaaff;
     border-radius: 5px;
-	padding: 0px 5px;
+    padding: 0px 5px;
 }
 /* ============================================== */
