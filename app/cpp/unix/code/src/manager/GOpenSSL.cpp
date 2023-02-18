@@ -256,7 +256,7 @@ bool GOpenSSL::run() {
         GOpenSSL* lClient = new GOpenSSL;
         lClient->m_socket = accept(m_socket, (struct sockaddr*)&lClientAddress, &lClientAddressSize);
         if(lClient->m_socket <= 0) {
-            m_logs.addError(GFORMAT("Erreur lors de l'acceptation de la connexion client.\n[%lu]:%s", errno, strerror(errno)));
+            //m_logs.addError(GFORMAT("Erreur lors de l'acceptation de la connexion client.\n[%lu]:%s", errno, strerror(errno)));
             continue;
         }
         lClient->setOpenSSL(*this);
@@ -406,7 +406,7 @@ bool GOpenSSL::acceptSSL() {
 
     int lAcceptOk = SSL_accept(m_ssl);
     if(lAcceptOk <= 0) {
-        m_logs.addError(GFORMAT("Erreur lors de l'acceptation de la connexion sécurisée.\n[%lu]:%s", ERR_get_error(), ERR_error_string(ERR_get_error(), NULL)));
+        //m_logs.addError(GFORMAT("Erreur lors de l'acceptation de la connexion sécurisée.\n[%lu]:%s", ERR_get_error(), ERR_error_string(ERR_get_error(), NULL)));
         return false;
     }
 
@@ -417,6 +417,7 @@ bool GOpenSSL::runThreadCB() {
     if(m_logs.hasErrors()) return false;
     GString lRequest;
     readData(lRequest);
+    if(lRequest.isEmpty()) return false;
     GLOGT(eGMSG, "\nRECEPTION [%d] :\n%s\n", lRequest.size(), lRequest.c_str());
     GRequest lReq;
     lReq.setRequest(lRequest);

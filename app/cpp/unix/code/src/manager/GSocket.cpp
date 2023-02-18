@@ -117,7 +117,7 @@ bool GSocket::runServerTcp() {
         GSocket* lClient = new GSocket;
         lClient->m_socket = accept(m_socket, (struct sockaddr*)&lAddress2, &lSize);
         if(lClient->m_socket == -1) {
-            m_logs.addError(GFORMAT("Erreur lors de l'acceptation de la connexion client.\n[%d]:%s", errno, strerror(errno)));
+            //m_logs.addError(GFORMAT("Erreur lors de l'acceptation de la connexion client.\n[%d]:%s", errno, strerror(errno)));
             continue;
         }
         lThread.setParams((void*)lClient);

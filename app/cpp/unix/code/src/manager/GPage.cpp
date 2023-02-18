@@ -7,7 +7,7 @@ GPage::GPage()
     m_id = 0;
     m_parentId = 0;
     m_typeId = 0;
-    m_isDefault = 0;
+    m_isDefault = false;
 }
 //===============================================
 GPage::~GPage() {
@@ -37,7 +37,7 @@ void GPage::deserialize(const GString& _data, const GString& _code) {
     m_id = lDom.getData(_code, "id").toInt();
     m_parentId = lDom.getData(_code, "parent_id").toInt();
     m_typeId = lDom.getData(_code, "type_id").toInt();
-    m_isDefault = lDom.getData(_code, "name").toBool();
+    m_isDefault = lDom.getData(_code, "default").toBool();
     m_name = lDom.getData(_code, "name");
     m_typeName = lDom.getData(_code, "type_name");
     m_title = lDom.getData(_code, "title");
