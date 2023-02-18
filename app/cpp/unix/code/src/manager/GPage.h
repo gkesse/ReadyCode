@@ -18,6 +18,7 @@ public:
     bool onSearchPage();
     bool onDeletePage();
     bool insertPage();
+    bool clearDefaultPage();
     bool updatePage();
     bool loadPage();
     bool searchPage();

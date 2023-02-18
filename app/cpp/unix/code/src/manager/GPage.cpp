@@ -109,6 +109,9 @@ bool GPage::onSavePage() {
             m_logs.addError("Le type de la page a changé.");
             return false;
         }
+        if(m_isDefault) {
+            clearDefaultPage();
+        }
         updatePage();
     }
     if(!m_logs.hasErrors()) {
@@ -168,6 +171,20 @@ bool GPage::insertPage() {
     if(!m_logs.hasErrors()) {
         m_id = lMySQL.getId();
     }
+    return !m_logs.hasErrors();
+}
+//===============================================
+bool GPage::clearDefaultPage() {
+    GMySQL lMySQL;
+    lMySQL.execQuery(GFORMAT(""
+            " update _page set "
+            " _default = '0' "
+            " where 1 = 1 "
+            " and _parent_id = %d "
+            " and _default = '1' "
+            "", m_parentId
+    ));
+    m_logs.addLogs(lMySQL.getLogs());
     return !m_logs.hasErrors();
 }
 //===============================================
