@@ -179,7 +179,7 @@ bool GPage::insertPage() {
     GMySQL lMySQL;
     lMySQL.execQuery(GFORMAT(""
             " insert into _page "
-            " ( _parent_id, _type_id, _default, _name ) "
+            " ( _parent_id, _type_id, _name, _default ) "
             " values ( %d, %d, '%s', '%s') "
             "", m_parentId
             , m_typeId
