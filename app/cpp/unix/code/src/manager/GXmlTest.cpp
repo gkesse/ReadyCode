@@ -29,12 +29,51 @@ void GXmlTest::run(int _argc, char** _argv) {
     else if(lMethod == "serialize") {
         runSerialize(_argc, _argv);
     }
+    else if(lMethod == "dom") {
+        runDom(_argc, _argv);
+    }
     else {
         m_logs.addError("La méthode est inconnue.");
     }
 }
 //===============================================
 void GXmlTest::runTest(int _argc, char** _argv) {
+    GCode lDom;
+    GString lPage;
+    GString lType;
+    lDom.createCode("page");
+    lDom.createXNode("map");
+    for(int i = 0; i < 3; i++) {
+        lPage = GFORMAT("Page_%d", i);
+        lType = GFORMAT("Type_%d", i);
+        lDom.pushNode();
+        lDom.createNode("data");
+        lDom.next();
+        lDom.createVNode("name", lPage);
+        lDom.createVNode("type", lType);
+        runTestNext(lDom);
+        lDom.popNode();
+    }
+    m_logs.addData(lDom.toString());
+}
+//===============================================
+void GXmlTest::runTestNext(GCode& _dom) {
+    GString lPage;
+    GString lType;
+    _dom.createXNode("map");
+    for(int i = 0; i < 3; i++) {
+        lPage = GFORMAT("Page_%d", i);
+        lType = GFORMAT("Type_%d", i);
+        _dom.pushNode();
+        _dom.createNode("data");
+        _dom.next();
+        _dom.createVNode("name", lPage);
+        _dom.createVNode("type", lType);
+        _dom.popNode();
+    }
+}
+//===============================================
+void GXmlTest::runDom(int _argc, char** _argv) {
     GCode lDom;
 
     lDom.addData("page", "name", "admin");

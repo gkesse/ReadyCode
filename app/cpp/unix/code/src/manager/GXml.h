@@ -24,6 +24,7 @@ public:
     bool createXNode(const GString& _name);
 
     bool next();
+    bool last();
     void pushNode();
     void popNode();
 

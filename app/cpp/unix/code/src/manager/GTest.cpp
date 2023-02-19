@@ -6,6 +6,7 @@
 #include "GCurlTest.h"
 #include "GSocketTest.h"
 #include "GOpenSSLTest.h"
+#include "GStringTest.h"
 //===============================================
 GTest::GTest()
 : GManager() {
@@ -39,6 +40,9 @@ void GTest::run(int _argc, char** _argv) {
     }
     else if(lModule == "openssl") {
         runOpenSSL(_argc, _argv);
+    }
+    else if(lModule == "string") {
+        runString(_argc, _argv);
     }
     else {
         m_logs.addError("Le module est inconnu.");
@@ -77,6 +81,12 @@ void GTest::runSocket(int _argc, char** _argv) {
 //===============================================
 void GTest::runOpenSSL(int _argc, char** _argv) {
     GOpenSSLTest lTest;
+    lTest.run(_argc, _argv);
+    m_logs.addLogs(lTest.getLogs());
+}
+//===============================================
+void GTest::runString(int _argc, char** _argv) {
+    GStringTest lTest;
     lTest.run(_argc, _argv);
     m_logs.addLogs(lTest.getLogs());
 }

@@ -55,6 +55,10 @@ public:
 
     GString getFormat(const char* _format, ...) const;
     GString getFilename() const;
+
+    GString toLower() const;
+    GString toUpper() const;
+
     void print() const;
 
     GString& operator=(const GString& _data);

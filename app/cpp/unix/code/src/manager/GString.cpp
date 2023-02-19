@@ -313,6 +313,24 @@ GString GString::getFilename() const {
     return extract(lCount - 1, "/\\");
 }
 //===============================================
+GString GString::toLower() const {
+    GString lData = *this;
+    for(int i = 0; i < lData.size(); i++) {
+        char lChar = lData[i];
+        lData[i] = std::tolower(lChar);
+    }
+    return lData;
+}
+//===============================================
+GString GString::toUpper() const {
+    GString lData = *this;
+    for(int i = 0; i < lData.size(); i++) {
+        char lChar = lData[i];
+        lData[i] = std::toupper(lChar);
+    }
+    return lData;
+}
+//===============================================
 void GString::print() const {
     printf("[%d]\n%s\n", m_size, m_data);
 }

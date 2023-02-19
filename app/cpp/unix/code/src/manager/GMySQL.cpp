@@ -7,9 +7,10 @@
 //===============================================
 GMySQL* GMySQL::m_instance = 0;
 //===============================================
-GMySQL::GMySQL()
+GMySQL::GMySQL(bool _hasLog)
 : GObject() {
     initMySQL();
+    m_hasLog = _hasLog;
 }
 //===============================================
 GMySQL::~GMySQL() {
@@ -42,7 +43,9 @@ void GMySQL::setAction(const GString& _action) {
 //===============================================
 void GMySQL::setSql(const GString& _sql) {
     m_sql = _sql;
-    GLOGT(eGMSG, "%s", _sql.c_str());
+    if(m_hasLog) {
+        GLOGT(eGMSG, "%s", _sql.c_str());
+    }
 }
 //===============================================
 GString GMySQL::convertZeroToNull(int _data) {

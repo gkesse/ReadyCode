@@ -26,6 +26,7 @@ GString GPage::serialize(const GString& _code)  {
     lDom.addData(_code, "title", m_title);
     lDom.addData(_code, "url", m_url);
     lDom.addData(_code, "path", m_path);
+    lDom.addData(_code, "tree", m_tree.toBase64());
     lDom.addData(_code, m_map);
     return lDom.toString();
 }
@@ -43,6 +44,7 @@ void GPage::deserialize(const GString& _data, const GString& _code) {
     m_title = lDom.getData(_code, "title");
     m_url = lDom.getData(_code, "url");
     m_path = lDom.getData(_code, "path");
+    m_tree = lDom.getData(_code, "tree").fromBase64();
     lDom.getData(_code, m_map, this);
 }
 //===============================================
@@ -76,6 +78,9 @@ bool GPage::run(const GString& _request) {
     else if(m_methodName == "load_page") {
         onLoadPage();
     }
+    else if(m_methodName == "load_page_tree") {
+        onLoadPageTree();
+    }
     else if(m_methodName == "search_page") {
         onSearchPage();
     }
@@ -102,6 +107,10 @@ bool GPage::onSavePage() {
         return false;
     }
     if(!m_id) {
+        if(isIndex()) {
+            m_logs.addError("Le nom du fichier commence par index.");
+            return false;
+        }
         insertPage();
     }
     else {
@@ -122,6 +131,11 @@ bool GPage::onSavePage() {
 //===============================================
 bool GPage::onLoadPage() {
     loadPage();
+    return !m_logs.hasErrors();
+}
+//===============================================
+bool GPage::onLoadPageTree() {
+    loadPageTree(m_parentId);
     return !m_logs.hasErrors();
 }
 //===============================================
@@ -154,6 +168,11 @@ bool GPage::onDeletePage() {
         m_logs.addLog("La donnée a bien été supprimée.");
     }
     return !m_logs.hasErrors();
+}
+//===============================================
+bool GPage::isIndex() const {
+    if(m_name.toLower().startBy("index")) return true;
+    return false;
 }
 //===============================================
 bool GPage::insertPage() {
@@ -233,6 +252,91 @@ bool GPage::loadPage() {
         lObj->m_typeName = lDataRow.at(j++);
         m_map.push_back(lObj);
     }
+    m_logs.addLogs(lMySQL.getLogs());
+    return !m_logs.hasErrors();
+}
+//===============================================
+bool GPage::loadPageTree(int _parentId) {
+    GMySQL lMySQL;
+    GMySQL::GMaps lDataMap = lMySQL.readMap(GFORMAT(""
+            " select t1._id, t1._parent_id, t1._type_id, t1._default, t1._name, t2._name "
+            " from _page t1 "
+            " inner join _page_type t2 on 1 = 1 "
+            " and t2._id = t1._type_id "
+            " where 1 = 1 "
+            " and t1._parent_id = %d "
+            " order by t1._name asc "
+            "", m_parentId
+    ));
+
+    if(lDataMap.size()) {
+        GCode lDom;
+        lDom.createCode("page");
+        lDom.createXNode("map");
+
+        for(int i = 0; i < (int)lDataMap.size(); i++) {
+            GMySQL::GRows lDataRow = lDataMap.at(i);
+            int j = 0;
+            GPage lObj;
+            lObj.m_id = lDataRow.at(j++).toInt();
+            lObj.m_parentId = lDataRow.at(j++).toInt();
+            lObj.m_typeId = lDataRow.at(j++).toInt();
+            lObj.m_isDefault = lDataRow.at(j++).toBool();
+            lObj.m_name = lDataRow.at(j++);
+            lObj.m_typeName = lDataRow.at(j++);
+
+            lDom.pushNode();
+            GCode lData;
+            lData.loadXml(lObj.serialize());
+            lDom.loadNode(lData.toData());
+            loadPageTree(lDom, lObj.m_id);
+            lDom.popNode();
+        }
+
+        m_tree = lDom.toString();
+    }
+
+    m_logs.addLogs(lMySQL.getLogs());
+    return !m_logs.hasErrors();
+}
+//===============================================
+bool GPage::loadPageTree(GCode& _dom, int _parentId) {
+    GMySQL lMySQL(false);
+    GMySQL::GMaps lDataMap = lMySQL.readMap(GFORMAT(""
+            " select t1._id, t1._parent_id, t1._type_id, t1._default, t1._name, t2._name "
+            " from _page t1 "
+            " inner join _page_type t2 on 1 = 1 "
+            " and t2._id = t1._type_id "
+            " where 1 = 1 "
+            " and t1._parent_id = %d "
+            " order by t1._name asc "
+            "", _parentId
+    ));
+
+    if(lDataMap.size()) {
+        _dom.last();
+        _dom.createXNode("map");
+
+        for(int i = 0; i < (int)lDataMap.size(); i++) {
+            GMySQL::GRows lDataRow = lDataMap.at(i);
+            int j = 0;
+            GPage lObj;
+            lObj.m_id = lDataRow.at(j++).toInt();
+            lObj.m_parentId = lDataRow.at(j++).toInt();
+            lObj.m_typeId = lDataRow.at(j++).toInt();
+            lObj.m_isDefault = lDataRow.at(j++).toBool();
+            lObj.m_name = lDataRow.at(j++);
+            lObj.m_typeName = lDataRow.at(j++);
+
+            _dom.pushNode();
+            GCode lData;
+            lData.loadXml(lObj.serialize());
+            _dom.loadNode(lData.toData());
+            loadPageTree(_dom, lObj.m_id);
+            _dom.popNode();
+        }
+    }
+
     m_logs.addLogs(lMySQL.getLogs());
     return !m_logs.hasErrors();
 }

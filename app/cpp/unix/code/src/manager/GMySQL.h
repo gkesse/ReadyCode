@@ -13,7 +13,7 @@ public:
     typedef std::vector<GRows> GMaps;
 
 public:
-    GMySQL();
+    GMySQL(bool _hasLog = true);
     ~GMySQL();
     static GMySQL* Instance();
     void initMySQL();
@@ -47,6 +47,7 @@ private:
     GString m_password;
     GString m_database;
     int m_port;
+    bool m_hasLog;
 };
 //==============================================
 #endif

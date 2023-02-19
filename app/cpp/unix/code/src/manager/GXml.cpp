@@ -153,6 +153,13 @@ bool GXml::next() {
     return true;
 }
 //===============================================
+bool GXml::last() {
+    if(!m_node) return false;
+    xmlNodePtr lNode = xmlLastElementChild(m_node);
+    if(lNode) m_node = lNode;
+    return true;
+}
+//===============================================
 void GXml::pushNode() {
     if(!m_node) return;
     m_stack.push(m_node);

@@ -15,12 +15,16 @@ public:
     bool run(const GString& _request);
     bool onSavePage();
     bool onLoadPage();
+    bool onLoadPageTree();
     bool onSearchPage();
     bool onDeletePage();
+    bool isIndex() const;
     bool insertPage();
     bool clearDefaultPage();
     bool updatePage();
     bool loadPage();
+    bool loadPageTree(int _parentId);
+    bool loadPageTree(GCode& _dom, int _parentId);
     bool searchPage();
     bool deletePage();
     bool isParentDirectory();
@@ -36,6 +40,7 @@ private:
     GString m_title;
     GString m_url;
     GString m_path;
+    GString m_tree;
 };
 //==============================================
 #endif

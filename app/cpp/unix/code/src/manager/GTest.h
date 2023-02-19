@@ -15,6 +15,7 @@ public:
     void runCurl(int _argc, char** _argv);
     void runSocket(int _argc, char** _argv);
     void runOpenSSL(int _argc, char** _argv);
+    void runString(int _argc, char** _argv);
 
 public:
     GLog m_logs;
