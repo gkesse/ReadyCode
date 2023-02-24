@@ -107,10 +107,15 @@ bool GPage::onSavePage() {
         return false;
     }
     if(!m_id) {
+        if(isRootFile()) {
+            m_logs.addError("Vous essayez de créer un fichier à la racine.");
+            return false;
+        }
         if(isIndex()) {
             m_logs.addError("Le nom du fichier commence par index.");
             return false;
         }
+        if(!preparePath()) return false;
         insertPage();
     }
     else {
@@ -118,6 +123,7 @@ bool GPage::onSavePage() {
             m_logs.addError("Le type de la page a changé.");
             return false;
         }
+        if(!preparePath()) return false;
         if(m_isDefault) {
             clearDefaultPage();
         }
@@ -170,20 +176,53 @@ bool GPage::onDeletePage() {
     return !m_logs.hasErrors();
 }
 //===============================================
+bool GPage::isRoot() const {
+    return (m_parentId == 1);
+}
+//===============================================
+bool GPage::isFile() const {
+    return (m_typeId == 1);
+}
+//===============================================
+bool GPage::isDir() const {
+    return (m_typeId == 2);
+}
+//===============================================
+bool GPage::isRootFile() const {
+    return (isRoot() && isFile());
+}
+//===============================================
 bool GPage::isIndex() const {
     if(m_name.toLower().startBy("index")) return true;
     return false;
+}
+//===============================================
+bool GPage::preparePath() {
+    GMySQL lMySQL;
+    GString lPath = lMySQL.readData(GFORMAT(""
+            " select t1._path "
+            " from _page t1 "
+            " where 1 = 1"
+            " and t1._id = %d "
+            "", m_parentId
+    ));
+    m_logs.addLogs(lMySQL.getLogs());
+    if(!m_logs.hasErrors()) {
+        m_path = GFORMAT("%s/%s", lPath.c_str(), m_name.c_str());
+    }
+    return !m_logs.hasErrors();
 }
 //===============================================
 bool GPage::insertPage() {
     GMySQL lMySQL;
     lMySQL.execQuery(GFORMAT(""
             " insert into _page "
-            " ( _parent_id, _type_id, _name, _default ) "
-            " values ( %d, %d, '%s', '%s') "
+            " ( _parent_id, _type_id, _name, _path, _default ) "
+            " values ( %d, %d, '%s', '%s', '%s') "
             "", m_parentId
             , m_typeId
             , m_name.c_str()
+            , m_path.c_str()
             , GString(m_isDefault).c_str()
     ));
     m_logs.addLogs(lMySQL.getLogs());
@@ -215,12 +254,14 @@ bool GPage::updatePage() {
             " , _type_id = %d "
             " , _default = '%s' "
             " , _name = '%s' "
+            " , _path = '%s' "
             " where 1 = 1 "
             " and _id = %d "
             "", m_parentId
             , m_typeId
             , GString(m_isDefault).c_str()
             , m_name.c_str()
+            , m_path.c_str()
             , m_id
     ));
     m_logs.addLogs(lMySQL.getLogs());

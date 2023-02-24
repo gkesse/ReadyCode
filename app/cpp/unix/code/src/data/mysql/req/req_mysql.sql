@@ -9,15 +9,17 @@ use dev;
 drop table if exists _page;
 
 insert into _page (_id, _name, _type_id)
-values (1, 'root', 1);
+values (1, 'root', 2);
 
 create table if not exists _page (
     _id int not null auto_increment
     , _parent_id int null
     , _type_id int not null
     , _name varchar(255) not null
-    , _c_date datetime default current_timestamp
-    , _u_date datetime on update current_timestamp
+    , _path varchar(255)
+    , _default char(1) default '0'
+    , _create_date datetime default current_timestamp
+    , _update_date datetime on update current_timestamp
     , primary key (_id)
     , unique (_parent_id, _name)
     , foreign key (_parent_id) references _page (_id)    

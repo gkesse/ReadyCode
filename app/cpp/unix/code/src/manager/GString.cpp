@@ -96,6 +96,7 @@ const char* GString::data() const {
 }
 //===============================================
 const char* GString::c_str() const {
+    if(isEmpty()) return "";
     return m_data;
 }
 //===============================================
@@ -256,10 +257,14 @@ GString GString::substr(int _pos, int _size) const {
 }
 //===============================================
 bool GString::toBool() const {
-    if(!m_data) return false;
-    if(m_size == 0) return false;
+    if(isEmpty()) return false;
     if(m_size > 1) return false;
     return (m_data[0] == '1');
+}
+//===============================================
+char GString::toChar() const {
+    if(isEmpty()) return 0;
+    return m_data[0];
 }
 //===============================================
 int GString::toInt() const {
@@ -269,6 +274,7 @@ int GString::toInt() const {
 }
 //===============================================
 bool GString::toInt(int& _data, int _defaultValue) const {
+    if(isEmpty()) return _defaultValue;
     try {
         _data = std::stoi(m_data);
     }
@@ -290,6 +296,7 @@ GString GString::fromBase64() const {
 }
 //===============================================
 std::vector<char> GString::toVector() const {
+    if(isEmpty()) return std::vector<char>();
     std::vector<char> lData(m_data, m_data + m_size);
     return lData;
 }
@@ -397,7 +404,7 @@ GString& GString::operator=(int _data) {
 }
 //===============================================
 GString& GString::operator+=(const GString& _data) {
-    if(!_data.m_data || !_data.m_size) return *this;
+    if(_data.isEmpty()) return *this;
     char* lBuffer = m_data;
     int lSize = m_size + _data.m_size;
     m_data = new char[lSize + 1];

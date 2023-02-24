@@ -18,7 +18,12 @@ public:
     bool onLoadPageTree();
     bool onSearchPage();
     bool onDeletePage();
+    bool isRoot() const;
+    bool isFile() const;
+    bool isDir() const;
+    bool isRootFile() const;
     bool isIndex() const;
+    bool preparePath();
     bool insertPage();
     bool clearDefaultPage();
     bool updatePage();

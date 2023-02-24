@@ -47,6 +47,7 @@ public:
     GString substr(int _pos, int _size = -1) const;
 
     bool toBool() const;
+    char toChar() const;
     int toInt() const;
     bool toInt(int& _data, int _defaultValue = 0) const;
     GString toBase64() const;
