@@ -23,10 +23,10 @@ GString GPage::serialize(const GString& _code)  {
     lDom.addData(_code, "default", m_isDefault);
     lDom.addData(_code, "name", m_name);
     lDom.addData(_code, "type_name", m_typeName);
-    lDom.addData(_code, "title", m_title);
-    lDom.addData(_code, "url", m_url);
     lDom.addData(_code, "path", m_path);
+    lDom.addData(_code, "id_path", m_idPath);
     lDom.addData(_code, "tree", m_tree.toBase64());
+    lDom.addData(_code, "content", m_content.toBase64());
     lDom.addData(_code, m_map);
     return lDom.toString();
 }
@@ -41,10 +41,10 @@ void GPage::deserialize(const GString& _data, const GString& _code) {
     m_isDefault = lDom.getData(_code, "default").toBool();
     m_name = lDom.getData(_code, "name");
     m_typeName = lDom.getData(_code, "type_name");
-    m_title = lDom.getData(_code, "title");
-    m_url = lDom.getData(_code, "url");
     m_path = lDom.getData(_code, "path");
+    m_idPath = lDom.getData(_code, "id_path");
     m_tree = lDom.getData(_code, "tree").fromBase64();
+    m_content = lDom.getData(_code, "content").fromBase64();
     lDom.getData(_code, m_map, this);
 }
 //===============================================
@@ -61,9 +61,10 @@ void GPage::setPage(const GPage& _obj) {
     m_isDefault = _obj.m_isDefault;
     m_name = _obj.m_name;
     m_typeName = _obj.m_typeName;
-    m_title = _obj.m_title;
-    m_url = _obj.m_url;
     m_path = _obj.m_path;
+    m_idPath = _obj.m_idPath;
+    m_tree = _obj.m_tree;
+    m_content = _obj.m_content;
 }
 //===============================================
 bool GPage::run(const GString& _request) {
@@ -74,6 +75,9 @@ bool GPage::run(const GString& _request) {
     }
     else if(m_methodName == "save_page") {
         onSavePage();
+    }
+    else if(m_methodName == "save_page_file") {
+        onSavePageFile();
     }
     else if(m_methodName == "load_page") {
         onLoadPage();
@@ -115,22 +119,44 @@ bool GPage::onSavePage() {
             m_logs.addError("Le nom du fichier commence par index.");
             return false;
         }
-        if(!preparePath()) return false;
+        preparePath();
         insertPage();
+        prepareIdPath();
     }
     else {
         if(!isTypeNoChange()) {
             m_logs.addError("Le type de la page a changé.");
             return false;
         }
-        if(!preparePath()) return false;
         if(m_isDefault) {
             clearDefaultPage();
         }
+        preparePath();
         updatePage();
+        prepareIdPath();
     }
     if(!m_logs.hasErrors()) {
         m_logs.addLog("La donnée a bien été enregistrée.");
+    }
+    return !m_logs.hasErrors();
+}
+//===============================================
+bool GPage::onSavePageFile() {
+    if(!m_id) {
+        m_logs.addError("Aucune page n'a été sélectionnée.");
+        return false;
+    }
+    if(!isFile()) {
+        m_logs.addError("Vous devez sélectionné un fichier.");
+        return false;
+    }
+    if(m_path.isEmpty()) {
+        m_logs.addError("Le chemin de la page est obligatoire.");
+        return false;
+    }
+    if(m_idPath.isEmpty()) {
+        m_logs.addError("Le chemin des ids de la page est obligatoire.");
+        return false;
     }
     return !m_logs.hasErrors();
 }
@@ -199,7 +225,7 @@ bool GPage::isIndex() const {
 //===============================================
 bool GPage::preparePath() {
     GMySQL lMySQL;
-    GString lPath = lMySQL.readData(GFORMAT(""
+    GMySQL::GRows lDataRow = lMySQL.readRow(GFORMAT(""
             " select t1._path "
             " from _page t1 "
             " where 1 = 1"
@@ -207,9 +233,52 @@ bool GPage::preparePath() {
             "", m_parentId
     ));
     m_logs.addLogs(lMySQL.getLogs());
+
+    GPage lObj;
+    int i = 0;
+
+    lObj.m_path = lDataRow.at(i++);
+
     if(!m_logs.hasErrors()) {
-        m_path = GFORMAT("%s/%s", lPath.c_str(), m_name.c_str());
+        m_path = GFORMAT("%s/%s", lObj.m_path.c_str(), m_name.c_str());
     }
+    return !m_logs.hasErrors();
+}
+//===============================================
+bool GPage::prepareIdPath() {
+    GMySQL lMySQL;
+    GMySQL::GRows lDataRow = lMySQL.readRow(GFORMAT(""
+            " select t1._id_path "
+            " from _page t1 "
+            " where 1 = 1"
+            " and t1._id = %d "
+            "", m_parentId
+    ));
+    m_logs.addLogs(lMySQL.getLogs());
+
+    GPage lObj;
+    int i = 0;
+
+    lObj.m_idPath = lDataRow.at(i++);
+
+    if(!m_logs.hasErrors()) {
+        m_idPath = GFORMAT("%s/%d", lObj.m_idPath.c_str(), m_id);
+        updateIdPath();
+    }
+    return !m_logs.hasErrors();
+}
+//===============================================
+bool GPage::updateIdPath() {
+    GMySQL lMySQL;
+    lMySQL.execQuery(GFORMAT(""
+            " update _page set "
+            " _id_path = '%s' "
+            " where 1 = 1 "
+            " and _id = %d "
+            "", m_idPath.c_str()
+            , m_id
+    ));
+    m_logs.addLogs(lMySQL.getLogs());
     return !m_logs.hasErrors();
 }
 //===============================================
@@ -255,6 +324,7 @@ bool GPage::updatePage() {
             " , _default = '%s' "
             " , _name = '%s' "
             " , _path = '%s' "
+            " , _id_path = '%s' "
             " where 1 = 1 "
             " and _id = %d "
             "", m_parentId
@@ -262,6 +332,7 @@ bool GPage::updatePage() {
             , GString(m_isDefault).c_str()
             , m_name.c_str()
             , m_path.c_str()
+            , m_idPath.c_str()
             , m_id
     ));
     m_logs.addLogs(lMySQL.getLogs());
@@ -271,7 +342,14 @@ bool GPage::updatePage() {
 bool GPage::loadPage() {
     GMySQL lMySQL;
     GMySQL::GMaps lDataMap = lMySQL.readMap(GFORMAT(""
-            " select t1._id, t1._parent_id, t1._type_id, t1._default, t1._name, t2._name "
+            " select t1._id "
+            " , t1._parent_id "
+            " , t1._type_id "
+            " , t1._default "
+            " , t1._name "
+            " , t1._path "
+            " , t1._id_path "
+            " , t2._name "
             " from _page t1 "
             " inner join _page_type t2 on 1 = 1 "
             " and t2._id = t1._type_id "
@@ -290,6 +368,8 @@ bool GPage::loadPage() {
         lObj->m_typeId = lDataRow.at(j++).toInt();
         lObj->m_isDefault = lDataRow.at(j++).toBool();
         lObj->m_name = lDataRow.at(j++);
+        lObj->m_path = lDataRow.at(j++);
+        lObj->m_idPath = lDataRow.at(j++);
         lObj->m_typeName = lDataRow.at(j++);
         m_map.push_back(lObj);
     }
@@ -344,7 +424,14 @@ bool GPage::loadPageTree(int _parentId) {
 bool GPage::loadPageTree(GCode& _dom, int _parentId) {
     GMySQL lMySQL(false);
     GMySQL::GMaps lDataMap = lMySQL.readMap(GFORMAT(""
-            " select t1._id, t1._parent_id, t1._type_id, t1._default, t1._name, t2._name "
+            " select t1._id "
+            " , t1._parent_id "
+            " , t1._type_id "
+            " , t1._default "
+            " , t1._name "
+            " , t1._path "
+            " , t1._id_path "
+            " , t2._name "
             " from _page t1 "
             " inner join _page_type t2 on 1 = 1 "
             " and t2._id = t1._type_id "
@@ -367,6 +454,8 @@ bool GPage::loadPageTree(GCode& _dom, int _parentId) {
             lObj.m_typeId = lDataRow.at(j++).toInt();
             lObj.m_isDefault = lDataRow.at(j++).toBool();
             lObj.m_name = lDataRow.at(j++);
+            lObj.m_path = lDataRow.at(j++);
+            lObj.m_idPath = lDataRow.at(j++);
             lObj.m_typeName = lDataRow.at(j++);
 
             _dom.pushNode();
@@ -385,7 +474,14 @@ bool GPage::loadPageTree(GCode& _dom, int _parentId) {
 bool GPage::searchPage() {
     GMySQL lMySQL;
     GMySQL::GMaps lDataMap = lMySQL.readMap(GFORMAT(""
-            " select t1._id, t1._parent_id, t1._type_id, t1._default, t1._name, t2._name "
+            " select t1._id "
+            " , t1._parent_id "
+            " , t1._type_id "
+            " , t1._default "
+            " , t1._name "
+            " , t1._path "
+            " , t1._id_path "
+            " , t2._name "
             " from _page t1 "
             " inner join _page_type t2 on 1 = 1 "
             " and t2._id = t1._type_id "
@@ -402,6 +498,8 @@ bool GPage::searchPage() {
         lObj->m_typeId = lDataRow.at(j++).toInt();
         lObj->m_isDefault = lDataRow.at(j++).toBool();
         lObj->m_name = lDataRow.at(j++);
+        lObj->m_path = lDataRow.at(j++);
+        lObj->m_idPath = lDataRow.at(j++);
         lObj->m_typeName = lDataRow.at(j++);
         m_map.push_back(lObj);
     }

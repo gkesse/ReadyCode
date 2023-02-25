@@ -14,6 +14,7 @@ public:
     void setPage(const GPage& _obj);
     bool run(const GString& _request);
     bool onSavePage();
+    bool onSavePageFile();
     bool onLoadPage();
     bool onLoadPageTree();
     bool onSearchPage();
@@ -24,6 +25,8 @@ public:
     bool isRootFile() const;
     bool isIndex() const;
     bool preparePath();
+    bool prepareIdPath();
+    bool updateIdPath();
     bool insertPage();
     bool clearDefaultPage();
     bool updatePage();
@@ -42,10 +45,10 @@ private:
     bool m_isDefault;
     GString m_name;
     GString m_typeName;
-    GString m_title;
-    GString m_url;
     GString m_path;
+    GString m_idPath;
     GString m_tree;
+    GString m_content;
 };
 //==============================================
 #endif

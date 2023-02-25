@@ -17,6 +17,7 @@ create table if not exists _page (
     , _type_id int not null
     , _name varchar(255) not null
     , _path varchar(255)
+    , _id_path varchar(255)
     , _default char(1) default '0'
     , _create_date datetime default current_timestamp
     , _update_date datetime on update current_timestamp
