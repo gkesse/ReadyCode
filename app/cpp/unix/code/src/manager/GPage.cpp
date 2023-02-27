@@ -88,6 +88,9 @@ bool GPage::run(const GString& _request) {
     else if(m_methodName == "search_page") {
         onSearchPage();
     }
+    else if(m_methodName == "search_page_file") {
+        onSearchPageFile();
+    }
     else if(m_methodName == "delete_page") {
         onDeletePage();
     }
@@ -190,8 +193,20 @@ bool GPage::onSearchPage() {
     return !m_logs.hasErrors();
 }
 //===============================================
+bool GPage::onSearchPageFile() {
+    if(!m_id) {
+        m_logs.addError("Aucune page n'a été sélectionnée.");
+        return false;
+    }
+    if(!existPage()) {
+        m_logs.addError("La page n'existe pas.");
+        return false;
+    }
+    return !m_logs.hasErrors();
+}
+//===============================================
 bool GPage::onDeletePage() {
-    if(m_id == 0) {
+    if(!m_id) {
         m_logs.addError("Aucune page n'a été sélectionnée.");
         return false;
     }
@@ -505,6 +520,19 @@ bool GPage::searchPage() {
     }
     m_logs.addLogs(lMySQL.getLogs());
     return !m_logs.hasErrors();
+}
+//===============================================
+bool GPage::existPage() {
+    GMySQL lMySQL;
+    int lCount = lMySQL.readData(GFORMAT(""
+            " select count(*) "
+            " from _page t1 "
+            " where 1 = 1 "
+            " and t1._id = %d "
+            "", m_id
+    )).toInt();
+    m_logs.addLogs(lMySQL.getLogs());
+    return (lCount > 0);
 }
 //===============================================
 bool GPage::deletePage() {

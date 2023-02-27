@@ -18,6 +18,7 @@ public:
     bool onLoadPage();
     bool onLoadPageTree();
     bool onSearchPage();
+    bool onSearchPageFile();
     bool onDeletePage();
     bool isRoot() const;
     bool isFile() const;
@@ -34,6 +35,7 @@ public:
     bool loadPageTree(int _parentId);
     bool loadPageTree(GCode& _dom, int _parentId);
     bool searchPage();
+    bool existPage();
     bool deletePage();
     bool isParentDirectory();
     bool isTypeNoChange();
