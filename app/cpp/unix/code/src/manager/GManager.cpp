@@ -12,6 +12,7 @@
 #include "GQuery.h"
 #include "GQueryType.h"
 #include "GPage.h"
+#include "GSite.h"
 //===============================================
 GManager::GManager()
 : GObject() {
@@ -67,13 +68,16 @@ bool GManager::isValid() const {
     return !m_logs.hasErrors();
 }
 //===============================================
-bool GManager::run(const GString& _request) {
-    deserialize(_request);
+bool GManager::run(const GString& _data) {
+    deserialize(_data);
     if(m_moduleName == "") {
         m_logs.addError("Le module est obligatoire.");
     }
     else if(m_moduleName == "page") {
-        onPage(_request);
+        onPage(_data);
+    }
+    else if(m_moduleName == "site") {
+        onSite(_data);
     }
     else {
         m_logs.addError("Le module est inconnu.");
@@ -81,9 +85,17 @@ bool GManager::run(const GString& _request) {
     return !m_logs.hasErrors();
 }
 //===============================================
-bool GManager::onPage(const GString& _request) {
+bool GManager::onPage(const GString& _data) {
     GPage lObj;
-    lObj.run(_request);
+    lObj.run(_data);
+    m_logs.addLogs(lObj.getLogs());
+    m_responseXml.loadData(lObj.serialize());
+    return !m_logs.hasErrors();
+}
+//===============================================
+bool GManager::onSite(const GString& _data) {
+    GSite lObj;
+    lObj.run(_data);
     m_logs.addLogs(lObj.getLogs());
     m_responseXml.loadData(lObj.serialize());
     return !m_logs.hasErrors();

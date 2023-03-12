@@ -4,6 +4,33 @@
 use dev;
 
 -- ==============================================
+-- _site
+-- ==============================================
+drop table if exists _site;
+
+insert into _site (_id, _name, _title, _label)
+values (1, 'readydev', 'ReadyDev', 'Plateforme de Développement en Continu');
+insert into _site (_id, _name, _title, _label)
+values (2, 'readycar', 'ReadyCar', 'Plateforme de Covoiturage en Continu');
+insert into _site (_id, _name, _title, _label)
+values (3, 'readyevent', 'ReadyEvent', 'Plateforme de l''Evènementiel en Continu');
+insert into _site (_id, _name, _title, _label)
+values (4, 'readyshop', 'ReadyShop', 'Plateforme de eCommerce en Continu');
+insert into _site (_id, _name, _title, _label)
+values (5, 'readyharriste', 'Harriste', 'Eglise Harriste de France de Côte d''Ivoire');
+
+create table if not exists _site (
+    _id int not null auto_increment
+    , _name varchar(255) not null
+    , _title varchar(255)
+    , _label varchar(255)
+    , _create_date datetime default current_timestamp
+    , _update_date datetime on update current_timestamp
+    , primary key (_id)
+    , unique (_name)
+);
+
+-- ==============================================
 -- _page
 -- ==============================================
 drop table if exists _page;
@@ -13,12 +40,13 @@ values (1, 'root', 2);
 
 create table if not exists _page (
     _id int not null auto_increment
-    , _parent_id int null
+    , _parent_id int
+    , _site_id int not null
     , _type_id int not null
     , _name varchar(255) not null
     , _path varchar(255)
     , _id_path varchar(255)
-    , _default char(1) default '0'
+    , _is_default char(1) default '0'
     , _create_date datetime default current_timestamp
     , _update_date datetime on update current_timestamp
     , primary key (_id)
