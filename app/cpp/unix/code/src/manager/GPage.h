@@ -8,11 +8,17 @@ class GPage : public GSearch {
 public:
     GPage();
     ~GPage();
-    GString serialize(const GString& _code = "page");
-    void deserialize(const GString& _data, const GString& _code = "page");
+
     GObject* clone() const;
     void setPage(const GPage& _obj);
+    bool loadParentId();
+    bool selectParentId();
+    bool insertParentId();
+
+    GString serialize(const GString& _code = "page");
+    void deserialize(const GString& _data, const GString& _code = "page");
     bool run(const GString& _request);
+
     bool onSavePage();
     bool onSavePageFile();
     bool onLoadPage();
@@ -44,9 +50,11 @@ private:
     int m_id;
     int m_parentId;
     int m_typeId;
+    int m_siteId;
     bool m_isDefault;
     GString m_name;
     GString m_typeName;
+    GString m_siteName;
     GString m_path;
     GString m_idPath;
     GString m_tree;
