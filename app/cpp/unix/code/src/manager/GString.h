@@ -22,7 +22,8 @@ public:
     ~GString();
 
     static GString* Instance();
-    bool create(char* _data);
+    bool create(int _size, int _pos = 0);
+    bool create(const char* _data, int _size, int _pos = 0);
     void clear();
 
     char*& data();
@@ -36,6 +37,7 @@ public:
     void move(int _pos);
 
     int countSep(const GString& _sep) const;
+    int indexOf(const GString& _data, int _pos = 0) const;
 
     bool isEmpty() const;
     bool isSep(char _char) const;
@@ -43,8 +45,6 @@ public:
     int size() const;
     bool startBy(const GString& _data) const;
     int sepSize(int _pos, const GString& _sep) const;
-    GString trim(const GString& _sep = " ") const;
-    GString substr(int _pos, int _size = -1) const;
 
     bool toBool() const;
     char toChar() const;
@@ -56,7 +56,8 @@ public:
 
     GString getFormat(const char* _format, ...) const;
     GString getFilename() const;
-
+    GString trim(const GString& _sep = " ") const;
+    GString substr(int _pos, int _size = -1) const;
     GString toLower() const;
     GString toUpper() const;
 
@@ -95,7 +96,6 @@ public:
     const char& operator[](int _index) const;
 
     friend GString operator+(const GString& _data1, const GString& _data2);
-    //
     friend std::ostream& operator<<(std::ostream& _os, const GString& _data);
 
 private:

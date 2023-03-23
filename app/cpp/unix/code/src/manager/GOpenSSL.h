@@ -34,6 +34,8 @@ public:
     void setOrganisationalUnit(const GString& _organisationalUnit);
     void setCommonName(const GString& _commonName);
 
+    int getRequestSize(const GString& _data) const;
+
     bool generatePrivateKey();
     bool generateCertificate();
     bool generateRSA();

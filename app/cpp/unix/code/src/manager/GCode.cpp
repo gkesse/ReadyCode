@@ -87,6 +87,25 @@ bool GCode::getData(const GString& _code, std::vector<GObject*>& _map, GObject* 
     return true;
 }
 //===============================================
+bool GCode::getData(const GString& _code, std::vector<GObject*>& _map, const GObject& _obj) {
+    clearMap(_map);
+    int lCount = countMap(_code);
+    for(int i = 0; i < lCount; i++) {
+        getMap(_code, i);
+        GString lData = toNode();
+        lData = GFORMAT("<rdv>%s</rdv>", lData.c_str());
+        GCode lDom;
+        lDom.createDoc();
+        lDom.createCode();
+        lDom.loadNode(lData);
+        lData = lDom.toString();
+        GObject* lObj = _obj.clone();
+        lObj->deserialize(lData, _code);
+        _map.push_back(lObj);
+    }
+    return true;
+}
+//===============================================
 bool GCode::getData(const GString& _code, std::vector<GLog*>& _map, GLog* _obj) {
     int lCount = countMap(_code);
     for(int i = 0; i < lCount; i++) {

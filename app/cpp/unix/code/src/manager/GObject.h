@@ -15,6 +15,7 @@ public:
     GObject();
     virtual ~GObject();
     virtual GObject* clone() const;
+    virtual void setObj(const GObject& _obj);
     virtual GString serialize(const GString& _code = "object");
     virtual void deserialize(const GString& _data, const GString& _code = "object");
     virtual void clearMap();
@@ -23,6 +24,7 @@ public:
     virtual GObject* at(int _index);
     virtual GObject* back();
     virtual void add(GObject* _obj);
+    virtual void addToMap(const GObject& _obj);
     virtual void print();
     virtual void showErrors();
     virtual void addLogs(const GLog& _obj);

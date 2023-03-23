@@ -43,6 +43,12 @@ void GObject::add(GObject* _obj) {
     m_map.push_back(_obj);
 }
 //===============================================
+void GObject::addToMap(const GObject& _obj) {
+    GObject* lObj = _obj.clone();
+    lObj->setObj(_obj);
+    m_map.push_back(lObj);
+}
+//===============================================
 void GObject::print() {
     printf("%s\n", serialize().c_str());
 }
@@ -70,6 +76,7 @@ GString GObject::toJson() {
 }
 //===============================================
 GObject* GObject::clone() const {return new GObject;}
+void GObject::setObj(const GObject& _obj) {}
 GString GObject::serialize(const GString& _code)  {return "";}
 void GObject::deserialize(const GString& _data, const GString& _code) {}
 //===============================================

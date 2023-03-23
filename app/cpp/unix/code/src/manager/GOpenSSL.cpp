@@ -110,6 +110,30 @@ void GOpenSSL::setCommonName(const GString& _commonName) {
     m_commonName = _commonName;
 }
 //===============================================
+int GOpenSSL::getRequestSize(const GString& _data) const {
+    int lSize = 0;
+    GString lContentI = "Content-Length";
+    GString lContentJ = "\r\n";
+    GString lContentK = "\r\n\r\n";
+    int lPosI = _data.indexOf(lContentI);
+    if(lPosI >= 0) {
+        int lPosJ = _data.indexOf(lContentJ, lPosI + 1);
+        if(lPosJ >= 0) {
+            int lLength = lPosJ - lPosI;
+            GString lData = _data.substr(lPosI, lLength);
+            std::vector<GString> lVector = lData.split(":");
+            if(lVector.size() > 1) {
+                int lSizeI = lVector.at(1).trim().toInt();
+                int lSizeJ = _data.indexOf(lContentK);
+                int lSizeK = lContentK.size();
+                int lSize = lSizeJ + lSizeK + lSizeI;
+                return lSize;
+            }
+        }
+    }
+    return -1;
+}
+//===============================================
 bool GOpenSSL::generatePrivateKey() {
     EVP_PKEY_CTX* lContext = EVP_PKEY_CTX_new_id(EVP_PKEY_RSA, NULL);
     if(!lContext) {
@@ -197,6 +221,8 @@ bool GOpenSSL::generateRSA() {
 bool GOpenSSL::readData(GString& _dataOut) {
     char lBuffer[BUFFER_SIZE + 1];
     int lSize = 0;
+    int lTotal = 0;
+    bool lSizeOk = true;
     while(1) {
         int lBytes = SSL_read(m_ssl, lBuffer, BUFFER_SIZE);
         if(lBytes <= 0) break;
@@ -207,7 +233,11 @@ bool GOpenSSL::readData(GString& _dataOut) {
         lBuffer[lBytes] = 0;
         _dataOut += lBuffer;
         int lPending = SSL_pending(m_ssl);
-        if(lPending <= 0) break;
+        if(lSizeOk) {
+            lTotal = getRequestSize(_dataOut);
+            lSizeOk = false;
+        }
+        if((lPending <= 0) && (_dataOut.size() >= lTotal)) break;
     }
     return !m_logs.hasErrors();
 }

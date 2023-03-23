@@ -108,6 +108,8 @@ typedef unsigned char uchar;
 #include <openssl/err.h>
 // json-c
 #include <json-c/json.h>
+// pcre
+#include <pcre.h>
 // includes
 #include "GString.h"
 //===============================================
