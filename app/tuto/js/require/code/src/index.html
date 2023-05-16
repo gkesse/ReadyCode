@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>RequireJS | ReadyDev</title>
+        <script src="https://requirejs.org/docs/release/2.3.2/minified/require.js" async></script>
+    </head>
+    <body>
+        <script>
+            requirejs(["js/class/GSay"], function(GSay) {
+                alert(GSay.hello());
+            });
+        </script>
+    </body>
+</html>
