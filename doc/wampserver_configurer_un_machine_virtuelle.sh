@@ -4,7 +4,7 @@ Include conf/extra/httpd-default.conf
 
 ouvrir -> C:\wamp64\bin\apache\apache2.4.51\conf\extra\httpd-vhosts.conf
 
-<VirtualHost *:8001>
+<VirtualHost *:9001>
     ServerName readydev.ovh
     ServerAlias www.readydev.ovh 
     ServerAdmin tiakagerard@hotmail.com
