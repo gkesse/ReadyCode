@@ -1,13 +1,16 @@
 //===============================================
 #include "GTest.h"
+#include "GVector.h"
 #include "GLog.h"
 #include "GSocket.h"
+#include "GString.h"
 //===============================================
 static void GTest_delete(GTest* _this);
 static void GTest_run(GTest* _this, int _argc, char** _argv);
 static void GTest_runVector(GTest* _this, int _argc, char** _argv);
 static void GTest_runLog(GTest* _this, int _argc, char** _argv);
 static void GTest_runSocketClient(GTest* _this, int _argc, char** _argv);
+static void GTest_runString(GTest* _this, int _argc, char** _argv);
 //===============================================
 GTest* GTest_new() {
     GTest* lObj = (GTest*)malloc(sizeof(GTest));
@@ -17,6 +20,7 @@ GTest* GTest_new() {
     lObj->runVector = GTest_runVector;
     lObj->runLog = GTest_runLog;
     lObj->runSocketClient = GTest_runSocketClient;
+    lObj->runString = GTest_runString;
     return lObj;
 }
 //===============================================
@@ -39,6 +43,9 @@ static void GTest_run(GTest* _this, int _argc, char** _argv) {
     }
     else if(!strcmp(lModule, "socket_client")) {
         _this->runSocketClient(_this, _argc, _argv);
+    }
+    else if(!strcmp(lModule, "string")) {
+        _this->runString(_this, _argc, _argv);
     }
 }
 //===============================================
@@ -83,5 +90,16 @@ static void GTest_runSocketClient(GTest* _this, int _argc, char** _argv) {
     lLog->addLogs(lLog, lClient->m_parent->m_logs);
 
     lClient->delete(lClient);
+}
+//===============================================
+static void GTest_runString(GTest* _this, int _argc, char** _argv) {
+    assert(_this);
+    GLog* lLog = _this->m_parent->m_logs;
+
+    GString* lData = GString_new();
+    lData->create(lData, "Bonjour tout le monde");
+    lData->print(lData);
+
+    lData->delete(lData);
 }
 //===============================================

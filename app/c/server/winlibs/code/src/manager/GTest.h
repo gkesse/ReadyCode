@@ -13,6 +13,7 @@ struct _GTest {
     void (*runVector)(GTest* _this, int _argc, char** _argv);
     void (*runLog)(GTest* _this, int _argc, char** _argv);
     void (*runSocketClient)(GTest* _this, int _argc, char** _argv);
+    void (*runString)(GTest* _this, int _argc, char** _argv);
 };
 //===============================================
 GTest* GTest_new();

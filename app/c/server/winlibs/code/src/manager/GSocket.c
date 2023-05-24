@@ -1,9 +1,13 @@
 //===============================================
 #include "GSocket.h"
 //===============================================
+#define GSOCKET_BUFFER_SIZE 1024
+//===============================================
 static void GSocket_delete(GSocket* _this);
 static void GSocket_run(GSocket* _this, int _argc, char** _argv);
 static void GSocket_callServer(GSocket* _this, const char* _data);
+//===============================================
+static DWORD WINAPI GSocket_onThread(LPVOID _params);
 //===============================================
 GSocket* GSocket_new() {
     GSocket* lObj = (GSocket*)malloc(sizeof(GSocket));
@@ -58,17 +62,26 @@ static void GSocket_run(GSocket* _this, int _argc, char** _argv) {
     struct sockaddr_in lAddressC;
     int lAddressCL = sizeof(lAddressC);
 
-    GSocket* lClientS = GSocket_new();
-    SOCKET lClient = accept(lServer, (struct sockaddr*)&lAddressC, &lAddressCL);
+    while(1) {
+        GSocket* lClient = GSocket_new();
+        lClient->m_socket = accept(lServer, (struct sockaddr*)&lAddressC, &lAddressCL);
 
-    char lBuffer[1024];
-    int lBytes = recv(lClient, lBuffer, sizeof(lBuffer), 0);
-    lBuffer[lBytes] = '\0';
-    printf("%s\n", lBuffer);
-    const char* lResponse = "Très OK.";
-    send(lClient, lResponse, strlen(lResponse), 0);
+        DWORD lThreadId;
+        HANDLE lThreadH = CreateThread(
+                NULL,
+                0,
+                GSocket_onThread,
+                lClient,
+                0,
+                &lThreadId
+        );
 
-    closesocket(lClient);
+        if(!lThreadH) {
+            printf("La création du thread a échoué\n");
+        }
+    }
+
+    closesocket(lServer);
     WSACleanup();
 }
 //===============================================
@@ -89,21 +102,36 @@ static void GSocket_callServer(GSocket* _this, const char* _data) {
     lAddress.sin_family = AF_INET;
     lAddress.sin_port = htons(8002);
 
-    SOCKET lSocket = socket(AF_INET, SOCK_STREAM, 0);
+    SOCKET lClient = socket(AF_INET, SOCK_STREAM, 0);
 
-    if(lSocket == INVALID_SOCKET) {
+    if(lClient == INVALID_SOCKET) {
         lLog->addError(lLog, "La création du socket server a échoué.");
         return;
     }
 
-    connect(lSocket, (SOCKADDR*)(&lAddress), sizeof(lAddress));
-    send(lSocket, _data, strlen(_data), 0);
-    char lBuffer[1024];
-    int lBytes = recv(lSocket, lBuffer, sizeof(lBuffer), 0);
+    connect(lClient, (SOCKADDR*)(&lAddress), sizeof(lAddress));
+    send(lClient, _data, strlen(_data), 0);
+    char lBuffer[GSOCKET_BUFFER_SIZE];
+    int lBytes = recv(lClient, lBuffer, GSOCKET_BUFFER_SIZE - 1, 0);
     lBuffer[lBytes] = '\0';
     printf("%s\n", lBuffer);
 
-    closesocket(lSocket);
+    closesocket(lClient);
     WSACleanup();
+}
+//===============================================
+static DWORD WINAPI GSocket_onThread(LPVOID _params) {
+    GSocket* lSocket = (GSocket*)_params;
+    SOCKET lClient = lSocket->m_socket;
+
+    char lBuffer[GSOCKET_BUFFER_SIZE];
+    int lBytes = recv(lClient, lBuffer, GSOCKET_BUFFER_SIZE - 1, 0);
+    lBuffer[lBytes] = '\0';
+    printf("%s\n", lBuffer);
+    const char* lResponse = "Très OK.";
+    send(lClient, lResponse, strlen(lResponse), 0);
+
+    closesocket(lClient);
+    return 0;
 }
 //===============================================
