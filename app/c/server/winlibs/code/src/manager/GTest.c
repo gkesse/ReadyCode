@@ -84,11 +84,14 @@ static void GTest_runLog(GTest* _this, int _argc, char** _argv) {
 static void GTest_runSocketClient(GTest* _this, int _argc, char** _argv) {
     assert(_this);
     GLog* lLog = _this->m_parent->m_logs;
-
     GSocket* lClient = GSocket_new();
-    lClient->callServer(lClient, "Bonjour tout le monde");
-    lLog->addLogs(lLog, lClient->m_parent->m_logs);
+    GString* lData = GString_new();
 
+    lClient->callServer(lClient, "Bonjour tout le monde", lData);
+    lLog->addLogs(lLog, lClient->m_parent->m_logs);
+    lData->print(lData);
+
+    lData->delete(lData);
     lClient->delete(lClient);
 }
 //===============================================
@@ -98,10 +101,10 @@ static void GTest_runString(GTest* _this, int _argc, char** _argv) {
 
     GString* lData = GString_new();
 
-    lData->create(lData, ", Bonjour tout le monde");
+    lData->create(lData, "Bonjour tout le monde");
     lData->print(lData);
 
-    lData->add(lData, "Bonjour tout le monde");
+    lData->add(lData, ", Bonjour tout le monde");
     lData->add(lData, ", Bonjour tout le monde");
     lData->add(lData, ", Bonjour tout le monde");
     lData->print(lData);

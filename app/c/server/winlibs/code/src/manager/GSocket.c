@@ -1,11 +1,14 @@
 //===============================================
 #include "GSocket.h"
+#include "GServer.h"
 //===============================================
-#define GSOCKET_BUFFER_SIZE 1024
+#define GSOCKET_BUFFER_SIZE 10
 //===============================================
 static void GSocket_delete(GSocket* _this);
 static void GSocket_run(GSocket* _this, int _argc, char** _argv);
-static void GSocket_callServer(GSocket* _this, const char* _data);
+static void GSocket_callServer(GSocket* _this, const char* _dataIn, GString* _dataOut);
+static void GSocket_read(GSocket* _this, GString* _data);
+static void GSocket_send(GSocket* _this, const char* _data);
 //===============================================
 static DWORD WINAPI GSocket_onThread(LPVOID _params);
 //===============================================
@@ -15,6 +18,8 @@ GSocket* GSocket_new() {
     lObj->delete = GSocket_delete;
     lObj->run = GSocket_run;
     lObj->callServer = GSocket_callServer;
+    lObj->read = GSocket_read;
+    lObj->send = GSocket_send;
     return lObj;
 }
 //===============================================
@@ -85,7 +90,7 @@ static void GSocket_run(GSocket* _this, int _argc, char** _argv) {
     WSACleanup();
 }
 //===============================================
-static void GSocket_callServer(GSocket* _this, const char* _data) {
+static void GSocket_callServer(GSocket* _this, const char* _dataIn, GString* _dataOut) {
     assert(_this);
     GLog* lLog = _this->m_parent->m_logs;
 
@@ -109,29 +114,60 @@ static void GSocket_callServer(GSocket* _this, const char* _data) {
         return;
     }
 
+    _this->m_socket = lClient;
     connect(lClient, (SOCKADDR*)(&lAddress), sizeof(lAddress));
-    send(lClient, _data, strlen(_data), 0);
-    char lBuffer[GSOCKET_BUFFER_SIZE];
-    int lBytes = recv(lClient, lBuffer, GSOCKET_BUFFER_SIZE - 1, 0);
-    lBuffer[lBytes] = '\0';
-    printf("%s\n", lBuffer);
+    _this->send(_this, _dataIn);
+    _this->read(_this, _dataOut);
 
     closesocket(lClient);
     WSACleanup();
 }
 //===============================================
 static DWORD WINAPI GSocket_onThread(LPVOID _params) {
-    GSocket* lSocket = (GSocket*)_params;
-    SOCKET lClient = lSocket->m_socket;
+    GSocket* lClient = (GSocket*)_params;
+    GServer* lServer = GServer_new();
+    GString* lRequest = GString_new();
 
-    char lBuffer[GSOCKET_BUFFER_SIZE];
-    int lBytes = recv(lClient, lBuffer, GSOCKET_BUFFER_SIZE - 1, 0);
-    lBuffer[lBytes] = '\0';
-    printf("%s\n", lBuffer);
-    const char* lResponse = "Très OK.";
-    send(lClient, lResponse, strlen(lResponse), 0);
+    lClient->read(lClient, lRequest);
+    lServer->run(lServer, lRequest);
+    lServer->send(lServer, lClient);
 
-    closesocket(lClient);
+    closesocket(lClient->m_socket);
+    lRequest->delete(lRequest);
+    lServer->delete(lServer);
+    lClient->delete(lClient);
     return 0;
+}
+//===============================================
+static void GSocket_read(GSocket* _this, GString* _data) {
+    assert(_this);
+    SOCKET lSocket = _this->m_socket;
+    while(1) {
+        char lBuffer[GSOCKET_BUFFER_SIZE];
+        int lBytes = recv(lSocket, lBuffer, GSOCKET_BUFFER_SIZE - 1, 0);
+        if(lBytes == SOCKET_ERROR) break;
+        lBuffer[lBytes] = '\0';
+        _data->add(_data, lBuffer);
+
+        u_long lBytesIO;
+        int lOk = ioctlsocket(lSocket, FIONREAD, &lBytesIO);
+
+        if(lOk == SOCKET_ERROR) break;
+        if(lBytesIO <= 0) break;
+    }
+}
+//===============================================
+static void GSocket_send(GSocket* _this, const char* _data) {
+    assert(_this);
+    SOCKET lSocket = _this->m_socket;
+    int lIndex = 0;
+    const char* lBuffer = _data;
+    int lSize = strlen(_data);
+    while(1) {
+        int lBytes = send(lSocket, &lBuffer[lIndex], lSize - lIndex, 0);
+        if(lBytes == SOCKET_ERROR) break;
+        lIndex += lBytes;
+        if(lIndex >= lSize) break;
+    }
 }
 //===============================================

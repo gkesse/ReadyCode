@@ -1,23 +1,22 @@
 //===============================================
-#ifndef _GSocket_
-#define _GSocket_
+#ifndef _GServer_
+#define _GServer_
 //===============================================
 #include "GObject.h"
 //===============================================
+typedef struct _GServer GServer;
 typedef struct _GSocket GSocket;
 //===============================================
-struct _GSocket {
+struct _GServer {
     GObject* m_parent;
     SOCKET m_socket;
 
-    void (*delete)(GSocket* _this);
-    void (*run)(GSocket* _this, int _argc, char** _argv);
-    void (*callServer)(GSocket* _this, const char* _data, GString* _dataOut);
-    void (*read)(GSocket* _this, GString* _data);
-    void (*send)(GSocket* _this, const char* _data);
+    void (*delete)(GServer* _this);
+    void (*run)(GServer* _this, GString* _data);
+    void (*send)(GServer* _this, GSocket* _socket);
 };
 //===============================================
-GSocket* GSocket_new();
+GServer* GServer_new();
 //===============================================
 #endif
 //===============================================
