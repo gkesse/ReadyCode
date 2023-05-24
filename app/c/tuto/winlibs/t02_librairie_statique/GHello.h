@@ -1,18 +1,10 @@
-<?php
 //===============================================
-function printData($_data) {
-    echo sprintf("<h1>%s</h1>\n", $_data);
-}
+#ifndef _GHello_
+#define _GHello_
 //===============================================
-function sayHello() {
-    $lMsg = "Bonjour tout le monde.";
-    printData($lMsg);
-}
+#include <stdio.h>
 //===============================================
-function main() {
-    sayHello();
-}
+void GHello_sayHello(const char* _name);
 //===============================================
-main();
+#endif
 //===============================================
-?>

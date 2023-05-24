@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <title>PDFjs | ReadyDev</title>
+        <style>
+            .editor {
+                display: inline-block;
+                border: 1px solid black;
+                padding: 10px;
+                font-size: 16px;
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            <button id="prev">Previous</button>
+            <button id="next">Next</button>
+            &nbsp; &nbsp;
+            <span>Page: <span id="page_num"></span> / <span id="page_count"></span></span>
+        </div>
+        <canvas id="the-canvas"></canvas>
+        <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
+        <script src="./script.js"></script>
+    </body>
+</html>
