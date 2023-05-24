@@ -5,7 +5,8 @@ static void GString_delete(GString* _this);
 static void GString_clear(GString* _this);
 static void GString_allocate(GString* _this, int _size);
 static void GString_create(GString* _this, const char* _data);
-static void GString_clone(GString* _this, GString* _data);
+static void GString_add(GString* _this, const char* _data);
+static void GString_format(GString* _this, const char* _format, ...);
 static void GString_print(GString* _this);
 //===============================================
 GString* GString_new() {
@@ -17,7 +18,9 @@ GString* GString_new() {
     lObj->clear = GString_clear;
     lObj->allocate = GString_allocate;
     lObj->create = GString_create;
-    lObj->clone = GString_clone;
+    lObj->add = GString_add;
+    lObj->add = GString_add;
+    lObj->format = GString_format;
     lObj->print = GString_print;
     return lObj;
 }
@@ -38,6 +41,7 @@ static void GString_clear(GString* _this) {
 static void GString_allocate(GString* _this, int _size) {
     assert(_this);
     if(_size < 0) _size = 0;
+    _this->clear(_this);
     _this->m_data = (char*)malloc(sizeof(char)*(_size + 1));
     _this->m_data[_size] = '\0';
     _this->m_size = _size;
@@ -50,10 +54,30 @@ static void GString_create(GString* _this, const char* _data) {
     memcpy(_this->m_data, _data, _this->m_size);
 }
 //===============================================
-static void GString_clone(GString* _this, GString* _data) {
+static void GString_add(GString* _this, const char* _data) {
     assert(_this);
-    _this->allocate(_this, _data->m_size);
-    memcpy(_this->m_data, _data->m_data, _this->m_size);
+    int lSize = strlen(_data);
+    int lSizeT = _this->m_size + lSize;
+    char* lDataT = (char*)malloc(sizeof(char)*(lSizeT + 1));
+    memcpy(&lDataT[0], _this->m_data, _this->m_size);
+    memcpy(&lDataT[_this->m_size], _data, lSize);
+    lDataT[lSizeT] = '\0';
+    _this->clear(_this);
+    _this->m_data = lDataT;
+    _this->m_size = lSizeT;
+}
+//===============================================
+static void GString_format(GString* _this, const char* _format, ...) {
+    assert(_this);
+    va_list lArgs;
+    va_start(lArgs, _format);
+    int lSize = vsnprintf(0, 0, _format, lArgs);
+    char* lData = (char*)malloc(sizeof(char)*(lSize + 1));
+    vsnprintf(lData, lSize + 1, _format, lArgs);
+    va_end(lArgs);
+    _this->clear(_this);
+    _this->m_data = lData;
+    _this->m_size = lSize;
 }
 //===============================================
 static void GString_print(GString* _this) {

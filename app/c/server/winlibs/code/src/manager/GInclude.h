@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <string.h>
+#include <stdarg.h>
 #include <winsock2.h>
 #include <ws2tcpip.h>
 //===============================================

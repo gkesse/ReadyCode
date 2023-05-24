@@ -97,7 +97,16 @@ static void GTest_runString(GTest* _this, int _argc, char** _argv) {
     GLog* lLog = _this->m_parent->m_logs;
 
     GString* lData = GString_new();
-    lData->create(lData, "Bonjour tout le monde");
+
+    lData->create(lData, ", Bonjour tout le monde");
+    lData->print(lData);
+
+    lData->add(lData, "Bonjour tout le monde");
+    lData->add(lData, ", Bonjour tout le monde");
+    lData->add(lData, ", Bonjour tout le monde");
+    lData->print(lData);
+
+    lData->format(lData, "Un : %d ; Deux : %d, Trois : %s", 1, 2, "Three");
     lData->print(lData);
 
     lData->delete(lData);
