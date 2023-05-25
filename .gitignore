@@ -2,6 +2,7 @@
 # Directories
 #================================================
 /**/libs/
+!/app/c/server/winlibs/code/src/libs/
 /**/build/
 /**/bin/
 /**/tmp/
