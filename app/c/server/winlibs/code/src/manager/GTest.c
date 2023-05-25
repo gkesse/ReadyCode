@@ -4,6 +4,8 @@
 #include "GLog.h"
 #include "GSocket.h"
 #include "GString.h"
+#include "GXml.h"
+#include "GJson.h"
 //===============================================
 static void GTest_delete(GTest* _this);
 static void GTest_run(GTest* _this, int _argc, char** _argv);
@@ -11,6 +13,8 @@ static void GTest_runVector(GTest* _this, int _argc, char** _argv);
 static void GTest_runLog(GTest* _this, int _argc, char** _argv);
 static void GTest_runSocketClient(GTest* _this, int _argc, char** _argv);
 static void GTest_runString(GTest* _this, int _argc, char** _argv);
+static void GTest_runXml(GTest* _this, int _argc, char** _argv);
+static void GTest_runJson(GTest* _this, int _argc, char** _argv);
 //===============================================
 GTest* GTest_new() {
     GTest* lObj = (GTest*)malloc(sizeof(GTest));
@@ -21,6 +25,8 @@ GTest* GTest_new() {
     lObj->runLog = GTest_runLog;
     lObj->runSocketClient = GTest_runSocketClient;
     lObj->runString = GTest_runString;
+    lObj->runXml = GTest_runXml;
+    lObj->runJson = GTest_runJson;
     return lObj;
 }
 //===============================================
@@ -46,6 +52,12 @@ static void GTest_run(GTest* _this, int _argc, char** _argv) {
     }
     else if(!strcmp(lModule, "string")) {
         _this->runString(_this, _argc, _argv);
+    }
+    else if(!strcmp(lModule, "xml")) {
+        _this->runXml(_this, _argc, _argv);
+    }
+    else if(!strcmp(lModule, "json")) {
+        _this->runJson(_this, _argc, _argv);
     }
 }
 //===============================================
@@ -98,7 +110,6 @@ static void GTest_runSocketClient(GTest* _this, int _argc, char** _argv) {
 static void GTest_runString(GTest* _this, int _argc, char** _argv) {
     assert(_this);
     GLog* lLog = _this->m_parent->m_logs;
-
     GString* lData = GString_new();
 
     lData->create(lData, "Bonjour tout le monde");
@@ -113,5 +124,73 @@ static void GTest_runString(GTest* _this, int _argc, char** _argv) {
     lData->print(lData);
 
     lData->delete(lData);
+}
+//===============================================
+static void GTest_runXml(GTest* _this, int _argc, char** _argv) {
+    assert(_this);
+    GLog* lLog = _this->m_parent->m_logs;
+    GXml* lXml = GXml_new();
+
+    lXml->loadFile(lXml, "./data/test/test.xml");
+    lXml->print(lXml);
+
+    lXml->delete(lXml);
+}
+//===============================================
+static void GTest_runJson(GTest* _this, int _argc, char** _argv) {
+    assert(_this);
+    GLog* lLog = _this->m_parent->m_logs;
+    GJson* lJson = GJson_new();
+    GJson* lObj = GJson_new();
+    GJson* lObj2 = GJson_new();
+
+    // loadFile
+    lJson->loadFile(lJson, "./data/test/test.json");
+    lJson->print(lJson);
+
+    // createObj - addObjData
+    lJson->createObj(lJson);
+    lJson->addObjData(lJson, "lang", "c");
+    lJson->addObjData(lJson, "module", "json");
+    lJson->addObjData(lJson, "library", "json-c");
+    lJson->print(lJson);
+
+    // createObj - addObjObj - addObjData
+    lJson->createObj(lJson);
+    lObj = lJson->addObjObj(lJson, "program");
+    lObj->addObjData(lObj, "lang", "c");
+    lObj->addObjData(lObj, "module", "json");
+    lObj->addObjData(lObj, "library", "json-c");
+    lJson->print(lJson);
+
+    // createArr - addArrData
+    lJson->createArr(lJson);
+    lJson->addArrData(lJson, "lang");
+    lJson->addArrData(lJson, "module");
+    lJson->addArrData(lJson, "library");
+    lJson->print(lJson);
+
+    // createObj - createArr - addArrData
+    lJson->createObj(lJson);
+    lObj = lJson->addObjArr(lJson, "program");
+    lObj->addArrData(lObj, "lang");
+    lObj->addArrData(lObj, "module");
+    lObj->addArrData(lObj, "library");
+    lJson->print(lJson);
+
+    // createObj - createArr - addArrData
+    lJson->createObj(lJson);
+    lObj = lJson->addObjArr(lJson, "program");
+    lObj2 = lObj->addArrObj(lObj);
+    lObj2->addObjData(lObj2, "lang", "c");
+    lObj2->addObjData(lObj2, "module", "json");
+    lObj2->addObjData(lObj2, "library", "json-c");
+    lObj2 = lObj->addArrObj(lObj);
+    lObj2->addObjData(lObj2, "lang", "c");
+    lObj2->addObjData(lObj2, "module", "json");
+    lObj2->addObjData(lObj2, "library", "json-c");
+    lJson->print(lJson);
+
+    lJson->delete(lJson);
 }
 //===============================================

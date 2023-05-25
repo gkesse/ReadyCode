@@ -14,6 +14,8 @@ struct _GTest {
     void (*runLog)(GTest* _this, int _argc, char** _argv);
     void (*runSocketClient)(GTest* _this, int _argc, char** _argv);
     void (*runString)(GTest* _this, int _argc, char** _argv);
+    void (*runXml)(GTest* _this, int _argc, char** _argv);
+    void (*runJson)(GTest* _this, int _argc, char** _argv);
 };
 //===============================================
 GTest* GTest_new();

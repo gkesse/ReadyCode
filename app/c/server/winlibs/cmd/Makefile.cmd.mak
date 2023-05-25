@@ -8,9 +8,13 @@ GTARGET = $(GBIN)\rdvc.exe
 
 GINCS =\
     -I$(GSRC)/manager \
+    -I$(GSRC)/libs/include \
+    -I$(GSRC)/libs/include/libxml2 \
+    -I$(GSRC)/libs/include/json-c \
 	
 GLIBS =\
-	-lws2_32 \
+    -L$(GSRC)/libs/lib \
+	-lws2_32 -lxml2 -ljson-c \
     
 GOBJS =\
     $(patsubst $(GSRC)/%.c, $(GBUILD)/%.o, $(wildcard $(GSRC)/*.c)) \

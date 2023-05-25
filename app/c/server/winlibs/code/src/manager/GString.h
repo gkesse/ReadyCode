@@ -13,7 +13,6 @@ struct _GString {
     void (*delete)(GString* _this);
     void (*clear)(GString* _this);
     void (*allocate)(GString* _this, int _size);
-    void (*setObj)(GString* _this, GString* _obj);
     void (*create)(GString* _this, const char* _data);
     void (*add)(GString* _this, const char* _data);
     void (*format)(GString* _this, const char* _format, ...);

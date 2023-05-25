@@ -19,7 +19,6 @@ GString* GString_new() {
     lObj->allocate = GString_allocate;
     lObj->create = GString_create;
     lObj->add = GString_add;
-    lObj->add = GString_add;
     lObj->format = GString_format;
     lObj->print = GString_print;
     return lObj;
