@@ -130,8 +130,39 @@ static void GTest_runXml(GTest* _this, int _argc, char** _argv) {
     assert(_this);
     GLog* lLog = _this->m_parent->m_logs;
     GXml* lXml = GXml_new();
+    GXml* lObj = GXml_new();
+    GXml* lObj2 = GXml_new();
 
+    // loadFile
     lXml->loadFile(lXml, "./data/test/test.xml");
+    lXml->print(lXml);
+
+    // createDoc - addData
+    lXml->createDoc(lXml);
+    lXml->addData(lXml, "lang", "c");
+    lXml->addData(lXml, "module", "xml");
+    lXml->addData(lXml, "library", "libxml2");
+    lXml->print(lXml);
+
+    // createDoc - addObj - addData
+    lXml->createDoc(lXml);
+    lObj = lXml->addObj(lXml, "program");
+    lObj->addData(lObj, "lang", "c");
+    lObj->addData(lObj, "module", "xml");
+    lObj->addData(lObj, "library", "libxml2");
+    lXml->print(lXml);
+
+    // createDoc - addObj - [ addObj - addData ]
+    lXml->createDoc(lXml);
+    lObj = lXml->addObj(lXml, "data");
+    lObj2 = lObj->addObj(lObj, "program");
+    lObj2->addData(lObj2, "lang", "c");
+    lObj2->addData(lObj2, "module", "xml");
+    lObj2->addData(lObj2, "library", "libxml2");
+    lObj2 = lObj->addObj(lObj, "program");
+    lObj2->addData(lObj2, "lang", "c");
+    lObj2->addData(lObj2, "module", "xml");
+    lObj2->addData(lObj2, "library", "libxml2");
     lXml->print(lXml);
 
     lXml->delete(lXml);
@@ -191,6 +222,9 @@ static void GTest_runJson(GTest* _this, int _argc, char** _argv) {
     lObj2->addObjData(lObj2, "library", "json-c");
     lJson->print(lJson);
 
+    lJson->clear(lJson);
+    lObj->delete(lObj);
+    lObj2->delete(lObj2);
     lJson->delete(lJson);
 }
 //===============================================

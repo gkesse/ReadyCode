@@ -11,6 +11,7 @@ struct _GJson {
     struct json_object* m_json;
 
     void (*delete)(GJson* _this);
+    void (*clear)(GJson* _this);
     void (*createObj)(GJson* _this);
     void (*createArr)(GJson* _this);
     void (*addObjData)(GJson* _this, const char* _key, const char* _value);

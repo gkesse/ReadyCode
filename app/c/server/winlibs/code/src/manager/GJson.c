@@ -3,6 +3,7 @@
 #include "GFile.h"
 //===============================================
 static void GJson_delete(GJson* _this);
+static void GJson_clear(GJson* _this);
 static void GJson_createObj(GJson* _this);
 static void GJson_createArr(GJson* _this);
 static void GJson_addObjData(GJson* _this, const char* _key, const char* _value);
@@ -21,6 +22,7 @@ GJson* GJson_new() {
     lObj->m_json = 0;
 
     lObj->delete = GJson_delete;
+    lObj->clear = GJson_clear;
     lObj->createObj = GJson_createObj;
     lObj->createArr = GJson_createArr;
     lObj->addObjData = GJson_addObjData;
@@ -38,8 +40,12 @@ GJson* GJson_new() {
 static void GJson_delete(GJson* _this) {
     assert(_this);
     _this->m_parent->delete(_this->m_parent);
-    json_object_put(_this->m_json);
     free(_this);
+}
+//===============================================
+static void GJson_clear(GJson* _this) {
+    assert(_this);
+    json_object_put(_this->m_json);
 }
 //===============================================
 static void GJson_createObj(GJson* _this) {
