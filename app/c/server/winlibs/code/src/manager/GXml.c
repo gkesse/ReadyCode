@@ -7,6 +7,7 @@ static void GXml_clear(GXml* _this);
 static void GXml_clean(GXml* _this);
 static void GXml_init(GXml* _this);
 static void GXml_createDoc(GXml* _this);
+static void GXml_createNode(GXml* _this, const char* _path);
 static GXml* GXml_addData(GXml* _this, const char* _key, const char* _value);
 static GXml* GXml_addObj(GXml* _this, const char* _key);
 static void GXml_setNext(GXml* _this, GXml* _node);
@@ -26,6 +27,7 @@ GXml* GXml_new() {
     lObj->clean = GXml_clean;
     lObj->init = GXml_init;
     lObj->createDoc = GXml_createDoc;
+    lObj->createNode = GXml_createNode;
     lObj->addData = GXml_addData;
     lObj->addObj = GXml_addObj;
     lObj->setNext = GXml_setNext;
@@ -75,6 +77,11 @@ static void GXml_createDoc(GXml* _this) {
     _this->m_doc = xmlNewDoc(BAD_CAST("1.0"));
     _this->m_node = xmlNewNode(NULL, BAD_CAST("rdv"));
     xmlDocSetRootElement(_this->m_doc, _this->m_node);
+}
+//===============================================
+static void GXml_createNode(GXml* _this, const char* _path) {
+    assert(_this);
+    _this->clear(_this);
 }
 //===============================================
 static GXml* GXml_addData(GXml* _this, const char* _key, const char* _value) {

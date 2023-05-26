@@ -1,5 +1,6 @@
 //===============================================
 #include "GString.h"
+#include "GVector.h"
 //===============================================
 static void GString_delete(GString* _this);
 static void GString_clear(GString* _this);
@@ -7,6 +8,7 @@ static void GString_allocate(GString* _this, int _size);
 static void GString_create(GString* _this, const char* _data);
 static void GString_add(GString* _this, const char* _data);
 static void GString_format(GString* _this, const char* _format, ...);
+static GVector* GString_split(GString* _this, const char* _data, const char* _sep);
 static void GString_print(GString* _this);
 //===============================================
 GString* GString_new() {
@@ -20,6 +22,7 @@ GString* GString_new() {
     lObj->create = GString_create;
     lObj->add = GString_add;
     lObj->format = GString_format;
+    lObj->split = GString_split;
     lObj->print = GString_print;
     return lObj;
 }
@@ -77,6 +80,25 @@ static void GString_format(GString* _this, const char* _format, ...) {
     _this->clear(_this);
     _this->m_data = lData;
     _this->m_size = lSize;
+}
+//===============================================
+static GVector* GString_split(GString* _this, const char* _data, const char* _sep) {
+    assert(_this);
+    GVector* lMap = GVector_new();
+    GString* lData = GString_new();
+    lData->create(lData, _data);
+
+    char* lToken = strtok(lData->m_data, _sep);
+
+    while(lToken) {
+        GString* lValue = GString_new();
+        lValue->create(lValue, lToken);
+        lMap->add(lMap, lValue);
+        lToken = strtok(0, _sep);
+    }
+
+    lData->delete(lData);
+    return lMap;
 }
 //===============================================
 static void GString_print(GString* _this) {

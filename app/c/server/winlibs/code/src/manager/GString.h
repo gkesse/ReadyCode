@@ -5,6 +5,7 @@
 #include "GInclude.h"
 //===============================================
 typedef struct _GString GString;
+typedef struct _GVector GVector;
 //===============================================
 struct _GString {
     char* m_data;
@@ -16,6 +17,7 @@ struct _GString {
     void (*create)(GString* _this, const char* _data);
     void (*add)(GString* _this, const char* _data);
     void (*format)(GString* _this, const char* _format, ...);
+    GVector* (*split)(GString* _this, const char* _data, const char* _sep);
     void (*print)(GString* _this);
 };
 //===============================================

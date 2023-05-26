@@ -18,6 +18,7 @@ struct _GXml {
     void (*clean)(GXml* _this);
     void (*init)(GXml* _this);
     void (*createDoc)(GXml* _this);
+    void (*createNode)(GXml* _this, const char* _path);
     GXml* (*addData)(GXml* _this, const char* _key, const char* _value);
     GXml* (*addObj)(GXml* _this, const char* _key);
     void (*setNext)(GXml* _this, GXml* _node);

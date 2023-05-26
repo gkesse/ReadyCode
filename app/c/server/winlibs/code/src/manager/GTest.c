@@ -19,6 +19,7 @@ static void GTest_runJson(GTest* _this, int _argc, char** _argv);
 GTest* GTest_new() {
     GTest* lObj = (GTest*)malloc(sizeof(GTest));
     lObj->m_parent = GObject_new();
+
     lObj->delete = GTest_delete;
     lObj->run = GTest_run;
     lObj->runVector = GTest_runVector;
@@ -111,19 +112,28 @@ static void GTest_runString(GTest* _this, int _argc, char** _argv) {
     assert(_this);
     GLog* lLog = _this->m_parent->m_logs;
     GString* lData = GString_new();
+    GVector* lMap = 0;
 
+    // create
     lData->create(lData, "Bonjour tout le monde");
     lData->print(lData);
 
+    // add
     lData->add(lData, ", Bonjour tout le monde");
     lData->add(lData, ", Bonjour tout le monde");
     lData->add(lData, ", Bonjour tout le monde");
     lData->print(lData);
 
+    // format
     lData->format(lData, "Un : %d ; Deux : %d, Trois : %s", 1, 2, "Three");
     lData->print(lData);
 
+    // split
+    lMap = lData->split(lData, "run/data/code", "/");
+    lMap->print(lMap);
+
     lData->delete(lData);
+    lMap->delete(lMap);
 }
 //===============================================
 static void GTest_runXml(GTest* _this, int _argc, char** _argv) {
