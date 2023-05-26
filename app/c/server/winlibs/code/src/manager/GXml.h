@@ -7,7 +7,7 @@
 typedef struct _GXml GXml;
 //===============================================
 struct _GXml {
-    GObject* m_parent;
+    GLog* m_logs;
     xmlDocPtr m_doc;
     xmlNodePtr m_node;
     GXml* m_next;

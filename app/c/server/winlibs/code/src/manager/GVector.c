@@ -11,6 +11,7 @@ GVector* GVector_new() {
     GVector* lObj = (GVector*)malloc(sizeof(GVector));
     lObj->m_next = 0;
     lObj->m_data = 0;
+
     lObj->delete = GVector_delete;
     lObj->add = GVector_add;
     lObj->get = GVector_get;

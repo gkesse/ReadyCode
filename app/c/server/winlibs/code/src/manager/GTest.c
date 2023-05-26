@@ -130,8 +130,8 @@ static void GTest_runXml(GTest* _this, int _argc, char** _argv) {
     assert(_this);
     GLog* lLog = _this->m_parent->m_logs;
     GXml* lXml = GXml_new();
-    GXml* lObj = GXml_new();
-    GXml* lObj2 = GXml_new();
+    GXml* lObj = 0;
+    GXml* lObj2 = 0;
 
     // loadFile
     lXml->loadFile(lXml, "./data/test/test.xml");
@@ -172,8 +172,8 @@ static void GTest_runJson(GTest* _this, int _argc, char** _argv) {
     assert(_this);
     GLog* lLog = _this->m_parent->m_logs;
     GJson* lJson = GJson_new();
-    GJson* lObj = GJson_new();
-    GJson* lObj2 = GJson_new();
+    GJson* lObj = 0;
+    GJson* lObj2 = 0;
 
     // loadFile
     lJson->loadFile(lJson, "./data/test/test.json");
@@ -222,9 +222,6 @@ static void GTest_runJson(GTest* _this, int _argc, char** _argv) {
     lObj2->addObjData(lObj2, "library", "json-c");
     lJson->print(lJson);
 
-    lJson->clear(lJson);
-    lObj->delete(lObj);
-    lObj2->delete(lObj2);
     lJson->delete(lJson);
 }
 //===============================================

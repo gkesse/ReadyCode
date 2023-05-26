@@ -6,6 +6,7 @@ static void GObject_delete(GObject* _this);
 GObject* GObject_new() {
     GObject* lObj = (GObject*)malloc(sizeof(GObject));
     lObj->m_logs = GLog_new();
+
     lObj->delete = GObject_delete;
     return lObj;
 }

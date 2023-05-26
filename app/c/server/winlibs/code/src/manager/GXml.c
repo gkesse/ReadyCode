@@ -15,7 +15,7 @@ static void GXml_print(GXml* _this);
 //===============================================
 GXml* GXml_new() {
     GXml* lObj = (GXml*)malloc(sizeof(GXml));
-    lObj->m_parent = GObject_new();
+    lObj->m_logs = GLog_new();
     lObj->m_doc = 0;
     lObj->m_node = 0;
     lObj->m_next = 0;
@@ -36,7 +36,7 @@ GXml* GXml_new() {
 //===============================================
 static void GXml_delete(GXml* _this) {
     assert(_this);
-    _this->m_parent->delete(_this->m_parent);
+    _this->m_logs->delete(_this->m_logs);
     _this->clear(_this);
     free(_this);
 }
@@ -48,7 +48,7 @@ static void GXml_deleteObj(GXml* _this) {
         if(!lNode) break;
         GXml* lPrevious = lNode;
         lNode = lNode->m_next;
-        lPrevious->m_parent->delete(lPrevious->m_parent);
+        lPrevious->m_logs->delete(lPrevious->m_logs);
         free(lPrevious);
     }
     _this->m_next = 0;
