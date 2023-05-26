@@ -66,14 +66,17 @@ static void GTest_runVector(GTest* _this, int _argc, char** _argv) {
     assert(_this);
     GVector* lMap = GVector_new();
 
+    // add
     lMap->add(lMap, (void*)10);
     lMap->add(lMap, (void*)100);
     lMap->add(lMap, (void*)1000);
 
+    // get
     printf("%d\n", lMap->get(lMap, 0));
     printf("%d\n", lMap->get(lMap, 1));
     printf("%d\n", lMap->get(lMap, 2));
 
+    // size
     printf("%d\n", lMap->size(lMap));
 
     lMap->clear(lMap);
@@ -84,10 +87,12 @@ static void GTest_runLog(GTest* _this, int _argc, char** _argv) {
     assert(_this);
     GLog* lLog = GLog_new();
 
+    // addError - addData - addLog
     lLog->addError(lLog, "Le module est obligatoire.");
     lLog->addData(lLog, "Le base de données est hors service.");
     lLog->addLog(lLog, "Le serveur est insdisponible.");
 
+    // showLogsA
     lLog->showLogsA(lLog);
 
     lLog->clear(lLog);
@@ -100,6 +105,7 @@ static void GTest_runSocketClient(GTest* _this, int _argc, char** _argv) {
     GSocket* lClient = GSocket_new();
     GString* lData = GString_new();
 
+    // callServer
     lClient->callServer(lClient, "Bonjour tout le monde", lData);
     lLog->addLogs(lLog, lClient->m_parent->m_logs);
     lData->print(lData);
