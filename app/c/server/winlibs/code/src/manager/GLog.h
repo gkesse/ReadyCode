@@ -3,6 +3,7 @@
 #define _GLog_
 //===============================================
 #include "GVector.h"
+#include "GString.h"
 //===============================================
 typedef struct _GLog GLog;
 //===============================================
@@ -28,7 +29,7 @@ struct _GLog {
     int (*hasErrors)(GLog* _this);
     int (*hasLogs)(GLog* _this);
     int (*hasDatas)(GLog* _this);
-    const char* (*serialize)(GLog* _this);
+    GString* (*serialize)(GLog* _this);
     void (*deserialize)(GLog* _this, const char* _code);
 };
 //===============================================

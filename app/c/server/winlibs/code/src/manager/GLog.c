@@ -19,7 +19,7 @@ static void GLog_clear(GLog* _this);
 static int GLog_hasErrors(GLog* _this);
 static int GLog_hasLogs(GLog* _this);
 static int GLog_hasDatas(GLog* _this);
-static const char* GLog_serialize(GLog* _this);
+static GString* GLog_serialize(GLog* _this);
 static void GLog_deserialize(GLog* _this, const char* _data);
 //===============================================
 GLog* GLog_new() {
@@ -209,14 +209,14 @@ static int GLog_hasDatas(GLog* _this) {
     return 0;
 }
 //===============================================
-static const char* GLog_serialize(GLog* _this) {
+static GString* GLog_serialize(GLog* _this) {
     assert(_this);
     const char* lCode = "logs";
     GCode* lDom = GCode_new();
     lDom->m_dom->createDoc(lDom->m_dom);
     lDom->addData(lDom, lCode, "type", _this->m_type);
     lDom->addData(lDom, lCode, "msg", _this->m_msg);
-    const char* lData = lDom->m_dom->toString(lDom->m_dom)->m_data;
+    GString* lData = lDom->m_dom->toString(lDom->m_dom);
     lDom->delete(lDom);
     return lData;
 }

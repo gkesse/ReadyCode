@@ -292,6 +292,7 @@ static void GTest_runCode(GTest* _this, int _argc, char** _argv) {
 static void GTest_runModule(GTest* _this, int _argc, char** _argv) {
     assert(_this);
     GLog* lLog = GLog_new();
+    GString* lData = 0;
 
     // addError - addLog - addData
     lLog->addError(lLog, "La connexion au serveur a echoué.");
@@ -301,11 +302,15 @@ static void GTest_runModule(GTest* _this, int _argc, char** _argv) {
 
     // loadFromMap
     lLog->loadFromMap(lLog, 3);
-    printf("%s\n", lLog->serialize(lLog));
+    lData = lLog->serialize(lLog);
+    lData->print(lData);
+    lData->delete(lData);
 
     // loadToMap
     lLog->m_msg = "Le serveur a été mis à jour.";
     lLog->loadToMap(lLog, 3);
-    printf("%s\n", lLog->serialize(lLog));
+    lData = lLog->serialize(lLog);
+    lData->print(lData);
+    lData->delete(lData);
 }
 //===============================================
