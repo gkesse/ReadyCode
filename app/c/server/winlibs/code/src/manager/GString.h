@@ -16,7 +16,7 @@ struct _GString {
     void (*allocate)(GString* _this, int _size);
     void (*create)(GString* _this, const char* _data);
     void (*add)(GString* _this, const char* _data);
-    void (*format)(GString* _this, const char* _format, ...);
+    const char* (*format)(GString* _this, const char* _format, ...);
     GVector* (*split)(GString* _this, const char* _data, const char* _sep);
     void (*print)(GString* _this);
 };

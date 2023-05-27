@@ -6,6 +6,7 @@
 #include "GString.h"
 #include "GXml.h"
 #include "GJson.h"
+#include "GCode.h"
 //===============================================
 static void GTest_delete(GTest* _this);
 static void GTest_run(GTest* _this, int _argc, char** _argv);
@@ -15,6 +16,8 @@ static void GTest_runSocketClient(GTest* _this, int _argc, char** _argv);
 static void GTest_runString(GTest* _this, int _argc, char** _argv);
 static void GTest_runXml(GTest* _this, int _argc, char** _argv);
 static void GTest_runJson(GTest* _this, int _argc, char** _argv);
+static void GTest_runCode(GTest* _this, int _argc, char** _argv);
+static void GTest_runModule(GTest* _this, int _argc, char** _argv);
 //===============================================
 GTest* GTest_new() {
     GTest* lObj = (GTest*)malloc(sizeof(GTest));
@@ -28,6 +31,8 @@ GTest* GTest_new() {
     lObj->runString = GTest_runString;
     lObj->runXml = GTest_runXml;
     lObj->runJson = GTest_runJson;
+    lObj->runCode = GTest_runCode;
+    lObj->runModule = GTest_runModule;
     return lObj;
 }
 //===============================================
@@ -59,6 +64,12 @@ static void GTest_run(GTest* _this, int _argc, char** _argv) {
     }
     else if(!strcmp(lModule, "json")) {
         _this->runJson(_this, _argc, _argv);
+    }
+    else if(!strcmp(lModule, "code")) {
+        _this->runCode(_this, _argc, _argv);
+    }
+    else if(!strcmp(lModule, "module")) {
+        _this->runModule(_this, _argc, _argv);
     }
 }
 //===============================================
@@ -146,8 +157,8 @@ static void GTest_runXml(GTest* _this, int _argc, char** _argv) {
     assert(_this);
     GLog* lLog = _this->m_parent->m_logs;
     GXml* lXml = GXml_new();
-    GXml* lObj = 0;
-    GXml* lObj2 = 0;
+    GXml* lObj = GXml_new();
+    GXml* lObj2 = GXml_new();
 
     // loadFile
     lXml->loadFile(lXml, "./data/test/test.xml");
@@ -162,7 +173,7 @@ static void GTest_runXml(GTest* _this, int _argc, char** _argv) {
 
     // createDoc - addObj - addData
     lXml->createDoc(lXml);
-    lObj = lXml->addObj(lXml, "program");
+    lObj->m_node = lXml->addObj(lXml, "program");
     lObj->addData(lObj, "lang", "c");
     lObj->addData(lObj, "module", "xml");
     lObj->addData(lObj, "library", "libxml2");
@@ -170,17 +181,27 @@ static void GTest_runXml(GTest* _this, int _argc, char** _argv) {
 
     // createDoc - addObj - [ addObj - addData ]
     lXml->createDoc(lXml);
-    lObj = lXml->addObj(lXml, "data");
-    lObj2 = lObj->addObj(lObj, "program");
+    lObj->m_node = lXml->addObj(lXml, "data");
+    lObj2->m_node = lObj->addObj(lObj, "program");
     lObj2->addData(lObj2, "lang", "c");
     lObj2->addData(lObj2, "module", "xml");
     lObj2->addData(lObj2, "library", "libxml2");
-    lObj2 = lObj->addObj(lObj, "program");
+    lObj2->m_node = lObj->addObj(lObj, "program");
     lObj2->addData(lObj2, "lang", "c");
     lObj2->addData(lObj2, "module", "xml");
     lObj2->addData(lObj2, "library", "libxml2");
     lXml->print(lXml);
 
+    // createDoc - createNode
+    lXml->createDoc(lXml);
+    lObj->m_node = lXml->createNode(lXml, lXml, "/rdv/data/code", "");
+    lObj->m_node = lXml->createNode(lXml, lXml, "/rdv/data/code", "");
+    lObj->createNode(lObj, lXml, "rdv/data/code", "");
+    lObj->createNode(lObj, lXml, "rdv/data/code", "");
+    lXml->print(lXml);
+
+    lObj->delete(lObj);
+    lObj2->delete(lObj2);
     lXml->delete(lXml);
 }
 //===============================================
@@ -239,5 +260,52 @@ static void GTest_runJson(GTest* _this, int _argc, char** _argv) {
     lJson->print(lJson);
 
     lJson->delete(lJson);
+}
+//===============================================
+static void GTest_runCode(GTest* _this, int _argc, char** _argv) {
+    assert(_this);
+    GLog* lLog = _this->m_parent->m_logs;
+    GCode* lDom = GCode_new();
+
+    // createDatas
+    lDom->createDatas(lDom);
+    lDom->createDatas(lDom);
+    lDom->m_dom->print(lDom->m_dom);
+
+    // createDatas
+    lDom->createCode(lDom, "manager");
+    lDom->createCode(lDom, "page");
+    lDom->createCode(lDom, "manager");
+    lDom->createCode(lDom, "page");
+    lDom->m_dom->print(lDom->m_dom);
+
+    // addData
+    lDom->addData(lDom, "manager", "module", "page");
+    lDom->addData(lDom, "manager", "method", "save_page_file");
+    lDom->addData(lDom, "manager", "module", "page");
+    lDom->addData(lDom, "manager", "method", "save_page_file");
+    lDom->m_dom->print(lDom->m_dom);
+
+    lDom->delete(lDom);
+}
+//===============================================
+static void GTest_runModule(GTest* _this, int _argc, char** _argv) {
+    assert(_this);
+    GLog* lLog = GLog_new();
+
+    // addError - addLog - addData
+    lLog->addError(lLog, "La connexion au serveur a echoué.");
+    lLog->addLog(lLog, "La lecture du fichier a réussi.");
+    lLog->addData(lLog, "La serveur n'a pas été initialisé.");
+    lLog->showLogsA(lLog);
+
+    // loadFromMap
+    lLog->loadFromMap(lLog, 3);
+    printf("%s\n", lLog->serialize(lLog));
+
+    // loadToMap
+    lLog->m_msg = "Le serveur a été mis à jour.";
+    lLog->loadToMap(lLog, 3);
+    printf("%s\n", lLog->serialize(lLog));
 }
 //===============================================

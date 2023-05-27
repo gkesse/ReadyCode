@@ -2,16 +2,17 @@
 #ifndef _GCode_
 #define _GCode_
 //===============================================
-#include "GObject.h"
+#include "GXml.h"
 //===============================================
 typedef struct _GCode GCode;
-typedef struct _GXml GXml;
 //===============================================
 struct _GCode {
     GXml* m_dom;
 
     void (*delete)(GCode* _this);
-    void (*createRequest)(GCode* _this, const char* _module, const char* _method);
+    xmlNodePtr (*createDatas)(GCode* _this);
+    xmlNodePtr (*createCode)(GCode* _this, const char* _code);
+    void (*addData)(GCode* _this, const char* _code, const char* _key, const char* _value);
 };
 //===============================================
 GCode* GCode_new();

@@ -13,6 +13,8 @@ struct _GLog {
 
     void (*delete)(GLog* _this);
     void (*setObj)(GLog* _this, GLog* _obj);
+    GLog* (*loadToMap)(GLog* _this, int i);
+    GLog* (*loadFromMap)(GLog* _this, int i);
     void (*addError)(GLog* _this, const char* _msg);
     void (*addLog)(GLog* _this, const char* _msg);
     void (*addData)(GLog* _this, const char* _msg);
@@ -26,6 +28,8 @@ struct _GLog {
     int (*hasErrors)(GLog* _this);
     int (*hasLogs)(GLog* _this);
     int (*hasDatas)(GLog* _this);
+    const char* (*serialize)(GLog* _this);
+    void (*deserialize)(GLog* _this, const char* _code);
 };
 //===============================================
 GLog* GLog_new();

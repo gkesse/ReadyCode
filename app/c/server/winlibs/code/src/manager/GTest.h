@@ -16,6 +16,8 @@ struct _GTest {
     void (*runString)(GTest* _this, int _argc, char** _argv);
     void (*runXml)(GTest* _this, int _argc, char** _argv);
     void (*runJson)(GTest* _this, int _argc, char** _argv);
+    void (*runCode)(GTest* _this, int _argc, char** _argv);
+    void (*runModule)(GTest* _this, int _argc, char** _argv);
 };
 //===============================================
 GTest* GTest_new();

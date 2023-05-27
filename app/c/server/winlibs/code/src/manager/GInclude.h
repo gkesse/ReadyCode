@@ -11,10 +11,11 @@
 // socket
 #include <winsock2.h>
 #include <ws2tcpip.h>
-// xml
+// libxml2
 #include <libxml/parser.h>
 #include <libxml/tree.h>
-// json
+#include <libxml/xpath.h>
+// json-c
 #include <json.h>
 //===============================================
 #endif

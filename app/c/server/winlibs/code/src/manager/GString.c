@@ -7,7 +7,7 @@ static void GString_clear(GString* _this);
 static void GString_allocate(GString* _this, int _size);
 static void GString_create(GString* _this, const char* _data);
 static void GString_add(GString* _this, const char* _data);
-static void GString_format(GString* _this, const char* _format, ...);
+static const char* GString_format(GString* _this, const char* _format, ...);
 static GVector* GString_split(GString* _this, const char* _data, const char* _sep);
 static void GString_print(GString* _this);
 //===============================================
@@ -69,7 +69,7 @@ static void GString_add(GString* _this, const char* _data) {
     _this->m_size = lSizeT;
 }
 //===============================================
-static void GString_format(GString* _this, const char* _format, ...) {
+static const char* GString_format(GString* _this, const char* _format, ...) {
     assert(_this);
     va_list lArgs;
     va_start(lArgs, _format);
@@ -80,6 +80,7 @@ static void GString_format(GString* _this, const char* _format, ...) {
     _this->clear(_this);
     _this->m_data = lData;
     _this->m_size = lSize;
+    return _this->m_data;
 }
 //===============================================
 static GVector* GString_split(GString* _this, const char* _data, const char* _sep) {

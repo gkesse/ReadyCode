@@ -1,8 +1,11 @@
 //===============================================
 #include "GLog.h"
+#include "GCode.h"
 //===============================================
 static void GLog_delete(GLog* _this);
 static void GLog_setObj(GLog* _this, GLog* _obj);
+static GLog* GLog_loadToMap(GLog* _this, int i);
+static GLog* GLog_loadFromMap(GLog* _this, int i);
 static void GLog_addError(GLog* _this, const char* _msg);
 static void GLog_addLog(GLog* _this, const char* _msg);
 static void GLog_addData(GLog* _this, const char* _msg);
@@ -16,6 +19,8 @@ static void GLog_clear(GLog* _this);
 static int GLog_hasErrors(GLog* _this);
 static int GLog_hasLogs(GLog* _this);
 static int GLog_hasDatas(GLog* _this);
+static const char* GLog_serialize(GLog* _this);
+static void GLog_deserialize(GLog* _this, const char* _data);
 //===============================================
 GLog* GLog_new() {
     GLog* lObj = (GLog*)malloc(sizeof(GLog));
@@ -26,6 +31,8 @@ GLog* GLog_new() {
 
     lObj->delete = GLog_delete;
     lObj->setObj = GLog_setObj;
+    lObj->loadToMap = GLog_loadToMap;
+    lObj->loadFromMap = GLog_loadFromMap;
     lObj->addError = GLog_addError;
     lObj->addLog = GLog_addLog;
     lObj->addData = GLog_addData;
@@ -39,6 +46,8 @@ GLog* GLog_new() {
     lObj->hasErrors = GLog_hasErrors;
     lObj->hasLogs = GLog_hasLogs;
     lObj->hasDatas = GLog_hasDatas;
+    lObj->serialize = GLog_serialize;
+    lObj->deserialize = GLog_deserialize;
     return lObj;
 }
 //===============================================
@@ -52,6 +61,24 @@ static void GLog_setObj(GLog* _this, GLog* _obj) {
     assert(_this);
     _this->m_type = _obj->m_type;
     _this->m_msg = _obj->m_msg;
+}
+//===============================================
+static GLog* GLog_loadToMap(GLog* _this, int i) {
+    assert(_this);
+    GVector* lMap = _this->m_map;
+    if(i <= 0 || i > lMap->size(lMap)) return _this;
+    GLog* lObj = lMap->get(lMap, i - 1);
+    lObj->setObj(lObj, _this);
+    return _this;
+}
+//===============================================
+static GLog* GLog_loadFromMap(GLog* _this, int i) {
+    assert(_this);
+    GVector* lMap = _this->m_map;
+    if(i <= 0 || i > lMap->size(lMap)) return _this;
+    GLog* lObj = lMap->get(lMap, i - 1);
+    _this->setObj(_this, lObj);
+    return _this;
 }
 //===============================================
 static void GLog_addError(GLog* _this, const char* _msg) {
@@ -180,5 +207,25 @@ static int GLog_hasDatas(GLog* _this) {
         if(!strcmp(lObj->m_type, "data")) return 1;
     }
     return 0;
+}
+//===============================================
+static const char* GLog_serialize(GLog* _this) {
+    assert(_this);
+    const char* lCode = "logs";
+    GCode* lDom = GCode_new();
+    lDom->m_dom->createDoc(lDom->m_dom);
+    lDom->addData(lDom, lCode, "type", _this->m_type);
+    lDom->addData(lDom, lCode, "msg", _this->m_msg);
+    const char* lData = lDom->m_dom->toString(lDom->m_dom)->m_data;
+    lDom->delete(lDom);
+    return lData;
+}
+//===============================================
+static void GLog_deserialize(GLog* _this, const char* _data) {
+    assert(_this);
+    const char* lCode = "logs";
+    GCode* lDom = GCode_new();
+    //lDom->m_dom->loadFile;
+    lDom->delete(lDom);
 }
 //===============================================

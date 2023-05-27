@@ -12,6 +12,7 @@ struct _GVector {
     const char* m_type;
 
     void (*delete)(GVector* _this);
+    void (*clean)(GVector* _this);
     void (*clear)(GVector* _this);
     void (*add)(GVector* _this, void* _data);
     void (*setObj)(GVector* _this, GVector* _obj);
