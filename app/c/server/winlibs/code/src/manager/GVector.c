@@ -3,7 +3,6 @@
 #include "GString.h"
 //===============================================
 static void GVector_delete(GVector* _this);
-static void GVector_clean(GVector* _this);
 static void GVector_clear(GVector* _this);
 static void GVector_add(GVector* _this, void* _data);
 static void* GVector_get(GVector* _this, int i);
@@ -17,7 +16,6 @@ GVector* GVector_new() {
     lObj->m_type = "gstring";
 
     lObj->delete = GVector_delete;
-    lObj->clean = GVector_clean;
     lObj->clear = GVector_clear;
     lObj->add = GVector_add;
     lObj->get = GVector_get;
@@ -30,17 +28,6 @@ static void GVector_delete(GVector* _this) {
     assert(_this);
     _this->clear(_this);
     free(_this);
-}
-//===============================================
-static void GVector_clean(GVector* _this) {
-    assert(_this);
-    GVector* lObj = _this->m_next;
-    while(1) {
-        if(!lObj) break;
-        free(lObj->m_data);
-        lObj->m_data = 0;
-        lObj = lObj->m_next;
-    }
 }
 //===============================================
 static void GVector_clear(GVector* _this) {
@@ -97,10 +84,12 @@ static int GVector_size(GVector* _this) {
 static void GVector_print(GVector* _this) {
     assert(_this);
     if(!strcmp(_this->m_type, "gstring")) {
+        GString* lData = GString_new();
         for(int i = 0; i  < _this->size(_this); i++) {
-            GString* lData = _this->get(_this, i);
+            lData->assign(lData, _this->get(_this, i));
             lData->print(lData);
         }
+        lData->delete(lData);
     }
 }
 //===============================================

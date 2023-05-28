@@ -55,6 +55,11 @@ GLog* GLog_new() {
 //===============================================
 static void GLog_delete(GLog* _this) {
     assert(_this);
+    int lSize = _this->m_map->size(_this->m_map);
+    for(int i = 0; i < lSize; i++) {
+        GLog* lObj = _this->m_map->get(_this->m_map, i);
+        free(lObj);
+    }
     _this->m_map->delete(_this->m_map);
     free(_this);
 }
