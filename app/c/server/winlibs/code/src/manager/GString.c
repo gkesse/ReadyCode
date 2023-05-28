@@ -6,6 +6,7 @@ static void GString_delete(GString* _this);
 static void GString_clear(GString* _this);
 static void GString_allocate(GString* _this, int _size);
 static void GString_create(GString* _this, const char* _data);
+static void GString_assign(GString* _this, GString* _data);
 static void GString_add(GString* _this, const char* _data);
 static const char* GString_format(GString* _this, const char* _format, ...);
 static GVector* GString_split(GString* _this, const char* _data, const char* _sep);
@@ -20,6 +21,7 @@ GString* GString_new() {
     lObj->clear = GString_clear;
     lObj->allocate = GString_allocate;
     lObj->create = GString_create;
+    lObj->assign = GString_assign;
     lObj->add = GString_add;
     lObj->format = GString_format;
     lObj->split = GString_split;
@@ -54,6 +56,12 @@ static void GString_create(GString* _this, const char* _data) {
     int lSize = strlen(_data);
     _this->allocate(_this, lSize);
     memcpy(_this->m_data, _data, _this->m_size);
+}
+//===============================================
+static void GString_assign(GString* _this, GString* _data) {
+    assert(_this);
+    _this->allocate(_this, _data->m_size);
+    memcpy(_this->m_data, _data->m_data, _this->m_size);
 }
 //===============================================
 static void GString_add(GString* _this, const char* _data) {

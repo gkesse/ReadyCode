@@ -266,6 +266,7 @@ static void GTest_runCode(GTest* _this, int _argc, char** _argv) {
     assert(_this);
     GLog* lLog = _this->m_parent->m_logs;
     GCode* lDom = GCode_new();
+    lDom->m_dom->createDoc(lDom->m_dom);
 
     // createDatas
     lDom->createDatas(lDom);
@@ -292,7 +293,7 @@ static void GTest_runCode(GTest* _this, int _argc, char** _argv) {
 static void GTest_runModule(GTest* _this, int _argc, char** _argv) {
     assert(_this);
     GLog* lLog = GLog_new();
-    GString* lData = 0;
+    GString* lData = GString_new();
 
     // addError - addLog - addData
     lLog->addError(lLog, "La connexion au serveur a echoué.");
@@ -302,15 +303,15 @@ static void GTest_runModule(GTest* _this, int _argc, char** _argv) {
 
     // loadFromMap
     lLog->loadFromMap(lLog, 3);
-    lData = lLog->serialize(lLog);
+    lData->assign(lData, lLog->serialize(lLog));
     lData->print(lData);
-    lData->delete(lData);
 
     // loadToMap
     lLog->m_msg = "Le serveur a été mis à jour.";
     lLog->loadToMap(lLog, 3);
-    lData = lLog->serialize(lLog);
+    lData->assign(lData, lLog->serialize(lLog));
     lData->print(lData);
+
     lData->delete(lData);
 }
 //===============================================
