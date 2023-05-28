@@ -1,11 +1,15 @@
 //===============================================
 #include "GCode.h"
 #include "GXml.h"
+#include "GVector.h"
 //===============================================
 static void GCode_delete(GCode* _this);
 static xmlNodePtr GCode_createDatas(GCode* _this);
 static xmlNodePtr GCode_createCode(GCode* _this, const char* _code);
 static void GCode_addData(GCode* _this, const char* _code, const char* _key, const char* _value);
+static const char* GCode_getData(GCode* _this, const char* _code, const char* _key);
+static void GCode_addMap(GCode* _this, const char* _code, GVector* _map);
+static GString* GCode_toDatas(GCode* _this);
 //===============================================
 GCode* GCode_new() {
     GCode* lObj = (GCode*)malloc(sizeof(GCode));
@@ -15,6 +19,9 @@ GCode* GCode_new() {
     lObj->createDatas = GCode_createDatas;
     lObj->createCode = GCode_createCode;
     lObj->addData = GCode_addData;
+    lObj->getData = GCode_getData;
+    lObj->addMap = GCode_addMap;
+    lObj->toDatas = GCode_toDatas;
     return lObj;
 }
 //===============================================
@@ -68,5 +75,67 @@ static void GCode_addData(GCode* _this, const char* _code, const char* _key, con
     }
     lNode->delete(lNode);
     lString->delete(lString);
+}
+//===============================================
+static const char* GCode_getData(GCode* _this, const char* _code, const char* _key) {
+    assert(_this);
+    GXml* lDom = _this->m_dom;
+    GXml* lNode = GXml_new();
+    GString* lString = GString_new();
+    lNode->m_node = lDom->getNode(lDom, lDom, lString->format(lString, "/rdv/datas/data[code='%s']/%s", _code, _key));
+    const char* lData = "";
+    if(lNode->m_node) {
+        lData = lNode->getValue(lNode);
+    }
+    lNode->delete(lNode);
+    lString->delete(lString);
+    return lData;
+}
+//===============================================
+static void GCode_addMap(GCode* _this, const char* _code, GVector* _map) {
+    assert(_this);
+    GXml* lDom = _this->m_dom;
+    int lSize = _map->size(_map);
+    if(!lSize) return;
+    GXml* lNode = GXml_new();
+    GString* lString = GString_new();
+    GString* lData = GString_new();
+
+    lNode->m_node = lDom->getNode(lDom, lDom, lString->format(lString, "/rdv/datas/data[code='%s']/map", _code));
+    if(!lNode->m_node) {
+        lNode->m_node = _this->createCode(_this, _code);
+        lNode->m_node = lNode->addObj(lNode, "map");
+    }
+
+    for(int i = 0; i < lSize; i++) {
+        GLog* lObj = _map->get(_map, i);
+        lData->assign(lData, lObj->serialize(lObj));
+        GCode* lDomD = GCode_new();
+        lDomD->m_dom->loadXml(lDomD->m_dom, lData->m_data);
+        lData->assign(lData, lDomD->toDatas(lDomD));
+        lNode->loadNode(lNode, lData->m_data);
+    }
+
+    lNode->delete(lNode);
+    lString->delete(lString);
+    lData->delete(lData);
+}
+//===============================================
+static GString* GCode_toDatas(GCode* _this) {
+    assert(_this);
+    GXml* lDom = _this->m_dom;
+    GString* lData = GString_new();
+    GXml* lNode = GXml_new();
+
+    lNode->m_node = lNode->getNode(lNode, lDom, lData->format(lData, "/rdv/datas"));
+    if(lNode->m_node) {
+        lData->assign(lData, lNode->toNode(lNode, lDom));
+    }
+    else {
+        lData->create(lData, "");
+    }
+
+    lNode->delete(lNode);
+    return lData;
 }
 //===============================================

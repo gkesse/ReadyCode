@@ -22,8 +22,12 @@ struct _GXml {
     xmlNodePtr (*addData)(GXml* _this, const char* _key, const char* _value);
     xmlNodePtr (*addObj)(GXml* _this, const char* _key);
     void (*setValue)(GXml* _this, const char* _value);
-    void (*loadFile)(GXml* _this, const char* _filename);
+    const char* (*getValue)(GXml* _this);
+    int (*loadFile)(GXml* _this, const char* _filename);
+    int (*loadXml)(GXml* _this, const char* _data);
     GString* (*toString)(GXml* _this);
+    GString* (*toNode)(GXml* _this, GXml* _root);
+    void (*loadNode)(GXml* _this, const char* _data);
     void (*print)(GXml* _this);
 };
 //===============================================

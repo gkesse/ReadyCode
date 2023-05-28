@@ -213,10 +213,14 @@ static GString* GLog_serialize(GLog* _this) {
     assert(_this);
     const char* lCode = "logs";
     GCode* lDom = GCode_new();
+    GString* lData = GString_new();
     lDom->m_dom->createDoc(lDom->m_dom);
+
     lDom->addData(lDom, lCode, "type", _this->m_type);
     lDom->addData(lDom, lCode, "msg", _this->m_msg);
-    GString* lData = lDom->m_dom->toString(lDom->m_dom);
+    lDom->addMap(lDom, lCode, _this->m_map);
+
+    lData->assign(lData, lDom->m_dom->toString(lDom->m_dom));
     lDom->delete(lDom);
     return lData;
 }
@@ -225,7 +229,11 @@ static void GLog_deserialize(GLog* _this, const char* _data) {
     assert(_this);
     const char* lCode = "logs";
     GCode* lDom = GCode_new();
-    //lDom->m_dom->loadFile;
+    lDom->m_dom->loadXml(lDom->m_dom, _data);
+
+    _this->m_type = lDom->getData(lDom, lCode, "type");
+    _this->m_msg = lDom->getData(lDom, lCode, "msg");
+
     lDom->delete(lDom);
 }
 //===============================================

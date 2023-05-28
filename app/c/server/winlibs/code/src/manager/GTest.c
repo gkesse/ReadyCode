@@ -293,6 +293,7 @@ static void GTest_runCode(GTest* _this, int _argc, char** _argv) {
 static void GTest_runModule(GTest* _this, int _argc, char** _argv) {
     assert(_this);
     GLog* lLog = GLog_new();
+    GLog* lLog2 = GLog_new();
     GString* lData = GString_new();
 
     // addError - addLog - addData
@@ -301,17 +302,28 @@ static void GTest_runModule(GTest* _this, int _argc, char** _argv) {
     lLog->addData(lLog, "La serveur n'a pas été initialisé.");
     lLog->showLogsA(lLog);
 
-    // loadFromMap
+    // loadFromMap - serialize
     lLog->loadFromMap(lLog, 3);
     lData->assign(lData, lLog->serialize(lLog));
     lData->print(lData);
 
-    // loadToMap
+    // loadToMap - serialize
     lLog->m_msg = "Le serveur a été mis à jour.";
     lLog->loadToMap(lLog, 3);
     lData->assign(lData, lLog->serialize(lLog));
     lData->print(lData);
 
+    // loadToMap - serialize
+    lLog->m_msg = "Le serveur a été mis à jour.";
+    lLog->loadToMap(lLog, 3);
+    lData->assign(lData, lLog->serialize(lLog));
+    lData->print(lData);
+
+    lLog2->deserialize(lLog2, lData->m_data);
+    lData->assign(lData, lLog2->serialize(lLog2));
+    lData->print(lData);
+
+    lLog->delete(lLog);
     lData->delete(lData);
 }
 //===============================================
