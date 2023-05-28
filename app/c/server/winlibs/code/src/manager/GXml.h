@@ -19,6 +19,7 @@ struct _GXml {
     xmlNodePtr (*createNode)(GXml* _this, GXml* _root, const char* _path, const char* _value);
     int (*existeNode)(GXml* _this, GXml* _root, const char* _path);
     xmlNodePtr (*getNode)(GXml* _this, GXml* _root, const char* _path);
+    int (*countNode)(GXml* _this, GXml* _root, const char* _path);
     xmlNodePtr (*addData)(GXml* _this, const char* _key, const char* _value);
     xmlNodePtr (*addObj)(GXml* _this, const char* _key);
     void (*setValue)(GXml* _this, const char* _value);

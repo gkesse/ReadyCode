@@ -218,7 +218,7 @@ static GString* GLog_serialize(GLog* _this) {
 
     lDom->addData(lDom, lCode, "type", _this->m_type);
     lDom->addData(lDom, lCode, "msg", _this->m_msg);
-    lDom->addMap(lDom, lCode, _this->m_map);
+    lDom->addLog(lDom, lCode, _this->m_map);
 
     lData->assign(lData, lDom->m_dom->toString(lDom->m_dom));
     lDom->delete(lDom);

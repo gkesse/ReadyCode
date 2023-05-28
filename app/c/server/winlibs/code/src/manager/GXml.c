@@ -10,6 +10,7 @@ static void GXml_createDoc(GXml* _this);
 static xmlNodePtr GXml_createNode(GXml* _this, GXml* _root, const char* _path, const char* _value);
 static int GXml_existeNode(GXml* _this, GXml* _root, const char* _path);
 static xmlNodePtr GXml_getNode(GXml* _this, GXml* _root, const char* _path);
+static int GXml_countNode(GXml* _this, GXml* _root, const char* _path);
 static xmlNodePtr GXml_addData(GXml* _this, const char* _key, const char* _value);
 static xmlNodePtr GXml_addObj(GXml* _this, const char* _key);
 static void GXml_setValue(GXml* _this, const char* _value);
@@ -35,6 +36,7 @@ GXml* GXml_new() {
     lObj->createNode = GXml_createNode;
     lObj->existeNode = GXml_existeNode;
     lObj->getNode = GXml_getNode;
+    lObj->countNode = GXml_countNode;
     lObj->addData = GXml_addData;
     lObj->addObj = GXml_addObj;
     lObj->setValue = GXml_setValue;
@@ -153,6 +155,25 @@ static xmlNodePtr GXml_getNode(GXml* _this, GXml* _root, const char* _path) {
     }
     xmlXPathFreeObject(lXPathO);
     return lNode;
+}
+//===============================================
+static int GXml_countNode(GXml* _this, GXml* _root, const char* _path) {
+    assert(_this);
+    assert(_root);
+    assert(_root->m_doc);
+    xmlXPathContextPtr lXPathC = xmlXPathNewContext(_root->m_doc);
+    assert(lXPathC);
+    xmlNodePtr lRoot = _this->m_node;
+    if(_path[0] == '/') lRoot = _root->m_node;
+    xmlXPathObjectPtr lXPathO = xmlXPathNodeEval(lRoot, BAD_CAST(_path), lXPathC);
+    assert(lXPathO);
+    xmlXPathFreeContext(lXPathC);
+    int lCount = 0;
+    if(lXPathO->nodesetval) {
+        lCount = lXPathO->nodesetval->nodeNr;
+    }
+    xmlXPathFreeObject(lXPathO);
+    return lCount;
 }
 //===============================================
 static xmlNodePtr GXml_addData(GXml* _this, const char* _key, const char* _value) {
