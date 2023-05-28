@@ -139,7 +139,7 @@ static int GXml_existeNode(GXml* _this, GXml* _root, const char* _path) {
 static xmlNodePtr GXml_getNode(GXml* _this, GXml* _root, const char* _path) {
     assert(_this);
     assert(_root);
-    assert(_root->m_doc);
+    if(!_root->m_doc) return 0;
     xmlXPathContextPtr lXPathC = xmlXPathNewContext(_root->m_doc);
     assert(lXPathC);
     xmlNodePtr lRoot = _this->m_node;
@@ -160,7 +160,7 @@ static xmlNodePtr GXml_getNode(GXml* _this, GXml* _root, const char* _path) {
 static int GXml_countNode(GXml* _this, GXml* _root, const char* _path) {
     assert(_this);
     assert(_root);
-    assert(_root->m_doc);
+    if(!_root->m_doc) return 0;
     xmlXPathContextPtr lXPathC = xmlXPathNewContext(_root->m_doc);
     assert(lXPathC);
     xmlNodePtr lRoot = _this->m_node;

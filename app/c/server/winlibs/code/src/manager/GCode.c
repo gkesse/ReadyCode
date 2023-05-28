@@ -68,10 +68,15 @@ static xmlNodePtr GCode_createCode(GCode* _this, const char* _code) {
 //===============================================
 static void GCode_addData(GCode* _this, const char* _code, const char* _key, const char* _value) {
     assert(_this);
+    if(!_value) return;
+    if(!strcmp(_value, "")) return;
+
     GXml* lDom = _this->m_dom;
     GXml* lNode = GXml_new();
     GString* lString = GString_new();
+
     lNode->m_node = lDom->getNode(lDom, lDom, lString->format(lString, "/rdv/datas/data[code='%s']/%s", _code, _key));
+
     if(!lNode->m_node) {
         lNode->m_node = _this->createCode(_this, _code);
         lNode->addData(lNode, _key, _value);
@@ -79,6 +84,7 @@ static void GCode_addData(GCode* _this, const char* _code, const char* _key, con
     else {
         lNode->setValue(lNode, _value);
     }
+
     lNode->delete(lNode);
     lString->delete(lString);
 }
@@ -162,6 +168,8 @@ static void GCode_getLog(GCode* _this, const char* _code, GVector* _map, GLog* _
     assert(_this);
     GXml* lDom = _this->m_dom;
     GString* lString = GString_new();
+
+    _obj->clear(_obj);
 
     int lCount = lDom->countNode(lDom, lDom, lString->format(lString, "/rdv/datas/data[code='%s']/map/data", _code));
     if(!lCount) {

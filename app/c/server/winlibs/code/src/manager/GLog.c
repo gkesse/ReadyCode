@@ -4,6 +4,7 @@
 #include "GSocket.h"
 //===============================================
 static void GLog_delete(GLog* _this);
+static void GLog_clear(GLog* _this);
 static GLog* GLog_clone(GLog* _this);
 static void GLog_setObj(GLog* _this, GLog* _obj);
 static GLog* GLog_loadToMap(GLog* _this, int i);
@@ -17,7 +18,6 @@ static void GLog_showLogs(GLog* _this);
 static void GLog_showDatas(GLog* _this);
 static void GLog_showLogsA(GLog* _this);
 static void GLog_showLogsX(GLog* _this);
-static void GLog_clear(GLog* _this);
 static int GLog_hasErrors(GLog* _this);
 static int GLog_hasLogs(GLog* _this);
 static int GLog_hasDatas(GLog* _this);
@@ -34,6 +34,7 @@ GLog* GLog_new() {
     lObj->m_map = GVector_new();
 
     lObj->delete = GLog_delete;
+    lObj->clear = GLog_clear;
     lObj->clone = GLog_clone;
     lObj->setObj = GLog_setObj;
     lObj->loadToMap = GLog_loadToMap;
@@ -60,13 +61,20 @@ GLog* GLog_new() {
 //===============================================
 static void GLog_delete(GLog* _this) {
     assert(_this);
-    int lSize = _this->m_map->size(_this->m_map);
-    for(int i = 0; i < lSize; i++) {
-        GLog* lObj = _this->m_map->get(_this->m_map, i);
-        free(lObj);
-    }
+    _this->clear(_this);
     _this->m_map->delete(_this->m_map);
     free(_this);
+}
+//===============================================
+static void GLog_clear(GLog* _this) {
+    assert(_this);
+    GVector* lMap = _this->m_map;
+    int lSize = lMap->size(lMap);
+    for(int i = 0; i < lSize; i++) {
+        GLog* lObj = lMap->get(lMap, i);
+        free(lObj);
+    }
+    lMap->clear(lMap);
 }
 //===============================================
 static GLog* GLog_clone(GLog* _this) {
@@ -190,12 +198,6 @@ static void GLog_showLogsX(GLog* _this) {
     }
 }
 //===============================================
-static void GLog_clear(GLog* _this) {
-    assert(_this);
-    GVector* lMap = _this->m_map;
-    lMap->clear(lMap);
-}
-//===============================================
 static int GLog_hasErrors(GLog* _this) {
     assert(_this);
     GVector* lMap = _this->m_map;
@@ -263,6 +265,7 @@ static void GLog_saveLogs(GLog* _this) {
     lData->assign(lData, _this->serialize(_this));
     lData->assign(lData, lClient->callFacade(lClient, "logs", "save_logs", lData->m_data));
     _this->deserialize(_this, lData->m_data);
+    _this->print(_this);
 
     lClient->delete(lClient);
     lData->delete(lData);

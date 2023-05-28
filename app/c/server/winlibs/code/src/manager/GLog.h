@@ -13,6 +13,7 @@ struct _GLog {
     GVector* m_map;
 
     void (*delete)(GLog* _this);
+    void (*clear)(GLog* _this);
     GLog* (*clone)(GLog* _this);
     void (*setObj)(GLog* _this, GLog* _obj);
     GLog* (*loadToMap)(GLog* _this, int i);
@@ -26,7 +27,6 @@ struct _GLog {
     void (*showDatas)(GLog* _this);
     void (*showLogsA)(GLog* _this);
     void (*showLogsX)(GLog* _this);
-    void (*clear)(GLog* _this);
     int (*hasErrors)(GLog* _this);
     int (*hasLogs)(GLog* _this);
     int (*hasDatas)(GLog* _this);
