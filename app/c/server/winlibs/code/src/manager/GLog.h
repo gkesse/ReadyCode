@@ -13,6 +13,7 @@ struct _GLog {
     GVector* m_map;
 
     void (*delete)(GLog* _this);
+    GLog* (*clone)(GLog* _this);
     void (*setObj)(GLog* _this, GLog* _obj);
     GLog* (*loadToMap)(GLog* _this, int i);
     GLog* (*loadFromMap)(GLog* _this, int i);

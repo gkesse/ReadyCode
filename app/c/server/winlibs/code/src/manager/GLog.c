@@ -3,6 +3,7 @@
 #include "GCode.h"
 //===============================================
 static void GLog_delete(GLog* _this);
+static GLog* GLog_clone(GLog* _this);
 static void GLog_setObj(GLog* _this, GLog* _obj);
 static GLog* GLog_loadToMap(GLog* _this, int i);
 static GLog* GLog_loadFromMap(GLog* _this, int i);
@@ -30,6 +31,7 @@ GLog* GLog_new() {
     lObj->m_map = GVector_new();
 
     lObj->delete = GLog_delete;
+    lObj->clone = GLog_clone;
     lObj->setObj = GLog_setObj;
     lObj->loadToMap = GLog_loadToMap;
     lObj->loadFromMap = GLog_loadFromMap;
@@ -55,6 +57,11 @@ static void GLog_delete(GLog* _this) {
     assert(_this);
     _this->m_map->delete(_this->m_map);
     free(_this);
+}
+//===============================================
+static GLog* GLog_clone(GLog* _this) {
+    assert(_this);
+    return GLog_new();
 }
 //===============================================
 static void GLog_setObj(GLog* _this, GLog* _obj) {
@@ -233,6 +240,7 @@ static void GLog_deserialize(GLog* _this, const char* _data) {
 
     _this->m_type = lDom->getData(lDom, lCode, "type");
     _this->m_msg = lDom->getData(lDom, lCode, "msg");
+    lDom->getLog(lDom, lCode, _this->m_map, _this);
 
     lDom->delete(lDom);
 }
