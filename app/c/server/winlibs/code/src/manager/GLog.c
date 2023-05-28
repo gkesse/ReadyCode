@@ -1,6 +1,7 @@
 //===============================================
 #include "GLog.h"
 #include "GCode.h"
+#include "GSocket.h"
 //===============================================
 static void GLog_delete(GLog* _this);
 static GLog* GLog_clone(GLog* _this);
@@ -22,6 +23,8 @@ static int GLog_hasLogs(GLog* _this);
 static int GLog_hasDatas(GLog* _this);
 static GString* GLog_serialize(GLog* _this);
 static void GLog_deserialize(GLog* _this, const char* _data);
+static void GLog_saveLogs(GLog* _this);
+static void GLog_print(GLog* _this);
 //===============================================
 GLog* GLog_new() {
     GLog* lObj = (GLog*)malloc(sizeof(GLog));
@@ -50,6 +53,8 @@ GLog* GLog_new() {
     lObj->hasDatas = GLog_hasDatas;
     lObj->serialize = GLog_serialize;
     lObj->deserialize = GLog_deserialize;
+    lObj->saveLogs = GLog_saveLogs;
+    lObj->print = GLog_print;
     return lObj;
 }
 //===============================================
@@ -248,5 +253,26 @@ static void GLog_deserialize(GLog* _this, const char* _data) {
     lDom->getLog(lDom, lCode, _this->m_map, _this);
 
     lDom->delete(lDom);
+}
+//===============================================
+static void GLog_saveLogs(GLog* _this) {
+    assert(_this);
+    GSocket* lClient = GSocket_new();
+    GString* lData = GString_new();
+
+    lData->assign(lData, _this->serialize(_this));
+    lData->assign(lData, lClient->callFacade(lClient, "logs", "save_logs", lData->m_data));
+    _this->deserialize(_this, lData->m_data);
+
+    lClient->delete(lClient);
+    lData->delete(lData);
+}
+//===============================================
+static void GLog_print(GLog* _this) {
+    assert(_this);
+    GString* lData = GString_new();
+    lData->assign(lData, _this->serialize(_this));
+    lData->print(lData);
+    lData->delete(lData);
 }
 //===============================================

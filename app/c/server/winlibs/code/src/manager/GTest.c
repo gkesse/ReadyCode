@@ -18,6 +18,8 @@ static void GTest_runXml(GTest* _this, int _argc, char** _argv);
 static void GTest_runJson(GTest* _this, int _argc, char** _argv);
 static void GTest_runCode(GTest* _this, int _argc, char** _argv);
 static void GTest_runModule(GTest* _this, int _argc, char** _argv);
+static void GTest_runRequest(GTest* _this, int _argc, char** _argv);
+static void GTest_runFacade(GTest* _this, int _argc, char** _argv);
 //===============================================
 GTest* GTest_new() {
     GTest* lObj = (GTest*)malloc(sizeof(GTest));
@@ -33,6 +35,8 @@ GTest* GTest_new() {
     lObj->runJson = GTest_runJson;
     lObj->runCode = GTest_runCode;
     lObj->runModule = GTest_runModule;
+    lObj->runRequest = GTest_runRequest;
+    lObj->runFacade = GTest_runFacade;
     return lObj;
 }
 //===============================================
@@ -70,6 +74,12 @@ static void GTest_run(GTest* _this, int _argc, char** _argv) {
     }
     else if(!strcmp(lModule, "module")) {
         _this->runModule(_this, _argc, _argv);
+    }
+    else if(!strcmp(lModule, "request")) {
+        _this->runRequest(_this, _argc, _argv);
+    }
+    else if(!strcmp(lModule, "facade")) {
+        _this->runFacade(_this, _argc, _argv);
     }
 }
 //===============================================
@@ -326,5 +336,52 @@ static void GTest_runModule(GTest* _this, int _argc, char** _argv) {
 
     lLog->delete(lLog);
     lData->delete(lData);
+}
+//===============================================
+static void GTest_runRequest(GTest* _this, int _argc, char** _argv) {
+    assert(_this);
+    GCode* lDom = GCode_new();
+    GCode* lDomC = GCode_new();
+    GXml* lNode = GXml_new();
+    GXml* lNodeC = GXml_new();
+    GLog* lLog = GLog_new();
+    GString* lData = GString_new();
+
+    // addError - addLog - addData
+    lLog->addError(lLog, "La connexion au serveur a echoué.");
+    lLog->addLog(lLog, "La lecture du fichier a réussi.");
+    lLog->addData(lLog, "La serveur n'a pas été initialisé.");
+    lData->assign(lData, lLog->serialize(lLog));
+    lLog->print(lLog);
+
+    // createDoc - addData
+    lDom->m_dom->createDoc(lDom->m_dom);
+    lDom->addData(lDom, "manager", "module", "log");
+    lDom->addData(lDom, "manager", "method", "save_logs");
+    lNode->m_node = lDom->createDatas(lDom);
+    lDomC->m_dom->loadXml(lDomC->m_dom, lData->m_data);
+    lNodeC->m_node = lDomC->createDatas(lDomC);
+    lData->assign(lData, lNodeC->toNode(lNodeC, lDomC->m_dom));
+    lNode->loadNode(lNode, lData->m_data);
+    lDom->m_dom->print(lDom->m_dom);
+
+    lDom->delete(lDom);
+    lDomC->delete(lDomC);
+    lNode->delete(lNode);
+    lNodeC->delete(lNodeC);
+    lLog->delete(lLog);
+}
+//===============================================
+static void GTest_runFacade(GTest* _this, int _argc, char** _argv) {
+    assert(_this);
+    GLog* lLog = GLog_new();
+
+    // addError - addLog - addData - saveLogs
+    lLog->addError(lLog, "La connexion au serveur a echoué.");
+    lLog->addLog(lLog, "La lecture du fichier a réussi.");
+    lLog->addData(lLog, "La serveur n'a pas été initialisé.");
+    lLog->saveLogs(lLog);
+
+    lLog->delete(lLog);
 }
 //===============================================

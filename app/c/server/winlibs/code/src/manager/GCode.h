@@ -19,6 +19,7 @@ struct _GCode {
     void (*addLog)(GCode* _this, const char* _code, GVector* _map);
     void (*getLog)(GCode* _this, const char* _code, GVector* _map, GLog* _obj);
     GString* (*toDatas)(GCode* _this);
+    void (*print)(GCode* _this);
 };
 //===============================================
 GCode* GCode_new();

@@ -12,6 +12,7 @@ static void GCode_addMap(GCode* _this, const char* _code, GVector* _map);
 static void GCode_addLog(GCode* _this, const char* _code, GVector* _map);
 static void GCode_getLog(GCode* _this, const char* _code, GVector* _map, GLog* _obj);
 static GString* GCode_toDatas(GCode* _this);
+static void GCode_print(GCode* _this);
 //===============================================
 GCode* GCode_new() {
     GCode* lObj = (GCode*)malloc(sizeof(GCode));
@@ -26,6 +27,7 @@ GCode* GCode_new() {
     lObj->addLog = GCode_addLog;
     lObj->getLog = GCode_getLog;
     lObj->toDatas = GCode_toDatas;
+    lObj->print = GCode_print;
     return lObj;
 }
 //===============================================
@@ -207,5 +209,10 @@ static GString* GCode_toDatas(GCode* _this) {
 
     lNode->delete(lNode);
     return lData;
+}
+//===============================================
+static void GCode_print(GCode* _this) {
+    assert(_this);
+    _this->m_dom->print(_this->m_dom);
 }
 //===============================================

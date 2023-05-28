@@ -1,12 +1,14 @@
 //===============================================
 #include "GSocket.h"
 #include "GServer.h"
+#include "GCode.h"
 //===============================================
 #define GSOCKET_BUFFER_SIZE 10
 //===============================================
 static void GSocket_delete(GSocket* _this);
 static void GSocket_run(GSocket* _this, int _argc, char** _argv);
 static void GSocket_callServer(GSocket* _this, const char* _dataIn, GString* _dataOut);
+static GString* GSocket_callFacade(GSocket* _this, const char* _module, const char* _method, const char* _params);
 static void GSocket_read(GSocket* _this, GString* _data);
 static void GSocket_send(GSocket* _this, const char* _data);
 //===============================================
@@ -18,6 +20,7 @@ GSocket* GSocket_new() {
     lObj->delete = GSocket_delete;
     lObj->run = GSocket_run;
     lObj->callServer = GSocket_callServer;
+    lObj->callFacade = GSocket_callFacade;
     lObj->read = GSocket_read;
     lObj->send = GSocket_send;
     return lObj;
@@ -123,6 +126,35 @@ static void GSocket_callServer(GSocket* _this, const char* _dataIn, GString* _da
     WSACleanup();
 }
 //===============================================
+static GString* GSocket_callFacade(GSocket* _this, const char* _module, const char* _method, const char* _params) {
+    assert(_this);
+    GCode* lDom = GCode_new();
+    GCode* lDomC = GCode_new();
+    GXml* lNode = GXml_new();
+    GXml* lNodeC = GXml_new();
+    GString* lData = GString_new();
+
+    lDom->m_dom->createDoc(lDom->m_dom);
+    lDom->addData(lDom, "manager", "module", _module);
+    lDom->addData(lDom, "manager", "method", _method);
+    lNode->m_node = lDom->createDatas(lDom);
+
+    lDomC->m_dom->loadXml(lDomC->m_dom, _params);
+    lNodeC->m_node = lDomC->createDatas(lDomC);
+    lData->assign(lData, lNodeC->toNode(lNodeC, lDomC->m_dom));
+
+    lNode->loadNode(lNode, lData->m_data);
+    lData->assign(lData, lDom->m_dom->toString(lDom->m_dom));
+    _this->callServer(_this, lData->m_data, lData);
+    lData->print(lData);
+
+    lDom->delete(lDom);
+    lDomC->delete(lDomC);
+    lNode->delete(lNode);
+    lNodeC->delete(lNodeC);
+    return lData;
+}
+//===============================================
 static DWORD WINAPI GSocket_onThread(LPVOID _params) {
     GSocket* lClient = (GSocket*)_params;
     GServer* lServer = GServer_new();
@@ -142,6 +174,7 @@ static DWORD WINAPI GSocket_onThread(LPVOID _params) {
 static void GSocket_read(GSocket* _this, GString* _data) {
     assert(_this);
     SOCKET lSocket = _this->m_socket;
+    _data->clear(_data);
     while(1) {
         char lBuffer[GSOCKET_BUFFER_SIZE];
         int lBytes = recv(lSocket, lBuffer, GSOCKET_BUFFER_SIZE - 1, 0);

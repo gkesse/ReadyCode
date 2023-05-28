@@ -32,6 +32,8 @@ struct _GLog {
     int (*hasDatas)(GLog* _this);
     GString* (*serialize)(GLog* _this);
     void (*deserialize)(GLog* _this, const char* _code);
+    void (*saveLogs)(GLog* _this);
+    void (*print)(GLog* _this);
 };
 //===============================================
 GLog* GLog_new();
