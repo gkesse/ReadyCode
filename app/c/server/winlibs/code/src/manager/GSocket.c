@@ -146,7 +146,6 @@ static GString* GSocket_callFacade(GSocket* _this, const char* _module, const ch
     lNode->loadNode(lNode, lData->m_data);
     lData->assign(lData, lDom->m_dom->toString(lDom->m_dom));
     _this->callServer(_this, lData->m_data, lData);
-    lData->print(lData);
 
     lDom->delete(lDom);
     lDomC->delete(lDomC);

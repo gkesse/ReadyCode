@@ -47,6 +47,8 @@ GXml* GXml_new() {
     lObj->toNode = GXml_toNode;
     lObj->loadNode = GXml_loadNode;
     lObj->print = GXml_print;
+
+    xmlKeepBlanksDefault(0);
     return lObj;
 }
 //===============================================
@@ -71,7 +73,6 @@ static void GXml_clean(GXml* _this) {
 static void GXml_init(GXml* _this) {
     assert(_this);
     xmlInitParser();
-    xmlKeepBlanksDefault(0);
 }
 //===============================================
 static void GXml_createDoc(GXml* _this) {

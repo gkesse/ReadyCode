@@ -265,7 +265,6 @@ static void GLog_saveLogs(GLog* _this) {
     lData->assign(lData, _this->serialize(_this));
     lData->assign(lData, lClient->callFacade(lClient, "logs", "save_logs", lData->m_data));
     _this->deserialize(_this, lData->m_data);
-    _this->print(_this);
 
     lClient->delete(lClient);
     lData->delete(lData);

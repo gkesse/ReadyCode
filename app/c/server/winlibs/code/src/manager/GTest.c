@@ -381,6 +381,7 @@ static void GTest_runFacade(GTest* _this, int _argc, char** _argv) {
     lLog->addLog(lLog, "La lecture du fichier a réussi.");
     lLog->addData(lLog, "La serveur n'a pas été initialisé.");
     lLog->saveLogs(lLog);
+    _this->m_parent->m_logs->addLogs(_this->m_parent->m_logs, lLog);
 
     lLog->delete(lLog);
 }
