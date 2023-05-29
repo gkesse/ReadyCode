@@ -129,28 +129,16 @@ static void GSocket_callServer(GSocket* _this, const char* _dataIn, GString* _da
 static GString* GSocket_callFacade(GSocket* _this, const char* _module, const char* _method, const char* _params) {
     assert(_this);
     GCode* lDom = GCode_new();
-    GCode* lDomC = GCode_new();
-    GXml* lNode = GXml_new();
-    GXml* lNodeC = GXml_new();
     GString* lData = GString_new();
 
     lDom->m_dom->createDoc(lDom->m_dom);
     lDom->addData(lDom, "manager", "module", _module);
     lDom->addData(lDom, "manager", "method", _method);
-    lNode->m_node = lDom->createDatas(lDom);
-
-    lDomC->m_dom->loadXml(lDomC->m_dom, _params);
-    lNodeC->m_node = lDomC->createDatas(lDomC);
-    lData->assign(lData, lNodeC->toNode(lNodeC, lDomC->m_dom));
-
-    lNode->loadNode(lNode, lData->m_data);
+    lDom->loadData(lDom, _params);
     lData->assign(lData, lDom->m_dom->toString(lDom->m_dom));
     _this->callServer(_this, lData->m_data, lData);
 
     lDom->delete(lDom);
-    lDomC->delete(lDomC);
-    lNode->delete(lNode);
-    lNodeC->delete(lNodeC);
     return lData;
 }
 //===============================================

@@ -15,6 +15,7 @@ struct _GCode {
     xmlNodePtr (*createCode)(GCode* _this, const char* _code);
     void (*addData)(GCode* _this, const char* _code, const char* _key, const char* _value);
     const char* (*getData)(GCode* _this, const char* _code, const char* _key);
+    void (*loadData)(GCode* _this, const char* _data);
     void (*addMap)(GCode* _this, const char* _code, GVector* _map);
     void (*getMap)(GCode* _this, const char* _code, GVector* _map, GObject* _obj);
     void (*addLog)(GCode* _this, const char* _code, GVector* _map);
