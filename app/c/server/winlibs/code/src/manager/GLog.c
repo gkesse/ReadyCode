@@ -29,8 +29,8 @@ static void GLog_print(GLog* _this);
 GLog* GLog_new() {
     GLog* lObj = (GLog*)malloc(sizeof(GLog));
 
-    lObj->m_type = 0;
-    lObj->m_msg = 0;
+    lObj->m_type = "";
+    lObj->m_msg = "";
     lObj->m_map = GVector_new();
 
     lObj->delete = GLog_delete;

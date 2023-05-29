@@ -1,23 +1,20 @@
 //===============================================
-#ifndef _GServer_
-#define _GServer_
+#ifndef _GManager_
+#define _GManager_
 //===============================================
 #include "GObject.h"
 //===============================================
-typedef struct _GServer GServer;
-typedef struct _GSocket GSocket;
 typedef struct _GManager GManager;
 //===============================================
-struct _GServer {
-    GManager* m_mgr;
-    SOCKET m_socket;
+struct _GManager {
+    GObject* m_parent;
+    const char* m_module;
+    const char* m_method;
 
-    void (*delete)(GServer* _this);
-    void (*run)(GServer* _this, GString* _data);
-    void (*send)(GServer* _this, GSocket* _socket);
+    void (*delete)(GManager* _this);
 };
 //===============================================
-GServer* GServer_new();
+GManager* GManager_new();
 //===============================================
 #endif
 //===============================================
