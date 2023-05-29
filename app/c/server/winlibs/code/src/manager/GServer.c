@@ -30,6 +30,7 @@ static void GServer_run(GServer* _this, GString* _data) {
     GManager* lMgr = _this->m_mgr;
     GObject* lParent = _this->m_mgr->m_parent;
     lParent->deserialize(lParent, _data->m_data);
+
     if(!strcmp(lMgr->m_module, "logs")) {
 
     }
