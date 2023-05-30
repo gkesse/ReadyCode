@@ -184,12 +184,20 @@ class GLog {
         this.showLogs();
     }
     //===============================================
+    toLogPhp() {
+        var lLogsPhp = document.getElementById("LogsPhp");
+        return lLogsPhp.innerHTML;
+    }
+    //===============================================
     run(_method, _obj, _data) {
         if(_method == "") {
             this.addError("La méthode est obligatoire.");
         }
         else if(_method == "close_logs") {
             this.onCloseLogs(_obj, _data);
+        }
+        else if(_method == "show_php_logs") {
+            this.onShowPhpLogs();
         }
         else {
             this.addError("La méthode est inconnue.");
@@ -206,6 +214,12 @@ class GLog {
         setTimeout(function() {
             lLogModal.style.display = "none";
         }, 400);
+    }
+    //===============================================
+    onShowPhpLogs() {
+        var lData = this.toLogPhp();
+        this.addData(lData);
+        this.showLogsX();
     }
     //===============================================
 }
