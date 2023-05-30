@@ -82,7 +82,10 @@ class GProcess extends GObject {
     }
     //===============================================
     public function run($_module, $_method) {
-        if($_module == "test") {
+        if($_module == "") {
+            $this->m_logs->addError("Le module est obligatoire.");
+        }
+        else if($_module == "test") {
             $this->runTest($_module, $_method);
         }
         else if($_module == "test_js") {
@@ -90,6 +93,9 @@ class GProcess extends GObject {
         }
         else if($_module == "client") {
             $this->runClient($_module, $_method);
+        }
+        else {
+            $this->m_logs->addError("Le module est inconnu.");
         }
     }
     //===============================================

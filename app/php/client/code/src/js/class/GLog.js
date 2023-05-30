@@ -185,8 +185,14 @@ class GLog {
     }
     //===============================================
     run(_method, _obj, _data) {
-        if(_method == "close_logs") {
+        if(_method == "") {
+            this.addError("La méthode est obligatoire.");
+        }
+        else if(_method == "close_logs") {
             this.onCloseLogs(_obj, _data);
+        }
+        else {
+            this.addError("La méthode est inconnue.");
         }
     }
     //===============================================

@@ -29,7 +29,7 @@ class GServer extends GObject {
     runLogs(_method, _obj, _data) {
         var lObj = new GLog();
         lObj.run(_method, _obj, _data);
-        this.m_logs.addLogs(lObj.m_logs);
+        this.m_logs.addLogs(lObj);
     }
     //===============================================
 }

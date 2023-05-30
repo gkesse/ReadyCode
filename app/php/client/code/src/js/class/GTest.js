@@ -12,6 +12,9 @@ class GTest extends GObject {
         else if(_method == "log") {
             this.runLog(_obj, _data);
         }
+        else if(_method == "xml") {
+            this.runXml(_obj, _data);
+        }
         else {
             this.m_logs.addError("La méthode est inconnue.");
         }
@@ -24,6 +27,10 @@ class GTest extends GObject {
         lLog.addLog("Le chargement s'est bien déroulé.");
         lLog.addData("La largeur de l'image est 1000px.");
         lLog.showLogsX();
+    }
+    //===============================================
+    runXml(_obj, _data) {
+
     }
     //===============================================
 }
