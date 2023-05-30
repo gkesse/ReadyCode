@@ -1,2 +1,0 @@
-mysql -u admin -p
-
