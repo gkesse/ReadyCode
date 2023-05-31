@@ -74,6 +74,7 @@ class GProcess extends GObject {
     public function toScripts() {
         // scripts.js
         echo sprintf("<script src='./js/functions.js'></script>\n");
+        echo sprintf("<script src='./js/class/GXml.js'></script>\n");
         echo sprintf("<script src='./js/class/GLog.js'></script>\n");
         echo sprintf("<script src='./js/class/GObject.js'></script>\n");
         echo sprintf("<script src='./js/class/GTest.js'></script>\n");

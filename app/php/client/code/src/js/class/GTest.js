@@ -30,7 +30,16 @@ class GTest extends GObject {
     }
     //===============================================
     runXml(_obj, _data) {
-
+        // toString - addObj - addData
+        var lDom = new GXml();
+        var lDomC1 = new GXml();
+        lDom.createDoc();
+        lDomC1.m_node = lDom.addObj(lDom, "datas");
+        lDomC1.m_node = lDomC1.addObj(lDom, "data");
+        lDomC1.addData(lDom, "code", "logs");
+        lDomC1.addData(lDom, "type", "error");
+        lDomC1.addData(lDom, "msg", "La connexion au serveur a échoué.");
+        this.m_logs.addData(lDom.toString().toXml());
     }
     //===============================================
 }
