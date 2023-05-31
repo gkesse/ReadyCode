@@ -55,6 +55,20 @@ class GLog {
         }
     }
     //===============================================
+    loadFromMap(_index) {
+        if(_index >= 1 && _index <= this.m_map.length) {
+            var lObj = this.m_map[_index - 1];
+            this.setObj(lObj);
+        }
+    }
+    //===============================================
+    loadToMap(_index) {
+        if(_index >= 1 && _index <= this.size()) {
+            var lObj = this.m_map[_index - 1];
+            lObj.setObj(this);
+        }
+    }
+    //===============================================
     hasErrors() {
         for(var i = 0; i < this.m_map.length; i++) {
             var lObj = this.m_map[i];
@@ -187,6 +201,22 @@ class GLog {
     toLogPhp() {
         var lLogsPhp = document.getElementById("LogsPhp");
         return lLogsPhp.innerHTML;
+    }
+    //===============================================
+    serialize(_code = "logs") {
+        var lDom = new GCode();
+        lDom.createDoc();
+        lDom.addData(_code, "type", this.m_type);
+        lDom.addData(_code, "msg", this.m_msg);
+        lDom.addMap(_code, this.m_map);
+        return lDom.toString();
+    }
+    //===============================================
+    deserialize(_data, _code = "logs") {
+        var lDom = new GCode();
+        lDom.loadXml(_data);
+        this.m_type = lDom.getItem(_code, "type");
+        this.m_msg = lDom.getItem(_code, "msg");
     }
     //===============================================
     run(_method, _obj, _data) {
