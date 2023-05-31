@@ -83,6 +83,11 @@ class GTest extends GObject {
         lLog.addData("La largeur de l'image est 1000px.");
         lLog.loadFromMap(3);
         this.m_logs.addData(lLog.serialize().toXml());
+        
+        // addError - addLog - addData
+        var lLog2 = new GLog();
+        lLog2.deserialize(lLog.serialize());
+        this.m_logs.addData(lLog2.serialize().toXml());
     }
     //===============================================
 }

@@ -127,6 +127,18 @@ class GXml {
         return lNodeI;
     }
     //===============================================
+    getValue(_isCData = false) {
+        if(!this.m_node) return "";
+        var lData = "";
+        if(!_isCData) {
+            lData = this.m_node.innerHTML;
+        }
+        else {
+            lData = this.m_node.firstChild.nodeValue;
+        }
+        return lData;
+    }
+    //===============================================
     addData(_root, _name, _value, _isCData = false) {
         if(!_root.m_doc) return null;
         if(!this.m_node) return null;

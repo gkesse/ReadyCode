@@ -215,8 +215,9 @@ class GLog {
     deserialize(_data, _code = "logs") {
         var lDom = new GCode();
         lDom.loadXml(_data);
-        this.m_type = lDom.getItem(_code, "type");
-        this.m_msg = lDom.getItem(_code, "msg");
+        this.m_type = lDom.getData(_code, "type");
+        this.m_msg = lDom.getData(_code, "msg");
+        lDom.getMap(_code, this);
     }
     //===============================================
     run(_method, _obj, _data) {
