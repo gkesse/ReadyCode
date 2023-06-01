@@ -30,6 +30,7 @@ GLog* GLog_new() {
     GLog* lObj = (GLog*)malloc(sizeof(GLog));
 
     lObj->m_type = "";
+    lObj->m_side = "";
     lObj->m_msg = "";
     lObj->m_map = GVector_new();
 
@@ -85,6 +86,7 @@ static GLog* GLog_clone(GLog* _this) {
 static void GLog_setObj(GLog* _this, GLog* _obj) {
     assert(_this);
     _this->m_type = _obj->m_type;
+    _this->m_side = _obj->m_side;
     _this->m_msg = _obj->m_msg;
 }
 //===============================================
@@ -111,6 +113,7 @@ static void GLog_addError(GLog* _this, const char* _msg) {
     GLog* lObj = GLog_new();
     GVector* lMap = _this->m_map;
     lObj->m_type = "error";
+    lObj->m_side = "server_c";
     lObj->m_msg = _msg;
     lMap->add(lMap, lObj);
 }
@@ -120,6 +123,7 @@ static void GLog_addLog(GLog* _this, const char* _msg) {
     GLog* lObj = GLog_new();
     GVector* lMap = _this->m_map;
     lObj->m_type = "log";
+    lObj->m_side = "server_c";
     lObj->m_msg = _msg;
     lMap->add(lMap, lObj);
 }
@@ -129,6 +133,7 @@ static void GLog_addData(GLog* _this, const char* _msg) {
     GLog* lObj = GLog_new();
     GVector* lMap = _this->m_map;
     lObj->m_type = "data";
+    lObj->m_side = "server_c";
     lObj->m_msg = _msg;
     lMap->add(lMap, lObj);
 }
@@ -236,7 +241,8 @@ static GString* GLog_serialize(GLog* _this) {
     lDom->m_dom->createDoc(lDom->m_dom);
 
     lDom->addData(lDom, lCode, "type", _this->m_type);
-    lDom->addData(lDom, lCode, "msg", _this->m_msg);
+    lDom->addData(lDom, lCode, "side", _this->m_side);
+    lDom->addData(lDom, lCode, "msg", lData->create(lData, _this->m_msg)->toBase64(lData)->m_data);
     lDom->addLog(lDom, lCode, _this->m_map);
 
     lData->assign(lData, lDom->m_dom->toString(lDom->m_dom));
@@ -248,13 +254,16 @@ static void GLog_deserialize(GLog* _this, const char* _data) {
     assert(_this);
     const char* lCode = "logs";
     GCode* lDom = GCode_new();
+    GString* lData = GString_new();
     lDom->m_dom->loadXml(lDom->m_dom, _data);
 
     _this->m_type = lDom->getData(lDom, lCode, "type");
-    _this->m_msg = lDom->getData(lDom, lCode, "msg");
+    _this->m_side = lDom->getData(lDom, lCode, "side");
+    _this->m_msg = lData->create(lData, lDom->getData(lDom, lCode, "msg"))->fromBase64(lData)->m_data;
     lDom->getLog(lDom, lCode, _this->m_map, _this);
 
     lDom->delete(lDom);
+    lData->delete(lData);
 }
 //===============================================
 static void GLog_saveLogs(GLog* _this) {

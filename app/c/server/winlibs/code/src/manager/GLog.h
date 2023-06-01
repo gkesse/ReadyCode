@@ -9,6 +9,7 @@ typedef struct _GLog GLog;
 //===============================================
 struct _GLog {
     const char* m_type;
+    const char* m_side;
     const char* m_msg;
     GVector* m_map;
 

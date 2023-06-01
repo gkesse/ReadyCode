@@ -25,7 +25,7 @@ class GLog {
     addError(_msg) {
         var lObj = new GLog();
         lObj.m_type = "error";
-        lObj.m_side = "client";
+        lObj.m_side = "client_js";
         lObj.m_msg = _msg;
         this.m_map.push(lObj);
     }
@@ -33,7 +33,7 @@ class GLog {
     addLog(_msg) {
         var lObj = new GLog();
         lObj.m_type = "log";
-        lObj.m_side = "client";
+        lObj.m_side = "client_js";
         lObj.m_msg = _msg;
         this.m_map.push(lObj);
     }
@@ -41,7 +41,7 @@ class GLog {
     addData(_msg) {
         var lObj = new GLog();
         lObj.m_type = "data";
-        lObj.m_side = "client";
+        lObj.m_side = "client_js";
         lObj.m_msg =  _msg;
         this.m_map.push(lObj);
     }
@@ -93,6 +93,30 @@ class GLog {
         return false;
     }
     //===============================================
+    hasServerC() {
+        for(var i = 0; i < this.m_map.length; i++) {
+            var lObj = this.m_map[i];
+            if(lObj.m_side == "server_c") return true;
+        }
+        return false;
+    }
+    //===============================================
+    hasServerPhp() {
+        for(var i = 0; i < this.m_map.length; i++) {
+            var lObj = this.m_map[i];
+            if(lObj.m_side == "server_php") return true;
+        }
+        return false;
+    }
+    //===============================================
+    hasClientJs() {
+        for(var i = 0; i < this.m_map.length; i++) {
+            var lObj = this.m_map[i];
+            if(lObj.m_side == "client_js") return true;
+        }
+        return false;
+    }
+    //===============================================
     getErrors() {
         var lErrors = "";
         for(var i = 0; i < this.m_map.length; i++) {
@@ -132,6 +156,22 @@ class GLog {
         return lDatas;
     }
     //===============================================
+    toTitle() {
+        var lTitle = "";
+        
+        if(this.hasDatas()) lTitle += "Datas";
+        else if(this.hasErrors()) lTitle += "Erreurs";
+        else if(this.hasLogs()) lTitle += "Logs";
+        
+        lTitle += "-";
+        
+        if(this.hasServerC()) lTitle += "C";
+        else if(this.hasServerPhp()) lTitle += "PHP";
+        else if(this.hasClientJs()) lTitle += "JS";
+            
+        return lTitle;
+    }
+    //===============================================
     showErrors() {
         if(!this.hasErrors()) return;
         if(this.hasDatas()) return;
@@ -140,7 +180,7 @@ class GLog {
         var lLogIntro = document.getElementById("LogIntro");
         var lLogBody = document.getElementById("LogBody");
 
-        lLogTitle.innerHTML = "Erreurs";
+        lLogTitle.innerHTML = this.toTitle();
         lLogIntro.innerHTML = "Consultez les erreurs.";
         lLogBody.innerHTML = this.getErrors();
 
@@ -161,7 +201,7 @@ class GLog {
         var lLogIntro = document.getElementById("LogIntro");
         var lLogBody = document.getElementById("LogBody");
 
-        lLogTitle.innerHTML = "Logs";
+        lLogTitle.innerHTML = this.toTitle();
         lLogIntro.innerHTML = "Consultez les logs.";
         lLogBody.innerHTML = this.getLogs();
 
@@ -180,7 +220,7 @@ class GLog {
         var lLogIntro = document.getElementById("LogIntro");
         var lLogBody = document.getElementById("LogBody");
 
-        lLogTitle.innerHTML = "Datas";
+        lLogTitle.innerHTML = this.toTitle();
         lLogIntro.innerHTML = "Consultez les données.";
         lLogBody.innerHTML = this.getDatas();
 
@@ -207,6 +247,7 @@ class GLog {
         var lDom = new GCode();
         lDom.createDoc();
         lDom.addData(_code, "type", this.m_type);
+        lDom.addData(_code, "side", this.m_side);
         lDom.addData(_code, "msg", utf8_to_b64(this.m_msg));
         lDom.addMap(_code, this.m_map);
         return lDom.toString();
@@ -216,6 +257,7 @@ class GLog {
         var lDom = new GCode();
         lDom.loadXml(_data);
         this.m_type = lDom.getData(_code, "type");
+        this.m_side = lDom.getData(_code, "side");
         this.m_msg = b64_to_utf8(lDom.getData(_code, "msg"));
         lDom.getMap(_code, this);
     }

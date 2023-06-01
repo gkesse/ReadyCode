@@ -2,8 +2,9 @@
 //===============================================
 class GLog {
     //===============================================
-    private $m_type;
-    private $m_msg;
+    private $m_type = "";
+    private $m_side = "";
+    private $m_msg = "";
     private $m_map = array();
     //===============================================
     public function __construct() {
@@ -16,6 +17,7 @@ class GLog {
     //===============================================
     public function setObj($_obj) {
         $this->m_type = $_obj->m_type;
+        $this->m_side = $_obj->m_side;
         $this->m_msg = $_obj->m_msg;
     }
     //===============================================
@@ -30,6 +32,7 @@ class GLog {
     public function addError($_msg) {
         $lObj = new GLog();
         $lObj->m_type = "error";
+        $lObj->m_side = "server_php";
         $lObj->m_msg = $_msg;
         $this->m_map[] = $lObj;
     }
@@ -37,6 +40,7 @@ class GLog {
     public function addLog($_msg) {
         $lObj = new GLog();
         $lObj->m_type = "log";
+        $lObj->m_side = "server_php";
         $lObj->m_msg = $_msg;
         $this->m_map[] = $lObj;
     }
@@ -44,6 +48,7 @@ class GLog {
     public function addData($_msg) {
         $lObj = new GLog();
         $lObj->m_type = "data";
+        $lObj->m_side = "server_php";
         $lObj->m_msg = $_msg;
         $this->m_map[] = $lObj;
     }
@@ -88,6 +93,7 @@ class GLog {
         $lDom = new GCode();
         $lDom->createDoc();
         $lDom->addData($_code, "type", $this->m_type);
+        $lDom->addData($_code, "side", $this->m_side);
         $lDom->addData($_code, "msg", utf8_to_b64($this->m_msg));
         $lDom->addMap($_code, $this->m_map);
         return $lDom->toString();
@@ -97,6 +103,7 @@ class GLog {
         $lDom = new GCode();
         $lDom->loadXml($_data);
         $this->m_type = $lDom->getData($_code, "type");
+        $this->m_side = $lDom->getData($_code, "side");
         $this->m_msg = b64_to_utf8($lDom->getData($_code, "msg"));
         $lDom->getMap($_code, $this->m_map, $this);
     }

@@ -165,7 +165,7 @@ class GTest extends GObject {
         $lClient = new GSocket();
         $lData = $lClient->callServer("Bonjour tout le monde");
         $this->m_logs->addLogs($lClient->getLogs());
-        $this->m_logs->addData($lData);
+        $this->m_logs->deserialize($lData);
     }
     //===============================================
  }

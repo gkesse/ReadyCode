@@ -5,11 +5,13 @@
 static void GString_delete(GString* _this);
 static void GString_clear(GString* _this);
 static void GString_allocate(GString* _this, int _size);
-static void GString_create(GString* _this, const char* _data);
-static void GString_assign(GString* _this, GString* _data);
+static GString* GString_create(GString* _this, const char* _data);
+static GString* GString_assign(GString* _this, GString* _data);
 static void GString_add(GString* _this, const char* _data);
 static const char* GString_format(GString* _this, const char* _format, ...);
 static GVector* GString_split(GString* _this, const char* _data, const char* _sep);
+static GString* GString_toBase64(GString* _this);
+static GString* GString_fromBase64(GString* _this);
 static void GString_print(GString* _this);
 //===============================================
 GString* GString_new() {
@@ -25,6 +27,8 @@ GString* GString_new() {
     lObj->add = GString_add;
     lObj->format = GString_format;
     lObj->split = GString_split;
+    lObj->toBase64 = GString_toBase64;
+    lObj->fromBase64 = GString_fromBase64;
     lObj->print = GString_print;
     return lObj;
 }
@@ -51,17 +55,19 @@ static void GString_allocate(GString* _this, int _size) {
     _this->m_size = _size;
 }
 //===============================================
-static void GString_create(GString* _this, const char* _data) {
+static GString* GString_create(GString* _this, const char* _data) {
     assert(_this);
     int lSize = strlen(_data);
     _this->allocate(_this, lSize);
     memcpy(_this->m_data, _data, _this->m_size);
+    return _this;
 }
 //===============================================
-static void GString_assign(GString* _this, GString* _data) {
+static GString* GString_assign(GString* _this, GString* _data) {
     assert(_this);
     _this->allocate(_this, _data->m_size);
     memcpy(_this->m_data, _data->m_data, _this->m_size);
+    return _this;
 }
 //===============================================
 static void GString_add(GString* _this, const char* _data) {
@@ -108,6 +114,22 @@ static GVector* GString_split(GString* _this, const char* _data, const char* _se
 
     lData->delete(lData);
     return lMap;
+}
+//===============================================
+static GString* GString_toBase64(GString* _this) {
+    assert(_this);
+    char* lBuffer = b64_encode(_this->m_data, _this->m_size);
+    _this->create(_this, lBuffer);
+    free(lBuffer);
+    return _this;
+}
+//===============================================
+static GString* GString_fromBase64(GString* _this) {
+    assert(_this);
+    char* lBuffer = b64_decode(_this->m_data, _this->m_size);
+    _this->create(_this, lBuffer);
+    free(lBuffer);
+    return _this;
 }
 //===============================================
 static void GString_print(GString* _this) {

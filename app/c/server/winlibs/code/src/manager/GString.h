@@ -14,11 +14,13 @@ struct _GString {
     void (*delete)(GString* _this);
     void (*clear)(GString* _this);
     void (*allocate)(GString* _this, int _size);
-    void (*create)(GString* _this, const char* _data);
-    void (*assign)(GString* _this, GString* _data);
+    GString* (*create)(GString* _this, const char* _data);
+    GString* (*assign)(GString* _this, GString* _data);
     void (*add)(GString* _this, const char* _data);
     const char* (*format)(GString* _this, const char* _format, ...);
     GVector* (*split)(GString* _this, const char* _data, const char* _sep);
+    GString* (*toBase64)(GString* _this);
+    GString* (*fromBase64)(GString* _this);
     void (*print)(GString* _this);
 };
 //===============================================
