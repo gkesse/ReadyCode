@@ -1,6 +1,7 @@
 //===============================================
 #include "GString.h"
 #include "GVector.h"
+#include "GJson.h"
 //===============================================
 static void GString_delete(GString* _this);
 static void GString_clear(GString* _this);
@@ -11,6 +12,7 @@ static void GString_add(GString* _this, const char* _data);
 static const char* GString_format(GString* _this, const char* _format, ...);
 static GVector* GString_split(GString* _this, const char* _data, const char* _sep);
 static GString* GString_toBase64(GString* _this);
+static GString* GString_toJson(GString* _this);
 static GString* GString_fromBase64(GString* _this);
 static void GString_print(GString* _this);
 //===============================================
@@ -28,6 +30,7 @@ GString* GString_new() {
     lObj->format = GString_format;
     lObj->split = GString_split;
     lObj->toBase64 = GString_toBase64;
+    lObj->toJson = GString_toJson;
     lObj->fromBase64 = GString_fromBase64;
     lObj->print = GString_print;
     return lObj;
@@ -121,6 +124,12 @@ static GString* GString_toBase64(GString* _this) {
     char* lBuffer = b64_encode(_this->m_data, _this->m_size);
     _this->create(_this, lBuffer);
     free(lBuffer);
+    return _this;
+}
+//===============================================
+static GString* GString_toJson(GString* _this) {
+    assert(_this);
+    //GJson* lJson = GJson_new();
     return _this;
 }
 //===============================================

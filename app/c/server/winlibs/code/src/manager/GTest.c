@@ -219,8 +219,8 @@ static void GTest_runJson(GTest* _this, int _argc, char** _argv) {
     assert(_this);
     GLog* lLog = _this->m_parent->m_logs;
     GJson* lJson = GJson_new();
-    GJson* lObj = 0;
-    GJson* lObj2 = 0;
+    GJson* lJsonC1 = GJson_new();
+    GJson* lJsonC2 = GJson_new();
 
     // loadFile
     lJson->loadFile(lJson, "./data/test/test.json");
@@ -235,10 +235,10 @@ static void GTest_runJson(GTest* _this, int _argc, char** _argv) {
 
     // createObj - addObjObj - addObjData
     lJson->createObj(lJson);
-    lObj = lJson->addObjObj(lJson, "program");
-    lObj->addObjData(lObj, "lang", "c");
-    lObj->addObjData(lObj, "module", "json");
-    lObj->addObjData(lObj, "library", "json-c");
+    lJsonC1->m_json = lJson->addObjObj(lJson, "program");
+    lJsonC1->addObjData(lJsonC1, "lang", "c");
+    lJsonC1->addObjData(lJsonC1, "module", "json");
+    lJsonC1->addObjData(lJsonC1, "library", "json-c");
     lJson->print(lJson);
 
     // createArr - addArrData
@@ -250,26 +250,28 @@ static void GTest_runJson(GTest* _this, int _argc, char** _argv) {
 
     // createObj - createArr - addArrData
     lJson->createObj(lJson);
-    lObj = lJson->addObjArr(lJson, "program");
-    lObj->addArrData(lObj, "lang");
-    lObj->addArrData(lObj, "module");
-    lObj->addArrData(lObj, "library");
+    lJsonC1->m_json  = lJson->addObjArr(lJson, "program");
+    lJsonC1->addArrData(lJsonC1, "lang");
+    lJsonC1->addArrData(lJsonC1, "module");
+    lJsonC1->addArrData(lJsonC1, "library");
     lJson->print(lJson);
 
     // createObj - createArr - addArrData
     lJson->createObj(lJson);
-    lObj = lJson->addObjArr(lJson, "program");
-    lObj2 = lObj->addArrObj(lObj);
-    lObj2->addObjData(lObj2, "lang", "c");
-    lObj2->addObjData(lObj2, "module", "json");
-    lObj2->addObjData(lObj2, "library", "json-c");
-    lObj2 = lObj->addArrObj(lObj);
-    lObj2->addObjData(lObj2, "lang", "c");
-    lObj2->addObjData(lObj2, "module", "json");
-    lObj2->addObjData(lObj2, "library", "json-c");
+    lJsonC1->m_json  = lJson->addObjArr(lJson, "program");
+    lJsonC2->m_json  = lJsonC1->addArrObj(lJsonC1);
+    lJsonC2->addObjData(lJsonC2, "lang", "c");
+    lJsonC2->addObjData(lJsonC2, "module", "json");
+    lJsonC2->addObjData(lJsonC2, "library", "json-c");
+    lJsonC2->m_json  = lJsonC1->addArrObj(lJsonC1);
+    lJsonC2->addObjData(lJsonC2, "lang", "c");
+    lJsonC2->addObjData(lJsonC2, "module", "json");
+    lJsonC2->addObjData(lJsonC2, "library", "json-c");
     lJson->print(lJson);
 
     lJson->delete(lJson);
+    lJsonC1->delete(lJsonC1);
+    lJsonC2->delete(lJsonC2);
 }
 //===============================================
 static void GTest_runCode(GTest* _this, int _argc, char** _argv) {
