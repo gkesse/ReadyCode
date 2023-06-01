@@ -17,6 +17,7 @@ static DWORD WINAPI GSocket_onThread(LPVOID _params);
 GSocket* GSocket_new() {
     GSocket* lObj = (GSocket*)malloc(sizeof(GSocket));
     lObj->m_parent = GObject_new();
+
     lObj->delete = GSocket_delete;
     lObj->run = GSocket_run;
     lObj->callServer = GSocket_callServer;
@@ -36,9 +37,14 @@ static void GSocket_run(GSocket* _this, int _argc, char** _argv) {
     assert(_this);
     GLog* lLog = _this->m_parent->m_logs;
 
+    int lMajor = 2;
+    int lMinor = 2;
+    int lPort = 8002;
+    int lBacklog = 10;
+
     WSADATA wsaData;
 
-    if(WSAStartup(MAKEWORD(2, 2), &wsaData) == SOCKET_ERROR) {
+    if(WSAStartup(MAKEWORD(lMajor, lMinor), &wsaData) == SOCKET_ERROR) {
         lLog->addError(lLog, "L'initialisation du server a échoué.");
         return;
     }
@@ -46,7 +52,7 @@ static void GSocket_run(GSocket* _this, int _argc, char** _argv) {
     struct sockaddr_in lAddress;
     lAddress.sin_family = AF_INET;
     lAddress.sin_addr.s_addr = INADDR_ANY;
-    lAddress.sin_port = htons(8002);
+    lAddress.sin_port = htons(lPort);
 
     SOCKET lServer = socket(AF_INET, SOCK_STREAM, 0);
 
@@ -60,7 +66,7 @@ static void GSocket_run(GSocket* _this, int _argc, char** _argv) {
         return;
     }
 
-    if(listen(lServer, 10) == SOCKET_ERROR) {
+    if(listen(lServer, lBacklog) == SOCKET_ERROR) {
         lLog->addError(lLog, "L'initialisation du nombre de connexions autorisées a échoué.");
         return;
     }
@@ -97,18 +103,23 @@ static void GSocket_callServer(GSocket* _this, const char* _dataIn, GString* _da
     assert(_this);
     GLog* lLog = _this->m_parent->m_logs;
 
+    int lMajor = 2;
+    int lMinor = 2;
+    const char* lHostname = "127.0.0.1";
+    int lPort = 8002;
+
     WSADATA lWsaData;
 
-    if(WSAStartup(MAKEWORD(2, 2), &lWsaData) == SOCKET_ERROR) {
+    if(WSAStartup(MAKEWORD(lMajor, lMinor), &lWsaData) == SOCKET_ERROR) {
         lLog->addError(lLog, "L'initialisation du server a échoué.");
         return;
     }
 
     struct sockaddr_in lAddress;
 
-    InetPton(AF_INET, "127.0.0.1", &lAddress.sin_addr.s_addr);
+    InetPton(AF_INET, lHostname, &lAddress.sin_addr.s_addr);
     lAddress.sin_family = AF_INET;
-    lAddress.sin_port = htons(8002);
+    lAddress.sin_port = htons(lPort);
 
     SOCKET lClient = socket(AF_INET, SOCK_STREAM, 0);
 

@@ -88,7 +88,7 @@ class GLog {
         $lDom = new GCode();
         $lDom->createDoc();
         $lDom->addData($_code, "type", $this->m_type);
-        $lDom->addData($_code, "msg", $this->m_msg);
+        $lDom->addData($_code, "msg", utf8_to_b64($this->m_msg));
         $lDom->addMap($_code, $this->m_map);
         return $lDom->toString();
     }
@@ -97,7 +97,7 @@ class GLog {
         $lDom = new GCode();
         $lDom->loadXml($_data);
         $this->m_type = $lDom->getData($_code, "type");
-        $this->m_msg = $lDom->getData($_code, "msg");
+        $this->m_msg = b64_to_utf8($lDom->getData($_code, "msg"));
         $lDom->getMap($_code, $this->m_map, $this);
     }
     //===============================================

@@ -160,8 +160,12 @@ class GTest extends GObject {
     //===============================================
     public function runSocketClient($_module, $_method) {
         echo sprintf("runSocketClient...<br>\n");
+        
+        // callServer
         $lClient = new GSocket();
-        $lClient->callServer();
+        $lData = $lClient->callServer("Bonjour tout le monde");
+        $this->m_logs->addLogs($lClient->getLogs());
+        $this->m_logs->addData($lData);
     }
     //===============================================
  }
