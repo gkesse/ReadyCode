@@ -19,6 +19,7 @@ struct _GString {
     void (*add)(GString* _this, const char* _data);
     const char* (*format)(GString* _this, const char* _format, ...);
     GVector* (*split)(GString* _this, const char* _data, const char* _sep);
+    int (*isEmpty)(GString* _this);
     GString* (*toBase64)(GString* _this);
     GString* (*toJson)(GString* _this);
     GString* (*fromBase64)(GString* _this);

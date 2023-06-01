@@ -334,6 +334,7 @@ static void GTest_runModule(GTest* _this, int _argc, char** _argv) {
     // deserialize - serialize
     lLog2->deserialize(lLog2, lData->m_data);
     lData->assign(lData, lLog2->serialize(lLog2));
+    lData->assign(lData, lData->toJson(lData));
     lData->print(lData);
 
     lLog->delete(lLog);
