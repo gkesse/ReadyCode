@@ -181,7 +181,6 @@ static GString* GString_toJson(GString* _this) {
                                 const char* lName = lDomC2->m_node->name;
                                 const char* lValue = lDomC2->getValue(lDomC2);
                                 lJsonC3->addObjData(lJsonC3, lName, lValue);
-                                printf("%s : %s...\n", lName, lValue);
                                 lDomC2->m_node = xmlNextElementSibling(lDomC2->m_node);
                             }
 
@@ -193,7 +192,6 @@ static GString* GString_toJson(GString* _this) {
                     }
                     else {
                         lJsonC1->addObjData(lJsonC1, lName, lValue);
-                        printf("%s : %s...\n", lName, lValue);
                     }
 
                     lDomC1->m_node = xmlNextElementSibling(lDomC1->m_node);
