@@ -21,6 +21,7 @@ struct _GTest {
     void (*runModule)(GTest* _this, int _argc, char** _argv);
     void (*runRequest)(GTest* _this, int _argc, char** _argv);
     void (*runFacade)(GTest* _this, int _argc, char** _argv);
+    void (*runIconv)(GTest* _this, int _argc, char** _argv);
 };
 //===============================================
 GTest* GTest_new();

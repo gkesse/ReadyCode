@@ -242,7 +242,7 @@ static GString* GLog_serialize(GLog* _this) {
 
     lDom->addData(lDom, lCode, "type", _this->m_type);
     lDom->addData(lDom, lCode, "side", _this->m_side);
-    lDom->addData(lDom, lCode, "msg", lData->create(lData, _this->m_msg)->toBase64(lData)->m_data);
+    lDom->addData(lDom, lCode, "msg", lData->create(lData, _this->m_msg)->toUtf8(lData)->toBase64(lData)->m_data);
     lDom->addLog(lDom, lCode, _this->m_map);
 
     lData->assign(lData, lDom->m_dom->toString(lDom->m_dom));

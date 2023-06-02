@@ -14,7 +14,7 @@ GINCS =\
 	
 GLIBS =\
     -L$(GSRC)/libs/lib \
-	-lws2_32 -lxml2 -ljson-c -lb64c \
+	-lws2_32 -lxml2 -ljson-c -lb64c -liconv \
     
 GOBJS =\
     $(patsubst $(GSRC)/%.c, $(GBUILD)/%.o, $(wildcard $(GSRC)/*.c)) \

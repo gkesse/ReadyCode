@@ -15,6 +15,7 @@ static GVector* GString_split(GString* _this, const char* _data, const char* _se
 static int GString_isEmpty(GString* _this);
 static GString* GString_toBase64(GString* _this);
 static GString* GString_toJson(GString* _this);
+static GString* GString_toUtf8(GString* _this);
 static GString* GString_fromBase64(GString* _this);
 static void GString_print(GString* _this);
 //===============================================
@@ -34,6 +35,7 @@ GString* GString_new() {
     lObj->isEmpty = GString_isEmpty;
     lObj->toBase64 = GString_toBase64;
     lObj->toJson = GString_toJson;
+    lObj->toUtf8 = GString_toUtf8;
     lObj->fromBase64 = GString_fromBase64;
     lObj->print = GString_print;
     return lObj;
@@ -211,6 +213,32 @@ static GString* GString_toJson(GString* _this) {
         lData->delete(lData);
     }
     return GString_new();
+}
+//===============================================
+static GString* GString_toUtf8(GString* _this) {
+    assert(_this);
+    if(!_this->isEmpty(_this)) {
+        char* lBufIn = _this->m_data;
+        size_t lSizeIn = strlen(lBufIn);
+        size_t lSizeOut = sizeof(wchar_t) * lSizeIn * 4;
+        char* lBufOut = (char*)malloc(lSizeOut);
+        memset(lBufOut, '\0', lSizeOut);
+        iconv_t lIconv = iconv_open("WINDOWS-1252", "UTF-8");
+        if(lIconv != (iconv_t)-1) {
+            char* lPtrIn = lBufIn;
+            char* lPtrOut = lBufOut;
+            size_t lBufOutLeft = lSizeOut;
+            size_t lResult = iconv(lIconv, &lPtrIn, &lSizeIn, &lPtrOut, &lBufOutLeft);
+            if(lResult != -1) {
+                _this->clear(_this);
+                _this->m_data = lBufOut;
+                _this->m_size = lSizeOut - lBufOutLeft;
+            }
+            iconv_close(lIconv);
+        }
+        return _this;
+    }
+    return _this;
 }
 //===============================================
 static GString* GString_fromBase64(GString* _this) {

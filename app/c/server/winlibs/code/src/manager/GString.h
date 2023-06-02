@@ -22,6 +22,7 @@ struct _GString {
     int (*isEmpty)(GString* _this);
     GString* (*toBase64)(GString* _this);
     GString* (*toJson)(GString* _this);
+    GString* (*toUtf8)(GString* _this);
     GString* (*fromBase64)(GString* _this);
     void (*print)(GString* _this);
 };

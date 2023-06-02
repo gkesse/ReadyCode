@@ -20,6 +20,7 @@ static void GTest_runCode(GTest* _this, int _argc, char** _argv);
 static void GTest_runModule(GTest* _this, int _argc, char** _argv);
 static void GTest_runRequest(GTest* _this, int _argc, char** _argv);
 static void GTest_runFacade(GTest* _this, int _argc, char** _argv);
+static void GTest_runIconv(GTest* _this, int _argc, char** _argv);
 //===============================================
 GTest* GTest_new() {
     GTest* lObj = (GTest*)malloc(sizeof(GTest));
@@ -37,6 +38,7 @@ GTest* GTest_new() {
     lObj->runModule = GTest_runModule;
     lObj->runRequest = GTest_runRequest;
     lObj->runFacade = GTest_runFacade;
+    lObj->runIconv = GTest_runIconv;
     return lObj;
 }
 //===============================================
@@ -80,6 +82,9 @@ static void GTest_run(GTest* _this, int _argc, char** _argv) {
     }
     else if(!strcmp(lModule, "facade")) {
         _this->runFacade(_this, _argc, _argv);
+    }
+    else if(!strcmp(lModule, "iconv")) {
+        _this->runIconv(_this, _argc, _argv);
     }
 }
 //===============================================
@@ -387,5 +392,17 @@ static void GTest_runFacade(GTest* _this, int _argc, char** _argv) {
     _this->m_parent->m_logs->addLogs(_this->m_parent->m_logs, lLog);
 
     lLog->delete(lLog);
+}
+//===============================================
+static void GTest_runIconv(GTest* _this, int _argc, char** _argv) {
+    assert(_this);
+    GString* lData = GString_new();
+
+    lData->create(lData, "Le module a été trouvé");
+    lData->print(lData);
+    lData->toUtf8(lData);
+    lData->print(lData);
+
+    lData->delete(lData);
 }
 //===============================================
