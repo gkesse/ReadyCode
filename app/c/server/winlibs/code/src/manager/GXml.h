@@ -13,8 +13,6 @@ struct _GXml {
 
     void (*delete)(GXml* _this);
     void (*clear)(GXml* _this);
-    void (*clean)(GXml* _this);
-    void (*init)(GXml* _this);
     void (*createDoc)(GXml* _this);
     xmlNodePtr (*createNode)(GXml* _this, GXml* _root, const char* _path, const char* _value);
     int (*existeNode)(GXml* _this, GXml* _root, const char* _path);

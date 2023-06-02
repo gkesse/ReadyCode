@@ -4,6 +4,8 @@
 #include "GSocket.h"
 //===============================================
 static void GProcess_delete(GProcess* _this);
+static void GProcess_init(GProcess* _this);
+static void GProcess_clean(GProcess* _this);
 static void GProcess_run(GProcess* _this, int _argc, char** _argv);
 static void GProcess_runTest(GProcess* _this, int _argc, char** _argv);
 static void GProcess_runServer(GProcess* _this, int _argc, char** _argv);
@@ -11,7 +13,10 @@ static void GProcess_runServer(GProcess* _this, int _argc, char** _argv);
 GProcess* GProcess_new() {
     GProcess* lObj = (GProcess*)malloc(sizeof(GProcess));
     lObj->m_parent = GObject_new();
+
     lObj->delete = GProcess_delete;
+    lObj->init = GProcess_init;
+    lObj->clean = GProcess_clean;
     lObj->run = GProcess_run;
     lObj->runTest = GProcess_runTest;
     lObj->runServer = GProcess_runServer;
@@ -22,6 +27,18 @@ static void GProcess_delete(GProcess* _this) {
     assert(_this);
     _this->m_parent->delete(_this->m_parent);
     free(_this);
+}
+//===============================================
+static void GProcess_init(GProcess* _this) {
+    assert(_this);
+    SetConsoleOutputCP(CP_UTF8);
+    xmlInitParser();
+}
+//===============================================
+static void GProcess_clean(GProcess* _this) {
+    assert(_this);
+    xmlCleanupParser();
+    xmlMemoryDump();
 }
 //===============================================
 static void GProcess_run(GProcess* _this, int _argc, char** _argv) {

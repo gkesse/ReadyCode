@@ -87,6 +87,7 @@ class GCode extends GXml {
     }
     //===============================================
     public function loadData($_data) {
+        if($_data == "") return;
         $lData = $this->toDatas($_data);
         if($lData != "") {
             $lDom = new GCode();
@@ -96,6 +97,7 @@ class GCode extends GXml {
     }
     //===============================================
     public function toDatas($_data) {
+        if($_data == "") return "";
         $lDom = new GCode();
         $lDomC = new GCode();
         $lDom->loadXml($_data);

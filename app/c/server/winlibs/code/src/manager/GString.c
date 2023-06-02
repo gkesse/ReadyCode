@@ -73,6 +73,7 @@ static GString* GString_assign(GString* _this, GString* _data) {
     assert(_this);
     _this->allocate(_this, _data->m_size);
     memcpy(_this->m_data, _data->m_data, _this->m_size);
+    _data->clear(_data);
     return _this;
 }
 //===============================================

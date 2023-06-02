@@ -4,8 +4,6 @@
 //===============================================
 static void GXml_delete(GXml* _this);
 static void GXml_clear(GXml* _this);
-static void GXml_clean(GXml* _this);
-static void GXml_init(GXml* _this);
 static void GXml_createDoc(GXml* _this);
 static xmlNodePtr GXml_createNode(GXml* _this, GXml* _root, const char* _path, const char* _value);
 static int GXml_existeNode(GXml* _this, GXml* _root, const char* _path);
@@ -30,8 +28,6 @@ GXml* GXml_new() {
 
     lObj->delete = GXml_delete;
     lObj->clear = GXml_clear;
-    lObj->clean = GXml_clean;
-    lObj->init = GXml_init;
     lObj->createDoc = GXml_createDoc;
     lObj->createNode = GXml_createNode;
     lObj->existeNode = GXml_existeNode;
@@ -62,17 +58,6 @@ static void GXml_delete(GXml* _this) {
 static void GXml_clear(GXml* _this) {
     assert(_this);
     xmlFreeDoc(_this->m_doc);
-}
-//===============================================
-static void GXml_clean(GXml* _this) {
-    assert(_this);
-    xmlCleanupParser();
-    xmlMemoryDump();
-}
-//===============================================
-static void GXml_init(GXml* _this) {
-    assert(_this);
-    xmlInitParser();
 }
 //===============================================
 static void GXml_createDoc(GXml* _this) {

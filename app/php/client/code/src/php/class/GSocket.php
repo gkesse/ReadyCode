@@ -26,6 +26,17 @@ class GSocket extends GObject {
         return $lData;
     }
     //===============================================
+    public function callFacade($_module, $_method, $_params = "") {
+        $lDom = new GCode();
+        $lDom->createDoc();
+        $lDom->addData("manager", "module", $_module);
+        $lDom->addData("manager", "method", $_method);
+        $lDom->loadData($_params);
+        $lDataIn = $lDom->toString();
+        $lDataOut = $this->callServer($lDataIn);
+        return $lDataOut;
+    }
+    //===============================================
     public function callServer($_data) {
         $lHostname = "127.0.0.1";
         $lPort = 8002;
