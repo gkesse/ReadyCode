@@ -1,11 +1,10 @@
 <?php
 //===============================================
-require "./php/class/GAutoload.php";
-require "./php/functions.php";
+require $_SERVER["DOCUMENT_ROOT"]."/php/class/GInclude.php";
 //===============================================
 $lProcess = new GProcess();
 $lProcess->toHeader();
-$lProcess->run("test", "socket_client");
+$lProcess->run("window", "calculator");
 $lProcess->toFooter();
 $lProcess->getLogs()->showLogs();
 //===============================================

@@ -25,6 +25,7 @@ class GProcess extends GObject {
         echo sprintf("<body class='Body1'>\n");
         //
         $this->toLog();
+        $this->toLoader();
     }
     //===============================================
     public function toLog() {
@@ -55,6 +56,21 @@ class GProcess extends GObject {
         echo sprintf("</div>\n");
     }
     //===============================================
+    public function toLoader() {
+        echo sprintf("<div class='Loader1' id='LoaderModal'>\n");
+        echo sprintf("<div class='Loader2' id='LoaderBody'>\n");
+        echo sprintf("<div class='Loader3'>\n");
+        echo sprintf("<div class='Loader4'>\n");
+        //
+        echo sprintf("<div class='Loader5'></div>\n");
+        echo sprintf("<span class='Loader6'>Loading...</span>\n");
+        //
+        echo sprintf("</div>\n");
+        echo sprintf("</div>\n");
+        echo sprintf("</div>\n");
+        echo sprintf("</div>\n");
+    }
+    //===============================================
     public function toFooter() {
         echo sprintf("</body>\n");
         echo sprintf("</html>\n");
@@ -78,7 +94,10 @@ class GProcess extends GObject {
         echo sprintf("<script src='./js/class/GCode.js'></script>\n");
         echo sprintf("<script src='./js/class/GLog.js'></script>\n");
         echo sprintf("<script src='./js/class/GObject.js'></script>\n");
+        echo sprintf("<script src='./js/class/GLoader.js'></script>\n");
+        echo sprintf("<script src='./js/class/GAjax.js'></script>\n");
         echo sprintf("<script src='./js/class/GTest.js'></script>\n");
+        echo sprintf("<script src='./js/class/GCalculator.js'></script>\n");
         echo sprintf("<script src='./js/class/GServer.js'></script>\n");
         echo sprintf("<script src='./js/scripts.js'></script>\n");
     }
@@ -93,8 +112,8 @@ class GProcess extends GObject {
         else if($_module == "test_js") {
             $this->runTestJs($_module, $_method);
         }
-        else if($_module == "client") {
-            $this->runClient($_module, $_method);
+        else if($_module == "window") {
+            $this->runWindow($_module, $_method);
         }
         else {
             $this->m_logs->addError("Le module est inconnu.");
@@ -113,8 +132,10 @@ class GProcess extends GObject {
         $this->m_logs->addLogs($lObj->m_logs);
     }
     //===============================================
-    public function runClient($_module, $_method) {
-
+    public function runWindow($_module, $_method) {
+        $lObj = new GWindow();
+        $lObj->run($_module, $_method);
+        $this->m_logs->addLogs($lObj->m_logs);
     }
     //===============================================
  }

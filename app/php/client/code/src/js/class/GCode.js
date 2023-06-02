@@ -84,6 +84,16 @@ class GCode extends GXml {
         }
     }
     //===============================================
+    loadData(_data) {
+        if(_data == "") return;
+        var lData = this.toDatas(_data);
+        if(lData != "") {
+            var lDom = new GCode();
+            lDom.m_node = this.getNode(this, sprintf("/rdv/datas"));
+            lDom.loadNode(this, lData);
+        }
+    }
+    //===============================================
     toDatas(_data) {
         _data = _data.trim();
         if(_data == "") return "";
