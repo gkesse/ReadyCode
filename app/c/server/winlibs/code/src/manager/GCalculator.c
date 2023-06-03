@@ -46,13 +46,15 @@ static GString* GCalculator_serialize(GObject* _this) {
     GCode* lDom = GCode_new();
     lDom->m_dom->createDoc(lDom->m_dom);
     GCalculator* lObj = (GCalculator*)_this->m_child;
+    GString* lData = GString_new();
 
     lDom->addData(lDom, lCode, "expression", lObj->m_expression->toBase64(lObj->m_expression)->m_data);
     lDom->addData(lDom, lCode, "result", lObj->m_result->m_data);
     lDom->addMap(lDom, lCode, _this->m_map);
 
+    lData->assign(lData, lDom->m_dom->toString(lDom->m_dom));
     lDom->delete(lDom);
-    return lDom->m_dom->toString(lDom->m_dom);
+    return lData;
 }
 //===============================================
 static void GCalculator_deserialize(GObject* _this, const char* _data) {
