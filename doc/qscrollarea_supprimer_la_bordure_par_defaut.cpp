@@ -1,1 +1,0 @@
-setFrameShape(QFrame::NoFrame);

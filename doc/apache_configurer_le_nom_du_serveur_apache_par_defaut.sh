@@ -1,3 +1,0 @@
-# Global configuration
-#
-ServerName localhost
