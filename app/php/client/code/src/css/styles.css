@@ -416,18 +416,27 @@ thead tr:first-child {
 /* ============================================== */
 
 .Calculator1 {
-    border: 1px solid white;
+    border: 1px solid #333333;
     width: 400px;
     margin: auto;
 }
 
 .Calculator2 {
     background-color: rgba(255, 255, 255, 0.1);
-    border: 1px solid teal;
+    border: 5px solid #333333;
+}
+
+.Calculator2 input {
+    background-color: rgba(255, 255, 0, 0.5);
+    line-height: 50px;
+    color: #333333;
+    font-weight: bold;
+    font-size: 20px;
 }
 
 .Calculator3 {
-    border: 1px solid white;
+    background-color: #333333;
+    border: 1px solid #333333;
     min-height: 25px;
     padding: 5px;
     height: 400px;
@@ -435,20 +444,25 @@ thead tr:first-child {
 }
 
 .Calculator4 {
-    border: 1px solid white;
+    background-color: #666666;
+    border: 1px solid #666666;
     min-height: 25px;
-    margin: 5px;
+    margin: 10px 5px;
     padding: 5px;
+    font-weight: bold;
+    font-size: 20px;
 }
 
 .Calculator5 {
     border: 1px solid transparent;
     min-height: 25px;
+    color: #cccccc;
 }
 
 .Calculator6 {
     border: 1px solid transparent;
     min-height: 25px;
+    color: #cccccc;
 }
 
 /* ============================================== */
