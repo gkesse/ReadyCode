@@ -418,16 +418,36 @@ thead tr:first-child {
 .Calculator1 {
     border: 1px solid white;
     width: 400px;
-    height: 400px;
     margin: auto;
 }
 
 .Calculator2 {
-    border: 1px solid white;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid teal;
 }
 
 .Calculator3 {
     border: 1px solid white;
+    min-height: 25px;
+    padding: 5px;
+    height: 400px;
+    overflow: auto;
+}
+
+.Calculator4 {
+    border: 1px solid white;
+    min-height: 25px;
+    margin: 5px;
+    padding: 5px;
+}
+
+.Calculator5 {
+    border: 1px solid transparent;
+    min-height: 25px;
+}
+
+.Calculator6 {
+    border: 1px solid transparent;
     min-height: 25px;
 }
 

@@ -12,8 +12,8 @@ GCalculator* GCalculator_new() {
     GCalculator* lObj = (GCalculator*)malloc(sizeof(GCalculator));
     lObj->m_mgr = GManager_new();
     lObj->m_obj = GObject_new();
-    lObj->m_expression = "";
-    lObj->m_result = "";
+    lObj->m_expression = GString_new();
+    lObj->m_result = GString_new();
 
     lObj->delete = GCalculator_delete;
     lObj->run = GCalculator_run;
@@ -30,6 +30,8 @@ static void GCalculator_delete(GCalculator* _this) {
     assert(_this);
     _this->m_mgr->delete(_this->m_mgr);
     _this->m_obj->delete(_this->m_obj);
+    _this->m_expression->delete(_this->m_expression);
+    _this->m_result->delete(_this->m_result);
     free(_this);
 }
 //===============================================
@@ -42,17 +44,15 @@ static GString* GCalculator_serialize(GObject* _this) {
     assert(_this);
     const char* lCode = "calculator";
     GCode* lDom = GCode_new();
-    GString* lData = GString_new();
     lDom->m_dom->createDoc(lDom->m_dom);
     GCalculator* lObj = (GCalculator*)_this->m_child;
 
-    lDom->addData(lDom, lCode, "expression", lObj->m_expression);
-    lDom->addData(lDom, lCode, "result", lObj->m_result);
+    lDom->addData(lDom, lCode, "expression", lObj->m_expression->toBase64(lObj->m_expression)->m_data);
+    lDom->addData(lDom, lCode, "result", lObj->m_result->m_data);
     lDom->addMap(lDom, lCode, _this->m_map);
 
-    lData->assign(lData, lDom->m_dom->toString(lDom->m_dom));
     lDom->delete(lDom);
-    return lData;
+    return lDom->m_dom->toString(lDom->m_dom);
 }
 //===============================================
 static void GCalculator_deserialize(GObject* _this, const char* _data) {
@@ -62,8 +62,8 @@ static void GCalculator_deserialize(GObject* _this, const char* _data) {
     lDom->m_dom->loadXml(lDom->m_dom, _data);
     GCalculator* lObj = (GCalculator*)_this->m_child;
 
-    lObj->m_expression = lDom->getData(lDom, lCode, "expression");
-    lObj->m_result = lDom->getData(lDom, lCode, "result");
+    lObj->m_expression->create(lObj->m_expression, lDom->getData(lDom, lCode, "expression"))->fromBase64(lObj->m_expression)->m_data;
+    lObj->m_result->create(lObj->m_result, lDom->getData(lDom, lCode, "result"));
     lDom->getMap(lDom, lCode, _this->m_map, _this);
 
     lDom->delete(lDom);
@@ -74,6 +74,7 @@ static void GCalculator_run(GCalculator* _this, const char* _data) {
     GManager* lMgr = _this->m_mgr;
     GLog* lLog = _this->m_obj->m_logs;
     lMgr->m_obj->deserialize(lMgr->m_obj, _data);
+    _this->m_obj->deserialize(_this->m_obj, _data);
 
     if(!strcmp(lMgr->m_method, "")) {
         lLog->addError(lLog, "Le module est obligatoire.");
@@ -88,9 +89,14 @@ static void GCalculator_run(GCalculator* _this, const char* _data) {
 //===============================================
 static void GCalculator_onRunCalculator(GCalculator* _this, const char* _data) {
     assert(_this);
-    GManager* lMgr = _this->m_mgr;
     GLog* lLog = _this->m_obj->m_logs;
-    lMgr->m_obj->deserialize(lMgr->m_obj, _data);
-    lLog->addLog(lLog, "Le module a été trouvé.");
+
+    if(!strcmp(_this->m_expression->m_data, "")) {
+        lLog->addError(lLog, "L'expression est vide.");
+        return;
+    }
+
+    double lResult = te_interp(_this->m_expression->m_data, 0);
+    _this->m_result->format(_this->m_result, "%.2f", lResult);
 }
 //===============================================
