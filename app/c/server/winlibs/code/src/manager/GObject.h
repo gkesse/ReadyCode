@@ -3,6 +3,7 @@
 #define _GObject_
 //===============================================
 #include "GLog.h"
+#include "GCode.h"
 #include "GString.h"
 #include "GVector.h"
 //===============================================
@@ -10,6 +11,7 @@ typedef struct _GObject GObject;
 //===============================================
 struct _GObject {
     GLog* m_logs;
+    GCode* m_resp;
     GVector* m_map;
     void* m_child;
 

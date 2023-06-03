@@ -7,7 +7,7 @@
 typedef struct _GManager GManager;
 //===============================================
 struct _GManager {
-    GObject* m_parent;
+    GObject* m_obj;
     const char* m_module;
     const char* m_method;
 

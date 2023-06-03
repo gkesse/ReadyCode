@@ -6,7 +6,6 @@
 #include "GString.h"
 #include "GXml.h"
 #include "GJson.h"
-#include "GCode.h"
 //===============================================
 static void GTest_delete(GTest* _this);
 static void GTest_run(GTest* _this, int _argc, char** _argv);

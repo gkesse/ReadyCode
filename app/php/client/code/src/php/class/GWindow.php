@@ -18,6 +18,7 @@ class GWindow extends GObject {
         echo sprintf("<div class='Calculator2'>\n");
         echo sprintf("<input id='CalculatorExpression' type='text' onkeyup='call_server(\"calculator\", \"run_calculator\", this, event)'/>\n");
         echo sprintf("</div>\n");
+        echo sprintf("<div id='CalculatorOutput' class='Calculator3'></div>\n");
         echo sprintf("</div>\n");
     }
     //===============================================

@@ -1,7 +1,6 @@
 //===============================================
 #include "GSocket.h"
 #include "GServer.h"
-#include "GCode.h"
 //===============================================
 #define GSOCKET_BUFFER_SIZE 10
 //===============================================
@@ -159,7 +158,7 @@ static DWORD WINAPI GSocket_onThread(LPVOID _params) {
     GString* lRequest = GString_new();
 
     lClient->read(lClient, lRequest);
-    lServer->run(lServer, lRequest);
+    lServer->run(lServer, lRequest->m_data);
     lServer->send(lServer, lClient);
 
     closesocket(lClient->m_socket);

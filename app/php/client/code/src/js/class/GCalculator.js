@@ -15,14 +15,14 @@ class GCalculator extends GObject {
     serialize(_code = "calculator") {
         var lDom = new GCode();
         lDom.createDoc();
-        lDom.addData(_code, "expression", this.m_expression);
+        lDom.addData(_code, "expression", utf8_to_b64(this.m_expression));
         return lDom.toString();
     }
     //===============================================
     deserialize(_data, _code = "calculator") {
         var lDom = new GCode();
         lDom.loadXml(_data);
-        this.m_expression = lDom.getData(_code, "expression");
+        this.m_expression = b64_to_utf8(lDom.getData(_code, "expression"));
         lDom.getMap(_code, this);
     }
     //===============================================
@@ -44,7 +44,7 @@ class GCalculator extends GObject {
             this.m_expression = this.readExpression();
             var lData = this.serialize();
             var lAjax = new GAjax();
-            lAjax.callLocal("calculator", "run_calculator", lData, this.onRunCalculatorCB);        
+            lAjax.callRemote("calculator", "run_calculator", lData, this.onRunCalculatorCB);        
         }
     }
     //===============================================

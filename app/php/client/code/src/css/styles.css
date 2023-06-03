@@ -412,7 +412,7 @@ thead tr:first-child {
 }
 
 /* ============================================== */
-/* Log */
+/* Calculator */
 /* ============================================== */
 
 .Calculator1 {
@@ -424,6 +424,11 @@ thead tr:first-child {
 
 .Calculator2 {
     border: 1px solid white;
+}
+
+.Calculator3 {
+    border: 1px solid white;
+    min-height: 25px;
 }
 
 /* ============================================== */

@@ -1,6 +1,5 @@
 //===============================================
 #include "GManager.h"
-#include "GCode.h"
 //===============================================
 static void GManager_delete(GManager* _this);
 static GObject* GManager_clone(GObject* _this);
@@ -9,28 +8,28 @@ static void GManager_deserialize(GObject* _this, const char* _data);
 //===============================================
 GManager* GManager_new() {
     GManager* lObj = (GManager*)malloc(sizeof(GManager));
-    lObj->m_parent = GObject_new();
+    lObj->m_obj = GObject_new();
     lObj->m_module = "";
     lObj->m_method = "";
 
     lObj->delete = GManager_delete;
 
-    lObj->m_parent->clone = GManager_clone;
-    lObj->m_parent->serialize = GManager_serialize;
-    lObj->m_parent->deserialize = GManager_deserialize;
-    lObj->m_parent->m_child = lObj;
+    lObj->m_obj->clone = GManager_clone;
+    lObj->m_obj->serialize = GManager_serialize;
+    lObj->m_obj->deserialize = GManager_deserialize;
+    lObj->m_obj->m_child = lObj;
     return lObj;
 }
 //===============================================
 static void GManager_delete(GManager* _this) {
     assert(_this);
-    _this->m_parent->delete(_this->m_parent);
+    _this->m_obj->delete(_this->m_obj);
     free(_this);
 }
 //===============================================
 static GObject* GManager_clone(GObject* _this) {
     assert(_this);
-    return GManager_new()->m_parent;
+    return GManager_new()->m_obj;
 }
 //===============================================
 static GString* GManager_serialize(GObject* _this) {

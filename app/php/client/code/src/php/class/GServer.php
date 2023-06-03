@@ -51,7 +51,10 @@ class GServer extends GManager {
     }
     //===============================================
     public function runRemote($_data) {
-
+        $lObj = new GSocket();
+        $lData = $lObj->callServer($_data);
+        $this->m_logs->addLogs($lObj->getLogs());
+        $this->m_response->loadData($lData);
     }
     //===============================================
  }

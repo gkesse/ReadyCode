@@ -2,9 +2,11 @@
 #ifndef _GXml_
 #define _GXml_
 //===============================================
-#include "GObject.h"
+#include "GInclude.h"
 //===============================================
 typedef struct _GXml GXml;
+typedef struct _GLog GLog;
+typedef struct _GString GString;
 //===============================================
 struct _GXml {
     GLog* m_logs;

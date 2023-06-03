@@ -1,7 +1,9 @@
 //===============================================
 #include "GCode.h"
-#include "GXml.h"
 #include "GVector.h"
+#include "GString.h"
+#include "GObject.h"
+#include "GLog.h"
 //===============================================
 static void GCode_delete(GCode* _this);
 static xmlNodePtr GCode_createDatas(GCode* _this);
@@ -119,14 +121,14 @@ static void GCode_loadData(GCode* _this, const char* _data) {
     GString* lData = GString_new();
 
     lNode->m_node = lDom->m_dom->getNode(lDom->m_dom, lDom->m_dom, lData->format(lData, "/rdv/datas"));
-    if(!lNode->m_node) return;
-
-    lDomC->m_dom->loadXml(lDomC->m_dom, _data);
-    lNodeC->m_node = lDomC->m_dom->getNode(lDomC->m_dom, lDomC->m_dom, lData->format(lData, "/rdv/datas"));
-    if(!lNode->m_node) return;
-    lData->assign(lData, lNodeC->toNode(lNodeC, lDomC->m_dom));
-
-    lNode->loadNode(lNode, lData->m_data);
+    if(lNode->m_node) {
+        lDomC->m_dom->loadXml(lDomC->m_dom, _data);
+        lNodeC->m_node = lDomC->m_dom->getNode(lDomC->m_dom, lDomC->m_dom, lData->format(lData, "/rdv/datas"));
+        if(lNodeC->m_node) {
+            lData->assign(lData, lNodeC->toNode(lNodeC, lDomC->m_dom));
+            lNode->loadNode(lNode, lData->m_data);
+        }
+    }
 
     lNode->delete(lNode);
     lDomC->delete(lDomC);

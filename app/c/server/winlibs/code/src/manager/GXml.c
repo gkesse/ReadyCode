@@ -1,6 +1,8 @@
 //===============================================
 #include "GXml.h"
 #include "GVector.h"
+#include "GString.h"
+#include "GLog.h"
 //===============================================
 static void GXml_delete(GXml* _this);
 static void GXml_clear(GXml* _this);

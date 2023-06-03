@@ -6,6 +6,9 @@
 //===============================================
 typedef struct _GCode GCode;
 typedef struct _GVector GVector;
+typedef struct _GObject GObject;
+typedef struct _GLog GLog;
+typedef struct _GString GString;
 //===============================================
 struct _GCode {
     GXml* m_dom;

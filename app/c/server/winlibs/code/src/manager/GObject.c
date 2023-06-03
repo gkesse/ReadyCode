@@ -11,6 +11,9 @@ static void GObject_print(GObject* _this);
 GObject* GObject_new() {
     GObject* lObj = (GObject*)malloc(sizeof(GObject));
     lObj->m_logs = GLog_new();
+    lObj->m_resp = GCode_new();
+    lObj->m_resp->m_dom->createDoc(lObj->m_resp->m_dom);
+    lObj->m_resp->createDatas(lObj->m_resp);
     lObj->m_map = GVector_new();
     lObj->m_child = 0;
 
