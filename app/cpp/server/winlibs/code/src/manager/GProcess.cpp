@@ -13,10 +13,12 @@ GProcess::~GProcess() {
 //===============================================
 void GProcess::init() {
     SetConsoleOutputCP(CP_UTF8);
+    xmlInitParser();
 }
 //===============================================
 void GProcess::clean() {
-
+    xmlCleanupParser();
+    xmlMemoryDump();
 }
 //===============================================
 void GProcess::run(int _argc, char** _argv) {

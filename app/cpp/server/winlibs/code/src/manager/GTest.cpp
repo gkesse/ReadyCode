@@ -2,6 +2,7 @@
 #include "GTest.h"
 #include "GString.h"
 #include "GLog.h"
+#include "GXml.h"
 //===============================================
 GTest::GTest()
 : GObject() {
@@ -50,5 +51,15 @@ void GTest::runLog(int _argc, char** _argv) {
 //===============================================
 void GTest::runXml(int _argc, char** _argv) {
     printf("%s...\n", __FUNCTION__);
+
+    // createDoc - toString
+    GXml lDom;
+    GXml lDomC;
+    lDom.createDoc();
+    lDom.addData("code", "logs");
+    lDom.addData("type", "error");
+    lDom.addData("side", "server_cpp");
+    lDom.addData("msg", "La connexion au serveur a échoué.");
+    lDom.toString().print();
 }
 //===============================================

@@ -6,6 +6,12 @@ GTARGET = $(GBIN)\rdv_cpp.exe
 #================================================
 GINCS =\
     -I$(GSRC)/manager \
+    -I$(GSRC)/libs/include \
+    -I$(GSRC)/libs/include/libxml2 \
+	    
+GLIBS =\
+    -L$(GSRC)/libs/lib \
+    -lxml2 \
 	    
 GOBJS =\
     $(patsubst $(GSRC)/%.cpp, $(GBUILD)/%.o, $(wildcard $(GSRC)/*.cpp)) \
