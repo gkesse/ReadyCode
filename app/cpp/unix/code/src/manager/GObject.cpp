@@ -1,21 +1,15 @@
 //===============================================
 #include "GCode.h"
 #include "GObject.h"
-#include "GLog.h"
 #include "GPath.h"
 //===============================================
-GObject::GObject(const GString& _code) {
-    m_codeName = _code;
-}
-//===============================================
-GObject::~GObject() {
+GObject::GObject() {
 
 }
 //===============================================
-bool GObject::createDoms() {
-    m_dom.reset(new GCode);
-    m_dom->loadFile(GPATH("xml", "app.xml"));
-    return true;
+GObject::~GObject() {
+    clearMap();
+    m_logs.clearMap();
 }
 //===============================================
 void GObject::clearMap() {
@@ -49,12 +43,40 @@ void GObject::add(GObject* _obj) {
     m_map.push_back(_obj);
 }
 //===============================================
+void GObject::addToMap(const GObject& _obj) {
+    GObject* lObj = _obj.clone();
+    lObj->setObj(_obj);
+    m_map.push_back(lObj);
+}
+//===============================================
 void GObject::print() {
-    printf("%s\n", serialize(getCodeName()).c_str());
+    printf("%s\n", serialize().c_str());
+}
+//===============================================
+void GObject::showErrors() {
+    m_logs.showErrors();
+}
+//===============================================
+void GObject::addLogs(const GLog& _obj) {
+    m_logs.addLogs(_obj);
+}
+//===============================================
+const GLog& GObject::getLogs() const {
+    return m_logs;
+}
+//===============================================
+GString GObject::toResponse() const {
+    return m_responseXml.toString();
+}
+//===============================================
+GString GObject::toJson() {
+    GCode lDom;
+    lDom.loadXml(serialize());
+    return lDom.toJson();
 }
 //===============================================
 GObject* GObject::clone() const {return new GObject;}
-GString GObject::serialize(const GString& _code) const {return "";}
-bool GObject::deserialize(const GString& _data, const GString& _code) {return false;}
-GString GObject::getCodeName() const {return m_codeName;}
+void GObject::setObj(const GObject& _obj) {}
+GString GObject::serialize(const GString& _code)  {return "";}
+void GObject::deserialize(const GString& _data, const GString& _code) {}
 //===============================================

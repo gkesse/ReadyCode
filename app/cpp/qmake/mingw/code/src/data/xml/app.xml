@@ -6,12 +6,6 @@
         <!-- ============================================ -->
         <data>
             <code>socket</code>
-            <major>2</major>
-            <minor>2</minor>
-            <domain>AF_INET</domain>
-            <type>SOCK_STREAM</type>
-            <protocol>IPPROTO_TCP</protocol>
-            <family>AF_INET</family>
             <server_ip>82.65.62.124</server_ip>
             <client_ip>0.0.0.0</client_ip>
             <port_prod>9090</port_prod>
@@ -22,6 +16,31 @@
             <api_key_test>admin</api_key_test>
             <api_username>admin</api_username>
             <api_password>admin</api_password>
+        </data>
+        <!-- ============================================ -->
+        <!-- openssl -->
+        <!-- ============================================ -->
+        <data>
+            <code>openssl</code>
+            <certificate_file>path/certificate_file</certificate_file>
+            <private_key_file>path/private_key_file</private_key_file>
+        </data>
+        <!-- ============================================ -->
+        <!-- curl -->
+        <!-- ============================================ -->
+        <data>
+            <code>curl</code>
+            <username>admin</username>
+            <password>admin</password>
+            <api_key_prod>16ac9e66cde8bd80d6141dadb74b5083</api_key_prod>
+            <api_key_test>admin</api_key_test>
+            <certificate_file>C:/Users/tiaka/.readydev/data/certificates/fullchain.pem</certificate_file>
+            <private_key_file>C:/Users/tiaka/.readydev/data/certificates/fullchain.pem</private_key_file>
+            <cacert_file>C:/Users/tiaka/.readydev/data/certificates/fullchain.pem</cacert_file>
+            <cacert_path>C:/Users/tiaka/.readydev/data/certificates</cacert_path>
+            <url_prod>https://readydev.ovh:9070/readydev/com/v1</url_prod>
+            <url_test>https://readydev.ovh:9071/readydev/com/v1</url_test>
+            <content_type>application/xml</content_type>
         </data>
         <!-- ============================================ -->
         <!-- log -->
@@ -37,15 +56,15 @@
         <!-- fonts -->
         <!-- ============================================ -->
         <data>
-        	<code>fonts</code>
-        	<map>
-        		<data>Aclonica-Regular.ttf</data>
-        		<data>Akronim-Regular.ttf</data>
-        		<data>Allan-Regular.ttf</data>
-        		<data>ArchivoNarrow-Regular.ttf</data>
-        		<data>CourierPrime-Regular.ttf</data>
-        		<data>Lobster-Regular.ttf</data>
-        	</map>
+            <code>fonts</code>
+            <map>
+                <data>Aclonica-Regular.ttf</data>
+                <data>Akronim-Regular.ttf</data>
+                <data>Allan-Regular.ttf</data>
+                <data>ArchivoNarrow-Regular.ttf</data>
+                <data>CourierPrime-Regular.ttf</data>
+                <data>Lobster-Regular.ttf</data>
+            </map>
         </data>
         <!-- ============================================ -->
         <!-- end -->

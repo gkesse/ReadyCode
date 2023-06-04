@@ -1,12 +1,11 @@
 //===============================================
-#include "GMySQL.h"
-#include "GCode.h"
 #include "GQueryType.h"
-#include "GLog.h"
-#include "GServer.h"
+#include "GMySQL.h"
+#include "GSocket.h"
+#include "GCode.h"
 //===============================================
-GQueryType::GQueryType(const GString& _code)
-: GSearch(_code) {
+GQueryType::GQueryType()
+: GSearch() {
     m_id = 0;
 }
 //===============================================
@@ -18,7 +17,7 @@ GObject* GQueryType::clone() const {
     return new GQueryType;
 }
 //===============================================
-GString GQueryType::serialize(const GString& _code) const {
+GString GQueryType::serialize(const GString& _code)  {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
@@ -28,14 +27,13 @@ GString GQueryType::serialize(const GString& _code) const {
     return lDom.toString();
 }
 //===============================================
-bool GQueryType::deserialize(const GString& _data, const GString& _code) {
+void GQueryType::deserialize(const GString& _data, const GString& _code) {
     GSearch::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
     m_name = lDom.getData(_code, "name");
     lDom.getData(_code, m_map, this);
-    return true;
 }
 //===============================================
 void GQueryType::setId(int _id) {
@@ -49,7 +47,7 @@ int GQueryType::getId() const {
 bool GQueryType::onModule() {
     deserialize(m_server->getRequest());
     if(m_methodName == "") {
-        GMETHOD_REQUIRED();
+        m_logs.addError("La méthode est obligatoire.");
     }
     else if(m_methodName == "save_query_type") {
         onSaveQueryType();
@@ -64,7 +62,7 @@ bool GQueryType::onModule() {
         onDeleteQueryType();
     }
     else {
-        GMETHOD_UNKNOWN();
+        m_logs.addError("La méthode est inconnue.");
     }
     m_server->addResponse(serialize());
     return true;
@@ -74,7 +72,7 @@ bool GQueryType::onSaveQueryType() {
     if(m_name == "") {GERROR_ADD(eGERR, "Le nom de la donnée est obligatoire."); return false;}
     if(!saveData()) return false;
     if(m_id == 0) {GERROR_ADD(eGERR, "Erreur lors de l'enregistrement de la donnée."); return false;}
-    GLOG_ADD(eGLOG, "La donnée a bien été enregistrée.");
+    m_logs.addLog("La donnée a bien été enregistrée.");
     return true;
 }
 //===============================================
@@ -108,7 +106,7 @@ bool GQueryType::onSearchNextQueryType() {
 bool GQueryType::onDeleteQueryType() {
     if(m_id == 0) {GERROR_ADD(eGERR, "L'identifiant de la donnée est obligatoire."); return false;}
     if(!deleteData()) return false;
-    GLOG_ADD(eGLOG, "La donnée a bien été supprimée.");
+    m_logs.addLog("La donnée a bien été supprimée.");
     return true;
 }
 //===============================================
@@ -125,7 +123,7 @@ bool GQueryType::saveData() {
 bool GQueryType::searchData() {
     clearMap();
     GMySQL lMySQL;
-    GMap lDataMap = lMySQL.readMap(GFORMAT(""
+    GMySQL::GMaps lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _name "
             " from _query_type "
             " %s "
@@ -136,7 +134,7 @@ bool GQueryType::searchData() {
     ));
 
     for(int i = 0; i < (int)lDataMap.size(); i++) {
-        GRow lDataRow = lDataMap.at(i);
+        GMySQL::GRows lDataRow = lDataMap.at(i);
         int j = 0;
         GQueryType* lObj = new GQueryType;
         lObj->m_id = lDataRow.at(j++).toInt();
@@ -158,7 +156,7 @@ bool GQueryType::searchData() {
 bool GQueryType::searchNextData() {
     clearMap();
     GMySQL lMySQL;
-    GMap lDataMap = lMySQL.readMap(GFORMAT(""
+    GMySQL::GMaps lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _name "
             " from _query_type "
             " %s "
@@ -168,7 +166,7 @@ bool GQueryType::searchNextData() {
             , m_dataSize
     ));
     for(int i = 0; i < (int)lDataMap.size(); i++) {
-        GRow lDataRow = lDataMap.at(i);
+        GMySQL::GRows lDataRow = lDataMap.at(i);
         int j = 0;
         GQueryType* lObj = new GQueryType;
         lObj->m_id = lDataRow.at(j++).toInt();

@@ -8,11 +8,11 @@ class GTableWidgetUi;
 //===============================================
 class GModule : public GSearch {
 public:
-    GModule(const GString& _code = "module");
+    GModule();
     ~GModule();
     GObject* clone() const;
     GString serialize(const GString& _code = "module");
-    bool deserialize(const GString& _data, const GString& _code = "module");
+    void deserialize(const GString& _data, const GString& _code = "module");
 
     void setModule(const GModule& _module);
     void setModule(GModule* _module);

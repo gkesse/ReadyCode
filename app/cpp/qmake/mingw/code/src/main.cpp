@@ -1,14 +1,16 @@
 //===============================================
 #include "GProcess.h"
 #include "GXml.h"
-#include "GLog.h"
+#include "GCurl.h"
 //===============================================
 int main(int _argc, char** _argv) {
     GXml().initModule();
-	GProcess().run(_argc, _argv);
+    GCurl().initModule();
+    GProcess().run(_argc, _argv);
     GERROR_SHOW(eGERR);
     GLOG_SHOW(eGERR);
-	GXml().cleanModule();
-	return 0;
+    GCurl().cleanModule();
+    GXml().cleanModule();
+    return 0;
 }
 //===============================================

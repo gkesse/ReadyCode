@@ -1,6 +1,5 @@
 //===============================================
 #include "GTimer.h"
-#include "GLog.h"
 //===============================================
 GTimer::GTimer() : GObject() {
     m_isRunning = true;

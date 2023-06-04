@@ -6,7 +6,7 @@
 //===============================================
 class GThread : public GObject {
 public:
-    typedef void* (*GThread2_CB)(void* _params);
+    typedef void* (*GTHREAD_CB)(void* _params);
 
 public:
     GThread();

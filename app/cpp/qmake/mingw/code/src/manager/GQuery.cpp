@@ -1,12 +1,11 @@
 //===============================================
 #include "GQuery.h"
 #include "GCode.h"
-#include "GLog.h"
 #include "GBase64.h"
 #include "GClient.h"
 //===============================================
-GQuery::GQuery(const GString& _code)
-: GSearch(_code) {
+GQuery::GQuery()
+: GSearch() {
     m_typeId = 0;
     m_defaultId = 0;
 }
@@ -31,7 +30,7 @@ GString GQuery::serialize(const GString& _code) {
     return lDom.toString();
 }
 //===============================================
-bool GQuery::deserialize(const GString& _data, const GString& _code) {
+void GQuery::deserialize(const GString& _data, const GString& _code) {
     GSearch::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
@@ -40,7 +39,6 @@ bool GQuery::deserialize(const GString& _data, const GString& _code) {
     m_typeName = lDom.getData(_code, "type_name");
     m_emission = lDom.getData(_code, "emission").fromBase64();
     m_reception = lDom.getData(_code, "reception").fromBase64();
-    return true;
 }
 //===============================================
 void GQuery::setTypeId(int _typeId) {

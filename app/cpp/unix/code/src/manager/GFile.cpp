@@ -1,13 +1,12 @@
 //===============================================
 #include "GFile.h"
-#include "GShell.h"
 #include "GMySQL.h"
-#include "GCode.h"
-#include "GEnv.h"
-#include "GLog.h"
-#include "GPath.h"
+#include "GShell.h"
 #include "GBase64.h"
-#include "GServer.h"
+#include "GSocket.h"
+#include "GEnv.h"
+#include "GPath.h"
+#include "GCode.h"
 //===============================================
 GFile::GFile()
 : GManager() {
@@ -24,23 +23,22 @@ GFile::~GFile() {
 
 }
 //===============================================
-GString GFile::serialize() const {
+GString GFile::serialize(const GString& _code) {
     GCode lDom;
     lDom.createDoc();
-    lDom.addData(m_codeName, "id", m_id);
-    lDom.addData(m_codeName, "filename", m_filename);
-    lDom.addData(m_codeName, "content", m_content, true);
+    lDom.addData(_code, "id", m_id);
+    lDom.addData(_code, "filename", m_filename);
+    lDom.addData(_code, "content", m_content, true);
     return lDom.toString();
 }
 //===============================================
-bool GFile::deserialize(const GString& _data) {
+void GFile::deserialize(const GString& _data, const GString& _code) {
     GManager::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
-    m_id = lDom.getData(m_codeName, "id").toInt();
-    m_filename = lDom.getData(m_codeName, "filename");
-    m_content = lDom.getData(m_codeName, "content");
-    return true;
+    m_id = lDom.getData(_code, "id").toInt();
+    m_filename = lDom.getData(_code, "filename");
+    m_content = lDom.getData(_code, "content");
 }
 //===============================================
 void GFile::setId(int _id) {
@@ -101,13 +99,13 @@ void GFile::setContentBin(const GString& _data) {
 bool GFile::onModule() {
     deserialize(m_server->getRequest());
     if(m_methodName == "") {
-        GMETHOD_REQUIRED();
+        m_logs.addError("La méthode est obligatoire.");
     }
     else if(m_methodName == "save_file") {
         onSaveFile();
     }
     else {
-        GMETHOD_UNKNOWN();
+        m_logs.addError("La méthode est inconnue.");
     }
     m_server->addResponse(serialize());
     return true;
@@ -168,7 +166,7 @@ bool GFile::saveContent() {
     GFile lFile(m_fullname);
     GString lDataBin(GBase64(m_content).decodeData());
     lFile.setContentBin(lDataBin);
-    GLOG_ADD(eGLOG, "Le fichier a bien été enregistré.");
+    m_logs.addLog("Le fichier a bien été enregistré.");
     return true;
 }
 //===============================================

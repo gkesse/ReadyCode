@@ -3,7 +3,6 @@
 #include "GFont.h"
 #include "GProcess.h"
 #include "GTest.h"
-#include "GLog.h"
 #include "GWindowUi.h"
 //===============================================
 GProcess::GProcess()
@@ -16,18 +15,17 @@ GProcess::~GProcess() {
 }
 //===============================================
 void GProcess::run(int _argc, char** _argv) {
-	QString lKey = "";
-	if(_argc > 1) lKey = _argv[1];
-
-	if(lKey == "test") {
+    GString lKey;
+    if(_argc > 1) lKey = _argv[1];
+    if(lKey == "test") {
         runTest(_argc, _argv);
     }
     else if(lKey == "pad") {
         runPad(_argc, _argv);
     }
-	else {
-		runDefault(_argc, _argv);
-	}
+    else {
+        runDefault(_argc, _argv);
+    }
 }
 //===============================================
 void GProcess::runDefault(int _argc, char** _argv) {

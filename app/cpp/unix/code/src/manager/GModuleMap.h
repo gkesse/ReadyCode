@@ -6,11 +6,11 @@
 //===============================================
 class GModuleMap : public GSearch {
 public:
-    GModuleMap(const GString& _code = "module_map");
+    GModuleMap();
     ~GModuleMap();
     GObject* clone() const;
-    GString serialize(const GString& _code = "module_map") const;
-    bool deserialize(const GString& _data, const GString& _code = "module_map");
+    GString serialize(const GString& _code = "module_map");
+    void deserialize(const GString& _data, const GString& _code = "module_map");
 
     bool onModule();
     bool onSaveModuleMap();

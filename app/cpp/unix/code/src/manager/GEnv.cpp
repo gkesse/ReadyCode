@@ -1,26 +1,39 @@
 //===============================================
 #include "GEnv.h"
-#include "GLog.h"
 //===============================================
-GEnv::GEnv()
-: GObject() {
-    initEnv();
+GEnv* GEnv::m_instance = 0;
+//===============================================
+GEnv::GEnv() {
+    m_isProdEnv = false;
+    m_isTestEnv = false;
 }
 //===============================================
 GEnv::~GEnv() {
 
 }
 //===============================================
+GEnv* GEnv::Instance() {
+    if(m_instance == 0) {
+        m_instance = new GEnv;
+        m_instance->initEnv();
+    }
+    return m_instance;
+}
+//===============================================
 void GEnv::initEnv() {
     m_envType       = getEnv("GPROJECT_ENV");
     m_dataPath      = getEnv("GPROJECT_DATA");
     m_tmpPath       = getEnv("GPROJECT_TMP");
-    m_isProdEnv     = (m_envType == "PROD");
-    m_isTestEnv     = !m_isProdEnv;
+    m_isTestEnv     = (m_envType == "TEST");
+    m_isProdEnv     = !m_isTestEnv;
 }
 //===============================================
 bool GEnv::isTestEnv() const {
     return m_isTestEnv;
+}
+//===============================================
+bool GEnv::isProdEnv() const {
+    return m_isProdEnv;
 }
 //===============================================
 GString GEnv::getDataPath() const {

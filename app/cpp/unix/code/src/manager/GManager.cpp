@@ -2,8 +2,7 @@
 #include "GManager.h"
 #include "GCode.h"
 #include "GFile.h"
-#include "GLog.h"
-#include "GServer.h"
+#include "GSocket.h"
 #include "GConnection.h"
 #include "GModule.h"
 #include "GModuleData.h"
@@ -12,9 +11,11 @@
 #include "GModuleType.h"
 #include "GQuery.h"
 #include "GQueryType.h"
+#include "GPage.h"
+#include "GSite.h"
 //===============================================
-GManager::GManager(const GString& _code)
-: GObject(_code) {
+GManager::GManager()
+: GObject() {
     m_server = 0;
 }
 //===============================================
@@ -34,11 +35,11 @@ void GManager::setManager(GManager* _manager) {
     setServer(_manager->m_server);
 }
 //===============================================
-void GManager::setServer(GServer* _server) {
-    m_server = _server;
+void GManager::setServer(GSocket* _socket) {
+    m_server = _socket;
 }
 //===============================================
-GString GManager::serialize(const GString& _code) const {
+GString GManager::serialize(const GString& _code)  {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "module", m_moduleName);
@@ -46,12 +47,11 @@ GString GManager::serialize(const GString& _code) const {
     return lDom.toString();
 }
 //===============================================
-bool GManager::deserialize(const GString& _data, const GString& _code) {
+void GManager::deserialize(const GString& _data, const GString& _code) {
     GCode lDom;
     lDom.loadXml(_data);
     m_moduleName = lDom.getData(_code, "module");
     m_methodName = lDom.getData(_code, "method");
-    return true;
 }
 //===============================================
 void GManager::setModule(const GString& _module) {
@@ -60,6 +60,45 @@ void GManager::setModule(const GString& _module) {
 //===============================================
 void GManager::setMethod(const GString& _method) {
     m_methodName = _method;
+}
+//===============================================
+bool GManager::isValid() const {
+    if(m_methodName.isEmpty()) return false;
+    if(m_moduleName.isEmpty()) return false;
+    return !m_logs.hasErrors();
+}
+//===============================================
+bool GManager::run(const GString& _data) {
+    deserialize(_data);
+    if(m_moduleName == "") {
+        m_logs.addError("Le module est obligatoire.");
+    }
+    else if(m_moduleName == "page") {
+        onPage(_data);
+    }
+    else if(m_moduleName == "site") {
+        onSite(_data);
+    }
+    else {
+        m_logs.addError("Le module est inconnu.");
+    }
+    return !m_logs.hasErrors();
+}
+//===============================================
+bool GManager::onPage(const GString& _data) {
+    GPage lObj;
+    lObj.run(_data);
+    m_logs.addLogs(lObj.getLogs());
+    m_responseXml.loadData(lObj.serialize());
+    return !m_logs.hasErrors();
+}
+//===============================================
+bool GManager::onSite(const GString& _data) {
+    GSite lObj;
+    lObj.run(_data);
+    m_logs.addLogs(lObj.getLogs());
+    m_responseXml.loadData(lObj.serialize());
+    return !m_logs.hasErrors();
 }
 //===============================================
 bool GManager::onManager() {

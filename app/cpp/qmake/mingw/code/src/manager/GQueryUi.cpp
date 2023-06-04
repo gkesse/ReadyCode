@@ -1,7 +1,6 @@
 //===============================================
 #include "GQueryUi.h"
 #include "ui_GQueryUi.h"
-#include "GLog.h"
 #include "GQuery.h"
 #include "GQueryType.h"
 //===============================================

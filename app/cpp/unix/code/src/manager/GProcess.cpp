@@ -1,7 +1,8 @@
 //===============================================
 #include "GProcess.h"
-#include "GLog.h"
-#include "GServer.h"
+#include "GEnv.h"
+#include "GSocket.h"
+#include "GTest.h"
 //===============================================
 GProcess::GProcess()
 : GObject() {
@@ -13,24 +14,22 @@ GProcess::~GProcess() {
 }
 //===============================================
 void GProcess::run(int _argc, char** _argv) {
-    GString lKey = "";
-    if(_argc > 1) lKey = _argv[1];
-    if(lKey == "") {
-        runDefault(_argc, _argv);
-    }
-    else if(lKey == "server") {
-        runServer(_argc, _argv);
+    bool lIsTestEnv = GENV->isTestEnv();
+    if(lIsTestEnv) {
+        runTest(_argc, _argv);
     }
     else {
-        runDefault(_argc, _argv);
+        runProd(_argc, _argv);
     }
 }
 //===============================================
-void GProcess::runDefault(int _argc, char** _argv) {
-    GLOGT(eGMSG, "Le process est inconnu.");
+void GProcess::runTest(int _argc, char** _argv) {
+    GTest lTest;
+    lTest.run(_argc, _argv);
+    m_logs.addLogs(lTest.m_logs);
 }
 //===============================================
-void GProcess::runServer(int _argc, char** _argv) {
-    GRUN_SERVER(_argc, _argv);
+void GProcess::runProd(int _argc, char** _argv) {
+
 }
 //===============================================

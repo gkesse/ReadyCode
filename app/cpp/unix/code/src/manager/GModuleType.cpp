@@ -1,12 +1,11 @@
 //===============================================
-#include "GMySQL.h"
-#include "GCode.h"
 #include "GModuleType.h"
-#include "GLog.h"
-#include "GServer.h"
+#include "GMySQL.h"
+#include "GSocket.h"
+#include "GCode.h"
 //===============================================
-GModuleType::GModuleType(const GString& _code)
-: GSearch(_code) {
+GModuleType::GModuleType()
+: GSearch() {
     m_id = 0;
 }
 //===============================================
@@ -18,7 +17,7 @@ GObject* GModuleType::clone() const {
     return new GModuleType;
 }
 //===============================================
-GString GModuleType::serialize(const GString& _code) const {
+GString GModuleType::serialize(const GString& _code)  {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
@@ -28,14 +27,13 @@ GString GModuleType::serialize(const GString& _code) const {
     return lDom.toString();
 }
 //===============================================
-bool GModuleType::deserialize(const GString& _data, const GString& _code) {
+void GModuleType::deserialize(const GString& _data, const GString& _code) {
     GSearch::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
     m_id = lDom.getData(_code, "id").toInt();
     m_name = lDom.getData(_code, "name");
     lDom.getData(_code, m_map, this);
-    return true;
 }
 //===============================================
 void GModuleType::setId(int _id) {
@@ -49,7 +47,7 @@ int GModuleType::getId() const {
 bool GModuleType::onModule() {
     deserialize(m_server->getRequest());
     if(m_methodName == "") {
-        GMETHOD_REQUIRED();
+        m_logs.addError("La méthode est obligatoire.");
     }
     else if(m_methodName == "load_module_type") {
         onLoadModuleType();
@@ -67,7 +65,7 @@ bool GModuleType::onModule() {
         onDeleteModuleType();
     }
     else {
-        GMETHOD_UNKNOWN();
+        m_logs.addError("La méthode est inconnue.");
     }
     m_server->addResponse(serialize());
     return true;
@@ -82,7 +80,7 @@ bool GModuleType::onSaveModuleType() {
     if(m_name == "") {GERROR_ADD(eGERR, "Le nom du type est obligatoire."); return false;}
     if(!saveModuleType()) return false;
     if(m_id == 0) {GERROR_ADD(eGERR, "Erreur lors de l'enregistrement de la donnée."); return false;}
-    GLOG_ADD(eGLOG, "La donnée a bien été enregistrée.");
+    m_logs.addLog("La donnée a bien été enregistrée.");
     return true;
 }
 //===============================================
@@ -116,13 +114,13 @@ bool GModuleType::onSearchNextModuleType() {
 bool GModuleType::onDeleteModuleType() {
     if(m_id == 0) {GERROR_ADD(eGERR, "L'identifiant de la donnée est obligatoire."); return false;}
     if(!deleteModuleType()) return false;
-    GLOG_ADD(eGLOG, "La donnée a bien été supprimée.");
+    m_logs.addLog("La donnée a bien été supprimée.");
     return true;
 }
 //===============================================
 bool GModuleType::loadModuleType() {
     GMySQL lMySQL;
-    GMap lDataMap = lMySQL.readMap(GFORMAT(""
+    GMySQL::GMaps lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _name "
             " from _module_type "
             " order by _name asc "
@@ -130,7 +128,7 @@ bool GModuleType::loadModuleType() {
     ));
     clearMap();
     for(int i = 0; i < (int)lDataMap.size(); i++) {
-        GRow lDataRow = lDataMap.at(i);
+        GMySQL::GRows lDataRow = lDataMap.at(i);
         int j = 0;
         GModuleType* lObj = new GModuleType;
         lObj->m_id = lDataRow.at(j++).toInt();
@@ -152,7 +150,7 @@ bool GModuleType::saveModuleType() {
 //===============================================
 bool GModuleType::searchModuleType() {
     GMySQL lMySQL;
-    GMap lDataMap = lMySQL.readMap(GFORMAT(""
+    GMySQL::GMaps lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _name "
             " from _module_type "
             " %s "
@@ -163,7 +161,7 @@ bool GModuleType::searchModuleType() {
     ));
     clearMap();
     for(int i = 0; i < (int)lDataMap.size(); i++) {
-        GRow lDataRow = lDataMap.at(i);
+        GMySQL::GRows lDataRow = lDataMap.at(i);
         int j = 0;
         GModuleType* lObj = new GModuleType;
         lObj->m_id = lDataRow.at(j++).toInt();
@@ -183,7 +181,7 @@ bool GModuleType::searchModuleType() {
 bool GModuleType::searchType() {
     clearMap();
     GMySQL lMySQL;
-    GMap lDataMap = lMySQL.readMap(GFORMAT(""
+    GMySQL::GMaps lDataMap = lMySQL.readMap(GFORMAT(""
             " select _name "
             " from _module_type "
             " where 1 = 1 "
@@ -192,7 +190,7 @@ bool GModuleType::searchType() {
             "", m_id
     ));
     for(int i = 0; i < (int)lDataMap.size(); i++) {
-        GRow lDataRow = lDataMap.at(i);
+        GMySQL::GRows lDataRow = lDataMap.at(i);
         int j = 0;
         m_name = lDataRow.at(j++);
         break;
@@ -202,7 +200,7 @@ bool GModuleType::searchType() {
 //===============================================
 bool GModuleType::searchNextModuleType() {
     GMySQL lMySQL;
-    GMap lDataMap = lMySQL.readMap(GFORMAT(""
+    GMySQL::GMaps lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _name "
             " from _module_type "
             " %s "
@@ -212,7 +210,7 @@ bool GModuleType::searchNextModuleType() {
             , m_dataSize
     ));
     for(int i = 0; i < (int)lDataMap.size(); i++) {
-        GRow lDataRow = lDataMap.at(i);
+        GMySQL::GRows lDataRow = lDataMap.at(i);
         int j = 0;
         GModuleType* lObj = new GModuleType;
         lObj->m_id = lDataRow.at(j++).toInt();

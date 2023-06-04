@@ -6,11 +6,11 @@
 //===============================================
 class GQueryType : public GSearch {
 public:
-    GQueryType(const GString& _code = "query_type");
+    GQueryType();
     ~GQueryType();
     GObject* clone() const;
-    GString serialize(const GString& _code = "query_type") const;
-    bool deserialize(const GString& _data, const GString& _code = "query_type");
+    GString serialize(const GString& _code = "query_type");
+    void deserialize(const GString& _data, const GString& _code = "query_type");
 
     void setId(int _id);
     int getId() const;

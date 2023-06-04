@@ -1,258 +1,149 @@
 //===============================================
 #include "GHttp.h"
-#include "GLog.h"
-#include "GServer.h"
 //===============================================
-GHttp::GHttp(const GString& _code)
-: GManager(_code) {
-    m_status = 200;
-    m_contentLength = 0;
-    m_port = 0;
+const char* GHttp::HTTP_1_0 = "HTTP/1.0";
+const char* GHttp::HTTP_1_1 = "HTTP/1.1";
+//===============================================
+GHttp::GHttp()
+: GObject() {
+    initHttp();
 }
 //===============================================
 GHttp::~GHttp() {
 
 }
 //===============================================
-void GHttp::setMethod(const GString& _method) {
-    m_method = _method;
+void GHttp::initHttp() {
+    setVersion("HTTP/1.1");
+    setStatus(HTTP_OK);
+    setContentType("text/html");
+    setConnection("close");
 }
 //===============================================
-void GHttp::setUrl(const GString& _url) {
-    m_url = _url;
+void GHttp::initReason() {
+    // 100
+    if(m_status == 100) {m_reason = "Continue";}
+    else if(m_status == 101) {m_reason = "Switching Protocols";}
+    // 200
+    else if(m_status == 200) {m_reason = "OK";}
+    else if(m_status == 201) {m_reason = "Created";}
+    else if(m_status == 202) {m_reason = "Accepted";}
+    else if(m_status == 203) {m_reason = "Non-Authoritative Information";}
+    else if(m_status == 204) {m_reason = "No Content";}
+    else if(m_status == 205) {m_reason = "Reset Content";}
+    else if(m_status == 206) {m_reason = "Partial Content";}
+    // 300
+    else if(m_status == 300) {m_reason = "Multiple Choices";}
+    else if(m_status == 301) {m_reason = "Moved Permanently";}
+    else if(m_status == 302) {m_reason = "Found";}
+    else if(m_status == 303) {m_reason = "See Other";}
+    else if(m_status == 304) {m_reason = "Not Modified";}
+    else if(m_status == 305) {m_reason = "Use Proxy";}
+    else if(m_status == 307) {m_reason = "Temporary Redirect";}
+    // 400
+    else if(m_status == 400) {m_reason = "Bad Request";}
+    else if(m_status == 401) {m_reason = "Unauthorized";}
+    else if(m_status == 402) {m_reason = "Payment Required";}
+    else if(m_status == 403) {m_reason = "Forbidden";}
+    else if(m_status == 404) {m_reason = "Not Found";}
+    else if(m_status == 405) {m_reason = "Method Not Allowed";}
+    else if(m_status == 406) {m_reason = "Not Acceptable";}
+    else if(m_status == 407) {m_reason = "Proxy Authentication Required";}
+    else if(m_status == 408) {m_reason = "Request Time-out";}
+    else if(m_status == 409) {m_reason = "Conflict";}
+    else if(m_status == 410) {m_reason = "Gone";}
+    else if(m_status == 411) {m_reason = "Length Required";}
+    else if(m_status == 412) {m_reason = "Precondition Failed";}
+    else if(m_status == 413) {m_reason = "Request Entity Too Large";}
+    else if(m_status == 414) {m_reason = "Request-URI Too Large";}
+    else if(m_status == 415) {m_reason = "Unsupported Media Type";}
+    else if(m_status == 416) {m_reason = "Requested range not satisfiable";}
+    else if(m_status == 417) {m_reason = "Expectation Failed";}
+    // 500
+    else if(m_status == 500) {m_reason = "Internal Server Error";}
+    else if(m_status == 501) {m_reason = "Not Implemented";}
+    else if(m_status == 502) {m_reason = "Bad Gateway";}
+    else if(m_status == 503) {m_reason = "Service Unavailable";}
+    else if(m_status == 504) {m_reason = "Gateway Time-out";}
+    else if(m_status == 505) {m_reason = "HTTP Version not supported";}
 }
 //===============================================
-GString GHttp::getUrl() const {
-    return m_url;
+void GHttp::setModule(const GString& _module) {
+    m_module = _module;
 }
 //===============================================
 void GHttp::setVersion(const GString& _version) {
     m_version = _version;
 }
 //===============================================
-void GHttp::setHostname(const GString& _hostname) {
-    m_hostname =_hostname;
-}
-//===============================================
-void GHttp::setPort(int _port) {
-    m_port = _port;
-}
-//===============================================
-void GHttp::setStatus(const int _status) {
+void GHttp::setStatus(int _status) {
     m_status = _status;
-}
-//===============================================
-void GHttp::setReason(const GString& _reason) {
-    m_reason = _reason;
-}
-//===============================================
-void GHttp::setContent(const GString& _content) {
-    m_content = _content;
-    m_contentLength = m_content.size();
+    initReason();
 }
 //===============================================
 void GHttp::setContentType(const GString& _contentType) {
     m_contentType = _contentType;
 }
 //===============================================
-void GHttp::setContentLength(int _contentLength) {
-    m_contentLength = _contentLength;
-}
-//===============================================
-void GHttp::setCacheControl(const GString& _cacheControl) {
-    m_cacheControl = _cacheControl;
-}
-//===============================================
-void GHttp::setUpgradeInsecureRequests(const GString& _upgradeInsecureRequests) {
-    m_upgradeInsecureRequests = _upgradeInsecureRequests;
-}
-//===============================================
-void GHttp::setUserAgent(const GString& _userAgent) {
-    m_userAgent = _userAgent;
-}
-//===============================================
-void GHttp::setAccept(const GString& _accept) {
-    m_accept = _accept;
-}
-//===============================================
-void GHttp::setAcceptEncoding(const GString& _acceptEncoding) {
-    m_acceptEncoding = _acceptEncoding;
-}
-//===============================================
-void GHttp::setAcceptLanguage(const GString& _acceptLanguage) {
-    m_acceptLanguage = _acceptLanguage;
-}
-//===============================================
-void GHttp::setDate(const GString& _date) {
-    m_date = _date;
-}
-//===============================================
-void GHttp::setServer(const GString& _server) {
-    m_servers = _server;
-}
-//===============================================
-void GHttp::setLastModified(const GString& _lastModified) {
-    m_lastModified = _lastModified;
+void GHttp::setContentText(const GString& _contentText) {
+    m_contentText = _contentText;
 }
 //===============================================
 void GHttp::setConnection(const GString& _connection) {
     m_connection = _connection;
 }
 //===============================================
-bool GHttp::isLine(char _char, int& _index) const {
-    if(_index == 0) {
-        if(_char == '\r')_index++; else _index = 0;
-    }
-    else if(_index == 1) {
-        if(_char == '\n') _index++; else _index = 0;
-    }
-
-    if(_index == 2) {_index = 0; return true;}
-    return false;
+GString GHttp::getResponseText() const {
+    return m_responseText;
 }
 //===============================================
-bool GHttp::isHeader(char _char, int& _index) const {
-    if(_index == 0) {
-        if(_char == '\r')_index++; else _index = 0;
+bool GHttp::run()  {
+    if(m_module == "") {
+        m_logs.addError("Le module est obligatoire.");
     }
-    else if(_index == 1) {
-        if(_char == '\n') _index++; else _index = 0;
+    else if(m_module == "response") {
+        runResponse();
     }
-    else if(_index == 2) {
-        if(_char == '\r') _index++; else _index = 0;
+    else {
+        m_logs.addError("Le module est inconnu.");
     }
-    else if(_index == 3) {
-        if(_char == '\n') _index++; else _index = 0;
-    }
-
-    if(_index == 4) return true;
-    return false;
+    return !m_logs.hasErrors();
 }
 //===============================================
-void GHttp::runHttp() {
-    analyzeHeader();
-    analyzeMethod();
-}
-//===============================================
-bool GHttp::analyzeHeader() {
-    int lIndex = 0;
-    GString lLine = "";
-    GString& lDataIn = m_server->getDataIn();
-
-    for(int i = 0; i < lDataIn.size(); i++) {
-        char lChar = lDataIn[i];
-        lLine += lChar;
-        if(isLine(lChar, lIndex)) {
-            GString lMethod = lLine.extract(0, " \r\n").trim();
-            GString lUrl = lLine.extract(1, " \r\n").trim();
-            GString lVersion = lLine.extract(2, " \r\n").trim();
-            setMethod(lMethod);
-            setUrl(lUrl);
-            setVersion(lVersion);
-            lLine = "";
-            break;
-        }
+bool GHttp::runResponse()  {
+    if(m_version.isEmpty()) {
+        m_logs.addError("Erreur la version HTTP est obligatoire.");
+        return false;
     }
-    for(int i = 0; i < lDataIn.size(); i++) {
-        char lChar = lDataIn[i];
-        lLine += lChar;
-        if(isLine(lChar, lIndex)) {
-            if(lLine.startBy("Host")) {
-                GString lHostname = lLine.extract(1, ":\r\n").trim();
-                GString lPort = lLine.extract(2, ":\r\n").trim();
-                setHostname(lHostname);
-                setPort(lPort.toInt());
-            }
-            else if(lLine.startBy("Connection")) {
-                GString lConnection = lLine.extract(1, ":\r\n").trim();
-                setConnection(lConnection);
-            }
-            else if(lLine.startBy("Cache-Control")) {
-                GString lCacheControl = lLine.extract(1, ":\r\n").trim();
-                setCacheControl(lCacheControl);
-            }
-            else if(lLine.startBy("Upgrade-Insecure-Requests")) {
-                GString lUpgradeInsecureRequests = lLine.extract(1, ":\r\n").trim();
-                setUpgradeInsecureRequests(lUpgradeInsecureRequests);
-            }
-            else if(lLine.startBy("User-Agent")) {
-                GString lUserAgent = lLine.extract(1, ":\r\n").trim();
-                setUserAgent(lUserAgent);
-            }
-            else if(lLine.startBy("Accept")) {
-                GString lAccept = lLine.extract(1, ":\r\n").trim();
-                setAccept(lAccept);
-            }
-            else if(lLine.startBy("Accept-Encoding")) {
-                GString lAcceptEncoding = lLine.extract(1, ":\r\n").trim();
-                setAcceptEncoding(lAcceptEncoding);
-            }
-            else if(lLine.startBy("Accept-Language")) {
-                GString lAcceptLanguage = lLine.extract(1, ":\r\n").trim();
-                setAcceptLanguage(lAcceptLanguage);
-            }
-            lLine = "";
-        }
+    if(m_status == 0) {
+        m_logs.addError("Erreur le code du statut est obligatoire.");
+        return false;
     }
-    return true;
-}
-//===============================================
-bool GHttp::analyzeMethod() {
-    if(m_method == "GET") {
-        analyzeGet();
-    }
-    else if(m_method == "POST") {
-        analyzePost();
-    }
-    return true;
-}
-//===============================================
-bool GHttp::analyzeGet() {
-    if(m_url == "/") {
-        onGetIndex();
-    }
-    return true;
-}
-//===============================================
-bool GHttp::analyzePost() {
-    return true;
-}
-//===============================================
-void GHttp::onGetIndex() {
-    setVersion("HTTP/1.1");
-    setStatus(200);
-    setReason("OK");
-    setContentType("text/html");
-    setConnection("Closed");
-
-    GString lContent = ""
-            "<html><head><title>[Echo]-ReadyDev</title></head>"
-            "<body><h1>La connexion au serveur a réussi.</h1></body></html>"
-            "";
-
-    setContent(lContent);
-    createGetData();
-}
-//===============================================
-bool GHttp::createGetData() {
-    if(m_version == "") return false;
-    if(m_status == 0) return false;
-    if(m_reason == "") return false;
-    if(m_content == "") return false;
-    if(m_contentType == "") return false;
-    if(m_contentLength == 0) return false;
-
-    GString& lDataOut = m_server->getDataOut();
-    lDataOut += GFORMAT("%s %d %s\r\n", m_version.c_str(), m_status, m_reason.c_str());
-    lDataOut += GFORMAT("Content-Type: %s\r\n", m_contentType.c_str());
-    lDataOut += GFORMAT("Content-Length: %d\r\n", m_contentLength);
-
-    if(m_connection != "") {
-        lDataOut += GFORMAT("Connection: %s\r\n", m_connection.c_str());
+    if(m_reason.isEmpty()) {
+        m_logs.addError("Erreur la raison est obligatoire.");
+        return false;
     }
 
-    lDataOut += GFORMAT("\r\n");
-    lDataOut += GFORMAT("%s", m_content.c_str());
-    return true;
+    m_responseText = "";
+    m_responseText += GFORMAT("%s %d %s\r\n", m_version.c_str(), m_status, m_reason.c_str());
+
+    if(!m_connection.isEmpty()) {
+        m_responseText += GFORMAT("Connection: %s\r\n", m_connection.c_str());
+    }
+
+    if(!m_contentType.isEmpty()) {
+        m_responseText += GFORMAT("Content-Type: %s\r\n", m_contentType.c_str());
+    }
+
+    if(!m_contentText.isEmpty()) {
+        m_responseText += GFORMAT("Content-Length: %d\r\n", m_contentText.size());
+        m_responseText += GFORMAT("\r\n");
+        m_responseText += GFORMAT("%s", m_contentText.c_str());
+    }
+    else {
+        m_responseText += GFORMAT("\r\n");
+    }
+
+    return !m_logs.hasErrors();
 }
 //===============================================

@@ -4,46 +4,50 @@
 //===============================================
 #include "GObject.h"
 //===============================================
-#define GMySQLI     GMySQL::Instance()
-//===============================================
-typedef std::vector<std::vector<GString>> GMap;
-typedef std::vector<GString> GRow;
+#define GMYSQL      GMySQL::Instance()
+#define czton       GMYSQL->convertZeroToNull
 //===============================================
 class GMySQL : public GObject {
 public:
-    GMySQL(const GString& _code = "mysql");
+    typedef std::vector<GString> GRows;
+    typedef std::vector<GRows> GMaps;
+
+public:
+    GMySQL(bool _hasLog = true);
     ~GMySQL();
-
+    static GMySQL* Instance();
     void initMySQL();
-
+    void setAction(const GString& _action);
+    void setSql(const GString& _sql);
+    GString convertZeroToNull(int _data);
     bool openDatabase();
     bool execQuery(const GString& _sql);
-    bool readQuery(const GString& _sql);
+    bool run();
+    bool runWrite();
+    bool runRead();
     int getColumnCount() const;
     int getId();
     GString readData(const GString& _sql);
-    std::vector<GString> readCol(const GString& _sql);
-    std::vector<GString> readRow(const GString& _sql);
-    std::vector<std::vector<GString>> readMap(const GString& _sql);
+    GRows readCol(const GString& _sql);
+    GRows readRow(const GString& _sql);
+    GMaps readMap(const GString& _sql);
 
 private:
+    static GMySQL* m_instance;
     sql::Driver* m_driver;
     std::shared_ptr<sql::Connection> m_con;
     std::shared_ptr<sql::Statement> m_stmt;
     std::shared_ptr<sql::ResultSet> m_res;
 
-    bool m_isTestEnv;
-
+    GString m_action;
+    GString m_sql;
     GString m_protocol;
     GString m_hostname;
     GString m_username;
     GString m_password;
     GString m_database;
     int m_port;
-
-    GString m_databaseTest;
-    GString m_databaseProd;
-    bool m_logOn;
+    bool m_hasLog;
 };
 //==============================================
 #endif

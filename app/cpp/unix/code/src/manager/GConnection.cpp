@@ -1,10 +1,9 @@
 //===============================================
 #include "GConnection.h"
 #include "GMySQL.h"
-#include "GCode.h"
-#include "GLog.h"
-#include "GServer.h"
+#include "GSocket.h"
 #include "GMd5.h"
+#include "GCode.h"
 //===============================================
 GConnection::GConnection()
 : GManager() {
@@ -21,31 +20,30 @@ GObject* GConnection::clone() const {
     return new GConnection;
 }
 //===============================================
-GString GConnection::serialize() const {
+GString GConnection::serialize(const GString& _code) {
     GCode lDom;
     lDom.createDoc();
-    lDom.addData(m_codeName, "id", m_id);
-    lDom.addData(m_codeName, "pseudo", m_pseudo);
-    lDom.addData(m_codeName, "password", m_password);
-    lDom.addData(m_codeName, "email", m_email);
-    lDom.addData(m_codeName, "group", m_group);
-    lDom.addData(m_codeName, "active", m_active);
-    lDom.addData(m_codeName, "is_connect", m_isConnect);
+    lDom.addData(_code, "id", m_id);
+    lDom.addData(_code, "pseudo", m_pseudo);
+    lDom.addData(_code, "password", m_password);
+    lDom.addData(_code, "email", m_email);
+    lDom.addData(_code, "group", m_group);
+    lDom.addData(_code, "active", m_active);
+    lDom.addData(_code, "is_connect", m_isConnect);
     return lDom.toString();
 }
 //===============================================
-bool GConnection::deserialize(const GString& _data) {
+void GConnection::deserialize(const GString& _data, const GString& _code) {
     GManager::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
-    m_id = lDom.getData(m_codeName, "id").toInt();
-    m_pseudo = lDom.getData(m_codeName, "pseudo");
-    m_password = lDom.getData(m_codeName, "password");
-    m_email = lDom.getData(m_codeName, "email");
-    m_group = lDom.getData(m_codeName, "group");
-    m_active = lDom.getData(m_codeName, "active").toBool();
-    m_isConnect = lDom.getData(m_codeName, "is_connect").toBool();
-    return true;
+    m_id = lDom.getData(_code, "id").toInt();
+    m_pseudo = lDom.getData(_code, "pseudo");
+    m_password = lDom.getData(_code, "password");
+    m_email = lDom.getData(_code, "email");
+    m_group = lDom.getData(_code, "group");
+    m_active = lDom.getData(_code, "active").toBool();
+    m_isConnect = lDom.getData(_code, "is_connect").toBool();
 }
 //===============================================
 bool GConnection::loadUserPseudo() {
@@ -152,35 +150,47 @@ bool GConnection::updateConnection() {
     return true;
 }
 //===============================================
-void GConnection::print() const {
+void GConnection::print() {
     printf("%s\n", serialize().c_str());
 }
 //===============================================
 bool GConnection::onModule() {
     deserialize(m_server->getRequest());
     if(m_methodName == "") {
-        GMETHOD_REQUIRED();
+        m_logs.addError("La méthode est obligatoire.");
     }
     else if(m_methodName == "run_connection") {
         onRunConnection();
     }
     else {
-        GMETHOD_UNKNOWN();
+        m_logs.addError("La méthode est inconnue.");
     }
     m_server->addResponse(serialize());
     return true;
 }
 //===============================================
 bool GConnection::onRunConnection() {
-    if(m_pseudo == "") {GERROR_ADD(eGERR, "Le nom d'utilisateur est obligatoire."); return false;}
-    if(m_password == "") {GERROR_ADD(eGERR, "Le mot de passe est obligatoire."); return false;}
+    if(m_pseudo == "") {
+        m_logs.addError("Le nom d'utilisateur est obligatoire.");
+        return false;
+    }
+    if(m_password == "") {
+        m_logs.addError("Le mot de passe est obligatoire.");
+        return false;
+    }
     if(!loadUserPseudo()) return false;
-    if(m_id == 0) {GERROR_ADD(eGERR, "Le nom d'utilisateur n'existe pas encore."); return false;}
+    if(m_id == 0) {
+        m_logs.addError("Le nom d'utilisateur n'existe pas encore.");
+        return false;
+    }
     if(!computePassword()) return false;
     if(!loadUserPassword()) return false;
-    if(m_id == 0) {GERROR_ADD(eGERR, "Le mot de passe est incorrect."); return false;}
+    if(m_id == 0) {
+        m_logs.addError("Le mot de passe est incorrect.");
+        return false;
+    }
     if(!loadUser()) return false;
-    GLOG_ADD(eGLOG, "La connexion a réussi.");
+    m_logs.addLog("La connexion a réussi.");
     m_isConnect = true;
     if(!updateConnection()) return false;
     return true;

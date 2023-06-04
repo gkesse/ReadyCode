@@ -2,8 +2,7 @@
 #include "GXml.h"
 #include "GLog.h"
 //===============================================
-GXml::GXml()
-: GObject() {
+GXml::GXml() {
     m_doc = 0;
     m_xpath = 0;
     m_xpathObj = 0;
@@ -90,7 +89,7 @@ bool GXml::createNode(const GString& _name) {
     return true;
 }
 //===============================================
-bool GXml::createNodePath(const GString& _path) {
+bool GXml::createXNode(const GString& _path) {
     int lCount = _path.countSep("/");
     GString lPath = "";
     for(int i = 0; i < lCount; i++) {
@@ -98,7 +97,7 @@ bool GXml::createNodePath(const GString& _path) {
         if(lItem == "") continue;
         lPath += "/";
         lPath += lItem;
-        if(!getNode(lPath)) {
+        if(!getXNode(lPath)) {
             createNode(lItem);
             next();
         }
@@ -112,7 +111,8 @@ bool GXml::next() {
     return true;
 }
 //===============================================
-bool GXml::getNode(const GString& _path) {
+bool GXml::getXNode(const GString& _path) {
+    if(!m_doc) return false;
     if(!m_xpath) return false;
     m_xpathObj = xmlXPathEvalExpression(BAD_CAST(_path.c_str()), m_xpath);
     if(!m_xpathObj) return false;

@@ -33,6 +33,8 @@ private:
 
     GString m_request;
     GString m_response;
+    GString m_dataOut;
+    GString m_dataIn;
 
     int m_dataSize;
     int m_headerSize;

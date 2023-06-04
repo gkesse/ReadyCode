@@ -2,7 +2,6 @@
 #include "GModuleData.h"
 #include "GModule.h"
 #include "GCode.h"
-#include "GLog.h"
 #include "GClient.h"
 #include "GTableWidgetUi.h"
 //===============================================
@@ -34,7 +33,7 @@ GString GModuleData::serialize(const GString& _code) {
     return lDom.toString();
 }
 //===============================================
-bool GModuleData::deserialize(const GString& _data, const GString& _code) {
+void GModuleData::deserialize(const GString& _data, const GString& _code) {
     GSearch::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
@@ -44,7 +43,6 @@ bool GModuleData::deserialize(const GString& _data, const GString& _code) {
     m_value = lDom.getData(_code, "value");
     m_module = lDom.getData(_code, "module").fromBase64();
     lDom.getData(_code, m_map, this);
-    return true;
 }
 //===============================================
 void GModuleData::setModuleData(const GModuleData& _moduleData) {

@@ -9,11 +9,11 @@ class GFormLayout;
 //===============================================
 class GModuleKey : public GSearch {
 public:
-    GModuleKey(const GString& _code = "module_key");
+    GModuleKey();
     ~GModuleKey();
     GObject* clone() const;
     GString serialize(const GString& _code = "module_key");
-    bool deserialize(const GString& _data, const GString& _code = "module_key");
+    void deserialize(const GString& _data, const GString& _code = "module_key");
 
     void setModuleKey(const GModuleKey& _moduleKey);
     void setModuleKey(GModuleKey* _moduleKey);

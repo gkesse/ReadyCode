@@ -2,12 +2,11 @@
 #include "GModuleData.h"
 #include "GModule.h"
 #include "GMySQL.h"
+#include "GSocket.h"
 #include "GCode.h"
-#include "GLog.h"
-#include "GServer.h"
 //===============================================
-GModuleData::GModuleData(const GString& _code)
-: GSearch(_code) {
+GModuleData::GModuleData()
+: GSearch() {
     m_id = 0;
     m_moduleId = 0;
 }
@@ -20,7 +19,7 @@ GObject* GModuleData::clone() const {
     return new GModuleData;
 }
 //===============================================
-GString GModuleData::serialize(const GString& _code) const {
+GString GModuleData::serialize(const GString& _code)  {
     GCode lDom;
     lDom.createDoc();
     lDom.addData(_code, "id", m_id);
@@ -33,7 +32,7 @@ GString GModuleData::serialize(const GString& _code) const {
     return lDom.toString();
 }
 //===============================================
-bool GModuleData::deserialize(const GString& _data, const GString& _code) {
+void GModuleData::deserialize(const GString& _data, const GString& _code) {
     GSearch::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
@@ -43,13 +42,12 @@ bool GModuleData::deserialize(const GString& _data, const GString& _code) {
     m_value = lDom.getData(_code, "value");
     m_module = lDom.getData(_code, "module").fromBase64();
     lDom.getData(_code, m_map, this);
-    return true;
 }
 //===============================================
 bool GModuleData::onModule() {
     deserialize(m_server->getRequest());
     if(m_methodName == "") {
-        GMETHOD_REQUIRED();
+        m_logs.addError("La méthode est obligatoire.");
     }
     else if(m_methodName == "save_module_data") {
         onSaveModuleData();
@@ -64,7 +62,7 @@ bool GModuleData::onModule() {
         onDeleteModuleData();
     }
     else {
-        GMETHOD_UNKNOWN();
+        m_logs.addError("La méthode est inconnue.");
     }
     m_server->addResponse(serialize());
     return true;
@@ -75,7 +73,7 @@ bool GModuleData::onSaveModuleData() {
     if(m_name == "") {GERROR_ADD(eGERR, "Le nom de la donnée est obligatoire."); return false;}
     if(!saveModuleData()) return false;
     if(m_id == 0) {GERROR_ADD(eGERR, "Erreur lors de l'enregistrement du module."); return false;}
-    GLOG_ADD(eGLOG, "La donnée a bien été enregistrée.");
+    m_logs.addLog("La donnée a bien été enregistrée.");
     return true;
 }
 //===============================================
@@ -119,7 +117,7 @@ bool GModuleData::onSearchNextModuleData() {
 bool GModuleData::onDeleteModuleData() {
     if(m_id == 0) {GERROR_ADD(eGERR, "L'identifiant de la donnée est obligatoire."); return false;}
     if(!deleteModuleData()) return false;
-    GLOG_ADD(eGLOG, "La donnée a bien été supprimée.");
+    m_logs.addLog("La donnée a bien été supprimée.");
     return true;
 }
 //===============================================
@@ -136,7 +134,7 @@ bool GModuleData::saveModuleData() {
 bool GModuleData::searchModuleData() {
     clearMap();
     GMySQL lMySQL;
-    GMap lDataMap = lMySQL.readMap(GFORMAT(""
+    GMySQL::GMaps lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _name, _value "
             " from _module_data "
             " %s "
@@ -146,7 +144,7 @@ bool GModuleData::searchModuleData() {
             , m_dataSize
     ));
     for(int i = 0; i < (int)lDataMap.size(); i++) {
-        GRow lDataRow = lDataMap.at(i);
+        GMySQL::GRows lDataRow = lDataMap.at(i);
         int j = 0;
         GModuleData* lObj = new GModuleData;
         lObj->m_id = lDataRow.at(j++).toInt();
@@ -172,7 +170,7 @@ bool GModuleData::searchModuleData() {
 bool GModuleData::searchNextModuleData() {
     clearMap();
     GMySQL lMySQL;
-    GMap lDataMap = lMySQL.readMap(GFORMAT(""
+    GMySQL::GMaps lDataMap = lMySQL.readMap(GFORMAT(""
             " select _id, _name, _value "
             " from _module_data "
             " %s "
@@ -182,7 +180,7 @@ bool GModuleData::searchNextModuleData() {
             , m_dataSize
     ));
     for(int i = 0; i < (int)lDataMap.size(); i++) {
-        GRow lDataRow = lDataMap.at(i);
+        GMySQL::GRows lDataRow = lDataMap.at(i);
         int j = 0;
         GModuleData* lObj = new GModuleData;
         lObj->m_id = lDataRow.at(j++).toInt();

@@ -2,70 +2,44 @@
 #ifndef _GHttp_
 #define _GHttp_
 //===============================================
-#include "GManager.h"
+#include "GObject.h"
 //===============================================
-class GHttp : public GManager {
+class GHttp : public GObject {
 public:
-    GHttp(const GString& _code = "http");
+    GHttp();
     ~GHttp();
-    //
-    void setMethod(const GString& _method);
-    void setUrl(const GString& _url);
-    GString getUrl() const;
+    void initHttp();
+    void initReason();
+
+    void setModule(const GString& _module);
     void setVersion(const GString& _version);
-    void setHostname(const GString& _hostname);
-    void setPort(int _port);
     void setStatus(int _status);
-    void setReason(const GString& _reason);
-    void setContent(const GString& _content);
     void setContentType(const GString& _contentType);
-    void setContentLength(int _contentLength);
-    void setCacheControl(const GString& _cacheControl);
-    void setUpgradeInsecureRequests(const GString& _upgradeInsecureRequests);
-    void setUserAgent(const GString& _userAgent);
-    void setAccept(const GString& _accept);
-    void setAcceptEncoding(const GString& m_acceptEncoding);
-    void setAcceptLanguage(const GString& _acceptLanguage);
-    void setDate(const GString& _date);
-    void setServer(const GString& _server);
-    void setLastModified(const GString& _lastModified);
+    void setContentText(const GString& _contentText);
     void setConnection(const GString& _connection);
-    //
-    bool isLine(char _char, int& _index) const;
-    bool isHeader(char _char, int& _index) const;
-    //
-    void runHttp();
-    bool analyzeHeader();
-    bool analyzeMethod();
-    bool analyzeGet();
-    bool analyzePost();
-    void onGetIndex();
-    //
-    bool createGetData();
+
+    GString getResponseText() const;
+
+    bool run();
+    bool runResponse();
+
+public:
+    static const char* HTTP_1_0;
+    static const char* HTTP_1_1;
+    static const int HTTP_OK = 200;
+    static const int HTTP_NOT_FOUND = 404;
 
 private:
-    static const int HEADER_SIZE = 1024;
-    //
-    GString m_method;
-    GString m_url;
+    GString m_module;
     GString m_version;
-    GString m_hostname;
+    int m_status;
     GString m_reason;
     GString m_contentType;
-    GString m_date;
-    GString m_servers;
-    GString m_lastModified;
-    GString m_content;
-    GString m_cacheControl;
-    GString m_upgradeInsecureRequests;
-    GString m_userAgent;
-    GString m_accept;
-    GString m_acceptEncoding;
-    GString m_acceptLanguage;
-    GString m_connection;
-    int m_status;
     int m_contentLength;
-    int m_port;
+    GString m_contentText;
+    GString m_connection;
+
+    GString m_responseText;
 };
 //==============================================
 #endif

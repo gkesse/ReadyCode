@@ -1,6 +1,5 @@
 //===============================================
 #include "GClient.h"
-#include "GLog.h"
 #include "GCode.h"
 //===============================================
 GClient* GClient::m_instance = 0;
@@ -27,15 +26,15 @@ void GClient::setRequest(const GString& _request) {
     m_request = _request;
 }
 //===============================================
-GString GClient::callServer(const GString& _modules, const GString& _method, const GString& _data) {
+GString GClient::callServer(const GString& _module, const GString& _method, const GString& _data) {
     GCode lDom;
     lDom.createDoc();
-    lDom.createRequest(_modules, _method);
+    lDom.createRequest(_module, _method);
     lDom.loadData(_data);
     GString lData = lDom.toString();
     setRequest(lData);
     GLOGT(eGOFF, lData.c_str());
-    GSocket::callServer();
+    //GSocket::callServer();
     GLOGI->deserialize(m_response);
     GLOGT(eGOFF, m_response.c_str());
     return m_response;
@@ -70,7 +69,7 @@ bool GClient::onCallServer() {
 //===============================================
 bool GClient::onReadyApp() {
     if(!isReadyApp()) return false;
-    if(!readData(m_diffSize)) return false;
+    if(!readData(m_dataOut, m_diffSize)) return false;
     if(!readResponse()) return false;
     return true;
 }

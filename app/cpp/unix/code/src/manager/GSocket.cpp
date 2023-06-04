@@ -1,102 +1,109 @@
 //===============================================
-#include "GThread.h"
 #include "GSocket.h"
-#include "GLog.h"
+#include "GThread.h"
 #include "GHttp.h"
-#include "GEnv.h"
-#include "GCode.h"
+//===============================================
+const char* GSocket::METHOD_HTTP_GET = "GET";
+const char* GSocket::METHOD_HTTP_POST = "POST";
+const char* GSocket::METHOD_RDVAPP = "RDVAPP";
 //===============================================
 GSocket::GSocket()
 : GObject() {
-    createDoms();
-    initSocket();
+    m_port = 0;
+    m_backlog = 0;
+    m_socket = 0;
+    m_isTestEnv = false;
 }
 //===============================================
 GSocket::~GSocket() {
 
 }
 //===============================================
-void GSocket::initSocket() {
-    m_isTestEnv     = GEnv().isTestEnv();
-
-    m_module        = m_dom->getData("socket", "module");
-    m_domainName    = m_dom->getData("socket", "domain");
-    m_typeName      = m_dom->getData("socket", "type");
-    m_protocolName  = m_dom->getData("socket", "protocol");
-    m_familyName    = m_dom->getData("socket", "family");
-    m_portProd      = m_dom->getData("socket", "port_prod").toInt();
-    m_portTest      = m_dom->getData("socket", "port_test").toInt();
-    m_backlog       = m_dom->getData("socket", "backlog").toInt();
-    m_serverIp      = m_dom->getData("socket", "server_ip");
-    m_clientIp      = m_dom->getData("socket", "client_ip");
-    m_apiMethod     = m_dom->getData("socket", "api_method");
-    m_apiKeyProd    = m_dom->getData("socket", "api_key_prod");
-    m_apiKeyTest    = m_dom->getData("socket", "api_key_test");
-    m_apiUsername   = m_dom->getData("socket", "api_username");
-    m_apiPassword   = m_dom->getData("socket", "api_password");
-    m_startMessage  = m_dom->getData("socket", "start_message");
-
-    m_domain        = loadDomain();
-    m_type          = loadType();
-    m_protocol      = loadProtocol();
-    m_family        = loadFamily();
-    m_hostname      = m_clientIp;
-    m_port          = (m_isTestEnv ? m_portTest : m_portProd);
-    m_apiKey        = (m_isTestEnv ? m_apiKeyTest : m_apiKeyProd);
+void GSocket::setModule(const GString& _module) {
+    m_module = _module;
 }
 //===============================================
-int GSocket::loadDomain() const {
-    if(m_domainName == "AF_INET") return AF_INET;
-    return AF_INET;
+void GSocket::setHostname(const GString& _hostname) {
+    m_hostname = _hostname;
 }
 //===============================================
-int GSocket::loadType() const {
-    if(m_typeName == "SOCK_STREAM") return SOCK_STREAM;
-    return SOCK_STREAM;
+void GSocket::setPort(int _port) {
+    m_port = _port;
 }
 //===============================================
-int GSocket::loadProtocol() const {
-    if(m_protocolName == "IPPROTO_TCP") return IPPROTO_TCP;
-    return IPPROTO_TCP;
+void GSocket::setBacklog(int _backlog) {
+    m_backlog = _backlog;
 }
 //===============================================
-int GSocket::loadFamily() const {
-    if(m_familyName == "AF_INET") return AF_INET;
-    return AF_INET;
+void GSocket::setStartMessage(const GString& _startMessage) {
+    m_startMessage = _startMessage;
 }
 //===============================================
-GString& GSocket::getDataIn() {
-    return m_dataIn;
+void GSocket::setStopMessage(const GString& _stopMessage) {
+    m_stopMessage = _stopMessage;
 }
 //===============================================
-GString& GSocket::getDataOut() {
-    return m_dataOut;
+int GSocket::getSocket() const {
+    return m_socket;
 }
 //===============================================
-bool GSocket::runServer() {
-    if(m_module == "tcp") {
-        return runServerTcp();
+bool GSocket::createSocketX() {
+    if(m_hostname.isEmpty()) {
+        m_logs.addError("Erreur l'adresse n'est pas initialisée.");
+        return false;
     }
-    return false;
-}
-//===============================================
-bool GSocket::runServerTcp() {
-    int lSocket = socket(m_domain, m_type, m_protocol);
-    if(lSocket == -1) return false;
+    if(!m_port) {
+        m_logs.addError("Erreur le port n'est pas initialisé.");
+        return false;
+    }
+    if(!m_backlog) {
+        m_logs.addError("Erreur le backlog n'est pas initialisé.");
+        return false;
+    }
+
+    m_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    if(m_socket == -1) {
+        m_logs.addError(GFORMAT("Erreur lors de l'initialisation du socket.\n[%d]:%s", errno, strerror(errno)));
+        return false;
+    }
 
     struct sockaddr_in lAddressIn;
     bzero(&lAddressIn, sizeof(lAddressIn));
-    lAddressIn.sin_family = m_family;
+    lAddressIn.sin_family = AF_INET;
     lAddressIn.sin_addr.s_addr = inet_addr(m_hostname.c_str());
     lAddressIn.sin_port = htons(m_port);
 
-    int lBind = bind(lSocket, (struct sockaddr*)&lAddressIn, sizeof(lAddressIn));
-    if(lBind == -1) return false;
+    int lBindOk = bind(m_socket, (struct sockaddr*)&lAddressIn, sizeof(lAddressIn));
+    if(lBindOk == -1) {
+        m_logs.addError(GFORMAT("Erreur lors de la liaison du socket.\n[%d]:%s", errno, strerror(errno)));
+        return false;
+    }
 
-    int lListen = listen(lSocket, m_backlog);
-    if(lListen == -1) return false;
+    int lListenOk = listen(m_socket, m_backlog);
+    if(lListenOk == -1) {
+        m_logs.addError(GFORMAT("Erreur lors de l'initialisation du backlog.\n[%d]:%s", errno, strerror(errno)));
+        return false;
+    }
 
-    GLOGT(eGMSG, "%s", m_startMessage.c_str());
+    return !m_logs.hasErrors();
+}
+//===============================================
+bool GSocket::run() {
+    if(m_module == "") {
+        m_logs.addError("Le module est obligatoire.");
+    }
+    else if(m_module == "server_tcp") {
+        runServerTcp();
+    }
+    else {
+        m_logs.addError("Le module est inconnu.");
+    }
+    return !m_logs.hasErrors();
+}
+//===============================================
+bool GSocket::runServerTcp() {
+    if(!createSocketX()) return false;
+    printf("\n%s\n", m_startMessage.c_str());
 
     struct sockaddr_in lAddress2;
     socklen_t lSize = sizeof(lAddress2);
@@ -105,97 +112,94 @@ bool GSocket::runServerTcp() {
     lThread.setThreadCB((void*)onThreadCB);
 
     while(1) {
-        GSocket* lClient = clone();
-        int lSocket2 = accept(lSocket, (struct sockaddr*)&lAddress2, &lSize);
-        if(lSocket2 == -1) return false;
-        lClient->m_module = m_module;
-        lClient->m_socket = lSocket2;
+        m_logs.showErrors();
+        m_logs.clearMap();
+        GSocket* lClient = new GSocket;
+        lClient->m_socket = accept(m_socket, (struct sockaddr*)&lAddress2, &lSize);
+        if(lClient->m_socket == -1) {
+            //m_logs.addError(GFORMAT("Erreur lors de l'acceptation de la connexion client.\n[%d]:%s", errno, strerror(errno)));
+            continue;
+        }
         lThread.setParams((void*)lClient);
-        if(!lThread.run()) return false;
+        if(!lThread.run()) {
+            m_logs.addLogs(lThread.getLogs());
+            continue;
+        }
     }
 
-    return true;
+    printf("\n%s\n", m_stopMessage.c_str());
+
+    closeSocket();
+    return !m_logs.hasErrors();
 }
 //===============================================
 void* GSocket::onThreadCB(void* _params) {
     GSocket* lClient = (GSocket*)_params;
     lClient->runThreadCB();
+    lClient->closeSocket();
+    delete lClient;
     return 0;
 }
 //===============================================
 bool GSocket::runThreadCB() {
-    if(m_module == "tcp") {
-        return runThreadTcp();
-    }
-    return false;
+    GString lRequest;
+    readData(lRequest);
+    GLOGT(eGMSG, "\nRECEPTION [%d] :\n%s\n", lRequest.size(), lRequest.c_str());
+    sendEchoHttp();
+    return !m_logs.hasErrors();
 }
 //===============================================
-bool GSocket::runThreadTcp() {
-    if(readMethod()) {
-        onRunServerTcp();
-    }
-
-    sendResponse();
-    close(m_socket);
-    delete this;
-    return true;
+void GSocket::closeSocket() {
+    m_logs.showErrors();
+    m_logs.clearMap();
+    if(m_socket > 0) {close(m_socket); m_socket = 0;}
 }
 //===============================================
-bool GSocket::readMethod() {
-    char lBuffer[METHOD_SIZE + 1];
-    int lBytes = readData(lBuffer, METHOD_SIZE);
-    if(lBytes <= 0) return false;
-    lBuffer[lBytes] = 0;
-    m_dataIn += lBuffer;
-    return true;
-}
-//===============================================
-bool GSocket::sendResponse() {
-    GLOGT(eGMSG, "[RECEPTION] : (%d)\n%s", (int)m_dataIn.size(), m_dataIn.c_str());
-    GLOGT(eGMSG, "[EMISSION] : (%d)\n%s", (int)m_dataOut.size(), m_dataOut.c_str());
-
-    if(m_dataOut.size() > 0) {
-        int lIndex = 0;
-        int lSize = m_dataOut.size();
-        const char* lBuffer = m_dataOut.c_str();
-
-        while(1) {
-            int lBytes = sendData(&lBuffer[lIndex], lSize - lIndex);
-            if(lBytes <= 0) return false;
-            lIndex += lBytes;
-            if(lIndex >= lSize) break;
-        }
-    }
-    return true;
-}
-//===============================================
-bool GSocket::readData(int _diffSize) {
-    if(_diffSize < 0) return false;
-    if(_diffSize == 0) return true;
+bool GSocket::readData(GString& _dataOut) {
     char lBuffer[BUFFER_SIZE + 1];
-    int lIndex = 0;
     int lSize = 0;
     while(1) {
-        int lBytes = readData(lBuffer, BUFFER_SIZE);
-        if(lBytes <= 0) return false;
-        lBuffer[lBytes] = 0;
-        m_dataIn += lBuffer;
+        int lBytes = recv(m_socket, lBuffer, BUFFER_SIZE, 0);
         lSize += lBytes;
-        if(lSize >= _diffSize) return true;
+        if(lSize >= BUFFER_MAX) {
+            m_logs.addError("Erreur le nombre d'octets maximal a été atteint.");
+            break;
+        }
+        if(lBytes <= 0) break;
+        lBuffer[lBytes] = 0;
+        _dataOut += lBuffer;
+        int lIoctlOk = ioctl(m_socket, FIONREAD, &lBytes);
+        if(lIoctlOk == -1) break;
+        if(lBytes <= 0) break;
     }
-    return true;
+    return !m_logs.hasErrors();
 }
 //===============================================
-int GSocket::readData(char* _data, int _size) {
-    int lBytes = recv(m_socket, _data, _size, 0);
-    return lBytes;
+bool GSocket::sendData(const GString& _dataIn) {
+    if(_dataIn.isEmpty()) return true;
+    int lSize = _dataIn.size();
+    const char* lBuffer = _dataIn.c_str();
+    int lIndex = 0;
+
+    while(1) {
+        int lBytes = send(m_socket, &lBuffer[lIndex], lSize - lIndex, 0);
+        if(lBytes <= 0) break;
+        lIndex += lBytes;
+        if(lIndex >= lSize) break;
+    }
+
+    return !m_logs.hasErrors();
 }
 //===============================================
-int GSocket::sendData(const char* _data, int _size) {
-    int lBytes = send(m_socket, _data, _size, 0);
-    return lBytes;
+bool GSocket::sendEchoHttp() {
+    GHttp lHttp;
+    lHttp.setModule("response");
+    lHttp.setContentText("Bonjour tout le monde !");
+    lHttp.run();
+    m_logs.addLogs(lHttp.getLogs());
+    GString lResponse = lHttp.getResponseText();
+    GLOGT(eGMSG, "\nEMISSION [%d] :\n%s\n", lResponse.size(), lResponse.c_str());
+    sendData(lResponse);
+    return !m_logs.hasErrors();
 }
-//===============================================
-GSocket* GSocket::clone() const {return new GSocket;}
-bool GSocket::onRunServerTcp() {return false;}
 //===============================================

@@ -21,7 +21,13 @@
 #include <opencv2/opencv.hpp>
 // base64
 #include <base64.h>
-//===============================================
+// curl
+#include <curl/curl.h>
+// openssl
+#include <openssl/bio.h>
+#include <openssl/ssl.h>
+#include <openssl/err.h>
+// includes
 #include "GString.h"
 //===============================================
 #endif

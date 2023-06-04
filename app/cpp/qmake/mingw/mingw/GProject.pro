@@ -39,6 +39,6 @@ RESOURCES +=\
 LIBS +=\
     -L$$GRLIB\lib \
     -L$$GRLIB\bin \
-    -lws2_32 -lxml2 -lz -liconv \
+    -lws2_32 -lxml2 -lz -liconv -lcrypto -lssl -lcurl \
     -lopencv_core452 -lopencv_highgui452 -lopencv_imgcodecs452 \
     

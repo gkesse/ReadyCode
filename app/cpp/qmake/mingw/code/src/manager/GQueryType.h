@@ -8,11 +8,11 @@ class GTableWidgetUi;
 //===============================================
 class GQueryType : public GSearch {
 public:
-    GQueryType(const GString& _code = "query_type");
+    GQueryType();
     ~GQueryType();
     GObject* clone() const;
     GString serialize(const GString& _code = "query_type");
-    bool deserialize(const GString& _data, const GString& _code = "query_type");
+    void deserialize(const GString& _data, const GString& _code = "query_type");
 
     void setQueryType(const GQueryType& _queryType);
     void setQueryType(GQueryType* _queryType);

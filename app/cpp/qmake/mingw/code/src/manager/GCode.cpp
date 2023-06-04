@@ -1,6 +1,6 @@
 //===============================================
 #include "GCode.h"
-#include "GLog.h"
+#include "GObject.h"
 //===============================================
 GCode::GCode()
 : GXml() {
@@ -13,7 +13,7 @@ GCode::~GCode() {
 //===============================================
 bool GCode::createCode() {
     if(!getCode()) {
-        createNodePath("/rdv/datas");
+        createXNode("/rdv/datas");
     }
     return true;
 }
@@ -48,23 +48,23 @@ bool GCode::loadData(const GString& _data) {
 }
 //===============================================
 bool GCode::getCode() {
-    return getNode("/rdv/datas");
+    return getXNode("/rdv/datas");
 }
 //===============================================
 bool GCode::getCode(const GString& _code) {
-    return getNode(GFORMAT("/rdv/datas/data[code='%s']", _code.c_str()));
+    return getXNode(GFORMAT("/rdv/datas/data[code='%s']", _code.c_str()));
 }
 //===============================================
 bool GCode::getCode(const GString& _code, const GString& _key) {
-    return getNode(GFORMAT("/rdv/datas/data[code='%s']/%s", _code.c_str(), _key.c_str()));
+    return getXNode(GFORMAT("/rdv/datas/data[code='%s']/%s", _code.c_str(), _key.c_str()));
 }
 //===============================================
 bool GCode::getCode(const GString& _code, int _index) {
-    return getNode(GFORMAT("/rdv/datas/data[code='%s']/map/data[position()=%d]", _code.c_str(), _index + 1));
+    return getXNode(GFORMAT("/rdv/datas/data[code='%s']/map/data[position()=%d]", _code.c_str(), _index + 1));
 }
 //===============================================
 bool GCode::getMap(const GString& _code, int _index) {
-    return getNode(GFORMAT("/rdv/datas/data[code='%s']/map/data[position()=%d]", _code.c_str(), _index + 1));
+    return getXNode(GFORMAT("/rdv/datas/data[code='%s']/map/data[position()=%d]", _code.c_str(), _index + 1));
 }
 //===============================================
 GString GCode::getData(const GString& _code, const GString& _key) {
@@ -89,7 +89,25 @@ bool GCode::getData(const GString& _code, std::vector<GObject*>& _map, GObject* 
         lDom.loadNode(lData);
         lData = lDom.toString();
         GObject* lObj = _obj->clone();
-        lObj->deserialize(lData, lObj->getCodeName());
+        lObj->deserialize(lData, _code);
+        _map.push_back(lObj);
+    }
+    return true;
+}
+//===============================================
+bool GCode::getData(const GString& _code, std::vector<GLog*>& _map, GLog* _obj) {
+    int lCount = countMap(_code);
+    for(int i = 0; i < lCount; i++) {
+        getMap(_code, i);
+        GString lData = toNode();
+        lData = GFORMAT("<rdv>%s</rdv>", lData.c_str());
+        GCode lDom;
+        lDom.createDoc();
+        lDom.createCode();
+        lDom.loadNode(lData);
+        lData = lDom.toString();
+        GLog* lObj = _obj->clone();
+        lObj->deserialize(lData, _code);
         _map.push_back(lObj);
     }
     return true;
@@ -116,7 +134,25 @@ bool GCode::addData(const GString& _code, const std::vector<GObject*>& _map) {
     }
     for(int i = 0; i < (int)_map.size(); i++) {
         GObject* lObj = _map.at(i);
-        GString lData = lObj->serialize(lObj->getCodeName());
+        GString lData = lObj->serialize(_code);
+        GCode lDom;
+        lDom.loadXml(lData);
+        lData = lDom.toData();
+        loadNode(lData);
+    }
+    return true;
+}
+//===============================================
+bool GCode::addData(const GString& _code, const std::vector<GLog*>& _map) {
+    if(_map.size() == 0) return false;
+    createCode(_code);
+    if(!getCode(_code, "map")) {
+        createNode("map");
+        next();
+    }
+    for(int i = 0; i < (int)_map.size(); i++) {
+        GLog* lObj = _map.at(i);
+        GString lData = lObj->serialize();
         GCode lDom;
         lDom.loadXml(lData);
         lData = lDom.toData();
@@ -129,7 +165,7 @@ bool GCode::addData(const GString& _data, GObject* _obj) {
     if(_data.trim().isEmpty()) return false;
     GCode lDom;
     lDom.loadXml(_data);
-    if(!lDom.getNode("/rdv/datas/data/code")) return false;
+    if(!lDom.getXNode("/rdv/datas/data/code")) return false;
     GString lCode = lDom.getValue();
     if(lCode.isEmpty()) return false;
     if(!lDom.getCode(lCode)) return false;

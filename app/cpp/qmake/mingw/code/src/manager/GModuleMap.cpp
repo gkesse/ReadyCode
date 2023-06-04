@@ -5,14 +5,13 @@
 #include "GModuleType.h"
 #include "GModuleKey.h"
 #include "GCode.h"
-#include "GLog.h"
 #include "GClient.h"
 #include "GTreeWidgetUi.h"
 #include "GTreeWidget.h"
 #include "GFormLayout.h"
 //===============================================
-GModuleMap::GModuleMap(const GString& _code)
-: GSearch(_code) {
+GModuleMap::GModuleMap()
+: GSearch() {
     m_id = 0;
     m_moduleId = 0;
     m_position = 0;
@@ -39,7 +38,7 @@ GString GModuleMap::serialize(const GString& _code) {
     return lDom.toString();
 }
 //===============================================
-bool GModuleMap::deserialize(const GString& _data, const GString& _code) {
+void GModuleMap::deserialize(const GString& _data, const GString& _code) {
     GSearch::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
@@ -48,7 +47,6 @@ bool GModuleMap::deserialize(const GString& _data, const GString& _code) {
     m_position = lDom.getData(_code, "position").toInt();
     m_node = lDom.getData(_code, "node").fromBase64();
     lDom.getData(_code, m_map, this);
-    return true;
 }
 //===============================================
 void GModuleMap::setModuleMap(const GModuleMap& _moduleMap) {

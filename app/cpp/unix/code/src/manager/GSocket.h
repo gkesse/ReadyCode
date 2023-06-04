@@ -7,73 +7,56 @@
 class GSocket : public GObject {
 public:
     GSocket();
-    virtual ~GSocket();
+    ~GSocket();
 
-    virtual GSocket* clone() const;
+    void setModule(const GString& _module);
+    void setHostname(const GString& _hostname);
+    void setPort(int _port);
+    void setBacklog(int _backlog);
+    void setStartMessage(const GString& _startMessage);
+    void setStopMessage(const GString& _startMessage);
+    int getSocket() const;
+    bool createSocketX();
 
-    void initSocket();
-    int loadDomain() const;
-    int loadType() const;
-    int loadProtocol() const;
-    int loadFamily() const;
+    GString getRequest() const {return "";}
+    void setRequest(const GString& _request) {}
+    void addResponse(const GString& _data) {}
+    GSocket* createSocket() {return 0;};
+    void createResponse() {};
+    void sendResponse() {}
+    void readDatas(GString& _data) {}
+    void sendDatas(const GString& _data) {}
+    GString m_dataIn;
+    GString m_dataOut;
+    static const int METHOD_SIZE = 1024;
+    static const char* METHOD_HTTP_GET;
+    static const char* METHOD_HTTP_POST;
+    static const char* METHOD_RDVAPP;
+    bool m_isTestEnv;
+    bool readData(GString& _dataOut, int _size) {return true;}
 
-    GString& getDataIn();
-    GString& getDataOut();
-
-    int readData(char* _data, int _size);
-    bool readData(int _diffSize);
-    bool readMethod();
-
-    int sendData(const char* _data, int _size);
-    bool sendResponse();
-
-    bool runServer();
+    bool run();
     bool runServerTcp();
-
     static void* onThreadCB(void* _params);
-    bool runThreadCB();
-    bool runThreadTcp();
+    virtual bool runThreadCB();
+    void closeSocket();
 
-    virtual bool onRunServerTcp();
+    bool readData(GString& _dataOut);
+    bool sendData(const GString& _dataIn);
+    bool sendEchoHttp();
 
 protected:
     static const int BUFFER_SIZE = 1024;
-    static const int METHOD_SIZE = 1024;
+    static const int BUFFER_MAX = 1024*1024;
 
-    bool m_isTestEnv;
-
-    int m_domain;
-    int m_type;
-    int m_protocol;
-    int m_family;
-    int m_port;
     int m_backlog;
-
-    int m_portProd;
-    int m_portTest;
+    int m_port;
+    int m_socket;
 
     GString m_module;
     GString m_hostname;
     GString m_startMessage;
-    GString m_apiMethod;
-    GString m_apiKey;
-    GString m_apiUsername;
-    GString m_apiPassword;
-
-    GString m_serverIp;
-    GString m_clientIp;
-    GString m_domainName;
-    GString m_typeName;
-    GString m_protocolName;
-    GString m_familyName;
-    GString m_apiKeyProd;
-    GString m_apiKeyTest;
-
-    GString m_content;
-
-    int m_socket;
-    GString m_dataIn;
-    GString m_dataOut;
+    GString m_stopMessage;
 };
 //==============================================
 #endif

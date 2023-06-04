@@ -13,8 +13,8 @@ public:
 
     GObject* clone() const;
 
-    GString serialize() const;
-    bool deserialize(const GString& _data);
+    GString serialize(const GString& _code = "connection");
+    void deserialize(const GString& _data, const GString& _code = "manager");
 
     bool loadUserPseudo();
     bool loadUserPassword();
@@ -25,7 +25,7 @@ public:
     bool updateUser();
     bool updateConnection();
 
-    void print() const;
+    void print();
 
     bool onModule();
     bool onRunConnection();

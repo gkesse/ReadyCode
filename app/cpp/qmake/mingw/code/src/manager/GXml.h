@@ -2,9 +2,9 @@
 #ifndef _GXml_
 #define _GXml_
 //===============================================
-#include "GObject.h"
+#include "GInclude.h"
 //===============================================
-class GXml : public GObject {
+class GXml {
 public:
     GXml();
     virtual ~GXml();
@@ -20,11 +20,11 @@ public:
 
     bool createDoc();
     bool createNode(const GString& _name);
-    bool createNodePath(const GString& _name);
+    bool createXNode(const GString& _name);
 
     bool next();
 
-    bool getNode(const GString& _path);
+    bool getXNode(const GString& _path);
     GString getValue() const;
 
     bool setValue(const GString& _value, bool _isCData = false);

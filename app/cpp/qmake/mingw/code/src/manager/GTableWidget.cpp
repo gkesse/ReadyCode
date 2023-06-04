@@ -1,6 +1,5 @@
 //===============================================
 #include "GTableWidget.h"
-#include "GLog.h"
 //===============================================
 GTableWidget::GTableWidget(QWidget* _parent)
 : QTableWidget(_parent) {

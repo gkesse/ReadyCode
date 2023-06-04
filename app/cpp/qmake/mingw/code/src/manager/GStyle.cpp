@@ -1,7 +1,6 @@
 //===============================================
 #include "GStyle.h"
 #include "GPath.h"
-#include "GLog.h"
 #include "GFile.h"
 //===============================================
 GStyle* GStyle::m_instance = 0;
@@ -28,7 +27,7 @@ void GStyle::initStyle() {
 //===============================================
 bool GStyle::loadStyle() {
     GFile lFile(m_styleFile);
-    if(!lFile.existFile()) {GERROR_ADD(eGERR, GFORMAT("La feuille de style n'existe pas.\n%s", m_styleFile.c_str())); return false;}
+    if(!lFile.existFile()) {GERROR_ADD(eGERR, "La feuille de style n'existe pas.\n%s", m_styleFile.c_str()); return false;}
     GString lStyleSheet = lFile.getContents();
     qApp->setStyleSheet(lStyleSheet.c_str());
     return true;

@@ -7,15 +7,11 @@
 #include "GFile.h"
 #include "GShell.h"
 #include "GClient.h"
+#include "GApp.h"
 //===============================================
 GLog* GLog::m_instance = 0;
 //===============================================
-GLog::GLog(const GString& _code)
-: GObject(_code) {
-    createDoms();
-    m_file = 0;
-    m_isConnectionError = false;
-    m_isClientSide = true;
+GLog::GLog() {
     initLog();
 }
 //===============================================
@@ -30,8 +26,10 @@ GLog* GLog::Instance() {
     return m_instance;
 }
 //===============================================
-GObject* GLog::clone() const {
-    return new GLog;
+GLog* GLog::clone() {
+    GLog* lClone = new GLog;
+    lClone->setLog(this);
+    return lClone;
 }
 //===============================================
 GString GLog::serialize(const GString& _code) {
@@ -44,22 +42,25 @@ GString GLog::serialize(const GString& _code) {
     return lDom.toString();
 }
 //===============================================
-bool GLog::deserialize(const GString& _data, const GString& _code) {
+void GLog::deserialize(const GString& _data, const GString& _code) {
     GCode lDom;
     lDom.loadXml(_data);
     m_type = lDom.getData(_code, "type");
     m_side = lDom.getData(_code, "side");
     m_msg = lDom.getData(_code, "msg");
     lDom.getData(_code, m_map, this);
-    return true;
 }
 //===============================================
 void GLog::initLog() {
+    m_file              = 0;
+    m_isConnectionError = false;
+    m_isClientSide      = true;
+
     m_isTestEnv     = GEnv().isTestEnv();
-    m_isTestLog     = m_dom->getData("log", "test_on").toBool();
-    m_isProdLog     = m_dom->getData("log", "prod_on").toBool();
-    m_isTestFile    = m_dom->getData("log", "test_file_on").toBool();
-    m_isProdFile    = m_dom->getData("log", "prod_file_on").toBool();
+    m_isTestLog     = GAPP->getData("log", "test_on").toBool();
+    m_isProdLog     = GAPP->getData("log", "prod_on").toBool();
+    m_isTestFile    = GAPP->getData("log", "test_file_on").toBool();
+    m_isProdFile    = GAPP->getData("log", "prod_file_on").toBool();
     m_isDebug       = (m_isTestEnv ? m_isTestLog : m_isProdLog);
     m_isFileLog     = (m_isTestEnv ? m_isTestFile : m_isProdFile);
     m_tmpPath       = GEnv().getTmpDir();
@@ -69,12 +70,45 @@ void GLog::initLog() {
     m_logFilename   = (m_isTestEnv ? m_logTestFile : m_logProdFile);
 }
 //===============================================
+void GLog::setLog(const GLog& _log) {
+    m_type  = _log.m_type;
+    m_side  = _log.m_side;
+    m_msg   = _log.m_msg;
+}
+//===============================================
+void GLog::setLog(GLog* _log) {
+    setLog(*_log);
+}
+//===============================================
 bool GLog::isConnectionError() const {
     return m_isConnectionError;
 }
 //===============================================
 void GLog::setConnectionError(bool _isConnectionError) {
     m_isConnectionError = _isConnectionError;
+}
+//===============================================
+int GLog::size() const {
+    return (int)m_map.size();
+}
+//===============================================
+GLog* GLog::at(int _index) const {
+    if(_index >= 0 && _index < size()) {
+        return m_map.at(_index);
+    }
+    return 0;
+}
+//===============================================
+void GLog::add(GLog* _log) {
+    m_map.push_back(_log);
+}
+//===============================================
+void GLog::add(const GLog& _logs) {
+    GString lErrors = "";
+    for(int i = 0; i < _logs.size(); i++) {
+        GLog* lLog = _logs.at(i);
+        add(lLog->clone());
+    }
 }
 //===============================================
 FILE* GLog::getOutput() {
@@ -113,6 +147,14 @@ void GLog::tailLogFile() {
     else {
         printf("%s\n", lData.c_str());
     }
+}
+//===============================================
+void GLog::addError(const GString& _error) {
+    GLog* lLog = new GLog;
+    lLog->m_type = "error";
+    lLog->m_side = "client";
+    lLog->m_msg = _error;
+    add(lLog);
 }
 //===============================================
 void GLog::addError(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _error) {
@@ -249,6 +291,14 @@ void GLog::clearLogs() {
             m_map.erase (m_map.begin() + i);
         }
     }
+}
+//===============================================
+void GLog::clearMap() {
+    for(int i = 0; i < size(); i++) {
+        GLog* lObj = at(i);
+        delete lObj;
+    }
+    m_map.clear();
 }
 //===============================================
 void GLog::onErrorKey(const char* _name, int _level, const char* _file, int _line, const char* _func, const GString& _key) {

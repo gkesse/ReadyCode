@@ -6,11 +6,6 @@
         <!-- ============================================ -->
         <data>
             <code>socket</code>
-            <module>tcp</module>
-            <domain>AF_INET</domain>
-            <type>SOCK_STREAM</type>
-            <protocol>IPPROTO_TCP</protocol>
-            <family>AF_INET</family>
             <port_prod>9090</port_prod>
             <port_test>9091</port_test>
             <backlog>5</backlog>
@@ -22,6 +17,26 @@
             <api_username>admin</api_username>
             <api_password>admin</api_password>
             <start_message>Démarrage du serveur...</start_message>
+            <stop_message>Arrêt du serveur...</stop_message>
+        </data>
+        <!-- ============================================ -->
+        <!-- poco -->
+        <!-- ============================================ -->
+        <data>
+            <code>poco</code>
+            <port_prod>9070</port_prod>
+            <port_test>9071</port_test>
+            <api_key_prod>16ac9e66cde8bd80d6141dadb74b5083</api_key_prod>
+            <api_key_test>admin</api_key_test>
+            <api_username>admin</api_username>
+            <api_password>admin</api_password>
+            <start_message>Démarrage du serveur...</start_message>
+            <stop_message>Arrêt du serveur...</stop_message>
+            <charset>UTF-8</charset>
+            <content_type>application/xml</content_type>
+            <certificate_file>/home/gkesse/.readydev/data/certificates/fullchain.pem</certificate_file>
+            <private_key_file>/home/gkesse/.readydev/data/certificates/privkey.pem</private_key_file>
+            <cacert_file>/home/gkesse/.readydev/data/certificates/ca_bundle.crt</cacert_file>
         </data>
         <!-- ============================================ -->
         <!-- mysql -->
@@ -35,7 +50,6 @@
             <password>xKCQY7GiGTVJ4l334QxN87@TKg</password>
             <database_prod>pad</database_prod>
             <database_test>dev</database_test>
-            <log_on>1</log_on>
         </data>
         <!-- ============================================ -->
         <!-- log -->
