@@ -22,6 +22,9 @@ void GTest::run(int _argc, char** _argv) {
     else if(lMethod == "log") {
         runLog(_argc, _argv);
     }
+    else if(lMethod == "xml") {
+        runXml(_argc, _argv);
+    }
 }
 //===============================================
 void GTest::runString(int _argc, char** _argv) {
@@ -42,7 +45,10 @@ void GTest::runLog(int _argc, char** _argv) {
     lLog.addError("La connexion au serveur a échoué.");
     lLog.addData("La résolution de l'écran est :  1200 x 970.");
     lLog.addLog("Le chargement du module est terminé.");
-    lLog.print();
     m_logs.addLogs(lLog);
+}
+//===============================================
+void GTest::runXml(int _argc, char** _argv) {
+    printf("%s...\n", __FUNCTION__);
 }
 //===============================================

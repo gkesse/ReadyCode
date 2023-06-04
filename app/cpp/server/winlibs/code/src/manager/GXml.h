@@ -1,17 +1,14 @@
 //===============================================
-#ifndef _GTest_
-#define _GTest_
+#ifndef _GXml_
+#define _GXml_
 //===============================================
-#include "GObject.h"
+#include "GInclude.h"
+#include "GString.h"
 //===============================================
-class GTest : public GObject
-{
+class GXml {
 public:
-    GTest();
-    ~GTest();
-    void run(int _argc, char** _argv);
-    void runDefault(int _argc, char** _argv);
-    void runCurlInfoGet(int _argc, char** _argv);
+    GXml();
+    ~GXml();
 };
 //===============================================
 #endif

@@ -11,6 +11,7 @@ public:
     void run(int _argc, char** _argv);
     void runString(int _argc, char** _argv);
     void runLog(int _argc, char** _argv);
+    void runXml(int _argc, char** _argv);
 };
 //===============================================
 #endif
