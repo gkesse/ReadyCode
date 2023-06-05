@@ -33,6 +33,7 @@ static void GProcess_init(GProcess* _this) {
     assert(_this);
     SetConsoleOutputCP(CP_UTF8);
     xmlInitParser();
+    xmlKeepBlanksDefault(0);
 }
 //===============================================
 static void GProcess_clean(GProcess* _this) {
