@@ -3,6 +3,7 @@
 #include "GString.h"
 #include "GLog.h"
 #include "GXml.h"
+#include "GCode.h"
 //===============================================
 GTest::GTest()
 : GObject() {
@@ -25,6 +26,9 @@ void GTest::run(int _argc, char** _argv) {
     }
     else if(lMethod == "xml") {
         runXml(_argc, _argv);
+    }
+    else if(lMethod == "code") {
+        runCode(_argc, _argv);
     }
 }
 //===============================================
@@ -51,15 +55,45 @@ void GTest::runLog(int _argc, char** _argv) {
 //===============================================
 void GTest::runXml(int _argc, char** _argv) {
     printf("%s...\n", __FUNCTION__);
-
-    // createDoc - toString
     GXml lDom;
     GXml lDomC;
+
+    // createDoc - setNode - addObj - addData - toString
     lDom.createDoc();
-    lDom.addData("code", "logs");
-    lDom.addData("type", "error");
-    lDom.addData("side", "server_cpp");
-    lDom.addData("msg", "La connexion au serveur a échoué.");
+    lDomC.setNode(lDom.addObj("datas"));
+    lDomC.setNode(lDomC.addObj("data"));
+    lDomC.addData("code", "logs");
+    lDomC.addData("type", "error");
+    lDomC.addData("side", "server_cpp");
+    lDomC.addData("msg", "La connexion au serveur a échoué.");
+    lDom.toString().print();
+
+    // getNode - toNode
+    lDomC.setNode(lDom.getNode(lDom, sformat("/rdv/datas/data")));
+    lDomC.toNode(lDom).print();
+
+    // createNode
+    lDom.createDoc();
+    lDom.createNode(lDom, sformat("/rdv/datas/data"));
+    lDomC.setNode(lDom.createNode(lDom, sformat("/rdv/datas/data")));
+    lDomC.createNode(lDom, sformat("rdv/datas/data"));
+    lDomC.createNode(lDom, sformat("rdv/datas/data"));
+    lDom.toString().print();
+}
+//===============================================
+void GTest::runCode(int _argc, char** _argv) {
+    printf("%s...\n", __FUNCTION__);
+    GCode lDom;
+
+    // createDatas - createCode - addData
+    lDom.createDoc();
+    lDom.createDatas();
+    lDom.createDatas();
+    lDom.createCode("logs");
+    lDom.createCode("logs");
+    lDom.addData("logs", "type", "error");
+    lDom.toString().print();
+    lDom.addData("logs", "type", "log");
     lDom.toString().print();
 }
 //===============================================

@@ -4,6 +4,7 @@
 //===============================================
 #include <iostream>
 #include <cstring>
+#include <cassert>
 #include <vector>
 // socket
 #include <winsock2.h>
