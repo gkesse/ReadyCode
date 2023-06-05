@@ -1,5 +1,6 @@
 //===============================================
 #include "GLog.h"
+#include "GCode.h"
 //===============================================
 GLog::GLog() {
 
@@ -7,6 +8,10 @@ GLog::GLog() {
 //===============================================
 GLog::~GLog() {
     clear();
+}
+//===============================================
+GLog* GLog::clone() const {
+    return new GLog;
 }
 //===============================================
 void GLog::clear() {
@@ -20,6 +25,20 @@ void GLog::setObj(const GLog& _obj) {
     m_type = _obj.m_type;
     m_side = _obj.m_side;
     m_msg = _obj.m_msg;
+}
+//===============================================
+void GLog::loadFromMap(int i) {
+    if(i >= 1 && i <= m_map.size()) {
+        GLog* lObj = m_map[i - 1];
+        setObj(*lObj);
+    }
+}
+//===============================================
+void GLog::loadToMap(int i) {
+    if(i >= 1 && i <= m_map.size()) {
+        GLog* lObj = m_map[i - 1];
+        lObj->setObj(*this);
+    }
 }
 //===============================================
 void GLog::addError(const GString& _msg) {
@@ -84,5 +103,24 @@ void GLog::print() const {
         GLog* lObj = m_map[i];
         printf("[%-5s] : %s\n", lObj->m_type.c_str(), lObj->m_msg.c_str());
     }
+}
+//===============================================
+GString GLog::serialize(const GString& _code) const {
+    GCode lDom;
+    lDom.createDoc();
+    lDom.addData(_code, "type", m_type);
+    lDom.addData(_code, "side", m_side);
+    lDom.addData(_code, "msg", m_msg);
+    lDom.addMap(_code, m_map);
+    return lDom.toString();
+}
+//===============================================
+void GLog::deserialize(const GString& _data, const GString& _code) {
+    GCode lDom;
+    lDom.loadXml(_data);
+    m_type = lDom.getData(_code, "type");
+    m_side = lDom.getData(_code, "side");
+    m_msg = lDom.getData(_code, "msg");
+    lDom.getMap(_code, m_map, this);
 }
 //===============================================

@@ -44,13 +44,20 @@ void GTest::runString(int _argc, char** _argv) {
 //===============================================
 void GTest::runLog(int _argc, char** _argv) {
     printf("%s...\n", __FUNCTION__);
-
-    // addError - addData - addLog - addLogs
     GLog lLog;
+    GLog lLogC;
+
+    // addError - addData - addLog - addLogs - serialize
     lLog.addError("La connexion au serveur a échoué.");
     lLog.addData("La résolution de l'écran est :  1200 x 970.");
     lLog.addLog("Le chargement du module est terminé.");
+    lLog.loadFromMap(2);
+    lLog.serialize().print();
     m_logs.addLogs(lLog);
+
+    // deserialize
+    lLogC.deserialize(lLog.serialize());
+    lLogC.serialize().print();
 }
 //===============================================
 void GTest::runXml(int _argc, char** _argv) {

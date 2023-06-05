@@ -98,7 +98,7 @@ int GXml::countNode(const GXml& _root, const GString& _path) {
     return lCount;
 }
 //===============================================
-xmlNodePtr GXml::getNode(const GXml& _root, const GString& _path) {
+xmlNodePtr GXml::getNode(const GXml& _root, const GString& _path) const {
     if(!_root.m_doc) return 0;
     xmlXPathContextPtr lXPathC = xmlXPathNewContext(_root.m_doc);
     if(!lXPathC) return 0;

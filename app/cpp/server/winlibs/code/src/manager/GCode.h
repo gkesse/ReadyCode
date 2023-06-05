@@ -4,6 +4,8 @@
 //===============================================
 #include "GXml.h"
 //===============================================
+class GLog;
+//===============================================
 class GCode : public GXml {
 public:
     GCode();
@@ -11,6 +13,11 @@ public:
     xmlNodePtr createDatas();
     xmlNodePtr createCode(const GString& _code);
     void addData(const GString& _code, const GString& _name, const GString& _value);
+    void addMap(const GString& _code, const std::vector<GLog*>& _map);
+    GString getData(const GString& _code, const GString& _name) const;
+    void getMap(const GString& _code, std::vector<GLog*>& _map, GLog* _obj);
+    GString toDatas(const GString& _data) const;
+    GString toCode(const GString& _data) const;
 };
 //===============================================
 #endif

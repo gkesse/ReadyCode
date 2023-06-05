@@ -18,7 +18,7 @@ public:
     xmlNodePtr createNode(const GXml& _root, const GString& _path, const GString& _value = "");
     bool existNode(const GXml& _root, const GString& _path);
     int countNode(const GXml& _root, const GString& _path);
-    xmlNodePtr getNode(const GXml& _root, const GString& _path);
+    xmlNodePtr getNode(const GXml& _root, const GString& _path) const;
     GString getValue() const;
     xmlNodePtr addObj(const GString& _name);
     void addData(const GString& _name, const GString& _value);
