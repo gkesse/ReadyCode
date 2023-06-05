@@ -85,7 +85,7 @@ static xmlNodePtr GXml_createNode(GXml* _this, GXml* _root, const char* _path, c
         if(i != 0) lPath->add(lPath, "/");
         lPath->add(lPath, lData->m_data);
         if(!_this->existeNode(_this, _root, lPath->m_data)) {
-            lNode->m_node = _this->addObj(lNode, lData->m_data);
+            lNode->m_node = lNode->addObj(lNode, lData->m_data);
         }
         else {
             lNode->m_node = _this->getNode(_this, _root, lPath->m_data);
