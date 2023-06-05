@@ -21,6 +21,7 @@ public:
     void create(const char* _data, int _size);
     bool isEmpty() const;
     const char* c_str() const;
+    int size() const;
     GString getFormat(const char* _format, ...) const;
     std::vector<GString> split(const GString& _sep) const;
     void print() const;

@@ -31,8 +31,8 @@ bool GXml::loadXml(const GString& _data) {
 }
 //===============================================
 void GXml::loadNode(const GString& _data) {
-    clear();
-    int lSize = strlen(_data.c_str());
+    if(_data.isEmpty()) return;
+    int lSize = _data.size();
     xmlNodePtr lNodes;
     xmlParseInNodeContext(m_node, _data.c_str(), lSize, 0, &lNodes);
     xmlNodePtr lNode = lNodes->children;

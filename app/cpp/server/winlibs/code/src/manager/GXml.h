@@ -8,7 +8,7 @@
 class GXml {
 public:
     GXml();
-    ~GXml();
+    virtual ~GXml();
     void clear();
     void createDoc();
     bool loadXml(const GString& _data);

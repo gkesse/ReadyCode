@@ -16,7 +16,7 @@ xmlNodePtr GCode::createDatas() {
     GCode lDom;
     lDom.m_node = getNode(*this, sformat("/rdv/datas"));
     if(!lDom.m_node) {
-        lDom.createNode(*this, sformat("/rdv/datas"));
+        lDom.m_node = lDom.createNode(*this, sformat("/rdv/datas"));
     }
     return lDom.m_node;
 }
@@ -126,7 +126,16 @@ void GCode::getLog(const GString& _code, std::vector<GLog*>& _map, GLog* _obj) {
     }
 }
 //===============================================
+void GCode::loadData(const GString& _data) {
+    if(_data.isEmpty()) return;
+    GCode lDom;
+    lDom.m_node = createDatas();
+    GString lData = toDatas(_data);
+    lDom.loadNode(lData);
+}
+//===============================================
 GString GCode::toDatas(const GString& _data) const {
+    if(_data.isEmpty()) return "";
     GCode lDom;
     GCode lDomC;
     lDom.loadXml(_data);
@@ -135,6 +144,7 @@ GString GCode::toDatas(const GString& _data) const {
 }
 //===============================================
 GString GCode::toCode(const GString& _data) const {
+    if(_data.isEmpty()) return "";
     GCode lDom;
     GCode lDomC;
     lDom.createDoc();

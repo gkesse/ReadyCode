@@ -1,18 +1,17 @@
 //===============================================
-#ifndef _GProcess_
-#define _GProcess_
+#ifndef _GServer_
+#define _GServer_
 //===============================================
 #include "GObject.h"
 //===============================================
-class GProcess : public GObject {
+class GSocket;
+//===============================================
+class GServer : public GObject {
 public:
-    GProcess();
-    ~GProcess();
-    void init();
-    void clean();
-    void run(int _argc, char** _argv);
-    void runTest(int _argc, char** _argv);
-    void runServer(int _argc, char** _argv);
+    GServer();
+    ~GServer();
+    void run(const GString& _data);
+    void sendResponse(GSocket* _socket);
 };
 //===============================================
 #endif

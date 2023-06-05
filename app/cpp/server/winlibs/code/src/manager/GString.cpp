@@ -61,6 +61,10 @@ const char* GString::c_str() const {
     return m_data;
 }
 //===============================================
+int GString::size() const {
+    return m_size;
+}
+//===============================================
 GString GString::getFormat(const char* _format, ...) const {
     va_list lArgs;
     va_start(lArgs, _format);

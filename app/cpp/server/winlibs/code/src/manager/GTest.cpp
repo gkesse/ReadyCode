@@ -4,6 +4,7 @@
 #include "GLog.h"
 #include "GXml.h"
 #include "GCode.h"
+#include "GSocket.h"
 //===============================================
 GTest::GTest()
 : GObject() {
@@ -29,6 +30,9 @@ void GTest::run(int _argc, char** _argv) {
     }
     else if(lMethod == "code") {
         runCode(_argc, _argv);
+    }
+    else if(lMethod == "socket_client") {
+        runSocket(_argc, _argv);
     }
 }
 //===============================================
@@ -102,5 +106,24 @@ void GTest::runCode(int _argc, char** _argv) {
     lDom.toString().print();
     lDom.addData("logs", "type", "log");
     lDom.toString().print();
+
+    // createDatas - createCode - addData
+    lDom.createDoc();
+    lDom.addData("manager", "module", "logs");
+    lDom.toString().print();
+}
+//===============================================
+void GTest::runSocket(int _argc, char** _argv) {
+    printf("%s...\n", __FUNCTION__);
+    GSocket lClient;
+    GLog lLog;
+
+    // callFacade
+    lLog.addError("La connexion au serveur a échoué.");
+    lLog.addData("La résolution de l'écran est :  1200 x 970.");
+    lLog.addLog("Le chargement du module est terminé.");
+    lLog.loadFromMap(2);
+    GString lData = lClient.callFacade("logs", "save_logs", lLog.serialize());
+    lData.print();
 }
 //===============================================

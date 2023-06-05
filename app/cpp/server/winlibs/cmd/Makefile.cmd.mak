@@ -11,7 +11,7 @@ GINCS =\
 	    
 GLIBS =\
     -L$(GSRC)/libs/lib \
-    -lxml2 \
+    -lws2_32 -lxml2 \
 	    
 GOBJS =\
     $(patsubst $(GSRC)/%.cpp, $(GBUILD)/%.o, $(wildcard $(GSRC)/*.cpp)) \

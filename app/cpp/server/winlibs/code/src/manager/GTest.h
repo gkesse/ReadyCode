@@ -13,6 +13,7 @@ public:
     void runLog(int _argc, char** _argv);
     void runXml(int _argc, char** _argv);
     void runCode(int _argc, char** _argv);
+    void runSocket(int _argc, char** _argv);
 };
 //===============================================
 #endif

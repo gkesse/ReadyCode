@@ -19,6 +19,7 @@ public:
     GString getData(const GString& _code, const GString& _name) const;
     void getMap(const GString& _code, std::vector<GObject*>& _map, GObject* _obj);
     void getLog(const GString& _code, std::vector<GLog*>& _map, GLog* _obj);
+    void loadData(const GString& _data);
     GString toDatas(const GString& _data) const;
     GString toCode(const GString& _data) const;
 };
