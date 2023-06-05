@@ -19,6 +19,7 @@ void GLog::clear() {
         GLog* lObj = m_map[i];
         delete lObj;
     }
+    m_map.clear();
 }
 //===============================================
 void GLog::setObj(const GLog& _obj) {
@@ -111,7 +112,7 @@ GString GLog::serialize(const GString& _code) const {
     lDom.addData(_code, "type", m_type);
     lDom.addData(_code, "side", m_side);
     lDom.addData(_code, "msg", m_msg);
-    lDom.addMap(_code, m_map);
+    lDom.addLog(_code, m_map);
     return lDom.toString();
 }
 //===============================================
@@ -121,6 +122,6 @@ void GLog::deserialize(const GString& _data, const GString& _code) {
     m_type = lDom.getData(_code, "type");
     m_side = lDom.getData(_code, "side");
     m_msg = lDom.getData(_code, "msg");
-    lDom.getMap(_code, m_map, this);
+    lDom.getLog(_code, m_map, this);
 }
 //===============================================

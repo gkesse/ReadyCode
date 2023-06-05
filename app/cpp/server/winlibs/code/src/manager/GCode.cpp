@@ -1,6 +1,7 @@
 //===============================================
 #include "GCode.h"
 #include "GLog.h"
+#include "GObject.h"
 //===============================================
 GCode::GCode()
 : GXml() {
@@ -44,7 +45,26 @@ void GCode::addData(const GString& _code, const GString& _name, const GString& _
     }
 }
 //===============================================
-void GCode::addMap(const GString& _code, const std::vector<GLog*>& _map) {
+void GCode::addMap(const GString& _code, const std::vector<GObject*>& _map) {
+    int lSize = _map.size();
+    if(!lSize) return;
+
+    GCode lDom;
+    lDom.m_node = getNode(*this, sformat("/rdv/datas/data[code='%s']/map", _code.c_str()));
+    if(!lDom.m_node) {
+        lDom.m_node = createCode(_code);
+        lDom.m_node = lDom.addObj("map");
+    }
+
+    for(int i = 0; i < lSize; i++) {
+        GObject* lObj = _map[i];
+        GString lData = lObj->serialize(_code);
+        lData = toDatas(lData);
+        lDom.loadNode(lData);
+    }
+}
+//===============================================
+void GCode::addLog(const GString& _code, const std::vector<GLog*>& _map) {
     int lSize = _map.size();
     if(!lSize) return;
 
@@ -70,7 +90,25 @@ GString GCode::getData(const GString& _code, const GString& _name) const {
     return lDom.getValue();
 }
 //===============================================
-void GCode::getMap(const GString& _code, std::vector<GLog*>& _map, GLog* _obj) {
+void GCode::getMap(const GString& _code, std::vector<GObject*>& _map, GObject* _obj) {
+    _obj->clear();
+
+    int lCount = countNode(*this, sformat("/rdv/datas/data[code='%s']/map/data", _code.c_str()));
+
+    if(!lCount) return;
+
+    for(int i = 0; i < lCount; i++) {
+        GCode lDom;
+        lDom.m_node = getNode(*this, sformat("/rdv/datas/data[code='%s']/map/data[position()=%d]", _code.c_str(), i + 1));
+        GString lData = lDom.toNode(*this);
+        lData = toCode(lData);
+        GObject* lObj = _obj->clone();
+        lObj->deserialize(lData, _code);
+        _map.push_back(lObj);
+    }
+}
+//===============================================
+void GCode::getLog(const GString& _code, std::vector<GLog*>& _map, GLog* _obj) {
     _obj->clear();
 
     int lCount = countNode(*this, sformat("/rdv/datas/data[code='%s']/map/data", _code.c_str()));
