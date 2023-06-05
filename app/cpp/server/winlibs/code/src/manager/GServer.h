@@ -2,11 +2,11 @@
 #ifndef _GServer_
 #define _GServer_
 //===============================================
-#include "GObject.h"
+#include "GManager.h"
 //===============================================
 class GSocket;
 //===============================================
-class GServer : public GObject {
+class GServer : public GManager {
 public:
     GServer();
     ~GServer();

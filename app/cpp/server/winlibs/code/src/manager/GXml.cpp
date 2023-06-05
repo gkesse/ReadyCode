@@ -4,6 +4,7 @@
 GXml::GXml() {
     m_doc = 0;
     m_node = 0;
+    xmlKeepBlanksDefault(0);
 }
 //===============================================
 GXml::~GXml() {

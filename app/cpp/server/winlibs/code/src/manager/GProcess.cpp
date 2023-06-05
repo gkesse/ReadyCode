@@ -15,7 +15,6 @@ GProcess::~GProcess() {
 void GProcess::init() {
     SetConsoleOutputCP(CP_UTF8);
     xmlInitParser();
-    xmlKeepBlanksDefault(0);
 }
 //===============================================
 void GProcess::clean() {

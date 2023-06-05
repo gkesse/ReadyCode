@@ -2,11 +2,12 @@
 #include "GObject.h"
 //===============================================
 GObject::GObject() {
-
+    m_resp.createDoc();
+    m_resp.createDatas();
 }
 //===============================================
 GObject::~GObject() {
-
+    clear();
 }
 //===============================================
 void GObject::clear() {

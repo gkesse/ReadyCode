@@ -19,6 +19,7 @@ public:
 
 protected:
     GLog m_logs;
+    GCode m_resp;
     std::vector<GObject*> m_map;
 };
 //===============================================

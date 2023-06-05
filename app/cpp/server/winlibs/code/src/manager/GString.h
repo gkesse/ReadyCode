@@ -24,6 +24,9 @@ public:
     int size() const;
     GString getFormat(const char* _format, ...) const;
     std::vector<GString> split(const GString& _sep) const;
+    GString toUtf8() const;
+    GString toBase64() const;
+    GString fromBase64() const;
     void print() const;
 
     GString& operator=(const char* _data);

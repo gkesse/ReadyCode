@@ -111,7 +111,7 @@ GString GLog::serialize(const GString& _code) const {
     lDom.createDoc();
     lDom.addData(_code, "type", m_type);
     lDom.addData(_code, "side", m_side);
-    lDom.addData(_code, "msg", m_msg);
+    lDom.addData(_code, "msg", m_msg.toBase64());
     lDom.addLog(_code, m_map);
     return lDom.toString();
 }
@@ -121,7 +121,7 @@ void GLog::deserialize(const GString& _data, const GString& _code) {
     lDom.loadXml(_data);
     m_type = lDom.getData(_code, "type");
     m_side = lDom.getData(_code, "side");
-    m_msg = lDom.getData(_code, "msg");
+    m_msg = lDom.getData(_code, "msg").fromBase64();
     lDom.getLog(_code, m_map, this);
 }
 //===============================================

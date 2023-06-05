@@ -89,6 +89,45 @@ std::vector<GString> GString::split(const GString& _sep) const {
     return lMap;
 }
 //===============================================
+GString GString::toUtf8() const {
+    if(isEmpty()) return "";
+    char* lBufIn = m_data;
+    size_t lSizeIn = strlen(lBufIn);
+    size_t lSizeOut = sizeof(wchar_t) * lSizeIn * 4;
+    char* lBufOut = (char*)malloc(lSizeOut);
+    memset(lBufOut, '\0', lSizeOut);
+    iconv_t lIconv = iconv_open("WINDOWS-1252", "UTF-8");
+    GString lData;
+    if(lIconv != (iconv_t)-1) {
+        char* lPtrIn = lBufIn;
+        char* lPtrOut = lBufOut;
+        size_t lBufOutLeft = lSizeOut;
+        size_t lResult = iconv(lIconv, &lPtrIn, &lSizeIn, &lPtrOut, &lBufOutLeft);
+        if(lResult != -1) {
+            lData.m_data = lBufOut;
+            lData.m_size = lSizeOut - lBufOutLeft;
+        }
+        iconv_close(lIconv);
+    }
+    return lData;
+}
+//===============================================
+GString GString::toBase64() const {
+    if(isEmpty()) return "";
+    char* lBuffer = b64_encode((const unsigned char*)m_data, m_size);
+    GString lData = lBuffer;
+    free(lBuffer);
+    return lData;
+}
+//===============================================
+GString GString::fromBase64() const {
+    if(isEmpty()) return "";
+    char* lBuffer = (char*)b64_decode(m_data, m_size);
+    GString lData = lBuffer;
+    free(lBuffer);
+    return lData;
+}
+//===============================================
 void GString::print() const {
     printf("%s\n", m_data);
 }
