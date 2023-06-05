@@ -10,8 +10,9 @@ class GServer : public GManager {
 public:
     GServer();
     ~GServer();
-    void run(const GString& _data);
     void sendResponse(GSocket* _socket);
+    void run(const GString& _data);
+    void runCalculator(const GString& _data);
 };
 //===============================================
 #endif
