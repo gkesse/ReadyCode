@@ -2,6 +2,7 @@
 # compile
 #================================================
 GPROJECT_SRC = ..\code\src
+GLIBS_BIN = ..\code\src\libs\bin
 #================================================
 all: run
 all_g: run_g
@@ -11,10 +12,23 @@ run:
 run_g:
 	@cd $(GPROJECT_SRC) && python -m pdb -c continue main.py $(argv)
 #================================================
+# libs
+#================================================
+libs:
+	@pip install bs4
+	@pip list
+#================================================
+# pip
+#================================================
+pip:
+	@cd $(GLIBS_BIN) && curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+	@cd $(GLIBS_BIN) && python get-pip.py
+#================================================
 # python
 #================================================
-py_version:
+python:
 	@python --version
+	@python -m pip install --upgrade pip
 #================================================
 # git
 #================================================
