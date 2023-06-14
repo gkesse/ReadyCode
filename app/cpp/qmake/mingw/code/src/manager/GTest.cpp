@@ -22,11 +22,11 @@ void GTest::run(int _argc, char** _argv) {
         runSocket(_argc, _argv);
     }
     else {
-        runTest(_argc, _argv);
+        runString(_argc, _argv);
     }
 }
 //===============================================
-void GTest::runTest(int _argc, char** _argv) {
+void GTest::runString(int _argc, char** _argv) {
     GLOGT(eGFUN, "Le process est inconnu.");
 }
 //===============================================
