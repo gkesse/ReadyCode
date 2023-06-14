@@ -24,6 +24,11 @@ pip:
 	@cd $(GLIBS_BIN) && curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 	@cd $(GLIBS_BIN) && python get-pip.py
 #================================================
+# lxml
+#================================================
+lxml:
+	@cd $(GLIBS_BIN) && pip install lxml-4.9.0-cp311-cp311-win_amd64.whl
+#================================================
 # python
 #================================================
 python:
