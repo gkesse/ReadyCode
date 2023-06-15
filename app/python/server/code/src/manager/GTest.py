@@ -2,6 +2,8 @@
 from functions import *
 from manager.GLog import GLog
 from manager.GXml import GXml
+from manager.GCode import GCode
+from manager.GString import GString
 #================================================
 class GTest:
     #================================================
@@ -14,20 +16,44 @@ class GTest:
         if len(sys.argv) > 2:
             lMethod = sys.argv[2]
             
-        if lMethod == "log":
-            self.runLog();
-        if lMethod == "xml":
-            self.runXml();
+        if lMethod == "string":
+            self.runString()
+        elif lMethod == "log":
+            self.runLog()
+        elif lMethod == "xml":
+            self.runXml()
+        elif lMethod == "code":
+            self.runCode()
+    #================================================
+    def runString(self):
+        lString = GString()
+        
+        # m_data - print
+        lString.m_data = "Bonjour tout le monde."
+        lString.print()
+        
+        # sprintf
+        lString.m_data = sprintf("Bonjour %s : v%f", "Python", 3.11)
+        lString.print()        
     #================================================
     def runLog(self):
         lLog = GLog()
+        lLog2 = GLog()
+        lString = GString()
         
         # addError - addLog - addData - loadFromMap - print
         lLog.addError("La connexion au serveur a échoué.")
         lLog.addLog("Le module de supervision est chargé.")
         lLog.addData("La résolution de l'écran est 1200x976.")
-        lLog.loadFromMap(1);
+        lLog.loadFromMap(1)
         lLog.print()
+        
+        # serialize
+        lString.m_data = lLog.serialize()
+        lString.print()
+        lLog2.deserialize(lString.m_data)
+        lString.m_data = lLog2.serialize()
+        lString.print()        
     #================================================
     def runXml(self):
         lDom = GXml()
@@ -46,7 +72,23 @@ class GTest:
         
         # createNode
         lDom.createDoc()
-        lDom.createNode("/rdv/datas/data");
-        lDom.createNode("/rdv/datas/data");
+        lDom.createNode("/rdv/datas/data/code", "log")
+        lDom.createNode("/rdv/datas/data/code", "logs")
+        lDom.print()
+    #================================================
+    def runCode(self):
+        lDom = GCode()
+        lDomC1 = GCode()
+        lDomC2 = GCode()
+        
+        # createDoc - createDatas - createCode - print
+        lDom.createDoc()
+        lDom.createDatas()
+        lDom.createDatas()
+        lDom.createCode("logs")
+        lDom.createCode("logs")
+        lDom.addDatas("logs", "type", "error")
+        lDom.addDatas("logs", "side", "server_py")
+        lDom.addDatas("logs", "msg", "La connexion au serveur a échoué.")
         lDom.print()
 #================================================
