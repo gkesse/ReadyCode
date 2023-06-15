@@ -44,9 +44,9 @@ class GTest:
         lDomC2.addData("msg", "La connexion au serveur a échoué.")
         lDom.print()
         
-        # toString - loadXml
-        lData = lDom.toString()
-        lDom.loadXml(lData)
+        # createNode
+        lDom.createDoc()
+        lDom.createNode("/rdv/datas/data");
         lDom.createNode("/rdv/datas/data");
         lDom.print()
 #================================================

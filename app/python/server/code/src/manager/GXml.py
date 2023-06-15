@@ -23,6 +23,8 @@ class GXml:
         if _path[0] == "/":
             lPath = "/"
         j = 0
+        lDom = GXml()
+        lDom.m_node = self.m_node
         for i in range(len(lPaths)):
             lPathI = lPaths[i]
             if lPathI == "":
@@ -31,7 +33,24 @@ class GXml:
                 lPath += "/"
             j += 1
             lPath += lPathI
-            printf("%s...\n", lPath)
+
+            if not self.existNode(lPath):
+                lDom.m_node = lDom.addObj(lPathI)
+            else:
+                lDom.m_node = self.getNode(lPath)
+    #================================================
+    def countNode(self, _path):
+        lNodes = self.m_node.xpath(_path)
+        return len(lNodes);
+    #================================================
+    def existNode(self, _path):
+        return (self.countNode(_path) != 0);
+    #================================================
+    def getNode(self, _path):
+        lNodes = self.m_node.xpath(_path)
+        if len(lNodes) == 0:
+            return None
+        return lNodes[0]
     #================================================
     def addObj(self, _name):
         lNode = ET.SubElement(self.m_node, _name)
