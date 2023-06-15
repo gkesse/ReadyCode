@@ -1,6 +1,7 @@
 #================================================
 import sys
 import io
+import socket
 from lxml import etree as ET
 from bs4 import BeautifulSoup
 from html import escape

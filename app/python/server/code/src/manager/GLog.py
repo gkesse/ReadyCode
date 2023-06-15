@@ -39,6 +39,13 @@ class GLog:
         lObj.m_msg = _msg
         self.m_map.append(lObj)
     #================================================
+    def addLogs(self, _obj):
+        for i in range(len(_obj.m_map)):
+            lObj = _obj.m_map[i]
+            lNew = GLog()
+            lNew.setObj(lObj)
+            self.m_map.append(lNew)
+    #================================================
     def loadToMap(self, i):
         if i >= 1 and i <= len(self.m_map):
             lObj = self.m_map[i - 1]

@@ -1,14 +1,15 @@
 #================================================
 from functions import *
+from manager.GObject import GObject
 from manager.GLog import GLog
 from manager.GXml import GXml
 from manager.GCode import GCode
 from manager.GString import GString
 #================================================
-class GTest:
+class GTest(GObject):
     #================================================
     def __init__(self):
-        pass
+        GObject.__init__(self)
     #================================================
     def run(self):
         lMethod = ""
@@ -53,7 +54,8 @@ class GTest:
         lString.print()
         lLog2.deserialize(lString.m_data)
         lString.m_data = lLog2.serialize()
-        lString.print()        
+        lString.print()
+        self.m_logs.addLogs(lLog2)
     #================================================
     def runXml(self):
         lDom = GXml()

@@ -1,11 +1,13 @@
 #================================================
 from functions import *
+from manager.GObject import GObject
 from manager.GTest import GTest
+from manager.GSocket import GSocket
 #================================================
-class GProcess:
+class GProcess(GObject):
     #================================================
     def __init__(self):
-        pass
+        GObject.__init__(self)
     #================================================
     def run(self):
         lModule = ""
@@ -20,7 +22,10 @@ class GProcess:
     def runTest(self):
         lObj = GTest()
         lObj.run()
+        self.m_logs.addLogs(lObj.m_logs)
     #================================================
     def runServer(self):
-        printf("runServer...\n")
+        lObj = GSocket()
+        lObj.runServer()
+        self.m_logs.addLogs(lObj.m_logs)
 #================================================
