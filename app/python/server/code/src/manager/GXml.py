@@ -1,6 +1,5 @@
 #================================================
 from functions import *
-from manager.GHtmlParser import GHtmlParser
 #================================================
 class GXml:
     #================================================
@@ -8,8 +7,31 @@ class GXml:
         self.m_node = None
     #================================================
     def createDoc(self):
+        del self.m_node
         ET.XMLParser(remove_blank_text=True)
         self.m_node = ET.Element("rdv")
+    #================================================
+    def loadXml(self, _data):
+        del self.m_node
+        ET.XMLParser(remove_blank_text=True)
+        lData = bytes(bytearray(_data, encoding='utf-8'))
+        self.m_node = ET.fromstring(lData)
+    #================================================
+    def createNode(self, _path):
+        lPaths = _path.split("/")
+        lPath = ""
+        if _path[0] == "/":
+            lPath = "/"
+        j = 0
+        for i in range(len(lPaths)):
+            lPathI = lPaths[i]
+            if lPathI == "":
+                continue
+            if j != 0:
+                lPath += "/"
+            j += 1
+            lPath += lPathI
+            printf("%s...\n", lPath)
     #================================================
     def addObj(self, _name):
         lNode = ET.SubElement(self.m_node, _name)

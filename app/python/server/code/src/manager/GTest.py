@@ -34,7 +34,7 @@ class GTest:
         lDomC1 = GXml()
         lDomC2 = GXml()
         
-        # createDoc - addObj
+        # createDoc - addObj - addData - print
         lDom.createDoc()
         lDomC1.m_node = lDom.addObj("datas")
         lDomC2.m_node = lDomC1.addObj("data")
@@ -42,5 +42,11 @@ class GTest:
         lDomC2.addData("type", "error")
         lDomC2.addData("side", "server_py")
         lDomC2.addData("msg", "La connexion au serveur a échoué.")
+        lDom.print()
+        
+        # toString - loadXml
+        lData = lDom.toString()
+        lDom.loadXml(lData)
+        lDom.createNode("/rdv/datas/data");
         lDom.print()
 #================================================
