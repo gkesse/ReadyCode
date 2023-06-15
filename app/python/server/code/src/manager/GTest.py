@@ -5,6 +5,7 @@ from manager.GLog import GLog
 from manager.GXml import GXml
 from manager.GCode import GCode
 from manager.GString import GString
+from manager.GSocket import GSocket
 #================================================
 class GTest(GObject):
     #================================================
@@ -25,6 +26,8 @@ class GTest(GObject):
             self.runXml()
         elif lMethod == "code":
             self.runCode()
+        elif lMethod == "socket_client":
+            self.runSocketClient()
     #================================================
     def runString(self):
         lString = GString()
@@ -93,4 +96,9 @@ class GTest(GObject):
         lDom.addDatas("logs", "side", "server_py")
         lDom.addDatas("logs", "msg", "La connexion au serveur a échoué.")
         lDom.print()
+    #================================================
+    def runSocketClient(self):
+        lClient = GSocket()
+        lData = lClient.callServer("Bonjour tout le monde.");
+        printf("%s\n", lData)
 #================================================

@@ -23,10 +23,9 @@ class GSocket(GObject):
         while True:
             lClient, lAddressC = lSocket.accept()    
             lData = lClient.recv(self.BUFFER_SIZE).decode()
-            lClient.send(sprintf("[server] : %s", lData))
+            lData = sprintf("[server] : %s", lData)
+            lClient.send(lData.encode())
             lClient.close()
-            break
-            
         lSocket.close()
 #================================================
     def callServer(self, _data):
