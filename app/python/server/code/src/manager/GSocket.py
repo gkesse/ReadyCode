@@ -1,11 +1,11 @@
 #================================================
 from functions import *
 from manager.GObject import GObject
+from manager.GCode import GCode
 #================================================
 class GSocket(GObject):
     #================================================
-    BUFFER_SIZE = 10
-    FIONREAD = 1074030207
+    BUFFER_SIZE = 1024
     #================================================
     def __init__(self):
         GObject.__init__(self)
@@ -15,17 +15,8 @@ class GSocket(GObject):
         self.m_socket.send(_data.encode())
     #================================================
     def readData(self):
-        lData = ""
-        while True:
-            lBuffer = self.m_socket.recv(self.BUFFER_SIZE).decode()
-            if not lBuffer: break
-            lData += lBuffer
-            lSockSize = array.array('i', [0])
-            fcntl.ioctl(self.m_socket, self.FIONREAD, lSockSize)
-            lBytes = lSockSize[0]
-            printf("%d..\n", lBytes)
-            if lBytes == 0: break
-        return lData
+        lData = self.m_socket.recv(self.BUFFER_SIZE).decode()
+        return lData            
     #================================================
     def closeSocket(self):
         self.m_socket.close()
@@ -58,5 +49,15 @@ class GSocket(GObject):
         lSocket.sendData(_data)
         lData = lSocket.readData()
         lSocket.closeSocket()
+        return lData
+#================================================
+    def callFacade(self, _module, _method, _data = ""):
+        lDom = GCode()
+        lDom.createDoc()
+        lDom.addDatas("manager", "module", _module)
+        lDom.addDatas("manager", "method", _method)
+        lDom.loadData(_data)
+        lData = lDom.toString()
+        lData = self.callServer(lData)
         return lData
 #================================================

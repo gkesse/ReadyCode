@@ -75,6 +75,17 @@ class GCode(GXml):
             lData = lObj.serialize(_code)
             _obj.m_map.append(lObj)
     #================================================
+    def loadData(self, _data):
+        if _data == "":
+            return ""
+        lDom = GCode()
+        lDom.m_node = self.createDatas()
+        lDomC1 = GCode()
+        lDomC1.loadXml(_data)
+        lDomC1.m_node = lDomC1.createDatas()
+        lData = lDomC1.toNode()
+        lDom.loadNode(lData)
+    #================================================
     def toDatas(self, _data):
         if _data == "":
             return ""

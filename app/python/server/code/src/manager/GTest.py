@@ -28,6 +28,8 @@ class GTest(GObject):
             self.runCode()
         elif lMethod == "socket_client":
             self.runSocketClient()
+        elif lMethod == "facade":
+            self.runFacade()
     #================================================
     def runString(self):
         lString = GString()
@@ -100,5 +102,19 @@ class GTest(GObject):
     def runSocketClient(self):
         lClient = GSocket()
         lData = lClient.callServer("Bonjour tout le monde.");
+        printf("%s\n", lData)
+    #================================================
+    def runFacade(self):
+        # data
+        lLog = GLog()
+        lLog.addError("La connexion au serveur a échoué.")
+        lLog.addLog("Le module de supervision est chargé.")
+        lLog.addData("La résolution de l'écran est 1200x976.")
+        lLog.loadFromMap(1)
+        
+        # facade
+        lClient = GSocket()
+        lData = lLog.serialize()
+        lData = lClient.callFacade("logs", "save_logs", lData);
         printf("%s\n", lData)
 #================================================

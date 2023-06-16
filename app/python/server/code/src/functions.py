@@ -3,8 +3,7 @@ import sys
 import io
 import socket
 import win32api
-import array
-from fcntl import fcntl
+import select
 #================================================
 from lxml import etree as ET
 from bs4 import BeautifulSoup
