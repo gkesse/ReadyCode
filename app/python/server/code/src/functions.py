@@ -3,7 +3,7 @@ import sys
 import io
 import socket
 import win32api
-import select
+import threading
 #================================================
 from lxml import etree as ET
 from bs4 import BeautifulSoup

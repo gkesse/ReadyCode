@@ -10,6 +10,7 @@ class GSocket(GObject):
     def __init__(self):
         GObject.__init__(self)
         self.m_socket = None
+        self.m_address = ""
     #================================================
     def sendData(self, _data):
         self.m_socket.send(_data.encode())
@@ -34,11 +35,18 @@ class GSocket(GObject):
         lClient = GSocket()
 
         while True:
-            lClient.m_socket, lAddressC = lSocket.accept()    
-            lData = lClient.readData()
-            lClient.sendData(lData)
+            lClient.m_socket, lClient.m_address = lSocket.accept()    
+            lThread = threading.Thread(target=self.onThread, args=(lClient,))
+            lThread.start()
         lSocket.close()
-#================================================
+    #================================================
+    @staticmethod
+    def onThread(_params):
+        lClient = _params
+        lData = lClient.readData()
+        lClient.sendData(lData)
+        lClient.closeSocket()
+    #================================================
     def callServer(self, _data):
         lAddress = "127.0.0.1"
         lPort = 9010
