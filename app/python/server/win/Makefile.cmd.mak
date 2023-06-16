@@ -16,7 +16,14 @@ run_g:
 #================================================
 libs:
 	@pip install bs4
+	@pip install pywin32
+	@pip install ioctl
+	@pip install termios
 	@pip list
+#================================================
+infos:
+	python --version
+	python -m site --user-site
 #================================================
 # pip
 #================================================

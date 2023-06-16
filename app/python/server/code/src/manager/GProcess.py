@@ -9,6 +9,12 @@ class GProcess(GObject):
     def __init__(self):
         GObject.__init__(self)
     #================================================
+    def init(self):
+        pass
+    #================================================
+    def clean(self):
+        pass
+    #================================================
     def run(self):
         lModule = ""
         if len(sys.argv) > 1:
