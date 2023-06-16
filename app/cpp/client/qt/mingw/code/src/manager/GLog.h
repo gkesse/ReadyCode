@@ -21,6 +21,17 @@ public:
     bool hasErrors() const;
     bool hasLogs() const;
     bool hasDatas() const;
+    bool hasServer() const;
+    int size() const;
+    GString loadErrors() const;
+    GString loadDatas() const;
+    GString loadLogs() const;
+    GString loadLogsA() const;
+    int showErrors(QWidget* _parent = 0);
+    int showDatas(QWidget* _parent = 0);
+    int showLogs(QWidget* _parent = 0);
+    int showLogsA(QWidget* _parent = 0);
+    int showLogsX(QWidget* _parent = 0);
     void print() const;
     GString serialize(const GString& _code = "logs") const;
     void deserialize(const GString& _data, const GString& _code = "logs");

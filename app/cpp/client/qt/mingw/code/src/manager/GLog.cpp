@@ -1,6 +1,7 @@
 //===============================================
 #include "GLog.h"
 #include "GCode.h"
+#include "GLogMsg.h"
 //===============================================
 GLog::GLog() {
 
@@ -15,7 +16,7 @@ GLog* GLog::clone() const {
 }
 //===============================================
 void GLog::clear() {
-    for(int i = 0; i < (int)m_map.size(); i++) {
+    for(int i = 0; i < size(); i++) {
         GLog* lObj = m_map[i];
         delete lObj;
     }
@@ -29,14 +30,14 @@ void GLog::setObj(const GLog& _obj) {
 }
 //===============================================
 void GLog::loadFromMap(int i) {
-    if(i >= 1 && i <= (int)m_map.size()) {
+    if(i >= 1 && i <= size()) {
         GLog* lObj = m_map[i - 1];
         setObj(*lObj);
     }
 }
 //===============================================
 void GLog::loadToMap(int i) {
-    if(i >= 1 && i <= (int)m_map.size()) {
+    if(i >= 1 && i <= size()) {
         GLog* lObj = m_map[i - 1];
         lObj->setObj(*this);
     }
@@ -45,7 +46,7 @@ void GLog::loadToMap(int i) {
 void GLog::addError(const GString& _msg) {
     GLog* lObj = new GLog;
     lObj->m_type = "error";
-    lObj->m_side = "server_cpp";
+    lObj->m_side = "client_cpp";
     lObj->m_msg = _msg;
     m_map.push_back(lObj);
 }
@@ -53,7 +54,7 @@ void GLog::addError(const GString& _msg) {
 void GLog::addLog(const GString& _msg) {
     GLog* lObj = new GLog;
     lObj->m_type = "log";
-    lObj->m_side = "server_cpp";
+    lObj->m_side = "client_cpp";
     lObj->m_msg = _msg;
     m_map.push_back(lObj);
 }
@@ -61,7 +62,7 @@ void GLog::addLog(const GString& _msg) {
 void GLog::addData(const GString& _msg) {
     GLog* lObj = new GLog;
     lObj->m_type = "data";
-    lObj->m_side = "server_cpp";
+    lObj->m_side = "client_cpp";
     lObj->m_msg = _msg;
     m_map.push_back(lObj);
 }
@@ -76,7 +77,7 @@ void GLog::addLogs(const GLog& _obj) {
 }
 //===============================================
 bool GLog::hasErrors() const {
-    for(int i = 0; i < (int)m_map.size(); i++) {
+    for(int i = 0; i < size(); i++) {
         GLog* lObj = m_map[i];
         if(lObj->m_type == "error") return true;
     }
@@ -84,7 +85,7 @@ bool GLog::hasErrors() const {
 }
 //===============================================
 bool GLog::hasLogs() const {
-    for(int i = 0; i < (int)m_map.size(); i++) {
+    for(int i = 0; i < size(); i++) {
         GLog* lObj = m_map[i];
         if(lObj->m_type == "log") return true;
     }
@@ -92,15 +93,138 @@ bool GLog::hasLogs() const {
 }
 //===============================================
 bool GLog::hasDatas() const {
-    for(int i = 0; i < (int)m_map.size(); i++) {
+    for(int i = 0; i < size(); i++) {
         GLog* lObj = m_map[i];
         if(lObj->m_type == "data") return true;
     }
     return false;
 }
 //===============================================
+bool GLog::hasServer() const {
+    for(int i = 0; i < size(); i++) {
+        GLog* lObj = m_map[i];
+        if(lObj->m_side != "client_cpp") return true;
+    }
+    return false;
+}
+//===============================================
+int GLog::size() const {
+    return (int)m_map.size();
+}
+//===============================================
+GString GLog::loadErrors() const {
+    GString lData = "";
+    for(int i = 0; i < size(); i++) {
+        GLog* lObj = m_map[i];
+        if(lObj->m_type != "error") continue;
+        lData += lObj->m_msg;
+    }
+    return lData;
+}
+//===============================================
+GString GLog::loadDatas() const {
+    GString lData = "";
+    for(int i = 0; i < size(); i++) {
+        GLog* lObj = m_map[i];
+        if(lObj->m_type != "data") continue;
+        lData += lObj->m_msg;
+    }
+    return lData;
+}
+//===============================================
+GString GLog::loadLogs() const {
+    GString lData = "";
+    for(int i = 0; i < size(); i++) {
+        GLog* lObj = m_map[i];
+        if(lObj->m_type != "log") continue;
+        lData += lObj->m_msg;
+    }
+    return lData;
+}
+//===============================================
+GString GLog::loadLogsA() const {
+    GString lData = "";
+    for(int i = 0; i < size(); i++) {
+        GLog* lObj = m_map[i];
+        lData += sformat("[%-5s] : %s\n", lObj->m_type.c_str(), lObj->m_msg.c_str());
+    }
+    return lData;
+}
+//===============================================
+int GLog::showErrors(QWidget* _parent) {
+    int lResult = 0;
+    if(hasErrors() && !hasDatas()) {
+        GLogMsg lLogUi(_parent);
+        lLogUi.setParent(_parent);
+        if(hasServer()) {
+            lLogUi.setIcon(QMessageBox::Critical);
+        }
+        else {
+            lLogUi.setIcon(QMessageBox::Warning);
+        }
+        lLogUi.setWindowTitle("Erreurs");
+        lLogUi.setText("Consultez les erreus.");
+        lLogUi.setInformativeText(loadErrors().c_str());
+        lResult = lLogUi.exec();
+        clear();
+    }
+    return lResult;
+}
+//===============================================
+int GLog::showDatas(QWidget* _parent) {
+    int lResult = 0;
+    if(hasDatas()) {
+        GLogMsg lLogUi(_parent);
+        lLogUi.setParent(_parent);
+        lLogUi.setIcon(QMessageBox::Information);
+        lLogUi.setWindowTitle("Datas");
+        lLogUi.setText("Consultez les données.");
+        lLogUi.setInformativeText(loadDatas().c_str());
+        lResult = lLogUi.exec();
+        clear();
+    }
+    return lResult;
+}
+//===============================================
+int GLog::showLogs(QWidget* _parent) {
+    int lResult = 0;
+    if(hasLogs() && !hasDatas() && !hasLogs()) {
+        GLogMsg lLogUi(_parent);
+        lLogUi.setParent(_parent);
+        lLogUi.setIcon(QMessageBox::Information);
+        lLogUi.setWindowTitle("Logs");
+        lLogUi.setText("Consultez les logs.");
+        lLogUi.setInformativeText(loadLogs().c_str());
+        lResult = lLogUi.exec();
+        clear();
+    }
+    return lResult;
+}
+//===============================================
+int GLog::showLogsA(QWidget* _parent) {
+    int lResult = 0;
+    if(size()) {
+        GLogMsg lLogUi(_parent);
+        lLogUi.setParent(_parent);
+        lLogUi.setIcon(QMessageBox::Information);
+        lLogUi.setWindowTitle("Messages");
+        lLogUi.setText("Consultez les messages.");
+        lLogUi.setInformativeText(loadLogsA().c_str());
+        lResult = lLogUi.exec();
+        clear();
+    }
+    return lResult;
+}
+//===============================================
+int GLog::showLogsX(QWidget* _parent) {
+    showErrors(_parent);
+    showDatas(_parent);
+    showLogs(_parent);
+    return 0;
+}
+//===============================================
 void GLog::print() const {
-    for(int i = 0; i < (int)m_map.size(); i++) {
+    for(int i = 0; i < size(); i++) {
         GLog* lObj = m_map[i];
         printf("[%-5s] : %s\n", lObj->m_type.c_str(), lObj->m_msg.c_str());
     }

@@ -1,7 +1,7 @@
 //===============================================
 #include "GProcess.h"
 #include "GTest.h"
-#include "GSocket.h"
+#include "GClient.h"
 //===============================================
 GProcess::GProcess()
 : GObject() {
@@ -47,6 +47,9 @@ void GProcess::runTest(int _argc, char** _argv) {
 }
 //===============================================
 void GProcess::runClient(int _argc, char** _argv) {
-
+    QApplication lApp(_argc, _argv);
+    GClient* lClient = new GClient;
+    lClient->show();
+    lApp.exec();
 }
 //===============================================

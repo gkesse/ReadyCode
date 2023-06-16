@@ -1,25 +1,26 @@
 //===============================================
-#ifndef _GClient_
-#define _GClient_
+#ifndef GLOGUI_H
+#define GLOGUI_H
 //===============================================
-#include "GMainWindow.h"
+#include "GDialog.h"
+//===============================================
+#define GLOGI   GLogUi::Instance()
 //===============================================
 namespace Ui {
-class GClient;
+class GLogUi;
 }
 //===============================================
-class GClient : public GMainWindow {
+class GLogUi : public GDialog {
     Q_OBJECT
 
 public:
-    GClient(QWidget* _parent = 0);
-    ~GClient();
-
-public slots:
-    void on_actionCalculator_triggered(bool _checked = false);
+    GLogUi(QWidget* _parent = 0);
+    ~GLogUi();
+    static GLogUi* Instance();
 
 private:
-    Ui::GClient* ui;
+    static GLogUi* m_instance;
+    Ui::GLogUi* ui;
 };
 //===============================================
 #endif
