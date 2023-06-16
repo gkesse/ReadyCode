@@ -1,6 +1,5 @@
 //===============================================
 #include "GSocket.h"
-#include "GServer.h"
 #include "GCode.h"
 //===============================================
 GSocket::GSocket()
@@ -10,80 +9,6 @@ GSocket::GSocket()
 //===============================================
 GSocket::~GSocket() {
 
-}
-//===============================================
-void GSocket::runServer() {
-    int lMajor = 2;
-    int lMinor = 2;
-    int lPort = 8002;
-    int lBacklog = 10;
-
-    WSADATA wsaData;
-
-    if(WSAStartup(MAKEWORD(lMajor, lMinor), &wsaData) == SOCKET_ERROR) {
-        m_logs.addError("L'initialisation du server a échoué.");
-        return;
-    }
-
-    struct sockaddr_in lAddress;
-    lAddress.sin_family = AF_INET;
-    lAddress.sin_addr.s_addr = INADDR_ANY;
-    lAddress.sin_port = htons(lPort);
-
-    SOCKET lServer = socket(AF_INET, SOCK_STREAM, 0);
-
-    if(lServer == INVALID_SOCKET) {
-        m_logs.addError("La création du socket server a échoué.");
-        return;
-    }
-
-    if(bind(lServer, (struct sockaddr *)&lAddress, sizeof(lAddress)) == SOCKET_ERROR) {
-        m_logs.addError("La liaison du socket server a échoué.");
-        return;
-    }
-
-    if(listen(lServer, lBacklog) == SOCKET_ERROR) {
-        m_logs.addError("L'initialisation du nombre de connexions autorisées a échoué.");
-        return;
-    }
-
-    printf("Démarrage du serveur...\n");
-
-    struct sockaddr_in lAddressC;
-    int lAddressCL = sizeof(lAddressC);
-
-    while(1) {
-        GSocket* lClient = new GSocket;
-        lClient->m_socket = accept(lServer, (struct sockaddr*)&lAddressC, &lAddressCL);
-
-        DWORD lThreadId;
-        HANDLE lThreadH = CreateThread(
-                NULL,
-                0,
-                onThread,
-                lClient,
-                0,
-                &lThreadId
-        );
-
-        if(!lThreadH) {
-            printf("La création du thread a échoué\n");
-        }
-    }
-
-    closesocket(lServer);
-    WSACleanup();
-}
-//===============================================
-DWORD WINAPI GSocket::onThread(LPVOID _params) {
-    GSocket* lClient = (GSocket*)_params;
-    GString lData = lClient->readData();
-    GServer lServer;
-    lServer.run(lData);
-    lServer.sendResponse(lClient);
-    closesocket(lClient->m_socket);
-    delete lClient;
-    return 0;
 }
 //===============================================
 GString GSocket::callServer(const GString& _dataIn) {

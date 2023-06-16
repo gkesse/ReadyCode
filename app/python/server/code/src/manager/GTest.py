@@ -18,6 +18,8 @@ class GTest(GObject):
         if len(sys.argv) > 2:
             lMethod = sys.argv[2]
             
+        if lMethod == "":
+            self.m_logs.addError("La méthode est obligatoire.");
         if lMethod == "string":
             self.runString()
         elif lMethod == "log":
@@ -30,6 +32,8 @@ class GTest(GObject):
             self.runSocketClient()
         elif lMethod == "facade":
             self.runFacade()
+        else:
+            self.m_logs.addError("La méthode est inconnue.");
     #================================================
     def runString(self):
         lString = GString()

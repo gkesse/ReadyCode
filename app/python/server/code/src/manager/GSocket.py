@@ -2,6 +2,7 @@
 from functions import *
 from manager.GObject import GObject
 from manager.GCode import GCode
+from manager.GServer import GServer
 #================================================
 class GSocket(GObject):
     #================================================
@@ -44,7 +45,9 @@ class GSocket(GObject):
     def onThread(_params):
         lClient = _params
         lData = lClient.readData()
-        lClient.sendData(lData)
+        lServer = GServer()
+        lServer.run(lData)
+        lServer.sendResponse(lData, lClient)
         lClient.closeSocket()
     #================================================
     def callServer(self, _data):

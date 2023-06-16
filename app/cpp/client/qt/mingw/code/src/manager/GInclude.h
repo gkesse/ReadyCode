@@ -13,14 +13,12 @@
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 #include <libxml/xpath.h>
-// json-c
-#include <json-c/json.h>
 // b64
 #include <b64/b64.h>
 // iconv
 #include <iconv.h>
-// tinyexpr
-#include <tinyexpr/tinyexpr.h>
+// qt
+#include <QtWidgets>
 //===============================================
 #endif
 //===============================================

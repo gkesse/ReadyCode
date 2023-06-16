@@ -20,7 +20,7 @@ void GTest::run(int _argc, char** _argv) {
     if(_argc > 2) lMethod = _argv[2];
 
     if(lMethod == "string") {
-        runString(_argc, _argv);
+        runTest(_argc, _argv);
     }
     else if(lMethod == "log") {
         runLog(_argc, _argv);
@@ -36,7 +36,7 @@ void GTest::run(int _argc, char** _argv) {
     }
 }
 //===============================================
-void GTest::runString(int _argc, char** _argv) {
+void GTest::runTest(int _argc, char** _argv) {
     printf("%s...\n", __FUNCTION__);
 
     // copie - affectation

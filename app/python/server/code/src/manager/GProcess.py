@@ -20,10 +20,14 @@ class GProcess(GObject):
         if len(sys.argv) > 1:
             lModule = sys.argv[1]
             
-        if lModule == "test":
+        if lModule == "":
+            self.m_logs.addError("Le module est obligatoire.");
+        elif lModule == "test":
             self.runTest();
         elif lModule == "server":
             self.runServer();
+        else:
+            self.m_logs.addError("Le module est inconnu.");
     #================================================
     def runTest(self):
         lObj = GTest()
