@@ -148,7 +148,7 @@ static void GTest_runSocketClient(GTest* _this, int _argc, char** _argv) {
 
     // callServer
     lClient->callServer(lClient, "Bonjour tout le monde", lData);
-    lLog->addLogs(lLog, lClient->m_parent->m_logs);
+    lLog->addLogs(lLog, lClient->m_obj->m_logs);
     lData->print(lData);
 
     lData->delete(lData);

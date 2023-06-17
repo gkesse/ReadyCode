@@ -5,7 +5,7 @@
 #define GSOCKET_BUFFER_SIZE 10
 //===============================================
 static void GSocket_delete(GSocket* _this);
-static void GSocket_run(GSocket* _this, int _argc, char** _argv);
+static void GSocket_runServer(GSocket* _this, int _argc, char** _argv);
 static void GSocket_callServer(GSocket* _this, const char* _dataIn, GString* _dataOut);
 static GString* GSocket_callFacade(GSocket* _this, const char* _module, const char* _method, const char* _params);
 static void GSocket_read(GSocket* _this, GString* _data);
@@ -15,10 +15,10 @@ static DWORD WINAPI GSocket_onThread(LPVOID _params);
 //===============================================
 GSocket* GSocket_new() {
     GSocket* lObj = (GSocket*)malloc(sizeof(GSocket));
-    lObj->m_parent = GObject_new();
+    lObj->m_obj = GObject_new();
 
     lObj->delete = GSocket_delete;
-    lObj->run = GSocket_run;
+    lObj->runServer = GSocket_runServer;
     lObj->callServer = GSocket_callServer;
     lObj->callFacade = GSocket_callFacade;
     lObj->read = GSocket_read;
@@ -28,13 +28,13 @@ GSocket* GSocket_new() {
 //===============================================
 static void GSocket_delete(GSocket* _this) {
     assert(_this);
-    _this->m_parent->delete(_this->m_parent);
+    _this->m_obj->delete(_this->m_obj);
     free(_this);
 }
 //===============================================
-static void GSocket_run(GSocket* _this, int _argc, char** _argv) {
+static void GSocket_runServer(GSocket* _this, int _argc, char** _argv) {
     assert(_this);
-    GLog* lLog = _this->m_parent->m_logs;
+    GLog* lLog = _this->m_obj->m_logs;
 
     int lMajor = 2;
     int lMinor = 2;
@@ -100,7 +100,7 @@ static void GSocket_run(GSocket* _this, int _argc, char** _argv) {
 //===============================================
 static void GSocket_callServer(GSocket* _this, const char* _dataIn, GString* _dataOut) {
     assert(_this);
-    GLog* lLog = _this->m_parent->m_logs;
+    GLog* lLog = _this->m_obj->m_logs;
 
     int lMajor = 2;
     int lMinor = 2;

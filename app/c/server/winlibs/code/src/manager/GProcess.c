@@ -78,8 +78,8 @@ static void GProcess_runServer(GProcess* _this, int _argc, char** _argv) {
     assert(_this);
     GLog* lLog = _this->m_obj->m_logs;
     GSocket* lObj = GSocket_new();
-    lObj->run(lObj, _argc, _argv);
-    lLog->addLogs(lLog, lObj->m_parent->m_logs);
+    lObj->runServer(lObj, _argc, _argv);
+    lLog->addLogs(lLog, lObj->m_obj->m_logs);
     lObj->delete(lObj);
 }
 //===============================================
