@@ -9,6 +9,7 @@
 //===============================================
 static void GTest_delete(GTest* _this);
 static void GTest_run(GTest* _this, int _argc, char** _argv);
+static void GTest_runFunctions(GTest* _this, int _argc, char** _argv);
 static void GTest_runVector(GTest* _this, int _argc, char** _argv);
 static void GTest_runLog(GTest* _this, int _argc, char** _argv);
 static void GTest_runSocketClient(GTest* _this, int _argc, char** _argv);
@@ -23,10 +24,11 @@ static void GTest_runIconv(GTest* _this, int _argc, char** _argv);
 //===============================================
 GTest* GTest_new() {
     GTest* lObj = (GTest*)malloc(sizeof(GTest));
-    lObj->m_parent = GObject_new();
+    lObj->m_obj = GObject_new();
 
     lObj->delete = GTest_delete;
     lObj->run = GTest_run;
+    lObj->runFunctions = GTest_runFunctions;
     lObj->runVector = GTest_runVector;
     lObj->runLog = GTest_runLog;
     lObj->runSocketClient = GTest_runSocketClient;
@@ -43,16 +45,23 @@ GTest* GTest_new() {
 //===============================================
 static void GTest_delete(GTest* _this) {
     assert(_this);
-    _this->m_parent->delete(_this->m_parent);
+    _this->m_obj->delete(_this->m_obj);
     free(_this);
 }
 //===============================================
 static void GTest_run(GTest* _this, int _argc, char** _argv) {
     assert(_this);
+    GLog* lLog = _this->m_obj->m_logs;
     const char* lModule = "";
     if(_argc > 2) lModule = _argv[2];
 
-    if(!strcmp(lModule, "vector")) {
+    if(!strcmp(lModule, "")) {
+        lLog->addError(lLog, "La méthode est obligatoire.");
+    }
+    else if(!strcmp(lModule, "functions")) {
+        _this->runFunctions(_this, _argc, _argv);
+    }
+    else if(!strcmp(lModule, "vector")) {
         _this->runVector(_this, _argc, _argv);
     }
     else if(!strcmp(lModule, "log")) {
@@ -82,9 +91,16 @@ static void GTest_run(GTest* _this, int _argc, char** _argv) {
     else if(!strcmp(lModule, "facade")) {
         _this->runFacade(_this, _argc, _argv);
     }
-    else if(!strcmp(lModule, "iconv")) {
-        _this->runIconv(_this, _argc, _argv);
+    else {
+        lLog->addError(lLog, "La méthode est inconnue.");
     }
+}
+//===============================================
+static void GTest_runFunctions(GTest* _this, int _argc, char** _argv) {
+    assert(_this);
+    printf("%s\n", sformat("Acceuil : %s", "Bonjour tout le monde"));
+    printf("%s\n", sformat("Année : %d", 2023));
+    printf("%s\n", sformat("PI : %.2f", 3.14));
 }
 //===============================================
 static void GTest_runVector(GTest* _this, int _argc, char** _argv) {
@@ -126,7 +142,7 @@ static void GTest_runLog(GTest* _this, int _argc, char** _argv) {
 //===============================================
 static void GTest_runSocketClient(GTest* _this, int _argc, char** _argv) {
     assert(_this);
-    GLog* lLog = _this->m_parent->m_logs;
+    GLog* lLog = _this->m_obj->m_logs;
     GSocket* lClient = GSocket_new();
     GString* lData = GString_new();
 
@@ -141,7 +157,7 @@ static void GTest_runSocketClient(GTest* _this, int _argc, char** _argv) {
 //===============================================
 static void GTest_runString(GTest* _this, int _argc, char** _argv) {
     assert(_this);
-    GLog* lLog = _this->m_parent->m_logs;
+    GLog* lLog = _this->m_obj->m_logs;
     GString* lData = GString_new();
     GVector* lMap = 0;
 
@@ -169,7 +185,7 @@ static void GTest_runString(GTest* _this, int _argc, char** _argv) {
 //===============================================
 static void GTest_runXml(GTest* _this, int _argc, char** _argv) {
     assert(_this);
-    GLog* lLog = _this->m_parent->m_logs;
+    GLog* lLog = _this->m_obj->m_logs;
     GXml* lXml = GXml_new();
     GXml* lObj = GXml_new();
     GXml* lObj2 = GXml_new();
@@ -221,7 +237,7 @@ static void GTest_runXml(GTest* _this, int _argc, char** _argv) {
 //===============================================
 static void GTest_runJson(GTest* _this, int _argc, char** _argv) {
     assert(_this);
-    GLog* lLog = _this->m_parent->m_logs;
+    GLog* lLog = _this->m_obj->m_logs;
     GJson* lJson = GJson_new();
     GJson* lJsonC1 = GJson_new();
     GJson* lJsonC2 = GJson_new();
@@ -280,7 +296,7 @@ static void GTest_runJson(GTest* _this, int _argc, char** _argv) {
 //===============================================
 static void GTest_runCode(GTest* _this, int _argc, char** _argv) {
     assert(_this);
-    GLog* lLog = _this->m_parent->m_logs;
+    GLog* lLog = _this->m_obj->m_logs;
     GCode* lDom = GCode_new();
     lDom->m_dom->createDoc(lDom->m_dom);
 
@@ -388,7 +404,7 @@ static void GTest_runFacade(GTest* _this, int _argc, char** _argv) {
     lLog->addLog(lLog, "La lecture du fichier a réussi.");
     lLog->addData(lLog, "La serveur n'a pas été initialisé.");
     lLog->saveLogs(lLog);
-    _this->m_parent->m_logs->addLogs(_this->m_parent->m_logs, lLog);
+    _this->m_obj->m_logs->addLogs(_this->m_obj->m_logs, lLog);
 
     lLog->delete(lLog);
 }

@@ -1,7 +1,7 @@
 //===============================================
 #include "GLog.h"
 #include "GCode.h"
-#include "GLogMsg.h"
+#include "GLogUi.h"
 //===============================================
 GLog::GLog() {
 
@@ -154,7 +154,7 @@ GString GLog::loadLogsA() const {
 int GLog::showErrors(QWidget* _parent) {
     int lResult = 0;
     if(hasErrors() && !hasDatas()) {
-        GLogMsg lLogUi(_parent);
+        GLogUi lLogUi(_parent);
         lLogUi.setParent(_parent);
         if(hasServer()) {
             lLogUi.setIcon(QMessageBox::Critical);
@@ -174,7 +174,7 @@ int GLog::showErrors(QWidget* _parent) {
 int GLog::showDatas(QWidget* _parent) {
     int lResult = 0;
     if(hasDatas()) {
-        GLogMsg lLogUi(_parent);
+        GLogUi lLogUi(_parent);
         lLogUi.setParent(_parent);
         lLogUi.setIcon(QMessageBox::Information);
         lLogUi.setWindowTitle("Datas");
@@ -189,7 +189,7 @@ int GLog::showDatas(QWidget* _parent) {
 int GLog::showLogs(QWidget* _parent) {
     int lResult = 0;
     if(hasLogs() && !hasDatas() && !hasLogs()) {
-        GLogMsg lLogUi(_parent);
+        GLogUi lLogUi(_parent);
         lLogUi.setParent(_parent);
         lLogUi.setIcon(QMessageBox::Information);
         lLogUi.setWindowTitle("Logs");
@@ -204,7 +204,7 @@ int GLog::showLogs(QWidget* _parent) {
 int GLog::showLogsA(QWidget* _parent) {
     int lResult = 0;
     if(size()) {
-        GLogMsg lLogUi(_parent);
+        GLogUi lLogUi(_parent);
         lLogUi.setParent(_parent);
         lLogUi.setIcon(QMessageBox::Information);
         lLogUi.setWindowTitle("Messages");

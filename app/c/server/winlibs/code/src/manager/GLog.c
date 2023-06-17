@@ -195,11 +195,11 @@ static void GLog_showLogsX(GLog* _this) {
     if(lLog->hasDatas(lLog)) {
         lLog->showDatas(lLog);
     }
+    else if(lLog->hasErrors(lLog)) {
+        lLog->showErrors(lLog);
+    }
     else if(lLog->hasLogs(lLog)) {
         lLog->showLogs(lLog);
-    }
-    else if(lLog->hasDatas(lLog)) {
-        lLog->showDatas(lLog);
     }
 }
 //===============================================

@@ -7,7 +7,7 @@
 typedef struct _GProcess GProcess;
 //===============================================
 struct _GProcess {
-    GObject* m_parent;
+    GObject* m_obj;
     void (*delete)(GProcess* _this);
     void (*init)(GProcess* _this);
     void (*clean)(GProcess* _this);

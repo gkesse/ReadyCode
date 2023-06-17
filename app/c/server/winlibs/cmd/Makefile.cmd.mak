@@ -1,11 +1,11 @@
 #================================================
-# config
+# compile
 #================================================
 GSRC = ../code/src
 GBIN = bin
 GBUILD = build
 GTARGET = $(GBIN)\rdvc.exe
-
+#================================================
 GINCS =\
     -I$(GSRC)/manager \
     -I$(GSRC)/libs/include \
@@ -24,13 +24,11 @@ GCFLAGS =\
     -g \
     -std=gnu11 \
 #================================================
-# command
-#================================================
 all: clean_exe compile run
 all_g: clean_exe compile run_g
 all_s: clean_exe compile copy_s run_s
 all_sg: clean_exe compile copy_s run_sg
-
+#================================================
 compile: $(GOBJS)
 	@if not exist $(GBIN) ( mkdir $(GBIN) )
 	gcc $(GCFLAGS) -o $(GTARGET) $(GOBJS) $(GLIBS) 

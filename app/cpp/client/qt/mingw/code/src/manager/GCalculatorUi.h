@@ -1,28 +1,25 @@
 //===============================================
-#ifndef _GClient_
-#define _GClient_
+#ifndef _GCalculatorUi_
+#define _GCalculatorUi_
 //===============================================
-#include "GMainWindow.h"
+#include "GWidget.h"
 //===============================================
 namespace Ui {
-class GClient;
+class GCalculatorUi;
 }
 //===============================================
-class GClient : public GMainWindow {
+class GCalculatorUi : public GWidget {
     Q_OBJECT
 
 public:
-    GClient(QWidget* _parent = 0);
-    ~GClient();
-
-protected:
-    void closeEvent(QCloseEvent* _event);
+    GCalculatorUi(QWidget* _parent = 0);
+    ~GCalculatorUi();
 
 public slots:
-    void on_actionCalculator_triggered(bool _checked = false);
+    void on_edtExpression_returnPressed();
 
 private:
-    Ui::GClient* ui;
+    Ui::GCalculatorUi* ui;
 };
 //===============================================
 #endif

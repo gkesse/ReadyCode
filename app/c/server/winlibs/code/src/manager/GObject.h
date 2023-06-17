@@ -6,6 +6,7 @@
 #include "GCode.h"
 #include "GString.h"
 #include "GVector.h"
+#include "GFunctions.h"
 //===============================================
 typedef struct _GObject GObject;
 //===============================================

@@ -8,7 +8,11 @@ GString::GString() {
     m_size = 0;
 }
 //===============================================
-GString::GString(const char* _data, int _size) {
+GString::GString(char* _data) {
+    create(_data, strlen(_data));
+}
+//===============================================
+GString::GString(char* _data, int _size) {
     create(_data, _size);
 }
 //===============================================
@@ -16,8 +20,16 @@ GString::GString(const char* _data) {
     create(_data, strlen(_data));
 }
 //===============================================
+GString::GString(const char* _data, int _size) {
+    create(_data, _size);
+}
+//===============================================
 GString::GString(const std::string& _data) {
     create(_data.data(), _data.size());
+}
+//===============================================
+GString::GString(const QString& _data) {
+    create(_data.toStdString().c_str(), _data.size());
 }
 //===============================================
 GString::GString(const GString& _data) {
@@ -115,7 +127,7 @@ GString GString::toUtf8() const {
 GString GString::toBase64() const {
     if(isEmpty()) return "";
     char* lBuffer = b64_encode((const unsigned char*)m_data, m_size);
-    GString lData = lBuffer;
+    GString lData(lBuffer, strlen(lBuffer));
     free(lBuffer);
     return lData;
 }
@@ -132,6 +144,12 @@ void GString::print() const {
     printf("%s\n", m_data);
 }
 //===============================================
+GString& GString::operator=(char* _data) {
+    clear();
+    create(_data, strlen(_data));
+    return *this;
+}
+//===============================================
 GString& GString::operator=(const char* _data) {
     clear();
     create(_data, strlen(_data));
@@ -141,6 +159,12 @@ GString& GString::operator=(const char* _data) {
 GString& GString::operator=(const std::string& _data) {
     clear();
     create(_data.data(), _data.size());
+    return *this;
+}
+//===============================================
+GString& GString::operator=(const QString& _data) {
+    clear();
+    create(_data.toStdString().c_str(), _data.size());
     return *this;
 }
 //===============================================

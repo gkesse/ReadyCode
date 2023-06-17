@@ -7,10 +7,11 @@
 typedef struct _GTest GTest;
 //===============================================
 struct _GTest {
-    GObject* m_parent;
+    GObject* m_obj;
 
     void (*delete)(GTest* _this);
     void (*run)(GTest* _this, int _argc, char** _argv);
+    void (*runFunctions)(GTest* _this, int _argc, char** _argv);
     void (*runVector)(GTest* _this, int _argc, char** _argv);
     void (*runLog)(GTest* _this, int _argc, char** _argv);
     void (*runSocketClient)(GTest* _this, int _argc, char** _argv);

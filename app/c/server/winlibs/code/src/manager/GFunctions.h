@@ -1,16 +1,11 @@
 //===============================================
-#ifndef _GLogMsg_
-#define _GLogMsg_
+#ifndef _GFunctions_
+#define _GFunctions_
 //===============================================
-#include "GMessageBox.h"
+#include "GInclude.h"
 //===============================================
-class GLogMsg : public GMessageBox {
-    Q_OBJECT
-
-public:
-    GLogMsg(QWidget* _parent = 0);
-    ~GLogMsg();
-};
+const char* sformat(const char* _format, ...);
+void GFunctions_delete();
 //===============================================
 #endif
 //===============================================

@@ -10,9 +10,12 @@
 class GString {
 public:
     GString();
-    GString(const char* _data, int _size);
+    GString(char* _data);
+    GString(char* _data, int _size);
     GString(const char* _data);
+    GString(const char* _data, int _size);
     GString(const std::string& _data);
+    GString(const QString& _data);
     GString(const GString& _data);
     ~GString();
     static GString* Instance();
@@ -29,8 +32,10 @@ public:
     GString fromBase64() const;
     void print() const;
 
+    GString& operator=(char* _data);
     GString& operator=(const char* _data);
     GString& operator=(const std::string& _data);
+    GString& operator=(const QString& _data);
     GString& operator=(const GString& _data);
 
     bool operator==(const char* _data) const;
