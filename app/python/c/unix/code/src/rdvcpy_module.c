@@ -1,10 +1,8 @@
 //===============================================
-#include <Python.h>
+#include "GFunctions.h"
 //===============================================
 static PyObject* method_callFacade(PyObject* _self, PyObject* _args);
 PyMODINIT_FUNC PyInit_rdvcpy(void);
-//===============================================
-char* sformat(const char* _format, ...);
 //===============================================
 static PyMethodDef method_defs[] = {
     {"callFacade", method_callFacade, METH_VARARGS, "Interface Extension C pour Python par ReadyDev"},
@@ -34,18 +32,8 @@ static PyObject* method_callFacade(PyObject* _self, PyObject* _args) {
 
     char* lBuffer = sformat("%s - %s - %s", lModule, lMethod, lData);
     PyObject* lObject = PyBytes_FromString(lBuffer);
-    free(lBuffer);
+    GFunctions_delete();
 
     return lObject;
-}
-//===============================================
-char* sformat(const char* _format, ...) {
-    va_list lArgs;
-    va_start(lArgs, _format);
-    int lSize = vsnprintf(0, 0, _format, lArgs);
-    char* lBuffer = (char*)malloc(sizeof(char)*(lSize + 1));
-    vsnprintf(lBuffer, lSize + 1, _format, lArgs);
-    va_end(lArgs);
-    return lBuffer;
 }
 //===============================================
