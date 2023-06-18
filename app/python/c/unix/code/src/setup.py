@@ -1,16 +1,12 @@
 #================================================
-from distutils.core import setup, Extension
+from setuptools import setup, Extension
 #================================================
-def main():
-    setup(
-        name="fputs"
-        , version="1.0.0"
-        , description="Module de gestion de connexion socket"
-        , author="Gerard KESSE"
-        , author_email="readydevz@gmail.com"
-        , ext_modules=[Extension("fputs", ["fputsmodule.c"])]
-    )
-#================================================
-if __name__ == "__main__":
-    main()
+setup(
+    name='rdvcpy'
+    , version='1.0'
+    , description='Package Extension C pour Python par ReadyDev'
+    , author="ReadyDev"
+    , author_email="readydevz@gmail.com"
+    , ext_modules=([Extension("rdvcpy", ["rdvcpy_module.c"])])
+)
 #================================================
