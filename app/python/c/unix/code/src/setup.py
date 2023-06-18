@@ -10,7 +10,8 @@ setup(
     , ext_modules=([
         Extension(
             "rdvcpy"
-            , ["rdvcpy_module.c", "GFunctions.c"]
+            , ["rdvcpy_module.c", "manager/GFunctions.c"]
+            , include_dirs=["manager"]
         )
     ])
 )
