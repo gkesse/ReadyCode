@@ -15,6 +15,7 @@ module_im:
 module_ip:
 	@sudo apt install python3-setuptools -y
 	@sudo apt install python3-pip -y
+	@sudo apt install libxml2-dev -y
 module_lsm:
 	@ls -l  /usr/local/lib/python3.10/dist-packages/
 module_lsp:

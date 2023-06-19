@@ -8,6 +8,10 @@
 #include <assert.h>
 #include <string.h>
 #include <stdarg.h>
+// libxml2
+#include <libxml/parser.h>
+#include <libxml/tree.h>
+#include <libxml/xpath.h>
 // python
 #include <Python.h>
 //===============================================

@@ -1,5 +1,6 @@
 //===============================================
 #include "GFunctions.h"
+#include "GServer.h"
 //===============================================
 static PyObject* method_callFacade(PyObject* _self, PyObject* _args);
 PyMODINIT_FUNC PyInit_rdvcpy(void);
@@ -30,8 +31,13 @@ static PyObject* method_callFacade(PyObject* _self, PyObject* _args) {
         return NULL;
     }
 
-    char* lBuffer = sformat("%s - %s - %s", lModule, lMethod, lData);
-    PyObject* lObject = PyBytes_FromString(lBuffer);
+    GServer* lServer = GServer_new();
+    GString* lResult = GString_new();
+    lServer->run(lServer, lModule, lMethod, lData);
+    lResult->assign(lResult, lServer->toString(lServer));
+    PyObject* lObject = PyBytes_FromString(lResult->m_data);
+    lServer->delete(lServer);
+    lResult->delete(lResult);
     GFunctions_delete();
 
     return lObject;
