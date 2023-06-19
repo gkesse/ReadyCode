@@ -6,7 +6,7 @@
 static void GServer_delete(GServer* _this);
 static GString* GServer_toString(GServer* _this);
 static void GServer_run(GServer* _this, const char* _module, const char* _method, const char* _data);
-static void GServer_runCalculator(GServer* _this, const char* _module, const char* _method, const char* _data);
+static void GServer_runCalculator(GServer* _this, const char* _method, const char* _data);
 //===============================================
 GServer* GServer_new() {
     GServer* lObj = (GServer*)malloc(sizeof(GServer));
@@ -44,14 +44,14 @@ static void GServer_run(GServer* _this, const char* _module, const char* _method
         lLog->addError(lLog, "Le module est obligatoire.");
     }
     else if(!strcmp(_module, "calculator")) {
-        _this->runCalculator(_this, _module, _method, _data);
+        _this->runCalculator(_this, _method, _data);
     }
     else {
         lLog->addError(lLog, "Le module est inconnu.");
     }
 }
 //===============================================
-static void GServer_runCalculator(GServer* _this, const char* _module, const char* _method, const char* _data) {
+static void GServer_runCalculator(GServer* _this, const char* _method, const char* _data) {
     assert(_this);
     GLog* lLog = _this->m_obj->m_logs;
     lLog->addError(lLog, "Le module calculator a été trouvé.");

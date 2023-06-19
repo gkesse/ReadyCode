@@ -20,6 +20,7 @@ setup(
                 , "c/manager/GLog.c"
                 , "c/manager/GObject.c"
                 , "c/manager/GServer.c"
+                , "c/manager/GCalculator.c"
               ]
             , include_dirs=["c/manager", "/usr/include/libxml2"]
             , libraries=["xml2"]

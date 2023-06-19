@@ -12,6 +12,8 @@
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 #include <libxml/xpath.h>
+// tinyexpr
+#include <tinyexpr.h>
 // python
 #include <Python.h>
 //===============================================
