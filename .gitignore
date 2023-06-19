@@ -18,7 +18,7 @@
 
 !/app/c/server/winlibs/code/src/libs/
 !/app/c/server/winlibs/code/src/libs/bin/
-!/app/python/c/unix/code/src/libs/
+!/app/python/c/unix/code/src/c/libs/
 
 #================================================
 # Files (yes)
