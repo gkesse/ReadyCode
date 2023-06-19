@@ -21,7 +21,7 @@ module_lsm:
 module_lsp:
 	@pip3 list
 module_r:
-	@cd $(GSRC) && python3 main.py
+	@cd $(GSRC)/py && python3 main.py
 module_uim:
 	@sudo pip3 uninstall rdvcpy -y
 module_clm:
