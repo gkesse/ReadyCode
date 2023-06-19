@@ -1,8 +1,8 @@
 <?php
     session_start();
     //===============================================
-    function GAutoloadRegister($classname) {
-        $m_filename = dirname(__FILE__).DIRECTORY_SEPARATOR.$classname.".php";
+    function GAutoloadRegister($_classname) {
+        $m_filename = dirname(__FILE__).DIRECTORY_SEPARATOR.$_classname.".php";
 
         if (is_readable($m_filename)) {
             require $m_filename;
