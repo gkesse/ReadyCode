@@ -11,7 +11,7 @@ setup(
         Extension(
             "rdvcpy"
             , [ 
-                "rdvcpy_module.c"
+                "c/rdvcpy_module.c"
                 , "c/manager/GFunctions.c"
                 , "c/manager/GString.c"
                 , "c/manager/GVector.c"
