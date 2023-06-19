@@ -22,8 +22,13 @@ setup(
                 , "c/manager/GServer.c"
                 , "c/manager/GCalculator.c"
               ]
-            , include_dirs=["c/manager", "/usr/include/libxml2"]
-            , libraries=["xml2"]
+            , include_dirs=[
+                "c/manager"
+                , "c/libs/include"
+                , "/usr/include/libxml2"
+            ]
+            , library_dirs=["c/libs/lib"]
+            , libraries=["xml2", "tinyexpr"]
         )
     ])
 )

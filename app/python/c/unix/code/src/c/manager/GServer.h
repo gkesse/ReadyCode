@@ -13,7 +13,7 @@ struct _GServer {
     void (*delete)(GServer* _this);
     GString* (*toString)(GServer* _this);
     void (*run)(GServer* _this, const char* _module, const char* _method, const char* _data);
-    void (*runCalculator)(GServer* _this, const char* _method, const char* _data);
+    void (*runCalculator)(GServer* _this, const char* _module, const char* _method, const char* _data);
 };
 //===============================================
 GServer* GServer_new();

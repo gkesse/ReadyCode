@@ -26,4 +26,5 @@ class GTest(GObject):
         lCalculator.m_expression = "10/2"
         lCalculator.runCalculator()
         self.m_logs.addLogs(lCalculator.m_logs)
+        lCalculator.print()
 #================================================

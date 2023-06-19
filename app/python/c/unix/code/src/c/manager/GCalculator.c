@@ -5,8 +5,8 @@ static void GCalculator_delete(GCalculator* _this);
 static GObject* GCalculator_clone(GObject* _this);
 static GString* GCalculator_serialize(GObject* _this);
 static void GCalculator_deserialize(GObject* _this, const char* _data);
-static void GCalculator_run(GCalculator* _this, const char* _method, const char* _data);
-static void GCalculator_onRunCalculator(GCalculator* _this, const char* _data);
+static void GCalculator_run(GCalculator* _this, const char* _module, const char* _method, const char* _data);
+static void GCalculator_onRunCalculator(GCalculator* _this, const char* _module, const char* _method, const char* _data);
 //===============================================
 GCalculator* GCalculator_new() {
     GCalculator* lObj = (GCalculator*)malloc(sizeof(GCalculator));
@@ -69,7 +69,7 @@ static void GCalculator_deserialize(GObject* _this, const char* _data) {
     lDom->delete(lDom);
 }
 //===============================================
-static void GCalculator_run(GCalculator* _this, const char* _method, const char* _data) {
+static void GCalculator_run(GCalculator* _this, const char* _module, const char* _method, const char* _data) {
     assert(_this);
     GLog* lLog = _this->m_obj->m_logs;
     _this->m_obj->deserialize(_this->m_obj, _data);
@@ -78,7 +78,7 @@ static void GCalculator_run(GCalculator* _this, const char* _method, const char*
         lLog->addError(lLog, "Le module est obligatoire.");
     }
     else if(!strcmp(_method, "run_calculator")) {
-        _this->onRunCalculator(_this, _data);
+        _this->onRunCalculator(_this, _module, _method, _data);
     }
     else {
         lLog->addError(lLog, "Le module est inconnu.");

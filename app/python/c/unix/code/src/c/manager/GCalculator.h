@@ -12,8 +12,8 @@ struct _GCalculator {
     GString* m_result;
 
     void (*delete)(GCalculator* _this);
-    void (*run)(GCalculator* _this, const char* _method, const char* _data);
-    void (*onRunCalculator)(GCalculator* _this, const char* _data);
+    void (*run)(GCalculator* _this, const char* _module, const char* _method, const char* _data);
+    void (*onRunCalculator)(GCalculator* _this, const char* _module, const char* _method, const char* _data);
 };
 //===============================================
 GCalculator* GCalculator_new();
