@@ -1,13 +1,9 @@
 #================================================
-import sys
-import rdvcpy
+from manager.GProcess import GProcess
 #================================================
-def printf(_format, *_args):
-    sys.stdout.write(_format % _args)
-#================================================
-def main():
-    printf("%s\n", rdvcpy.callFacade("logs", "save", "data"))
-#================================================
-if __name__ == "__main__":
-    main()
+lProcess = GProcess()
+lProcess.init()
+lProcess.run()
+lProcess.m_logs.print()
+lProcess.clean()
 #================================================

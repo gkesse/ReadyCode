@@ -13,15 +13,17 @@ module_cm: module_clm
 module_im:
 	@cd $(GSRC) && sudo python3 setup.py install
 module_ip:
-	@sudo apt install python3-setuptools -y
 	@sudo apt install python3-pip -y
 	@sudo apt install libxml2-dev -y
+	@pip3 install setuptools
+	@pip3 install lxml
+	@pip3 install bs4
 module_lsm:
 	@ls -l  /usr/local/lib/python3.10/dist-packages/
 module_lsp:
 	@pip3 list
 module_r:
-	@cd $(GSRC)/py && python3 main.py
+	@cd $(GSRC)/py && python3 main.py $(argv)
 module_uim:
 	@sudo pip3 uninstall rdvcpy -y
 module_clm:

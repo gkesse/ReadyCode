@@ -112,7 +112,7 @@ static void GLog_addError(GLog* _this, const char* _msg) {
     GLog* lObj = GLog_new();
     GVector* lMap = _this->m_map;
     lObj->m_type->create(lObj->m_type, "error");
-    lObj->m_side->create(lObj->m_side, "server_c");
+    lObj->m_side->create(lObj->m_side, "server_c_py");
     lObj->m_msg->create(lObj->m_msg, _msg);
     lMap->add(lMap, lObj);
 }
@@ -122,7 +122,7 @@ static void GLog_addLog(GLog* _this, const char* _msg) {
     GLog* lObj = GLog_new();
     GVector* lMap = _this->m_map;
     lObj->m_type->create(lObj->m_type, "log");
-    lObj->m_side->create(lObj->m_side, "server_c");
+    lObj->m_side->create(lObj->m_side, "server_c_py");
     lObj->m_msg->create(lObj->m_msg, _msg);
     lMap->add(lMap, lObj);
 }
@@ -132,7 +132,7 @@ static void GLog_addData(GLog* _this, const char* _msg) {
     GLog* lObj = GLog_new();
     GVector* lMap = _this->m_map;
     lObj->m_type->create(lObj->m_type, "data");
-    lObj->m_side->create(lObj->m_side, "server_c");
+    lObj->m_side->create(lObj->m_side, "server_c_py");
     lObj->m_msg->create(lObj->m_msg, _msg);
     lMap->add(lMap, lObj);
 }
