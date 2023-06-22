@@ -25,7 +25,7 @@ void GClientUi::on_actionFacade_triggered(bool _checked) {
     lFacadeV.setValue("serveur_python");
     int lFacadeI = lFacade.indexOf(lFacadeV);
 
-    GFormUi lFormUi;
+    GFormUi lFormUi(this);
     lFormUi.addComboBox("Facade", lFacade.serialize(), lFacadeI);
 
     if(lFormUi.run() == QDialog::Accepted) {
@@ -34,8 +34,13 @@ void GClientUi::on_actionFacade_triggered(bool _checked) {
 }
 //===============================================
 void GClientUi::on_actionCalculator_triggered(bool _checked) {
-    GCalculatorUi* lCalculatorUi = new GCalculatorUi;
-    lCalculatorUi->show();
+    GCalculatorUi* lWindow = new GCalculatorUi;
+    QMdiSubWindow* lSubWindow = ui->mdiArea->addSubWindow(lWindow);
+    QPoint lCenter = ui->mdiArea->viewport()->rect().center();
+    QRect lGeometry = lSubWindow->geometry();
+    lGeometry.moveCenter(lCenter);
+    lSubWindow->setGeometry(lGeometry);
+    lSubWindow->show();
 }
 //===============================================
 void GClientUi::closeEvent(QCloseEvent* _event) {
