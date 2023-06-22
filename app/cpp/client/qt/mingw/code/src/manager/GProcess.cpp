@@ -1,7 +1,7 @@
 //===============================================
 #include "GProcess.h"
 #include "GTest.h"
-#include "GClient.h"
+#include "GClientUi.h"
 //===============================================
 GProcess::GProcess()
 : GObject() {
@@ -48,8 +48,8 @@ void GProcess::runTest(int _argc, char** _argv) {
 //===============================================
 void GProcess::runClient(int _argc, char** _argv) {
     QApplication lApp(_argc, _argv);
-    GClient* lClient = new GClient;
-    lClient->show();
+    GClientUi* lClientUi = new GClientUi;
+    lClientUi->show();
     lApp.exec();
 }
 //===============================================

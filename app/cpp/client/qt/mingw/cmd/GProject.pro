@@ -17,10 +17,11 @@ INCLUDEPATH +=\
     ..\code\src\libs\include \
     ..\code\src\libs\include\libxml2 \
     ..\code\src\libs\include\b64 \
+    ..\code\src\libs\include\base64 \
 
 LIBS +=\
     -L..\code\src\libs\lib \
-    -lws2_32 -lxml2 -lb64c \
+    -lws2_32 -lxml2 -lb64c -lbase64 \
 
 
 SOURCES +=\

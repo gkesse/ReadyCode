@@ -10,8 +10,11 @@
 class GString {
 public:
     GString();
-    GString(char* _data);
-    GString(char* _data, int _size);
+    GString(char _data);
+    GString(bool _data);
+    GString(int _data);
+    GString(const std::vector<char>& _data);
+    GString(const std::vector<uchar>& _data);
     GString(const char* _data);
     GString(const char* _data, int _size);
     GString(const std::string& _data);
@@ -27,12 +30,16 @@ public:
     int size() const;
     GString getFormat(const char* _format, ...) const;
     std::vector<GString> split(const GString& _sep) const;
+
+    int toInt() const;
     GString toUtf8() const;
     GString toBase64() const;
     GString fromBase64() const;
     void print() const;
 
-    GString& operator=(char* _data);
+    GString& operator=(bool _data);
+    GString& operator=(char _data);
+    GString& operator=(int _data);
     GString& operator=(const char* _data);
     GString& operator=(const std::string& _data);
     GString& operator=(const QString& _data);

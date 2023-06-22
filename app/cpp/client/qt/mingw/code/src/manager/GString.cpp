@@ -8,12 +8,27 @@ GString::GString() {
     m_size = 0;
 }
 //===============================================
-GString::GString(char* _data) {
-    create(_data, strlen(_data));
+GString::GString(char _data) {
+    create(&_data, 1);
 }
 //===============================================
-GString::GString(char* _data, int _size) {
-    create(_data, _size);
+GString::GString(bool _data) {
+    char lChar = (_data ? '1' : '0');
+    create(&lChar, 1);
+}
+//===============================================
+GString::GString(int _data) {
+    int lSize = snprintf(0, 0, "%d", _data);
+    create(lSize);
+    snprintf(m_data, m_size + 1, "%d", _data);
+}
+//===============================================
+GString::GString(const std::vector<char>& _data) {
+    create(_data.data(), _data.size());
+}
+//===============================================
+GString::GString(const std::vector<uchar>& _data) {
+    create((char*)_data.data(), _data.size());
 }
 //===============================================
 GString::GString(const char* _data) {
@@ -101,6 +116,18 @@ std::vector<GString> GString::split(const GString& _sep) const {
     return lMap;
 }
 //===============================================
+int GString::toInt() const {
+    if(isEmpty()) return 0;
+    int lData = 0;
+    try {
+        lData = std::stoi(m_data);
+    }
+    catch(const std::exception& e) {
+        return 0;
+    }
+    return lData;
+}
+//===============================================
 GString GString::toUtf8() const {
     if(isEmpty()) return "";
     char* lBufIn = m_data;
@@ -126,17 +153,13 @@ GString GString::toUtf8() const {
 //===============================================
 GString GString::toBase64() const {
     if(isEmpty()) return "";
-    char* lBuffer = b64_encode((const unsigned char*)m_data, m_size);
-    GString lData(lBuffer, strlen(lBuffer));
-    free(lBuffer);
+    GString lData = Base64::encode((uchar*)m_data, m_size);
     return lData;
 }
 //===============================================
-GString GString::fromBase64() const {
+GString GString::fromBase64() const  {
     if(isEmpty()) return "";
-    char* lBuffer = (char*)b64_decode(m_data, m_size);
-    GString lData = lBuffer;
-    free(lBuffer);
+    GString lData = Base64::decode(m_data);
     return lData;
 }
 //===============================================
@@ -144,9 +167,24 @@ void GString::print() const {
     printf("%s\n", m_data);
 }
 //===============================================
-GString& GString::operator=(char* _data) {
+GString& GString::operator=(bool _data) {
     clear();
-    create(_data, strlen(_data));
+    char lChar = (_data ? '1' : '0');
+    create(&lChar, 1);
+    return *this;
+}
+//===============================================
+GString& GString::operator=(char _data) {
+    clear();
+    create(&_data, 1);
+    return *this;
+}
+//===============================================
+GString& GString::operator=(int _data) {
+    clear();
+    int lSize = snprintf(0, 0, "%d", _data);
+    create(lSize);
+    snprintf(m_data, m_size + 1, "%d", _data);
     return *this;
 }
 //===============================================
