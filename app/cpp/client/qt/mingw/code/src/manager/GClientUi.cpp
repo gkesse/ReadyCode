@@ -9,10 +9,15 @@ GClientUi::GClientUi(QWidget* _parent)
 , ui(new Ui::GClientUi) {
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
+    m_facade = "server_cpp";
 }
 //===============================================
 GClientUi::~GClientUi() {
     delete ui;
+}
+//===============================================
+GString GClientUi::getFacade() const {
+    return m_facade;
 }
 //===============================================
 void GClientUi::on_actionFacade_triggered(bool _checked) {
@@ -29,12 +34,13 @@ void GClientUi::on_actionFacade_triggered(bool _checked) {
     lFormUi.addComboBox("Facade", lFacade.serialize(), lFacadeI);
 
     if(lFormUi.run() == QDialog::Accepted) {
-        lFormUi.loadFromMap(1).getValue().print();
+        m_facade = lFormUi.loadFromMap(1).getValue();
     }
 }
 //===============================================
 void GClientUi::on_actionCalculator_triggered(bool _checked) {
     GCalculatorUi* lWindow = new GCalculatorUi;
+    lWindow->setClientUi(this);
     QMdiSubWindow* lSubWindow = ui->mdiArea->addSubWindow(lWindow);
     QPoint lCenter = ui->mdiArea->viewport()->rect().center();
     QRect lGeometry = lSubWindow->geometry();

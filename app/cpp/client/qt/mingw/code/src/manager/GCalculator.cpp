@@ -3,7 +3,7 @@
 #include "GSocket.h"
 //===============================================
 GCalculator::GCalculator()
-: GObject() {
+: GFacade() {
 
 }
 //===============================================
@@ -24,6 +24,7 @@ GString GCalculator::serialize(const GString& _code) const {
     lDom.createDoc();
     lDom.addData(_code, "expression", m_expression.toBase64());
     lDom.addData(_code, "result", m_result);
+    lDom.loadData(GFacade::serialize());
     return lDom.toString();
 }
 //===============================================
@@ -36,6 +37,7 @@ void GCalculator::deserialize(const GString& _data, const GString& _code) {
 //===============================================
 void GCalculator::runCalculator() {
     GString lData = serialize();
+    lData.print();
     GSocket lClient;
     lData = lClient.callFacade("calculator", "run_calculator", lData);
     deserialize(lData);

@@ -14,6 +14,7 @@ class GClientUi : public GMainWindow {
 public:
     GClientUi(QWidget* _parent = 0);
     ~GClientUi();
+    GString getFacade() const;
 
 protected:
     void closeEvent(QCloseEvent* _event);

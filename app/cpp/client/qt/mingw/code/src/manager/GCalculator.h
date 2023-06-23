@@ -2,9 +2,9 @@
 #ifndef _GCalculator_
 #define _GCalculator_
 //===============================================
-#include "GObject.h"
+#include "GFacade.h"
 //===============================================
-class GCalculator : public GObject {
+class GCalculator : public GFacade {
 public:
     GCalculator();
     ~GCalculator();

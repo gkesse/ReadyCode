@@ -16,7 +16,9 @@ GCalculatorUi::~GCalculatorUi() {
 //===============================================
 void GCalculatorUi::on_edtExpression_returnPressed() {
     GCalculator lCalculator;
+    lCalculator.setFacade(m_clientUi->getFacade());
     lCalculator.setExpression(ui->edtExpression->text());
+    lCalculator.runCalculator();
     m_logs.addData(lCalculator.serialize());
     m_logs.showLogsX(this);
 }
