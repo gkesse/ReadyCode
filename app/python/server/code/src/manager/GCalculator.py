@@ -34,6 +34,6 @@ class GCalculator(GManager):
             self.m_logs.addError("La méthode est inconnue.")
     #================================================
     def onRunCalculator(self, _data):
-        self.m_result = "12345"
+        self.m_result = str(eval(self.m_expression))
         self.m_logs.addData(self.serialize())
 #================================================
