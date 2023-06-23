@@ -20,7 +20,7 @@ GString GSocket::callServer(const GString& _dataIn) {
     WSADATA lWsaData;
 
     if(WSAStartup(MAKEWORD(lMajor, lMinor), &lWsaData) == SOCKET_ERROR) {
-        m_logs.addError("L'initialisation du server a échoué.");
+        m_logs.addError("La connexion au serveur a échoué.");
         return "";
     }
 
@@ -33,12 +33,18 @@ GString GSocket::callServer(const GString& _dataIn) {
     SOCKET lClient = socket(AF_INET, SOCK_STREAM, 0);
 
     if(lClient == INVALID_SOCKET) {
-        m_logs.addError("La création du socket server a échoué.");
+        m_logs.addError("La connexion au serveur a échoué.");
         return "";
     }
 
     m_socket = lClient;
-    connect(lClient, (SOCKADDR*)(&lAddress), sizeof(lAddress));
+    int lConnectOk = connect(lClient, (SOCKADDR*)(&lAddress), sizeof(lAddress));
+
+    if(lConnectOk == SOCKET_ERROR) {
+        m_logs.addError("La connexion au serveur a échoué.");
+        return "";
+    }
+
     sendData(_dataIn);
     GString lDataOut = readData();
 

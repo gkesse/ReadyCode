@@ -147,7 +147,7 @@ void GCode::getMap(const GString& _code, std::vector<GDialog*>& _map, GDialog* _
 }
 //===============================================
 void GCode::getLog(const GString& _code, std::vector<GLog*>& _map, GLog* _obj) {
-    _obj->clear();
+    //_obj->clear();
 
     int lCount = countNode(*this, sformat("/rdv/datas/data[code='%s']/map/data", _code.c_str()));
 

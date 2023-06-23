@@ -68,7 +68,7 @@ void GLog::addData(const GString& _msg) {
 }
 //===============================================
 void GLog::addLogs(const GLog& _obj) {
-    for(int i = 0; i < (int)_obj.m_map.size(); i++) {
+    for(int i = 0; i < _obj.size(); i++) {
         GLog* lObj = _obj.m_map[i];
         GLog* lNew = new GLog;
         lNew->setObj(*lObj);
@@ -114,9 +114,10 @@ int GLog::size() const {
 //===============================================
 GString GLog::loadErrors() const {
     GString lData = "";
-    for(int i = 0; i < size(); i++) {
+    for(int i = 0, j = 0; i < size(); i++) {
         GLog* lObj = m_map[i];
         if(lObj->m_type != "error") continue;
+        if(j++ != 0) lData += "\n";
         lData += lObj->m_msg;
     }
     return lData;
@@ -124,9 +125,10 @@ GString GLog::loadErrors() const {
 //===============================================
 GString GLog::loadDatas() const {
     GString lData = "";
-    for(int i = 0; i < size(); i++) {
+    for(int i = 0, j = 0; i < size(); i++) {
         GLog* lObj = m_map[i];
         if(lObj->m_type != "data") continue;
+        if(j++ != 0) lData += "\n";
         lData += lObj->m_msg;
     }
     return lData;
@@ -134,9 +136,10 @@ GString GLog::loadDatas() const {
 //===============================================
 GString GLog::loadLogs() const {
     GString lData = "";
-    for(int i = 0; i < size(); i++) {
+    for(int i = 0, j = 0; i < size(); i++) {
         GLog* lObj = m_map[i];
         if(lObj->m_type != "log") continue;
+        if(j++ != 0) lData += "\n";
         lData += lObj->m_msg;
     }
     return lData;
@@ -163,8 +166,7 @@ int GLog::showErrors(QWidget* _parent) {
             lLogUi.setIcon(QMessageBox::Warning);
         }
         lLogUi.setWindowTitle("Erreurs");
-        lLogUi.setText("Consultez les erreus.");
-        lLogUi.setInformativeText(loadErrors().c_str());
+        lLogUi.setText(loadErrors().c_str());
         lResult = lLogUi.exec();
         clear();
     }
@@ -178,8 +180,7 @@ int GLog::showDatas(QWidget* _parent) {
         lLogUi.setParent(_parent);
         lLogUi.setIcon(QMessageBox::Information);
         lLogUi.setWindowTitle("Datas");
-        lLogUi.setText("Consultez les données.");
-        lLogUi.setInformativeText(loadDatas().c_str());
+        lLogUi.setText(loadDatas().c_str());
         lResult = lLogUi.exec();
         clear();
     }
@@ -193,8 +194,7 @@ int GLog::showLogs(QWidget* _parent) {
         lLogUi.setParent(_parent);
         lLogUi.setIcon(QMessageBox::Information);
         lLogUi.setWindowTitle("Logs");
-        lLogUi.setText("Consultez les logs.");
-        lLogUi.setInformativeText(loadLogs().c_str());
+        lLogUi.setText(loadLogs().c_str());
         lResult = lLogUi.exec();
         clear();
     }
@@ -208,8 +208,7 @@ int GLog::showLogsA(QWidget* _parent) {
         lLogUi.setParent(_parent);
         lLogUi.setIcon(QMessageBox::Information);
         lLogUi.setWindowTitle("Messages");
-        lLogUi.setText("Consultez les messages.");
-        lLogUi.setInformativeText(loadLogsA().c_str());
+        lLogUi.setText(loadLogsA().c_str());
         lResult = lLogUi.exec();
         clear();
     }

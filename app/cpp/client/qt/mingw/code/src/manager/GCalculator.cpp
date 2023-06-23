@@ -37,10 +37,10 @@ void GCalculator::deserialize(const GString& _data, const GString& _code) {
 //===============================================
 void GCalculator::runCalculator() {
     GString lData = serialize();
-    lData.print();
     GSocket lClient;
     lData = lClient.callFacade("calculator", "run_calculator", lData);
-    deserialize(lData);
+    m_logs.addLogs(lClient.getLogs());
     m_logs.deserialize(lData);
+    deserialize(lData);
 }
 //===============================================
