@@ -2,7 +2,7 @@
 #include "GManager.h"
 //===============================================
 GManager::GManager()
-: GObject() {
+: GFacade() {
 
 }
 //===============================================
@@ -19,6 +19,7 @@ GString GManager::serialize(const GString& _code) const {
 }
 //===============================================
 void GManager::deserialize(const GString& _data, const GString& _code) {
+    GFacade::deserialize(_data);
     GCode lDom;
     lDom.loadXml(_data);
     m_module = lDom.getData(_code, "module");

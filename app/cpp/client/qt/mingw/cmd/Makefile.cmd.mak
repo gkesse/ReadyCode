@@ -7,8 +7,7 @@ GBUILD = build
 GTARGET = bin\rdv_cpp.exe
 #================================================
 all: clean_exe qmake compile run
-all_r: run
-all_g: run_g
+all_g: clean_exe qmake compile run_g
 #================================================
 qmake:
 	@qmake 
@@ -17,7 +16,7 @@ compile:
 run:
 	@$(GTARGET) $(argv)
 run_g:
-	@gdb --args $(GTARGET) $(argv)
+	@envs.bat && gdb -ex run --args $(GTARGET) $(argv)
 clean_exe: 
 	@if not exist $(GBIN) ( mkdir $(GBIN) )
 	@del /q /s $(GTARGET)

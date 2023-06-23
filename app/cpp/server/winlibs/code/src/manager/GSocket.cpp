@@ -15,7 +15,7 @@ GSocket::~GSocket() {
 void GSocket::runServer() {
     int lMajor = 2;
     int lMinor = 2;
-    int lPort = 8002;
+    int lPort = 9010;
     int lBacklog = 10;
 
     WSADATA wsaData;
@@ -86,34 +86,54 @@ DWORD WINAPI GSocket::onThread(LPVOID _params) {
     return 0;
 }
 //===============================================
-GString GSocket::callServer(const GString& _dataIn) {
+GString GSocket::toHostname(const GString& _facade) const {
+    if(_facade == "server_c") return "127.0.0.1";
+    if(_facade == "server_cpp") return "127.0.0.1";
+    if(_facade == "server_python") return "127.0.0.1";
+    return "127.0.0.1";;
+}
+//===============================================
+int GSocket::toPort(const GString& _facade) const {
+    if(_facade == "server_c") return 9020;
+    if(_facade == "server_cpp") return 9010;
+    if(_facade == "server_python") return 9030;
+    return 9010;
+}
+//===============================================
+GString GSocket::callServer(const GString& _dataIn, const GString& _facade) {
     int lMajor = 2;
     int lMinor = 2;
-    const char* lHostname = "127.0.0.1";
-    int lPort = 8002;
+    GString lHostname = toHostname(_facade);
+    int lPort = toPort(_facade);
 
     WSADATA lWsaData;
 
     if(WSAStartup(MAKEWORD(lMajor, lMinor), &lWsaData) == SOCKET_ERROR) {
-        m_logs.addError("L'initialisation du server a échoué.");
+        m_logs.addError("La connexion au server a échoué.");
         return "";
     }
 
     struct sockaddr_in lAddress;
 
-    inet_pton(AF_INET, lHostname, &lAddress.sin_addr.s_addr);
+    inet_pton(AF_INET, lHostname.c_str(), &lAddress.sin_addr.s_addr);
     lAddress.sin_family = AF_INET;
     lAddress.sin_port = htons(lPort);
 
     SOCKET lClient = socket(AF_INET, SOCK_STREAM, 0);
 
     if(lClient == INVALID_SOCKET) {
-        m_logs.addError("La création du socket server a échoué.");
+        m_logs.addError("La connexion au server a échoué.");
         return "";
     }
 
     m_socket = lClient;
-    connect(lClient, (SOCKADDR*)(&lAddress), sizeof(lAddress));
+    int lConnectOk = connect(lClient, (SOCKADDR*)(&lAddress), sizeof(lAddress));
+
+    if(lConnectOk == SOCKET_ERROR) {
+        m_logs.addError("La connexion au server a échoué.");
+        return "";
+    }
+
     sendData(_dataIn);
     GString lDataOut = readData();
 

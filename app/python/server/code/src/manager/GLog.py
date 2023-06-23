@@ -61,7 +61,7 @@ class GLog:
         lDom.createDoc()
         lDom.addDatas(_code, "type", self.m_type)
         lDom.addDatas(_code, "side", self.m_side)
-        lDom.addDatas(_code, "msg", self.m_msg)
+        lDom.addDatas(_code, "msg", utf8_to_b64(self.m_msg))
         lDom.addMap(_code, self.m_map)
         return lDom.toString()
     #================================================
@@ -70,7 +70,7 @@ class GLog:
         lDom.loadXml(_data)
         self.m_type = lDom.getDatas(_code, "type")
         self.m_side = lDom.getDatas(_code, "side")
-        self.m_msg = lDom.getDatas(_code, "msg")
+        self.m_msg = b64_o_utf8(lDom.getDatas(_code, "msg"))
         lDom.getMap(_code, self)
     #================================================
     def print(self):

@@ -22,12 +22,12 @@ GString GClientUi::getFacade() const {
 //===============================================
 void GClientUi::on_actionFacade_triggered(bool _checked) {
     GFormUi lFacade;
-    lFacade.addItem("serveur_c");
-    lFacade.addItem("serveur_cpp");
-    lFacade.addItem("serveur_python");
+    lFacade.addItem("server_c");
+    lFacade.addItem("server_cpp");
+    lFacade.addItem("server_python");
 
     GFormUi lFacadeV;
-    lFacadeV.setValue("serveur_python");
+    lFacadeV.setValue("server_python");
     int lFacadeI = lFacade.indexOf(lFacadeV);
 
     GFormUi lFormUi(this);

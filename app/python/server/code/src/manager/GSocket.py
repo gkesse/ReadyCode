@@ -25,7 +25,7 @@ class GSocket(GObject):
     #================================================
     def runServer(self):
         lAddress = ""
-        lPort = 9010
+        lPort = 9030
         lBacklog = 10
         
         lSocket = socket.socket()
@@ -52,7 +52,7 @@ class GSocket(GObject):
     #================================================
     def callServer(self, _data):
         lAddress = "127.0.0.1"
-        lPort = 9010
+        lPort = 9030
         
         lSocket = GSocket()
         lSocket.m_socket = socket.socket()        

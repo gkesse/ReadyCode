@@ -12,6 +12,8 @@ public:
     ~GServer();
     void sendResponse(GSocket* _socket);
     void run(const GString& _data);
+    void runFacade(const GString& _data);
+    void runMaster(const GString& _data);
     void runCalculator(const GString& _data);
 };
 //===============================================

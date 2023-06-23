@@ -10,7 +10,9 @@ public:
     ~GSocket();
     void runServer();
     static DWORD WINAPI onThread(LPVOID _params);
-    GString callServer(const GString& _data);
+    GString toHostname(const GString& _facade) const;
+    int toPort(const GString& _facade) const;
+    GString callServer(const GString& _data, const GString& _facade = "facade");
     GString callFacade(const GString& _module, const GString& _method, const GString& _data = "");
     void sendData(const GString& _data);
     GString readData();

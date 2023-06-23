@@ -15,7 +15,7 @@ GString GSocket::callServer(const GString& _dataIn) {
     int lMajor = 2;
     int lMinor = 2;
     const char* lHostname = "127.0.0.1";
-    int lPort = 8002;
+    int lPort = 9010;
 
     WSADATA lWsaData;
 

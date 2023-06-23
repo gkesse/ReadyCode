@@ -19,6 +19,31 @@ void GServer::sendResponse(GSocket* _socket) {
 //===============================================
 void GServer::run(const GString& _data) {
     deserialize(_data);
+    if(m_facade == "") {
+        m_logs.addError("La facade est obligatoire.");
+    }
+    else if(m_facade == "server_c") {
+        runFacade(_data);
+    }
+    else if(m_facade == "server_cpp") {
+        runMaster(_data);
+    }
+    else if(m_facade == "server_python") {
+        runFacade(_data);
+    }
+    else {
+        m_logs.addError("La facade est inconnue.");
+    }
+}
+//===============================================
+void GServer::runFacade(const GString& _data) {
+    GSocket lClient;
+    GString lData = lClient.callServer(_data, m_facade);
+    m_logs.addLogs(lClient.getLogs());
+    m_resp.loadData(lData);
+}
+//===============================================
+void GServer::runMaster(const GString& _data) {
     if(m_module == "") {
         m_logs.addError("Le module est obligatoire.");
     }

@@ -2,9 +2,9 @@
 #ifndef _GManager_
 #define _GManager_
 //===============================================
-#include "GObject.h"
+#include "GFacade.h"
 //===============================================
-class GManager : public GObject {
+class GManager : public GFacade {
 public:
     GManager();
     ~GManager();
