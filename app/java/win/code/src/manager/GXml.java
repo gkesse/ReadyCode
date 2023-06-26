@@ -118,6 +118,22 @@ public class GXml {
         return lNodes.get(0);
     }
     //===============================================
+    public void loadNode(String _data) {
+        GCode lDom = new GCode();
+        lDom.loadXml(_data);
+        m_node.addContent(lDom.m_node.detach());
+    }
+    //===============================================
+    public void setValue(String _value) {
+        if(m_node == null) return;
+        m_node.setText(_value);
+    }
+    //===============================================
+    public String getValue() {
+        if(m_node == null) return "";
+        return m_node.getValue();
+    }
+    //===============================================
     public String toString() {
         if(m_doc == null) return "";
         XMLOutputter lXmlOut = new XMLOutputter(Format.getPrettyFormat());

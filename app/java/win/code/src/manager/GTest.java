@@ -20,6 +20,9 @@ public class GTest extends GObject {
         else if(lMethod.equals("code")) {
             runCode(_args);
         }
+        else if(lMethod.equals("log")) {
+            runLog(_args);
+        }
         else {
             m_logs.addError("La méthode est inconnue.");
         }
@@ -53,9 +56,33 @@ public class GTest extends GObject {
     public void runCode(String[] _args) {
         GCode lDom = new GCode();
         
-        //
+        // createDatas - createCode - addData
         lDom.createDoc();
+        lDom.createDatas();
+        lDom.createDatas();
+        lDom.createCode("logs");
+        lDom.createCode("logs");
+        lDom.addData("logs", "type", "error");
+        lDom.addData("logs", "side", "server_java");
+        lDom.addData("logs", "msg", "La connexion au serveur a échoué.");
+        lDom.addData("logs", "type", "log");
         lDom.print();
+    }
+    //===============================================
+    public void runLog(String[] _args) {
+        GLog lLog = new GLog();
+        GLog lLogC = new GLog();
+        
+        // addError - createCode - addData - print
+        lLog.addError("La connexion au serveur a échoué.");
+        lLog.addLog("Le module a été chargé.");
+        lLog.addData("La résolution de l'appareil est : 970 x 1250.");
+        lLog.loadFromMap(3);
+        lLog.print();
+        
+        // serialize - deserialize
+        lLogC.deserialize(lLog.serialize());
+        lLogC.print();
     }
     //===============================================
 }
