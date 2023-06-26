@@ -5,31 +5,26 @@ GSRC = ..\code\src
 GBIN = bin
 GBUILD = build
 GTARGET = bin\rdv_cpp.exe
+GLIBS = $(GSRC)\libs
+#================================================
+GCLASSPATH := .
+GCLASSPATH := $(GCLASSPATH);$(GBUILD)
+GCLASSPATH := $(GCLASSPATH);$(GLIBS)\jdom-2.0.6.1.jar
+GCLASSPATH := $(GCLASSPATH);$(GLIBS)\jaxen-1.1.1.jar
 #================================================
 all: clean compile run
-all_g: clean compile run_g
+all_g: clean compile_g run_g
 #================================================
 compile:
 	@if not exist $(GBUILD) ( mkdir $(GBUILD) )
-	@javac -g $(GSRC)\GMain.java -d $(GBUILD) -sourcepath $(GSRC)
+	@javac $(GSRC)\GMain.java -d $(GBUILD) -sourcepath $(GSRC) -classpath $(GCLASSPATH)
+compile_g:
+	@if not exist $(GBUILD) ( mkdir $(GBUILD) )
+	@javac -g $(GSRC)\GMain.java -d $(GBUILD) -sourcepath $(GSRC) -classpath $(GCLASSPATH)
 run:
-	@java -classpath $(GBUILD) GMain $(argv)
+	@java -classpath $(GCLASSPATH) GMain $(argv)
 run_g:
-	@jdb -classpath $(GBUILD) GMain $(argv)
+	@jdb -classpath $(GCLASSPATH) GMain $(argv)
 clean:
 	@del /q /s $(GBUILD)\*
-#================================================
-# java
-java_version:
-	@java -version
-#================================================
-# git
-git_status:
-	@cd $(GPROJECT_PATH) && git status -u
-git_push:
-	@cd $(GPROJECT_PATH) && git pull && git add --all && git commit -m "Initial Commit" && git push -u origin master
-git_push_o:
-	@cd $(GPROJECT_PATH) && git add --all && git commit -m "Initial Commit" && git push -u origin master
-git_clone:
-	@cd $(GPROJECT_ROOT) && git clone $(GGIT_URL) $(GGIT_NAME) 
 #================================================

@@ -1,9 +1,12 @@
 //===============================================
 package manager;
 //===============================================
+import java.util.ArrayList;
+//===============================================
 public class GObject {  
     //===============================================
     protected GLog m_logs = new GLog();
+    protected ArrayList<GObject> m_map = new ArrayList<GObject>();
     //===============================================
     public GObject() {  
 
