@@ -17,6 +17,9 @@ public class GProcess extends GObject {
         else if(lModule.equals("test")) {
             runTest(_args);
         }
+        else if(lModule.equals("server")) {
+            runServer(_args);
+        }
         else {
             m_logs.addError("Le module est inconnu.");
         }
@@ -25,6 +28,12 @@ public class GProcess extends GObject {
     public void runTest(String[] _args) {
         GTest lObj = new GTest();
         lObj.run(_args);
+        m_logs.addLogs(lObj.getLogs());
+    }
+    //===============================================
+    public void runServer(String[] _args) {
+        GSocket lObj = new GSocket();
+        lObj.runServer();
         m_logs.addLogs(lObj.getLogs());
     }
     //===============================================
