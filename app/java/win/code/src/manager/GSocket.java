@@ -3,12 +3,56 @@ package manager;
 //===============================================
 import java.net.Socket;
 import java.net.ServerSocket;
+import java.net.InetAddress;
+import java.io.InputStream;
+import java.io.DataOutputStream;
+import java.nio.charset.StandardCharsets;
 //===============================================
 public class GSocket extends GObject {  
+    //===============================================
+    static final int BUFFER_SIZE = 1024;
+    //===============================================
+    Socket m_socket = null;
     //===============================================
     public GSocket() {  
 
     }  
+    //===============================================
+    public String readData() {
+        String lData = "";
+        try {
+            InputStream lStreamIn = m_socket.getInputStream();
+            while(true) {
+                byte[] lBuffer = new byte[BUFFER_SIZE];
+                int lBytes = lStreamIn.read(lBuffer);
+                lData += new String(lBuffer, StandardCharsets.UTF_8);
+                if(lStreamIn.available() <= 0) break;
+            }
+        }
+        catch(Exception e) {
+            m_logs.addError("La connexion au serveur a échoué.");
+        }
+        return lData;
+    }
+    //===============================================
+    public void sendData(String _data) {
+        try {
+            DataOutputStream dOut = new DataOutputStream(m_socket.getOutputStream());
+            dOut.write(_data.getBytes());
+        }
+        catch(Exception e) {
+            m_logs.addError("La connexion au serveur a échoué.");
+        }
+    }
+    //===============================================
+    public void closeSocket() {
+        try {
+            m_socket.close();
+        }
+        catch(Exception e) {
+            m_logs.addError("La connexion au serveur a échoué.");
+        }
+    }
     //===============================================
     public void runServer() {
         int lPort = 9040;
@@ -24,14 +68,37 @@ public class GSocket extends GObject {
         System.out.print(String.format("Démarrage du serveur...\n"));
 
         while(true) {
-            Socket lClient = null;
+            GSocket lClient = new GSocket();
             try {
-                lClient = lServer.accept();
+                lClient.m_socket = lServer.accept();
             }
             catch(Exception e) {
-                m_logs.addError("La connexion d'un client a échoué.");
+                m_logs.addError("La connexion au serveur a échoué.");
             }
+            
+            String lData = lClient.readData();
+            lClient.sendData(lData);
+            lClient.closeSocket();
         }
+    }
+    //===============================================
+    public String callServer(String _data) {
+        String lAddress = "127.0.0.1";
+        int lPort = 9040;
+        String lDataOut = "";
+        
+        try {
+            InetAddress lInetAddress = InetAddress.getByName(lAddress);
+            m_socket = new Socket(lInetAddress, lPort);
+            sendData(_data);
+            lDataOut = readData();
+            closeSocket();
+        }
+        catch(Exception e) {
+            m_logs.addError("La connexion au serveur a échoué.");
+        }
+        
+        return lDataOut;
     }
     //===============================================
 }

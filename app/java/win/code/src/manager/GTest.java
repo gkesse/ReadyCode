@@ -23,6 +23,9 @@ public class GTest extends GObject {
         else if(lMethod.equals("log")) {
             runLog(_args);
         }
+        else if(lMethod.equals("socket")) {
+            runSocket(_args);
+        }
         else {
             m_logs.addError("La méthode est inconnue.");
         }
@@ -83,6 +86,13 @@ public class GTest extends GObject {
         // serialize - deserialize
         lLogC.deserialize(lLog.serialize());
         lLogC.print();
+    }
+    //===============================================
+    public void runSocket(String[] _args) {
+        GSocket lClient = new GSocket();
+        String lData = lClient.callServer("Bonjour tout le monde.");
+        m_logs.addLogs(lClient.getLogs());
+        System.out.print(String.format("%s\n", lData));
     }
     //===============================================
 }
