@@ -8,12 +8,16 @@ public class GObject {
     protected GLog m_logs = new GLog();
     protected ArrayList<GObject> m_map = new ArrayList<GObject>();
     //===============================================
-    public GObject() {  
+    public GObject() {
 
     }  
     //===============================================
-    public GLog getLogs() {  
+    public GLog getLogs() {
         return m_logs;
+    }  
+    //===============================================
+    public void runThread() {
+        
     }  
     //===============================================
 }

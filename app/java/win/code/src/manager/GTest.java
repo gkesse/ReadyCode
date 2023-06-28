@@ -26,6 +26,9 @@ public class GTest extends GObject {
         else if(lMethod.equals("socket")) {
             runSocket(_args);
         }
+        else if(lMethod.equals("thread")) {
+            runThread(_args);
+        }
         else {
             m_logs.addError("La méthode est inconnue.");
         }
@@ -90,9 +93,14 @@ public class GTest extends GObject {
     //===============================================
     public void runSocket(String[] _args) {
         GSocket lClient = new GSocket();
-        String lData = lClient.callServer("Bonjour tout le monde.");
+        String lData = lClient.callFacade("calculator", "run_calculator", "");
         m_logs.addLogs(lClient.getLogs());
         System.out.print(String.format("%s\n", lData));
+    }
+    //===============================================
+    public void runThread(String[] _args) {
+        GThread lThread = new GThread();
+        lThread.start();
     }
     //===============================================
 }

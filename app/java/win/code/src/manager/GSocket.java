@@ -76,10 +76,26 @@ public class GSocket extends GObject {
                 m_logs.addError("La connexion au serveur a échoué.");
             }
             
-            String lData = lClient.readData();
-            lClient.sendData(lData);
-            lClient.closeSocket();
+            GThread lThread = new GThread();
+            lThread.setObj(lClient);
+            lThread.start();
         }
+    }
+    //===============================================
+    public void runThread() {
+        GSocket lClient = this;
+        String lData = lClient.readData();
+        lClient.sendData(lData);
+        lClient.closeSocket();
+    }  
+    //===============================================
+    public String callFacade(String _module, String _method, String _data) {
+        GCode lDom = new GCode();
+        lDom.createDoc();
+        lDom.addData("manager", "module", _module);
+        lDom.addData("manager", "method", _method);
+        String lData = lDom.toString();
+        return callServer(lData);
     }
     //===============================================
     public String callServer(String _data) {
