@@ -85,7 +85,9 @@ public class GSocket extends GObject {
     public void runThread() {
         GSocket lClient = this;
         String lData = lClient.readData();
-        lClient.sendData(lData);
+        GServer lServer = new GServer();
+        lServer.run(lData);
+        lServer.sendResponse(lClient);
         lClient.closeSocket();
     }  
     //===============================================

@@ -148,7 +148,6 @@ public class GLog {
         String lCode = "logs";
         GCode lDom = new GCode();
         lDom.createDoc();
-        lDom.createCode("logs");
         lDom.addData(lCode, "type", m_type);
         lDom.addData(lCode, "side", m_side);
         lDom.addData(lCode, "msg", m_msg);

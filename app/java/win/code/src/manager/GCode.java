@@ -75,6 +75,7 @@ public class GCode extends GXml {
     public String getData(String _code, String _name) {
         GCode lDom = new GCode();
         lDom.m_node = getNode(String.format("/rdv/datas/data[code='%s']/%s", _code, _name));
+        System.out.print(String.format("/rdv/datas/data[code='%s']/%s", _code, _name));
         if(lDom.m_node == null) return "";
         return lDom.getValue();
     }
@@ -93,6 +94,13 @@ public class GCode extends GXml {
             lObj.deserialize(lData);
             _map.add(lObj);
         }
+    }
+    //===============================================
+    public void loadData(String _data) {
+        GCode lDom = new GCode();
+        lDom.m_node = createDatas();
+        String lData = toDatas(_data);
+        lDom.loadNode(lData);
     }
     //===============================================
     public String toDatas(String _data) {
