@@ -2,6 +2,7 @@
 package manager;
 //===============================================
 import java.util.ArrayList;
+import java.util.Base64;
 //===============================================
 public class GObject {  
     //===============================================
@@ -16,6 +17,14 @@ public class GObject {
     public GLog getLogs() {
         return m_logs;
     }  
+    //===============================================
+    public String toBase64(String _data) {
+        return Base64.getEncoder().encodeToString(_data.getBytes());
+    }
+    //===============================================
+    public String fromBase64(String _data) {
+        return new String(Base64.getDecoder().decode(_data));
+    }
     //===============================================
     public void runThread() {
         

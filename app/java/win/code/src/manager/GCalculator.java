@@ -29,7 +29,7 @@ public class GCalculator extends GManager {
         String lCode = "calculator";
         GCode lDom = new GCode();
         lDom.createDoc();
-        lDom.addData(lCode, "expression", m_expression);
+        lDom.addData(lCode, "expression", toBase64(m_expression));
         lDom.addData(lCode, "result", m_result);
         return lDom.toString();
     }
@@ -39,7 +39,7 @@ public class GCalculator extends GManager {
         String lCode = "calculator";
         GCode lDom = new GCode();
         lDom.loadXml(_data);
-        m_expression = lDom.getData(lCode, "expression");
+        m_expression = fromBase64(lDom.getData(lCode, "expression"));
         m_result = lDom.getData(lCode, "result");
     }
     //===============================================
@@ -65,6 +65,7 @@ public class GCalculator extends GManager {
         Expression lExpression = new Expression(m_expression);
         Double lResult = lExpression.calculate();
         m_result = String.format("%.2f", lResult);
+        m_logs.addData(serialize());
     }
     //===============================================
 }

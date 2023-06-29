@@ -2,6 +2,7 @@
 package manager;
 //===============================================
 import java.util.ArrayList;
+import java.util.Base64;
 //===============================================
 public class GLog {
     //===============================================
@@ -22,6 +23,14 @@ public class GLog {
         m_type = _obj.m_type;
         m_side = _obj.m_side;
         m_msg = _obj.m_msg;
+    }
+    //===============================================
+    public String toBase64(String _data) {
+        return Base64.getEncoder().encodeToString(_data.getBytes());
+    }
+    //===============================================
+    public String fromBase64(String _data) {
+        return new String(Base64.getDecoder().decode(_data));
     }
     //===============================================
     public GLog loadToMap(int i) {
@@ -150,7 +159,7 @@ public class GLog {
         lDom.createDoc();
         lDom.addData(lCode, "type", m_type);
         lDom.addData(lCode, "side", m_side);
-        lDom.addData(lCode, "msg", m_msg);
+        lDom.addData(lCode, "msg", toBase64(m_msg));
         lDom.addLog(lCode, m_map);
         return lDom.toString();
     }
@@ -161,7 +170,7 @@ public class GLog {
         lDom.loadXml(_data);
         m_type = lDom.getData(lCode, "type");
         m_side = lDom.getData(lCode, "side");
-        m_msg = lDom.getData(lCode, "msg");
+        m_msg = fromBase64(lDom.getData(lCode, "msg"));
         lDom.getLog(lCode, m_map, this);
     }
     //===============================================
