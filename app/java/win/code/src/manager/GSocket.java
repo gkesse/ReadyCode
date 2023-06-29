@@ -11,8 +11,11 @@ import java.nio.charset.StandardCharsets;
 public class GSocket extends GObject {  
     //===============================================
     static final int BUFFER_SIZE = 1024;
+    static final int BUFFER_MAX = 1*1024*1024; // 1 Mo
     //===============================================
     Socket m_socket = null;
+    GLog m_srvLogs = new GLog();
+    boolean m_continue = true;
     //===============================================
     public GSocket() {  
 
@@ -24,24 +27,28 @@ public class GSocket extends GObject {
             InputStream lStreamIn = m_socket.getInputStream();
             while(true) {
                 byte[] lBuffer = new byte[BUFFER_SIZE];
-                int lBytes = lStreamIn.read(lBuffer);
+                lStreamIn.read(lBuffer);
                 lData += new String(lBuffer, StandardCharsets.UTF_8);
                 if(lStreamIn.available() <= 0) break;
+                if(lData.length() >= BUFFER_MAX) {
+                	m_srvLogs.addError("La limite des données est atteinte.");
+                    break;
+                }
             }
         }
         catch(Exception e) {
-            m_logs.addError("La connexion au serveur a échoué.");
+        	m_srvLogs.addError("La lecture des données a échoué.");
         }
         return lData;
     }
     //===============================================
     public void sendData(String _data) {
         try {
-            DataOutputStream dOut = new DataOutputStream(m_socket.getOutputStream());
-            dOut.write(_data.getBytes());
+            DataOutputStream lStreamOut = new DataOutputStream(m_socket.getOutputStream());
+            lStreamOut.write(_data.getBytes());
         }
         catch(Exception e) {
-            m_logs.addError("La connexion au serveur a échoué.");
+        	m_srvLogs.addError("L'envoi des données a échoué.");
         }
     }
     //===============================================
@@ -50,7 +57,7 @@ public class GSocket extends GObject {
             m_socket.close();
         }
         catch(Exception e) {
-            m_logs.addError("La connexion au serveur a échoué.");
+        	m_srvLogs.addError("La fermeture du socket a échoué.");
         }
     }
     //===============================================
@@ -58,27 +65,37 @@ public class GSocket extends GObject {
         int lPort = 9040;
         ServerSocket lServer = null;
         
-        try {
-            lServer = new ServerSocket(lPort);
-        }
-        catch(Exception e) {
-            m_logs.addError("Le démarrage du serveur a échoué.");
-        }
-        
-        System.out.print(String.format("Démarrage du serveur...\n"));
-
-        while(true) {
-            GSocket lClient = new GSocket();
-            try {
-                lClient.m_socket = lServer.accept();
-            }
-            catch(Exception e) {
-                m_logs.addError("La connexion au serveur a échoué.");
+        try {            
+        	lServer = new ServerSocket(lPort);
+            
+            System.out.print(String.format("Démarrage du serveur...\n"));
+            
+            while(true) {
+                if(!m_continue) break;
+                
+                GSocket lClient = new GSocket();
+                
+                try {
+                    lClient.m_socket = lServer.accept();
+                }
+                catch(Exception e) {
+                	m_srvLogs.addError("La connexion au serveur a échoué.");
+                    break;
+                }
+                                
+                GThread lThread = new GThread();
+                lThread.setObj(lClient);
+                lThread.start();
             }
             
-            GThread lThread = new GThread();
-            lThread.setObj(lClient);
-            lThread.start();
+            lServer.close();
+        }
+        catch(Exception e) {
+        	m_srvLogs.addError("Le démarrage du serveur a échoué.");
+        }
+        
+        if(m_srvLogs.hasErrors()) {
+        	m_logs.addLogs(m_srvLogs);
         }
     }
     //===============================================
@@ -97,6 +114,7 @@ public class GSocket extends GObject {
         lDom.addData("manager", "module", _module);
         lDom.addData("manager", "method", _method);
         String lData = lDom.toString();
+        System.out.print(String.format("[%d] : %s\n", lData.length(), lData));
         return callServer(lData);
     }
     //===============================================
@@ -113,7 +131,11 @@ public class GSocket extends GObject {
             closeSocket();
         }
         catch(Exception e) {
-            m_logs.addError("La connexion au serveur a échoué.");
+        	m_srvLogs.addError("La connexion au serveur a échoué.");
+        }
+        
+        if(m_srvLogs.hasErrors()) {
+        	m_logs.addError("La connexion au serveur a échoué.");
         }
         
         return lDataOut;

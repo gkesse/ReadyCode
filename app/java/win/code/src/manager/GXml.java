@@ -104,7 +104,7 @@ public class GXml {
     public int countNode(String _path) {
         if(m_doc == null) return 0;
         XPathFactory lXPathF = XPathFactory.instance();
-        XPathExpression lXPathE = lXPathF.compile(_path, Filters.element());
+        XPathExpression<Element> lXPathE = lXPathF.compile(_path, Filters.element());
         List<Element> lNodes = lXPathE.evaluate(m_node);
         return lNodes.size();
     }
@@ -112,13 +112,14 @@ public class GXml {
     public Element getNode(String _path) {
         if(m_doc == null) return null;
         XPathFactory lXPathF = XPathFactory.instance();
-        XPathExpression lXPathE = lXPathF.compile(_path, Filters.element());
+        XPathExpression<Element> lXPathE = lXPathF.compile(_path, Filters.element());
         List<Element> lNodes = lXPathE.evaluate(m_node);
         if(lNodes.size() == 0) return null;
         return lNodes.get(0);
     }
     //===============================================
     public void loadNode(String _data) {
+    	if(_data.equals("")) return;
         GCode lDom = new GCode();
         lDom.loadXml(_data);
         m_node.addContent(lDom.m_node.detach());

@@ -24,7 +24,7 @@ compile_g:
 run:
 	@java -classpath $(GCLASSPATH) GMain $(argv)
 run_g:
-	@jdb -classpath $(GCLASSPATH) GMain $(argv)
+	@jdb -classpath $(GCLASSPATH) -sourcepath $(GSRC) GMain $(argv)
 clean:
 	@del /q /s $(GBUILD)\*
 #================================================

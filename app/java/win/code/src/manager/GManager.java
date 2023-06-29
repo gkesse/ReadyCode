@@ -25,7 +25,6 @@ public class GManager extends GObject {
         lDom.loadXml(_data);
         m_module = lDom.getData(lCode, "module");
         m_method = lDom.getData(lCode, "method");
-        System.out.print(String.format("%s\n%s : %s\n", _data, m_module, m_method));
     }
     //===============================================
 }

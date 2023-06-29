@@ -3,20 +3,45 @@ package manager;
 //===============================================
 public class GServer extends GManager {  
     //===============================================
+	GLog m_srvLogs = new GLog();
+    //===============================================
     public GServer() {  
 
     }  
     //===============================================
+    public boolean isValid(String _data) {
+    	_data = _data.trim();
+    	if(_data.equals("")) {
+    		m_srvLogs.addError("La requête est vide.");
+    		return false;
+    	}
+    	GCode lDom = new GCode();
+    	if(!lDom.loadXml(_data)) {
+    		m_srvLogs.addError("La requête n'est pas valide.");
+    		return false;
+    	}
+    	if(!lDom.hasDatas()) {
+    		m_srvLogs.addError("Le format de la requête n'est pas valide.");
+    		return false;
+    	}
+        return true;
+    }        
+    //===============================================
     public void sendResponse(GSocket _socket) {
         GSocket lClient = _socket;
-        m_resp.loadData(m_logs.serialize());
-        lClient.sendData(m_resp.toString());
+        if(!m_srvLogs.hasErrors()) {
+            m_resp.loadData(m_logs.serialize());
+            if(!m_resp.hasDatas()) return;
+            lClient.sendData(m_resp.toString());        	
+        }
+        else {
+            lClient.sendData("La connexion au serveur a échoué.");        	
+        }
     }        
     //===============================================
     public void run(String _data) {
-        System.out.print(String.format("%s\n", _data));
+    	if(!isValid(_data)) return;
         deserialize(_data);
-        m_logs.addError(m_module + " - " + m_method);
     }        
     //===============================================
 }
