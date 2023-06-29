@@ -1,6 +1,8 @@
 //===============================================
 package manager;
 //===============================================
+import org.mariuszgromada.math.mxparser.Expression;
+//===============================================
 public class GCalculator extends GManager {  
     //===============================================
 	String m_expression = "";
@@ -55,7 +57,14 @@ public class GCalculator extends GManager {
     }        
     //===============================================
     public void onRunCalculator(String _data) {
-    	m_result = "3.14";
+        if(m_expression.equals("")) {
+        	m_logs.addError("L'expression est obligatoire.");
+        	return;
+        }
+        
+        Expression lExpression = new Expression(m_expression);
+        Double lResult = lExpression.calculate();
+        m_result = String.format("%.2f", lResult);
     }
     //===============================================
 }

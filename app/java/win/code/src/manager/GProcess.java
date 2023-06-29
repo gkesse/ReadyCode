@@ -1,11 +1,39 @@
 //===============================================
 package manager;
+
+import org.mariuszgromada.math.mxparser.License;
+import org.mariuszgromada.math.mxparser.mXparser;
+
 //===============================================
 public class GProcess extends GObject {  
     //===============================================
     public GProcess() {  
 
     }  
+    //===============================================
+    public void init() {
+    	
+    }
+    //===============================================
+    public void clean() {
+    	
+    }
+    //===============================================
+    public void toMxParserLicence() {
+    	/* Non-Commercial Use Confirmation */
+    	boolean isCallSuccessful = License.iConfirmNonCommercialUse("Gerard KESSE");
+    	 
+    	/* Verification if use type has been already confirmed */
+    	boolean isConfirmed = License.checkIfUseTypeConfirmed();
+    	 
+    	/* Checking use type confirmation message */
+    	String message = License.getUseTypeConfirmationMessage();
+    	 
+    	/* ----------- */
+    	mXparser.consolePrintln("isCallSuccessful = " + isCallSuccessful);
+    	mXparser.consolePrintln("isConfirmed = " + isConfirmed);
+    	mXparser.consolePrintln("message = " + message);
+    }
     //===============================================
     public void run(String[] _args) {
         String lModule = "";
@@ -32,6 +60,7 @@ public class GProcess extends GObject {
     }
     //===============================================
     public void runServer(String[] _args) {
+    	toMxParserLicence();
         GSocket lObj = new GSocket();
         lObj.runServer();
         m_logs.addLogs(lObj.getLogs());

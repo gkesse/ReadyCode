@@ -11,6 +11,7 @@ GCLASSPATH := .
 GCLASSPATH := $(GCLASSPATH);$(GBUILD)
 GCLASSPATH := $(GCLASSPATH);$(GLIBS)\jdom-2.0.6.1.jar
 GCLASSPATH := $(GCLASSPATH);$(GLIBS)\jaxen-1.1.1.jar
+GCLASSPATH := $(GCLASSPATH);$(GLIBS)\MathParser.org-mXparser.jar
 #================================================
 all: clean compile run
 all_g: clean compile_g run_g

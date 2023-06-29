@@ -93,7 +93,7 @@ public class GTest extends GObject {
     //===============================================
     public void runSocket(String[] _args) {
         GCalculator lCalculator = new GCalculator();
-        lCalculator.setExpression("(100 + 200 + 300) / 3");
+        lCalculator.setExpression("22/7");
         lCalculator.runCalculator();
         m_logs.addLogs(lCalculator.getLogs());
         System.out.print(String.format("%s\n", lCalculator.serialize()));
