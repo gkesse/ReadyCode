@@ -41,7 +41,23 @@ public class GServer extends GManager {
     public void run(String _data) {
     	if(!isValid(_data)) return;
         deserialize(_data);
+        if(m_module.equals("")) {
+        	m_logs.addError("Le module est obligatoire.");
+        }
+        else if(m_module.equals("calculator")) {
+        	runCalculator(_data);
+        }
+        else {
+        	m_logs.addError("Le module est inconnue.");
+        }
     }        
+    //===============================================
+    public void runCalculator(String _data) {
+    	GCalculator lObj = new GCalculator();
+    	lObj.run(_data);
+    	m_logs.addLogs(lObj.getLogs());
+    	m_resp.loadData(lObj.serialize());
+    }
     //===============================================
 }
 //===============================================

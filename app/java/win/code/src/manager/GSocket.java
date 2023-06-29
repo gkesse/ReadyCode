@@ -89,6 +89,8 @@ public class GSocket extends GObject {
                 lThread.start();
             }
             
+            System.out.print(String.format("Arrêt du serveur...\n"));
+
             lServer.close();
         }
         catch(Exception e) {
@@ -114,8 +116,8 @@ public class GSocket extends GObject {
         lDom.createDoc();
         lDom.addData("manager", "module", _module);
         lDom.addData("manager", "method", _method);
+        lDom.loadData(_data);
         String lData = lDom.toString();
-        System.out.print(String.format("[%d] : %s\n", lData.length(), lData));
         return callServer(lData);
     }
     //===============================================

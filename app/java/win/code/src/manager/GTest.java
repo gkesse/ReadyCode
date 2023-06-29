@@ -92,10 +92,11 @@ public class GTest extends GObject {
     }
     //===============================================
     public void runSocket(String[] _args) {
-        GSocket lClient = new GSocket();
-        String lData = lClient.callFacade("calculator", "run_calculator", "");
-        m_logs.addLogs(lClient.getLogs());
-        System.out.print(String.format("%s\n", lData));
+        GCalculator lCalculator = new GCalculator();
+        lCalculator.setExpression("(100 + 200 + 300) / 3");
+        lCalculator.runCalculator();
+        m_logs.addLogs(lCalculator.getLogs());
+        System.out.print(String.format("%s\n", lCalculator.serialize()));
     }
     //===============================================
     public void runThread(String[] _args) {
