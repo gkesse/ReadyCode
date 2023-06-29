@@ -27,8 +27,9 @@ public class GSocket extends GObject {
             InputStream lStreamIn = m_socket.getInputStream();
             while(true) {
                 byte[] lBuffer = new byte[BUFFER_SIZE];
-                lStreamIn.read(lBuffer);
-                lData += new String(lBuffer, StandardCharsets.UTF_8);
+                int lBytes = lStreamIn.read(lBuffer);
+                if(lBytes == -1) break;
+                lData += new String(lBuffer, 0, lBytes, StandardCharsets.UTF_8);
                 if(lStreamIn.available() <= 0) break;
                 if(lData.length() >= BUFFER_MAX) {
                 	m_srvLogs.addError("La limite des données est atteinte.");

@@ -10,7 +10,6 @@ public class GServer extends GManager {
     }  
     //===============================================
     public boolean isValid(String _data) {
-    	_data = _data.trim();
     	if(_data.equals("")) {
     		m_srvLogs.addError("La requête est vide.");
     		return false;
