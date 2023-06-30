@@ -55,6 +55,9 @@ void GServer::run(const GString& _data) {
     else if(m_facade == "server_python") {
         runFacade(_data);
     }
+    else if(m_facade == "server_java") {
+        runFacade(_data);
+    }
     else {
         m_logs.addError("La facade est inconnue.");
     }

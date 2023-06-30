@@ -11,7 +11,7 @@ GSocket::~GSocket() {
 
 }
 //===============================================
-void GSocket::checkError(GString& _data) {
+void GSocket::checkErrors(GString& _data) {
     if(m_srvLogs.hasErrors()) {
         m_logs.addError("La connexion au serveur a échoué.");
     }
@@ -73,7 +73,7 @@ GString GSocket::callFacade(const GString& _module, const GString& _method, cons
     lDom.addData("manager", "method", _method);
     lDom.loadData(_data);
     GString lData = callServer(lDom.toString());
-    checkError(lData);
+    checkErrors(lData);
     return lData;
 }
 //===============================================

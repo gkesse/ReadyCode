@@ -9,10 +9,12 @@ public:
     GSocket();
     ~GSocket();
     GLog& getSrvLogs();
-    void runServer();
-    static DWORD WINAPI onThread(LPVOID _params);
     GString toHostname(const GString& _facade) const;
     int toPort(const GString& _facade) const;
+    void checkErrors(GString& _data);
+    void runServer();
+    static DWORD WINAPI onThread(LPVOID _params);
+    GString callSocket(const GString& _data, const GString& _facade = "facade");
     GString callServer(const GString& _data, const GString& _facade = "facade");
     GString callFacade(const GString& _module, const GString& _method, const GString& _data = "");
     void sendData(const GString& _data);
