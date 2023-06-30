@@ -15,6 +15,7 @@ public:
     void loadFromMap(int i);
     void loadToMap(int i);
     void addError(const GString& _msg);
+    void addErrorSrv(const GString& _msg);
     void addLog(const GString& _msg);
     void addData(const GString& _msg);
     void addLogs(const GLog& _obj);

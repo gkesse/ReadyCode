@@ -52,6 +52,26 @@ public class GCode extends GXml {
         }        
     }
     //===============================================
+    public void addMap(String _code, ArrayList<GObject> _map) {
+        int lSize = _map.size();
+        if(lSize == 0) return;
+        
+        GCode lDom = new GCode();
+        lDom.m_node = getNode(String.format("/rdv/datas/data[code='%s']/map", _code));
+        
+        if(lDom.m_node == null) {
+            lDom.m_node = createCode(_code);
+            lDom.m_node = lDom.addObj("map");
+        }
+        
+        for(int i = 0; i < lSize; i++) {
+        	GObject lObj = _map.get(i);
+            String lData = lObj.serialize();
+            lData = toDatas(lData);
+            lDom.loadNode(lData);
+        }
+    }
+    //===============================================
     public void addLog(String _code, ArrayList<GLog> _map) {
         int lSize = _map.size();
         if(lSize == 0) return;
@@ -77,6 +97,22 @@ public class GCode extends GXml {
         lDom.m_node = getNode(String.format("/rdv/datas/data[code='%s']/%s", _code, _name));
         if(lDom.m_node == null) return "";
         return lDom.getValue();
+    }
+    //===============================================
+    public void getMap(String _code, ArrayList<GObject> _map, GObject _obj) {
+        int lSize = countNode(String.format("/rdv/datas/data[code='%s']/map/data", _code));
+        if(lSize == 0) return;
+        
+        GCode lDom = new GCode();
+        
+        for(int i = 0; i < lSize; i++) {
+            lDom.m_node = getNode(String.format("/rdv/datas/data[code='%s']/map/data[position()=%d]", _code, i + 1));
+            String lData = lDom.toNode();
+            lData = toCode(lData);
+            GObject lObj = _obj.clone();
+            lObj.deserialize(lData);
+            _map.add(lObj);
+        }
     }
     //===============================================
     public void getLog(String _code, ArrayList<GLog> _map, GLog _obj) {

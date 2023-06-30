@@ -8,6 +8,7 @@ class GSocket : public GObject {
 public:
     GSocket();
     ~GSocket();
+    GLog& getSrvLogs();
     void runServer();
     static DWORD WINAPI onThread(LPVOID _params);
     GString toHostname(const GString& _facade) const;
@@ -18,10 +19,12 @@ public:
     GString readData();
 
 private:
-    static const int BUFFER_SIZE = 1024;
+    static const int BUFFER_SIZE = 1024;        // 1 Ko
+    static const int BUFFER_MAX = 1*1024*1024;  // 1 Mo
 
 private:
     SOCKET m_socket;
+    GLog m_srvLogs;
 };
 //===============================================
 #endif

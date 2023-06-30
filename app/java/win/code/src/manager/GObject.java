@@ -26,9 +26,10 @@ public class GObject {
         return new String(Base64.getDecoder().decode(_data));
     }
     //===============================================
-    public void runThread() {
-        
-    }  
+    public GObject clone() {return new GObject();}  
+    public void runThread() {}  
+    public String serialize() {return "";}
+    public void deserialize(String _data) {}
     //===============================================
 }
 //===============================================

@@ -4,11 +4,24 @@
 //===============================================
 GSocket::GSocket()
 : GObject() {
-    m_socket = -1;
+    m_socket = SOCKET_ERROR;
 }
 //===============================================
 GSocket::~GSocket() {
 
+}
+//===============================================
+void GSocket::checkError(GString& _data) {
+    if(m_srvLogs.hasErrors()) {
+        m_logs.addError("La connexion au serveur a échoué.");
+    }
+    else if(!_data.isEmpty()) {
+        GCode lDom;
+        if(!lDom.loadXml(_data)) {
+            m_logs.addErrorSrv("La connexion au serveur a échoué.");
+            _data = "";
+        }
+    }
 }
 //===============================================
 GString GSocket::callServer(const GString& _dataIn) {
@@ -20,7 +33,7 @@ GString GSocket::callServer(const GString& _dataIn) {
     WSADATA lWsaData;
 
     if(WSAStartup(MAKEWORD(lMajor, lMinor), &lWsaData) == SOCKET_ERROR) {
-        m_logs.addError("La connexion au serveur a échoué.");
+        m_srvLogs.addError("L'initialisation des données socket a échoué.");
         return "";
     }
 
@@ -33,7 +46,7 @@ GString GSocket::callServer(const GString& _dataIn) {
     SOCKET lClient = socket(AF_INET, SOCK_STREAM, 0);
 
     if(lClient == INVALID_SOCKET) {
-        m_logs.addError("La connexion au serveur a échoué.");
+        m_srvLogs.addError("La création du socket a échoué.");
         return "";
     }
 
@@ -41,7 +54,7 @@ GString GSocket::callServer(const GString& _dataIn) {
     int lConnectOk = connect(lClient, (SOCKADDR*)(&lAddress), sizeof(lAddress));
 
     if(lConnectOk == SOCKET_ERROR) {
-        m_logs.addError("La connexion au serveur a échoué.");
+        m_srvLogs.addError("La connexion du socket a échoué.");
         return "";
     }
 
@@ -59,7 +72,9 @@ GString GSocket::callFacade(const GString& _module, const GString& _method, cons
     lDom.addData("manager", "module", _module);
     lDom.addData("manager", "method", _method);
     lDom.loadData(_data);
-    return callServer(lDom.toString());
+    GString lData = callServer(lDom.toString());
+    checkError(lData);
+    return lData;
 }
 //===============================================
 void GSocket::sendData(const GString& _data) {

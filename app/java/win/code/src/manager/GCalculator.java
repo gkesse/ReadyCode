@@ -65,7 +65,6 @@ public class GCalculator extends GManager {
         Expression lExpression = new Expression(m_expression);
         Double lResult = lExpression.calculate();
         m_result = String.format("%.2f", lResult);
-        m_logs.addData(serialize());
     }
     //===============================================
 }

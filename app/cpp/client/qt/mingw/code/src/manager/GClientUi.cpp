@@ -25,9 +25,10 @@ void GClientUi::on_actionFacade_triggered(bool _checked) {
     lFacade.addItem("server_c");
     lFacade.addItem("server_cpp");
     lFacade.addItem("server_python");
+    lFacade.addItem("server_java");
 
     GFormUi lFacadeV;
-    lFacadeV.setValue("server_python");
+    lFacadeV.setValue(m_facade);
     int lFacadeI = lFacade.indexOf(lFacadeV);
 
     GFormUi lFormUi(this);

@@ -10,12 +10,12 @@ import java.nio.charset.StandardCharsets;
 //===============================================
 public class GSocket extends GObject {  
     //===============================================
-    static final int BUFFER_SIZE = 1024;
-    static final int BUFFER_MAX = 1*1024*1024; // 1 Mo
+    private static final int BUFFER_SIZE = 1024; // 1 ko
+    private static final int BUFFER_MAX = 1*1024*1024; // 1 Mo
     //===============================================
-    Socket m_socket = null;
-    GLog m_srvLogs = new GLog();
-    boolean m_continue = true;
+    private Socket m_socket = null;
+    private GLog m_srvLogs = new GLog();
+    private boolean m_continue = true;
     //===============================================
     public GSocket() {  
 

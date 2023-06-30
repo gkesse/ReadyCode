@@ -155,3 +155,7 @@ GString GCode::toCode(const GString& _data) const {
     return lDom.toString();
 }
 //===============================================
+bool GCode::hasDatas() {
+    return existNode(*this, sformat("/rdv/datas/data[code]"));
+}
+//===============================================

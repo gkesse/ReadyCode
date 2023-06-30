@@ -5,11 +5,15 @@
 //===============================================
 GSocket::GSocket()
 : GObject() {
-    m_socket = -1;
+    m_socket = SOCKET_ERROR;
 }
 //===============================================
 GSocket::~GSocket() {
 
+}
+//===============================================
+GLog& GSocket::getSrvLogs() {
+    return m_srvLogs;
 }
 //===============================================
 void GSocket::runServer() {
@@ -21,7 +25,7 @@ void GSocket::runServer() {
     WSADATA wsaData;
 
     if(WSAStartup(MAKEWORD(lMajor, lMinor), &wsaData) == SOCKET_ERROR) {
-        m_logs.addError("L'initialisation du server a échoué.");
+        m_logs.addError("L'initialisation du socket a échoué.");
         return;
     }
 
@@ -33,7 +37,7 @@ void GSocket::runServer() {
     SOCKET lServer = socket(AF_INET, SOCK_STREAM, 0);
 
     if(lServer == INVALID_SOCKET) {
-        m_logs.addError("La création du socket server a échoué.");
+        m_logs.addError("La création du socket a échoué.");
         return;
     }
 
@@ -43,7 +47,7 @@ void GSocket::runServer() {
     }
 
     if(listen(lServer, lBacklog) == SOCKET_ERROR) {
-        m_logs.addError("L'initialisation du nombre de connexions autorisées a échoué.");
+        m_logs.addError("L'initialisation du nombre de connexions à écouter a échoué.");
         return;
     }
 
@@ -67,7 +71,8 @@ void GSocket::runServer() {
         );
 
         if(!lThreadH) {
-            printf("La création du thread a échoué\n");
+            m_logs.addError("La création du thread a échoué.");
+            break;
         }
     }
 
@@ -90,13 +95,15 @@ GString GSocket::toHostname(const GString& _facade) const {
     if(_facade == "server_c") return "127.0.0.1";
     if(_facade == "server_cpp") return "127.0.0.1";
     if(_facade == "server_python") return "127.0.0.1";
-    return "127.0.0.1";;
+    if(_facade == "server_java") return "127.0.0.1";
+    return "127.0.0.1";
 }
 //===============================================
 int GSocket::toPort(const GString& _facade) const {
     if(_facade == "server_c") return 9020;
     if(_facade == "server_cpp") return 9010;
     if(_facade == "server_python") return 9030;
+    if(_facade == "server_java") return 9040;
     return 9010;
 }
 //===============================================
@@ -171,6 +178,11 @@ GString GSocket::readData() {
         if(lBytes == SOCKET_ERROR) break;
         lBuffer[lBytes] = '\0';
         lData += lBuffer;
+
+        if(lData.size() >= BUFFER_MAX) {
+            m_srvLogs.addError("La taille maximale des données est atteinte.");
+            break;
+        }
 
         u_long lBytesIO;
         int lOk = ioctlsocket(m_socket, FIONREAD, &lBytesIO);

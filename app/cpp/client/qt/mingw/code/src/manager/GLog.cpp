@@ -51,6 +51,14 @@ void GLog::addError(const GString& _msg) {
     m_map.push_back(lObj);
 }
 //===============================================
+void GLog::addErrorSrv(const GString& _msg) {
+    GLog* lObj = new GLog;
+    lObj->m_type = "error";
+    lObj->m_side = "server_cpp";
+    lObj->m_msg = _msg;
+    m_map.push_back(lObj);
+}
+//===============================================
 void GLog::addLog(const GString& _msg) {
     GLog* lObj = new GLog;
     lObj->m_type = "log";
