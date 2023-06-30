@@ -111,7 +111,7 @@ GString GCode::getData(const GString& _code, const GString& _name) const {
 }
 //===============================================
 void GCode::getMap(const GString& _code, std::vector<GObject*>& _map, GObject* _obj) {
-    _obj->clear();
+    _obj->clearMap();
 
     int lCount = countNode(*this, sformat("/rdv/datas/data[code='%s']/map/data", _code.c_str()));
 

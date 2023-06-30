@@ -12,8 +12,12 @@ public:
     GObject();
     virtual ~GObject();
     virtual GObject* clone() const;
-    virtual void clear();
-    const GLog& getLogs() const;
+    virtual void setObj(const GObject& _obj);
+    virtual void clearMap();
+    virtual void loadFromMap(int i);
+    virtual void loadToMap(int i);
+    virtual const GLog& getLogs() const;
+    virtual int size() const;
     virtual GString serialize(const GString& _code = "object") const;
     virtual void deserialize(const GString& _data, const GString& _code = "object");
 

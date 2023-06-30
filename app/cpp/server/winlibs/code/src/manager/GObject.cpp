@@ -7,10 +7,10 @@ GObject::GObject() {
 }
 //===============================================
 GObject::~GObject() {
-    clear();
+    clearMap();
 }
 //===============================================
-void GObject::clear() {
+void GObject::clearMap() {
     for(int i = 0; i < (int)m_map.size(); i++) {
         GObject* lObj = m_map[i];
         delete lObj;

@@ -8,7 +8,23 @@ GCalculator::GCalculator()
 }
 //===============================================
 GCalculator::~GCalculator() {
-
+    clearMap();
+}
+//===============================================
+GObject* GCalculator::clone() const {
+    return new GCalculator;
+}
+//===============================================
+void GCalculator::setObj(const GObject& _obj) {
+    const GCalculator& lObj = dynamic_cast<const GCalculator&>(_obj);
+    m_expression = lObj.m_expression;
+    m_result = lObj.m_result;
+}
+//===============================================
+void GCalculator::addObj(const GCalculator& _obj) {
+    GCalculator* lObj = new GCalculator;
+    lObj->setObj(_obj);
+    m_map.push_back(lObj);
 }
 //===============================================
 void GCalculator::setExpression(const GString& _expression) {
@@ -17,6 +33,14 @@ void GCalculator::setExpression(const GString& _expression) {
 //===============================================
 void GCalculator::setResult(const GString& _result) {
     m_result = _result;
+}
+//===============================================
+const GString& GCalculator::getExpression() const {
+    return m_expression;
+}
+//===============================================
+const GString& GCalculator::getResult() const {
+    return m_result;
 }
 //===============================================
 GString GCalculator::serialize(const GString& _code) const {
