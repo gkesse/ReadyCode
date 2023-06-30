@@ -19,7 +19,7 @@ public:
     void deserialize(const GString& _data, const GString& _code = "calculator");
     void runCalculator();
 
-protected:
+private:
     GString m_expression;
     GString m_result;
 };

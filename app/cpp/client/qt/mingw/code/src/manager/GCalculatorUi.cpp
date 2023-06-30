@@ -29,7 +29,7 @@ void GCalculatorUi::addCalculator(const GCalculator& _calc, int i, int _size) {
 //===============================================
 void GCalculatorUi::showCalculator() {
     int lSize = m_calcMap.size();
-    if(!lSize) return;
+    if(!m_calcMap.size()) return;
     m_widResult.reset(new QWidget);
     m_layResult = new QVBoxLayout(m_widResult.get());
     for(int i = lSize; i >= 1; i--) {
@@ -37,7 +37,6 @@ void GCalculatorUi::showCalculator() {
         addCalculator(m_calcMap, i, lSize);
     }
     ui->layResult->addWidget(m_widResult.get());
-    GString(ui->layResult->count()).print();
 }
 //===============================================
 void GCalculatorUi::on_edtExpression_returnPressed() {
