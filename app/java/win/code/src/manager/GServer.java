@@ -16,11 +16,11 @@ public class GServer extends GManager {
     	}
     	GCode lDom = new GCode();
     	if(!lDom.loadXml(_data)) {
-    		m_srvLogs.addError("La requête n'est pas valide.");
+    		m_srvLogs.addError("La requête n'est pas un XML valide.");
     		return false;
     	}
     	if(!lDom.hasDatas()) {
-    		m_srvLogs.addError("Le format de la requête n'est pas valide.");
+    		m_srvLogs.addError("La requête n'est pas dans un format XML valide.");
     		return false;
     	}
         return true;
@@ -28,6 +28,7 @@ public class GServer extends GManager {
     //===============================================
     public void sendResponse(GSocket _socket) {
         GSocket lClient = _socket;
+        m_srvLogs.addLogs(lClient.getSrvLogs());
         if(!m_srvLogs.hasErrors()) {
             m_resp.loadData(m_logs.serialize());
             if(!m_resp.hasDatas()) return;

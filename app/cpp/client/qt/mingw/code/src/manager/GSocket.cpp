@@ -83,7 +83,10 @@ void GSocket::sendData(const GString& _data) {
     int lSize = _data.size();
     while(1) {
         int lBytes = send(m_socket, &lBuffer[lIndex], lSize - lIndex, 0);
-        if(lBytes == SOCKET_ERROR) break;
+        if(lBytes == SOCKET_ERROR) {
+            m_srvLogs.addError("L'émission des données a échoué.");
+            break;
+        }
         lIndex += lBytes;
         if(lIndex >= lSize) break;
     }
@@ -94,7 +97,10 @@ GString GSocket::readData() {
     while(1) {
         char lBuffer[BUFFER_SIZE];
         int lBytes = recv(m_socket, lBuffer, BUFFER_SIZE - 1, 0);
-        if(lBytes == SOCKET_ERROR) break;
+        if(lBytes == SOCKET_ERROR) {
+            m_srvLogs.addError("La réception des données a échoué.");
+            break;
+        }
         lBuffer[lBytes] = '\0';
         lData += lBuffer;
 

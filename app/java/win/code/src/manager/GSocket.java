@@ -21,6 +21,22 @@ public class GSocket extends GObject {
 
     }  
     //===============================================
+    public GLog getSrvLogs() {
+    	return m_srvLogs;
+    }
+    //===============================================
+    public void checkErrors(String _data) {
+    	if(m_srvLogs.hasErrors()) {
+    		m_logs.addError("La connexion au serveur a échoué.");
+    	}
+    	else if(!_data.isEmpty()) {
+    		GCode lDom = new GCode();
+    		if(!lDom.loadXml(_data)) {
+        		m_logs.addError("La connexion au serveur a échoué.");
+    		}
+    	}
+    }
+    //===============================================
     public String readData() {
         String lData = "";
         try {
@@ -28,7 +44,10 @@ public class GSocket extends GObject {
             while(true) {
                 byte[] lBuffer = new byte[BUFFER_SIZE];
                 int lBytes = lStreamIn.read(lBuffer);
-                if(lBytes == -1) break;
+                if(lBytes == -1) {
+                	m_srvLogs.addError("La réception des données a échoué.");
+                	break;
+                }
                 lData += new String(lBuffer, 0, lBytes, StandardCharsets.UTF_8);
                 if(lStreamIn.available() <= 0) break;
                 if(lData.length() >= BUFFER_MAX) {
@@ -49,7 +68,7 @@ public class GSocket extends GObject {
             lStreamOut.write(_data.getBytes());
         }
         catch(Exception e) {
-        	m_srvLogs.addError("L'envoi des données a échoué.");
+        	m_srvLogs.addError("L'émission des données a échoué.");
         }
     }
     //===============================================
@@ -80,7 +99,7 @@ public class GSocket extends GObject {
                     lClient.m_socket = lServer.accept();
                 }
                 catch(Exception e) {
-                	m_srvLogs.addError("La connexion au serveur a échoué.");
+                	m_srvLogs.addError("La connexion du client a échoué.");
                     break;
                 }
                                 
@@ -118,12 +137,13 @@ public class GSocket extends GObject {
         lDom.addData("manager", "method", _method);
         lDom.loadData(_data);
         String lData = lDom.toString();
-        return callServer(lData);
+        lData = callServer(lData);
+        return lData;
     }
     //===============================================
     public String callServer(String _data) {
         String lAddress = "127.0.0.1";
-        int lPort = 9040;
+        int lPort = 9010;
         String lDataOut = "";
         
         try {
