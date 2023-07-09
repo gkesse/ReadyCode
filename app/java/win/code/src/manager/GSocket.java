@@ -77,7 +77,7 @@ public class GSocket extends GObject {
             m_socket.close();
         }
         catch(Exception e) {
-        	m_srvLogs.addError("La fermeture du socket a échoué.");
+        	m_logs.addError("La fermeture du socket a échoué.");
         }
     }
     //===============================================
@@ -99,7 +99,7 @@ public class GSocket extends GObject {
                     lClient.m_socket = lServer.accept();
                 }
                 catch(Exception e) {
-                	m_srvLogs.addError("La connexion du client a échoué.");
+                	m_logs.addError("La connexion du client a échoué.");
                     break;
                 }
                                 
@@ -113,11 +113,7 @@ public class GSocket extends GObject {
             lServer.close();
         }
         catch(Exception e) {
-        	m_srvLogs.addError("Le démarrage du serveur a échoué.");
-        }
-        
-        if(m_srvLogs.hasErrors()) {
-        	m_logs.addLogs(m_srvLogs);
+        	m_logs.addError("Le démarrage du serveur a échoué.");
         }
     }
     //===============================================

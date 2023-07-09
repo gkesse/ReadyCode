@@ -20,6 +20,10 @@ GString::GString(const std::string& _data) {
     create(_data.data(), _data.size());
 }
 //===============================================
+GString::GString(const std::vector<char>& _data) {
+    create(_data.data(), _data.size());
+}
+//===============================================
 GString::GString(const GString& _data) {
     create(_data.m_data, _data.m_size);
 }
@@ -89,12 +93,30 @@ std::vector<GString> GString::split(const GString& _sep) const {
     return lMap;
 }
 //===============================================
+bool GString::startsWith(const GString& _data) const {
+    if(isEmpty()) return false;
+    if(isEmpty()) return false;
+    if(m_size < _data.m_size) return false;
+    std::string lDataIn(m_data);
+    std::string lDataOut(_data.m_data);
+    return (lDataIn.compare(0, _data.m_size, lDataOut) == 0);
+}
+//===============================================
+bool GString::endsWith(const GString& _data) const {
+    if(isEmpty()) return false;
+    if(isEmpty()) return false;
+    if(m_size < _data.m_size) return false;
+    std::string lDataIn(m_data);
+    std::string lDataOut(_data.m_data);
+    return (lDataIn.compare(m_size - _data.m_size, _data.m_size, lDataOut) == 0);
+}
+//===============================================
 GString GString::toUtf8() const {
     if(isEmpty()) return "";
     char* lBufIn = m_data;
     size_t lSizeIn = strlen(lBufIn);
     size_t lSizeOut = sizeof(wchar_t) * lSizeIn * 4;
-    char* lBufOut = (char*)malloc(lSizeOut);
+    char* lBufOut = new char[lSizeOut];
     memset(lBufOut, '\0', lSizeOut);
     iconv_t lIconv = iconv_open("WINDOWS-1252", "UTF-8");
     GString lData;
@@ -104,11 +126,12 @@ GString GString::toUtf8() const {
         size_t lBufOutLeft = lSizeOut;
         size_t lResult = iconv(lIconv, &lPtrIn, &lSizeIn, &lPtrOut, &lBufOutLeft);
         if(lResult != -1) {
-            lData.m_data = lBufOut;
-            lData.m_size = lSizeOut - lBufOutLeft;
+            int lSize = lSizeOut - lBufOutLeft;
+            lData.create(lBufOut, lSize);
         }
         iconv_close(lIconv);
     }
+    //delete[] lBufOut;
     return lData;
 }
 //===============================================
@@ -139,6 +162,12 @@ GString& GString::operator=(const char* _data) {
 }
 //===============================================
 GString& GString::operator=(const std::string& _data) {
+    clear();
+    create(_data.data(), _data.size());
+    return *this;
+}
+//===============================================
+GString& GString::operator=(const std::vector<char>& _data) {
     clear();
     create(_data.data(), _data.size());
     return *this;

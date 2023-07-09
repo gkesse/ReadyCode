@@ -21,6 +21,9 @@
 #include <iconv.h>
 // tinyexpr
 #include <tinyexpr/tinyexpr.h>
+// httpparser
+#include <httpparser/request.h>
+#include <httpparser/httprequestparser.h>
 //===============================================
 #endif
 //===============================================

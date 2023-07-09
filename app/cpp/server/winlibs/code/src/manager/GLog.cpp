@@ -7,14 +7,14 @@ GLog::GLog() {
 }
 //===============================================
 GLog::~GLog() {
-    clear();
+    clearMap();
 }
 //===============================================
 GLog* GLog::clone() const {
     return new GLog;
 }
 //===============================================
-void GLog::clear() {
+void GLog::clearMap() {
     for(int i = 0; i < (int)m_map.size(); i++) {
         GLog* lObj = m_map[i];
         delete lObj;
@@ -111,7 +111,7 @@ GString GLog::serialize(const GString& _code) const {
     lDom.createDoc();
     lDom.addData(_code, "type", m_type);
     lDom.addData(_code, "side", m_side);
-    lDom.addData(_code, "msg", m_msg.toBase64());
+    lDom.addData(_code, "msg", m_msg.toUtf8().toBase64());
     lDom.addLog(_code, m_map);
     return lDom.toString();
 }

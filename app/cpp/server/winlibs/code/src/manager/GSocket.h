@@ -8,7 +8,6 @@ class GSocket : public GObject {
 public:
     GSocket();
     ~GSocket();
-    GLog& getSrvLogs();
     GString toHostname(const GString& _facade) const;
     int toPort(const GString& _facade) const;
     void checkErrors(GString& _data);
@@ -26,7 +25,6 @@ private:
 
 private:
     SOCKET m_socket;
-    GLog m_srvLogs;
 };
 //===============================================
 #endif

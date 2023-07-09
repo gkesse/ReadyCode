@@ -3,13 +3,16 @@
 class GObject {
     //===============================================
     protected $m_logs = null;
-    protected $m_response = null;
+    protected $m_resp = null;
     //===============================================
     public function __construct() {
         $this->m_logs = new GLog();
-        $this->m_response = new GCode();
-        $this->m_response->createDoc();
-        $this->m_response->createDatas();
+        $this->m_resp = new GCode();
+        $this->m_resp->createDoc();
+    }
+    //===============================================
+    public function clearMap() {
+        $this->m_map = array();
     }
     //===============================================
     public function getLogs() {
@@ -17,7 +20,7 @@ class GObject {
     }
     //===============================================
     public function getResponse() {
-        return $this->m_response->toString();
+        return $this->m_resp->toString();
     }
     //===============================================
  }

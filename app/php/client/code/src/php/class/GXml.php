@@ -35,10 +35,12 @@ class GXml {
     }
     //===============================================
     public function createDoc() {
-        $this->m_doc = new DOMDocument("1.0", "UTF-8");
+        $this->m_doc = new \DOMDocument("1.0", "UTF-8");
+        if(!$this->m_doc) return false;
         $this->m_doc->preserveWhiteSpace = false;
         $this->m_doc->formatOutput = true;
         $this->m_node = $this->m_doc->createElement("rdv");
+        if(!$this->m_node) return false;
         $this->m_doc->appendChild($this->m_node);
         return true;
     }
@@ -46,7 +48,7 @@ class GXml {
     public function loadXml($_data) {
         $_data = trim($_data);
         if($_data == "") return false;
-        $this->m_doc = new DOMDocument("1.0", "UTF-8");
+        $this->m_doc = new \DOMDocument("1.0", "UTF-8");
         if(!$this->m_doc) return false;
         $lXml = "<?xml";
         if(substr($_data, 0, strlen($lXml)) != $lXml) {
@@ -64,7 +66,7 @@ class GXml {
         if($_data == "") return false;
         if(!$_root->m_doc) return false;
         if(!$this->m_node) return false;
-        $lDom = new DOMDocument("1.0", "UTF-8");
+        $lDom = new \DOMDocument("1.0", "UTF-8");
         $lDom->preserveWhiteSpace = false;
         $lDom->formatOutput = true;
         $lDom->loadXML($_data);
@@ -77,35 +79,9 @@ class GXml {
         return true;
     }
     //===============================================
-    public function createNode($_root, $_path, $_value = "", $_isCData = false) {
-        $lPaths = explode("/", $_path);
-        $lSize = count($lPaths);
-        $lPath = "";
-        if($_path[0] == "/") $lPath .= "/";
-        $lDom = new GXml();
-        $lDom->m_node = $this->m_node;
-        
-        for($i = 0, $j = 0; $i < $lSize; $i++) {
-            $lPathI = $lPaths[$i];
-            if($lPathI == "") continue;
-            if($j++ != 0) $lPath .= "/";
-            $lPath .= $lPathI;
-            if(!$this->existNode($_root, $lPath)) {
-                $lDom->m_node = $lDom->addObj($_root, $lPathI);
-            }
-            else {
-                $lDom->m_node = $lDom->getNode($_root, $lPath);
-            }
-        }
-        if($_value != "") {
-            $lDom->setValue($_root, $_value, $_isCData);
-        }
-        return $lDom->m_node;
-    }
-    //===============================================
     public function existNode($_root, $_path) {
         if(!$_root->m_doc) return false;
-        $lXPath = new DOMXpath($_root->m_doc);
+        $lXPath = new \DOMXpath($_root->m_doc);
         $lNode = $this->m_node;
         if($_path[0] == "/") $lNode = $_root->m_node;
         $lNodes = $lXPath->query($_path, $lNode);
@@ -115,7 +91,7 @@ class GXml {
     //===============================================
     public function getNode($_root, $_path) {
         if(!$_root->m_doc) return null;
-        $lXPath = new DOMXpath($_root->m_doc);
+        $lXPath = new \DOMXpath($_root->m_doc);
         $lNode = $this->m_node;
         if($_path[0] == "/") $lNode = $_root->m_node;
         $lNodes = $lXPath->query($_path, $lNode);
@@ -125,7 +101,7 @@ class GXml {
     //===============================================
     public function countNode($_root, $_path) {
         if(!$_root->m_doc) return 0;
-        $lXPath = new DOMXpath($_root->m_doc);
+        $lXPath = new \DOMXpath($_root->m_doc);
         $lNode = $this->m_node;
         if($_path[0] == "/") $lNode = $_root->m_node;
         $lNodes = $lXPath->query($_path, $lNode);

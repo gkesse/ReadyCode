@@ -8,14 +8,14 @@ GLog::GLog() {
 }
 //===============================================
 GLog::~GLog() {
-    clear();
+    clearMap();
 }
 //===============================================
 GLog* GLog::clone() const {
     return new GLog;
 }
 //===============================================
-void GLog::clear() {
+void GLog::clearMap() {
     for(int i = 0; i < size(); i++) {
         GLog* lObj = m_map[i];
         delete lObj;
@@ -176,7 +176,7 @@ int GLog::showErrors(QWidget* _parent) {
         lLogUi.setWindowTitle("Erreurs");
         lLogUi.setText(loadErrors().c_str());
         lResult = lLogUi.exec();
-        clear();
+        clearMap();
     }
     return lResult;
 }
@@ -190,7 +190,7 @@ int GLog::showDatas(QWidget* _parent) {
         lLogUi.setWindowTitle("Datas");
         lLogUi.setText(loadDatas().c_str());
         lResult = lLogUi.exec();
-        clear();
+        clearMap();
     }
     return lResult;
 }
@@ -204,7 +204,7 @@ int GLog::showLogs(QWidget* _parent) {
         lLogUi.setWindowTitle("Logs");
         lLogUi.setText(loadLogs().c_str());
         lResult = lLogUi.exec();
-        clear();
+        clearMap();
     }
     return lResult;
 }
@@ -218,7 +218,7 @@ int GLog::showLogsA(QWidget* _parent) {
         lLogUi.setWindowTitle("Messages");
         lLogUi.setText(loadLogsA().c_str());
         lResult = lLogUi.exec();
-        clear();
+        clearMap();
     }
     return lResult;
 }

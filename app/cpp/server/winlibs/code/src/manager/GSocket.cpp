@@ -12,10 +12,6 @@ GSocket::~GSocket() {
 
 }
 //===============================================
-GLog& GSocket::getSrvLogs() {
-    return m_srvLogs;
-}
-//===============================================
 GString GSocket::toHostname(const GString& _facade) const {
     if(_facade == "server_c") return "127.0.0.1";
     if(_facade == "server_cpp") return "127.0.0.1";
@@ -33,7 +29,7 @@ int GSocket::toPort(const GString& _facade) const {
 }
 //===============================================
 void GSocket::checkErrors(GString& _data) {
-    if(m_srvLogs.hasErrors()) {
+    if(m_dataLogs.hasErrors()) {
         m_logs.addError("La connexion au serveur a échoué.");
     }
     else if(!_data.isEmpty()) {
@@ -129,7 +125,7 @@ GString GSocket::callSocket(const GString& _dataIn, const GString& _facade) {
     WSADATA lWsaData;
 
     if(WSAStartup(MAKEWORD(lMajor, lMinor), &lWsaData) == SOCKET_ERROR) {
-        m_srvLogs.addError("L'initilisation du socket a échoué.");
+        m_dataLogs.addError("L'initilisation du socket a échoué.");
         return "";
     }
 
@@ -142,7 +138,7 @@ GString GSocket::callSocket(const GString& _dataIn, const GString& _facade) {
     SOCKET lClient = socket(AF_INET, SOCK_STREAM, 0);
 
     if(lClient == INVALID_SOCKET) {
-        m_srvLogs.addError("La création du socket a échoué.");
+        m_dataLogs.addError("La création du socket a échoué.");
         return "";
     }
 
@@ -150,7 +146,7 @@ GString GSocket::callSocket(const GString& _dataIn, const GString& _facade) {
     int lConnectOk = connect(lClient, (SOCKADDR*)(&lAddress), sizeof(lAddress));
 
     if(lConnectOk == SOCKET_ERROR) {
-        m_srvLogs.addError("La connexion du socket a échoué.");
+        m_dataLogs.addError("La connexion du socket a échoué.");
         return "";
     }
 
@@ -201,7 +197,7 @@ GString GSocket::readData() {
         lData += lBuffer;
 
         if(lData.size() >= BUFFER_MAX) {
-            m_srvLogs.addError("La taille maximale des données est atteinte.");
+            m_dataLogs.addError("La taille maximale des données est atteinte.");
             break;
         }
 

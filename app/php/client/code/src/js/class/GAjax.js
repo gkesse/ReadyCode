@@ -54,7 +54,7 @@ class GAjax extends GObject {
         }
         
         var lMethod = "POST";
-        var lUrl = "/php/server.php";
+        var lUrl = "/php/req/server.php";
         var lAsync = true;
         var lUser = null;
         var lPassword = null;

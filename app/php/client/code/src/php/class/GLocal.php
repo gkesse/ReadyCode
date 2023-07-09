@@ -22,7 +22,7 @@ class GLocal extends GManager {
         $lObj = new GCalculator();
         $lObj->run($_data);
         $this->m_logs->addLogs($lObj->getLogs());
-        $this->m_response->loadData($lObj->serialize());
+        $this->m_resp->loadData($lObj->serialize());
     }
     //===============================================
 }

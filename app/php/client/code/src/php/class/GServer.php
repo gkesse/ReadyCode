@@ -9,8 +9,8 @@ class GServer extends GManager {
     }
     //===============================================
     public function sendResponse() {
-        $this->m_response->loadData($this->m_logs->serialize());
-        $lData = $this->m_response->toString();
+        $this->m_resp->loadData($this->m_logs->serialize());
+        $lData = $this->m_resp->toString();
         echo $lData;
     }
     //===============================================
@@ -47,14 +47,14 @@ class GServer extends GManager {
         $lObj = new GLocal();
         $lObj->run($_data);
         $this->m_logs->addLogs($lObj->getLogs());
-        $this->m_response->loadData($lObj->getResponse());
+        $this->m_resp->loadData($lObj->getResponse());
     }
     //===============================================
     public function runRemote($_data) {
         $lObj = new GSocket();
         $lData = $lObj->callServer($_data);
         $this->m_logs->addLogs($lObj->getLogs());
-        $this->m_response->loadData($lData);
+        $this->m_resp->loadData($lData);
     }
     //===============================================
  }

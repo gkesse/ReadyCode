@@ -10,7 +10,7 @@ public:
     GLog();
     ~GLog();
     GLog* clone() const;
-    void clear();
+    void clearMap();
     void setObj(const GLog& _obj);
     void loadFromMap(int i);
     void loadToMap(int i);

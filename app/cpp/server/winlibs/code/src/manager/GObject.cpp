@@ -16,10 +16,16 @@ void GObject::clearMap() {
         delete lObj;
     }
     m_map.clear();
+    m_logs.clearMap();
+    m_dataLogs.clearMap();
 }
 //===============================================
 const GLog& GObject::getLogs() const {
     return m_logs;
+}
+//===============================================
+const GLog& GObject::getDataLogs() const {
+    return m_dataLogs;
 }
 //===============================================
 GObject* GObject::clone() const {return new GObject;}

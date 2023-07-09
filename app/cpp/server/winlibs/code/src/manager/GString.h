@@ -13,24 +13,31 @@ public:
     GString(const char* _data, int _size);
     GString(const char* _data);
     GString(const std::string& _data);
+    GString(const std::vector<char>& _data);
     GString(const GString& _data);
     ~GString();
     static GString* Instance();
     void clear();
     void create(int _size);
     void create(const char* _data, int _size);
+
     bool isEmpty() const;
     const char* c_str() const;
     int size() const;
     GString getFormat(const char* _format, ...) const;
     std::vector<GString> split(const GString& _sep) const;
+    bool startsWith(const GString& _data) const;
+    bool endsWith(const GString& _data) const;
+
     GString toUtf8() const;
     GString toBase64() const;
     GString fromBase64() const;
+
     void print() const;
 
     GString& operator=(const char* _data);
     GString& operator=(const std::string& _data);
+    GString& operator=(const std::vector<char>& _data);
     GString& operator=(const GString& _data);
 
     bool operator==(const char* _data) const;
