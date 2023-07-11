@@ -12,7 +12,7 @@ public:
     int toPort(const GString& _facade) const;
     void checkErrors(GString& _data);
     void runServer();
-    static DWORD WINAPI onThread(LPVOID _params);
+    static void* onThreadCB(void* _params);
     GString callSocket(const GString& _data, const GString& _facade = "facade");
     GString callServer(const GString& _data, const GString& _facade = "facade");
     GString callFacade(const GString& _module, const GString& _method, const GString& _data = "");
@@ -24,7 +24,7 @@ private:
     static const int BUFFER_MAX = 1*1024*1024;  // 1 Mo
 
 private:
-    SOCKET m_socket;
+    int m_socket;
 };
 //===============================================
 #endif

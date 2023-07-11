@@ -5,7 +5,7 @@ GSRC = ../code/src
 GBIN = bin
 GBUILD = build
 GTARGET = $(GBIN)/rdv_cpp_server.exe
-
+#================================================
 GINCS =\
     -I$(GSRC)/manager \
     -I$(GSRC)/libs/include \
@@ -13,7 +13,9 @@ GINCS =\
 	-I/usr/local/include \
 	
 GLIBS =\
+    -L$(GSRC)/libs/lib \
     -L/usr/local/lib \
+    -lb64c -ltinyexpr \
     -lxml2 -lmysqlcppconn -lcurl -lssl -lcrypto -ljson-c \
 	
 GOBJS =\
@@ -28,6 +30,7 @@ GCFLAGS_G =\
     -std=gnu++11 \
 #================================================
 # cpp
+#================================================
 all: clean_exe compile run
 all_g: clean_exe compile_g run_g
 
@@ -57,4 +60,4 @@ clean:
 	@if ! [ -d $(GBIN) ] ; then mkdir -p $(GBIN) ; fi
 	@if ! [ -d $(GBUILD) ] ; then mkdir -p $(GBUILD) ; fi
 	rm -f $(GBUILD)/* $(GTARGET)
-#================================================    
+#================================================
