@@ -28,6 +28,12 @@ const GLog& GObject::getDataLogs() const {
     return m_dataLogs;
 }
 //===============================================
+GString GObject::getEnv(const GString& _env, const GString& _defaultValue) const {
+    char* lEnv = getenv(_env.c_str());
+    if(lEnv == 0) return _defaultValue;
+    return lEnv;
+}
+//===============================================
 GObject* GObject::clone() const {return new GObject;}
 GString GObject::serialize(const GString& _code) const {return "";}
 void GObject::deserialize(const GString& _data, const GString& _code) {}

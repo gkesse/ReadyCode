@@ -16,6 +16,8 @@ void GObject::clearMap() {
         delete lObj;
     }
     m_map.clear();
+    m_logs.clearMap();
+    m_dataLogs.clearMap();
 }
 //===============================================
 void GObject::loadFromMap(int i) {
@@ -38,6 +40,12 @@ const GLog& GObject::getLogs() const {
 //===============================================
 int GObject::size() const {
     return (int)m_map.size();
+}
+//===============================================
+GString GObject::getEnv(const GString& _env, const GString& _defaultValue) const {
+    char* lEnv = getenv(_env.c_str());
+    if(lEnv == 0) return _defaultValue;
+    return lEnv;
 }
 //===============================================
 GObject* GObject::clone() const {return new GObject;}

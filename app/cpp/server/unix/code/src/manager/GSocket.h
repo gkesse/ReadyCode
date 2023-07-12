@@ -10,6 +10,7 @@ public:
     ~GSocket();
     GString toHostname(const GString& _facade) const;
     int toPort(const GString& _facade) const;
+    int toPortCpp() const;
     void checkErrors(GString& _data);
     void runServer();
     static void* onThreadCB(void* _params);

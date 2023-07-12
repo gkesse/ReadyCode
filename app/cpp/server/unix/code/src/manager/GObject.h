@@ -13,8 +13,9 @@ public:
     virtual ~GObject();
     virtual GObject* clone() const;
     virtual void clearMap();
-    const GLog& getLogs() const;
-    const GLog& getDataLogs() const;
+    virtual const GLog& getLogs() const;
+    virtual const GLog& getDataLogs() const;
+    virtual GString getEnv(const GString& _env, const GString& _defaultValue = "") const;
     virtual GString serialize(const GString& _code = "object") const;
     virtual void deserialize(const GString& _data, const GString& _code = "object");
 

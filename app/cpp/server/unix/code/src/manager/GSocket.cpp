@@ -22,9 +22,15 @@ GString GSocket::toHostname(const GString& _facade) const {
 //===============================================
 int GSocket::toPort(const GString& _facade) const {
     if(_facade == "server_c") return 9020;
-    if(_facade == "server_cpp") return 9010;
+    if(_facade == "server_cpp") return toPortCpp();
     if(_facade == "server_python") return 9030;
     if(_facade == "server_java") return 9040;
+    return 9010;
+}
+//===============================================
+int GSocket::toPortCpp() const {
+    GString lEnv = getEnv("GPROJECT_ENV");
+    if(lEnv == "TEST") return 9011;
     return 9010;
 }
 //===============================================
@@ -42,7 +48,7 @@ void GSocket::checkErrors(GString& _data) {
 }
 //===============================================
 void GSocket::runServer() {
-    int lPort = 9010;
+    int lPort = toPortCpp();
     int lBacklog = 10;
     GString lHostname = "0.0.0.0";
 

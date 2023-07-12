@@ -20,6 +20,8 @@ typedef unsigned char uchar;
 #include <base64/base64.h>
 // iconv
 #include <iconv.h>
+// curl
+#include <curl/curl.h>
 // qt
 #include <QtWidgets>
 //===============================================

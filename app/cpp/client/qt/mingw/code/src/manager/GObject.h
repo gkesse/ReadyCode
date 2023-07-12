@@ -17,12 +17,14 @@ public:
     virtual void loadFromMap(int i);
     virtual void loadToMap(int i);
     virtual const GLog& getLogs() const;
+    virtual GString getEnv(const GString& _env, const GString& _defaultValue = "") const;
     virtual int size() const;
     virtual GString serialize(const GString& _code = "object") const;
     virtual void deserialize(const GString& _data, const GString& _code = "object");
 
 protected:
     GLog m_logs;
+    GLog m_dataLogs;
     GCode m_resp;
     std::vector<GObject*> m_map;
 };

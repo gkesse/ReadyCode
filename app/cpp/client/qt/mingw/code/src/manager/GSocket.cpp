@@ -11,8 +11,14 @@ GSocket::~GSocket() {
 
 }
 //===============================================
+int GSocket::toPort() const {
+    GString lEnv = getEnv("GPROJECT_ENV");
+    if(lEnv == "TEST") return 9011;
+    return 9010;
+}
+//===============================================
 void GSocket::checkErrors(GString& _data) {
-    if(m_srvLogs.hasErrors()) {
+    if(m_dataLogs.hasErrors()) {
         m_logs.addError("La connexion au serveur a échoué.");
     }
     else if(!_data.isEmpty()) {
@@ -28,20 +34,20 @@ GString GSocket::callServer(const GString& _dataIn) {
     int lMajor = 2;
     int lMinor = 2;
     GString lHostname = "readydev.ovh";
-    int lPort = 9010;
+    int lPort = toPort();
     GString lMode = "dns";
 
     WSADATA lWsaData;
 
     if(WSAStartup(MAKEWORD(lMajor, lMinor), &lWsaData) == SOCKET_ERROR) {
-        m_srvLogs.addError("L'initialisation des données socket a échoué.");
+        m_dataLogs.addError("L'initialisation des données socket a échoué.");
         return "";
     }
 
     SOCKET lClient = socket(AF_INET, SOCK_STREAM, 0);
 
     if(lClient == INVALID_SOCKET) {
-        m_srvLogs.addError("La création du socket a échoué.");
+        m_dataLogs.addError("La création du socket a échoué.");
         return "";
     }
 
@@ -59,14 +65,14 @@ GString GSocket::callServer(const GString& _dataIn) {
             lAddrsOk = getaddrinfo(lHostname.c_str(), NULL, &lHint, &lAddrs);
 
             if(lAddrsOk == SOCKET_ERROR) {
-                m_srvLogs.addError("Le traitement du nom de domaine a échoué.");
+                m_dataLogs.addError("Le traitement du nom de domaine a échoué.");
                 return "";
             }
 
             lHostname = inet_ntoa(((sockaddr_in *)lAddrs->ai_addr)->sin_addr);
         }
         else {
-            m_srvLogs.addError("Le traitement du nom de domaine a échoué.");
+            m_dataLogs.addError("Le traitement du nom de domaine a échoué.");
             return "";
         }
     }
@@ -81,7 +87,7 @@ GString GSocket::callServer(const GString& _dataIn) {
     int lConnectOk = connect(lClient, (SOCKADDR*)(&lAddress), sizeof(lAddress));
 
     if(lConnectOk == SOCKET_ERROR) {
-        m_srvLogs.addError("La connexion du socket a échoué.");
+        m_dataLogs.addError("La connexion du socket a échoué.");
         return "";
     }
 
@@ -111,7 +117,7 @@ void GSocket::sendData(const GString& _data) {
     while(1) {
         int lBytes = send(m_socket, &lBuffer[lIndex], lSize - lIndex, 0);
         if(lBytes == SOCKET_ERROR) {
-            m_srvLogs.addError("L'émission des données a échoué.");
+            m_dataLogs.addError("L'émission des données a échoué.");
             break;
         }
         lIndex += lBytes;
@@ -125,7 +131,7 @@ GString GSocket::readData() {
         char lBuffer[BUFFER_SIZE];
         int lBytes = recv(m_socket, lBuffer, BUFFER_SIZE - 1, 0);
         if(lBytes == SOCKET_ERROR) {
-            m_srvLogs.addError("La réception des données a échoué.");
+            m_dataLogs.addError("La réception des données a échoué.");
             break;
         }
         lBuffer[lBytes] = '\0';

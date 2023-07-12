@@ -1,5 +1,6 @@
 //===============================================
 #include "GTest.h"
+#include "GCurl.h"
 //===============================================
 GTest::GTest()
 : GObject() {
@@ -17,15 +18,20 @@ void GTest::run(int _argc, char** _argv) {
     if(lMethod == "") {
         m_logs.addError("La méthode est obligatoire.");
     }
-    else if(lMethod == "test") {
-        runTest(_argc, _argv);
+    else if(lMethod == "curl") {
+        runCurl(_argc, _argv);
     }
     else {
         m_logs.addError("La méthode est inconnue.");
     }
 }
 //===============================================
-void GTest::runTest(int _argc, char** _argv) {
-    printf("%s...\n", __FUNCTION__);
+void GTest::runCurl(int _argc, char** _argv) {
+    GCurl lCurl;
+    GString lData = lCurl.postHttpFacade("calculator", "run_calculator");
+    m_logs.addLogs(lCurl.getLogs());
+    if(!m_logs.hasErrors()) {
+        m_logs.addData(lData);
+    }
 }
 //===============================================
