@@ -27,8 +27,9 @@ void GSocket::checkErrors(GString& _data) {
 GString GSocket::callServer(const GString& _dataIn) {
     int lMajor = 2;
     int lMinor = 2;
-    const char* lHostname = "127.0.0.1";
+    GString lHostname = "readydev.ovh";
     int lPort = 9010;
+    GString lMode = "dns";
 
     WSADATA lWsaData;
 
@@ -37,18 +38,44 @@ GString GSocket::callServer(const GString& _dataIn) {
         return "";
     }
 
-    struct sockaddr_in lAddress;
-
-    inet_pton(AF_INET, lHostname, &lAddress.sin_addr.s_addr);
-    lAddress.sin_family = AF_INET;
-    lAddress.sin_port = htons(lPort);
-
     SOCKET lClient = socket(AF_INET, SOCK_STREAM, 0);
 
     if(lClient == INVALID_SOCKET) {
         m_srvLogs.addError("La création du socket a échoué.");
         return "";
     }
+
+    if(lMode == "dns") {
+        struct addrinfo lHint = {0};
+        lHint.ai_flags = AI_NUMERICHOST;
+        lHint.ai_family = AF_UNSPEC;
+        lHint.ai_socktype = SOCK_STREAM;
+        lHint.ai_protocol = IPPROTO_TCP;
+
+        struct addrinfo* lAddrs = NULL;
+        int lAddrsOk = getaddrinfo(lHostname.c_str(), NULL, &lHint, &lAddrs);
+        if(lAddrsOk == EAI_NONAME) {
+            lHint.ai_flags = 0;
+            lAddrsOk = getaddrinfo(lHostname.c_str(), NULL, &lHint, &lAddrs);
+
+            if(lAddrsOk == SOCKET_ERROR) {
+                m_srvLogs.addError("Le traitement du nom de domaine a échoué.");
+                return "";
+            }
+
+            lHostname = inet_ntoa(((sockaddr_in *)lAddrs->ai_addr)->sin_addr);
+        }
+        else {
+            m_srvLogs.addError("Le traitement du nom de domaine a échoué.");
+            return "";
+        }
+    }
+
+    SOCKADDR_IN lAddress;
+    lAddress.sin_family = AF_INET;
+    lAddress.sin_addr.s_addr = inet_addr(lHostname.c_str());
+    lAddress.sin_port = htons(lPort);
+    memset(&lAddress.sin_zero, 0, sizeof(lAddress.sin_zero));
 
     m_socket = lClient;
     int lConnectOk = connect(lClient, (SOCKADDR*)(&lAddress), sizeof(lAddress));
