@@ -58,9 +58,9 @@ void GOpenSSL::checkErrors(GString& _data) {
 }
 //===============================================
 bool GOpenSSL::initContext(SSL_CTX** _context) {
-    GString lCaFile = "/home/gkesse/.readydev/data/app/certs/ca/ca_cert.pem";
-    GString lCertificateFile = "/home/gkesse/.readydev/data/app/certs/server/server_cert.pem";
-    GString lPrivateFile = "/home/gkesse/.readydev/data/app/certs/server/private/server_key.pem";
+    GString lCaFile = spath("/data/app/certs/ca/ca_cert.pem");
+    GString lCertificateFile = spath("/data/app/certs/server/server_cert.pem");
+    GString lPrivateFile = spath("/data/app/certs/server/private/server_key.pem");
     bool lHasVerify = true;
 
 

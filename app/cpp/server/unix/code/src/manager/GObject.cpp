@@ -1,6 +1,8 @@
 //===============================================
 #include "GObject.h"
 //===============================================
+GObject* GObject::m_instance = 0;
+//===============================================
 GObject::GObject() {
     m_resp.createDoc();
     m_resp.createDatas();
@@ -8,6 +10,13 @@ GObject::GObject() {
 //===============================================
 GObject::~GObject() {
     clearMap();
+}
+//===============================================
+GObject* GObject::Instance() {
+    if(m_instance == 0) {
+        m_instance = new GObject;
+    }
+    return m_instance;
 }
 //===============================================
 void GObject::clearMap() {
@@ -32,6 +41,12 @@ GString GObject::getEnv(const GString& _env, const GString& _defaultValue) const
     char* lEnv = getenv(_env.c_str());
     if(lEnv == 0) return _defaultValue;
     return lEnv;
+}
+//===============================================
+GString GObject::getPath(const GString& _path) const {
+    GString lPath = "/home/gkesse/.readydev";
+    lPath = sformat("%s%s", lPath.c_str(), _path.c_str());
+    return lPath;
 }
 //===============================================
 GObject* GObject::clone() const {return new GObject;}

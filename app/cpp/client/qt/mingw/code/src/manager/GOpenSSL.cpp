@@ -53,9 +53,9 @@ void GOpenSSL::showCerts(SSL* _ssl) {
 }
 //===============================================
 bool GOpenSSL::initContext(SSL_CTX** _context) {
-    GString lCaFile = "C:/Users/tiaka/.readydev/data/app/certs/ca/ca_cert.pem";
-    GString lCertificateFile = "C:/Users/tiaka/.readydev/data/app/certs/client/client_cert.pem";
-    GString lPrivateFile = "C:/Users/tiaka/.readydev/data/app/certs/client/private/client_key.pem";
+    GString lCaFile = spath("/data/app/certs/ca/ca_cert.pem");
+    GString lCertificateFile = spath("/data/app/certs/client/client_cert.pem");
+    GString lPrivateFile = spath("/data/app/certs/client/private/client_key.pem");
     bool lHasVerify = false;
 
     const SSL_METHOD* lMethod = SSLv23_client_method();

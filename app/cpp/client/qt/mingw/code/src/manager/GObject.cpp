@@ -1,6 +1,8 @@
 //===============================================
 #include "GObject.h"
 //===============================================
+GObject* GObject::m_instance = 0;
+//===============================================
 GObject::GObject() {
     m_resp.createDoc();
     m_resp.createDatas();
@@ -8,6 +10,13 @@ GObject::GObject() {
 //===============================================
 GObject::~GObject() {
     clearMap();
+}
+//===============================================
+GObject* GObject::Instance() {
+    if(m_instance == 0) {
+        m_instance = new GObject;
+    }
+    return m_instance;
 }
 //===============================================
 void GObject::clearMap() {
@@ -36,6 +45,12 @@ void GObject::loadToMap(int i) {
 //===============================================
 const GLog& GObject::getLogs() const {
     return m_logs;
+}
+//===============================================
+GString GObject::getPath(const GString& _path) const {
+    GString lPath = "C:/Users/tiaka/.readydev";
+    lPath = sformat("%s%s", lPath.c_str(), _path.c_str());
+    return lPath;
 }
 //===============================================
 int GObject::size() const {
