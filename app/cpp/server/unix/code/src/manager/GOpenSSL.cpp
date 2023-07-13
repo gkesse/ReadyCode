@@ -61,8 +61,7 @@ bool GOpenSSL::initContext(SSL_CTX** _context) {
     GString lCaFile = "/home/gkesse/.readydev/data/app/certs/ca/ca_cert.pem";
     GString lCertificateFile = "/home/gkesse/.readydev/data/app/certs/server/server_cert.pem";
     GString lPrivateFile = "/home/gkesse/.readydev/data/app/certs/server/private/server_key.pem";
-    GString lVerifyMode = "peer";
-    int lDepth = 1;
+    bool lHasVerify = true;
 
 
     const SSL_METHOD* lMethod = SSLv23_server_method();
@@ -101,21 +100,13 @@ bool GOpenSSL::initContext(SSL_CTX** _context) {
         return false;
     }
 
-    if(lVerifyMode == "") {
-        m_dataLogs.addError("Le mode de vérification n'est pas initialisé.");
-        return false;
-    }
-    else if(lVerifyMode == "none") {
-        SSL_CTX_set_verify(lContext, SSL_VERIFY_NONE, 0);
-    }
-    else if(lVerifyMode == "peer") {
+    if(lHasVerify) {
         SSL_CTX_set_mode(lContext, SSL_MODE_AUTO_RETRY);
         SSL_CTX_set_verify(lContext, SSL_VERIFY_PEER | SSL_VERIFY_FAIL_IF_NO_PEER_CERT, 0);
-        SSL_CTX_set_verify_depth(lContext, lDepth);
+        SSL_CTX_set_verify_depth(lContext, 1);
     }
     else {
-        m_dataLogs.addError("Le mode de vérification n'est pas défini.");
-        return false;
+        SSL_CTX_set_verify(lContext, SSL_VERIFY_NONE, 0);
     }
 
     (*_context) = lContext;

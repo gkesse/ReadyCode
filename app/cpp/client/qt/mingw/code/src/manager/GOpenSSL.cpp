@@ -56,8 +56,7 @@ bool GOpenSSL::initContext(SSL_CTX** _context) {
     GString lCaFile = "C:/Users/tiaka/.readydev/data/app/certs/ca/ca_cert.pem";
     GString lCertificateFile = "C:/Users/tiaka/.readydev/data/app/certs/client/client_cert.pem";
     GString lPrivateFile = "C:/Users/tiaka/.readydev/data/app/certs/client/private/client_key.pem";
-    GString lVerifyMode = "peer";
-    int lDepth = 1;
+    bool lHasVerify = false;
 
     const SSL_METHOD* lMethod = SSLv23_client_method();
 
@@ -94,21 +93,13 @@ bool GOpenSSL::initContext(SSL_CTX** _context) {
         return false;
     }
 
-    if(lVerifyMode == "") {
-        m_dataLogs.addError("Le mode de vérification n'est pas initialisé.");
-        return false;
-    }
-    else if(lVerifyMode == "none") {
-        SSL_CTX_set_verify(lContext, SSL_VERIFY_NONE, 0);
-    }
-    else if(lVerifyMode == "peer") {
-        //SSL_CTX_set_mode(lContext, SSL_MODE_AUTO_RETRY);
-        //SSL_CTX_set_verify(lContext, SSL_VERIFY_PEER, 0);
-        //SSL_CTX_set_verify_depth(lContext, lDepth);
+    if(lHasVerify) {
+        SSL_CTX_set_mode(lContext, SSL_MODE_AUTO_RETRY);
+        SSL_CTX_set_verify(lContext, SSL_VERIFY_PEER, 0);
+        SSL_CTX_set_verify_depth(lContext, 1);
     }
     else {
-        m_dataLogs.addError("Le mode de vérification n'est pas défini.");
-        return false;
+        SSL_CTX_set_verify(lContext, SSL_VERIFY_NONE, 0);
     }
 
     (*_context) = lContext;

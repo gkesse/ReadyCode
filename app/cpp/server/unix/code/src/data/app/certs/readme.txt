@@ -12,7 +12,7 @@ openssl req \
 -newkey rsa:4096 \
 -keyout ca/private/ca_key.pem \
 -out ca/ca_cert.pem \
--subj "/C=FR/ST=Bas-Rhin State/L=Strasbourg City/O=ReadyDev Inc./CN=readydev.ovh"
+-subj "/C=FR/ST=Bas-Rhin State/L=Strasbourg City/O=ReadyDev Inc./CN=ca.readydev.ovh"
 
 tree
 
