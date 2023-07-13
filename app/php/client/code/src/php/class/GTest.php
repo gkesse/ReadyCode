@@ -113,7 +113,7 @@ class GTest extends GObject {
         
         // serialize
         $lLog = new GLog();
-        $lLog->addError("La connexion au serveur a échoué.");
+        $lLog->addError("Le serveur n'est pas disponible.");
         $lLog->addData("La taille de la fenêtre est: 1000.");
         $lLog->addLog("Le chargement du module est terminé.");
         $lLog->loadFromMap(3);
@@ -148,7 +148,7 @@ class GTest extends GObject {
         
         // addError - addData - addLog - addLogs
         $lLog = new GLog();
-        $lLog->addError("La connexion au serveur a échoué.");
+        $lLog->addError("Le serveur n'est pas disponible.");
         $lLog->addData("La taille de la fenêtre est: 1000.");
         $lLog->addLog("Le chargement du module est terminé.");
         $this->m_logs->addLogs($lLog);

@@ -35,7 +35,7 @@ public class GServer extends GManager {
             lClient.sendData(m_resp.toString());        	
         }
         else {
-            lClient.sendData("La connexion au serveur a échoué.");        	
+            lClient.sendData("Le serveur n'est pas disponible.");        	
         }
     }        
     //===============================================

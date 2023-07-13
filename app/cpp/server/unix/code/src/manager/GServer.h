@@ -6,6 +6,7 @@
 #include "GHttp.h"
 //===============================================
 class GSocket;
+class GOpenSSL;
 //===============================================
 class GServer : public GManager {
 public:
@@ -15,6 +16,7 @@ public:
     bool isHttp(GString& _data);
     GString toHttp(const GString& _data, const GHttp::eGStatus& _status);
     void sendResponse(GSocket* _socket);
+    void sendResponse(GOpenSSL* _socket);
     void run(GString& _data);
     void runFacade(const GString& _data);
     void runMaster(const GString& _data);

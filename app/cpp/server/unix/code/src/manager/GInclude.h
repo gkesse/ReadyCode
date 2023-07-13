@@ -19,6 +19,10 @@
 #include <sys/stat.h>
 #include <sys/time.h>
 #include <sys/types.h>
+// openssl
+#include <openssl/bio.h>
+#include <openssl/ssl.h>
+#include <openssl/err.h>
 // libxml2
 #include <libxml/parser.h>
 #include <libxml/tree.h>

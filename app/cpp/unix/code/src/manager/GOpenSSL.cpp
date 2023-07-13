@@ -313,7 +313,7 @@ void* GOpenSSL::onThreadCB(void* _params) {
     GOpenSSL* lClient = (GOpenSSL*)_params;
     lClient->acceptSSL();
     lClient->runThreadCB();
-    lClient->closeSSL();
+    lClient->closeSocket();
     delete lClient;
     return 0;
 }
@@ -459,7 +459,7 @@ bool GOpenSSL::runThreadCB() {
     return !m_logs.hasErrors();
 }
 //===============================================
-void GOpenSSL::closeSSL() {
+void GOpenSSL::closeSocket() {
     m_logs.showErrors();
     m_logs.clearMap();
     if(m_ssl) {SSL_free(m_ssl); m_ssl = 0;}

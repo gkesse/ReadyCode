@@ -1,6 +1,7 @@
 //===============================================
 #include "GServer.h"
 #include "GSocket.h"
+#include "GOpenSSL.h"
 #include "GCalculator.h"
 //===============================================
 GServer::GServer()
@@ -60,7 +61,22 @@ void GServer::sendResponse(GSocket* _socket) {
         _socket->sendData(lData);
     }
     else {
-        GString lData = "La connexion au serveur a échoué.";
+        GString lData = "Le serveur n'est pas disponible.";
+        lData = toHttp(lData, GHttp::eGStatus::BadRequest);
+        _socket->sendData(lData);
+    }
+}
+//===============================================
+void GServer::sendResponse(GOpenSSL* _socket) {
+    m_dataLogs.addLogs(_socket->getDataLogs());
+    if(!m_dataLogs.hasErrors()) {
+        m_resp.loadData(m_logs.serialize());
+        GString lData = m_resp.toString();
+        lData = toHttp(lData, GHttp::eGStatus::Ok);
+        _socket->sendData(lData);
+    }
+    else {
+        GString lData = "Le serveur n'est pas disponible.";
         lData = toHttp(lData, GHttp::eGStatus::BadRequest);
         _socket->sendData(lData);
     }

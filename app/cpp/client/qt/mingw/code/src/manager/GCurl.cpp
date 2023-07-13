@@ -18,7 +18,7 @@ int GCurl::toPort() const {
 //===============================================
 bool GCurl::checkErrors(const GString& _data) {
     if(m_dataLogs.hasErrors()) {
-        m_logs.addError("La connexion au serveur a échoué.");
+        m_logs.addError("Le serveur n'est pas disponible.");
         return false;
     }
     m_logs.deserialize(_data);
@@ -86,7 +86,7 @@ GString GCurl::postHttp(const GString& _dataIn) {
     CURLcode lCurlOk = curl_easy_perform(lCurl);
 
     if(lCurlOk != CURLE_OK) {
-        m_dataLogs.addError(sformat("La connexion au serveur a échoué.\n%s", curl_easy_strerror(lCurlOk)));
+        m_dataLogs.addError(sformat("Le serveur n'est pas disponible.\n%s", curl_easy_strerror(lCurlOk)));
         return "";
     }
 

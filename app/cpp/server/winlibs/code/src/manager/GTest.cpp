@@ -52,7 +52,7 @@ void GTest::runLog(int _argc, char** _argv) {
     GLog lLogC;
 
     // addError - addData - addLog - addLogs - serialize
-    lLog.addError("La connexion au serveur a échoué.");
+    lLog.addError("Le serveur n'est pas disponible.");
     lLog.addData("La résolution de l'écran est :  1200 x 970.");
     lLog.addLog("Le chargement du module est terminé.");
     lLog.loadFromMap(2);
@@ -76,7 +76,7 @@ void GTest::runXml(int _argc, char** _argv) {
     lDomC.addData("code", "logs");
     lDomC.addData("type", "error");
     lDomC.addData("side", "server_cpp");
-    lDomC.addData("msg", "La connexion au serveur a échoué.");
+    lDomC.addData("msg", "Le serveur n'est pas disponible.");
     lDom.toString().print();
 
     // getNode - toNode
@@ -119,7 +119,7 @@ void GTest::runSocket(int _argc, char** _argv) {
     GLog lLog;
 
     // callFacade
-    lLog.addError("La connexion au serveur a échoué.");
+    lLog.addError("Le serveur n'est pas disponible.");
     lLog.addData("La résolution de l'écran est :  1200 x 970.");
     lLog.addLog("Le chargement du module est terminé.");
     lLog.loadFromMap(2);

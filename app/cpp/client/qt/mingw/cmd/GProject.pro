@@ -6,7 +6,7 @@ MOC_DIR = build
 UI_DIR = build
 RCC_DIR = build
 CONFIG += console debug gnu++11
-QT += widgets printsupport xml
+QT += widgets printsupport
 
 QMAKE_CXXFLAGS +=\
     -Wno-unused-parameter \
@@ -19,7 +19,7 @@ INCLUDEPATH +=\
 
 LIBS +=\
     -L..\code\src\libs\lib \
-    -lws2_32 -lxml2 -lcurl -lb64c -lbase64 \
+    -lws2_32 -lxml2 -lcurl -lssl -lcrypto -lb64c -lbase64 \
 
 
 SOURCES +=\

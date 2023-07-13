@@ -64,7 +64,7 @@ run_g:
 clean_exe: 
 	@if ! [ -d $(GBIN) ] ; then mkdir -p $(GBIN) ; fi
 	rm -f $(GTARGET)
-clean: 
+clean: clean_g
 	@if ! [ -d $(GBIN) ] ; then mkdir -p $(GBIN) ; fi
 	@if ! [ -d $(GBUILD) ] ; then mkdir -p $(GBUILD) ; fi
 	rm -f $(GBUILD)/* $(GTARGET)

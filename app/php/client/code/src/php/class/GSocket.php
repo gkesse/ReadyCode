@@ -48,7 +48,7 @@ class GSocket extends GObject {
         $this->m_socket = @stream_socket_client($lAddress, $lErrno, $lErrstr, 30);
 
         if(!$this->m_socket) {
-            $this->m_logs->addError("La connexion au serveur a échoué.");
+            $this->m_logs->addError("Le serveur n'est pas disponible.");
             return;
         }
         

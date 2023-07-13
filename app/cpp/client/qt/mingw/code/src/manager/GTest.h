@@ -10,6 +10,7 @@ public:
     ~GTest();
     void run(int _argc, char** _argv);
     void runCurl(int _argc, char** _argv);
+    void runOpenSSL(int _argc, char** _argv);
 };
 //===============================================
 #endif

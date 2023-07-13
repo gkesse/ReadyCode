@@ -11,6 +11,10 @@ typedef unsigned char uchar;
 // socket
 #include <winsock2.h>
 #include <ws2tcpip.h>
+// openssl
+#include <openssl/bio.h>
+#include <openssl/ssl.h>
+#include <openssl/err.h>
 // libxml2
 #include <libxml/parser.h>
 #include <libxml/tree.h>

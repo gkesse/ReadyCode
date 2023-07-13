@@ -19,18 +19,24 @@ int GSocket::toPort() const {
 //===============================================
 void GSocket::checkErrors(GString& _data) {
     if(m_dataLogs.hasErrors()) {
-        m_logs.addError("La connexion au serveur a échoué.");
+        m_logs.addError("Le serveur n'est pas disponible.");
     }
     else if(!_data.isEmpty()) {
         GCode lDom;
         if(!lDom.loadXml(_data)) {
-            m_logs.addErrorSrv("La connexion au serveur a échoué.");
+            m_logs.addErrorSrv("Le serveur n'est pas disponible.");
             _data = "";
         }
     }
 }
 //===============================================
 GString GSocket::callServer(const GString& _dataIn) {
+    GString lData = callSocket(_dataIn);
+    checkErrors(lData);
+    return lData;
+}
+//===============================================
+GString GSocket::callSocket(const GString& _dataIn) {
     int lMajor = 2;
     int lMinor = 2;
     GString lHostname = "readydev.ovh";
@@ -40,14 +46,14 @@ GString GSocket::callServer(const GString& _dataIn) {
     WSADATA lWsaData;
 
     if(WSAStartup(MAKEWORD(lMajor, lMinor), &lWsaData) == SOCKET_ERROR) {
-        m_dataLogs.addError("L'initialisation des données socket a échoué.");
+        m_dataLogs.addError("Les données socket ne sont pas initialisées.");
         return "";
     }
 
     SOCKET lClient = socket(AF_INET, SOCK_STREAM, 0);
 
     if(lClient == INVALID_SOCKET) {
-        m_dataLogs.addError("La création du socket a échoué.");
+        m_dataLogs.addError("Le socket n'est pas initialisé.");
         return "";
     }
 
@@ -65,14 +71,14 @@ GString GSocket::callServer(const GString& _dataIn) {
             lAddrsOk = getaddrinfo(lHostname.c_str(), NULL, &lHint, &lAddrs);
 
             if(lAddrsOk == SOCKET_ERROR) {
-                m_dataLogs.addError("Le traitement du nom de domaine a échoué.");
+                m_dataLogs.addError("Le nom de domaine n'est pas traité.");
                 return "";
             }
 
             lHostname = inet_ntoa(((sockaddr_in *)lAddrs->ai_addr)->sin_addr);
         }
         else {
-            m_dataLogs.addError("Le traitement du nom de domaine a échoué.");
+            m_dataLogs.addError("Le nom de domaine n'est pas traité.");
             return "";
         }
     }
@@ -106,7 +112,6 @@ GString GSocket::callFacade(const GString& _module, const GString& _method, cons
     lDom.addData("manager", "method", _method);
     lDom.loadData(_data);
     GString lData = callServer(lDom.toString());
-    checkErrors(lData);
     return lData;
 }
 //===============================================

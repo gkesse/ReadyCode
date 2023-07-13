@@ -13,11 +13,19 @@ GProcess::~GProcess() {
 }
 //===============================================
 void GProcess::init() {
+    // system
     SetConsoleOutputCP(CP_UTF8);
+    // libxml2
     xmlInitParser();
+    // openssl
+    SSL_library_init();
+    OpenSSL_add_all_algorithms();
+    SSL_load_error_strings();
+
 }
 //===============================================
 void GProcess::clean() {
+    // libxml2
     xmlCleanupParser();
     xmlMemoryDump();
 }

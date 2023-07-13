@@ -60,7 +60,7 @@ void GServer::sendResponse(GSocket* _socket) {
         _socket->sendData(lData);
     }
     else {
-        GString lData = "La connexion au serveur a échoué.";
+        GString lData = "Le serveur n'est pas disponible.";
         lData = toHttp(lData, GHttp::eGStatus::BadRequest);
         _socket->sendData(lData);
     }

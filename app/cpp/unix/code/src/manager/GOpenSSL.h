@@ -50,7 +50,7 @@ public:
     static int onPeerClientCB(int _preverifyOk, X509_STORE_CTX* _ctx);
     bool acceptSSL();
     bool runThreadCB();
-    void closeSSL();
+    void closeSocket();
     void cleanSSL();
 
 private:

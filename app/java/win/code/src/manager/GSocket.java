@@ -27,12 +27,12 @@ public class GSocket extends GObject {
     //===============================================
     public void checkErrors(String _data) {
     	if(m_srvLogs.hasErrors()) {
-    		m_logs.addError("La connexion au serveur a échoué.");
+    		m_logs.addError("Le serveur n'est pas disponible.");
     	}
     	else if(!_data.isEmpty()) {
     		GCode lDom = new GCode();
     		if(!lDom.loadXml(_data)) {
-        		m_logs.addError("La connexion au serveur a échoué.");
+        		m_logs.addError("Le serveur n'est pas disponible.");
     		}
     	}
     }
@@ -150,11 +150,11 @@ public class GSocket extends GObject {
             closeSocket();
         }
         catch(Exception e) {
-        	m_srvLogs.addError("La connexion au serveur a échoué.");
+        	m_srvLogs.addError("Le serveur n'est pas disponible.");
         }
         
         if(m_srvLogs.hasErrors()) {
-        	m_logs.addError("La connexion au serveur a échoué.");
+        	m_logs.addError("Le serveur n'est pas disponible.");
         }
         
         return lDataOut;

@@ -52,7 +52,7 @@ class GTest(GObject):
         lString = GString()
         
         # addError - addLog - addData - loadFromMap - print
-        lLog.addError("La connexion au serveur a échoué.")
+        lLog.addError("Le serveur n'est pas disponible.")
         lLog.addLog("Le module de supervision est chargé.")
         lLog.addData("La résolution de l'écran est 1200x976.")
         lLog.loadFromMap(1)
@@ -78,7 +78,7 @@ class GTest(GObject):
         lDomC2.addData("code", "logs")
         lDomC2.addData("type", "error")
         lDomC2.addData("side", "server_py")
-        lDomC2.addData("msg", "La connexion au serveur a échoué.")
+        lDomC2.addData("msg", "Le serveur n'est pas disponible.")
         lDom.print()
         
         # createNode
@@ -100,7 +100,7 @@ class GTest(GObject):
         lDom.createCode("logs")
         lDom.addDatas("logs", "type", "error")
         lDom.addDatas("logs", "side", "server_py")
-        lDom.addDatas("logs", "msg", "La connexion au serveur a échoué.")
+        lDom.addDatas("logs", "msg", "Le serveur n'est pas disponible.")
         lDom.print()
     #================================================
     def runSocketClient(self):
@@ -111,7 +111,7 @@ class GTest(GObject):
     def runFacade(self):
         # data
         lLog = GLog()
-        lLog.addError("La connexion au serveur a échoué.")
+        lLog.addError("Le serveur n'est pas disponible.")
         lLog.addLog("Le module de supervision est chargé.")
         lLog.addData("La résolution de l'écran est 1200x976.")
         lLog.loadFromMap(1)

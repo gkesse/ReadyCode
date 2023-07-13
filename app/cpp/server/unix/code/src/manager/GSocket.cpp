@@ -36,12 +36,12 @@ int GSocket::toPortCpp() const {
 //===============================================
 void GSocket::checkErrors(GString& _data) {
     if(m_dataLogs.hasErrors()) {
-        m_logs.addError("La connexion au serveur a échoué.");
+        m_logs.addError("Le serveur n'est pas disponible.");
     }
     else if(!_data.isEmpty()) {
         GCode lDom;
         if(!lDom.loadXml(_data)) {
-            m_logs.addError("La connexion au serveur a échoué.");
+            m_logs.addError("Le serveur n'est pas disponible.");
             _data = "";
         }
     }

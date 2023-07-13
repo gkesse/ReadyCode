@@ -70,7 +70,7 @@ public class GTest extends GObject {
         lDom.createCode("logs");
         lDom.addData("logs", "type", "error");
         lDom.addData("logs", "side", "server_java");
-        lDom.addData("logs", "msg", "La connexion au serveur a échoué.");
+        lDom.addData("logs", "msg", "Le serveur n'est pas disponible.");
         lDom.addData("logs", "type", "log");
         lDom.print();
     }
@@ -80,7 +80,7 @@ public class GTest extends GObject {
         GLog lLogC = new GLog();
         
         // addError - createCode - addData - print
-        lLog.addError("La connexion au serveur a échoué.");
+        lLog.addError("Le serveur n'est pas disponible.");
         lLog.addLog("Le module a été chargé.");
         lLog.addData("La résolution de l'appareil est : 970 x 1250.");
         lLog.loadFromMap(3);
