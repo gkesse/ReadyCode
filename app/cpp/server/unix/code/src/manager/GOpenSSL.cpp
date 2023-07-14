@@ -245,16 +245,6 @@ void* GOpenSSL::onThreadCB(void* _params) {
     return 0;
 }
 //===============================================
-int GOpenSSL::onPasswordCB(char* _buf, int _size, int _rwflag, void* _password) {
-    strncpy(_buf, (char*)(_password), _size);
-    _buf[_size - 1] = '\0';
-    return (int)strlen(_buf);
-}
-//===============================================
-int GOpenSSL::onVerifyCB(int preverify_ok, X509_STORE_CTX *ctx) {
-    return 0;
-}
-//===============================================
 GString GOpenSSL::callSocket(const GString& _dataIn, const GString& _facade) {
     GString lHostname = toHostname(_facade);
     int lPort = toPort(_facade);

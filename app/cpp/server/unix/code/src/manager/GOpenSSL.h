@@ -19,8 +19,6 @@ public:
     void runServer();
     void runSocket();
     static void* onThreadCB(void* _params);
-    static int onPasswordCB(char* _buf, int _size, int _rwflag, void* _password);
-    static int onVerifyCB(int preverify_ok, X509_STORE_CTX *ctx);
     GString callSocket(const GString& _data, const GString& _facade = "facade");
     GString callServer(const GString& _data, const GString& _facade = "facade");
     GString callFacade(const GString& _module, const GString& _method, const GString& _data = "");
