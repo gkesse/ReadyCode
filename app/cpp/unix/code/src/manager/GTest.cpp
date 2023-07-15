@@ -42,7 +42,7 @@ void GTest::run(int _argc, char** _argv) {
         runOpenSSL(_argc, _argv);
     }
     else if(lModule == "string") {
-        runTest(_argc, _argv);
+        runString(_argc, _argv);
     }
     else {
         m_logs.addError("Le module est inconnu.");
@@ -85,7 +85,7 @@ void GTest::runOpenSSL(int _argc, char** _argv) {
     m_logs.addLogs(lTest.getLogs());
 }
 //===============================================
-void GTest::runTest(int _argc, char** _argv) {
+void GTest::runString(int _argc, char** _argv) {
     GStringTest lTest;
     lTest.run(_argc, _argv);
     m_logs.addLogs(lTest.getLogs());

@@ -5,6 +5,7 @@
 #include "GXml.h"
 #include "GCode.h"
 #include "GSocket.h"
+#include "GMySQL.h"
 //===============================================
 GTest::GTest()
 : GObject() {
@@ -19,8 +20,11 @@ void GTest::run(int _argc, char** _argv) {
     GString lMethod = "";
     if(_argc > 2) lMethod = _argv[2];
 
-    if(lMethod == "string") {
-        runTest(_argc, _argv);
+    if(lMethod == "") {
+        m_logs.addError("La méthode est obligatoire.");
+    }
+    else if(lMethod == "string") {
+        runString(_argc, _argv);
     }
     else if(lMethod == "log") {
         runLog(_argc, _argv);
@@ -34,9 +38,18 @@ void GTest::run(int _argc, char** _argv) {
     else if(lMethod == "socket_client") {
         runSocket(_argc, _argv);
     }
+    else if(lMethod == "mysql") {
+        runMySQL(_argc, _argv);
+    }
+    else if(lMethod == "datetime") {
+        runDatetime(_argc, _argv);
+    }
+    else {
+        m_logs.addError("La méthode est inconnue.");
+    }
 }
 //===============================================
-void GTest::runTest(int _argc, char** _argv) {
+void GTest::runString(int _argc, char** _argv) {
     printf("%s...\n", __FUNCTION__);
 
     // copie - affectation
@@ -125,5 +138,85 @@ void GTest::runSocket(int _argc, char** _argv) {
     lLog.loadFromMap(2);
     GString lData = lClient.callFacade("logs", "save_logs", lLog.serialize());
     lData.print();
+}
+//===============================================
+void GTest::runMySQL(int _argc, char** _argv) {
+    printf("%s...\n", __FUNCTION__);
+    GMySQL dbSQL;
+    GString lData = dbSQL.readData(sformat(""
+            " SELECT table_name "
+            " FROM information_schema.tables "
+            " WHERE table_schema = '%s' "
+            "", dbSQL.toDatabase().c_str()
+    ));
+    m_logs.addLogs(dbSQL.getLogs());
+    lData.print();
+}
+//===============================================
+void GTest::runDatetime(int _argc, char** _argv) {
+    printf("%s...\n", __FUNCTION__);
+
+    // date courante
+    {
+        jed_utils::datetime dtTest = jed_utils::datetime();
+        printf("date courante : %s\n", dtTest.to_shortdate_string().c_str());
+        printf("date courante : %s\n", dtTest.to_string().c_str());
+    }
+
+    // constructeur
+    printf("constructeur : %s\n", jed_utils::datetime(2016, 11, 25).to_string().c_str());
+    printf("constructeur : %s\n", jed_utils::datetime(2016, 11, 25, 20, 12, 44).to_string().c_str());
+
+    // PM
+    {
+        jed_utils::datetime dtTest = jed_utils::datetime(2016, 11, 25, 4, 12, 44, jed_utils::period::PM);
+        printf("PM : %s\n", dtTest.to_string().c_str());
+    }
+
+    // ajouter 1 semaine (7 jours)
+    {
+        jed_utils::datetime dtTest(2016, 11, 25, 20, 12, 44);
+        dtTest.add_days(7);
+        printf("ajouter 1 semaine (7 jours) : %s\n", dtTest.to_string().c_str());
+    }
+
+    // soustraire 1 semaine (7 jours)
+    {
+        jed_utils::datetime dtTest(2016, 11, 25, 20, 12, 44);
+        dtTest.add_days(-7);
+        printf("soustraire 1 semaine (7 jours) : %s\n", dtTest.to_string().c_str());
+    }
+
+    // jour de la semaine
+    {
+        jed_utils::datetime dtTest(2016, 11, 25, 20, 12, 44);
+        printf("jour de la semaine : %d\n", dtTest.get_weekday());
+    }
+
+    // formater
+    {
+        jed_utils::datetime dtTest(2016, 11, 25, 20, 12, 44);
+        printf("formater : %s\n", dtTest.to_string("yyyy-MM-dd hh:mm:ss tt").c_str());
+    }
+
+    // parser
+    {
+        jed_utils::datetime dtTest = jed_utils::datetime::parse(std::string("yyyy/MM/dd HH:mm:ss"), std::string("2016-08-18 23:14:42"));
+        printf("parse : %s\n", dtTest.to_string().c_str());
+    }
+
+    // temps écoulé
+    {
+        jed_utils::timespan ts(0, 1, 3, 15);
+        printf("temps écoulé : %d\n", ts.get_total_minutes());
+    }
+
+    // temps écoulé
+    {
+        jed_utils::datetime date1(2016, 11, 25);
+        jed_utils::datetime date2(2016, 12, 5);
+        jed_utils::timespan ts1 = date2 - date1;
+        printf("temps écoulé : %d\n", ts1.get_total_seconds());
+    }
 }
 //===============================================

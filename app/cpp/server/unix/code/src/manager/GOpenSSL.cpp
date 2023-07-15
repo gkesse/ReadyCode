@@ -39,8 +39,7 @@ int GOpenSSL::toPort(const GString& _facade) const {
 }
 //===============================================
 int GOpenSSL::toPortCpp() const {
-    GString lEnv = getEnv("GPROJECT_ENV");
-    if(lEnv == "TEST") return 9011;
+    if(isTestEnv()) return 9011;
     return 9010;
 }
 //===============================================

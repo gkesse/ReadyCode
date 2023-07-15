@@ -13,20 +13,17 @@ public:
     typedef std::vector<GRows> GMaps;
 
 public:
-    GMySQL(bool _hasLog = true);
+    GMySQL();
     ~GMySQL();
     static GMySQL* Instance();
-    void initMySQL();
-    void setAction(const GString& _action);
-    void setSql(const GString& _sql);
+    GString toDatabase() const;
+    int getId() const;
     GString convertZeroToNull(int _data);
-    bool openDatabase();
+    int getColumnCount(std::shared_ptr<sql::ResultSet>& _resultSet) const;
+    bool openDatabase(std::shared_ptr<sql::Connection>& _conn);
     bool execQuery(const GString& _sql);
-    bool run();
-    bool runWrite();
-    bool readQuery();
-    int getColumnCount() const;
-    int getId();
+    bool insertQuery(const GString& _sql);
+    bool readQuery(const GString& _sql, std::shared_ptr<sql::ResultSet>& _resultSet);
     GString readData(const GString& _sql);
     GRows readCol(const GString& _sql);
     GRows readRow(const GString& _sql);
@@ -34,20 +31,7 @@ public:
 
 private:
     static GMySQL* m_instance;
-    sql::Driver* m_driver;
-    std::shared_ptr<sql::Connection> m_con;
-    std::shared_ptr<sql::Statement> m_stmt;
-    std::shared_ptr<sql::ResultSet> m_res;
-
-    GString m_action;
-    GString m_sql;
-    GString m_protocol;
-    GString m_hostname;
-    GString m_username;
-    GString m_password;
-    GString m_database;
-    int m_port;
-    bool m_hasLog;
+    int m_id;
 };
 //==============================================
 #endif

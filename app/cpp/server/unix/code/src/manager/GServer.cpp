@@ -3,6 +3,7 @@
 #include "GSocket.h"
 #include "GOpenSSL.h"
 #include "GCalculator.h"
+#include "GUser.h"
 //===============================================
 GServer::GServer()
 : GManager() {
@@ -119,6 +120,9 @@ void GServer::runMaster(const GString& _data) {
     else if(m_module == "calculator") {
         runCalculator(_data);
     }
+    else if(m_module == "user") {
+        runUser(_data);
+    }
     else {
         m_logs.addError("Le module est inconnu.");
     }
@@ -126,6 +130,13 @@ void GServer::runMaster(const GString& _data) {
 //===============================================
 void GServer::runCalculator(const GString& _data) {
     GCalculator lObj;
+    lObj.run(_data);
+    m_logs.addLogs(lObj.getLogs());
+    m_resp.loadData(lObj.serialize());
+}
+//===============================================
+void GServer::runUser(const GString& _data) {
+    GUser lObj;
     lObj.run(_data);
     m_logs.addLogs(lObj.getLogs());
     m_resp.loadData(lObj.serialize());

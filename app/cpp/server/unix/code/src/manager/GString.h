@@ -10,6 +10,7 @@
 class GString {
 public:
     GString();
+    GString(int _data);
     GString(const char* _data, int _size);
     GString(const char* _data);
     GString(const std::string& _data);
@@ -29,12 +30,15 @@ public:
     bool startsWith(const GString& _data) const;
     bool endsWith(const GString& _data) const;
 
+    int toInt() const;
     GString toUtf8() const;
+    GString toMd5() const;
     GString toBase64() const;
     GString fromBase64() const;
 
     void print() const;
 
+    GString& operator=(int _data);
     GString& operator=(const char* _data);
     GString& operator=(const std::string& _data);
     GString& operator=(const std::vector<char>& _data);

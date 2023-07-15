@@ -105,7 +105,7 @@ bool GMySQL::run() {
         runWrite();
     }
     else if(m_action == "read") {
-        runRead();
+        readQuery();
     }
     else {
         m_logs.addError("L'action est inconnue.");
@@ -132,7 +132,7 @@ bool GMySQL::runWrite() {
     return !m_logs.hasErrors();
 }
 //===============================================
-bool GMySQL::runRead() {
+bool GMySQL::readQuery() {
     try {
         if(!openDatabase()) return false;
         m_stmt.reset(m_con->createStatement());

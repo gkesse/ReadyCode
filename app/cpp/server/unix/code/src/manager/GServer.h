@@ -21,6 +21,7 @@ public:
     void runFacade(const GString& _data);
     void runMaster(const GString& _data);
     void runCalculator(const GString& _data);
+    void runUser(const GString& _data);
 
 private:
     bool m_isHttp;

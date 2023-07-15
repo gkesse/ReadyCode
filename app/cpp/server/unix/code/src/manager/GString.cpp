@@ -8,6 +8,12 @@ GString::GString() {
     m_size = 0;
 }
 //===============================================
+GString::GString(int _data) {
+    int lSize = snprintf(0, 0, "%d", _data);
+    create(lSize);
+    snprintf(m_data, m_size + 1, "%d", _data);
+}
+//===============================================
 GString::GString(const char* _data, int _size) {
     create(_data, _size);
 }
@@ -111,6 +117,18 @@ bool GString::endsWith(const GString& _data) const {
     return (lDataIn.compare(m_size - _data.m_size, _data.m_size, lDataOut) == 0);
 }
 //===============================================
+int GString::toInt() const {
+    if(isEmpty()) return 0;
+    int lData = 0;
+    try {
+        lData = std::stoi(m_data);
+    }
+    catch(const std::exception& e) {
+        lData = 0;
+    }
+    return lData;
+}
+//===============================================
 GString GString::toUtf8() const {
     if(isEmpty()) return "";
     char* lBufIn = m_data;
@@ -135,6 +153,13 @@ GString GString::toUtf8() const {
     return lData;
 }
 //===============================================
+GString GString::toMd5() const {
+    if(isEmpty()) return "";
+    MD5 lMd5;
+    GString lData = lMd5(m_data);
+    return lData;
+}
+//===============================================
 GString GString::toBase64() const {
     if(isEmpty()) return "";
     char* lBuffer = b64_encode((const unsigned char*)m_data, m_size);
@@ -153,6 +178,14 @@ GString GString::fromBase64() const {
 //===============================================
 void GString::print() const {
     printf("%s\n", m_data);
+}
+//===============================================
+GString& GString::operator=(int _data) {
+    clear();
+    int lSize = snprintf(0, 0, "%d", _data);
+    create(lSize);
+    snprintf(m_data, m_size + 1, "%d", _data);
+    return *this;
 }
 //===============================================
 GString& GString::operator=(const char* _data) {

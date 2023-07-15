@@ -49,6 +49,12 @@ GString GObject::getPath(const GString& _path) const {
     return lPath;
 }
 //===============================================
+bool GObject::isTestEnv() const {
+    GString lEnv = getEnv("GPROJECT_ENV");
+    if(lEnv == "TEST") return true;
+    return false;
+}
+//===============================================
 GObject* GObject::clone() const {return new GObject;}
 GString GObject::serialize(const GString& _code) const {return "";}
 void GObject::deserialize(const GString& _data, const GString& _code) {}
