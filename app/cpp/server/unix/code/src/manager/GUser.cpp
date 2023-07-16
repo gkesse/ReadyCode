@@ -56,8 +56,8 @@ void GUser::loadUser() {
         m_id = lDataRow.at(j++).toInt();
         m_pseudo = lDataRow.at(j++);
         m_email = lDataRow.at(j++);
-        m_createDate = lDataRow.at(j++);
-        m_updateDate = lDataRow.at(j++);
+        m_createDate = lDataRow.at(j++).toDateTime();
+        m_updateDate = lDataRow.at(j++).toDateTime();
         break;
     }
 }
@@ -96,8 +96,8 @@ GString GUser::serialize(const GString& _code) const {
     lDom.addData(_code, "pseudo", m_pseudo);
     lDom.addData(_code, "password", m_password);
     lDom.addData(_code, "email", m_email);
-    lDom.addData(_code, "create_date", m_createDate);
-    lDom.addData(_code, "update_date", m_updateDate);
+    lDom.addData(_code, "create_date", m_createDate.toString());
+    lDom.addData(_code, "update_date", m_updateDate.toString());
     lDom.addMap(_code, m_map);
     return lDom.toString();
 }
@@ -110,8 +110,8 @@ void GUser::deserialize(const GString& _data, const GString& _code) {
     m_pseudo = lDom.getData(_code, "pseudo");
     m_password = lDom.getData(_code, "password");
     m_email = lDom.getData(_code, "email");
-    m_createDate = lDom.getData(_code, "create_date");
-    m_updateDate = lDom.getData(_code, "update_date");
+    m_createDate = lDom.getData(_code, "create_date").toDateTime();
+    m_updateDate = lDom.getData(_code, "update_date").toDateTime();
     lDom.getMap(_code, m_map, this);
 }
 //===============================================

@@ -6,6 +6,7 @@
 #include "GCode.h"
 #include "GSocket.h"
 #include "GMySQL.h"
+#include "GDateTime.h"
 //===============================================
 GTest::GTest()
 : GObject() {
@@ -217,6 +218,40 @@ void GTest::runDatetime(int _argc, char** _argv) {
         jed_utils::datetime date2(2016, 12, 5);
         jed_utils::timespan ts1 = date2 - date1;
         printf("temps écoulé : %d\n", ts1.get_total_seconds());
+    }
+
+    // empty
+    {
+        jed_utils::datetime dtTest = jed_utils::datetime::parse(std::string("yyyy/MM/dd HH:mm:ss"), std::string("2016-08-18 23:14:42"));
+        printf("parse : %s\n", dtTest.to_string().c_str());
+    }
+
+    // GDateTime
+    {
+        GDateTime dtTest;
+        printf("GDateTime : %s\n", dtTest.toString().c_str());
+    }
+
+    // GDateTime
+    {
+        GDateTime dtTest;
+        printf("GDateTime : %s\n", dtTest.to_string().c_str());
+    }
+
+    // GDateTime
+    {
+        GDateTime dtTest;
+        dtTest.toParse("2016-08-18 23:14:42");
+        printf("GDateTime : %s\n", dtTest.toString().c_str());
+    }
+
+    // GDateTime
+    {
+        GDateTime dtTest;
+        dtTest.toParse("0000-00-00 00:00:00");
+        printf("GDateTime : %s\n", dtTest.toString().c_str());
+        GDateTime dtTest2 = dtTest;
+        printf("GDateTime : %s\n", dtTest2.toString().c_str());
     }
 }
 //===============================================

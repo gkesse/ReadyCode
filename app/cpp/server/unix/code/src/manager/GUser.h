@@ -28,8 +28,8 @@ protected:
     GString m_pseudo;
     GString m_password;
     GString m_email;
-    GString m_createDate;
-    GString m_updateDate;
+    GDateTime m_createDate;
+    GDateTime m_updateDate;
 };
 //===============================================
 #endif

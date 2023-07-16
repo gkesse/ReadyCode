@@ -9,7 +9,9 @@ GSocket::GSocket()
 }
 //===============================================
 GSocket::~GSocket() {
-
+    if(m_socket != -1) {
+        close(m_socket);
+    }
 }
 //===============================================
 GString GSocket::toHostname(const GString& _facade) const {

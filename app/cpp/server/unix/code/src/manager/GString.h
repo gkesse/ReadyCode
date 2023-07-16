@@ -7,6 +7,8 @@
 #define GSTRING     GString::Instance()
 #define sformat     GSTRING->getFormat
 //===============================================
+class GDateTime;
+//===============================================
 class GString {
 public:
     GString();
@@ -31,6 +33,7 @@ public:
     bool endsWith(const GString& _data) const;
 
     int toInt() const;
+    GDateTime toDateTime() const;
     GString toUtf8() const;
     GString toMd5() const;
     GString toBase64() const;

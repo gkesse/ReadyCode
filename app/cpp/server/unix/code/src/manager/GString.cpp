@@ -1,5 +1,6 @@
 //===============================================
 #include "GString.h"
+#include "GDateTime.h"
 //===============================================
 GString* GString::m_instance = 0;
 //===============================================
@@ -126,6 +127,13 @@ int GString::toInt() const {
     catch(const std::exception& e) {
         lData = 0;
     }
+    return lData;
+}
+//===============================================
+GDateTime GString::toDateTime() const {
+    GDateTime lData;
+    if(isEmpty()) return lData;
+    lData.toParse(m_data);
     return lData;
 }
 //===============================================
