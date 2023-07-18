@@ -32,7 +32,7 @@ void GTest::run(int _argc, char** _argv) {
 //===============================================
 void GTest::runCurl(int _argc, char** _argv) {
     GCurl lCurl;
-    GString lData = lCurl.postHttpFacade("calculator", "run_calculator");
+    GString lData = lCurl.postHttpsFormFacade("calculator", "run_calculator");
     m_logs.addLogs(lCurl.getLogs());
     if(!m_logs.hasErrors()) {
         m_logs.addData(lData);

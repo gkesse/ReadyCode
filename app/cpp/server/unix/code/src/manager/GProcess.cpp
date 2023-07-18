@@ -20,12 +20,16 @@ void GProcess::init() {
     SSL_library_init();
     OpenSSL_add_all_algorithms();
     SSL_load_error_strings();
+    // curl
+    curl_global_init(CURL_GLOBAL_ALL);
 }
 //===============================================
 void GProcess::clean() {
     // libxml2
     xmlCleanupParser();
     xmlMemoryDump();
+    // curl
+    curl_global_cleanup();
 }
 //===============================================
 void GProcess::run(int _argc, char** _argv) {

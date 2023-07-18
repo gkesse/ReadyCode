@@ -7,6 +7,8 @@
 #include "GSocket.h"
 #include "GMySQL.h"
 #include "GDateTime.h"
+#include "GCurl.h"
+#include "GEmail.h"
 //===============================================
 GTest::GTest()
 : GObject() {
@@ -44,6 +46,12 @@ void GTest::run(int _argc, char** _argv) {
     }
     else if(lMethod == "datetime") {
         runDatetime(_argc, _argv);
+    }
+    else if(lMethod == "curl") {
+        runCurl(_argc, _argv);
+    }
+    else if(lMethod == "email") {
+        runEmail(_argc, _argv);
     }
     else {
         m_logs.addError("La méthode est inconnue.");
@@ -252,6 +260,53 @@ void GTest::runDatetime(int _argc, char** _argv) {
         printf("GDateTime : %s\n", dtTest.toString().c_str());
         GDateTime dtTest2 = dtTest;
         printf("GDateTime : %s\n", dtTest2.toString().c_str());
+    }
+}
+//===============================================
+void GTest::runCurl(int _argc, char** _argv) {
+    printf("%s...\n", __FUNCTION__);
+    GCurl lCurl;
+    GString lData = lCurl.postHttpsFormFacade("calculator", "run_calculator");
+    m_logs.addLogs(lCurl.getLogs());
+    if(!m_logs.hasErrors()) {
+        m_logs.addData(lData);
+    }
+}
+//===============================================
+void GTest::runEmail(int _argc, char** _argv) {
+    printf("%s...\n", __FUNCTION__);
+    GString lAction = "no_reply";
+
+    if(lAction == "") {
+        m_logs.addError("L'action est obligatoire.");
+    }
+    else if(lAction == "reply") {
+        GEmail lEmail;
+        lEmail.setSubject("Salutations (Cpp)");
+        lEmail.setBody("Voici mon premier email (Cpp).");
+        lEmail.getTo().addAddr("kernelly.blavatsky@outlook.fr", "Kernelly BLAVASKY");
+        lEmail.sendEmail();
+        m_logs.addLogs(lEmail.getLogs());
+        if(!m_logs.hasErrors()) {
+            m_logs.addData(lEmail.serialize());
+        }
+    }
+    else if(lAction == "no_reply") {
+        GEmail lEmail;
+        lEmail.setSubject("Salutations (Cpp-No-Reply)");
+        lEmail.setBody("Voici mon premier email (Cpp-No-Reply).");
+        lEmail.getTo().addAddr("kernelly.blavatsky@outlook.fr", "Kernelly BLAVASKY");
+        lEmail.setNoReply();
+        lEmail.getCC().addAddr("adyoboue@outlook.fr", "Deborah YOUBOUE");
+        lEmail.getBCC().addAddr("tiakagerard@hotmail.com", "Gérard KESSE");
+        lEmail.sendEmail();
+        m_logs.addLogs(lEmail.getLogs());
+        if(!m_logs.hasErrors()) {
+            m_logs.addData(lEmail.serialize());
+        }
+    }
+    else {
+        m_logs.addError("L'action est inconnue.");
     }
 }
 //===============================================

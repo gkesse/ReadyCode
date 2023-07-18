@@ -10,8 +10,8 @@ public:
     ~GCurl();
     int toPort() const;
     bool checkErrors(const GString& _data);
-    GString postHttpFacade(const GString& _module, const GString& _method, const GString& _data = "");
-    GString postHttp(const GString& _dataIn);
+    GString postHttpsFormFacade(const GString& _module, const GString& _method, const GString& _data = "");
+    GString postHttpsForm(const GString& _dataIn);
     static int onWrite(char* _data, size_t _size, size_t _nmemb, std::string* _writerData);
 
 private:

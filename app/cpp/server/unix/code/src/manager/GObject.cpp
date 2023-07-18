@@ -55,6 +55,10 @@ bool GObject::isTestEnv() const {
     return false;
 }
 //===============================================
+void GObject::print() const {
+    printf("%s\n", serialize().c_str());
+}
+//===============================================
 GObject* GObject::clone() const {return new GObject;}
 GString GObject::serialize(const GString& _code) const {return "";}
 void GObject::deserialize(const GString& _data, const GString& _code) {}

@@ -23,6 +23,7 @@ public:
     virtual GString getEnv(const GString& _env, const GString& _defaultValue = "") const;
     virtual GString getPath(const GString& _path) const;
     bool isTestEnv() const;
+    void print() const;
     virtual GString serialize(const GString& _code = "object") const;
     virtual void deserialize(const GString& _data, const GString& _code = "object");
 

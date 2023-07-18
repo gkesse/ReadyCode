@@ -50,6 +50,8 @@
 // httpparser
 #include <httpparser/request.h>
 #include <httpparser/httprequestparser.h>
+// curl
+#include <curl/curl.h>
 //===============================================
 #endif
 //===============================================

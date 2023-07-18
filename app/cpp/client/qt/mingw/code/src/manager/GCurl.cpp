@@ -25,7 +25,7 @@ bool GCurl::checkErrors(const GString& _data) {
     return !m_logs.hasErrors();
 }
 //===============================================
-GString GCurl::postHttpFacade(const GString& _module, const GString& _method, const GString& _data) {
+GString GCurl::postHttpsFormFacade(const GString& _module, const GString& _method, const GString& _data) {
     GCode lDom;
     lDom.createDoc();
     lDom.addData("manager", "module", _module);
@@ -33,12 +33,12 @@ GString GCurl::postHttpFacade(const GString& _module, const GString& _method, co
     lDom.addData("facade", "facade", "server_cpp");
     lDom.loadData(_data);
     GString lData = lDom.toString();
-    lData = postHttp("Bonjour tout le monde");
+    lData = postHttpsForm("Bonjour tout le monde");
     checkErrors(lData);
     return lData;
 }
 //===============================================
-GString GCurl::postHttp(const GString& _dataIn) {
+GString GCurl::postHttpsForm(const GString& _dataIn) {
     GString lUsername = "admin";
     GString lPassword = "admin";
     GString lUrl = "http://readydev.ovh";
@@ -52,7 +52,7 @@ GString GCurl::postHttp(const GString& _dataIn) {
     CURL* lCurl = curl_easy_init();
 
     if(!lCurl) {
-        m_dataLogs.addError("L'initialisation du module cURL a échoué.");
+        m_dataLogs.addError("Le module cURL n'est pas initialisé.");
         return "";
     }
 

@@ -16,6 +16,8 @@ public:
     void runSocket(int _argc, char** _argv);
     void runMySQL(int _argc, char** _argv);
     void runDatetime(int _argc, char** _argv);
+    void runCurl(int _argc, char** _argv);
+    void runEmail(int _argc, char** _argv);
 };
 //===============================================
 #endif
