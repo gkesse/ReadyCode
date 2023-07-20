@@ -4,6 +4,7 @@
 #include "GOpenSSL.h"
 #include "GCalculator.h"
 #include "GUser.h"
+#include "GFile.h"
 //===============================================
 GServer::GServer()
 : GManager() {
@@ -123,6 +124,9 @@ void GServer::runMaster(const GString& _data) {
     else if(m_module == "user") {
         runUser(_data);
     }
+    else if(m_module == "file") {
+        runFile(_data);
+    }
     else {
         m_logs.addError("Le module est inconnu.");
     }
@@ -137,6 +141,13 @@ void GServer::runCalculator(const GString& _data) {
 //===============================================
 void GServer::runUser(const GString& _data) {
     GUser lObj;
+    lObj.run(_data);
+    m_logs.addLogs(lObj.getLogs());
+    m_resp.loadData(lObj.serialize());
+}
+//===============================================
+void GServer::runFile(const GString& _data) {
+    GFile lObj;
     lObj.run(_data);
     m_logs.addLogs(lObj.getLogs());
     m_resp.loadData(lObj.serialize());

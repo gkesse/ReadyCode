@@ -41,7 +41,7 @@ void GCalculator::run(const GString& _data) {
 //===============================================
 void GCalculator::onRunCalculator(const GString& _data) {
     if(m_expression == "") {
-        m_logs.addError("L'expression est vide.");
+        m_logs.addError("L'expression est obligatoire.");
         return;
     }
 

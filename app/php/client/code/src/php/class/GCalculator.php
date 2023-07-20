@@ -40,7 +40,7 @@ class GCalculator extends GManager {
     //===============================================
     public function onRunCalculator($_data) {
         if($this->m_expression == "") {
-            $this->m_logs->addError("L'expression est vide.");
+            $this->m_logs->addError("L'expression est obligatoire.");
             return;
         }
     }

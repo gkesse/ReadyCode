@@ -16,7 +16,7 @@ GINCS =\
 GLIBS =\
     -L$(GSRC)/libs/lib \
     -L/usr/local/lib \
-    -lb64c -ltinyexpr -lmd5 -ldatetime \
+    -lb64c -lbase64 -ltinyexpr -lmd5 -ldatetime \
     -lxml2 -lmysqlcppconn -lcurl -lssl -lcrypto -ljson-c \
 	
 GOBJS =\

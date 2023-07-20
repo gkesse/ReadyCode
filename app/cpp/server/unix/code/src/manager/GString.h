@@ -17,6 +17,7 @@ public:
     GString(const char* _data);
     GString(const std::string& _data);
     GString(const std::vector<char>& _data);
+    GString(const std::vector<uchar>& _data);
     GString(const GString& _data);
     ~GString();
     static GString* Instance();
@@ -31,9 +32,12 @@ public:
     std::vector<GString> split(const GString& _sep) const;
     bool startsWith(const GString& _data) const;
     bool endsWith(const GString& _data) const;
+    int indexOf(const GString& _data, int _pos = 0) const;
+    GString extractData(const GString& _start, const GString& _end) const;
 
     int toInt() const;
     GDateTime toDateTime() const;
+    std::vector<char> toVChar() const;
     GString toUtf8() const;
     GString toMd5() const;
     GString toBase64() const;
@@ -45,6 +49,7 @@ public:
     GString& operator=(const char* _data);
     GString& operator=(const std::string& _data);
     GString& operator=(const std::vector<char>& _data);
+    GString& operator=(const std::vector<uchar>& _data);
     GString& operator=(const GString& _data);
 
     bool operator==(const char* _data) const;

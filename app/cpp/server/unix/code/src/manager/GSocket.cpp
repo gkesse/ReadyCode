@@ -176,6 +176,9 @@ void GSocket::sendData(const GString& _data) {
 //===============================================
 GString GSocket::readData() {
     GString lData = "";
+    bool lTotalOk = true;
+    int lTotal = 0;
+
     while(1) {
         char lBuffer[BUFFER_SIZE];
         int lBytes = recv(m_socket, lBuffer, BUFFER_SIZE - 1, 0);
@@ -190,8 +193,21 @@ GString GSocket::readData() {
 
         int lIoctlOk = ioctl(m_socket, FIONREAD, &lBytes);
         if(lIoctlOk == -1) break;
-        if(lBytes <= 0) break;
+
+        if(lTotalOk) {
+            lTotal = getTotal(lData);
+            lTotalOk = false;
+        }
+
+        if((lBytes <= 0)  && (lData.size() >= lTotal)) break;
     }
     return lData;
+}
+//===============================================
+int GSocket::getTotal(const GString& _data) const {
+    int lContentLength = _data.extractData("Content-Length:", "\r\n").toInt();
+    int lSep = _data.indexOf("\r\n\r\n");
+    int lTotal = lSep + 4 + lContentLength;
+    return lTotal;
 }
 //===============================================

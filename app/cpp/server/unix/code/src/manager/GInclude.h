@@ -8,6 +8,7 @@
 #include <cassert>
 #include <vector>
 #include <regex>
+#include <fstream>
 // system c
 #include <dirent.h>
 #include <unistd.h>
@@ -39,8 +40,8 @@
 #include <datetime/timespan.h>
 // json-c
 #include <json-c/json.h>
-// b64
-#include <b64/b64.h>
+// base64
+#include <base64/base64.h>
 // md5
 #include <md5/md5.h>
 // iconv
@@ -52,6 +53,8 @@
 #include <httpparser/httprequestparser.h>
 // curl
 #include <curl/curl.h>
+//===============================================
+typedef unsigned char uchar;
 //===============================================
 #endif
 //===============================================

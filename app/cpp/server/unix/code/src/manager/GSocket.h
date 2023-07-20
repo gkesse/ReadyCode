@@ -19,6 +19,7 @@ public:
     GString callFacade(const GString& _module, const GString& _method, const GString& _data = "");
     void sendData(const GString& _data);
     GString readData();
+    int getTotal(const GString& _data) const;
 
 private:
     static const int BUFFER_SIZE = 1024;        // 1 Ko

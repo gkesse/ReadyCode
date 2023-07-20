@@ -31,6 +31,10 @@ GString::GString(const std::vector<char>& _data) {
     create(_data.data(), _data.size());
 }
 //===============================================
+GString::GString(const std::vector<uchar>& _data) {
+    create((char*)_data.data(), _data.size());
+}
+//===============================================
 GString::GString(const GString& _data) {
     create(_data.m_data, _data.m_size);
 }
@@ -104,8 +108,8 @@ bool GString::startsWith(const GString& _data) const {
     if(isEmpty()) return false;
     if(isEmpty()) return false;
     if(m_size < _data.m_size) return false;
-    std::string lDataIn(m_data);
-    std::string lDataOut(_data.m_data);
+    std::string lDataIn(m_data, m_size);
+    std::string lDataOut(_data.m_data, _data.m_size);
     return (lDataIn.compare(0, _data.m_size, lDataOut) == 0);
 }
 //===============================================
@@ -113,9 +117,32 @@ bool GString::endsWith(const GString& _data) const {
     if(isEmpty()) return false;
     if(isEmpty()) return false;
     if(m_size < _data.m_size) return false;
-    std::string lDataIn(m_data);
-    std::string lDataOut(_data.m_data);
+    std::string lDataIn(m_data, m_size);
+    std::string lDataOut(_data.m_data, _data.m_size);
     return (lDataIn.compare(m_size - _data.m_size, _data.m_size, lDataOut) == 0);
+}
+//===============================================
+int GString::indexOf(const GString& _data, int _pos) const {
+    if(isEmpty()) return -1;
+    if(_data.isEmpty()) return -1;
+    std::string lData(m_data, m_size);
+    std::string::size_type lIndex = lData.find(_data.c_str(), _pos);
+    if(lIndex != std::string::npos) return (int)lIndex;
+    return -1;
+}
+//===============================================
+GString GString::extractData(const GString& _start, const GString& _end) const {
+    if(isEmpty()) return "";
+    if(_start.isEmpty()) return "";
+    if(_end.isEmpty()) return "";
+    int lStart = indexOf(_start);
+    if(lStart == -1) return "";
+    int lPos = lStart + _start.size();
+    int lEnd = indexOf(_end, lPos);
+    if(lEnd == -1) return "";
+    int lLength = lEnd - lPos;
+    std::string lData(m_data, m_size);
+    return lData.substr(lPos, lLength);
 }
 //===============================================
 int GString::toInt() const {
@@ -134,6 +161,12 @@ GDateTime GString::toDateTime() const {
     GDateTime lData;
     if(isEmpty()) return lData;
     lData.toParse(m_data);
+    return lData;
+}
+//===============================================
+std::vector<char> GString::toVChar() const {
+    std::string lDataI(m_data, m_size);
+    std::vector<char> lData(lDataI.begin(), lDataI.end());
     return lData;
 }
 //===============================================
@@ -170,18 +203,12 @@ GString GString::toMd5() const {
 //===============================================
 GString GString::toBase64() const {
     if(isEmpty()) return "";
-    char* lBuffer = b64_encode((const unsigned char*)m_data, m_size);
-    GString lData = lBuffer;
-    free(lBuffer);
-    return lData;
+    return Base64::encode((uchar*)m_data, m_size);
 }
 //===============================================
 GString GString::fromBase64() const {
     if(isEmpty()) return "";
-    char* lBuffer = (char*)b64_decode(m_data, m_size);
-    GString lData = lBuffer;
-    free(lBuffer);
-    return lData;
+    return Base64::decode(m_data);
 }
 //===============================================
 void GString::print() const {
@@ -211,6 +238,12 @@ GString& GString::operator=(const std::string& _data) {
 GString& GString::operator=(const std::vector<char>& _data) {
     clear();
     create(_data.data(), _data.size());
+    return *this;
+}
+//===============================================
+GString& GString::operator=(const std::vector<uchar>& _data) {
+    clear();
+    create((char*)_data.data(), _data.size());
     return *this;
 }
 //===============================================
