@@ -21,48 +21,48 @@ void GPort_configPort(uchar _port, uchar _data) {
 //===============================================
 void GPort_configPin(uchar _port, uchar _pin, GBit _data) {
     if(_port == 0) {
-        if(_pin == 0) TRISA0 = _data;
-        else if(_pin == 1) TRISA1 = _data;
-        else if(_pin == 2) TRISA2 = _data;
-        else if(_pin == 3) TRISA3 = _data;
-        else if(_pin == 4) TRISA4 = _data;
-        else if(_pin == 5) TRISA5 = _data;
-        else if(_pin == 6) TRISA6 = _data;
+        if(_pin == 0) TRISAbits.TRISA0 = _data;
+        else if(_pin == 1) TRISAbits.TRISA1 = _data;
+        else if(_pin == 2) TRISAbits.TRISA2 = _data;
+        else if(_pin == 3) TRISAbits.TRISA3 = _data;
+        else if(_pin == 4) TRISAbits.TRISA4 = _data;
+        else if(_pin == 5) TRISAbits.TRISA5 = _data;
+        else if(_pin == 6) TRISAbits.TRISA6 = _data;
     }
     else if(_port == 1) {
-        if(_pin == 0) TRISB0 = _data;
-        else if(_pin == 1) TRISB1 = _data;
-        else if(_pin == 2) TRISB2 = _data;
-        else if(_pin == 3) TRISB3 = _data;
-        else if(_pin == 4) TRISB4 = _data;
-        else if(_pin == 5) TRISB5 = _data;
-        else if(_pin == 6) TRISB6 = _data;
-        else if(_pin == 7) TRISB7 = _data;
+        if(_pin == 0) TRISBbits.TRISB0 = _data;
+        else if(_pin == 1) TRISBbits.TRISB1 = _data;
+        else if(_pin == 2) TRISBbits.TRISB2 = _data;
+        else if(_pin == 3) TRISBbits.TRISB3 = _data;
+        else if(_pin == 4) TRISBbits.TRISB4 = _data;
+        else if(_pin == 5) TRISBbits.TRISB5 = _data;
+        else if(_pin == 6) TRISBbits.TRISB6 = _data;
+        else if(_pin == 7) TRISBbits.TRISB7 = _data;
     }
     else if(_port == 2) {
-        if(_pin == 0) TRISC0 = _data;
-        else if(_pin == 1) TRISC1 = _data;
-        else if(_pin == 2) TRISC2 = _data;
-        else if(_pin == 3) TRISC3 = _data;
-        else if(_pin == 4) TRISC4 = _data;
-        else if(_pin == 5) TRISC5 = _data;
-        else if(_pin == 6) TRISC6 = _data;
-        else if(_pin == 7) TRISC7 = _data;
+        if(_pin == 0) TRISCbits.TRISC0 = _data;
+        else if(_pin == 1) TRISCbits.TRISC1 = _data;
+        else if(_pin == 2) TRISCbits.TRISC2 = _data;
+        else if(_pin == 3) TRISCbits.TRISC3 = _data;
+        else if(_pin == 4) TRISCbits.TRISC4 = _data;
+        else if(_pin == 5) TRISCbits.TRISC5 = _data;
+        else if(_pin == 6) TRISCbits.TRISC6 = _data;
+        else if(_pin == 7) TRISCbits.TRISC7 = _data;
     }
     else if(_port == 3) {
-        if(_pin == 0) TRISD0 = _data;
-        else if(_pin == 1) TRISD1 = _data;
-        else if(_pin == 2) TRISD2 = _data;
-        else if(_pin == 3) TRISD3 = _data;
-        else if(_pin == 4) TRISD4 = _data;
-        else if(_pin == 5) TRISD5 = _data;
-        else if(_pin == 6) TRISD6 = _data;
-        else if(_pin == 7) TRISD7 = _data;
+        if(_pin == 0) TRISDbits.TRISD0 = _data;
+        else if(_pin == 1) TRISDbits.TRISD1 = _data;
+        else if(_pin == 2) TRISDbits.TRISD2 = _data;
+        else if(_pin == 3) TRISDbits.TRISD3 = _data;
+        else if(_pin == 4) TRISDbits.TRISD4 = _data;
+        else if(_pin == 5) TRISDbits.TRISD5 = _data;
+        else if(_pin == 6) TRISDbits.TRISD6 = _data;
+        else if(_pin == 7) TRISDbits.TRISD7 = _data;
     }
     else if(_port == 4) {
-        if(_pin == 0) TRISE0 = _data;
-        else if(_pin == 1) TRISE1 = _data;
-        else if(_pin == 2) TRISE2 = _data;
+        if(_pin == 0) TRISEbits.TRISE0 = _data;
+        else if(_pin == 1) TRISEbits.TRISE1 = _data;
+        else if(_pin == 2) TRISEbits.TRISE2 = _data;
     }
 }
 //===============================================

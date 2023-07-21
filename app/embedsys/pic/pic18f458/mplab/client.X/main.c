@@ -1,15 +1,11 @@
 //===============================================
-#include "GPort.h"
+#include "GTest.h"
 //===============================================
 void main() {
-    GPort_configPort(1, 0x00);
-    GPort_writePort(1, 0xFF);
+    GTest_init();
     
     while(1) {
-        GPort_writePin(1, 1, 1);
-        GDelay_ms(500);
-        GPort_writePin(1, 1, 0);
-        GDelay_ms(500);
+        GTest_run();
     }
 }
 //===============================================
