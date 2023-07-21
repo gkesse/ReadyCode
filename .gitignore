@@ -9,6 +9,10 @@
 /**/eclipse/
 /**/.hg/
 /**/.settings/
+/**/debug/
+/**/dist/
+/**/nbproject/
+/**/__pycache__/
 /**/__pycache__/
 /tmp/
 
