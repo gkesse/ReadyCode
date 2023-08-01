@@ -1,16 +1,18 @@
 //===============================================
-#ifndef _GTest_
-#define _GTest_
+#ifndef _GShell_
+#define _GShell_
 //===============================================
 #include "GObject.h"
 //===============================================
-class GTest : public GObject {
+class GShell : public GObject {
 public:
-    GTest();
-    ~GTest();
-    void run(int _argc, char** _argv);
-    void runString(int _argc, char** _argv);
-    void runShell(int _argc, char** _argv);
+    GShell();
+    ~GShell();
+    void runSystem(const GString& _cmd);
+    GString runCmd(const GString& _cmd);
+
+private:
+    static const int BUFFER_MAX = 1*1024; // 1Ko
 };
 //===============================================
 #endif

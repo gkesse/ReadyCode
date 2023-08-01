@@ -4,6 +4,7 @@
 #include "GLog.h"
 #include "GXml.h"
 #include "GCode.h"
+#include "GShell.h"
 //===============================================
 GTest::GTest()
 : GObject() {
@@ -23,6 +24,9 @@ void GTest::run(int _argc, char** _argv) {
     }
     else if(lMethod == "string") {
         runString(_argc, _argv);
+    }
+    else if(lMethod == "shell") {
+        runShell(_argc, _argv);
     }
     else {
         m_logs.addError("La méthode est inconnue.");
@@ -45,5 +49,15 @@ void GTest::runString(int _argc, char** _argv) {
     // indexOf
     GString lExtract = lData.extractData("Bonjour", "le");
     sformat("[%s]", lExtract.c_str()).print();
+}
+//===============================================
+void GTest::runShell(int _argc, char** _argv) {
+    printf("%s...\n", __FUNCTION__);
+    GShell lShell;
+    GString lData;
+
+    // run
+    lData = lShell.runCmd("tree");
+    lData.print();
 }
 //===============================================

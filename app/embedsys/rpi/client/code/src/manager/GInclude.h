@@ -5,10 +5,12 @@
 // system c++
 #include <iostream>
 #include <cstring>
+#include <cstdlib>
 #include <cassert>
 #include <vector>
 #include <regex>
 #include <fstream>
+#include <array>
 // system c
 #include <dirent.h>
 #include <unistd.h>
