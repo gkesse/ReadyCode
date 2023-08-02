@@ -53,11 +53,26 @@ void GTest::runString(int _argc, char** _argv) {
 //===============================================
 void GTest::runShell(int _argc, char** _argv) {
     printf("%s...\n", __FUNCTION__);
+    GString lAction = "system";
     GShell lShell;
     GString lData;
 
-    // run
-    lData = lShell.runCmd("tree");
-    lData.print();
+    if(_argc > 3) lAction = _argv[3];
+
+    if(lAction == "") {
+        m_logs.addError("L'action est obligatoire.");
+    }
+    else if(lAction == "system") {
+        // runSystem
+        lShell.runSystem("tree");
+    }
+    else if(lAction == "cmd") {
+        // runCmd
+        lData = lShell.runCmd("tree");
+        lData.print();
+    }
+    else {
+        m_logs.addError("L'action est inconnue.");
+    }
 }
 //===============================================

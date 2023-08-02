@@ -1,23 +1,23 @@
 //===============================================
-#include "GTest.h"
+#include "GSchTask.h"
 #include "GSch.h"
 #include "GLedFlash.h"
 //===============================================
 static uchar gAction;
 //===============================================
-static void GTest_initLedFlash();
+static void GSchTask_initLedFlash();
 //===============================================
 // Public
 //===============================================
-void GTest_init() {
+void GSchTask_init() {
 	gAction = 0;
-    if(gAction == 0) GTest_initLedFlash();
+    if(gAction == 0) GSchTask_initLedFlash();
 }
 //===============================================
 // LedFlash
 //===============================================
-static void GTest_initLedFlash() {
-    GSch_addTask(GLedFlash_updateOn, 0, 1000);
-    GSch_addTask(GLedFlash_updateOff, 500, 1000);
+static void GSchTask_initLedFlash() {
+    GLedFlash_init();
+    GSch_addTask(GLedFlash_update, 0, 500);
 }
 //===============================================

@@ -14,6 +14,7 @@
 /**/nbproject/
 /**/__pycache__/
 /**/__pycache__/
+/**/Project Backups/
 /tmp/
 
 #================================================
@@ -64,7 +65,6 @@
 /**/*.res
 /**/*.rc
 /**/*.docx
-/**/*.pdsprj
 /**/*.bak
 /**/Makefile
 /**/nohup.out

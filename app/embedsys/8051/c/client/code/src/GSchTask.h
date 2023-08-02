@@ -1,11 +1,10 @@
 //===============================================
-#ifndef _GLedFlash_
-#define _GLedFlash_
+#ifndef _GSchTask_
+#define _GSchTask_
 //===============================================
 #include "GInclude.h"
 //===============================================
-void GLedFlash_init();
-void GLedFlash_update();
+void GSchTask_init();
 //===============================================
 #endif
 //===============================================

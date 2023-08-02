@@ -1,11 +1,11 @@
 //===============================================
-#ifndef _GLedFlash_
-#define _GLedFlash_
+#ifndef _GLedFlash3_
+#define _GLedFlash3_
 //===============================================
 #include "GInclude.h"
 //===============================================
-void GLedFlash_init();
-void GLedFlash_update();
+void GLedFlash3_init();
+void GLedFlash3_update();
 //===============================================
 #endif
 //===============================================

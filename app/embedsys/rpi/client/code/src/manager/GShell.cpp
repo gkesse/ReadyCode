@@ -11,7 +11,8 @@ GShell::~GShell() {
 //===============================================
 void GShell::runSystem(const GString& _cmd) {
     if(_cmd.isEmpty()) return;
-    system(_cmd.c_str());
+    GString lCmd = sformat("%s > /dev/null 2>&1", _cmd.c_str());
+    system(lCmd.c_str());
 }
 //===============================================
 GString GShell::runCmd(const GString& _cmd) {

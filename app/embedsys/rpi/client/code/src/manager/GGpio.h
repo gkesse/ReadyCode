@@ -1,11 +1,15 @@
 //===============================================
-#ifndef _GLedFlash_
-#define _GLedFlash_
+#ifndef _GGpio_
+#define _GGpio_
 //===============================================
-#include "GInclude.h"
+#include "GObject.h"
 //===============================================
-void GLedFlash_init();
-void GLedFlash_update();
+class GGpio : public GObject {
+public:
+    GGpio();
+    ~GGpio();
+    void initPort(int _port);
+};
 //===============================================
 #endif
 //===============================================
