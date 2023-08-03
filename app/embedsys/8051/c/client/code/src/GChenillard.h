@@ -1,15 +1,12 @@
 //===============================================
-#include "GGpio.h"
+#ifndef _GChenillard_
+#define _GChenillard_
 //===============================================
-GGpio::GGpio() {
-
-}
+#include "GInclude.h"
 //===============================================
-GGpio::~GGpio() {
-    clearMap();
-}
+void GChenillard_init();
+void GChenillard_update();
+void GChenillard_updateMode();
 //===============================================
-void GGpio::initPort(int _port) {
-    GString lCmd = sformat("");
-}
+#endif
 //===============================================

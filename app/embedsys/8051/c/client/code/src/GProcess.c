@@ -23,7 +23,7 @@ static void GProcess_runLedFlash();
 // Public
 //===============================================
 void GProcess_init() {
-	gAction = 1;
+	gAction = 0;
     if(gAction == 0) GProcess_initSch();
     else if(gAction == 1) GProcess_initSeos();
     else if(gAction == 2) GProcess_initSuperLoop();
