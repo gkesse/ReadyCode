@@ -1,8 +1,8 @@
 //===============================================
 #include "GChenillard.h"
-#include "GPort.h"
 //===============================================
-static uchar gPort = 1;
+#define DATA_PORT   P1
+//===============================================
 static uchar gCount = 0;
 static uchar gData = 0;
 //===============================================
@@ -12,7 +12,7 @@ static void GChenillard_updateM2();
 static void GChenillard_updateM3();
 //===============================================
 void GChenillard_init() {
-    GPort_writePort(gPort, 0xFF);
+    DATA_PORT = 0xFF;
 }
 //===============================================
 void GChenillard_update() {
@@ -31,7 +31,7 @@ static void GChenillard_updateM0() {
     else if(gCount == 5) {gData = 0x20; gCount = 6;}
     else if(gCount == 6) {gData = 0x40; gCount = 7;}
     else if(gCount == 7) {gData = 0x80; gCount = 8;}
-    GPort_writePort(gPort, ~gData);
+    DATA_PORT = ~gData;
 }
 //===============================================
 static void GChenillard_updateM1() {
@@ -44,7 +44,7 @@ static void GChenillard_updateM1() {
     else if(gCount == 14) {gData = 0x60; gCount = 15;}
     else if(gCount == 15) {gData = 0xC0; gCount = 16;}
     else if(gCount == 16) {gData = 0x80; gCount = 17;}
-    GPort_writePort(gPort, ~gData);
+    DATA_PORT = ~gData;
 }
 //===============================================
 static void GChenillard_updateM2() {
@@ -58,7 +58,7 @@ static void GChenillard_updateM2() {
     else if(gCount == 24) {gData = 0xE0; gCount = 25;}
     else if(gCount == 25) {gData = 0xC0; gCount = 26;}
     else if(gCount == 26) {gData = 0x80; gCount = 27;}
-    GPort_writePort(gPort, ~gData);
+    DATA_PORT = ~gData;
 }
 //===============================================
 static void GChenillard_updateM3() {
@@ -72,6 +72,6 @@ static void GChenillard_updateM3() {
     else if(gCount == 34) {gData = 0xE0; gCount = 35;}
     else if(gCount == 35) {gData = 0xC0; gCount = 36;}
     else if(gCount == 36) {gData = 0x80; gCount = 0;}
-    GPort_writePort(gPort, ~gData);
+    DATA_PORT = ~gData;
 }
 //===============================================

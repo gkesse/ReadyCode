@@ -1,15 +1,16 @@
 //===============================================
-#include "GLedFlash.h"
+#include "G7SegCount3.h"
+#include "G7Seg3.h"
 //===============================================
-#define DATA_PORT   P1
+static uint gData = 123;
 //===============================================
-sbit DATA_PIN       = DATA_PORT^0;
-//===============================================
-void GLedFlash_init() {
-    DATA_PORT = 0xFF;
+void G7SegCount3_init() {
+    G7Seg3_write(gData);
 }
 //===============================================
-void GLedFlash_update() {
-    DATA_PIN = !DATA_PIN;
+void G7SegCount3_update() {
+    G7Seg3_write(gData);
+    gData += 1000;
+    if(gData > 9999) gData = 123;
 }
 //===============================================

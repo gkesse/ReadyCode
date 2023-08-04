@@ -1,20 +1,19 @@
 //===============================================
 #include "GLedFlash2.h"
-#include "GPort.h"
 //===============================================
-static uchar gPort = 1;
-static uchar gPin = 0;
+#define DATA_PORT   P1
+//===============================================
+sbit DATA_PIN       = DATA_PORT^0;
+//===============================================
 static uchar gTime = 0;
-static ubit gFlash = 1;
 //===============================================
 void GLedFlash2_init() {
-    GPort_writePort(gPort, 0xFF);
+    DATA_PORT = 0xFF;
 }
 //===============================================
 void GLedFlash2_update() {
     if(++gTime >= 50) {
-        gFlash = !gFlash;
-        GPort_writePin(gPort, gPin, gFlash);
+        DATA_PIN = !DATA_PIN;
         gTime = 0;
     }
 }

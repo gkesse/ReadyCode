@@ -1,11 +1,11 @@
 //===============================================
-#ifndef _GPort2_
-#define _GPort2_
+#ifndef _G7SegCount3_
+#define _G7SegCount3_
 //===============================================
 #include "GInclude.h"
 //===============================================
-void GPort2_writePort(uchar _port, uchar _data);
-void GPort2_writePin(uchar _port, uchar _pin, ubit _data);
+void G7SegCount3_init();
+void G7SegCount3_update();
 //===============================================
 #endif
 //===============================================

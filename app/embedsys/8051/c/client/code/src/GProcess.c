@@ -5,8 +5,11 @@
 #include "GSeos.h"
 #include "GSeosTask.h"
 #include "GDelay.h"
-#include "GPort.h"
 #include "GLedFlash2.h"
+//===============================================
+#define DATA_PORT   P1
+//===============================================
+sbit DATA_PIN       = DATA_PORT^0;
 //===============================================
 static uchar gAction;
 //===============================================
@@ -75,13 +78,13 @@ static void GProcess_runSuperLoop() {
 // LedFlash (boucle infinie)
 //===============================================
 static void GProcess_initLedFlash() {
-    GLedFlash2_init(); 
+    DATA_PORT = 0xFF; 
 }
 //===============================================
 static void GProcess_runLedFlash() {
-    GPort_writePin(1, 0, 0);
+    DATA_PIN = 1;
     GDelay_ms(500);
-    GPort_writePin(1, 0, 1);
+    DATA_PIN = 0;
     GDelay_ms(500);
 }
 //===============================================

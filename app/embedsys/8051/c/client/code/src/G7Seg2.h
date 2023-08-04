@@ -1,15 +1,11 @@
 //===============================================
-#include "GLedFlash.h"
+#ifndef _G7Seg2_
+#define _G7Seg2_
 //===============================================
-#define DATA_PORT   P1
+#include "GInclude.h"
 //===============================================
-sbit DATA_PIN       = DATA_PORT^0;
+void G7Seg2_write(uchar _data);
+void G7Seg2_update();
 //===============================================
-void GLedFlash_init() {
-    DATA_PORT = 0xFF;
-}
-//===============================================
-void GLedFlash_update() {
-    DATA_PIN = !DATA_PIN;
-}
+#endif
 //===============================================
