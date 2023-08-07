@@ -1,9 +1,6 @@
 //===============================================
 #include "GSch.h"
 //===============================================
-#define OSC_FREQ (12000000UL)
-#define OSC_PER_INST (12) 
-//===============================================
 #define PRELOAD(ms) (65536 - ((OSC_FREQ * ms) / (OSC_PER_INST * 1000))) 
 #define PRELOAD_H(ms) (PRELOAD(ms) / 256)
 #define PRELOAD_L(ms) (PRELOAD(ms) % 256)

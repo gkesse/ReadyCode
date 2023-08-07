@@ -9,5 +9,8 @@ typedef unsigned int uint;
 typedef unsigned long ulong;
 typedef bit ubit;
 //===============================================
+#define OSC_FREQ (11059200UL)
+#define OSC_PER_INST (12)
+//===============================================
 #endif
 //===============================================

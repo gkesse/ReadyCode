@@ -4,6 +4,7 @@
 #include "G7Seg2.h"
 #include "G7Seg3.h"
 #include "GClock.h"
+#include "GUart.h"
 //===============================================
 #include "GLedFlash.h"
 #include "GChenillard.h"
@@ -19,17 +20,19 @@ static void GSchTask_init7SegCount();
 static void GSchTask_init7SegCount2();
 static void GSchTask_init7SegCount3();
 static void GSchTask_initClock();
+static void GSchTask_initUart();
 //===============================================
 // Public
 //===============================================
 void GSchTask_init() {
-    gAction = 5;
+    gAction = 6;
     if(gAction == 0) GSchTask_initLedFlash();
     else if(gAction == 1) GSchTask_initLedChenillard();
     else if(gAction == 2) GSchTask_init7SegCount();
     else if(gAction == 3) GSchTask_init7SegCount2();
     else if(gAction == 4) GSchTask_init7SegCount3();
     else if(gAction == 5) GSchTask_initClock();
+    else if(gAction == 6) GSchTask_initUart();
 }
 //===============================================
 // LedFlash
@@ -78,5 +81,15 @@ static void GSchTask_initClock() {
     GSch_addTask(GClock_update, 0, 10);
     GSch_addTask(GClock_updateDP, 1, 500);
     GSch_addTask(GClock_updateSecond, 3, 1000);
+}
+//===============================================
+// Uart
+//===============================================
+static void GSchTask_initUart() {
+    GUart_init(9600);
+    GUart_writeChar("Bonjour tout le monde");
+    GSch_addTask(GUart_updateWrite, 0, 10);
+    GSch_addTask(GUart_updateRead, 1, 10);
+    GSch_addTask(GUart_updateReadWrite, 3, 10);
 }
 //===============================================
