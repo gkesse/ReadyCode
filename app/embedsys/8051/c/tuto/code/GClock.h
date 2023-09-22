@@ -1,17 +1,15 @@
 //===============================================
-#ifndef _GTest_
-#define _GTest_
+#ifndef _GClock_
+#define _GClock_
 //===============================================
-#include "GObject.h"
+#include "GInclude.h"
 //===============================================
-class GTest : public GObject {
-public:
-    GTest();
-    ~GTest();
-    void run(int _argc, char** _argv);
-    void runXml(int _argc, char** _argv);
-    void runOpenSSL(int _argc, char** _argv);
-};
+void GClock_setHour(uchar _hour);
+void GClock_setMinute(uchar _minute);
+void GClock_setSecond(uchar _second);
+void GClock_update();
+void GClock_updateDP();
+void GClock_updateSecond();
 //===============================================
 #endif
 //===============================================

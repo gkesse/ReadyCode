@@ -1,17 +1,13 @@
 //===============================================
-#ifndef _GTest_
-#define _GTest_
+#ifndef _GSch_
+#define _GSch_
 //===============================================
-#include "GObject.h"
+#include "GInclude.h"
 //===============================================
-class GTest : public GObject {
-public:
-    GTest();
-    ~GTest();
-    void run(int _argc, char** _argv);
-    void runXml(int _argc, char** _argv);
-    void runOpenSSL(int _argc, char** _argv);
-};
+void GSch_init(uchar _ms);
+void GSch_addTask(void (*_pTask)(), const uint _delay, const uint _period);
+void GSch_start();
+void GSch_dispatchTasks();
 //===============================================
 #endif
 //===============================================

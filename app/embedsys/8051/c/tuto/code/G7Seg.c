@@ -1,17 +1,13 @@
 //===============================================
-#ifndef _GTest_
-#define _GTest_
+#include "G7Seg.h"
 //===============================================
-#include "GObject.h"
+#define DATA_PORT   P1
 //===============================================
-class GTest : public GObject {
-public:
-    GTest();
-    ~GTest();
-    void run(int _argc, char** _argv);
-    void runXml(int _argc, char** _argv);
-    void runOpenSSL(int _argc, char** _argv);
+static code uchar gDigitMap[] = {
+    0x3F, 0x06, 0x5B,0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x6F
 };
 //===============================================
-#endif
+void G7Seg_write(uchar _data) {
+    DATA_PORT = ~gDigitMap[_data];
+}
 //===============================================

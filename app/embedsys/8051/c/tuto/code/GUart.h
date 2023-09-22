@@ -1,17 +1,14 @@
 //===============================================
-#ifndef _GTest_
-#define _GTest_
+#ifndef _GUart_
+#define _GUart_
 //===============================================
-#include "GObject.h"
+#include "GInclude.h"
 //===============================================
-class GTest : public GObject {
-public:
-    GTest();
-    ~GTest();
-    void run(int _argc, char** _argv);
-    void runXml(int _argc, char** _argv);
-    void runOpenSSL(int _argc, char** _argv);
-};
+void GUart_init(uint _baud);
+void GUart_writeChar(const char* _data);
+void GUart_updateWrite();
+void GUart_updateRead();
+void GUart_updateReadWrite();
 //===============================================
 #endif
 //===============================================

@@ -1,10 +1,10 @@
 //===============================================
-#include "GProcess.h"
+#include "GDelay.h"
 //===============================================
-void main() {
-    GProcess_init();
-    while(1) {
-        GProcess_run();
+void GDelay_ms(uint _ms) {
+    uint i, j;
+    for(i = 0;i < _ms; i++) {
+        for(j = 0; j < 125; j++);
     }
 }
 //===============================================

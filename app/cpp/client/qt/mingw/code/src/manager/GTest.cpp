@@ -20,7 +20,7 @@ void GTest::run(int _argc, char** _argv) {
         m_logs.addError("La méthode est obligatoire.");
     }
     else if(lMethod == "curl") {
-        runCurl(_argc, _argv);
+        runXml(_argc, _argv);
     }
     else if(lMethod == "openssl") {
         runOpenSSL(_argc, _argv);
@@ -30,7 +30,7 @@ void GTest::run(int _argc, char** _argv) {
     }
 }
 //===============================================
-void GTest::runCurl(int _argc, char** _argv) {
+void GTest::runXml(int _argc, char** _argv) {
     GCurl lCurl;
     GString lData = lCurl.postHttpsFormFacade("calculator", "run_calculator");
     m_logs.addLogs(lCurl.getLogs());

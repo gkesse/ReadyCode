@@ -1,17 +1,11 @@
 //===============================================
-#ifndef _GTest_
-#define _GTest_
+#ifndef _GProcess_
+#define _GProcess_
 //===============================================
-#include "GObject.h"
+#include "GInclude.h"
 //===============================================
-class GTest : public GObject {
-public:
-    GTest();
-    ~GTest();
-    void run(int _argc, char** _argv);
-    void runXml(int _argc, char** _argv);
-    void runOpenSSL(int _argc, char** _argv);
-};
+void GProcess_init();
+void GProcess_run();
 //===============================================
 #endif
 //===============================================

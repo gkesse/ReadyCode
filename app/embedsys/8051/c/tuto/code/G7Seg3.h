@@ -1,17 +1,11 @@
 //===============================================
-#ifndef _GTest_
-#define _GTest_
+#ifndef _G7Seg3_
+#define _G7Seg3_
 //===============================================
-#include "GObject.h"
+#include "GInclude.h"
 //===============================================
-class GTest : public GObject {
-public:
-    GTest();
-    ~GTest();
-    void run(int _argc, char** _argv);
-    void runXml(int _argc, char** _argv);
-    void runOpenSSL(int _argc, char** _argv);
-};
+void G7Seg3_write(uint _data);
+void G7Seg3_update();
 //===============================================
 #endif
 //===============================================

@@ -1,10 +1,9 @@
 //===============================================
 #include "GProcess.h"
 //===============================================
-void main() {
-    GProcess_init();
-    while(1) {
-        GProcess_run();
-    }
+int main(int _argc, char** _argv) {
+    GDEFINE_OBJ(GProcess, lProcess)
+    lProcess.run(_argc, _argv);
+    return 0;
 }
 //===============================================

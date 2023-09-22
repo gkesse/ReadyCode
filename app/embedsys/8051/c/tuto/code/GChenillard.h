@@ -1,17 +1,11 @@
 //===============================================
-#ifndef _GTest_
-#define _GTest_
+#ifndef _GChenillard_
+#define _GChenillard_
 //===============================================
-#include "GObject.h"
+#include "GInclude.h"
 //===============================================
-class GTest : public GObject {
-public:
-    GTest();
-    ~GTest();
-    void run(int _argc, char** _argv);
-    void runXml(int _argc, char** _argv);
-    void runOpenSSL(int _argc, char** _argv);
-};
+void GChenillard_init();
+void GChenillard_update();
 //===============================================
 #endif
 //===============================================

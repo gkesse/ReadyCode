@@ -21,7 +21,6 @@ LIBS +=\
     -L..\code\src\libs\lib \
     -lws2_32 -lxml2 -lcurl -lssl -lcrypto -lb64c -lbase64 \
 
-
 SOURCES +=\
     $$files(..\code\src\*.cpp) \
     $$files(..\code\src\manager\*.cpp) \

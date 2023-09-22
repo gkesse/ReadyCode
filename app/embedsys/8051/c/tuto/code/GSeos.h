@@ -1,17 +1,12 @@
 //===============================================
-#ifndef _GTest_
-#define _GTest_
+#ifndef _GSeos_
+#define _GSeos_
 //===============================================
-#include "GObject.h"
+#include "GInclude.h"
 //===============================================
-class GTest : public GObject {
-public:
-    GTest();
-    ~GTest();
-    void run(int _argc, char** _argv);
-    void runXml(int _argc, char** _argv);
-    void runOpenSSL(int _argc, char** _argv);
-};
+void GSeos_init(uchar _ms);
+void GSeos_start();
+void GSeos_goToSleep();
 //===============================================
 #endif
 //===============================================
