@@ -1,7 +1,7 @@
 //===============================================
 #include "GHello.h"
 //===============================================
-static void GHello_delete(GHello** _obj);
+static void GHello_delete(GHello** _this);
 static void GHello_sayHello();
 //===============================================
 GHello* GHello_new() {
@@ -10,14 +10,16 @@ GHello* GHello_new() {
     return lObj;
 }
 //===============================================
-static void GHello_delete(GHello** _obj) {
-    free(*_obj);
-    (*_obj) = 0;
+void GHello_init(GHello* _this) {
+    assert(_this);
+    _this->delete = GHello_delete;
+    _this->sayHello = GHello_sayHello;
 }
 //===============================================
-void GHello_init(GHello* _obj) {
-    _obj->delete = GHello_delete;
-    _obj->sayHello = GHello_sayHello;
+static void GHello_delete(GHello** _this) {
+    assert(*_this);
+    free(*_this);
+    (*_this) = 0;
 }
 //===============================================
 static void GHello_sayHello() {

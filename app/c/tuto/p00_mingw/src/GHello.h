@@ -7,11 +7,11 @@
 typedef struct _GHello GHello;
 //===============================================
 struct _GHello {
-    void (*delete)(GHello** _obj);
+    void (*delete)(GHello** _this);
     void (*sayHello)();
 };
 //===============================================
-void GHello_init(GHello* _obj);
+void GHello_init(GHello* _this);
 GHello* GHello_new();
 //===============================================
 #endif

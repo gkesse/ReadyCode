@@ -7,11 +7,11 @@
 typedef struct _GTest GTest;
 //===============================================
 struct _GTest {
-    void (*delete)(GTest** _obj);
+    void (*delete)(GTest** _this);
     void (*run)(int _argc, char** _argv);
 };
 //===============================================
-void GTest_init(GTest* _obj);
+void GTest_init(GTest* _this);
 GTest* GTest_new();
 //===============================================
 #endif
