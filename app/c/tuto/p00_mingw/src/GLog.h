@@ -10,6 +10,8 @@ typedef struct _GVector GVector;
 struct _GLog {
     void (*delete)(GLog** _this);
     void (*clear)(GLog* _this);
+    void (*loadToMap)(GLog* _this, int _index);
+    void (*loadFromMap)(GLog* _this, int _index);
     void (*addError)(GLog* _this, const char* _msg);
     void (*addLog)(GLog* _this, const char* _msg);
     void (*addData)(GLog* _this, const char* _msg);

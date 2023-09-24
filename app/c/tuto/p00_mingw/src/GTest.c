@@ -4,9 +4,9 @@
 #include "GLog.h"
 //===============================================
 static void GTest_delete(GTest** _this);
-static void GTest_run(int _argc, char** _argv);
-static void GTest_runVector(int _argc, char** _argv);
-static void GTest_runLog(int _argc, char** _argv);
+static void GTest_run(GTest* _this, int _argc, char** _argv);
+static void GTest_runVector(GTest* _this, int _argc, char** _argv);
+static void GTest_runLog(GTest* _this, int _argc, char** _argv);
 //===============================================
 GTest* GTest_new() {
     GTest* lObj = (GTest*)malloc(sizeof(GTest));
@@ -18,26 +18,40 @@ void GTest_init(GTest* _this) {
     assert(_this);
     _this->delete = GTest_delete;
     _this->run = GTest_run;
+
+    _this->m_obj = GObject_new();
 }
 //===============================================
 static void GTest_delete(GTest** _this) {
     assert(*_this);
+    GObject* lObj = (*_this)->m_obj;
+    lObj->delete(&lObj);
     free(*_this);
     (*_this) = 0;
 }
 //===============================================
-static void GTest_run(int _argc, char** _argv) {
+static void GTest_run(GTest* _this, int _argc, char** _argv) {
+    assert(_this);
     char* lModule = "";
     if(_argc > 2) lModule = _argv[2];
-    if(!strcmp(lModule, "vector")) {
-        GTest_runVector(_argc, _argv);
+    GLog* lLog = _this->m_obj->m_logs;
+
+    if(!strcmp(lModule, "")) {
+        lLog->addError(lLog, "Le module est obligatoire.");
+    }
+    else if(!strcmp(lModule, "vector")) {
+        GTest_runVector(_this, _argc, _argv);
     }
     else if(!strcmp(lModule, "log")) {
-        GTest_runLog(_argc, _argv);
+        GTest_runLog(_this, _argc, _argv);
+    }
+    else {
+        lLog->addError(lLog, "Le module est inconnu.");
     }
 }
 //===============================================
-static void GTest_runVector(int _argc, char** _argv) {
+static void GTest_runVector(GTest* _this, int _argc, char** _argv) {
+    assert(_this);
     printf("%s...\n",  __PRETTY_FUNCTION__);
     GVector* lVector = GVector_new();
 
@@ -57,7 +71,8 @@ static void GTest_runVector(int _argc, char** _argv) {
     lVector->delete(&lVector);
 }
 //===============================================
-static void GTest_runLog(int _argc, char** _argv) {
+static void GTest_runLog(GTest* _this, int _argc, char** _argv) {
+    assert(_this);
     printf("%s...\n",  __PRETTY_FUNCTION__);
 
     // addError - addLog - addData - addLogs - print - clear - delete
@@ -71,6 +86,10 @@ static void GTest_runLog(int _argc, char** _argv) {
     // lLog->clear(lLog);
 
     lLog->print(lLog);
+
+    lLog->loadFromMap(lLog, 2);
+    lLog->m_msg = "Je suis une information (2).";
+    lLog->loadToMap(lLog, 2);
 
     lLog2->addLogs(lLog2, lLog);
     lLog2->print(lLog2);

@@ -6,6 +6,8 @@ static void GLog_delete(GLog** _this);
 static void GLog_clear(GLog* _this);
 static GLog* GLog_clone(GLog* _this);
 static void GLog_setObj(GLog* _this, GLog* _obj);
+static void GLog_loadToMap(GLog* _this, int _index);
+static void GLog_loadFromMap(GLog* _this, int _index);
 static void GLog_addError(GLog* _this, const char* _msg);
 static void GLog_addLog(GLog* _this, const char* _msg);
 static void GLog_addData(GLog* _this, const char* _msg);
@@ -22,6 +24,8 @@ void GLog_init(GLog* _this) {
     assert(_this);
     _this->delete = GLog_delete;
     _this->clear = GLog_clear;
+    _this->loadToMap = GLog_loadToMap;
+    _this->loadFromMap = GLog_loadFromMap;
     _this->addError = GLog_addError;
     _this->addLog = GLog_addLog;
     _this->addData = GLog_addData;
@@ -65,6 +69,26 @@ static void GLog_setObj(GLog* _this, GLog* _obj) {
     _this->m_type = _obj->m_type;
     _this->m_side = _obj->m_side;
     _this->m_msg = _obj->m_msg;
+}
+//===============================================
+static void GLog_loadToMap(GLog* _this, int _index) {
+    assert(_this);
+    assert(_index >= 1);
+    GVector* lMap = _this->m_map;
+    int lSize = lMap->size(lMap);
+    assert(_index <= lSize);
+    GLog* lObj = lMap->get(lMap, _index - 1);
+    GLog_setObj(lObj, _this);
+}
+//===============================================
+static void GLog_loadFromMap(GLog* _this, int _index) {
+    assert(_this);
+    assert(_index >= 1);
+    GVector* lMap = _this->m_map;
+    int lSize = lMap->size(lMap);
+    assert(_index <= lSize);
+    GLog* lObj = lMap->get(lMap, _index - 1);
+    GLog_setObj(_this, lObj);
 }
 //===============================================
 static void GLog_addError(GLog* _this, const char* _msg) {
