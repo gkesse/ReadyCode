@@ -81,12 +81,15 @@ static void GTest_runString(GTest* _this, int _argc, char** _argv) {
     lString2->assign(lString2, lMap->get(lMap, 1));
     printf("get: %s\n", lString2->m_data);
 
-    printf("indexOf: %d\n", lString2->indexOf(lString2, "deuxième"));
+    printf("indexOf: %d\n", lString2->indexOf(lString2, "deuxième", 0));
     printf("startsWith: %d\n", lString2->startsWith(lString2, "Voici"));
     printf("endsWith: %d\n", lString2->endsWith(lString2, "message"));
 
-    lString2->substr(lString2, lString3, 0, 5);
+    lString2->substr(lString2, lString3, 3, 3);
     printf("substr: %s\n", lString3->m_data);
+
+    lString2->extract(lString2, lString3, " ", " ");
+    printf("extract: %s\n", lString3->m_data);
 
     smdelete(lMap);
     lString->delete(&lString);

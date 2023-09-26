@@ -13,8 +13,9 @@ static void GString_split(GString* _this, GVector* _map, const char* _sep);
 static int GString_isEmpty(GString* _this);
 static int GString_startsWith(GString* _this, const char* _data);
 static int GString_endsWith(GString* _this, const char* _data);
-static int GString_indexOf(GString* _this, const char* _data);
+static int GString_indexOf(GString* _this, const char* _data, int _pos);
 static void GString_substr(GString* _this, GString* _data, int _pos, int _size);
+static void GString_extract(GString* _this, GString* _data, const char* _start, const char* _end);
 static void GString_print(GString* _this);
 //===============================================
 GString* GString_new() {
@@ -38,6 +39,7 @@ void GString_init(GString* _this) {
     _this->endsWith = GString_endsWith;
     _this->indexOf = GString_indexOf;
     _this->substr = GString_substr;
+    _this->extract = GString_extract;
     _this->print = GString_print;
 
     _this->m_data = 0;
@@ -158,10 +160,11 @@ static int GString_endsWith(GString* _this, const char* _data) {
     return lOk;
 }
 //===============================================
-static int GString_indexOf(GString* _this, const char* _data) {
+static int GString_indexOf(GString* _this, const char* _data, int _pos) {
     assert(_this);
+    assert(_pos >= 0);
     if(_this->isEmpty(_this)) return -1;
-    char* lFound = strstr(_this->m_data, _data);
+    char* lFound = strstr(&_this->m_data[_pos], _data);
     if(!lFound) return -1;
     int lIndex = lFound - _this->m_data;
     return lIndex;
@@ -171,11 +174,28 @@ static void GString_substr(GString* _this, GString* _data, int _pos, int _size) 
     assert(_this);
     _data->clear(_data);
     if(_this->isEmpty(_this)) return;
-    assert(_pos >= 0);
     int lSize = _this->m_size;
-    assert(_size <= lSize);
+    assert(_size >= 0 && _size <= lSize);
+    assert(abs(_pos) < lSize);
+    if(_pos < 0) {
+        if(_size > abs(_pos)) _size = abs(_pos);
+        _pos += lSize;
+    }
     _data->allocate(_data, _size);
     memcpy(_data->m_data, &_this->m_data[_pos], _size);
+}
+//===============================================
+static void GString_extract(GString* _this, GString* _data, const char* _start, const char* _end) {
+    assert(_this);
+    _data->clear(_data);
+    if(_this->isEmpty(_this)) return;
+    int lStart = _this->indexOf(_this, _start, 0);
+    if(lStart == -1) return;
+    int lPos = lStart + strlen(_start);
+    int lEnd = _this->indexOf(_this, _end, lPos);
+    if(lEnd == -1) return;
+    int lSize = lEnd - lPos;
+    _this->substr(_this, _data, lPos, lSize);
 }
 //===============================================
 static void GString_print(GString* _this) {

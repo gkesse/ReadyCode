@@ -18,8 +18,9 @@ struct _GString {
     int (*isEmpty)(GString* _this);
     int (*startsWith)(GString* _this, const char* _data);
     int (*endsWith)(GString* _this, const char* _data);
-    int (*indexOf)(GString* _this, const char* _data);
+    int (*indexOf)(GString* _this, const char* _data, int _pos);
     void (*substr)(GString* _this, GString* _data, int _pos, int _size);
+    void (*extract)(GString* _this, GString* _data, const char* _start, const char* _end);
     void (*print)(GString* _this);
 
     char* m_data;
