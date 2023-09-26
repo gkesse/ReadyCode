@@ -1,11 +1,11 @@
 //===============================================
 #include "GProcess.h"
-#include "GObject.h"
-#include "GLog.h"
 #include "GHello.h"
 #include "GTest.h"
 //===============================================
 static void GProcess_delete(GProcess** _this);
+static void GProcess_inits(GProcess* _this);
+static void GProcess_clean(GProcess* _this);
 static void GProcess_run(GProcess* _this, int _argc, char** _argv);
 static void GProcess_runHello(GProcess* _this, int _argc, char** _argv);
 static void GProcess_runTest(GProcess* _this, int _argc, char** _argv);
@@ -19,6 +19,8 @@ GProcess* GProcess_new() {
 void GProcess_init(GProcess* _this) {
     assert(_this);
     _this->delete = GProcess_delete;
+    _this->inits = GProcess_inits;
+    _this->clean = GProcess_clean;
     _this->run = GProcess_run;
 
     _this->m_obj = GObject_new();
@@ -30,6 +32,15 @@ static void GProcess_delete(GProcess** _this) {
     lObj->delete(&lObj);
     free(*_this);
     (*_this) = 0;
+}
+//===============================================
+static void GProcess_inits(GProcess* _this) {
+    assert(_this);
+    SetConsoleOutputCP(CP_UTF8);
+}
+//===============================================
+static void GProcess_clean(GProcess* _this) {
+    assert(_this);
 }
 //===============================================
 static void GProcess_run(GProcess* _this, int _argc, char** _argv) {

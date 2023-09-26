@@ -2,10 +2,9 @@
 #ifndef _GLog_
 #define _GLog_
 //===============================================
-#include "GInclude.h"
+#include "GVector.h"
 //===============================================
 typedef struct _GLog GLog;
-typedef struct _GVector GVector;
 //===============================================
 struct _GLog {
     void (*delete)(GLog** _this);

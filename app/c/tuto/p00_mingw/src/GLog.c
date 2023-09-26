@@ -1,6 +1,5 @@
 //===============================================
 #include "GLog.h"
-#include "GVector.h"
 //===============================================
 static void GLog_delete(GLog** _this);
 static void GLog_clear(GLog* _this);

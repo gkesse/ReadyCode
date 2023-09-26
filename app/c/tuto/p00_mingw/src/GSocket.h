@@ -1,20 +1,22 @@
 //===============================================
-#ifndef _GObject_
-#define _GObject_
+#ifndef _GSocket_
+#define _GSocket_
 //===============================================
-#include "GLog.h"
-#include "GString.h"
+#include "GObject.h"
 //===============================================
-typedef struct _GObject GObject;
+typedef struct _GSocket GSocket;
 //===============================================
-struct _GObject {
-    void (*delete)(GObject** _this);
+struct _GSocket {
+    void (*delete)(GSocket** _this);
+    void (*run)(GSocket* _this);
+    void (*read)(GSocket* _this);
 
-    GLog* m_logs;
+    GObject* m_obj;
+    SOCKET m_socket;
 };
 //===============================================
-void GObject_init(GObject* _this);
-GObject* GObject_new();
+void GSocket_init(GSocket* _this);
+GSocket* GSocket_new();
 //===============================================
 #endif
 //===============================================
