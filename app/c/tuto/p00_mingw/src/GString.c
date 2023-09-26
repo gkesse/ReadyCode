@@ -10,6 +10,8 @@ static void GString_assign(GString* _this, GString* _data);
 static void GString_add(GString* _this, const char* _data);
 static void GString_format(GString* _this, const char* _format, ...);
 static void GString_split(GString* _this, GVector* _map, const char* _sep);
+static void GString_get(GString* _this, GString* _data, const char* _sep, int _index);
+static void GString_from(GString* _this, GString* _data, const char* _sep, int _index);
 static int GString_isEmpty(GString* _this);
 static int GString_startsWith(GString* _this, const char* _data);
 static int GString_endsWith(GString* _this, const char* _data);
@@ -34,6 +36,8 @@ void GString_init(GString* _this) {
     _this->add = GString_add;
     _this->format = GString_format;
     _this->split = GString_split;
+    _this->get = GString_get;
+    _this->from = GString_from;
     _this->isEmpty = GString_isEmpty;
     _this->startsWith = GString_startsWith;
     _this->endsWith = GString_endsWith;
@@ -131,6 +135,74 @@ static void GString_split(GString* _this, GVector* _map, const char* _sep) {
     }
 
     lData->delete(&lData);
+}
+//===============================================
+static void GString_get(GString* _this, GString* _data, const char* _sep, int _index) {
+    assert(_this);
+    _data->clear(_data);
+    if(_this->isEmpty(_this)) return;
+    int lStart = 0;
+    int lEnd = 0;
+    int lCount = 0;
+
+    while(1) {
+        lEnd = _this->indexOf(_this, _sep, lStart);
+        if(lEnd == -1) {
+            lEnd = _this->m_size;
+            break;
+        }
+        int lSize = lEnd - lStart;
+
+        if(lCount == _index) {
+            _this->substr(_this, _data, lStart, lSize);
+            return;
+        }
+        lCount++;
+
+        lStart += lSize + strlen(_sep);
+    }
+
+    if(lCount == _index) {
+        int lSize = lEnd - lStart;
+        if(lSize > 0) {
+            _this->substr(_this, _data, lStart, lSize);
+        }
+    }
+}
+//===============================================
+static void GString_from(GString* _this, GString* _data, const char* _sep, int _index) {
+    assert(_this);
+    _data->clear(_data);
+    if(_this->isEmpty(_this)) return;
+    int lStart = 0;
+    int lEnd = 0;
+    int lCount = 0;
+
+    while(1) {
+        lEnd = _this->indexOf(_this, _sep, lStart);
+        if(lEnd == -1) {
+            lEnd = _this->m_size;
+            break;
+        }
+        int lSize = lEnd - lStart;
+
+        if(lCount == _index) {
+            int lFrom = _this->m_size - lStart;
+            _this->substr(_this, _data, lStart, lFrom);
+            return;
+        }
+        lCount++;
+
+        lStart += lSize + strlen(_sep);
+    }
+
+    if(lCount == _index) {
+        int lSize = lEnd - lStart;
+        if(lSize > 0) {
+            int lFrom = _this->m_size - lStart;
+            _this->substr(_this, _data, lStart, lFrom);
+        }
+    }
 }
 //===============================================
 static int GString_isEmpty(GString* _this) {

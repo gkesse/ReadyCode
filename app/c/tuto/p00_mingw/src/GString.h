@@ -15,6 +15,8 @@ struct _GString {
     void (*add)(GString* _this, const char* _data);
     void (*format)(GString* _this, const char* _format, ...);
     void (*split)(GString* _this, GVector* _map, const char* _sep);
+    void (*get)(GString* _this, GString* _data, const char* _sep, int _index);
+    void (*from)(GString* _this, GString* _data, const char* _sep, int _index);
     int (*isEmpty)(GString* _this);
     int (*startsWith)(GString* _this, const char* _data);
     int (*endsWith)(GString* _this, const char* _data);

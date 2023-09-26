@@ -72,6 +72,7 @@ static void GTest_runString(GTest* _this, int _argc, char** _argv) {
     lString->add(lString, "Voici mon deuxième message.\n");
     lString->add(lString, "Voici mon troisième message.\n");
     lString->add(lString, "Voici mon quatrième message.\n");
+    lString->add(lString, "Voici mon cinquième message.");
 
     lString->print(lString);
 
@@ -79,17 +80,23 @@ static void GTest_runString(GTest* _this, int _argc, char** _argv) {
     printf("split: %d\n", lMap->size(lMap));
 
     lString2->assign(lString2, lMap->get(lMap, 1));
-    printf("get: %s\n", lString2->m_data);
+    printf("get map: %s\n", lString2->m_data);
 
     printf("indexOf: %d\n", lString2->indexOf(lString2, "deuxième", 0));
     printf("startsWith: %d\n", lString2->startsWith(lString2, "Voici"));
     printf("endsWith: %d\n", lString2->endsWith(lString2, "message"));
 
-    lString2->substr(lString2, lString3, 3, 3);
+    lString2->substr(lString2, lString3, 0, 3);
     printf("substr: %s\n", lString3->m_data);
 
     lString2->extract(lString2, lString3, " ", " ");
     printf("extract: %s\n", lString3->m_data);
+
+    lString->get(lString, lString3, "\n", 3);
+    printf("get sep: %s\n", lString3->m_data);
+
+    lString->from(lString, lString3, "\n", 3);
+    printf("from sep: %s\n", lString3->m_data);
 
     smdelete(lMap);
     lString->delete(&lString);
