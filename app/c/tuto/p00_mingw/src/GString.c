@@ -18,6 +18,8 @@ static int GString_endsWith(GString* _this, const char* _data);
 static int GString_indexOf(GString* _this, const char* _data, int _pos);
 static void GString_substr(GString* _this, GString* _data, int _pos, int _size);
 static void GString_extract(GString* _this, GString* _data, const char* _start, const char* _end);
+static int GString_loadFile(GString* _this, const char* _filename);
+static int GString_existFile(GString* _this, const char* _filename);
 static void GString_print(GString* _this);
 //===============================================
 GString* GString_new() {
@@ -44,6 +46,8 @@ void GString_init(GString* _this) {
     _this->indexOf = GString_indexOf;
     _this->substr = GString_substr;
     _this->extract = GString_extract;
+    _this->loadFile = GString_loadFile;
+    _this->existFile = GString_existFile;
     _this->print = GString_print;
 
     _this->m_data = 0;
@@ -268,6 +272,29 @@ static void GString_extract(GString* _this, GString* _data, const char* _start, 
     if(lEnd == -1) return;
     int lSize = lEnd - lPos;
     _this->substr(_this, _data, lPos, lSize);
+}
+//===============================================
+static int GString_loadFile(GString* _this, const char* _filename) {
+    assert(_this);
+    FILE* lFile = fopen(_filename, "rb");
+    if(!lFile) return 0;
+    fseek(lFile, 0, SEEK_END);
+    long lSize = ftell(lFile);
+    fseek(lFile, 0, SEEK_SET);
+    _this->allocate(_this, lSize);
+    fread(_this->m_data, lSize, 1, lFile);
+    fclose(lFile);
+    return 1;
+}
+//===============================================
+static int GString_existFile(GString* _this, const char* _filename) {
+    assert(_this);
+    FILE* lFile = fopen(_filename, "r");
+    if(lFile) {
+        fclose(lFile);
+        return 1;
+    }
+    return 0;
 }
 //===============================================
 static void GString_print(GString* _this) {

@@ -23,6 +23,8 @@ struct _GString {
     int (*indexOf)(GString* _this, const char* _data, int _pos);
     void (*substr)(GString* _this, GString* _data, int _pos, int _size);
     void (*extract)(GString* _this, GString* _data, const char* _start, const char* _end);
+    int (*loadFile)(GString* _this, const char* _filename);
+    int (*existFile)(GString* _this, const char* _filename);
     void (*print)(GString* _this);
 
     char* m_data;

@@ -27,7 +27,7 @@ void GTest::run(int _argc, char** _argv) {
         m_logs.addError("La méthode est obligatoire.");
     }
     else if(lMethod == "string") {
-        runString(_argc, _argv);
+        runTest(_argc, _argv);
     }
     else if(lMethod == "log") {
         runLog(_argc, _argv);
@@ -58,7 +58,7 @@ void GTest::run(int _argc, char** _argv) {
     }
 }
 //===============================================
-void GTest::runString(int _argc, char** _argv) {
+void GTest::runTest(int _argc, char** _argv) {
     printf("%s...\n", __FUNCTION__);
 
     // copy - assign - print

@@ -1,12 +1,14 @@
 //===============================================
 #include "GSocket.h"
+#include "GHttp.h"
 //===============================================
 #define GSOCKET_BUFFER_SIZE 1024
 //===============================================
 static void GSocket_delete(GSocket** _this);
 static void GSocket_run(GSocket* _this);
 static DWORD WINAPI GSocket_onThread(LPVOID _params);
-static void GSocket_read(GSocket* _this);
+static void GSocket_read(GSocket* _this, GString* _data);
+static void GSocket_send(GSocket* _this, const char* _data);
 //===============================================
 GSocket* GSocket_new() {
     GSocket* lObj = (GSocket*)malloc(sizeof(GSocket));
@@ -19,6 +21,7 @@ void GSocket_init(GSocket* _this) {
     _this->delete = GSocket_delete;
     _this->run = GSocket_run;
     _this->read = GSocket_read;
+    _this->send = GSocket_send;
 
     _this->m_obj = GObject_new();
 }
@@ -99,16 +102,29 @@ static void GSocket_run(GSocket* _this) {
 //===============================================
 static DWORD WINAPI GSocket_onThread(LPVOID _params) {
     GSocket* lClient = (GSocket*)_params;
-    printf("%s...\n", __PRETTY_FUNCTION__);
-    lClient->read(lClient);
+    GString* lRequest = GString_new();
+    GString* lResponse = GString_new();
+    GString* lFile = GString_new();
+    GHttp* lHttp = GHttp_new();
+
+    lClient->read(lClient, lRequest);
+    lRequest->print(lRequest);
+
+    lFile->loadFile(lFile, "index.html");
+    lHttp->toResponse(lHttp, lResponse, lFile->m_data);
+    lClient->send(lClient, lResponse->m_data);
+
     closesocket(lClient->m_socket);
+    lRequest->delete(&lRequest);
+    lFile->delete(&lFile);
+    lClient->delete(&lClient);
     return 0;
 }
 //===============================================
-static void GSocket_read(GSocket* _this) {
+static void GSocket_read(GSocket* _this, GString* _data) {
     assert(_this);
     SOCKET lSocket = _this->m_socket;
-    GString* lData = GString_new();
+    _data->clear(_data);
 
     while(1) {
         char lBuffer[GSOCKET_BUFFER_SIZE];
@@ -116,7 +132,7 @@ static void GSocket_read(GSocket* _this) {
         if(lBytes == SOCKET_ERROR) break;
         lBuffer[lBytes] = '\0';
 
-        lData->add(lData, lBuffer);
+        _data->add(_data, lBuffer);
 
         u_long lBytesIO;
         int lOk = ioctlsocket(lSocket, FIONREAD, &lBytesIO);
@@ -124,8 +140,19 @@ static void GSocket_read(GSocket* _this) {
         if(lOk == SOCKET_ERROR) break;
         if(lBytesIO <= 0) break;
     }
-
-    lData->print(lData);
-    lData->delete(&lData);
+}
+//===============================================
+static void GSocket_send(GSocket* _this, const char* _data) {
+    assert(_this);
+    SOCKET lSocket = _this->m_socket;
+    int lIndex = 0;
+    const char* lBuffer = _data;
+    int lSize = strlen(_data);
+    while(1) {
+        int lBytes = send(lSocket, &lBuffer[lIndex], lSize - lIndex, 0);
+        if(lBytes == SOCKET_ERROR) break;
+        lIndex += lBytes;
+        if(lIndex >= lSize) break;
+    }
 }
 //===============================================

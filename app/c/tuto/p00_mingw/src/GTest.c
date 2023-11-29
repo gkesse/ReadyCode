@@ -8,6 +8,7 @@ static void GTest_run(GTest* _this, int _argc, char** _argv);
 static void GTest_runString(GTest* _this, int _argc, char** _argv);
 static void GTest_runVector(GTest* _this, int _argc, char** _argv);
 static void GTest_runLog(GTest* _this, int _argc, char** _argv);
+static void GTest_runFile(GTest* _this, int _argc, char** _argv);
 static void GTest_runSocket(GTest* _this, int _argc, char** _argv);
 //===============================================
 GTest* GTest_new() {
@@ -49,6 +50,9 @@ static void GTest_run(GTest* _this, int _argc, char** _argv) {
     }
     else if(!strcmp(lModule, "log")) {
         GTest_runLog(_this, _argc, _argv);
+    }
+    else if(!strcmp(lModule, "file")) {
+        GTest_runFile(_this, _argc, _argv);
     }
     else if(!strcmp(lModule, "socket")) {
         GTest_runSocket(_this, _argc, _argv);
@@ -151,6 +155,21 @@ static void GTest_runLog(GTest* _this, int _argc, char** _argv) {
 
     lLog->delete(&lLog);
     lLog2->delete(&lLog2);
+}
+//===============================================
+static void GTest_runFile(GTest* _this, int _argc, char** _argv) {
+    assert(_this);
+    printf("%s...\n",  __PRETTY_FUNCTION__);
+
+    GString* lFile = GString_new();
+
+    lFile->loadFile(lFile, "index.html");
+
+    printf("loadFile:\n%s\n", lFile->m_data);
+    printf("existFile: %d\n", lFile->existFile(lFile, "index.html"));
+    printf("existFile: %d\n", lFile->existFile(lFile, "index.php"));
+
+    lFile->delete(&lFile);
 }
 //===============================================
 static void GTest_runSocket(GTest* _this, int _argc, char** _argv) {

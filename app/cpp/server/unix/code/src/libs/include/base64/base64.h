@@ -5,7 +5,7 @@
 #include <string>
 typedef unsigned char BYTE;
 
-class Base64
+class GBase64
 {
 public:
     static std::string encode(const std::vector<BYTE>& buf);
